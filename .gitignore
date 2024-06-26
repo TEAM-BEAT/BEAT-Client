@@ -13,7 +13,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -26,7 +26,7 @@ $
 
 ### yarn ###
 # used Zero-Install
-.yarn/*
+/.yarn
 !.yarn/cache
 !.yarn/patches
 !.yarn/plugins
