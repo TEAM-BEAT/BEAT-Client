@@ -11,7 +11,7 @@ body:
     attributes:
       label: 🛠 Issue
       description: 어떠한 기능을 추가하시는 건지 작성해주세요.
-      placeholder: 설명을 작성해세요.
+      placeholder: 설명을 작성해주세요.
     validations:
       required: true
   - type: textarea
@@ -19,7 +19,7 @@ body:
     attributes:
       label: 📝 To-do
       description: 작업에 필요한 목록을 작성해주세요.
-      placeholder: 목록을 작성해세요.
+      placeholder: 목록을 작성해주세요.
     validations:
       required: true
   - type: textarea
@@ -27,6 +27,6 @@ body:
     attributes:
       label: 🔍 접근 방법
       description: 고려하신 방법이나, 접근에 대해서 설명해주세요.
-      placeholder: 설명을 적어주세요.
+      placeholder: 설명을 작성해주세요.
     validations:
       required: true

@@ -7,11 +7,11 @@ body:
       value: |
         작성 예시 : "[ Refactor ] 로그인 기능 리팩토링"
   - type: textarea
-    id: feat-description
+    id: refactor-description
     attributes:
       label: ♻️ Issue
-      description: 리팩토링의 이름을 작성해 주세요.
-      placeholder: 설명을 작성해세요.
+      description: 리팩토링의 이름을 작성해주세요.
+      placeholder: 설명을 작성해주세요.
     validations:
       required: true
   - type: textarea
@@ -38,6 +38,6 @@ body:
     attributes:
       label: 📝 To-do
       description: 작업에 필요한 목록을 작성해주세요.
-      placeholder: 목록을 작성해세요.
+      placeholder: 목록을 작성해주세요.
     validations:
       required: true
