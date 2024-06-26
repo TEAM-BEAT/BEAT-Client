@@ -11,4 +11,4 @@ jobs:
       - uses: hkusu/review-assign-action@v1
         with:
           assignees: ${{ github.actor }}
-          reviewers: pepperdad, imddoy, ocash9, sinji2102
+          reviewers: pepperdad, imddoy, ocahs9, sinji2102
