@@ -1,0 +1,43 @@
+name: "리팩토링"
+description: 리팩토링 작업 사항을 작성해주세요.
+title: "[ Refactor ] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        작성 예시 : "[ Refactor ] 로그인 기능 리팩토링"
+  - type: textarea
+    id: refactor-description
+    attributes:
+      label: ♻️ Issue
+      description: 리팩토링의 이름을 작성해주세요.
+      placeholder: 설명을 작성해주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: textarea_description
+    attributes:
+      label: 📣 리팩토링 목적
+      description: 리팩토링 목적을 작성해주세요.
+      placeholder: |
+        1. <이유>
+        2. <이유>
+      render: ""
+    validations:
+      required: false
+  - type: input
+    id: input_parent
+    attributes:
+      label: 🔢 리팩토링 이슈를 기입해주세요.
+      description: 리팩토링 이슈를 작성해주세요.
+      placeholder: <#이슈번호>
+    validations:
+      required: true
+  - type: textarea
+    id: refactor-list
+    attributes:
+      label: 📝 To-do
+      description: 작업에 필요한 목록을 작성해주세요.
+      placeholder: 목록을 작성해주세요.
+    validations:
+      required: true
