@@ -1,7 +1,7 @@
 name: Auto Labeler
 on: 
   issues:
-      types: [opened, edited, milestoned]
+    types: [opened, edited, milestoned]
   pull_request_target:
     types: [opened]
 
