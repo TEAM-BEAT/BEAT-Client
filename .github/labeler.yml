@@ -1,0 +1,44 @@
+# labeler "full" schema
+
+# enable labeler on issues, prs, or both.
+enable:
+  issues: true
+  prs: true
+
+# comments object allows you to specify a different message for issues and prs
+comments:
+  issues: |
+    이슈 작성하느라 고생 많았어요!! 새 기능도 아좌좟!! 라벨 잘 지정되었는지 확인 한 번 해 주기 🎇
+  prs: |
+    PR 작성하느라 고생 많았어요!! 라벨 잘 지정되었는지 확인 한 번 해 주기 🫶
+
+# Labels is an object where:
+# - keys are labels
+# - values are objects of { include: [ pattern ], exclude: [ pattern ] }
+#    - pattern must be a valid regex, and is applied globally to
+#      title + description of issues and/or prs (see enabled config above)
+#    - 'include' patterns will associate a label if any of these patterns match
+#    - 'exclude' patterns will ignore this label if any of these patterns match
+labels:
+  ":bug: BUG":
+    include: ['\bBug\b', '\bbug\b', '\bFix\b', '\bfix\b']
+  ":sparkles: feature":
+    include: ['\bFeat\b', '\bfeat\b', '\bFeature\b', '\bfeature\b']
+  ":memo: DOCS":
+    include: ['\bDocs\b', '\bdocs\b', '\bREADME\b']
+  ":package: CHORE":
+    include: ['\bChore\b', '\bchore\b']
+  ":lipstick: DESIGN":
+    include: ['\bDesign\b', '\bdesign\b']
+  ":rocket: API":
+    include: ['\bAPI\b', '\bapi\b']
+  ":recycle: REFACTOR":
+    include: ['\bRefactor\b', '\brefactor\b']
+  ":wrench: INIT":
+    include: ['\bINIT\b', '\bInit\b', '\binit\b']
+  ":twisted_rightwards_arrows: MERGE":
+    include: ['\bMERGE\b', '\bMerge\b', '\bmerge\b']
+  ":ambulance: !HOTFIX":
+    include: ['\bHOTFIX\b', '\bhotfix\b']
+  ":bookmark: RELEASE":
+    include: ['\bRelease\b', '\brelease\b']
