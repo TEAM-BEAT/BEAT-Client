@@ -14,4 +14,3 @@ jobs:
           configuration-path: .github/mention-to-slack.yml
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-출처: https://ek12mv2.tistory.com/486 [Not only Slow but also Steady:티스토리]
