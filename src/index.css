@@ -5,11 +5,11 @@
   line-height: 1.5;
 
   background-color: #242424;
-  color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: light dark;
 }
 
 a {

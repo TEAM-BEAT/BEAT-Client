@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
-const {existsSync} = require(`fs`);
-const {createRequire, register} = require(`module`);
-const {resolve} = require(`path`);
-const {pathToFileURL} = require(`url`);
+const {existsSync} = require("fs");
+const {createRequire, register} = require("module");
+const {resolve} = require("path");
+const {pathToFileURL} = require("url");
 
 const relPnpApiPath = "../../../../.pnp.cjs";
 
 const absPnpApiPath = resolve(__dirname, relPnpApiPath);
 const absRequire = createRequire(absPnpApiPath);
 
-const absPnpLoaderPath = resolve(absPnpApiPath, `../.pnp.loader.mjs`);
+const absPnpLoaderPath = resolve(absPnpApiPath, "../.pnp.loader.mjs");
 const isPnpLoaderEnabled = existsSync(absPnpLoaderPath);
 
 if (existsSync(absPnpApiPath)) {
@@ -24,4 +24,4 @@ if (existsSync(absPnpApiPath)) {
 }
 
 // Defer to the real eslint/bin/eslint.js your application uses
-module.exports = absRequire(`eslint/bin/eslint.js`);
+module.exports = absRequire("eslint/bin/eslint.js");
