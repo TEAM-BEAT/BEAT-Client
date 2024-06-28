@@ -1,9 +1,18 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
-  "plugins": ["stylelint-order", "stylelint-prettier"],
-  "customSyntax": "postcss-styled-syntax",
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-order"],
+
+  "overrides": [
+    {
+      "files": ["**/*.css"]
+    },
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "customSyntax": "postcss-styled-syntax"
+    }
+  ],
+
   "rules": {
-    "prettier/prettier": true,
     "declaration-empty-line-before": [
       "never",
       {

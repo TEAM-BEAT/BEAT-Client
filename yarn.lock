@@ -204,7 +204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:*, @babel/parser@npm:^7.24.7":
+"@babel/parser@npm:*, @babel/parser@npm:^7.24.7, @babel/parser@npm:^7.8.3":
   version: 7.24.7
   resolution: "@babel/parser@npm:7.24.7"
   bin:
@@ -224,7 +224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.24.7":
+"@babel/traverse@npm:^7.24.7, @babel/traverse@npm:^7.8.3":
   version: 7.24.7
   resolution: "@babel/traverse@npm:7.24.7"
   dependencies:
@@ -1491,6 +1491,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-react-refresh: "npm:^0.4.7"
     postcss: "npm:^8.4.38"
+    postcss-scss: "npm:^4.0.9"
     postcss-styled-syntax: "npm:^0.6.4"
     prettier: "npm:^3.3.2"
     prettier-linter-helpers: "npm:^1.0.0"
@@ -1504,6 +1505,8 @@ __metadata:
     stylelint-config-standard: "npm:^36.0.1"
     stylelint-order: "npm:^6.0.4"
     stylelint-prettier: "npm:^5.0.0"
+    stylelint-processor-styled-components: "npm:^1.10.0"
+    supports-color: "npm:^9.4.0"
     typescript: "npm:5.2.2"
     vite: "npm:^5.3.1"
   dependenciesMeta:
@@ -3425,6 +3428,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"picocolors@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "picocolors@npm:0.2.1"
+  checksum: 10c0/98a83c77912c80aea0fc518aec184768501bfceafa490714b0f43eda9c52e372b844ce0a591e822bbfe5df16dcf366be7cbdb9534d39cf54a80796340371ee17
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.0, picocolors@npm:^1.0.1":
   version: 1.0.1
   resolution: "picocolors@npm:1.0.1"
@@ -3455,7 +3465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-scss@npm:*":
+"postcss-scss@npm:*, postcss-scss@npm:^4.0.9":
   version: 4.0.9
   resolution: "postcss-scss@npm:4.0.9"
   peerDependencies:
@@ -3509,6 +3519,16 @@ __metadata:
     picocolors: "npm:^1.0.0"
     source-map-js: "npm:^1.2.0"
   checksum: 10c0/955407b8f70cf0c14acf35dab3615899a2a60a26718a63c848cf3c29f2467b0533991b985a2b994430d890bd7ec2b1963e36352b0774a19143b5f591540f7c06
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^7.0.26":
+  version: 7.0.39
+  resolution: "postcss@npm:7.0.39"
+  dependencies:
+    picocolors: "npm:^0.2.1"
+    source-map: "npm:^0.6.1"
+  checksum: 10c0/fd27ee808c0d02407582cccfad4729033e2b439d56cd45534fb39aaad308bb35a290f3b7db5f2394980e8756f9381b458a625618550808c5ff01a125f51efc53
   languageName: node
   linkType: hard
 
@@ -3871,6 +3891,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"source-map@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "source-map@npm:0.6.1"
+  checksum: 10c0/ab55398007c5e5532957cb0beee2368529618ac0ab372d789806f5718123cc4367d57de3904b4e6a4170eb5a0b0f41373066d02ca0735a0c4d75c7d328d3e011
+  languageName: node
+  linkType: hard
+
 "sprintf-js@npm:^1.1.3":
   version: 1.1.3
   resolution: "sprintf-js@npm:1.1.3"
@@ -4026,6 +4053,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stylelint-processor-styled-components@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "stylelint-processor-styled-components@npm:1.10.0"
+  dependencies:
+    "@babel/parser": "npm:^7.8.3"
+    "@babel/traverse": "npm:^7.8.3"
+    micromatch: "npm:^4.0.2"
+    postcss: "npm:^7.0.26"
+  checksum: 10c0/a331f9de5d7c4a041084a82e49fe578d249189c8c82edb2df43712a330245c263a50dc05384a35ddb7c9c4b62ae100695ce974fad8981f1ad37d637a8c5eb568
+  languageName: node
+  linkType: hard
+
 "stylelint@npm:^16.6.1":
   version: 16.6.1
   resolution: "stylelint@npm:16.6.1"
@@ -4097,6 +4136,13 @@ __metadata:
   dependencies:
     has-flag: "npm:^4.0.0"
   checksum: 10c0/afb4c88521b8b136b5f5f95160c98dee7243dc79d5432db7efc27efb219385bbc7d9427398e43dd6cc730a0f87d5085ce1652af7efbe391327bc0a7d0f7fc124
+  languageName: node
+  linkType: hard
+
+"supports-color@npm:^9.4.0":
+  version: 9.4.0
+  resolution: "supports-color@npm:9.4.0"
+  checksum: 10c0/6c24e6b2b64c6a60e5248490cfa50de5924da32cf09ae357ad8ebbf305cc5d2717ba705a9d4cb397d80bbf39417e8fdc8d7a0ce18bd0041bf7b5b456229164e4
   languageName: node
   linkType: hard
 
