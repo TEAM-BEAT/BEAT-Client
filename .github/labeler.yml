@@ -22,7 +22,7 @@ comments:
 labels:
   ":bug: BUG":
     include: ['\bBug\b', '\bbug\b', '\bFix\b', '\bfix\b']
-  ":sparkles: feature":
+  ":sparkles: FEAT":
     include: ['\bFeat\b', '\bfeat\b', '\bFeature\b', '\bfeature\b']
   ":memo: DOCS":
     include: ['\bDocs\b', '\bdocs\b', '\bREADME\b']
