@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "start": "node -r @yarnpkg/pnpify",
     "test": "node -r @yarnpkg/pnpify jest",
-    "stylelint": "stylelint './src/*.tsx'",
+    "stylelint": "stylelint './src/*.tsx' --fix",
     "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'"
   },
   "dependencies": {
