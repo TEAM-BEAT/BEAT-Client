@@ -9,9 +9,6 @@ const global = createGlobalStyle`
     box-sizing: border-box;
     }
     
-    body {
-        /* background-color: ${({ theme }) => theme.colors.gray900};; */
-    }
 
     html {
     -webkit-touch-callout: none;
