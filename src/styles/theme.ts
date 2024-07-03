@@ -1,5 +1,5 @@
 const theme = {
-  color: {
+  colors: {
     white: "#FFFFFF",
     black: "#0F0F0F",
     main_pink_400: "#FF006B",
@@ -29,7 +29,7 @@ const theme = {
     purple_0: "#F6EEFF",
     purple_100: "#E2CCFF",
     purple_200: "#B880FF",
-    pruple_300: "#9D51FF",
+    purple_300: "#9D51FF",
     purple_400: "#811FFF",
     purple_500: "#6D08EF",
     purple_600: "#5B09C3",
@@ -40,8 +40,80 @@ const theme = {
     red: "#FF4141",
     green: "#1ED45A",
   },
+  fonts: {
+    heading1: {
+      fontFamily: "Pretendard",
+      fontSize: "2.4rem",
+      fontWeight: "700",
+      lineHeight: "3.2rem",
+      letterSpacing: "-0.06rem",
+    },
+    heading2: {
+      fontFamily: "Pretendard",
+      fontSize: "2.2rem",
+      fontWeight: "700",
+      lineHeight: "3rem",
+      letterSpacing: "-0.055rem",
+    },
+    heading3: {
+      fontFamily: "Pretendard",
+      fontSize: "2rem",
+      fontWeight: "700",
+      lineHeight: "2.8rem",
+      letterSpacing: "-0.04rem",
+    },
+    heading4: {
+      fontFamily: "Pretendard",
+      fontSize: "1.8rem",
+      fontWeight: "600",
+      lineHeight: "2.6rem",
+      letterSpacing: "-0.018rem",
+    },
+    body1Normal: {
+      fontFamily: "Pretendard",
+      fontSize: "1.6rem",
+      fontWeight: "600",
+      lineHeight: "2.4rem",
+      letterSpacing: "-0.016rem",
+    },
+    body1Long: {
+      fontFamily: "Pretendard",
+      fontSize: "1.6rem",
+      fontWeight: "400",
+      lineHeight: "2.6rem",
+      letterSpacing: "-0.016rem",
+    },
+    body2Normal: {
+      fontFamily: "Pretendard",
+      fontSize: "1.4rem",
+      fontWeight: "600",
+      lineHeight: "2rem",
+      letterSpacing: "-0.007rem",
+    },
+    body2Long: {
+      fontFamily: "Pretendard",
+      fontSize: "1.4rem",
+      fontWeight: "400",
+      lineHeight: "2.2rem",
+      letterSpacing: "-0.007rem",
+    },
+    caption1: {
+      fontFamily: "Pretendard",
+      fontSize: "1.2rem",
+      fontWeight: "600",
+      lineHeight: "1.8rem",
+      letterSpacing: "-0.03rem",
+    },
+    caption2: {
+      fontFamily: "Pretendard",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      lineHeight: "1.6rem",
+    },
+  },
 };
 
-export type ColorType = typeof theme.color;
+export type ColorType = typeof theme.colors;
+export type FontType = typeof theme.fonts;
 
 export default theme;
