@@ -1,4 +1,3 @@
-/* stylelint-disable-next-line CssSyntaxError */
 import { useState } from "react";
 import "./App.css";
 import reactLogo from "./assets/react.svg";
