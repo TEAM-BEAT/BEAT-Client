@@ -8,39 +8,41 @@ const global = createGlobalStyle`
     * {
     box-sizing: border-box;
     }
-    
 
     html {
+    font-size: 62.5%;
+
+    background-color: ${({ theme }) => theme.colors.black};
+
+    user-select: none;
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color:rgb(0 0 0 / 0%);
-    scroll-behavior: smooth;
-
-    font-size: 62.5%;
-    user-select: none;
-
+    scroll-behavior: smooth; 
     }
+
+
+
     ul, li {
     padding-left: 0;
+
     list-style: none;
     }
 
     a {
     color: inherit;
-
     text-decoration: none;
     }
 
     input, button {
-    outline: none;
-
-    border: none;
     background-color: transparent;
+    outline: none;
+    border: none;
     }
 
     button {
-    cursor: pointer;
-
     padding: 0;
+
+    cursor: pointer;
     }
 
     input {
@@ -50,6 +52,17 @@ const global = createGlobalStyle`
         outline: none;
     }
     }
+
+    /* 모바일뷰 세팅 */
+    body {
+        width: 375px; 
+        min-height: 100%;
+        margin: 0 auto; 
+        overflow-x: hidden;
+
+        background-color: ${({ theme }) => theme.colors.pink_400}; 
+    }
+
 
 `;
 
