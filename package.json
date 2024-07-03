@@ -10,8 +10,17 @@
     "preview": "vite preview",
     "start": "node -r @yarnpkg/pnpify",
     "test": "node -r @yarnpkg/pnpify jest",
-    "stylelint": "stylelint './src/*.tsx' --fix",
-    "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'"
+    "stylelint": "stylelint './**/*.{tsx,css}' --fix",
+    "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
+    "prepare": "husky install",
+    "lint-front": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.json --write -u",
+      "stylelint --fix"
+    ]
   },
   "dependencies": {
     "postcss": "^8.4.38",
@@ -44,6 +53,8 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "globals": "^15.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.7",
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.3.2",
     "prettier-linter-helpers": "^1.0.0",

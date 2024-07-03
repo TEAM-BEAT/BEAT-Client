@@ -2,14 +2,17 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+
   text-align: center;
 }
 
 .logo {
-  padding: 1.5em;
   height: 6em;
-  will-change: filter;
+  padding: 1.5em;
+
   transition: filter 300ms;
+
+  will-change: filter;
 }
 
 .logo:hover {
