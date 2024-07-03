@@ -18,6 +18,7 @@
     "postcss-scss": "^4.0.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0",
     "styled-components": "^6.1.11",
     "supports-color": "^9.4.0",
     "typescript": "^5.5.2"
@@ -29,8 +30,8 @@
     "@types/prettier-linter-helpers": "^1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.14.1",
-    "@typescript-eslint/parser": "^7.14.1",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@yarnpkg/pnpify": "^4.1.0",
     "@yarnpkg/sdks": "^3.1.3",
