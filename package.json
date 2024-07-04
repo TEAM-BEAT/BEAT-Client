@@ -11,7 +11,9 @@
     "start": "node -r @yarnpkg/pnpify",
     "test": "node -r @yarnpkg/pnpify jest",
     "stylelint": "stylelint './src/*.tsx' --fix",
-    "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'"
+    "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "postcss": "^8.4.38",
@@ -24,9 +26,18 @@
     "typescript": "^5.5.2"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "1.6.0",
     "@eslint/compat": "^1.1.0",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.5.0",
+    "@storybook/addon-essentials": "^8.1.11",
+    "@storybook/addon-interactions": "^8.1.11",
+    "@storybook/addon-links": "^8.1.11",
+    "@storybook/addon-onboarding": "^8.1.11",
+    "@storybook/blocks": "^8.1.11",
+    "@storybook/react": "^8.1.11",
+    "@storybook/react-vite": "^8.1.11",
+    "@storybook/test": "^8.1.11",
     "@types/prettier-linter-helpers": "^1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -44,10 +55,12 @@
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-storybook": "^0.8.0",
     "globals": "^15.6.0",
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.3.2",
     "prettier-linter-helpers": "^1.0.0",
+    "storybook": "^8.1.11",
     "stylelint": "^16.6.1",
     "stylelint-config-concentric-order": "^5.2.0",
     "stylelint-config-prettier": "^9.0.5",
@@ -76,5 +89,10 @@
     "stylelint-prettier@5.0.0": {
       "unplugged": true
     }
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
