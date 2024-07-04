@@ -31,7 +31,8 @@
     "styled-components": "^6.1.11",
     "styled-reset": "^4.5.2",
     "supports-color": "^9.4.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
     "@eslint/compat": "^1.1.0",
