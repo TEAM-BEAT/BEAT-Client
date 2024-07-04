@@ -3353,6 +3353,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-router-dom: "npm:^6.24.0"
     styled-components: "npm:^6.1.11"
+    styled-reset: "npm:^4.5.2"
     stylelint: "npm:^16.6.1"
     stylelint-config-concentric-order: "npm:^5.2.0"
     stylelint-config-prettier: "npm:^9.0.5"
@@ -7486,6 +7487,15 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
   checksum: 10c0/1d149a51d24f779bba700c8c23ec0538b2d2b57745ccd49d1cfdc2dfce8bcea21e8ff81fed1143d1b35d127cc591717a398da72ea6671abbf705432b13e59e56
+  languageName: node
+  linkType: hard
+
+"styled-reset@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "styled-reset@npm:4.5.2"
+  peerDependencies:
+    styled-components: ">=4.0.0 || >=5.0.0 || >=6.0.0"
+  checksum: 10c0/3e15586d2b4c1c37c473058747269d20ee4dcd88205718cec8f7c9c3b2cb99a220eddd958c073d1d9179e7b9682f6d601048fe62753ea789d661989d27bc8e00
   languageName: node
   linkType: hard
 
