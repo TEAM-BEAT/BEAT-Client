@@ -1,10 +1,11 @@
+import Apage from "@pages/APage/Apage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
-  //   {
-  //     path: "/A",
-  //     element: <APage />,
-  //   },
+  {
+    path: "/a",
+    element: <Apage />,
+  },
   //   {
   //     path: "/B",
   //     element: <BPage />,
