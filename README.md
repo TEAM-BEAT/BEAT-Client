@@ -97,6 +97,9 @@ perf : 성능 개선
 rename : 파일 혹은 폴더명 변경
 ```
 
+<h3>Coding Convention</h3>
+<a href="https://jiwoothejay.notion.site/Coding-Convention-499fe091765e48bb8e933039a26555e6">Team Beat Web의 코딩 컨벤션</a>
+
 <h2> 📁 폴더 구조 </h2>
 
 ```
