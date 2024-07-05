@@ -21,11 +21,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
 
-      - name: depedency install
+      - name: dependency install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: publish to chromatic
         id: chromatic
