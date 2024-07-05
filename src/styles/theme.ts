@@ -22,7 +22,7 @@ const theme = {
     gray_400: "#939393",
     gray_500: "#797979",
     gray_600: "#626262",
-    gray_700: "#454545",
+    gray_700: "#3E3E3E",
     gray_800: "#2A2A2A",
     gray_900: "#1B1B1B",
     // purple
@@ -39,6 +39,9 @@ const theme = {
     // semantic
     red: "#FF4141",
     green: "#1ED45A",
+    // brand
+    blue_400: "#0064FF",
+    yellow_400: "#FEE500",
   },
   fonts: {
     heading1: {
