@@ -1,10 +1,11 @@
+import Apage from "@pages/APage/Apage";
 import { createBrowserRouter } from "react-router-dom";
 
-export const router = createBrowserRouter([
-  //   {
-  //     path: "/A",
-  //     element: <APage />,
-  //   },
+const router = createBrowserRouter([
+  {
+    path: "/a",
+    element: <Apage />,
+  },
   //   {
   //     path: "/B",
   //     element: <BPage />,
@@ -15,3 +16,4 @@ export const router = createBrowserRouter([
   //   },
   //   ...
 ]);
+export default router;

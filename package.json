@@ -10,10 +10,19 @@
     "preview": "vite preview",
     "start": "node -r @yarnpkg/pnpify",
     "test": "node -r @yarnpkg/pnpify jest",
-    "stylelint": "stylelint './src/*.tsx' --fix",
-    "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "stylelint": "stylelint './**/*.{tsx,css}' --fix",
+    "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
+    "prepare": "husky install",
+    "lint-front": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.json --write -u",
+      "stylelint --fix"
+    ]
   },
   "dependencies": {
     "postcss": "^8.4.38",
@@ -22,8 +31,10 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.0",
     "styled-components": "^6.1.11",
+    "styled-reset": "^4.5.2",
     "supports-color": "^9.4.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "1.6.0",
@@ -57,6 +68,8 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "eslint-plugin-storybook": "^0.8.0",
     "globals": "^15.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.7",
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.3.2",
     "prettier-linter-helpers": "^1.0.0",
