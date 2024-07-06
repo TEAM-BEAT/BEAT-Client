@@ -14,6 +14,7 @@ const TextField = ({ maxLength, placeholder, narrow, unit }: TextFieldProps) => 
   const onInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputCount(e.target.value.length);
   };
+
   return (
     <S.TextFieldLayout narrow={narrow}>
       <S.TextFieldWrapper>

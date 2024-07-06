@@ -6,7 +6,7 @@ const TestPage = () => {
     <div>
       <h1>Test Page</h1>
       <p>Test Page</p>
-      <TextArea placeholder="dkdk" maxLength={300} />
+      <TextArea placeholder="placeholder" maxLength={300} />
     </div>
   );
 };

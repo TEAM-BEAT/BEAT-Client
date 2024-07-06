@@ -31,6 +31,10 @@ export const TextAreaInput = styled.textarea`
   &:focus {
     border: 1px solid ${theme.colors.gray_0};
   }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const TextCap = styled.p`
