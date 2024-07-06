@@ -15,7 +15,6 @@ export interface contextBoxPropsTypes
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     contextBoxStyle {
   children: ReactNode;
-  className?: string;
 }
 
 export interface subTitleStyle {
