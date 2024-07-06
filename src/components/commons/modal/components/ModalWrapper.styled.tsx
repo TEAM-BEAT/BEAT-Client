@@ -38,7 +38,7 @@ export const ModalTitle = styled.span`
 `;
 
 export const ModalSubTitle = styled.span`
-  ${({ theme }) => theme.fonts.body2Normal};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
   color: ${({ theme }) => theme.colors.gray_300};
 `;
 
