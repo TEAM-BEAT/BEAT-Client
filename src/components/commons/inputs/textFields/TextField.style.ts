@@ -2,12 +2,16 @@ import { Generators } from "@styles/generator";
 import styled from "styled-components";
 import theme from "@styles/theme";
 import { TextFieldProps } from "./TextField";
+import { IconTextfiedlDelete } from "@assets/svgs";
 
-export const TextFieldWrapper = styled.section`
+export const TextFieldLayout = styled.section`
   position: relative;
 `;
-export const TextFieldInput = styled.input<TextFieldProps>`
+export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
+`;
+export const TextFieldInput = styled.input<TextFieldProps>`
+  box-sizing: border-box;
   width: ${(props) => (props.narrow ? "13.6rem" : "32.7rem")};
   height: 4.8rem;
   padding: 0 1.6rem;
@@ -27,6 +31,15 @@ export const TextFieldInput = styled.input<TextFieldProps>`
   &:focus {
     border: 1px solid ${theme.colors.gray_0};
   }
+`;
+
+export const TextClear = styled(IconTextfiedlDelete)`
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 2.4rem;
+
+  cursor: pointer;
 `;
 
 export const TextUnit = styled.p`

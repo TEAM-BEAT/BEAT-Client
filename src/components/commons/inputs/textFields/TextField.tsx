@@ -15,11 +15,14 @@ const TextField = ({ ...props }: TextFieldProps) => {
     setInputCount(e.target.value.length);
   };
   return (
-    <S.TextFieldWrapper>
-      <S.TextFieldInput onChange={onInputHandler} {...props}></S.TextFieldInput>
+    <S.TextFieldLayout>
+      <S.TextFieldWrapper>
+        <S.TextFieldInput onChange={onInputHandler} {...props}></S.TextFieldInput>
+        <S.TextClear />
+      </S.TextFieldWrapper>
       {props.unit && <S.TextUnit>{label}</S.TextUnit>}
       {props.cap && <S.TextCap {...props}>{`${inputCount} / ${props.cap}`}</S.TextCap>}
-    </S.TextFieldWrapper>
+    </S.TextFieldLayout>
   );
 };
 
