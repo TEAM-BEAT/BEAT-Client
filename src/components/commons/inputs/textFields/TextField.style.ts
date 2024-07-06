@@ -3,12 +3,12 @@ import styled from "styled-components";
 import theme from "@styles/theme";
 import { TextFieldProps } from "./TextField";
 
-export const TextFieldLayout = styled.section`
+export const TextFieldWrapper = styled.section`
   position: relative;
 `;
-export const TextFieldWrapper = styled.input<TextFieldProps>`
+export const TextFieldInput = styled.input<TextFieldProps>`
   ${Generators.flexGenerator("row", "center", "center")}
-  width:    ${(props) => (props.narrow ? "13.6rem" : "32.7rem")};
+  width: ${(props) => (props.narrow ? "13.6rem" : "32.7rem")};
   height: 4.8rem;
   padding: 0 1.6rem;
 
@@ -35,5 +35,19 @@ export const TextUnit = styled.p`
   right: 1.6rem;
 
   color: ${theme.colors.white};
+  ${theme.fonts["body2-normal-medi"]};
+`;
+
+export const TextCap = styled.p<TextFieldProps>`
+  ${Generators.flexGenerator("row", "center", "end")}
+
+  position: absolute;
+  top: 4.8rem;
+  width: 100%;
+  margin: 0;
+  margin-top: 0.6rem;
+
+  color: ${theme.colors.gray_500};
+  text-align: right;
   ${theme.fonts["body2-normal-medi"]};
 `;

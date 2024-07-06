@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import { ChangeEvent, InputHTMLAttributes, useState } from "react";
 import * as S from "./TextField.style";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -10,12 +10,17 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const TextField = ({ ...props }: TextFieldProps) => {
   const label = props.unit === "time" ? "분" : props.unit === "ticket" ? "매" : "초";
-
+  const [inputCount, setInputCount] = useState(0);
+  const onInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputCount(e.target.value.length);
+  };
   return (
-    <S.TextFieldLayout>
-      <S.TextFieldWrapper {...props}></S.TextFieldWrapper>
+    <S.TextFieldWrapper>
+      <S.TextFieldInput onChange={onInputHandler} {...props}></S.TextFieldInput>
+
       {props.unit && <S.TextUnit>{label}</S.TextUnit>}
-    </S.TextFieldLayout>
+      {props.cap && <S.TextCap {...props}>{`${inputCount} / ${props.cap}`}</S.TextCap>}
+    </S.TextFieldWrapper>
   );
 };
 
