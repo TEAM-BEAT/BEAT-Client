@@ -72,45 +72,72 @@ const theme = {
       lineHeight: "2.6rem",
       letterSpacing: "-0.018rem",
     },
-    body1Normal: {
+    "body1-normal-semi": {
       fontFamily: "Pretendard",
       fontSize: "1.6rem",
       fontWeight: "600",
       lineHeight: "2.4rem",
       letterSpacing: "-0.016rem",
     },
-    body1Long: {
+    "body1-normal-medi": {
+      fontFamily: "Pretendard",
+      fontSize: "1.6rem",
+      fontWeight: "500",
+      lineHeight: "2.4rem",
+      letterSpacing: "-0.016rem",
+    },
+    "body1-long": {
       fontFamily: "Pretendard",
       fontSize: "1.6rem",
       fontWeight: "400",
       lineHeight: "2.6rem",
       letterSpacing: "-0.016rem",
     },
-    body2Normal: {
+    "body2-normal-semi": {
       fontFamily: "Pretendard",
       fontSize: "1.4rem",
       fontWeight: "600",
       lineHeight: "2rem",
       letterSpacing: "-0.007rem",
     },
-    body2Long: {
+    "body2-normal-medi": {
+      fontFamily: "Pretendard",
+      fontSize: "1.4rem",
+      fontWeight: "500",
+      lineHeight: "2rem",
+      letterSpacing: "-0.007rem",
+    },
+    "body2-long": {
       fontFamily: "Pretendard",
       fontSize: "1.4rem",
       fontWeight: "400",
       lineHeight: "2.2rem",
       letterSpacing: "-0.007rem",
     },
-    caption1: {
+    "caption1-semi": {
       fontFamily: "Pretendard",
       fontSize: "1.2rem",
       fontWeight: "600",
       lineHeight: "1.8rem",
       letterSpacing: "-0.03rem",
     },
-    caption2: {
+    "caption1-medi": {
+      fontFamily: "Pretendard",
+      fontSize: "1.2rem",
+      fontWeight: "500",
+      lineHeight: "1.8rem",
+      letterSpacing: "-0.03rem",
+    },
+    "caption2-semi": {
       fontFamily: "Pretendard",
       fontSize: "1.1rem",
       fontWeight: "600",
+      lineHeight: "1.6rem",
+    },
+    "caption2-medi": {
+      fontFamily: "Pretendard",
+      fontSize: "1.1rem",
+      fontWeight: "500",
       lineHeight: "1.6rem",
     },
   },
