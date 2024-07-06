@@ -33,7 +33,7 @@
       "@pages/*": ["src/pages/*"],
       "@routes/*": ["src/routes/*"],
       "@styles/*": ["src/styles/*"],
-      "@types/*": ["src/types/*"],
+      "@typings/*": ["src/typings/*"],
       "@utils/*": ["src/utils/*"]
     }
   },
