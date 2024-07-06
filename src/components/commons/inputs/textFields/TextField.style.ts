@@ -16,7 +16,7 @@ export const TextFieldInput = styled.input`
   height: 4.8rem;
   padding: 0 1.6rem;
 
-  color: ${theme.colors.white};
+  color: ${theme.colors.gray_0};
 
   background: ${theme.colors.gray_800};
   border: none;
@@ -47,7 +47,7 @@ export const TextUnit = styled.p`
   top: 0;
   right: 1.6rem;
 
-  color: ${theme.colors.white};
+  color: ${theme.colors.gray_0};
   ${theme.fonts["body2-normal-medi"]};
 `;
 
