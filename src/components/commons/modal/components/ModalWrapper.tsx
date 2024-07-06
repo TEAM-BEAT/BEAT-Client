@@ -5,9 +5,7 @@ interface ModalWrapperProps {
   children: React.ReactNode;
 }
 
-const ModalWrapper = (props: ModalWrapperProps) => {
-  const { children } = props;
-
+const ModalWrapper = ({ children }: ModalWrapperProps) => {
   return (
     <S.ModalWrapper>
       <S.ModalContainer>{children}</S.ModalContainer>

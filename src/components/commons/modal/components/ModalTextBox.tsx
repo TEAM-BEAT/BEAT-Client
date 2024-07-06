@@ -5,9 +5,7 @@ interface ModalTextBoxProps {
   subTitle?: string;
 }
 
-const ModalTextBox = (props: ModalTextBoxProps) => {
-  const { title, subTitle } = props;
-
+const ModalTextBox = ({ title, subTitle }: ModalTextBoxProps) => {
   return (
     <S.ModalTextWrapper>
       <S.ModalTitle>{title}</S.ModalTitle>

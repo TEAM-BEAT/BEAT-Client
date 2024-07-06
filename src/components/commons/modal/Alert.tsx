@@ -17,6 +17,7 @@ const Alert = () => {
       okCallback: () => {},
     });
   };
+
   if (isOpen) {
     return (
       <ModalWrapper>
