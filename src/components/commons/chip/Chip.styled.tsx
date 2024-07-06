@@ -7,7 +7,9 @@ export const ChipWrapper = styled.div<{ color?: ChipsColorTypes }>`
   align-items: center;
   padding: 0.9rem 1.2rem;
 
+  cursor: pointer;
   border-radius: 20px;
+
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
 
   ${({ theme, color }) => {
