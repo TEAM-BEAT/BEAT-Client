@@ -1,3 +1,17 @@
+const fontGenerator = (
+  fontFamily = "Pretendard",
+  fontSize = "1.6rem",
+  fontWeight = "normal",
+  lineHeight = "normal",
+  letterSpacing = "normal"
+) => ({
+  "font-family": fontFamily,
+  "font-weight": fontWeight,
+  "font-size": fontSize,
+  "line-height": lineHeight,
+  "letter-spacing": letterSpacing,
+});
+
 const theme = {
   colors: {
     white: "#FFFFFF",
@@ -22,7 +36,7 @@ const theme = {
     gray_400: "#939393",
     gray_500: "#797979",
     gray_600: "#626262",
-    gray_700: "#454545",
+    gray_700: "#3E3E3E",
     gray_800: "#2A2A2A",
     gray_900: "#1B1B1B",
     // purple
@@ -39,77 +53,25 @@ const theme = {
     // semantic
     red: "#FF4141",
     green: "#1ED45A",
+    // brand
+    blue_400: "#0064FF",
+    yellow_400: "#FEE500",
   },
   fonts: {
-    heading1: {
-      fontFamily: "Pretendard",
-      fontSize: "2.4rem",
-      fontWeight: "700",
-      lineHeight: "3.2rem",
-      letterSpacing: "-0.06rem",
-    },
-    heading2: {
-      fontFamily: "Pretendard",
-      fontSize: "2.2rem",
-      fontWeight: "700",
-      lineHeight: "3rem",
-      letterSpacing: "-0.055rem",
-    },
-    heading3: {
-      fontFamily: "Pretendard",
-      fontSize: "2rem",
-      fontWeight: "700",
-      lineHeight: "2.8rem",
-      letterSpacing: "-0.04rem",
-    },
-    heading4: {
-      fontFamily: "Pretendard",
-      fontSize: "1.8rem",
-      fontWeight: "600",
-      lineHeight: "2.6rem",
-      letterSpacing: "-0.018rem",
-    },
-    body1Normal: {
-      fontFamily: "Pretendard",
-      fontSize: "1.6rem",
-      fontWeight: "600",
-      lineHeight: "2.4rem",
-      letterSpacing: "-0.016rem",
-    },
-    body1Long: {
-      fontFamily: "Pretendard",
-      fontSize: "1.6rem",
-      fontWeight: "400",
-      lineHeight: "2.6rem",
-      letterSpacing: "-0.016rem",
-    },
-    body2Normal: {
-      fontFamily: "Pretendard",
-      fontSize: "1.4rem",
-      fontWeight: "600",
-      lineHeight: "2rem",
-      letterSpacing: "-0.007rem",
-    },
-    body2Long: {
-      fontFamily: "Pretendard",
-      fontSize: "1.4rem",
-      fontWeight: "400",
-      lineHeight: "2.2rem",
-      letterSpacing: "-0.007rem",
-    },
-    caption1: {
-      fontFamily: "Pretendard",
-      fontSize: "1.2rem",
-      fontWeight: "600",
-      lineHeight: "1.8rem",
-      letterSpacing: "-0.03rem",
-    },
-    caption2: {
-      fontFamily: "Pretendard",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      lineHeight: "1.6rem",
-    },
+    heading1: fontGenerator("Pretendard", "2.4rem", "700", "3.2rem", "-0.06rem"),
+    heading2: fontGenerator("Pretendard", "2.2rem", "700", "3rem", "-0.055rem"),
+    heading3: fontGenerator("Pretendard", "2rem", "700", "2.8rem", "-0.04rem"),
+    heading4: fontGenerator("Pretendard", "1.8rem", "600", "2.6rem", "-0.018rem"),
+    "body1-normal-semi": fontGenerator("Pretendard", "1.6rem", "600", "2.4rem", "-0.016rem"),
+    "body1-normal-medi": fontGenerator("Pretendard", "1.6rem", "500", "2.4rem", "-0.016rem"),
+    "body1-long": fontGenerator("Pretendard", "1.6rem", "400", "2.6rem", "-0.016rem"),
+    "body2-normal-semi": fontGenerator("Pretendard", "1.4rem", "600", "2rem", "-0.007rem"),
+    "body2-normal-medi": fontGenerator("Pretendard", "1.4rem", "500", "2rem", "-0.007rem"),
+    "body2-long": fontGenerator("Pretendard", "1.4rem", "400", "2.2rem", "-0.007rem"),
+    "caption1-semi": fontGenerator("Pretendard", "1.2rem", "600", "1.8rem", "-0.03rem"),
+    "caption1-medi": fontGenerator("Pretendard", "1.2rem", "500", "1.8rem", "-0.03rem"),
+    "caption2-semi": fontGenerator("Pretendard", "1.1rem", "600", "1.6rem", undefined),
+    "caption2-medi": fontGenerator("Pretendard", "1.1rem", "500", "1.6rem", undefined),
   },
 };
 
