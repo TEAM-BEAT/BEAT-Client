@@ -17,7 +17,6 @@ const TextField = ({ ...props }: TextFieldProps) => {
   return (
     <S.TextFieldWrapper>
       <S.TextFieldInput onChange={onInputHandler} {...props}></S.TextFieldInput>
-
       {props.unit && <S.TextUnit>{label}</S.TextUnit>}
       {props.cap && <S.TextCap {...props}>{`${inputCount} / ${props.cap}`}</S.TextCap>}
     </S.TextFieldWrapper>
