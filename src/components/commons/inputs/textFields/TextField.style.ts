@@ -1,18 +1,18 @@
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
 import theme from "@styles/theme";
-import { TextFieldProps } from "./TextField";
 import { IconTextfiedlDelete } from "@assets/svgs";
 
-export const TextFieldLayout = styled.section`
+export const TextFieldLayout = styled.section<{ narrow?: false | true }>`
   position: relative;
+  width: ${({ narrow }) => (narrow ? "13.6rem" : "32.7rem")};
 `;
 export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
 `;
-export const TextFieldInput = styled.input<TextFieldProps>`
+export const TextFieldInput = styled.input`
   box-sizing: border-box;
-  width: ${(props) => (props.narrow ? "13.6rem" : "32.7rem")};
+  width: 100%;
   height: 4.8rem;
   padding: 0 1.6rem;
 
@@ -51,7 +51,7 @@ export const TextUnit = styled.p`
   ${theme.fonts["body2-normal-medi"]};
 `;
 
-export const TextCap = styled.p<TextFieldProps>`
+export const TextCap = styled.p`
   ${Generators.flexGenerator("row", "center", "end")}
 
   position: absolute;

@@ -16,7 +16,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const CapOn: Story = {
-  args: { cap: 300 },
+  args: { maxLength: 300 },
 };
 export const CapOff: Story = {
   args: {},

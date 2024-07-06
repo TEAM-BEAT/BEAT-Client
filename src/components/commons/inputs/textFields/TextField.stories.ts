@@ -16,7 +16,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { cap: 5 },
+  args: { maxLength: 5 },
 };
 
 export const Narrow: Story = {
