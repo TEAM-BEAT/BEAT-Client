@@ -15,6 +15,8 @@ export interface contextBoxPropsTypes
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     contextBoxStyle {
   children: ReactNode;
+  customAlignItems?: "center" | "stretch" | "flex-start" | "flex-end";
+  customPadding?: string;
 }
 
 export interface subTitleStyle {

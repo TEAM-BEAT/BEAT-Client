@@ -2,13 +2,8 @@ import styled from "styled-components";
 
 import { IcomCopy } from "@assets/svgs";
 
-export const ActionBottomSheetWrapper = styled.section`
+export const PhoneNumWrapper = styled.section`
   width: auto;
-`;
-
-export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.colors.gray_400};
-  ${({ theme }) => theme.fonts["body1-normal-medi"]};
 `;
 
 export const PhoneNumLayout = styled.button`
