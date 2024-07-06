@@ -17,7 +17,7 @@ export const BoxTitle = styled.h1<boxTitleStyle>`
 `;
 export const BoxDivider = styled.div<boxDividerStyle>`
   width: ${({ width = "29.5rem" }) => width};
-  margin: 0.6rem 0;
+  margin: 0.2rem 0;
 
   color: ${({ theme }) => theme.colors.gray_500};
 
