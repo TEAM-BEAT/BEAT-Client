@@ -43,7 +43,6 @@ export const TextClear = styled(IconTextfiedlDelete)`
 
 export const TextUnit = styled.p`
   position: absolute;
-  top: 0;
   right: 1.6rem;
 
   color: ${({ theme }) => theme.colors.gray_0};

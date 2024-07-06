@@ -2,7 +2,7 @@ import { ChangeEvent, TextareaHTMLAttributes, useState } from "react";
 import * as S from "./TextArea.style";
 
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  maxLength?: number; // 글자수 제한
+  maxLength?: number;
   placeholder: string;
 }
 

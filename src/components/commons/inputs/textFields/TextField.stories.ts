@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import TextField from "./TextField";
+import { phoneNumberFilter } from "../../../../utils/useInputFiter";
 
 const meta = {
   title: "TextField",
@@ -25,4 +26,8 @@ export const Narrow: Story = {
 
 export const Unit: Story = {
   args: { unit: "time" },
+};
+
+export const Phone: Story = {
+  args: { filter: phoneNumberFilter, placeholder: "전화번호를 입력하세요" },
 };
