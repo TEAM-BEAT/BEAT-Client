@@ -1,14 +1,17 @@
+import { ReactNode } from "react";
 import * as S from "../bottomSheet/BottomSheetStyle";
 
 export interface BottomSheetPropType {
-  title: string;
+  children?: ReactNode;
+  title?: string;
 }
 
-const BottomSheet = ({ title }: BottomSheetPropType) => {
+const BottomSheet = ({ title, children }: BottomSheetPropType) => {
   return (
     <S.BottomSheetWrapper>
       <S.BottomSheetLayout>
         <S.Title>{title}</S.Title>
+        {children}
       </S.BottomSheetLayout>
     </S.BottomSheetWrapper>
   );

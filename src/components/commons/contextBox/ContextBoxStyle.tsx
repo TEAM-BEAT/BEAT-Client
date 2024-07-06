@@ -1,25 +1,28 @@
 import styled, { css } from "styled-components";
 
-import { contentBoxStyle } from "../../../types/contextBoxPropsTypes";
+import { contextBoxStyle } from "../../../types/contextBoxPropsTypes";
 
-export const ContentBoxWrapper = styled.section`
-  display: flex;
+export const ContextBoxWrapper = styled.section`
+  width: auto;
 `;
 
-export const ContentBoxLayout = styled.section<contentBoxStyle>`
+export const ContextBoxLayout = styled.section<contextBoxStyle>`
+  display: flex;
   flex-direction: column;
 
-  background: ${({ theme }) => theme.colors.gray_700};
+  background-color: ${({ theme }) => theme.colors.gray_700};
 
   ${({
     width = "32.7rem",
     height = "auto",
     margin = "auto",
     padding = "auto",
+    gap = "2rem",
     borderRadius = "0.6rem",
     alignItems = "flex-start",
     justifyContent = "center",
   }) => css`
+    gap: ${gap};
     align-items: ${alignItems};
     justify-content: ${justifyContent};
     width: ${width};

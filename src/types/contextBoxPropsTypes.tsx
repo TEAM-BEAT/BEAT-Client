@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-export interface contentBoxStyle {
+export interface contextBoxStyle {
   width?: string;
   height?: string;
   margin?: string;
@@ -9,11 +9,34 @@ export interface contentBoxStyle {
   borderRadius?: string;
   alignItems?: "stretch" | "center" | "flex-start" | "flex-end";
   justifyContent?: "start" | "center" | "space-between" | "space-around" | "space-evenly";
+  gap?: string;
+}
+export interface contextBoxPropsTypes
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    contextBoxStyle {
+  children: ReactNode;
+  className?: string;
 }
 
-export interface contentBoxPropsTypes
+export interface subTitleStyle {
+  width?: string;
+  marginRight?: string;
+  customFont?: string;
+}
+
+export interface subTitlePropsTypes
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    contentBoxStyle {
+    subTitleStyle {
+  children: ReactNode;
+  className?: string;
+}
+
+export interface textStyle {
+  width?: string;
+  customFont?: string;
+}
+
+export interface textPropsTypes extends React.ButtonHTMLAttributes<HTMLButtonElement>, textStyle {
   children: ReactNode;
   className?: string;
 }
