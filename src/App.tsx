@@ -1,5 +1,5 @@
-import Alert from "@components/commons/Modal/Alert";
-import Confirm from "@components/commons/Modal/Confirm";
+import Alert from "@components/commons/modal/Alert";
+import Confirm from "@components/commons/modal/Confirm";
 import router from "@routes/Router";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
