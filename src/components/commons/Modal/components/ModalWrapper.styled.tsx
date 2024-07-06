@@ -10,6 +10,8 @@ export const ModalWrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  background-color: rgb(15 15 15 / 70%);
 `;
 
 export const ModalContainer = styled.div`
