@@ -1,4 +1,3 @@
-import theme from "@styles/theme";
 import styled, { css } from "styled-components";
 
 interface DefaultBtnPropTypes {
@@ -27,7 +26,7 @@ const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   align-items: center;
   justify-content: center;
 
-  font-size: ${theme.fonts["body2-normal-semi"]};
+  ${({ theme }) => theme.fonts["body2-normal-semi"]};
 
   cursor: ${({ isDisabled }) => (isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
@@ -43,14 +42,14 @@ export const PrimaryButton = styled(DefaultBtn)`
   ${({ isDisabled }) =>
     isDisabled
       ? css`
-          color: ${theme.colors.pink_700};
+          color: ${({ theme }) => theme.colors.pink_700};
 
-          background-color: ${theme.colors.pink_900};
+          background-color: ${({ theme }) => theme.colors.pink_900};
         `
       : css`
-          color: ${theme.colors.white};
+          color: ${({ theme }) => theme.colors.white};
 
-          background-color: ${theme.colors.pink_400};
+          background-color: ${({ theme }) => theme.colors.pink_400};
         `}
 `;
 
@@ -58,16 +57,16 @@ export const LineButton = styled(DefaultBtn)`
   ${({ isDisabled }) =>
     isDisabled
       ? css`
-          color: ${theme.colors.pink_800};
+          color: ${({ theme }) => theme.colors.pink_800};
 
-          background-color: ${theme.colors.gray_900};
-          border: 1px solid ${theme.colors.pink_800};
+          background-color: ${({ theme }) => theme.colors.gray_900};
+          border: 1px solid ${({ theme }) => theme.colors.pink_800};
         `
       : css`
-          color: ${theme.colors.pink_400};
+          color: ${({ theme }) => theme.colors.pink_400};
 
-          background-color: ${theme.colors.gray_900};
-          border: 1px solid ${theme.colors.pink_400};
+          background-color: ${({ theme }) => theme.colors.gray_900};
+          border: 1px solid ${({ theme }) => theme.colors.pink_400};
         `}
 `;
 
@@ -75,14 +74,14 @@ export const GrayButton = styled(DefaultBtn)`
   ${({ isDisabled }) =>
     isDisabled
       ? css`
-          color: ${theme.colors.gray_600};
+          color: ${({ theme }) => theme.colors.gray_600};
 
-          background-color: ${theme.colors.gray_700};
+          background-color: ${({ theme }) => theme.colors.gray_700};
         `
       : css`
-          color: ${theme.colors.white};
+          color: ${({ theme }) => theme.colors.white};
 
-          background-color: ${theme.colors.gray_700};
+          background-color: ${({ theme }) => theme.colors.gray_700};
         `}
 `;
 
@@ -90,7 +89,7 @@ export const BlueButton = styled(DefaultBtn)`
   width: 327px;
   height: 56px;
 
-  color: ${theme.colors.white};
+  color: ${({ theme }) => theme.colors.white};
 
-  background-color: ${theme.colors.blue_400};
+  background-color: ${({ theme }) => theme.colors.blue_400};
 `;
