@@ -5,15 +5,17 @@ import ContextBox from "@components/commons/contextBox/ContextBox";
 import { ReactNode } from "react";
 
 interface viewBottomSheetPropType {
+  title?: string;
+  boxTitle?: string;
   children?: ReactNode;
 }
 
-const ViewBottomSheet = ({ children, ...rest }: viewBottomSheetPropType) => {
+const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: viewBottomSheetPropType) => {
   return (
     <S.ViewBottomSheetWrapper>
-      <BottomSheet title={"title"}>
+      <BottomSheet title={title}>
         <ContextBox padding="2rem 1.6rem">
-          <S.BoxTitle customColor="pink_200">공연 제목</S.BoxTitle>
+          <S.BoxTitle customColor="pink_200">{boxTitle}</S.BoxTitle>
           <S.BoxDivider />
           {children}
         </ContextBox>
