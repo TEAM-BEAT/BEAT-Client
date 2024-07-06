@@ -1,6 +1,5 @@
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
-import theme from "@styles/theme";
 
 export const TextAreaWrapper = styled.section`
   position: relative;
@@ -14,22 +13,22 @@ export const TextAreaInput = styled.textarea`
   height: 12.9rem;
   padding: 1.8rem;
 
-  color: ${theme.colors.gray_0};
+  color: ${({ theme }) => theme.colors.gray_0};
 
-  background: ${theme.colors.gray_800};
+  background: ${({ theme }) => theme.colors.gray_800};
   border: none;
   border-radius: 0.6rem;
 
   resize: none;
 
-  ${theme.fonts["body2-long"]};
+  ${({ theme }) => theme.fonts["body2-long"]};
 
   &::placeholder {
-    color: ${theme.colors.gray_600};
+    color: ${({ theme }) => theme.colors.gray_600};
   }
 
   &:focus {
-    border: 1px solid ${theme.colors.gray_0};
+    border: 1px solid ${({ theme }) => theme.colors.gray_0};
   }
 
   &::-webkit-scrollbar {
@@ -46,7 +45,7 @@ export const TextCap = styled.p`
   margin: 0;
   margin-top: 0.6rem;
 
-  color: ${theme.colors.gray_500};
+  color: ${({ theme }) => theme.colors.gray_500};
   text-align: right;
-  ${theme.fonts["body2-normal-medi"]};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;

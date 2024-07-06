@@ -1,6 +1,5 @@
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
-import theme from "@styles/theme";
 import { IconTextfiedlDelete } from "@assets/svgs";
 
 export const TextFieldLayout = styled.section<{ narrow?: false | true }>`
@@ -16,20 +15,20 @@ export const TextFieldInput = styled.input`
   height: 4.8rem;
   padding: 0 1.6rem;
 
-  color: ${theme.colors.gray_0};
+  color: ${({ theme }) => theme.colors.gray_0};
 
-  background: ${theme.colors.gray_800};
+  background: ${({ theme }) => theme.colors.gray_800};
   border: none;
   border-radius: 0.6rem;
 
-  ${theme.fonts["body2-normal-medi"]};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
 
   &::placeholder {
-    color: ${theme.colors.gray_600};
+    color: ${({ theme }) => theme.colors.gray_600};
   }
 
   &:focus {
-    border: 1px solid ${theme.colors.gray_0};
+    border: 1px solid ${({ theme }) => theme.colors.gray_0};
   }
 `;
 
@@ -47,8 +46,8 @@ export const TextUnit = styled.p`
   top: 0;
   right: 1.6rem;
 
-  color: ${theme.colors.gray_0};
-  ${theme.fonts["body2-normal-medi"]};
+  color: ${({ theme }) => theme.colors.gray_0};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;
 
 export const TextCap = styled.p`
@@ -60,7 +59,7 @@ export const TextCap = styled.p`
   margin: 0;
   margin-top: 0.6rem;
 
-  color: ${theme.colors.gray_500};
+  color: ${({ theme }) => theme.colors.gray_500};
   text-align: right;
-  ${theme.fonts["body2-normal-medi"]};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;
