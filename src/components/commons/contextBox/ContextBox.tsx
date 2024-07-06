@@ -6,7 +6,9 @@ import { contextBoxPropsTypes } from "../../../types/contextBoxPropsTypes";
 const ContextBox = ({ className, padding, children, ...rest }: contextBoxPropsTypes) => {
   return (
     <S.ContextBoxWrapper>
-      <S.ContextBoxLayout padding={padding}>{children}</S.ContextBoxLayout>
+      <S.ContextBoxLayout padding={padding} gap="1.2rem">
+        {children}
+      </S.ContextBoxLayout>
     </S.ContextBoxWrapper>
   );
 };

@@ -6,15 +6,14 @@ export const BottomSheetWrapper = styled.section`
 
 export const BottomSheetLayout = styled.section`
   width: 37.5rem;
-  padding: 4rem 2.4rem 3.2rem;
+  padding: 3.6rem 2.4rem 2.8rem;
 
-  color: ${({ theme }) => theme.colors.gray_800};
-
+  background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 2rem 2rem 0 0;
 `;
 
 export const Title = styled.h1`
-  margin-bottom: 3.2rem;
+  margin-bottom: 2.8rem;
 
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.heading4};

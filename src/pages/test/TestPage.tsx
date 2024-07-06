@@ -1,14 +1,19 @@
+import styled from "styled-components";
 import ViewBottomSheet from "../../components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
 import Context from "@components/commons/contextBox/Context";
 
 const TestPage = () => {
   return (
-    <div>
+    <Test>
       <h1>Test Page</h1>
-      <p>Test Page</p>
+      <Test>Test Page</Test>
       <ViewBottomSheet />
-    </div>
+    </Test>
   );
 };
 
 export default TestPage;
+
+const Test = styled.div`
+  background-color: white;
+`;

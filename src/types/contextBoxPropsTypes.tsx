@@ -24,19 +24,17 @@ export interface subTitleStyle {
   customFont?: string;
 }
 
-export interface subTitlePropsTypes
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    subTitleStyle {
-  children: ReactNode;
-  className?: string;
-}
-
 export interface textStyle {
   width?: string;
   customFont?: string;
 }
 
-export interface textPropsTypes extends React.ButtonHTMLAttributes<HTMLButtonElement>, textStyle {
-  children: ReactNode;
-  className?: string;
+export interface boxTitleStyle {
+  width?: string;
+  customFont?: string;
+  customColor?: string;
+}
+
+export interface boxDividerStyle {
+  width?: string;
 }

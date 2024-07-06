@@ -4,6 +4,12 @@ import { subTitleStyle, textStyle } from "../../../types/contextBoxPropsTypes";
 
 export const ContextWrapper = styled.section`
   display: flex;
+
+  background-color: ${({ theme }) => theme.colors.gray_700};
+`;
+
+export const ContextLayout = styled.section`
+  display: flex;
   flex-direction: row;
 `;
 
@@ -13,10 +19,8 @@ export const SubTitle = styled.div<subTitleStyle>`
 
   color: ${({ theme }) => theme.colors.gray_400};
 
-  /* ${({ theme, customFont = "body1-normal-medi" }) =>
-    theme.fonts[customFont as keyof typeof theme.fonts]}; */
-
-  ${({ theme }) => theme.fonts["body1-normal-medi"]}
+  ${({ theme, customFont = "body1-normal-medi" }) =>
+    theme.fonts[customFont as keyof typeof theme.fonts]};
 `;
 
 export const Text = styled.section<textStyle>`
@@ -24,5 +28,15 @@ export const Text = styled.section<textStyle>`
 
   color: ${({ theme }) => theme.colors.white};
 
-  ${({ theme }) => theme.fonts["body1-normal-medi"]}
+  ${({ theme, customFont = "body1-normal-medi" }) =>
+    theme.fonts[customFont as keyof typeof theme.fonts]};
+`;
+
+export const DateBar = styled.div`
+  height: 1.2rem;
+  margin: 0.5rem 1rem 0;
+
+  color: ${({ theme }) => theme.colors.gray_500};
+
+  border-right: 0.1rem solid;
 `;
