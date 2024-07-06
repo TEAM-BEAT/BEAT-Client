@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import TextField from "./TextField";
-import { phoneNumberFilter } from "../../../../utils/useInputFiter";
+import { numericFilter, phoneNumberFilter, priceFilter } from "../../../../utils/useInputFiter";
 
 const meta = {
   title: "TextField",
@@ -16,18 +16,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: { maxLength: 5 },
+export const DefaultCapOn: Story = {
+  args: { maxLength: 30 },
+};
+
+export const DefaultCapOff: Story = {
+  args: {},
 };
 
 export const Narrow: Story = {
   args: { narrow: true },
 };
 
-export const Unit: Story = {
-  args: { unit: "time" },
+export const Time: Story = {
+  args: { unit: "time", filter: numericFilter },
+};
+
+export const Ticket: Story = {
+  args: { unit: "ticket", filter: numericFilter },
+};
+
+export const Amount: Story = {
+  args: { unit: "amount", filter: priceFilter },
 };
 
 export const Phone: Story = {
-  args: { filter: phoneNumberFilter, placeholder: "전화번호를 입력하세요" },
+  args: { filter: phoneNumberFilter },
 };

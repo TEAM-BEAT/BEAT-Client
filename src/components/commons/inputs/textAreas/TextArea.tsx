@@ -1,24 +1,28 @@
 import { ChangeEvent, TextareaHTMLAttributes, useState } from "react";
 import * as S from "./TextArea.style";
 
-export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaPropsTypes extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   maxLength?: number;
   placeholder: string;
 }
 
-const TextArea = ({ maxLength, placeholder }: TextAreaProps) => {
+const TextArea = ({ maxLength, placeholder }: TextAreaPropsTypes) => {
+  const [inputValue, setInputValue] = useState("");
   const [inputCount, setInputCount] = useState(0);
-  const onInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInputCount(e.target.value.length);
+  const handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setInputCount(value.length);
   };
   return (
     <S.TextAreaWrapper>
       <S.TextAreaInput
-        onChange={onInputHandler}
+        value={inputValue}
+        onChange={handleOnInput}
         maxLength={maxLength}
         placeholder={placeholder}
       ></S.TextAreaInput>
-      {maxLength && <S.TextCap>{`${inputCount} / ${maxLength}`}</S.TextCap>}
+      {maxLength && <S.TextCap>{`${inputCount}/${maxLength}`}</S.TextCap>}
     </S.TextAreaWrapper>
   );
 };
