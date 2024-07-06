@@ -19,6 +19,12 @@ function App() {
       <Button onClick={handleOnClick} varient="primary" size="xlarge" isDisabled={false}>
         테스트2
       </Button>
+      <Button onClick={handleOnClick} varient="blue" size="small" isDisabled={true}>
+        테스트2
+      </Button>
+      <Button onClick={handleOnClick} varient="blue" size="xlarge" isDisabled={false}>
+        테스트2
+      </Button>
 
       <RouterProvider router={router} />
     </ThemeProvider>
