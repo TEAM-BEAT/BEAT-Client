@@ -18,6 +18,8 @@ const useModal = () => {
       isOpen: false,
       title: "",
       subTitle: "",
+      okText: "",
+      okCallback: () => {},
     });
   };
 
@@ -33,7 +35,9 @@ const useModal = () => {
       isOpen: false,
       title: "",
       subTitle: "",
+      okText: "",
       okCallback: () => {},
+      noText: "",
       noCallback: () => {},
     });
   };

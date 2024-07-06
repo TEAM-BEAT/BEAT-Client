@@ -13,7 +13,9 @@ const Confirm = () => {
       isOpen: false,
       title: "",
       subTitle: "",
+      okText: "",
       okCallback: () => {},
+      noText: "",
       noCallback: () => {},
     });
   };
@@ -32,8 +34,8 @@ const Confirm = () => {
     return (
       <ModalWrapper>
         <ModalTextBox title={title} subTitle={subTitle} />
-        {/* TODO: 공통 버튼 컴포넌트로 변경 */}
 
+        {/* TODO: 공통 버튼 컴포넌트로 변경 */}
         <S.ButtonWrapper>
           <button onClick={handleNo}>{noText ?? "취소"}</button>
           <button onClick={handleOk}>{okText ?? "확인"}</button>
