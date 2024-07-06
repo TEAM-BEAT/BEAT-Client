@@ -24,5 +24,5 @@ export const Narrow: Story = {
 };
 
 export const Unit: Story = {
-  args: { placeholder: "플레이스 홀더" },
+  args: { placeholder: "플레이스 홀더", unit: "time" },
 };
