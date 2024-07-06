@@ -15,7 +15,8 @@
     "stylelint": "stylelint './**/*.{tsx,css}' --fix",
     "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
     "prepare": "husky install",
-    "lint-front": "lint-staged"
+    "lint-front": "lint-staged",
+    "svgr": "npx @svgr/cli -d src/assets/svgs --ignore-existing --typescript --no-dimensions public/svgs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -84,7 +85,8 @@
     "stylelint-prettier": "^5.0.0",
     "stylelint-processor-styled-components": "^1.10.0",
     "typescript-eslint": "^7.14.1",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "vite-plugin-svgr": "^4.2.0"
   },
   "packageManager": "yarn@4.1.0",
   "dependenciesMeta": {
