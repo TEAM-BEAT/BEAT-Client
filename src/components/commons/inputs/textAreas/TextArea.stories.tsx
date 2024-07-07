@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import TextArea from "./TextArea";
 import { useState } from "react";
+import TextArea, { TextAreaProps } from "./TextArea";
 
 const meta = {
   title: "TextArea",
@@ -14,9 +14,9 @@ const meta = {
 } satisfies Meta<typeof TextArea>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<TextAreaProps>;
 
-const Template = (args: any) => {
+const Template: StoryFn<TextAreaProps> = (args) => {
   const [value, setValue] = useState(args.value);
 
   return <TextArea {...args} value={value} onChangeValue={setValue} />;

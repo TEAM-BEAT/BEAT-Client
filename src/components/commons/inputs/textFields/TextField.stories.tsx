@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import TextField from "./TextField";
-import { numericFilter, phoneNumberFilter, priceFilter } from "../../../../utils/useInputFilter";
 import { useState } from "react";
+import { numericFilter, phoneNumberFilter, priceFilter } from "../../../../utils/useInputFilter";
+import TextField, { TextFieldProps } from "./TextField";
 
 const meta = {
   title: "TextField",
@@ -15,8 +15,8 @@ const meta = {
 } satisfies Meta<typeof TextField>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
-const Template = (args) => {
+type Story = StoryObj<TextFieldProps>;
+const Template: StoryFn<TextFieldProps> = (args) => {
   const [value, setValue] = useState(args.value);
 
   return <TextField {...args} value={value} onChangeValue={setValue} />;
