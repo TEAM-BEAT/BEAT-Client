@@ -15,8 +15,8 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
       {varient === "primary" && (
         <S.PrimaryButton
           onClick={isDisabled ? undefined : onClick}
-          size={size}
-          isDisabled={isDisabled}
+          $size={size}
+          $isDisabled={isDisabled}
         >
           {children}
         </S.PrimaryButton>
@@ -24,8 +24,8 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
       {varient === "line" && (
         <S.LineButton
           onClick={isDisabled ? undefined : onClick}
-          size={size}
-          isDisabled={isDisabled}
+          $size={size}
+          $isDisabled={isDisabled}
         >
           {children}
         </S.LineButton>
@@ -33,8 +33,8 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
       {varient === "gray" && (
         <S.GrayButton
           onClick={isDisabled ? undefined : onClick}
-          size={size}
-          isDisabled={isDisabled}
+          $size={size}
+          $isDisabled={isDisabled}
         >
           {children}
         </S.GrayButton>
@@ -42,8 +42,8 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
       {varient === "blue" && (
         <S.BlueButton
           onClick={isDisabled ? undefined : onClick}
-          size={size}
-          isDisabled={isDisabled}
+          $size={size}
+          $isDisabled={isDisabled}
         >
           {children}
         </S.BlueButton>

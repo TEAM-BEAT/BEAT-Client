@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 
 interface DefaultBtnPropTypes {
-  size: "xlarge" | "large" | "medium" | "small" | "xsmall";
-  isDisabled?: boolean;
+  $size: "xlarge" | "large" | "medium" | "small" | "xsmall";
+  $isDisabled?: boolean;
 }
 
 const width = {
@@ -28,19 +28,19 @@ const DefaultBtn = styled.button<DefaultBtnPropTypes>`
 
   ${({ theme }) => theme.fonts["body2-normal-semi"]};
 
-  cursor: ${({ isDisabled }) => (isDisabled ? "not-allowed" : "cursor")};
+  cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
-  ${({ size }) =>
-    size &&
+  ${({ $size }) =>
+    $size &&
     css`
-      width: ${width[size]};
-      height: ${height[size]};
+      width: ${width[$size]};
+      height: ${height[$size]};
     `};
 `;
 
 export const PrimaryButton = styled(DefaultBtn)`
-  ${({ isDisabled }) =>
-    isDisabled
+  ${({ $isDisabled }) =>
+    $isDisabled
       ? css`
           color: ${({ theme }) => theme.colors.pink_700};
 
@@ -54,8 +54,8 @@ export const PrimaryButton = styled(DefaultBtn)`
 `;
 
 export const LineButton = styled(DefaultBtn)`
-  ${({ isDisabled }) =>
-    isDisabled
+  ${({ $isDisabled }) =>
+    $isDisabled
       ? css`
           color: ${({ theme }) => theme.colors.pink_800};
 
@@ -71,8 +71,8 @@ export const LineButton = styled(DefaultBtn)`
 `;
 
 export const GrayButton = styled(DefaultBtn)`
-  ${({ isDisabled }) =>
-    isDisabled
+  ${({ $isDisabled }) =>
+    $isDisabled
       ? css`
           color: ${({ theme }) => theme.colors.gray_600};
 
