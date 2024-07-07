@@ -15,7 +15,13 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 //disabled는 버튼의 기본 속성(따라서 위의 interface에서 명시되어 있지는 않다.)
 const Button = ({ onClick, size, disabled, variant, children }: ButtonProps) => {
   return (
-    <S.DefaultBtn onClick={onClick} $size={size} $isDisabled={disabled} $variant={variant}>
+    <S.DefaultBtn
+      onClick={onClick}
+      $size={size}
+      disabled={disabled}
+      $isDisabled={disabled}
+      $variant={variant}
+    >
       {children}
     </S.DefaultBtn>
   );
