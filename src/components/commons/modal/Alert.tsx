@@ -1,6 +1,7 @@
 import useModal from "@hooks/useModal";
 import { alertAtom } from "@stores/modal";
 import { useAtomValue } from "jotai";
+import Button from "../Button/Button";
 import ModalTextBox from "./components/ModalTextBox";
 import ModalWrapper from "./components/ModalWrapper";
 
@@ -19,8 +20,10 @@ const Alert = () => {
     return (
       <ModalWrapper>
         <ModalTextBox title={title} subTitle={subTitle} />
-        {/* TODO: 공통 버튼 컴포넌트로 변경 */}
-        <button onClick={handleOk}>{okText ?? "확인"}</button>
+
+        <Button size="large" variant="primary" onClick={handleOk}>
+          {okText ?? "확인"}
+        </Button>
       </ModalWrapper>
     );
   }

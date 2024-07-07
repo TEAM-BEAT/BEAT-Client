@@ -1,6 +1,7 @@
 import useModal from "@hooks/useModal";
 import { confirmAtom } from "@stores/modal";
 import { useAtomValue } from "jotai";
+import Button from "../Button/Button";
 import ModalTextBox from "./components/ModalTextBox";
 import ModalWrapper from "./components/ModalWrapper";
 import * as S from "./components/ModalWrapper.styled";
@@ -26,10 +27,13 @@ const Confirm = () => {
       <ModalWrapper>
         <ModalTextBox title={title} subTitle={subTitle} />
 
-        {/* TODO: 공통 버튼 컴포넌트로 변경 */}
         <S.ButtonWrapper>
-          <button onClick={handleNo}>{noText ?? "취소"}</button>
-          <button onClick={handleOk}>{okText ?? "확인"}</button>
+          <Button size="small" variant="gray" onClick={handleNo}>
+            {noText ?? "취소"}
+          </Button>
+          <Button size="small" variant="primary" onClick={handleOk}>
+            {okText ?? "확인"}
+          </Button>
         </S.ButtonWrapper>
       </ModalWrapper>
     );
