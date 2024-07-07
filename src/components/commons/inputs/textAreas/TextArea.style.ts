@@ -7,7 +7,6 @@ export const TextAreaWrapper = styled.section`
 `;
 
 export const TextAreaInput = styled.textarea`
-  box-sizing: border-box;
   ${Generators.flexGenerator("row", "center", "center")}
   width: 100%;
   height: 12.9rem;
@@ -16,7 +15,8 @@ export const TextAreaInput = styled.textarea`
   color: ${({ theme }) => theme.colors.gray_0};
 
   background: ${({ theme }) => theme.colors.gray_800};
-  border: none;
+  outline: none;
+  border: 1px solid transparent;
   border-radius: 0.6rem;
 
   resize: none;

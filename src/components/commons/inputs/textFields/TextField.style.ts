@@ -12,7 +12,6 @@ export const TextFieldWrapper = styled.article`
 `;
 
 export const TextFieldInput = styled.input`
-  box-sizing: border-box;
   width: 100%;
   height: 4.8rem;
   padding: 0 1.6rem;
@@ -20,7 +19,7 @@ export const TextFieldInput = styled.input`
   color: ${({ theme }) => theme.colors.gray_0};
 
   background: ${({ theme }) => theme.colors.gray_800};
-  border: none;
+  border: 1px solid transparent;
   border-radius: 0.6rem;
 
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
