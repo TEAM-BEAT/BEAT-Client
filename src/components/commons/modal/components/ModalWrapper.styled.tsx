@@ -18,7 +18,7 @@ export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  width: 27.9rem;
+  width: 31.1rem;
   padding: 40px 16px 16px;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
@@ -44,5 +44,6 @@ export const ModalSubTitle = styled.span`
 
 export const ButtonWrapper = styled.div`
   display: flex;
+  gap: 0.7rem;
   justify-content: space-between;
 `;
