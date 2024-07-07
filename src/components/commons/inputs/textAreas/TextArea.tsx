@@ -14,6 +14,7 @@ const TextArea = ({ maxLength, placeholder }: TextAreaPropsTypes) => {
     setInputValue(value);
     setInputCount(value.length);
   };
+  console.log(inputValue);
   return (
     <S.TextAreaWrapper>
       <S.TextAreaInput

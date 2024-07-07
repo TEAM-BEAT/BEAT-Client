@@ -19,5 +19,16 @@ export const priceFilter = (value: string) => {
     return "";
   }
 
-  return numericValue.replace(/\d(?=(\d{3})+$)/g, "$&,");
+  let result = "";
+  let count = 0;
+
+  for (let i = numericValue.length - 1; i >= 0; i--) {
+    if (count !== 0 && count % 3 === 0) {
+      result = `,${result}`;
+    }
+    result = numericValue[i] + result;
+    count++;
+  }
+
+  return result;
 };
