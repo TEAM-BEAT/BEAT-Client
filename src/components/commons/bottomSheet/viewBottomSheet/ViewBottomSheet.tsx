@@ -14,7 +14,7 @@ const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: viewBottomSheet
   return (
     <S.ViewBottomSheetWrapper>
       <BottomSheet title={title}>
-        <ContextBox customPadding="1.6rem 1.6rem">
+        <ContextBox customPadding="1.6rem 1.6rem" {...rest}>
           <S.BoxTitle customColor="pink_200">{boxTitle}</S.BoxTitle>
           <S.BoxDivider />
           {children}

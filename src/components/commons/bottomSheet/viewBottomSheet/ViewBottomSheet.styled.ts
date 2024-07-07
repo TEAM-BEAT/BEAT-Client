@@ -7,13 +7,16 @@ export const ViewBottomSheetWrapper = styled.section`
 `;
 
 export const BoxTitle = styled.h1<boxTitleStyle>`
-  width: ${({ width = "auto" }) => width};
+  display: inline;
+  width: 29.5rem;
+  overflow: hidden;
 
   color: ${({ theme, customColor = "white" }) =>
     theme.colors[customColor as keyof typeof theme.colors]};
-
   ${({ theme, customFont = "body1-normal-medi" }) =>
     theme.fonts[customFont as keyof typeof theme.fonts]};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 export const BoxDivider = styled.div<boxDividerStyle>`
   width: ${({ width = "29.5rem" }) => width};

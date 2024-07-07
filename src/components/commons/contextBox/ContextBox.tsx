@@ -1,5 +1,3 @@
-import React from "react";
-
 import * as S from "./ContextBox.styled";
 import { contextBoxPropsTypes } from "../../../types/contextBoxPropsTypes";
 
@@ -11,7 +9,12 @@ const ContextBox = ({
 }: contextBoxPropsTypes) => {
   return (
     <S.ContextBoxWrapper>
-      <S.ContextBoxLayout alignItems={customAlignItems} padding={customPadding} gap="1.2rem">
+      <S.ContextBoxLayout
+        alignItems={customAlignItems}
+        padding={customPadding}
+        gap="1.2rem"
+        {...rest}
+      >
         {children}
       </S.ContextBoxLayout>
     </S.ContextBoxWrapper>
