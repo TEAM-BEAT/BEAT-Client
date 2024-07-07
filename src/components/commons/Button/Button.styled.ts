@@ -6,19 +6,19 @@ interface DefaultBtnPropTypes {
 }
 
 const width = {
-  xlarge: "327px",
-  large: "279px",
-  medium: "158px",
-  small: "136px",
-  xsmall: "103px",
+  xlarge: "32.7rem",
+  large: "27.9rem",
+  medium: "15.8rem",
+  small: "13.6rem",
+  xsmall: "10.3rem",
 };
 
 const height = {
-  xlarge: "56px",
-  large: "46px",
-  medium: "46px",
-  small: "46px",
-  xsmall: "36px",
+  xlarge: "5.6rem",
+  large: "4.6rem",
+  medium: "4.6rem",
+  small: "4.6rem",
+  xsmall: "3.6rem",
 };
 
 const DefaultBtn = styled.button<DefaultBtnPropTypes>`
@@ -86,8 +86,8 @@ export const GrayButton = styled(DefaultBtn)`
 `;
 
 export const BlueButton = styled(DefaultBtn)`
-  width: 327px;
-  height: 56px;
+  width: 32.7rem;
+  height: 5.6rem;
 
   color: ${({ theme }) => theme.colors.white};
 
