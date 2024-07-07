@@ -1,7 +1,7 @@
 import { IconTextfiedlDelete } from "@assets/svgs";
 import Chip from "@components/commons/chip/Chip";
-import TextArea from "@components/commons/inputs/textAreas/TextArea";
-import TextField from "@components/commons/inputs/textFields/TextField";
+import TextArea from "@components/commons/input/textArea/TextArea";
+import TextField from "@components/commons/input/textField/TextField";
 import { useState } from "react";
 
 const TestPage = () => {

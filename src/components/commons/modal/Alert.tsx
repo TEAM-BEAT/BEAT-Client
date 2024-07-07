@@ -1,7 +1,7 @@
 import useModal from "@hooks/useModal";
 import { alertAtom } from "@stores/modal";
 import { useAtomValue } from "jotai";
-import Button from "../Button/Button";
+import Button from "../button/Button";
 import ModalTextBox from "./components/ModalTextBox";
 import ModalWrapper from "./components/ModalWrapper";
 
