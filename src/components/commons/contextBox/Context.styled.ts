@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { subTitleStyle, textStyle } from "@typings/contextBoxProps";
+import { SubTitleStyle, TextStyle } from "@typings/contextBoxProps";
 
 export const ContextWrapper = styled.section`
   display: flex;
@@ -13,7 +13,7 @@ export const ContextLayout = styled.section`
   flex-direction: row;
 `;
 
-export const SubTitle = styled.div<subTitleStyle>`
+export const SubTitle = styled.div<SubTitleStyle>`
   width: ${({ width = "5.4rem" }) => width};
   margin-right: ${({ marginRight = "0.8rem" }) => marginRight};
 
@@ -23,7 +23,7 @@ export const SubTitle = styled.div<subTitleStyle>`
     theme.fonts[customFont as keyof typeof theme.fonts]};
 `;
 
-export const Text = styled.section<textStyle>`
+export const Text = styled.section<TextStyle>`
   width: ${({ width = "auto" }) => width};
 
   color: ${({ theme }) => theme.colors.white};

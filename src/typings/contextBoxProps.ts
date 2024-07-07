@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-export interface contextBoxStyle {
+export interface ContextBoxStyle {
   width?: string;
   height?: string;
   margin?: string;
@@ -11,31 +11,31 @@ export interface contextBoxStyle {
   justifyContent?: "start" | "center" | "space-between" | "space-around" | "space-evenly";
   gap?: string;
 }
-export interface contextBoxProps
+export interface ContextBoxProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    contextBoxStyle {
+    ContextBoxStyle {
   children: ReactNode;
   customAlignItems?: "center" | "stretch" | "flex-start" | "flex-end";
   customPadding?: string;
 }
 
-export interface subTitleStyle {
+export interface SubTitleStyle {
   width?: string;
   marginRight?: string;
   customFont?: string;
 }
 
-export interface textStyle {
+export interface TextStyle {
   width?: string;
   customFont?: string;
 }
 
-export interface boxTitleStyle {
+export interface BoxTitleStyle {
   width?: string;
   customFont?: string;
   customColor?: string;
 }
 
-export interface boxDividerStyle {
+export interface BoxDividerStyle {
   width?: string;
 }

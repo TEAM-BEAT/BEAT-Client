@@ -1,11 +1,11 @@
 import styled, { css } from "styled-components";
-import { contextBoxStyle } from "@typings/contextBoxProps";
+import { ContextBoxStyle } from "@typings/contextBoxProps";
 
 export const ContextBoxWrapper = styled.section`
   width: auto;
 `;
 
-export const ContextBoxLayout = styled.section<contextBoxStyle>`
+export const ContextBoxLayout = styled.section<ContextBoxStyle>`
   display: flex;
   flex-direction: column;
 

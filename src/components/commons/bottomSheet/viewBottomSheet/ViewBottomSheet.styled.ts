@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-import { boxTitleStyle, boxDividerStyle } from "@typings/contextBoxProps";
+import { BoxTitleStyle, BoxDividerStyle } from "@typings/contextBoxProps";
 
 export const ViewBottomSheetWrapper = styled.section`
   display: flex;
 `;
 
-export const BoxTitle = styled.h1<boxTitleStyle>`
+export const BoxTitle = styled.h1<BoxTitleStyle>`
   display: inline;
   width: 29.5rem;
   overflow: hidden;
@@ -18,7 +18,7 @@ export const BoxTitle = styled.h1<boxTitleStyle>`
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
-export const BoxDivider = styled.div<boxDividerStyle>`
+export const BoxDivider = styled.div<BoxDividerStyle>`
   width: ${({ width = "29.5rem" }) => width};
   margin: 0.2rem 0;
 

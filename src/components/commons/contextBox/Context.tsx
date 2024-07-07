@@ -1,6 +1,6 @@
 import * as S from "./Context.styled";
 
-interface contextProps {
+interface ContextProps {
   subTitle: string;
   text?: string;
   isDate?: boolean;
@@ -8,7 +8,7 @@ interface contextProps {
   time?: string;
 }
 
-const Context = ({ subTitle, text, isDate, date, time }: contextProps) => {
+const Context = ({ subTitle, text, isDate, date, time }: ContextProps) => {
   return (
     <S.ContextWrapper>
       {isDate ? (

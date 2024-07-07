@@ -1,12 +1,12 @@
 import * as S from "./ContextBox.styled";
-import { contextBoxProps } from "@typings/contextBoxProps";
+import { ContextBoxProps } from "@typings/contextBoxProps";
 
 const ContextBox = ({
   customAlignItems = "flex-start",
   customPadding = "1.6rem 1.6rem",
   children,
   ...rest
-}: contextBoxProps) => {
+}: ContextBoxProps) => {
   return (
     <S.ContextBoxWrapper>
       <S.ContextBoxLayout
