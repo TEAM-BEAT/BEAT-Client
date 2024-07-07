@@ -1,8 +1,9 @@
 import * as S from "./ViewBottomSheet.styled";
-
 import BottomSheet from "../BottomSheet";
 import ContextBox from "@components/commons/contextBox/ContextBox";
-import { ReactNode } from "react";
+import Context from "@components/commons/contextBox/Context";
+
+import { ReactNode, Children, isValidElement } from "react";
 
 interface ViewBottomSheetProps {
   title?: string;
@@ -11,14 +12,25 @@ interface ViewBottomSheetProps {
 }
 
 const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: ViewBottomSheetProps) => {
+  const childrenArray = Children.toArray(children);
+
+  const contextChildren = childrenArray.filter(
+    (child) => isValidElement(child) && child.type === Context
+  );
+
+  const remainingChildren = childrenArray.filter(
+    (child) => !isValidElement(child) || child.type !== Context
+  );
+
   return (
     <S.ViewBottomSheetWrapper>
       <BottomSheet title={title}>
         <ContextBox customPadding="1.6rem 1.6rem" {...rest}>
           <S.BoxTitle customColor="pink_200">{boxTitle}</S.BoxTitle>
           <S.BoxDivider />
-          {children}
+          {contextChildren}
         </ContextBox>
+        {remainingChildren}
       </BottomSheet>
     </S.ViewBottomSheetWrapper>
   );
