@@ -4,15 +4,15 @@ import * as S from "./Button.styled";
 export interface ButtonPropTypes {
   size: "xlarge" | "large" | "medium" | "small" | "xsmall";
   isDisabled?: boolean;
-  varient: "primary" | "line" | "gray" | "blue";
+  variant: "primary" | "line" | "gray" | "blue";
   children: ReactNode; //자식 노드(텍스트)를 받기 위해 필수.
   onClick: React.MouseEventHandler<HTMLButtonElement> | undefined; //MouseEvent와는 상이
 }
 
-const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropTypes) => {
+const Button = ({ onClick, size, isDisabled, variant, children }: ButtonPropTypes) => {
   return (
     <>
-      {varient === "primary" && (
+      {variant === "primary" && (
         <S.PrimaryButton
           onClick={isDisabled ? undefined : onClick}
           $size={size}
@@ -21,7 +21,7 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
           {children}
         </S.PrimaryButton>
       )}
-      {varient === "line" && (
+      {variant === "line" && (
         <S.LineButton
           onClick={isDisabled ? undefined : onClick}
           $size={size}
@@ -30,7 +30,7 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
           {children}
         </S.LineButton>
       )}
-      {varient === "gray" && (
+      {variant === "gray" && (
         <S.GrayButton
           onClick={isDisabled ? undefined : onClick}
           $size={size}
@@ -39,7 +39,7 @@ const Button = ({ onClick, size, isDisabled, varient, children }: ButtonPropType
           {children}
         </S.GrayButton>
       )}
-      {varient === "blue" && (
+      {variant === "blue" && (
         <S.BlueButton
           onClick={isDisabled ? undefined : onClick}
           $size={size}
