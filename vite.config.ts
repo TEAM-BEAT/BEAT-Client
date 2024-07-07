@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
-      svgrOpytions: {
+      svgrOptions: {
         icon: true,
         memo: true,
       },
