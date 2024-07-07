@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { subTitleStyle, textStyle } from "../../../types/contextBoxPropsTypes";
+import { subTitleStyle, textStyle } from "src/types/contextBoxProps";
 
 export const ContextWrapper = styled.section`
   display: flex;

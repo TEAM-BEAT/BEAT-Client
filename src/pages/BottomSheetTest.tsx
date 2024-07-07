@@ -1,10 +1,8 @@
-// TestPage.tsx
-
 import styled from "styled-components";
 import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
 import Context from "@components/commons/contextBox/Context";
 
-const TestPage = () => {
+const ViewBottomSheetTest = () => {
   return (
     <Test>
       <h1>Test Page</h1>
@@ -18,7 +16,7 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default ViewBottomSheetTest;
 
 const Test = styled.div`
   background-color: white;

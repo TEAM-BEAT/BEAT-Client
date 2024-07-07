@@ -1,10 +1,10 @@
 import * as S from "./PhoneNumber.styled";
 
-interface PhoneNumPropsTypes {
+interface PhoneNumProps {
   phone?: string;
 }
 
-const PhoneNumber = ({ phone }: PhoneNumPropsTypes) => {
+const PhoneNumber = ({ phone }: PhoneNumProps) => {
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
     // 현재 토스트 메시지가 없어 간단한 alert로 대체. 후에 수정 필요

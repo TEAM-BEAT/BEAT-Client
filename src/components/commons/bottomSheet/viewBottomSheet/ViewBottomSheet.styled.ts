@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { boxTitleStyle, boxDividerStyle } from "../../../../types/contextBoxPropsTypes";
+import { boxTitleStyle, boxDividerStyle } from "src/types/contextBoxProps";
 
 export const ViewBottomSheetWrapper = styled.section`
   display: flex;

@@ -11,7 +11,7 @@ export interface contextBoxStyle {
   justifyContent?: "start" | "center" | "space-between" | "space-around" | "space-evenly";
   gap?: string;
 }
-export interface contextBoxPropsTypes
+export interface contextBoxProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     contextBoxStyle {
   children: ReactNode;

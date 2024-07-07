@@ -4,13 +4,13 @@ import BottomSheet from "../BottomSheet";
 import ContextBox from "@components/commons/contextBox/ContextBox";
 import { ReactNode } from "react";
 
-interface viewBottomSheetPropsTypes {
+interface viewBottomSheetProps {
   title?: string;
   boxTitle?: string;
   children?: ReactNode;
 }
 
-const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: viewBottomSheetPropsTypes) => {
+const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: viewBottomSheetProps) => {
   return (
     <S.ViewBottomSheetWrapper>
       <BottomSheet title={title}>
