@@ -1,7 +1,9 @@
 import styled, { css } from "styled-components";
+import { ButtonSizeTypes, ButtonVariantTypes } from "./Button";
 
 interface DefaultBtnPropTypes {
-  $size: "xlarge" | "large" | "medium" | "small" | "xsmall";
+  $size: ButtonSizeTypes;
+  $variant: ButtonVariantTypes;
   $isDisabled?: boolean;
 }
 
@@ -21,7 +23,7 @@ const height = {
   xsmall: "3.6rem",
 };
 
-const DefaultBtn = styled.button<DefaultBtnPropTypes>`
+export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,60 +38,56 @@ const DefaultBtn = styled.button<DefaultBtnPropTypes>`
       width: ${width[$size]};
       height: ${height[$size]};
     `};
-`;
 
-export const PrimaryButton = styled(DefaultBtn)`
-  ${({ $isDisabled }) =>
-    $isDisabled
-      ? css`
-          color: ${({ theme }) => theme.colors.pink_700};
+  ${({ $variant, $isDisabled }) => {
+    switch ($variant) {
+      case "primary":
+        return $isDisabled
+          ? css`
+              color: ${({ theme }) => theme.colors.pink_700};
 
-          background-color: ${({ theme }) => theme.colors.pink_900};
-        `
-      : css`
+              background-color: ${({ theme }) => theme.colors.pink_900};
+            `
+          : css`
+              color: ${({ theme }) => theme.colors.white};
+
+              background-color: ${({ theme }) => theme.colors.pink_400};
+            `;
+      case "line":
+        return $isDisabled
+          ? css`
+              color: ${({ theme }) => theme.colors.pink_800};
+
+              background-color: ${({ theme }) => theme.colors.gray_900};
+              border: 1px solid ${({ theme }) => theme.colors.pink_800};
+            `
+          : css`
+              color: ${({ theme }) => theme.colors.pink_400};
+
+              background-color: ${({ theme }) => theme.colors.gray_900};
+              border: 1px solid ${({ theme }) => theme.colors.pink_400};
+            `;
+      case "gray":
+        return $isDisabled
+          ? css`
+              color: ${({ theme }) => theme.colors.gray_600};
+
+              background-color: ${({ theme }) => theme.colors.gray_700};
+            `
+          : css`
+              color: ${({ theme }) => theme.colors.white};
+
+              background-color: ${({ theme }) => theme.colors.gray_700};
+            `;
+      case "blue":
+        return css`
+          width: 32.7rem;
+          height: 5.6rem;
+
           color: ${({ theme }) => theme.colors.white};
 
-          background-color: ${({ theme }) => theme.colors.pink_400};
-        `}
-`;
-
-export const LineButton = styled(DefaultBtn)`
-  ${({ $isDisabled }) =>
-    $isDisabled
-      ? css`
-          color: ${({ theme }) => theme.colors.pink_800};
-
-          background-color: ${({ theme }) => theme.colors.gray_900};
-          border: 1px solid ${({ theme }) => theme.colors.pink_800};
-        `
-      : css`
-          color: ${({ theme }) => theme.colors.pink_400};
-
-          background-color: ${({ theme }) => theme.colors.gray_900};
-          border: 1px solid ${({ theme }) => theme.colors.pink_400};
-        `}
-`;
-
-export const GrayButton = styled(DefaultBtn)`
-  ${({ $isDisabled }) =>
-    $isDisabled
-      ? css`
-          color: ${({ theme }) => theme.colors.gray_600};
-
-          background-color: ${({ theme }) => theme.colors.gray_700};
-        `
-      : css`
-          color: ${({ theme }) => theme.colors.white};
-
-          background-color: ${({ theme }) => theme.colors.gray_700};
-        `}
-`;
-
-export const BlueButton = styled(DefaultBtn)`
-  width: 32.7rem;
-  height: 5.6rem;
-
-  color: ${({ theme }) => theme.colors.white};
-
-  background-color: ${({ theme }) => theme.colors.blue_400};
+          background-color: ${({ theme }) => theme.colors.blue_400};
+        `;
+    }
+  }}
 `;
