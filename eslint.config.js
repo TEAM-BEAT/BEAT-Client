@@ -1,5 +1,5 @@
-import { createRequire } from "module";
 import globals from "globals";
+import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 
@@ -33,11 +33,11 @@ const jsConfig = {
     curly: "error",
     quotes: ["error", "double"],
     "comma-style": ["error", "last"],
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }],
     "no-console": "warn",
     "no-extra-semi": "error",
     "no-unused-expressions": "error",
-    indent: ["error", 2],
+    indent: ["error", 2, { SwitchCase: 1, ignoredNodes: ["PropertyDefinition"] }],
     semi: ["warn", "always"],
     "no-undef": "error",
     "no-trailing-spaces": "warn",
@@ -64,6 +64,8 @@ const jsConfig = {
     "no-new-wrappers": "error",
     "no-restricted-globals": "error",
     "no-return-assign": "warn",
+    "@typescript-eslint/no-explicit-any": "off", // any 허용
+    "@typescript-eslint/no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }], // 'React' 사용 안해도 경고하지 않도록 설정
   },
   settings: {
     react: {
