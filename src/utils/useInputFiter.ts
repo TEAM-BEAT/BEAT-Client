@@ -15,5 +15,9 @@ export const phoneNumberFilter = (value: string) => {
 
 export const priceFilter = (value: string) => {
   const numericValue = numericFilter(value);
-  return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (!numericValue) {
+    return "";
+  }
+
+  return numericValue.replace(/\d(?=(\d{3})+$)/g, "$&,");
 };
