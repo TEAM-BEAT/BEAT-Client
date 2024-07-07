@@ -34,7 +34,7 @@
       "@routes/*": ["src/routes/*"],
       "@stores/*": ["src/stores/*"],
       "@styles/*": ["src/styles/*"],
-      "@types/*": ["src/types/*"],
+      "@typings/*": ["src/typings/*"],
       "@utils/*": ["src/utils/*"]
     }
   },
