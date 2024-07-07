@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import TextField from "./TextField";
-import { numericFilter, phoneNumberFilter, priceFilter } from "../../../../utils/useInputFiter";
+import { numericFilter, phoneNumberFilter, priceFilter } from "../../../../utils/useInputFilter";
 
 const meta = {
   title: "TextField",

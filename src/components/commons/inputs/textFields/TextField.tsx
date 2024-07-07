@@ -1,7 +1,7 @@
 import { ChangeEvent, InputHTMLAttributes, useState } from "react";
-import * as S from "./TextField.style";
+import * as S from "./TextField.styled";
 
-export interface TextFieldPropsTypes extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   maxLength?: number;
   placeholder: string;
   narrow?: false | true;
@@ -9,7 +9,7 @@ export interface TextFieldPropsTypes extends InputHTMLAttributes<HTMLInputElemen
   filter?: (value: string) => string;
 }
 
-const TextField = ({ maxLength, placeholder, narrow, unit, filter }: TextFieldPropsTypes) => {
+const TextField = ({ maxLength, placeholder, narrow, unit, filter }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
   const [inputValue, setInputValue] = useState("");
   const [inputCount, setInputCount] = useState(0);

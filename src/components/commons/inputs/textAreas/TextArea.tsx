@@ -1,12 +1,12 @@
 import { ChangeEvent, TextareaHTMLAttributes, useState } from "react";
-import * as S from "./TextArea.style";
+import * as S from "./TextArea.styled";
 
-export interface TextAreaPropsTypes extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   maxLength?: number;
   placeholder: string;
 }
 
-const TextArea = ({ maxLength, placeholder }: TextAreaPropsTypes) => {
+const TextArea = ({ maxLength, placeholder }: TextAreaProps) => {
   const [inputValue, setInputValue] = useState("");
   const [inputCount, setInputCount] = useState(0);
   const handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {

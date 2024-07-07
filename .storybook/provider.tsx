@@ -11,7 +11,6 @@ interface ProviderProps {
 export const Provider = ({ children }: ProviderProps) => {
   return (
     <ThemeProvider theme={theme}>
-      {" "}
       <GlobalStyle />
       {children}
     </ThemeProvider>

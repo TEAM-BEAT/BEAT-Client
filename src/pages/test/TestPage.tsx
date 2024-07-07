@@ -1,6 +1,6 @@
 import TextArea from "@components/commons/inputs/textAreas/TextArea";
 import TextField from "@components/commons/inputs/textFields/TextField";
-import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFiter";
+import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 
 const TestPage = () => {
   return (
