@@ -6,9 +6,11 @@ export const TextFieldLayout = styled.section<{ narrow?: false | true }>`
   position: relative;
   width: ${({ narrow }) => (narrow ? "13.6rem" : "32.7rem")};
 `;
+
 export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
 `;
+
 export const TextFieldInput = styled.input`
   box-sizing: border-box;
   width: 100%;

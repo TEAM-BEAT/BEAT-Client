@@ -38,7 +38,7 @@ const TextField = ({ maxLength, placeholder, narrow, unit, filter }: TextFieldPr
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
-        ></S.TextFieldInput>
+        />
         {!narrow && !unit && inputValue && <S.TextClear onClick={handleClearInput} />}
         {unit && <S.TextUnit>{label}</S.TextUnit>}
       </S.TextFieldWrapper>

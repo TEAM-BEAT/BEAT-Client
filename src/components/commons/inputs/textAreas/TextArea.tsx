@@ -14,7 +14,6 @@ const TextArea = ({ maxLength, placeholder }: TextAreaPropsTypes) => {
     setInputValue(value);
     setInputCount(value.length);
   };
-  console.log(inputValue);
   return (
     <S.TextAreaWrapper>
       <S.TextAreaInput
@@ -22,7 +21,7 @@ const TextArea = ({ maxLength, placeholder }: TextAreaPropsTypes) => {
         onChange={handleOnInput}
         maxLength={maxLength}
         placeholder={placeholder}
-      ></S.TextAreaInput>
+      />
       {maxLength && <S.TextCap>{`${inputCount}/${maxLength}`}</S.TextCap>}
     </S.TextAreaWrapper>
   );
