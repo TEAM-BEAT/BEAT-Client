@@ -1,3 +1,4 @@
+import { Generators } from "@styles/generator";
 import styled, { css } from "styled-components";
 import { ButtonSizeTypes, ButtonVariantTypes } from "./Button";
 
@@ -24,12 +25,8 @@ const height = {
 };
 
 export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  ${Generators.flexGenerator("row", "center", "center")};
   ${({ theme }) => theme.fonts["body2-normal-semi"]};
-
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
   ${({ $size }) =>
