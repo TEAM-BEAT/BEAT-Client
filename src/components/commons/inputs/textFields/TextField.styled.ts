@@ -1,6 +1,6 @@
+import { IconTextfiedlDelete } from "@assets/svgs";
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
-import { IconTextfiedlDelete } from "@assets/svgs";
 
 export const TextFieldLayout = styled.section<{ narrow?: false | true }>`
   position: relative;
@@ -53,8 +53,6 @@ export const TextUnit = styled.p`
 export const TextCap = styled.p`
   ${Generators.flexGenerator("row", "center", "end")}
 
-  position: absolute;
-  top: 4.8rem;
   width: 100%;
   margin: 0;
   margin-top: 0.6rem;

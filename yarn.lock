@@ -5435,6 +5435,7 @@ __metadata:
     eslint-plugin-storybook: "npm:^0.8.0"
     globals: "npm:^15.6.0"
     husky: "npm:^8.0.0"
+    jotai: "npm:^2.8.4"
     lint-staged: "npm:^15.2.7"
     postcss: "npm:^8.4.38"
     postcss-scss: "npm:^4.0.9"
@@ -9007,6 +9008,21 @@ __metadata:
   bin:
     jake: bin/cli.js
   checksum: 10c0/dda972431a926462f08fcf583ea8997884216a43daa5cce81cb42e7e661dc244f836c0a802fde23439c6e1fc59743d1c0be340aa726d3b17d77557611a5cd541
+  languageName: node
+  linkType: hard
+
+"jotai@npm:^2.8.4":
+  version: 2.8.4
+  resolution: "jotai@npm:2.8.4"
+  peerDependencies:
+    "@types/react": ">=17.0.0"
+    react: ">=17.0.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10c0/32bd3a41ea9de2f1a17dc179707a37d4c470a44973d8e48dbc8d5284fbf6333b678a203b10216049ab7e62ca34465cf3c765f64ed54cb0ef470246309415ff0f
   languageName: node
   linkType: hard
 

@@ -39,8 +39,6 @@ export const TextAreaInput = styled.textarea`
 export const TextCap = styled.p`
   ${Generators.flexGenerator("row", "center", "end")}
 
-  position: absolute;
-  top: 12.9rem;
   width: 100%;
   margin: 0;
   margin-top: 0.6rem;
