@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { SVGProps } from "react";
-const SvgLogo = (props: SVGProps<SVGSVGElement>) => (
+const SvgIconLogo = (props: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 73 30" {...props}>
     <g fill="#fff" stroke="#BFBFBF">
       <path d="m43.944 29.172.12.328h5.661l-.258-.678-7.603-20-.123-.322h-5.484l-.122.322-7.602 20-.258.678h5.662l.12-.328 1.51-4.131 6.256-1.648zm-6.518-9.165 1.564-4.283 1.306 3.532z" />
@@ -9,4 +9,4 @@ const SvgLogo = (props: SVGProps<SVGSVGElement>) => (
     </g>
   </svg>
 );
-export default SvgLogo;
+export default SvgIconLogo;
