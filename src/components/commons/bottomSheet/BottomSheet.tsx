@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import * as S from "../bottomSheet/BottomSheetStyle";
+import * as S from "./BottomSheet.styled";
 
 export interface BottomSheetPropType {
   children?: ReactNode;

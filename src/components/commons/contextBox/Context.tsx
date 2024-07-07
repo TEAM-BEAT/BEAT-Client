@@ -1,4 +1,4 @@
-import * as S from "./ContextStyle";
+import * as S from "./Context.styled";
 
 export interface contextPropsTypes {
   subTitle: string;

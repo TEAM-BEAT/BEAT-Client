@@ -1,6 +1,6 @@
 import React from "react";
 
-import * as S from "./ContextBoxStyle";
+import * as S from "./ContextBox.styled";
 import { contextBoxPropsTypes } from "../../../types/contextBoxPropsTypes";
 
 const ContextBox = ({

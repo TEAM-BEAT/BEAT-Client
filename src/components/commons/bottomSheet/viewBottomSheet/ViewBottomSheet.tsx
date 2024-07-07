@@ -1,4 +1,4 @@
-import * as S from "./ViewBottomSheetStyle";
+import * as S from "./ViewBottomSheet.styled";
 
 import BottomSheet from "../BottomSheet";
 import ContextBox from "@components/commons/contextBox/ContextBox";

@@ -1,4 +1,4 @@
-import * as S from "./PhoneNumberStyle";
+import * as S from "./PhoneNumber.styled";
 
 interface PhoneNumPropsTypes {
   phone?: string;

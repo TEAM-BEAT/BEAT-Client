@@ -1,8 +1,7 @@
-import * as S from "./ActionBottomSheetStyle";
+import * as S from "./ActionBottomSheet.styled";
 
 import BottomSheet from "../BottomSheet";
 import ContextBox from "@components/commons/contextBox/ContextBox";
-import PhoneNumber from "./phoneNumber/PhoneNumber";
 import { ReactNode } from "react";
 
 interface actionBottomSheetPropsTypes {
