@@ -1,7 +1,8 @@
-import { ChangeEvent, InputHTMLAttributes, useState } from "react";
+import { ChangeEvent, InputHTMLAttributes } from "react";
 import * as S from "./TextField.styled";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  onChangeValue: (value: string) => void;
   maxLength?: number;
   placeholder: string;
   narrow?: false | true;
@@ -9,40 +10,49 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   filter?: (value: string) => string;
 }
 
-const TextField = ({ maxLength, placeholder, narrow, unit, filter }: TextFieldProps) => {
+const TextField = ({
+  value,
+  onChangeValue,
+  maxLength,
+  placeholder,
+  narrow,
+  unit,
+  filter,
+  ...rest
+}: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
-  const [inputValue, setInputValue] = useState("");
-  const [inputCount, setInputCount] = useState(0);
 
   // 값 입력될 떄
   const handleOnInput = (e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+    let inputValue = e.target.value;
     if (filter) {
-      value = filter(value);
+      inputValue = filter(inputValue);
     }
-    setInputValue(value);
-    setInputCount(value.length);
+    if (maxLength && inputValue.length > maxLength) {
+      inputValue = inputValue.slice(0, maxLength);
+    }
+    onChangeValue(inputValue);
   };
 
   // 값 지울 때
   const handleClearInput = () => {
-    setInputValue("");
-    setInputCount(0);
+    onChangeValue("");
   };
 
   return (
     <S.TextFieldLayout narrow={narrow}>
       <S.TextFieldWrapper>
         <S.TextFieldInput
-          value={inputValue}
+          {...rest}
+          value={value}
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
         />
-        {!narrow && !unit && inputValue && <S.TextClear onClick={handleClearInput} />}
+        {!narrow && !unit && value && <S.TextClear onClick={handleClearInput} />}
         {unit && <S.TextUnit>{label}</S.TextUnit>}
       </S.TextFieldWrapper>
-      {maxLength && <S.TextCap>{`${inputCount}/${maxLength}`}</S.TextCap>}
+      {maxLength && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
     </S.TextFieldLayout>
   );
 };
