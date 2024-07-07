@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import Navigation from "../navigation/Navigation";
+import Navigation from "../commons/navigation/Navigation";
 
 const Layout = () => {
   return (

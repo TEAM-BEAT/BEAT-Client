@@ -1,4 +1,4 @@
-import Layout from "@components/commons/layout/Layout";
+import Layout from "@components/layout/Layout";
 import Apage from "@pages/APage/Apage";
 import Book from "@pages/book/Book";
 import Lookup from "@pages/lookup/Lookup";
