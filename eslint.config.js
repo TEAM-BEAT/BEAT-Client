@@ -1,5 +1,5 @@
-import { createRequire } from "module";
 import globals from "globals";
+import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 
@@ -37,7 +37,7 @@ const jsConfig = {
     "no-console": "warn",
     "no-extra-semi": "error",
     "no-unused-expressions": "error",
-    indent: ["error", 2],
+    indent: ["error", 2, { SwitchCase: 1, ignoredNodes: ["PropertyDefinition"] }],
     semi: ["warn", "always"],
     "no-undef": "error",
     "no-trailing-spaces": "warn",
