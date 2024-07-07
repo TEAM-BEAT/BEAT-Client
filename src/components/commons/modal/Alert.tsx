@@ -1,21 +1,18 @@
+import useModal from "@hooks/useModal";
 import { alertAtom } from "@stores/modal";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import ModalTextBox from "./components/ModalTextBox";
 import ModalWrapper from "./components/ModalWrapper";
 
 const Alert = () => {
-  const [alert, setAlert] = useAtom(alertAtom);
+  const alert = useAtomValue(alertAtom);
   const { isOpen, title, subTitle, okText, okCallback } = alert;
+
+  const { closeAlert } = useModal();
 
   const handleOk = () => {
     okCallback?.();
-    setAlert({
-      isOpen: false,
-      title: "",
-      subTitle: "",
-      okText: "",
-      okCallback: () => {},
-    });
+    closeAlert();
   };
 
   if (isOpen) {

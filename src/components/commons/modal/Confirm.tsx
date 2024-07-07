@@ -1,33 +1,24 @@
+import useModal from "@hooks/useModal";
 import { confirmAtom } from "@stores/modal";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import ModalTextBox from "./components/ModalTextBox";
 import ModalWrapper from "./components/ModalWrapper";
 import * as S from "./components/ModalWrapper.styled";
 
 const Confirm = () => {
-  const [confirm, setConfirm] = useAtom(confirmAtom);
+  const confirm = useAtomValue(confirmAtom);
   const { isOpen, title, subTitle, okText, okCallback, noText, noCallback } = confirm;
 
-  const resetConfirm = () => {
-    setConfirm({
-      isOpen: false,
-      title: "",
-      subTitle: "",
-      okText: "",
-      okCallback: () => {},
-      noText: "",
-      noCallback: () => {},
-    });
-  };
+  const { closeConfirm } = useModal();
 
   const handleOk = () => {
     okCallback?.();
-    resetConfirm();
+    closeConfirm();
   };
 
   const handleNo = () => {
     noCallback?.();
-    resetConfirm();
+    closeConfirm();
   };
 
   if (isOpen) {
