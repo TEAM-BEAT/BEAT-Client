@@ -8,7 +8,7 @@ export const ChipWrapper = styled.div<{ color?: ChipsColorTypes }>`
   padding: 0.9rem 1.2rem;
 
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 2rem;
 
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
 
@@ -39,6 +39,6 @@ export const ChipWrapper = styled.div<{ color?: ChipsColorTypes }>`
 `;
 
 export const ChipIcon = styled.span`
-  width: 16px;
-  height: 16px;
+  width: 1.6rem;
+  height: 1.6rem;
 `;
