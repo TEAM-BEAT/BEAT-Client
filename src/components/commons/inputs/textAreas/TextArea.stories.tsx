@@ -16,7 +16,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const Template = (args) => {
+const Template = (args: any) => {
   const [value, setValue] = useState(args.value);
 
   return <TextArea {...args} value={value} onChangeValue={setValue} />;
