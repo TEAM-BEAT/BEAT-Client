@@ -1,5 +1,5 @@
 import * as S from "./ContextBox.styled";
-import { contextBoxProps } from "src/types/contextBoxProps";
+import { contextBoxProps } from "@typings/contextBoxProps";
 
 const ContextBox = ({
   customAlignItems = "flex-start",

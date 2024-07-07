@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
-
-import { contextBoxStyle } from "../../../types/contextBoxProps";
+import { contextBoxStyle } from "@typings/contextBoxProps";
 
 export const ContextBoxWrapper = styled.section`
   width: auto;
