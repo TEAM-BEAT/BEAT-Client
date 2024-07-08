@@ -8,7 +8,6 @@ const ActionBottomSheetTest = () => {
   return (
     <Test>
       <h1>Test Page</h1>
-      <Test>Test Page</Test>
       <ActionBottomSheet
         title="title"
         subTitle="sub title"
@@ -29,5 +28,8 @@ const ActionBottomSheetTest = () => {
 export default ActionBottomSheetTest;
 
 const Test = styled.div`
+  width: 37.5rem;
+  height: 66.7rem;
+
   background-color: white;
 `;

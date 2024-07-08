@@ -8,7 +8,6 @@ const ViewBottomSheetTest = () => {
   return (
     <Test>
       <h1>Test Page</h1>
-      <Test>Test Page</Test>
       <ViewBottomSheet title="title" boxTitle="공연 제목" boxTitleColor="pink_200">
         <Context isDate={true} subTitle="날짜" date="20XX. XX. XX" time="XX:XX" />
         <Context subTitle="가격" text="100,000원 (2매)" />
@@ -29,5 +28,8 @@ const ViewBottomSheetTest = () => {
 export default ViewBottomSheetTest;
 
 const Test = styled.div`
+  width: 37.5rem;
+  height: 66.7rem;
+
   background-color: white;
 `;

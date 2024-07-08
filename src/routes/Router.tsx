@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   //     path: "/C",
   //     element: <CPage />,
   //   },
-  { path: "/testpage", element: <ViewBottomSheetTest /> },
+  { path: "/testpage", element: <ActionBottomSheetTest /> },
   //   ...
 ]);
 export default router;

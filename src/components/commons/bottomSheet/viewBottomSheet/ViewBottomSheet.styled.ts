@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { BoxTitleStyle, BoxDividerStyle } from "@typings/contextBoxProps";
 
 export const ViewBottomSheetWrapper = styled.section`
-  display: flex;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
 `;
 
 export const BoxTitle = styled.h1<BoxTitleStyle>`
