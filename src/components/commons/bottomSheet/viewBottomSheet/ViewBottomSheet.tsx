@@ -3,7 +3,7 @@ import BottomSheet from "@components/commons/bottomSheet/BottomSheet";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ContextBox from "@components/commons/contextBox/ContextBox";
 
-import React, { ReactNode, Children, isValidElement } from "react";
+import { ReactNode, Children, isValidElement } from "react";
 
 interface ViewBottomSheetProps {
   title?: string;

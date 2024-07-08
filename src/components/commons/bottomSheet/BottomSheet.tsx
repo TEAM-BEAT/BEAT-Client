@@ -1,8 +1,7 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import * as S from "./BottomSheet.styled";
 
 export interface BottomSheetPropType {
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children?: ReactNode;
   title?: string;
 }
