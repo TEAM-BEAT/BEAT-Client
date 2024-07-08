@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { BoxTitleStyle, BoxDividerStyle } from "@typings/contextBoxProps";
 
 export const ViewBottomSheetWrapper = styled.section`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   z-index: 1;
 `;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IcomCopy } from "@assets/svgs";
 
 export const ActionBottomSheetWrapper = styled.section`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: auto;
 `;
