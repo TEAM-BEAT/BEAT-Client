@@ -16,6 +16,12 @@ const TestPage = () => {
   const handleChangeInputArea = (value: string) => {
     setInputAreaValue(value);
   };
+  const onMinusClick = () => {
+    setRound((prev) => prev - 1);
+  };
+  const onPlusClick = () => {
+    setRound((prev) => prev + 1);
+  };
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -41,7 +47,7 @@ const TestPage = () => {
         />
         <Chip label="테스트" />
       </div>
-      <Stepper max={3} round={round} setRound={setRound} />
+      <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
     </div>
   );
 };

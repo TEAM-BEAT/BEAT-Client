@@ -1,19 +1,23 @@
+import { useState } from "react";
 import * as S from "./Stepper.styled";
 import { IconMinus, IconPlus } from "@assets/svgs";
 
 export interface StepperProps {
   max: number;
   round: number;
-  setRound: (round: number) => void;
+  onMinusClick: () => void;
+  onPlusClick: () => void;
 }
 
-const Stepper = ({ round, max, setRound }: StepperProps) => {
+const Stepper = ({ round, max, onMinusClick, onPlusClick }: StepperProps) => {
+  const [num, setNum] = useState(round);
   return (
     <S.StepperWrapper>
       <S.StepperBtn
         disabled={round === 1}
         onClick={() => {
-          setRound(round - 1);
+          setNum((prev) => prev - 1);
+          onMinusClick();
         }}
       >
         <IconMinus />
@@ -22,7 +26,8 @@ const Stepper = ({ round, max, setRound }: StepperProps) => {
       <S.StepperBtn
         disabled={max === round}
         onClick={() => {
-          setRound(round + 1);
+          setNum((prev) => prev + 1);
+          onPlusClick();
         }}
       >
         <IconPlus />

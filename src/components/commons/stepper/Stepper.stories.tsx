@@ -16,9 +16,16 @@ export default meta;
 type Story = StoryObj<StepperProps>;
 
 const Template: StoryFn<StepperProps> = (args) => {
-  const [round, setRound] = useState(args.round);
+  const [round, setRound] = useState(1);
 
-  return <Stepper {...args} round={round} setRound={setRound} />;
+  const onMinusClick = () => {
+    setRound((prev) => prev - 1);
+  };
+  const onPlusClick = () => {
+    setRound((prev) => prev + 1);
+  };
+
+  return <Stepper {...args} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />;
 };
 
 export const Default: Story = Template.bind({});
