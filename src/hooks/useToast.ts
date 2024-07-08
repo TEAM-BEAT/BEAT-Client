@@ -14,7 +14,7 @@ const useToast = () => {
     setTimeout(() => {
       setIsToastVisible(false);
       setIsToastRunning(false);
-    }, 3000);
+    }, 2000);
   };
 
   return { showToast, isToastVisible };
