@@ -1,7 +1,7 @@
 import * as S from "./ViewBottomSheet.styled";
-import BottomSheet from "../BottomSheet";
+import BottomSheet from "@components/commons/bottomSheet/BottomSheet";
+import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ContextBox from "@components/commons/contextBox/ContextBox";
-import Context from "@components/commons/contextBox/Context";
 
 import { ReactNode, Children, isValidElement } from "react";
 
@@ -15,11 +15,11 @@ const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: ViewBottomSheet
   const childrenArray = Children.toArray(children);
 
   const contextChildren = childrenArray.filter(
-    (child) => isValidElement(child) && child.type === Context
+    (child) => isValidElement(child) && child.type !== OuterLayout
   );
 
   const remainingChildren = childrenArray.filter(
-    (child) => !isValidElement(child) || child.type !== Context
+    (child) => !isValidElement(child) || child.type === OuterLayout
   );
 
   return (
