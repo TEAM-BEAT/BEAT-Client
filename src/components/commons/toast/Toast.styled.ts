@@ -1,7 +1,7 @@
 import { Generators } from "@styles/generator";
 import styled, { css, keyframes } from "styled-components";
 
-const toastShow = keyframes`
+const toastAnimation = keyframes`
   0% {
     transform: translateY(100%);
     opacity: 0;
@@ -20,7 +20,7 @@ const toastShow = keyframes`
   }
 `;
 
-const toastAni = css(["", " 2s forwards;"] as any as TemplateStringsArray, toastShow);
+const toastShow = css(["", " 2s forwards;"] as any as TemplateStringsArray, toastAnimation);
 
 interface ToastWrapperProps {
   $isVisible: boolean;
@@ -42,7 +42,7 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
   background-color: ${({ theme }) => theme.colors.gray_900};
   border-radius: 6px;
 
-  animation: ${({ $isVisible }) => $isVisible && toastAni};
+  animation: ${({ $isVisible }) => $isVisible && toastShow};
 `;
 
 export const ToastIcon = styled.span`
