@@ -6,15 +6,19 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import { useState } from "react";
 
 const ViewBottomSheetTest = () => {
-  const [test, setTest] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const onClickModal = () => {
-    setTest((prev) => !prev);
+  const handleSheetOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleSheetClose = () => {
+    setIsOpen(false);
   };
 
   return (
     <Test>
-      <button onClick={onClickModal}>dd</button>
+      <button onClick={handleSheetOpen}>dd</button>
       <h1>Test Page</h1>
       <h1>Test Page</h1>
       <h1>Test Page</h1>
@@ -123,7 +127,7 @@ const ViewBottomSheetTest = () => {
       <h1>Test Page</h1>
       <h1>Test Page</h1>
       <h1>Test Page</h1>
-      <button onClick={onClickModal}>dd</button>
+      <button onClick={handleSheetOpen}>dd</button>
       <h1>Test Page</h1>
       <h1>Test Page</h1>
       <h1>Test Page</h1>
@@ -150,9 +154,14 @@ const ViewBottomSheetTest = () => {
       <h1>Test Page</h1>
       <h1>Test Page</h1>
       <h1>Test Page</h1>
-      <button onClick={onClickModal}>dd</button>
-      {test && (
-        <ViewBottomSheet title="title" boxTitle="공연 제목" boxTitleColor="pink_200">
+      <button onClick={handleSheetOpen}>dd</button>
+      {isOpen && (
+        <ViewBottomSheet
+          onClickOutside={handleSheetClose}
+          title="title"
+          boxTitle="공연 제목"
+          boxTitleColor="pink_200"
+        >
           <Context isDate={true} subTitle="날짜" date="20XX. XX. XX" time="XX:XX" />
           <Context subTitle="가격" text="100,000원 (2매)" />
           <Context subTitle="예매자" text="서지우" />

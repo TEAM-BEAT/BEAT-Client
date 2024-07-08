@@ -4,8 +4,12 @@ import { BoxTitleStyle, BoxDividerStyle } from "@typings/contextBoxProps";
 
 export const ViewBottomSheetWrapper = styled.section`
   position: fixed;
+  top: 0;
   bottom: 0;
-  z-index: 1;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 export const BoxTitle = styled.h1<BoxTitleStyle>`

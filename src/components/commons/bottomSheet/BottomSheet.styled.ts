@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 export const BottomSheetWrapper = styled.section`
-  width: auto;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
 `;
 
 export const BottomSheetLayout = styled.section`

@@ -13,9 +13,16 @@ interface ActionBottomSheetProps
   title?: string;
   subTitle?: string;
   children?: ReactNode;
+  onClickOutside: () => void;
 }
 
-const ActionBottomSheet = ({ title, subTitle, children, ...rest }: ActionBottomSheetProps) => {
+const ActionBottomSheet = ({
+  title,
+  subTitle,
+  onClickOutside,
+  children,
+  ...rest
+}: ActionBottomSheetProps) => {
   const childrenArray = Children.toArray(children);
 
   const innerChildren = childrenArray.filter(
@@ -26,8 +33,12 @@ const ActionBottomSheet = ({ title, subTitle, children, ...rest }: ActionBottomS
     (child) => !isValidElement(child) || child.type === OuterLayout
   );
 
+  const handleWrapperClick = () => {
+    onClickOutside();
+  };
+
   return (
-    <S.ActionBottomSheetWrapper>
+    <S.ActionBottomSheetWrapper onClick={handleWrapperClick}>
       <BottomSheet title={title}>
         <ContextBox {...rest}>
           <S.SubTitle>{subTitle}</S.SubTitle>

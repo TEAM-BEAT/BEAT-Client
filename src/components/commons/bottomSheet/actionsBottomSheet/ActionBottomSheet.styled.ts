@@ -4,8 +4,12 @@ import { IcomCopy } from "@assets/svgs";
 
 export const ActionBottomSheetWrapper = styled.section`
   position: fixed;
+  top: 0;
   bottom: 0;
-  width: auto;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 export const SubTitle = styled.h2`

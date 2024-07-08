@@ -3,19 +3,21 @@ import BottomSheet from "@components/commons/bottomSheet/BottomSheet";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ContextBox from "@components/commons/contextBox/ContextBox";
 
-import { ReactNode, Children, isValidElement } from "react";
+import React, { ReactNode, Children, isValidElement } from "react";
 
 interface ViewBottomSheetProps {
   title?: string;
   boxTitle?: string;
   boxTitleColor?: string;
   children?: ReactNode;
+  onClickOutside: () => void;
 }
 
 const ViewBottomSheet = ({
   title,
   boxTitle,
   boxTitleColor,
+  onClickOutside,
   children,
   ...rest
 }: ViewBottomSheetProps) => {
@@ -29,8 +31,12 @@ const ViewBottomSheet = ({
     (child) => !isValidElement(child) || child.type === OuterLayout
   );
 
+  const handleWrapperClick = () => {
+    onClickOutside();
+  };
+
   return (
-    <S.ViewBottomSheetWrapper>
+    <S.ViewBottomSheetWrapper onClick={handleWrapperClick}>
       <BottomSheet title={title}>
         <ContextBox {...rest}>
           <S.BoxTitle customColor={boxTitleColor}>{boxTitle}</S.BoxTitle>
