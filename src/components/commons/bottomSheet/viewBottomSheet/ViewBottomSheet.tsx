@@ -8,10 +8,17 @@ import { ReactNode, Children, isValidElement } from "react";
 interface ViewBottomSheetProps {
   title?: string;
   boxTitle?: string;
+  boxTitleColor?: string;
   children?: ReactNode;
 }
 
-const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: ViewBottomSheetProps) => {
+const ViewBottomSheet = ({
+  title,
+  boxTitle,
+  boxTitleColor,
+  children,
+  ...rest
+}: ViewBottomSheetProps) => {
   const childrenArray = Children.toArray(children);
 
   const contextChildren = childrenArray.filter(
@@ -25,8 +32,8 @@ const ViewBottomSheet = ({ title, boxTitle, children, ...rest }: ViewBottomSheet
   return (
     <S.ViewBottomSheetWrapper>
       <BottomSheet title={title}>
-        <ContextBox customPadding="1.6rem 1.6rem" {...rest}>
-          <S.BoxTitle customColor="pink_200">{boxTitle}</S.BoxTitle>
+        <ContextBox {...rest}>
+          <S.BoxTitle customColor={boxTitleColor}>{boxTitle}</S.BoxTitle>
           <S.BoxDivider />
           {contextChildren}
         </ContextBox>

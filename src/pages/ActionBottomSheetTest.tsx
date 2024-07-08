@@ -9,7 +9,12 @@ const ActionBottomSheetTest = () => {
     <Test>
       <h1>Test Page</h1>
       <Test>Test Page</Test>
-      <ActionBottomSheet title="title" subTitle="sub title">
+      <ActionBottomSheet
+        title="title"
+        subTitle="sub title"
+        alignItems="center"
+        padding="2rem 2rem 2.4rem 2rem"
+      >
         <PhoneNumber phone="010-XXXX-XXXX" />
         <OuterLayout margin="1.6rem 0 0 0">
           <Button variant="primary" size="xlarge">
