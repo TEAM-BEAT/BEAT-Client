@@ -26,7 +26,30 @@ const height = {
 
 export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   ${Generators.flexGenerator("row", "center", "center")};
-  ${({ theme }) => theme.fonts["body2-normal-semi"]};
+  ${({ $size }) => {
+    switch ($size) {
+      case "xlarge":
+        return css`
+          ${({ theme }) => theme.fonts["body1-normal-semi"]};
+        `;
+      case "large":
+        return css`
+          ${({ theme }) => theme.fonts["body2-normal-semi"]};
+        `;
+      case "medium":
+        return css`
+          ${({ theme }) => theme.fonts["body2-normal-semi"]};
+        `;
+      case "small":
+        return css`
+          ${({ theme }) => theme.fonts["body2-normal-semi"]};
+        `;
+      case "xsmall":
+        return css`
+          ${({ theme }) => theme.fonts["caption1-semi"]};
+        `;
+    }
+  }};
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
   ${({ $size }) =>
@@ -84,6 +107,7 @@ export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
           color: ${({ theme }) => theme.colors.white};
 
           background-color: ${({ theme }) => theme.colors.blue_400};
+          ${({ theme }) => theme.fonts["body1-normal-semi"]};
         `;
     }
   }}
