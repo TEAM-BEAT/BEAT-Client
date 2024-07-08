@@ -14,11 +14,19 @@ const router = createBrowserRouter([
     path: "/modal-test",
     element: <ModalTest />,
   },
+  {
+    path: "/action-bottom-sheet",
+    element: <ActionBottomSheetTest />,
+  },
+  {
+    path: "/view-bottom-sheet",
+    element: <ViewBottomSheetTest />,
+  },
   //   {
   //     path: "/C",
   //     element: <CPage />,
   //   },
-  { path: "/testpage", element: <ActionBottomSheetTest /> },
+  { path: "/testpage", element: <TestPage /> },
   //   ...
 ]);
 export default router;
