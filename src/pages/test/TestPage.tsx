@@ -2,6 +2,7 @@ import { IconTextfiedlDelete } from "@assets/svgs";
 import Chip from "@components/commons/chip/Chip";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import { useState } from "react";
 
@@ -47,6 +48,7 @@ const TestPage = () => {
         />
         <Chip label="테스트" />
       </div>
+      <Spacing marginBottom="3" />
       <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
     </div>
   );
