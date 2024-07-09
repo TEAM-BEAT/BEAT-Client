@@ -8,7 +8,7 @@ export const CustomPicker = styled(DesktopDateTimePicker)`
     height: 4.6rem;
 
     background: ${({ theme }) => theme.colors.gray_900};
-    border: 1px solid ${({ theme }) => theme.colors.gray_700};
+    border: 1px solid ${({ theme }) => theme.colors.gray_400};
     border-radius: 6px;
   }
 

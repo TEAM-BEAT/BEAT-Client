@@ -2,24 +2,37 @@ import { styled } from "@mui/material/styles";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import * as S from "./TimePicker.styled";
 import { useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+
+export interface TimePickerProps {
+  value: Dayjs | null;
+  onChangeValue: (value: Dayjs | null) => void;
+}
 
 const StyledDay = styled(PickersDay)(({ theme }) => ({
   width: "37rem",
   borderRadius: theme.shape.borderRadius,
 }));
 
-const TimePicker = () => {
+const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
   const [open, setOpen] = useState(false);
+  const handleAccept = (newValue: Dayjs | null) => {
+    if (newValue) {
+      onChangeValue(newValue);
+    }
+  };
   return (
     <>
       <S.CustomPicker
         disablePast
         showDaysOutsideCurrentMonth
-        format="YYYY/MM/DD HH:MM"
+        format={"YYYY/MM/DD HH:mm"}
         slots={{
           day: StyledDay,
           openPickerIcon: (props) => <S.CustomOpenPicker open={open} />,
         }}
+        value={value}
+        onAccept={handleAccept}
         slotProps={{
           popper: {
             sx: {
@@ -43,13 +56,17 @@ const TimePicker = () => {
                 width: " 30px",
                 height: "31px",
               },
-              "& .MuiPickersYear-root": {},
+              "& .MuiPickersCalendarHeader-label": {
+                fontSize: "1.3rem",
+              },
               "button.MuiPickersDay-root.Mui-selected": {
                 background: "#FB247F",
               },
+
               "& .MuiMultiSectionDigitalClockSection-item": {
                 width: "30px",
                 height: "20px",
+                fontSize: "1.3rem",
               },
               "& .MuiMultiSectionDigitalClockSection-item.Mui-selected": {
                 background: "#FB247F",
@@ -74,6 +91,9 @@ const TimePicker = () => {
                 display: "flex",
                 alignItems: "center",
                 height: "fit-content",
+              },
+              "& .MuiYearCalendar-root": {
+                width: "21rem",
               },
             },
           },
