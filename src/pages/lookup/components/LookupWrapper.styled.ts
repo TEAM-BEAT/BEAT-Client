@@ -10,7 +10,7 @@ export const LookupContainer = styled.section`
   display: flex;
   gap: 0.8rem;
   width: auto;
-  padding: 2.4rem;
+  padding: 0.8rem 2.4rem;
 `;
 
 // 사진 및 취소하기 버튼

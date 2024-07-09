@@ -1,34 +1,53 @@
 import * as S from "./LookupCard.styled";
 
-const LookupCard = () => {
+const LookupCard = ({ ...item }) => {
+  const createdAt = item.createdAt.slice(0, 10);
+  const createDataArray = createdAt.split("-");
+
+  const performanceDateArray = item.performanceDate.split("-");
+
   return (
     <S.LookupCardWrapper>
-      <S.LookupTitle>Title</S.LookupTitle>
+      <S.LookupTitle>{item.performanceTitle}</S.LookupTitle>
       <S.BoxDivider />
       <S.ContextLayout>
         <S.Context>
-          <S.SubTitle>제목</S.SubTitle>
-          <S.Text>내용</S.Text>
+          <S.SubTitle>예매일</S.SubTitle>
+          <S.Text>
+            {createDataArray[0]}년 {createDataArray[1]}월 {createDataArray[2]}일
+          </S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>제목</S.SubTitle>
-          <S.Text>내용</S.Text>
+          <S.SubTitle>관람일</S.SubTitle>
+          <S.Text>
+            {performanceDateArray[0]}년 {performanceDateArray[1]}월 {performanceDateArray[2]}일
+          </S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>제목</S.SubTitle>
-          <S.Text>내용</S.Text>
+          <S.SubTitle>관람회차</S.SubTitle>
+          <S.Text>{item.scheduleNumber}회차</S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>제목</S.SubTitle>
-          <S.Text>내용</S.Text>
+          <S.SubTitle>공연장소</S.SubTitle>
+          <S.Text>{item.performanceVenue}</S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>제목</S.SubTitle>
-          <S.Text>내용</S.Text>
+          <S.SubTitle>매수</S.SubTitle>
+          <S.Text>{item.purchaseTicketCount}매</S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>제목</S.SubTitle>
-          <S.Text>내용</S.Text>
+          <S.SubTitle>입금상태</S.SubTitle>
+          <S.DepositLayout>
+            {item.paymentStatus ? (
+              <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
+            ) : (
+              <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
+            )}
+            <S.AccountLayout>
+              <S.Account>계좌번호</S.Account>
+              <S.ArrowRightIcon />
+            </S.AccountLayout>
+          </S.DepositLayout>
         </S.Context>
       </S.ContextLayout>
     </S.LookupCardWrapper>

@@ -7,7 +7,15 @@ import LookupWrapper from "./components/LookupWrapper";
 const Lookup = () => {
   return (
     <S.LookupWrapper>
-      {dummyData.length ? <LookupWrapper></LookupWrapper> : <NonExistent></NonExistent>}
+      {dummyData.length ? (
+        <>
+          {dummyData.map((item) => (
+            <LookupWrapper key={item.bookingId} {...item} />
+          ))}
+        </>
+      ) : (
+        <NonExistent></NonExistent>
+      )}
     </S.LookupWrapper>
   );
 };

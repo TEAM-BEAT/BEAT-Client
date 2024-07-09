@@ -3,7 +3,7 @@ import * as S from "./LookupWrapper.styled";
 import Button from "@components/commons/button/Button";
 import LookupCard from "./LookupCard";
 
-const LookupWrapper = () => {
+const LookupWrapper = ({ ...item }) => {
   return (
     <S.LookupLayout>
       <S.LookupContainer>
@@ -13,7 +13,7 @@ const LookupWrapper = () => {
             취소하기
           </Button>
         </S.LookupCardLeft>
-        <LookupCard></LookupCard>
+        <LookupCard {...item}></LookupCard>
       </S.LookupContainer>
     </S.LookupLayout>
   );
