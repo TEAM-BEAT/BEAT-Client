@@ -3,6 +3,7 @@ import Chip from "@components/commons/chip/Chip";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
 import Stepper from "@components/commons/stepper/Stepper";
+import TimePicker from "@components/commons/timepicker/TimePicker";
 import { useState } from "react";
 
 const TestPage = () => {
@@ -48,6 +49,8 @@ const TestPage = () => {
         <Chip label="테스트" />
       </div>
       <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
+
+      <TimePicker />
     </div>
   );
 };
