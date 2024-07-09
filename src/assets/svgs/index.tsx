@@ -3,6 +3,8 @@ export { default as IcomCopy } from "./IcomCopy";
 export { default as IconArrowLeft } from "./IconArrowLeft";
 export { default as IconArrowRight } from "./IconArrowRight";
 export { default as IconCheck } from "./IconCheck";
+export { default as IconCheckboxSelectedOn } from "./IconCheckboxSelectedOn";
+export { default as IconCheckboxUnselectedOn } from "./IconCheckboxUnselectedOn";
 export { default as IconChevronBack } from "./IconChevronBack";
 export { default as IconLogo } from "./IconLogo";
 export { default as IconMinus } from "./IconMinus";
