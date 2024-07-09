@@ -8,6 +8,7 @@ import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
+import NonMbLookup from "@pages/NonMbLookup/NonMbLookup";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "a", element: <Apage /> },
-      { path: "lookup", element: <Lookup /> },
+      { path: "lookup", element: <NonMbLookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
       { path: "book", element: <Book /> },
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
+  },
+  {
+    path: "/NonMb-Lookup",
+    element: <NonMbLookup />,
   },
   //   {
   //     path: "/C",
