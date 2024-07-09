@@ -25,6 +25,8 @@ const Book = () => {
         description={detail.performanceDescription}
         attentionNote={detail.performanceAttentionNote}
         contact={detail.performanceContact}
+        teamName={detail.performanceTeamName}
+        castList={detail.castList}
       />
     </div>
   );

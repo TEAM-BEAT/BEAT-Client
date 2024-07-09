@@ -6,13 +6,22 @@ import TabBar from "../tabBar/TabBar";
 import * as S from "./Content.styled";
 import IntroduceContainer from "./IntroduceContainer";
 
+export type CastListType = {
+  castId: number;
+  castName: string;
+  castRole: string;
+  castPhoto: string;
+};
+
 interface ContentProps {
   description: string;
   attentionNote: string;
   contact: string;
+  teamName: string;
+  castList: CastListType[];
 }
 
-const Content = ({ description, attentionNote, contact }: ContentProps) => {
+const Content = ({ description, attentionNote, contact, teamName, castList }: ContentProps) => {
   const [activeTab, setActiveTab] = useState<TabType>(TAB_TYPE.PERFORMANCE);
 
   const handleTabClick = (tab: TabType) => {
@@ -30,7 +39,7 @@ const Content = ({ description, attentionNote, contact }: ContentProps) => {
             contact={contact}
           />
         )}
-        {activeTab === TAB_TYPE.MAKER && <MakerIntroduce />}
+        {activeTab === TAB_TYPE.MAKER && <MakerIntroduce teamName={teamName} castList={castList} />}
       </IntroduceContainer>
     </S.IntroduceWrapper>
   );
