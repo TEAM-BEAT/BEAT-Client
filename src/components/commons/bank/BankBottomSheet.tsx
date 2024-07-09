@@ -4,10 +4,12 @@ import * as S from "./Bank.styled";
 import BankBtn from "./BankBtn";
 
 export interface BankBottomSheetProps {
-  onClick: () => void;
+  value: string;
+  onBankClick: (value: string) => void;
+  onOutClick: () => void;
 }
 
-const BankBottomSheet = ({ onClick }: BankBottomSheetProps) => {
+const BankBottomSheet = ({ value, onBankClick, onOutClick }: BankBottomSheetProps) => {
   return (
     <>
       <S.BankLayout>
@@ -15,11 +17,15 @@ const BankBottomSheet = ({ onClick }: BankBottomSheetProps) => {
         <Spacing marginBottom={"3.2"} />
         <S.BankWrapper>
           {BANK_LIST.map((bank, index) => {
-            return <BankBtn key={index}>{bank.name}</BankBtn>;
+            return (
+              <BankBtn key={index} onClick={onBankClick}>
+                {bank.name}
+              </BankBtn>
+            );
           })}
         </S.BankWrapper>
       </S.BankLayout>
-      <S.OutLayout onClick={onClick} />
+      <S.OutLayout onClick={onOutClick} />
     </>
   );
 };
