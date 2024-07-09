@@ -1,45 +1,32 @@
 import styled from "styled-components";
 
-export const BannerWrapper = styled.div<{ $image: string }>`
-  width: 37.5rem;
-  height: 7.2rem;
-
-  /* 사용자가 입력한 이미지 background 적당히 잘라서 사용하도록 */
-  background-image: url(${({ $image }) => $image});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-`;
-
-export const BannerTextLayout = styled.div`
+export const BodyWrapper = styled.main`
   display: flex;
-  flex-shrink: 0;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  width: 37.5rem;
-  height: 7.2rem;
-
-  background: rgb(0 0 0 / 60%);
+  width: 37.4rem;
+  height: auto;
+  min-height: 60.8rem; /* 60.8rem(body의 높이) +  5.6rem(헤더의 높이) */
+  padding: 2.4rem;
 `;
 
-export const BannerTextBox = styled.div`
+export const BodyLayout = styled.section`
   display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 2.4rem;
+  align-items: flex-start;
+`;
+
+export const LayoutHeaderBox = styled.div`
+  display: flex;
+  gap: 3.2rem;
+  align-items: flex-end;
+  align-self: stretch;
+`;
+
+export const LayoutFilterBox = styled.div`
+  display: flex;
+  gap: 0.6rem;
   align-items: center;
-  justify-content: space-between;
-  width: 32.7rem;
-`;
-
-export const BannerTitleText = styled.span`
-  color: ${({ theme }) => theme.colors.white};
-  ${({ theme }) => theme.fonts.heading4};
-`;
-
-export const BannerStateTextBox = styled.span`
-  color: ${({ theme }) => theme.colors.white};
-  ${({ theme }) => theme.fonts["body1-normal-semi"]};
-`;
-
-export const CountTextSpan = styled.span`
-  color: ${({ theme }) => theme.colors.pink_400};
-  ${({ theme }) => theme.fonts["body1-normal-semi"]};
 `;

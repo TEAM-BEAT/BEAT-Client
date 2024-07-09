@@ -1,21 +1,27 @@
-import * as S from "./TicketHolderList.styled";
+import { useState } from "react";
+import Banner from "./components/banner/Banner";
+import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
+import * as S from "./TicketHolderList.styled";
 const TicketHolderList = () => {
+  const [reservedCount, setReservedCount] = useState(0);
+  //이거 판매 완료되었는지 여부에 따라서 렌더링하는거 다르게 할지 물어보기, 색깔도 어떻게 할 지 물어보기
+  const [isOutdated, setIsOutdated] = useState(false);
+
   return (
-    <S.BannerWrapper $image={eximg}>
-      <S.BannerTextLayout>
-        <S.BannerTextBox>
-          <S.BannerTextBox>
-            <S.BannerTitleText>실리카겔 락앤롤</S.BannerTitleText>
-            <S.BannerStateTextBox>
-              현재
-              <S.CountTextSpan> 17매 </S.CountTextSpan>
-              예매됨
-            </S.BannerStateTextBox>
-          </S.BannerTextBox>
-        </S.BannerTextBox>
-      </S.BannerTextLayout>
-    </S.BannerWrapper>
+    <>
+      <Banner image={eximg} reservedCount={reservedCount} isOutdated={isOutdated} />
+      <S.BodyWrapper>
+        <S.BodyLayout>
+          <S.LayoutHeaderBox>
+            <S.LayoutFilterBox>
+              <NarrowDropDown />
+              <NarrowDropDown />
+            </S.LayoutFilterBox>
+          </S.LayoutHeaderBox>
+        </S.BodyLayout>
+      </S.BodyWrapper>
+    </>
   );
 };
 

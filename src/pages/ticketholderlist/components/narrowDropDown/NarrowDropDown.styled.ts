@@ -42,11 +42,14 @@ export const SvgIcon = styled(SvgIconChevronBack)<{ $rotate: boolean }>`
 `;
 
 export const DropdownContentWrapper = styled.div<{ $show: boolean }>`
+  position: absolute;
+  top: 4.06rem; /* 버튼의 높이 3.26rem + 간격 0.8rem */
+  z-index: 1;
   display: ${(props) => (props.$show ? "flex" : "none")};
   flex-shrink: 0;
   gap: 0.6rem;
   align-items: center;
-  width: 10.2rem;
+  width: 9.2rem;
   margin-top: 0.8rem;
   padding: 0.8rem 0.8rem 0.8rem 1.2rem;
 
