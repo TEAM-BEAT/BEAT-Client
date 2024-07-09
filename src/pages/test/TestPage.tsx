@@ -2,17 +2,25 @@ import { IconTextfiedlDelete } from "@assets/svgs";
 import Chip from "@components/commons/chip/Chip";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import Stepper from "@components/commons/stepper/Stepper";
 import { useState } from "react";
 
 const TestPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputAreaValue, setInputAreaValue] = useState("");
+  const [round, setRound] = useState(1);
 
   const handleChangeInput = (value: string) => {
     setInputValue(value);
   };
   const handleChangeInputArea = (value: string) => {
     setInputAreaValue(value);
+  };
+  const onMinusClick = () => {
+    setRound((prev) => prev - 1);
+  };
+  const onPlusClick = () => {
+    setRound((prev) => prev + 1);
   };
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
@@ -39,6 +47,7 @@ const TestPage = () => {
         />
         <Chip label="테스트" />
       </div>
+      <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
     </div>
   );
 };
