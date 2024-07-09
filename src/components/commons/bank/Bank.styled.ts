@@ -7,10 +7,11 @@ import styled from "styled-components";
 export const BankLayout = styled.section`
   position: fixed;
   bottom: 0;
+  left: 0;
   z-index: 1;
 
   display: block;
-  width: inherit;
+  width: 100%;
   padding: 4rem 2.4rem 4.5rem;
 
   background: ${({ theme }) => theme.colors.gray_800};

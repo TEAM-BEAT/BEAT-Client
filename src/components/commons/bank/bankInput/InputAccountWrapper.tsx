@@ -11,7 +11,7 @@ const InputWrapper = ({ children }: InputAccountWrapperProps) => {
 
   return (
     <S.InputAccountWrapper>
-      <S.InputAccountWrapper>공연료 입금 계좌번호</S.InputAccountWrapper>
+      <S.InputAccountLabel>공연료 입금 계좌번호</S.InputAccountLabel>
       <Spacing marginBottom="2" />
       {childrenArray[0]}
       <Spacing marginBottom="1.2" />
