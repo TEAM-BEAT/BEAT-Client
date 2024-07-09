@@ -1,4 +1,5 @@
 import { IconCheck, IconTextfiedlDelete } from "@assets/svgs";
+import InputAccountWrapper from "@components/commons/bank/bankInput/InputAccountWrapper";
 import Button from "@components/commons/button/Button";
 import Chip from "@components/commons/chip/Chip";
 import TextArea from "@components/commons/input/textArea/TextArea";
@@ -63,6 +64,7 @@ const TestPage = () => {
       <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
         클립보드에 복사되었습니다!
       </Toast>
+      <InputAccountWrapper />
     </div>
   );
 };

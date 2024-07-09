@@ -3,11 +3,11 @@ import Spacing from "../spacing/Spacing";
 import * as S from "./Bank.styled";
 import BankBtn from "./BankBtn";
 
-export interface BankProps {
+export interface BankBottomSheetProps {
   onClick: () => void;
 }
 
-const Bank = ({ onClick }: BankProps) => {
+const BankBottomSheet = ({ onClick }: BankBottomSheetProps) => {
   return (
     <>
       <S.BankLayout>
@@ -24,4 +24,4 @@ const Bank = ({ onClick }: BankProps) => {
   );
 };
 
-export default Bank;
+export default BankBottomSheet;
