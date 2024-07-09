@@ -21,7 +21,7 @@ export const SHOW_DETAIL_INFO = {
   performanceVenue: "홍대상상마당",
   performanceDescription: "이 공연은 어떤 공연이다 어쩌구",
   performanceAttentionNote: "이런 점 유의바람!",
-  performanceContact: "01000000000",
+  performanceContact: "010-0000-0000",
   performanceTeamName: "비트밴드",
   castList: [
     {
@@ -61,3 +61,10 @@ export const SHOW_TYPE = {
 } as const;
 
 export type ShowTypes = (typeof SHOW_TYPE)[keyof typeof SHOW_TYPE];
+
+export const TAB_TYPE = {
+  PERFORMANCE: "performance",
+  MAKER: "maker",
+} as const;
+
+export type TabType = (typeof TAB_TYPE)[keyof typeof TAB_TYPE];
