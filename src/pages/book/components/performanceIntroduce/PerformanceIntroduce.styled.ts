@@ -46,6 +46,8 @@ export const Toggle = styled.span`
   width: 2.4rem;
   height: 2.4rem;
 
+  cursor: pointer;
+
   path {
     fill: ${({ theme }) => theme.colors.gray_400};
   }
@@ -56,6 +58,8 @@ export const Contact = styled.p`
   padding: 1.2rem 1.2rem 1.2rem 0;
   text-decoration-line: underline;
 
-  ${({ theme }) => theme.fonts["body2-long"]};
   color: ${({ theme }) => theme.colors.white};
+
+  ${({ theme }) => theme.fonts["body2-long"]};
+  cursor: pointer;
 `;
