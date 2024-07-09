@@ -77,6 +77,10 @@ const Navigation = () => {
         setTitle("내가 등록한 공연");
         setSubText("상태 저장");
         break;
+      case "/myregisteredshow":
+        setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);
+        setTitle("내가 등록한 공연");
+        break;
       default:
         setTitle("");
     }

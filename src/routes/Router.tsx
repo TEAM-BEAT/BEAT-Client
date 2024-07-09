@@ -5,6 +5,7 @@ import Book from "@pages/book/Book";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
+import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       { path: "book", element: <Book /> },
       { path: "manage", element: <Manage /> },
       { path: "ticketholderlist", element: <TicketHolderList /> },
-
+      { path: "myregisteredshow", element: <MyRegisterdShow /> },
       // ... other pages
     ],
   },
