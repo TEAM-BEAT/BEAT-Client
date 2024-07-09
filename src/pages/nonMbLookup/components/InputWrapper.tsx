@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
-import { phoneNumberFilter } from "@utils/useInputFilter";
+import { numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
 
 interface InputProps {
   btnOn: () => void;
@@ -92,6 +92,7 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
         value={birthInputValue}
         onChangeValue={handleChangeBirthInput}
         placeholder="생년월일 앞 6자리"
+        filter={numericFilter}
         maxLength={6}
       />
       <TextField
@@ -107,6 +108,7 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
         value={pwdInputValue}
         onChangeValue={handleChangePwdInput}
         placeholder="비밀번호(숫자 4자리)"
+        filter={numericFilter}
         maxLength={4}
       />
       <S.EyeTest onClick={handlePwd}>버튼 임시 위치!!!!!!!</S.EyeTest>
