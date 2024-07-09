@@ -47,28 +47,29 @@ const Navigation = () => {
   };
 
   useEffect(() => {
-    switch (pathname) {
-      case "/testpage":
+    switch (true) {
+      case pathname === "/testpage":
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE_ICON);
         setTitle("테스트 페이지");
         setSubText("삭제");
         break;
-      case "/":
+      case pathname === "/":
         setHeaderPosition(NAVIGATION_STATE.LOGO_HAMBURGAR);
         break;
-      case "/register":
+      case pathname === "/register":
         // TODO: 상세정보, 미리보기, 완료 따라 position, title 다르게
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);
         break;
-      case "/book":
+      case pathname.startsWith("/book"):
         // TODO: 상세, 예매하기, 완료 따라 position, title 다르게
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);
+        setTitle("공연 예약");
         break;
-      case "/lookup":
+      case pathname === "/lookup":
         // TODO: 회원, 비회원 로그인 여부에 따라 title 다르게
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);
         break;
-      case "/manage":
+      case pathname === "/manage":
         // TODO: 공연목록, 수정, 삭제 따라 position, title, subTitle 다르게
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);
         break;
