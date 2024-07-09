@@ -3,6 +3,8 @@ export { default as IcOutlinePlace } from "./IcOutlinePlace";
 export { default as IcomCopy } from "./IcomCopy";
 export { default as IconArrowLeft } from "./IconArrowLeft";
 export { default as IconArrowRight } from "./IconArrowRight";
+export { default as IconArrowDown } from "./IconArrowDown";
+export { default as IconArrowUp } from "./IconArrowUp";
 export { default as IconCheck } from "./IconCheck";
 export { default as IconLogo } from "./IconLogo";
 export { default as IconMinus } from "./IconMinus";
