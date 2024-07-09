@@ -1,14 +1,34 @@
 import * as S from "./LookupCard.styled";
 
-const LookupCard = ({ ...item }) => {
-  const createdAt = item.createdAt.slice(0, 10);
-  const createDataArray = createdAt.split("-");
+interface LookupCardProps {
+  createdAt: string;
+  performanceDate: string;
+  performanceTitle: string;
+  scheduleNumber: string;
+  performanceVenue: string;
+  purchaseTicketCount: number;
+  paymentStatus: boolean;
+  handleAccount: () => void;
+}
 
-  const performanceDateArray = item.performanceDate.split("-");
+const LookupCard = ({
+  createdAt,
+  performanceDate,
+  performanceTitle,
+  scheduleNumber,
+  performanceVenue,
+  purchaseTicketCount,
+  paymentStatus,
+  handleAccount,
+}: LookupCardProps) => {
+  const createdAtString = createdAt.slice(0, 10);
+  const createDataArray = createdAtString.split("-");
+
+  const performanceDateArray = performanceDate.split("-");
 
   return (
     <S.LookupCardWrapper>
-      <S.LookupTitle>{item.performanceTitle}</S.LookupTitle>
+      <S.LookupTitle>{performanceTitle}</S.LookupTitle>
       <S.BoxDivider />
       <S.ContextLayout>
         <S.Context>
@@ -25,25 +45,25 @@ const LookupCard = ({ ...item }) => {
         </S.Context>
         <S.Context>
           <S.SubTitle>관람회차</S.SubTitle>
-          <S.Text>{item.scheduleNumber}회차</S.Text>
+          <S.Text>{scheduleNumber}회차</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>공연장소</S.SubTitle>
-          <S.Text>{item.performanceVenue}</S.Text>
+          <S.Text>{performanceVenue}</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>매수</S.SubTitle>
-          <S.Text>{item.purchaseTicketCount}매</S.Text>
+          <S.Text>{purchaseTicketCount}매</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
           <S.DepositLayout>
-            {item.paymentStatus ? (
+            {paymentStatus ? (
               <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
             ) : (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
             )}
-            <S.AccountLayout>
+            <S.AccountLayout onClick={handleAccount}>
               <S.Account>계좌번호</S.Account>
               <S.ArrowRightIcon />
             </S.AccountLayout>
