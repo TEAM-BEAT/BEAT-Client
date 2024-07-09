@@ -13,7 +13,7 @@ const MyRegisterdShow = () => {
     navigate("/");
   };
 
-  const [isNothing, setIsNothing] = useState<boolean>(false);
+  const [isNothing, setIsNothing] = useState(false);
 
   return (
     <>
