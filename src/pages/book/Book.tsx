@@ -41,7 +41,7 @@ const Book = () => {
 export default Book;
 
 const FooterContainer = styled.div`
-  position: fixed;
+  position: sticky;
   bottom: 0;
   padding: 2.4rem;
 
