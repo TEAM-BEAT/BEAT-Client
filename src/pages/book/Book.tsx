@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import posterExImg from "src/pages/MyRegisterdShow/constants/silkagel.png";
 import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_DETAIL_INFO } from "./constants";
@@ -13,7 +12,7 @@ const Book = () => {
   return (
     <div>
       <ShowInfo
-        posterImage={posterExImg}
+        posterImage={detail.posterImage}
         title={detail.performanceTitle}
         price={detail.ticketPrice}
         venue={detail.performanceVenue}
@@ -27,6 +26,7 @@ const Book = () => {
         contact={detail.performanceContact}
         teamName={detail.performanceTeamName}
         castList={detail.castList}
+        staffList={detail.staffList}
       />
     </div>
   );
