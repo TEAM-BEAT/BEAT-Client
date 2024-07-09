@@ -1,3 +1,4 @@
+import Button from "@components/commons/button/Button";
 import { useState } from "react";
 import Banner from "./components/banner/Banner";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
@@ -56,8 +57,12 @@ const TicketHolderList = () => {
               )}
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
+
           <span style={{ color: "white" }}>{`현재 눌린 회차 번호 : ${schedule}`}</span>
           <span style={{ color: "white" }}>{`현재 눌린 지불 여부 : ${payment}`}</span>
+          <S.FooterButtonWrapper>
+            <Button>변경내용 저장하기</Button>
+          </S.FooterButtonWrapper>
         </S.BodyLayout>
       </S.BodyWrapper>
     </>

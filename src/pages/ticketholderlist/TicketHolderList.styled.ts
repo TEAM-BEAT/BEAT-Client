@@ -52,3 +52,9 @@ export const ToggleOffIcon = styled(IconToggleOff)<{ $width: string; $height: st
   width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};
 `;
+
+export const FooterButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+`;
