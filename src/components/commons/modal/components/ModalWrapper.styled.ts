@@ -4,7 +4,7 @@ export const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,6 +15,7 @@ export const ModalWrapper = styled.div`
 `;
 
 export const ModalContainer = styled.div`
+  z-index: 30;
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
