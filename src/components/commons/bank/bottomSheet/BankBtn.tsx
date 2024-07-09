@@ -1,4 +1,4 @@
-import * as S from "./Bank.styled";
+import * as S from "../Bank.styled";
 
 export interface BankBtnProps {
   onClick: (value: string) => void;

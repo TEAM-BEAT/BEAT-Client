@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
-import * as S from "../Bank.styled";
+import * as S from "./Bank.styled";
 
 export interface InputBankProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;

@@ -1,6 +1,5 @@
-import { IconArrowLeft, IconNh } from "@assets/svgs";
+import { IconNh } from "@assets/svgs";
 import SvgIconArrowDown from "@assets/svgs/IconArrowDown";
-import { Generators } from "@styles/generator";
 import styled from "styled-components";
 
 // BankBottomSheet

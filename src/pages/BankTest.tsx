@@ -1,8 +1,8 @@
-import BankBottomSheet from "@components/commons/bank/BankBottomSheet";
+import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import InputAccountWrapper from "@components/commons/bank/bankInput/InputAccountWrapper";
-import InputBank from "@components/commons/bank/bankInput/InputBank";
+import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
+import InputBank from "@components/commons/bank/InputBank";
 import { numericFilter } from "@utils/useInputFilter";
 import TextField from "@components/commons/input/textField/TextField";
 

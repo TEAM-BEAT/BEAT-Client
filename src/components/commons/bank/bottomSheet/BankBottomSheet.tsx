@@ -1,6 +1,6 @@
 import { BANK_LIST } from "@constants/bankList";
-import Spacing from "../spacing/Spacing";
-import * as S from "./Bank.styled";
+import Spacing from "../../spacing/Spacing";
+import * as S from "../Bank.styled";
 import BankBtn from "./BankBtn";
 
 export interface BankBottomSheetProps {
