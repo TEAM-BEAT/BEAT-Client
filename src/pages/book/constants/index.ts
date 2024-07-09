@@ -1,0 +1,63 @@
+export const SHOW_DETAIL_INFO = {
+  performanceId: 1,
+  performanceTitle: "비트밴드 정기공연",
+  performancePeriod: "2023.12.31~2024.01.02",
+  scheduleList: [
+    {
+      scheduleId: 1,
+      performanceDate: "2024-07-07T12:34:56.789Z",
+      scheduleNumber: 1,
+    },
+    {
+      scheduleId: 2,
+      performanceDate: "2024-07-08T12:34:56.789Z",
+      scheduleNumber: 2,
+    },
+  ],
+  ticketPrice: 5000,
+  genre: "BAND",
+  posterImage: "포스터이미지 URL",
+  runningTime: 120,
+  performanceVenue: "홍대상상마당",
+  performanceDescription: "이 공연은 어떤 공연이다 어쩌구",
+  performanceAttentionNote: "이런 점 유의바람!",
+  performanceContact: "01000000000",
+  performanceTeamName: "비트밴드",
+  castList: [
+    {
+      castId: 1,
+      castName: "김비트",
+      castRole: "보컬",
+      castPhoto: "김비트 이미지 URL",
+    },
+    {
+      castId: 2,
+      castName: "이비트",
+      castRole: "건반",
+      castPhoto: "이비트 이미지 URL",
+    },
+  ],
+  staffList: [
+    {
+      staffId: 1,
+      staffName: "황혜린",
+      staffRole: "서버",
+      staffPhoto: "스태프 사진 URL",
+    },
+    {
+      staffId: 2,
+      staffName: "정도영",
+      staffRole: "웹",
+      staffPhoto: "스태프 사진 URL",
+    },
+  ],
+};
+
+export const SHOW_TYPE = {
+  BAND: "밴드",
+  DANCE: "댄스",
+  MUSICAL: "연극/뮤지컬",
+  ETC: "기타",
+} as const;
+
+export type ShowTypes = (typeof SHOW_TYPE)[keyof typeof SHOW_TYPE];
