@@ -3,12 +3,12 @@ import styled from "styled-components";
 export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 1.6rem;
 `;
 
 export const Title = styled.h1`
   ${({ theme }) => theme.fonts["heading4"]};
-  color: ${({ theme }) => theme.colors.gray_400};
+  color: ${({ theme }) => theme.colors.gray_0};
 `;
 
 export const MakerInfoContainer = styled.article`
@@ -17,8 +17,16 @@ export const MakerInfoContainer = styled.article`
   gap: 1.6rem;
 `;
 
+export const MakerInfoTitle = styled.h2`
+  color: ${({ theme }) => theme.colors.gray_300};
+
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
 export const TeamPeopleCardWrapper = styled.section`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.3rem 2rem;
+  gap: 1.3rem;
+
+  row-gap: 2rem;
 `;

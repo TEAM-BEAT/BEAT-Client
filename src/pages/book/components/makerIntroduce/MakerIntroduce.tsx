@@ -11,8 +11,9 @@ interface MakerIntroduceProps {
 const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) => {
   return (
     <S.Wrapper>
-      <S.Title>{teamName}의 출연진</S.Title>
+      <S.Title>{teamName}</S.Title>
       <S.MakerInfoContainer>
+        <S.MakerInfoTitle>출연진</S.MakerInfoTitle>
         <S.TeamPeopleCardWrapper>
           {castList.map((cast, i) => (
             <PeopleCard
@@ -27,8 +28,8 @@ const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) 
 
       {staffList.length > 0 && (
         <>
-          <S.Title>{teamName}의 스태프</S.Title>
           <S.MakerInfoContainer>
+            <S.MakerInfoTitle>스태프</S.MakerInfoTitle>
             <S.TeamPeopleCardWrapper>
               {staffList.map((staff, i) => (
                 <PeopleCard

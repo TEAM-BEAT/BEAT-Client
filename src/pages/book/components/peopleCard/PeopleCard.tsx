@@ -38,7 +38,6 @@ export const PeopleCardPhoto = styled.img<{ $imgsrc: string }>`
 export const PeopleCardTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
 `;
 
 export const PeopleCardRole = styled.p`
