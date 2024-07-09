@@ -6,7 +6,7 @@ export const BodyWrapper = styled.main`
   justify-content: center;
   width: 37.4rem;
   height: auto;
-  min-height: 66.4rem; /* 60.8rem(body의 높이) +  5.6rem(헤더의 높이) */
+  min-height: 60.8rem; /* 60.8rem(body의 높이) +  5.6rem(헤더의 높이) */
   padding: 2.4rem;
 `;
 
@@ -60,7 +60,8 @@ export const BodyLayout = styled.section`
   top: 5.6rem; */
 
   /* 그러나, 위의 방식대로라면 부모 요소가 안 늘어나므로 margin 이용으로 변경 */
-  margin-top: 5.6rem;
+
+  /* margin-top: 5.6rem; */
 `;
 
 export const Banner = styled.div<{ imgsrc: string }>`

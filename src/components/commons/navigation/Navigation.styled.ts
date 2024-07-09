@@ -11,6 +11,10 @@ export const NavigationWrapper = styled.div`
   width: 37.5rem;
   height: 5.6rem;
   padding: 1.2rem 1.6rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_900};
+
+  /* backdrop-filter: blur(10px); */
 `;
 
 export const Logo = styled(IconLogo)`
