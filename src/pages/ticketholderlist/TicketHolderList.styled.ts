@@ -1,3 +1,4 @@
+import { IconToggleOff, IconToggleOn } from "@assets/svgs";
 import styled from "styled-components";
 
 export const BodyWrapper = styled.main`
@@ -29,4 +30,25 @@ export const LayoutFilterBox = styled.div`
   display: flex;
   gap: 0.6rem;
   align-items: center;
+`;
+
+export const ToggleWrapper = styled.div`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+`;
+
+export const ToggleText = styled.span`
+  color: ${({ theme }) => theme.colors.gray_400};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
+export const ToggleOnIcon = styled(IconToggleOn)<{ $width: string; $height: string }>`
+  width: ${({ $width }) => $width};
+  height: ${({ $height }) => $height};
+`;
+
+export const ToggleOffIcon = styled(IconToggleOff)<{ $width: string; $height: string }>`
+  width: ${({ $width }) => $width};
+  height: ${({ $height }) => $height};
 `;

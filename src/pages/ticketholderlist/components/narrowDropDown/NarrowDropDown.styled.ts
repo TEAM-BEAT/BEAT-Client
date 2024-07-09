@@ -17,7 +17,7 @@ export const DropdownButton = styled.button`
   border-radius: 0.4rem;
 `;
 
-export const DropDownButtonContent = styled.button`
+export const DropDownButtonContent = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
