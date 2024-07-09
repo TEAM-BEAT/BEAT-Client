@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import * as S from "./NonMbLookup.styled";
 
 import useModal from "@hooks/useModal";
@@ -8,7 +7,6 @@ import InputWrapper from "./components/InputWrapper";
 import Button from "@components/commons/button/Button";
 
 const NonMbLookup = () => {
-  const navigate = useNavigate();
   const { openAlert } = useModal();
 
   // 하단 내역 확인 버튼 활성화/비활성화 상태
@@ -22,7 +20,7 @@ const NonMbLookup = () => {
     setBtnActive(true);
   };
 
-  const hadleBtnOff = () => {
+  const handleBtnOff = () => {
     setBtnActive(false);
   };
 
@@ -45,9 +43,7 @@ const NonMbLookup = () => {
   };
 
   useEffect(() => {
-    if (dataState === 200) {
-      navigate("/lookup");
-    } else if (dataState === 404) {
+    if (dataState === 404) {
       handleAlert();
     } else {
       // API 붙이면 오류 맞춰서 처리하기
@@ -59,7 +55,7 @@ const NonMbLookup = () => {
     <S.NonMbLookupWrapper>
       <InputWrapper
         btnOn={handleBtnOn}
-        btnOff={hadleBtnOff}
+        btnOff={handleBtnOff}
         inputActive={inputActive}
         dataStatus={handleData}
       />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
@@ -16,6 +17,8 @@ const success = 200;
 const fail = 404;
 
 const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) => {
+  const navigate = useNavigate();
+
   const [nameInputValue, setNameInputValue] = useState("");
   const [birthInputValue, setBirthInputValue] = useState("");
   const [numberInputValue, setNumberInputValue] = useState("");
@@ -59,6 +62,8 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
       if (success === 200) {
         // API 붙일 경우 dataStatus(서버에서 온 상태);
         dataStatus(200);
+
+        navigate("/lookup");
         // 200일 경우 잘 오는지 확인하기 위한 console.log -> API 붙일 때 지우면 됨
         console.log([nameInputValue, birthInputValue, numberInputValue, pwdInputValue]);
         // 404 혹은 통신 실패 경우

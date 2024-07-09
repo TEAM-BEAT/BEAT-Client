@@ -8,7 +8,7 @@ import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
-import NonMbLookup from "@pages/NonMbLookup/NonMbLookup";
+import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
