@@ -72,6 +72,11 @@ const Navigation = () => {
         // TODO: 공연목록, 수정, 삭제 따라 position, title, subTitle 다르게
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);
         break;
+      case "/ticketholderlist":
+        setHeaderPosition(NAVIGATION_STATE.ICON_TITLE_SUB_TEXT);
+        setTitle("내가 등록한 공연");
+        setSubText("상태 저장");
+        break;
       default:
         setTitle("");
     }

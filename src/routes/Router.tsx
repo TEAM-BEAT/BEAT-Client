@@ -7,6 +7,7 @@ import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
+import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "book", element: <Book /> },
       { path: "manage", element: <Manage /> },
+      { path: "ticketholderlist", element: <TicketHolderList /> },
+
       // ... other pages
     ],
   },
