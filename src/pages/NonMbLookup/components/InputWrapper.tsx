@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
@@ -7,9 +7,14 @@ import { phoneNumberFilter } from "@utils/useInputFilter";
 interface InputProps {
   btnOn: () => void;
   btnOff: () => void;
+  inputActive: boolean;
+  dataStatus: (status: number) => void;
 }
 
-const InputWrapper = ({ btnOn, btnOff }: InputProps) => {
+const success = 200;
+const fail = 404;
+
+const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) => {
   const [nameInputValue, setNameInputValue] = useState("");
   const [birthInputValue, setBirthInputValue] = useState("");
   const [numberInputValue, setNumberInputValue] = useState("");
@@ -39,11 +44,30 @@ const InputWrapper = ({ btnOn, btnOff }: InputProps) => {
     } else {
       btnOff();
     }
-  }, [nameInputValue, birthInputValue, numberInputValue, pwdInputValue, btnOn, btnOff]);
+  }, [nameInputValue, birthInputValue, numberInputValue, pwdInputValue, inputActive]);
+
+  useEffect(() => {
+    if (inputActive) {
+      // API 붙일 때 이 부분 서버 통신 성공 경우
+      if (success === 200) {
+        dataStatus(200);
+        // API 붙일 때 console log 지우고 API POST로 대체
+        console.log([nameInputValue, birthInputValue, numberInputValue, pwdInputValue]);
+        // 404 혹은 통신 실패 경우
+      } else {
+        setNameInputValue("");
+        setBirthInputValue("");
+        setNumberInputValue("");
+        setPwdInputValue("");
+        // API 붙일 때는 들어온 에러 번호로 보내기
+        dataStatus(404);
+      }
+    }
+  }, [inputActive]);
 
   return (
     <S.InputWrapperLayout>
-      {/* TODO: maxLenght 있는 부분 InputField에서 글자수 보이게 / 안 보이게 조정 필요 */}
+      {/* maxLenght 있는 부분 InputField에서 글자수 보이게 / 안 보이게 조정 필요 */}
       <TextField
         type="input"
         value={nameInputValue}
