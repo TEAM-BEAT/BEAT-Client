@@ -42,18 +42,21 @@ const ShowInfo = ({
         <IconText icon={<IcOutlinePlace />} text={venue} />
         <S.Divider />
         <S.IconTextTimeContainer>
-          <IconText icon={<IconTime />} text={period} />
-          <S.RunningTimeText>{runningTime}분</S.RunningTimeText>
+          <S.IconTextTimeBox>
+            <IconText icon={<IconTime />} text={period} />
+            <S.RunningTimeText>{runningTime}분</S.RunningTimeText>
+          </S.IconTextTimeBox>
+
+          <S.ScheduleListContainer>
+            {scheduleList.map((schedule, i) => (
+              <S.EpisodeBox key={`schedule-${i}`}>
+                <S.EpisodeText>{i + 1}회차</S.EpisodeText>
+                {/* TODO: 시간 형식 서버랑 논의하기 */}
+                <S.EpisodeText>{schedule.performanceDate}</S.EpisodeText>
+              </S.EpisodeBox>
+            ))}
+          </S.ScheduleListContainer>
         </S.IconTextTimeContainer>
-        <S.ScheduleListContainer>
-          {scheduleList.map((schedule, i) => (
-            <S.EpisodeBox key={`schedule-${i}`}>
-              <S.EpisodeText>{i + 1}회차</S.EpisodeText>
-              {/* TODO: 시간 형식 서버랑 논의하기 */}
-              <S.EpisodeText>{schedule.performanceDate}</S.EpisodeText>
-            </S.EpisodeBox>
-          ))}
-        </S.ScheduleListContainer>
       </S.PlaceTimeWrapper>
     </S.ShowInfoWrapper>
   );

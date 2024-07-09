@@ -4,7 +4,7 @@ export const ShowTypeWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.4rem;
 `;
 
 export const ShowTypeIcon = styled.span`

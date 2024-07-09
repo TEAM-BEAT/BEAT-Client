@@ -9,7 +9,7 @@ export const Wrapper = styled.section`
 export const Container = styled.article`
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 0.8rem;
 `;
 
 export const Title = styled.h1`

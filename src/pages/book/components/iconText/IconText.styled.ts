@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const IconTextWrapper = styled.div`
   display: flex;
-  gap: 0.8rem;
+  gap: 0.6rem;
   align-items: center;
 `;
 

@@ -15,5 +15,5 @@ export const IntroduceBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 3.6rem 2.4rem 4.8rem;
+  padding: 2.4rem;
 `;

@@ -16,7 +16,7 @@ export const Poster = styled.img<{ $imgsrc: string }>`
 `;
 
 export const Title = styled.h1`
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.6rem;
 
   ${({ theme }) => theme.fonts.heading2};
   color: ${({ theme }) => theme.colors.white};
@@ -40,19 +40,25 @@ export const PlaceTimeWrapper = styled.section`
   ${Generators.flexGenerator("column", "flex-start", "")};
   gap: 1.4rem;
   margin: 2.4rem 0;
-  padding: 1.4rem 1.2rem 1.8rem;
+  padding: 1.4rem 1.2rem 1.6rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 6px;
 `;
 
 export const IconTextTimeContainer = styled.div`
-  ${Generators.flexGenerator("row", "center", "space-between")};
+  ${Generators.flexGenerator("column", "flex-start")};
   gap: 0.8rem;
   min-width: 30.3rem;
 
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
+export const IconTextTimeBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const RunningTimeText = styled.span`
@@ -69,7 +75,7 @@ export const Divider = styled.div`
 export const ScheduleListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 0.6rem;
   padding: 0 3.1rem;
 `;
 
