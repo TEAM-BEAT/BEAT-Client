@@ -1,3 +1,4 @@
+import NarrowDropDown from "@components/commons/narrowDropDown/NarrowDropDown";
 import Apage from "@pages/APage/Apage";
 import ModalTest from "@pages/ModalTest";
 import TestPage from "@pages/test/TestPage";
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   //     element: <CPage />,
   //   },
   { path: "/testpage", element: <TestPage /> },
+  { path: "/droptest", element: <NarrowDropDown /> },
   //   ...
 ]);
 export default router;
