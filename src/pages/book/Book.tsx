@@ -21,7 +21,11 @@ const Book = () => {
         runningTime={detail.runningTime}
         scheduleList={detail.scheduleList}
       />
-      <Content description={detail.performanceDescription} contact={detail.performanceContact} />
+      <Content
+        description={detail.performanceDescription}
+        attentionNote={detail.performanceAttentionNote}
+        contact={detail.performanceContact}
+      />
     </div>
   );
 };

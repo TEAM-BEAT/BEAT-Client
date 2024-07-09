@@ -3,10 +3,15 @@ import * as S from "./PerformanceIntroduce.styled";
 
 interface PerformanceIntroduceProps {
   description: string;
+  attentionNote: string;
   contact: string;
 }
 
-const PerformanceIntroduce = ({ description, contact }: PerformanceIntroduceProps) => {
+const PerformanceIntroduce = ({
+  description,
+  attentionNote,
+  contact,
+}: PerformanceIntroduceProps) => {
   return (
     <S.Wrapper>
       <S.Container>
@@ -16,7 +21,7 @@ const PerformanceIntroduce = ({ description, contact }: PerformanceIntroduceProp
       <S.Divider />
       <S.Container>
         <S.Title>유의사항</S.Title>
-        <S.Description>유의사항 내용</S.Description>
+        <S.Description>{attentionNote}</S.Description>
       </S.Container>
       <S.Divider />
       <Contact contact={contact} />

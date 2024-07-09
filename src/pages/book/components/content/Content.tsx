@@ -8,10 +8,11 @@ import IntroduceContainer from "./IntroduceContainer";
 
 interface ContentProps {
   description: string;
+  attentionNote: string;
   contact: string;
 }
 
-const Content = ({ description, contact }: ContentProps) => {
+const Content = ({ description, attentionNote, contact }: ContentProps) => {
   const [activeTab, setActiveTab] = useState<TabType>(TAB_TYPE.PERFORMANCE);
 
   const handleTabClick = (tab: TabType) => {
@@ -23,7 +24,11 @@ const Content = ({ description, contact }: ContentProps) => {
       <TabBar activeTab={activeTab} handleTabClick={handleTabClick} />
       <IntroduceContainer>
         {activeTab === TAB_TYPE.PERFORMANCE && (
-          <PerformanceIntroduce description={description} contact={contact} />
+          <PerformanceIntroduce
+            description={description}
+            attentionNote={attentionNote}
+            contact={contact}
+          />
         )}
         {activeTab === TAB_TYPE.MAKER && <MakerIntroduce />}
       </IntroduceContainer>
