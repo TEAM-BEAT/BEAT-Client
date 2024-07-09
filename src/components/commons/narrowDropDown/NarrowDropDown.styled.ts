@@ -50,13 +50,8 @@ export const DropdownContentWrapper = styled.div<{ $show: boolean }>`
   margin-top: 0.8rem;
   padding: 0.8rem 0.8rem 0.8rem 1.2rem;
 
+  background-color: ${({ theme }) => theme.colors.black};
   border: 1px solid ${({ theme }) => theme.colors.gray_400};
-
-  /* overflow: hidden;
-  position: absolute;
-  z-index: 1;
-  */
-
   border-radius: 0.4rem;
 `;
 
@@ -68,7 +63,7 @@ export const DropdownContentLayout = styled.div`
   justify-content: center;
 `;
 
-export const DropdownContentBox = styled.div`
+export const DropdownContentButton = styled.button`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
