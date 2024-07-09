@@ -1,0 +1,61 @@
+import styled from "styled-components";
+
+export const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 2.8rem;
+`;
+
+export const Container = styled.article`
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+`;
+
+export const Title = styled.h1`
+  ${({ theme }) => theme.fonts["heading4"]};
+  color: ${({ theme }) => theme.colors.gray_400};
+`;
+
+export const Description = styled.p`
+  ${({ theme }) => theme.fonts["body2-long"]};
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const Divider = styled.div`
+  width: 32.7rem;
+  height: 0.1rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_700};
+`;
+
+export const ContactContainer = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ContactTitleBox = styled.div`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  width: 100%;
+`;
+
+export const Toggle = styled.span`
+  width: 2.4rem;
+  height: 2.4rem;
+
+  path {
+    fill: ${({ theme }) => theme.colors.gray_400};
+  }
+`;
+
+export const Contact = styled.p`
+  width: 100%;
+  padding: 1.2rem 1.2rem 1.2rem 0;
+  text-decoration-line: underline;
+
+  ${({ theme }) => theme.fonts["body2-long"]};
+  color: ${({ theme }) => theme.colors.white};
+`;

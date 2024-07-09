@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import posterExImg from "src/pages/MyRegisterdShow/constants/silkagel.png";
+import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_DETAIL_INFO } from "./constants";
 
@@ -20,6 +21,7 @@ const Book = () => {
         runningTime={detail.runningTime}
         scheduleList={detail.scheduleList}
       />
+      <Content description={detail.performanceDescription} contact={detail.performanceContact} />
     </div>
   );
 };
