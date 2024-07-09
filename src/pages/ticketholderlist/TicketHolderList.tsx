@@ -8,6 +8,11 @@ const TicketHolderList = () => {
   //이거 판매 완료되었는지 여부에 따라서 렌더링하는거 다르게 할지 물어보기, 색깔도 어떻게 할 지 물어보기
   const [isOutdated, setIsOutdated] = useState(false);
 
+  // 0, undefined 일 때는 전체 렌더링
+  const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
+  const [payment, setPayment] = useState<boolean | undefined>(undefined);
+
+  const count = 5; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
   return (
     <>
       <Banner image={eximg} reservedCount={reservedCount} isOutdated={isOutdated} />
@@ -15,10 +20,17 @@ const TicketHolderList = () => {
         <S.BodyLayout>
           <S.LayoutHeaderBox>
             <S.LayoutFilterBox>
-              <NarrowDropDown />
-              <NarrowDropDown />
+              {/*set 함수 직접 넘기는 거 안좋다고 했지만, 내부에서 감싸야 하므로 넘김 */}
+              <NarrowDropDown totalScheduleCount={count} setSchedule={setSchedule}>
+                모든 회차
+              </NarrowDropDown>
+              <NarrowDropDown totalScheduleCount={count} setPayment={setPayment}>
+                입금 상태
+              </NarrowDropDown>
             </S.LayoutFilterBox>
           </S.LayoutHeaderBox>
+          <span style={{ color: "white" }}>{`현재 눌린 회차 번호 : ${schedule}`}</span>
+          <span style={{ color: "white" }}>{`현재 눌린 지불 여부 : ${payment}`}</span>
         </S.BodyLayout>
       </S.BodyWrapper>
     </>
