@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "a", element: <Apage /> },
-      { path: "lookup", element: <NonMbLookup /> },
+      { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
       { path: "book", element: <Book /> },

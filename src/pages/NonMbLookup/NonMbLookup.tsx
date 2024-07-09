@@ -11,10 +11,12 @@ const NonMbLookup = () => {
   const navigate = useNavigate();
   const { openAlert } = useModal();
 
+  // 하단 내역 확인 버튼 활성화/비활성화 상태
   const [btnActive, setBtnActive] = useState(false);
+  // 하단 내역 확인 버튼 클릭 시 true
   const [inputActive, setInputActive] = useState(false);
+  // API 연결 후 들어오는 상태
   const [dataState, setDataState] = useState(0);
-  const [alertState, setAlertState] = useState(false);
 
   const handleBtnOn = () => {
     setBtnActive(true);
@@ -44,13 +46,11 @@ const NonMbLookup = () => {
 
   useEffect(() => {
     if (dataState === 200) {
-      console.log(dataState);
       navigate("/lookup");
     } else if (dataState === 404) {
-      setAlertState(true);
-      console.log(dataState);
       handleAlert();
     } else {
+      // API 붙이면 오류 맞춰서 처리하기
       // console.log("오류 처리");
     }
   }, [dataState]);

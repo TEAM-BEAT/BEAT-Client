@@ -6,3 +6,8 @@ export const InputWrapperLayout = styled.section`
   gap: 1.6rem;
   padding: 2.4rem;
 `;
+
+export const EyeTest = styled.button`
+  position: relative;
+  right: 0;
+`;

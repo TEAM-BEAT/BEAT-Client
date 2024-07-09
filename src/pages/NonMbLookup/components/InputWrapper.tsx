@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
@@ -11,6 +11,7 @@ interface InputProps {
   dataStatus: (status: number) => void;
 }
 
+// 서버 붙일 때 지우기 (현재 서버 없어 200/404 상황 확인하기 위해 임시로 둠)
 const success = 200;
 const fail = 404;
 
@@ -19,6 +20,7 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
   const [birthInputValue, setBirthInputValue] = useState("");
   const [numberInputValue, setNumberInputValue] = useState("");
   const [pwdInputValue, setPwdInputValue] = useState("");
+  const [pwdStatus, setPwdStatus] = useState(false);
 
   const handleChangeNameInput = (value: string) => {
     setNameInputValue(value);
@@ -31,6 +33,10 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
   };
   const handleChangePwdInput = (value: string) => {
     setPwdInputValue(value);
+  };
+
+  const handlePwd = () => {
+    setPwdStatus(!pwdStatus);
   };
 
   useEffect(() => {
@@ -49,9 +55,10 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
   useEffect(() => {
     if (inputActive) {
       // API 붙일 때 이 부분 서버 통신 성공 경우
+      // API 붙일 때 여기서 서버 POST
       if (success === 200) {
         dataStatus(200);
-        // API 붙일 때 console log 지우고 API POST로 대체
+        // 200일 경우 잘 오는지 확인하기 위한 console.log -> API 붙일 때 지우면 됨
         console.log([nameInputValue, birthInputValue, numberInputValue, pwdInputValue]);
         // 404 혹은 통신 실패 경우
       } else {
@@ -90,13 +97,13 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
         maxLength={13}
       />
       <TextField
-        // input / password 확인 필요
-        type="input"
+        type={pwdStatus ? "input" : "password"}
         value={pwdInputValue}
         onChangeValue={handleChangePwdInput}
         placeholder="비밀번호(숫자 4자리)"
         maxLength={4}
       />
+      <S.EyeTest onClick={handlePwd}>버튼 임시 위치!!!!!!!</S.EyeTest>
     </S.InputWrapperLayout>
   );
 };
