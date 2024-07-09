@@ -8,3 +8,4 @@ export { default as IconMinus } from "./IconMinus";
 export { default as IconPlus } from "./IconPlus";
 export { default as IconTextfiedlDelete } from "./IconTextfiedlDelete";
 export { default as IconXButton } from "./IconXButton";
+export { default as IconNh } from "./IconNh";
