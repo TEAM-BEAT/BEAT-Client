@@ -6,7 +6,7 @@ export const ViewBottomSheetWrapper = styled.section`
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: auto;
   display: flex;
   width: 100%;
   height: 100%;
