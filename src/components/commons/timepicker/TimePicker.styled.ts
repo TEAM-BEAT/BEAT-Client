@@ -15,12 +15,4 @@ export const CustomPicker = styled(DesktopDateTimePicker)`
     color: ${({ theme }) => theme.colors.white};
     ${({ theme }) => theme.fonts["body2-normal-medi"]};
   }
-
-  & .MuiPickersLayout {
-    width: 32.7rem;
-  }
-
-  & .MuiCalendarPicker-root {
-    border: 1px solid green;
-  }
 `;
