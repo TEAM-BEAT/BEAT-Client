@@ -6,6 +6,8 @@ import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
+import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
+import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -26,6 +28,18 @@ const router = createBrowserRouter([
     path: "/modal-test",
     element: <ModalTest />,
   },
+  {
+    path: "/action-bottom-sheet",
+    element: <ActionBottomSheetTest />,
+  },
+  {
+    path: "/view-bottom-sheet",
+    element: <ViewBottomSheetTest />,
+  },
+  //   {
+  //     path: "/C",
+  //     element: <CPage />,
+  //   },
   { path: "/testpage", element: <TestPage /> },
   //   ...
 ]);

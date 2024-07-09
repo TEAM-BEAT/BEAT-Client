@@ -1,3 +1,4 @@
+export { default as IcomCopy } from "./IcomCopy";
 export { default as IcHamburgar } from "./IcHamburgar";
 export { default as IconArrowLeft } from "./IconArrowLeft";
 export { default as IconArrowRight } from "./IconArrowRight";
