@@ -24,7 +24,7 @@ const Confirm = () => {
 
   if (isOpen) {
     return (
-      <ModalWrapper>
+      <ModalWrapper type="confirm">
         <ModalTextBox title={title} subTitle={subTitle} />
 
         <S.ButtonWrapper>
