@@ -7,6 +7,7 @@ import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import Toast from "@components/commons/toast/Toast";
 import useToast from "@hooks/useToast";
+import { numericFilter } from "@utils/useInputFilter";
 import { useState } from "react";
 
 const TestPage = () => {
@@ -29,12 +30,13 @@ const TestPage = () => {
   };
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
         <TextField
           value={inputValue}
           onChangeValue={handleChangeInput}
-          maxLength={30}
-          placeholder="입력해주세요"
+          filter={numericFilter}
+          maxLength={4}
+          placeholder="비밀번호 숫자 4자리"
         />
         <TextArea
           value={inputAreaValue}
