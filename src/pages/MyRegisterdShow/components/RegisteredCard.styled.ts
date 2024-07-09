@@ -77,20 +77,5 @@ export const CardInfoButtonBox = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
+  margin-bottom: 0.2rem;
 `;
-
-/*
-export const FixBtnSpan = styled.span`
-  flex-shrink: 0;
-  min-width: 8.7rem;
-
-  text-align: center;
-  color: ${({ theme }) => theme.colors.white};
-
-  ${({ theme }) => theme.fonts["caption1-semi"]};
-`;
-
-export const CheckBtnSpan = styled.span`
-
-`
-*/
