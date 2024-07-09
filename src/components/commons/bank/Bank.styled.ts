@@ -60,13 +60,13 @@ export const BankName = styled.p`
 `;
 
 // InputBank
-export const InputBank = styled.div`
+export const InputBank = styled.div<{ $hasChildren: boolean }>`
   position: relative;
   width: 32.7rem;
   height: 4.8rem;
   padding: 1.2rem 1.6rem;
 
-  color: ${({ theme }) => theme.colors.gray_600};
+  color: ${({ theme, $hasChildren }) => ($hasChildren ? theme.colors.white : theme.colors.gray_600)};
 
   background: ${({ theme }) => theme.colors.gray_800};
   border-radius: 6px;

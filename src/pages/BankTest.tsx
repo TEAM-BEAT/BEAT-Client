@@ -16,6 +16,7 @@ const BankTest = () => {
   };
   const handleBankClick = (value: string) => {
     setBankInfo(value);
+    handleBankOpen();
   };
   const handleChangeInput = (value: string) => {
     setAccountInfo(value);
@@ -32,7 +33,7 @@ const BankTest = () => {
   return (
     <Test>
       <InputAccountWrapper>
-        <InputBank onClick={handleBankOpen} />
+        <InputBank onClick={handleBankOpen}>{bankInfo}</InputBank>
         <TextField
           value={accountInfo}
           onChangeValue={handleChangeInput}
