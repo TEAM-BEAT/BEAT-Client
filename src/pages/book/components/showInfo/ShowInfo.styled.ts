@@ -81,6 +81,8 @@ export const EpisodeBox = styled.p`
 `;
 
 export const EpisodeText = styled.span`
+  min-width: 3.5rem;
+
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
   color: ${({ theme }) => theme.colors.gray_500};
 `;
