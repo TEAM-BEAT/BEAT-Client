@@ -14,6 +14,7 @@ const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) 
       <S.Title>{teamName}</S.Title>
       <S.MakerInfoContainer>
         <S.MakerInfoTitle>출연진</S.MakerInfoTitle>
+        {/* TODO: 출연진 없을 떄 보여줄 컴포넌트 추가 */}
         <S.TeamPeopleCardWrapper>
           {castList.map((cast, i) => (
             <PeopleCard
