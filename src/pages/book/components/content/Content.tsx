@@ -13,15 +13,30 @@ export type CastListType = {
   castPhoto: string;
 };
 
+export type StaffListType = {
+  staffId: number;
+  staffName: string;
+  staffRole: string;
+  staffPhoto: string;
+};
+
 interface ContentProps {
   description: string;
   attentionNote: string;
   contact: string;
   teamName: string;
   castList: CastListType[];
+  staffList: StaffListType[];
 }
 
-const Content = ({ description, attentionNote, contact, teamName, castList }: ContentProps) => {
+const Content = ({
+  description,
+  attentionNote,
+  contact,
+  teamName,
+  castList,
+  staffList,
+}: ContentProps) => {
   const [activeTab, setActiveTab] = useState<TabType>(TAB_TYPE.PERFORMANCE);
 
   const handleTabClick = (tab: TabType) => {
@@ -39,7 +54,10 @@ const Content = ({ description, attentionNote, contact, teamName, castList }: Co
             contact={contact}
           />
         )}
-        {activeTab === TAB_TYPE.MAKER && <MakerIntroduce teamName={teamName} castList={castList} />}
+
+        {activeTab === TAB_TYPE.MAKER && (
+          <MakerIntroduce teamName={teamName} castList={castList} staffList={staffList} />
+        )}
       </IntroduceContainer>
     </S.IntroduceWrapper>
   );
