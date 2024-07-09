@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
@@ -57,6 +57,7 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
       // API 붙일 때 이 부분 서버 통신 성공 경우
       // API 붙일 때 여기서 서버 POST
       if (success === 200) {
+        // API 붙일 경우 dataStatus(서버에서 온 상태);
         dataStatus(200);
         // 200일 경우 잘 오는지 확인하기 위한 console.log -> API 붙일 때 지우면 됨
         console.log([nameInputValue, birthInputValue, numberInputValue, pwdInputValue]);
