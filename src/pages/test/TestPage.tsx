@@ -56,7 +56,7 @@ const TestPage = () => {
       <Button size="medium" variant="primary" onClick={showToast}>
         토스트 보이기
       </Button>
-      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={3}>
+      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
         클립보드에 복사되었습니다!
       </Toast>
     </div>

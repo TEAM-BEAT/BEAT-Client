@@ -30,7 +30,7 @@ interface ToastWrapperProps {
 export const ToastWrapper = styled.div<ToastWrapperProps>`
   ${Generators.flexGenerator()}
   position: fixed;
-  bottom: ${({ $toastBottom }) => $toastBottom}rem;
+  bottom: ${({ $toastBottom }) => $toastBottom * 0.1}rem;
   z-index: 1;
   display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
   gap: 0.8rem;
