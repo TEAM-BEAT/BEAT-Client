@@ -12,7 +12,8 @@ const MyRegisterdShow = () => {
   const handleBtn = () => {
     navigate("/");
   };
-
+  //추후 API에서 받아온 걸로 set할 예정
+  const [showList, setShowList] = useState(MY_REGISTERED_SHOW.data);
   const [isNothing, setIsNothing] = useState(false);
 
   return (
@@ -45,7 +46,7 @@ const MyRegisterdShow = () => {
               </S.Banner>
               <S.RegisteredCardWrapper>
                 {/*Get 요청 받아서 map으로 반복적으로 렌더링할 예정 */}
-                {MY_REGISTERED_SHOW.data?.map((item: RegisteredObjProps, index: number) => (
+                {showList?.map((item: RegisteredObjProps, index: number) => (
                   <RegisteredCard
                     key={item.id}
                     title={item.title}
