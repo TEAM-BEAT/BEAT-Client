@@ -1,15 +1,5 @@
 import * as S from "./LookupCard.styled";
-
-interface LookupCardProps {
-  createdAt: string;
-  performanceDate: string;
-  performanceTitle: string;
-  scheduleNumber: string;
-  performanceVenue: string;
-  purchaseTicketCount: number;
-  paymentStatus: boolean;
-  handleAccount: () => void;
-}
+import { LookupProps } from "@typings/lookupType";
 
 const LookupCard = ({
   createdAt,
@@ -20,7 +10,7 @@ const LookupCard = ({
   purchaseTicketCount,
   paymentStatus,
   handleAccount,
-}: LookupCardProps) => {
+}: LookupProps) => {
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
 

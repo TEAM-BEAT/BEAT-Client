@@ -6,7 +6,9 @@ import useModal from "@hooks/useModal";
 import Button from "@components/commons/button/Button";
 import LookupCard from "./LookupCard";
 
-const LookupWrapper = ({ ...item }) => {
+import { LookupProps } from "@typings/lookupType";
+
+const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
   const { openAlert, closeAlert } = useModal();
 
   const [accountModal, setAccountModal] = useState(false);
@@ -40,21 +42,11 @@ const LookupWrapper = ({ ...item }) => {
       <S.LookupContainer>
         <S.LookupCardLeft>
           <S.TempImage />
-          <Button variant="line" size="xsmall">
+          <Button variant="line" size="xsmall" onClick={handleBtn}>
             취소하기
           </Button>
         </S.LookupCardLeft>
-        <LookupCard
-          createdAt={item.createdAt}
-          performanceDate={item.performanceDate}
-          performanceTitle={item.performanceTitle}
-          scheduleNumber={item.scheduleNumber}
-          performanceVenue={item.performanceVenue}
-          purchaseTicketCount={item.purchaseTicketCount}
-          paymentStatus={item.paymentStatus}
-          handleAccount={handleAccountModal}
-          {...item}
-        ></LookupCard>
+        <LookupCard handleAccount={handleAccountModal} {...item}></LookupCard>
       </S.LookupContainer>
     </S.LookupLayout>
   );
