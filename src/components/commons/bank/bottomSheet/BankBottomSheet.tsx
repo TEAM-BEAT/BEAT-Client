@@ -13,7 +13,6 @@ const BankBottomSheet = ({ value, onBankClick, onOutClick }: BankBottomSheetProp
   return (
     <>
       <S.BankLayout>
-        {typeof BANK_LIST[0].bankImg}
         <S.BankTitle>은행을 선택해주세요</S.BankTitle>
         <Spacing marginBottom={"3.2"} />
         <S.BankWrapper>
