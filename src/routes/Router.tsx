@@ -2,7 +2,7 @@ import Layout from "@components/layout/Layout";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
 import BankTest from "@pages/BankTest";
-import Book from "@pages/book/Book";
+import Gig from "@pages/gig/Gig";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
-      { path: "book/:performanceId", element: <Book /> },
+      { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },
       // ... other pages

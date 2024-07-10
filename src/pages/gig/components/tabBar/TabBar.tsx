@@ -1,4 +1,4 @@
-import { TAB_TYPE, TabType } from "@pages/book/constants";
+import { TAB_TYPE, TabType } from "@pages/gig/constants";
 import * as S from "./TabBar.styled";
 
 interface TabBarProps {
