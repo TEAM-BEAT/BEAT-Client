@@ -61,7 +61,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     } else {
       btnOff();
     }
-  }, [name, birth, number, password, isReadyRequest]);
+  }, [name, birth, number, password]);
 
   useEffect(() => {
     if (isReadyRequest) {

@@ -60,15 +60,9 @@ const NonMbLookup = () => {
         dataStatus={handleData}
       />
       <S.BtnLayout>
-        {btnActive ? (
-          <Button variant="primary" size="xlarge" onClick={handleBtnState}>
-            예매내역 확인하기
-          </Button>
-        ) : (
-          <Button variant="primary" size="xlarge" disabled={true}>
-            예매내역 확인하기
-          </Button>
-        )}
+        <Button variant="primary" size="xlarge" disabled={!btnActive} onClick={handleBtnState}>
+          예매내역 확인하기
+        </Button>
       </S.BtnLayout>
     </S.NonMbLookupWrapper>
   );

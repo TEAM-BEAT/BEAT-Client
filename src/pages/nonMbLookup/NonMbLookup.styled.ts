@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const NonMbLookupWrapper = styled.section`
   width: auto;
   height: 100%;
-  min-height: 60.7rem;
+  min-height: 66.4rem;
 `;
 
 export const BtnLayout = styled.section`

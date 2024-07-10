@@ -11,4 +11,3 @@ const SvgIconArrowDown = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 export default SvgIconArrowDown;
-n;
