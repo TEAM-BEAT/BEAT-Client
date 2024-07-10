@@ -75,7 +75,7 @@ const Navigation = () => {
       case "/ticketholderlist":
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE_SUB_TEXT);
         setTitle("내가 등록한 공연");
-        setSubText("상태 저장");
+        setSubText("삭제");
         break;
       case "/myregisteredshow":
         setHeaderPosition(NAVIGATION_STATE.ICON_TITLE);

@@ -1,13 +1,14 @@
 import { IconToggleOff, IconToggleOn } from "@assets/svgs";
 import styled from "styled-components";
 
-export const BodyWrapper = styled.main`
+export const BodyWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
   width: 37.4rem;
   height: auto;
-  min-height: 60.8rem; /* 60.8rem(body의 높이) +  5.6rem(헤더의 높이) */
+  min-height: 60.8rem; /* 60.8rem(body의 높이) +  5.6rem(버튼의 높이) */
+  margin-bottom: 5.6rem;
   padding: 2.4rem;
 `;
 
