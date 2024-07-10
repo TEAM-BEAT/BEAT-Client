@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import BookerInfo from "./components/bookerInfo/BookerInfo";
 import Count from "./components/count/Count";
 import Info from "./components/info/Info";
 import Select from "./components/select/Select";
@@ -9,6 +10,15 @@ const Book = () => {
   const [detail, setDetail] = useState(BOOK_DETAIL_INFO);
 
   const [round, setRound] = useState(1);
+  const [bookerInfo, setBookerInfo] = useState({
+    name: "",
+    phoneNumber: "",
+  });
+
+  const onChangeBookerInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setBookerInfo((prev) => ({ ...prev, [name]: value }));
+  };
 
   const onMinusClick = () => {
     setRound((prev) => prev - 1);
@@ -34,7 +44,7 @@ const Book = () => {
         onPlusClick={onPlusClick}
         ticketPrice={detail.ticketPrice}
       />
-      <div>예매자 정보</div>
+      <BookerInfo onChangeBookerInfo={onChangeBookerInfo} />
     </ContentWrapper>
   );
 };
