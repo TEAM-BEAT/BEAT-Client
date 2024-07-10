@@ -4,6 +4,8 @@ import * as S from "./NarrowDropDown.styled";
 interface DropdownProps {
   children: ReactNode;
   totalScheduleCount: number;
+  schedule: number;
+  payment: boolean | undefined;
   setSchedule?: (param: number) => void;
   setPayment?: (param: boolean) => void;
 }
@@ -11,6 +13,8 @@ interface DropdownProps {
 const NarrowDropDown = ({
   children,
   totalScheduleCount,
+  schedule,
+  payment,
   setSchedule,
   setPayment,
 }: DropdownProps) => {
@@ -63,11 +67,20 @@ const NarrowDropDown = ({
   //필터링은 회차 번호(scheduleNumber : FIRST, SECOND, THIRD), 입금 완료 여부는 paymentStatus에 따라 나뉠거임
   //
 
+  let changedChildren;
+  if (children === "입금 상태" && payment !== undefined) {
+    changedChildren = payment ? "입금완료" : "미입금";
+  } else if (children === "모든 회차" && schedule !== 0) {
+    changedChildren = `${schedule}차`;
+  }
+
   return (
     <S.DropdownWrapper>
       <S.DropdownButton onClick={handleToggle}>
         <S.DropDownButtonContent>
-          <S.ButtonContentSpan>{children}</S.ButtonContentSpan>
+          <S.ButtonContentSpan>
+            {changedChildren === undefined ? children : changedChildren}
+          </S.ButtonContentSpan>
           <S.SvgIcon $rotate={showDropdown} />
         </S.DropDownButtonContent>
       </S.DropdownButton>

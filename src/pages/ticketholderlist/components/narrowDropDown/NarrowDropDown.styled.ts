@@ -10,6 +10,7 @@ export const DropdownButton = styled.button`
   flex-shrink: 0;
   gap: 0.6rem;
   align-items: center;
+  min-width: 9.3rem;
   height: 4rem;
   padding: 0.8rem 0.8rem 0.8rem 1.2rem;
 
@@ -21,6 +22,8 @@ export const DropDownButtonContent = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const ButtonContentSpan = styled.span`
