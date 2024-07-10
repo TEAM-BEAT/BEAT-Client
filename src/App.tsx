@@ -8,7 +8,6 @@ import theme from "@styles/theme";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 
 const darkTheme = createTheme({
@@ -20,7 +19,6 @@ const darkTheme = createTheme({
 function App() {
   return (
     <MuiThemeProvider theme={darkTheme}>
-      <CssBaseline />
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <GlobalStyle />
