@@ -3,7 +3,7 @@ import exImg from "src/pages/MyRegisterdShow/constants/silkagel.png";
 export const BOOK_DETAIL_INFO = {
   performanceId: 1,
   performanceTitle: "비트밴드 정기공연",
-  ticketPrice: "5000",
+  ticketPrice: 5000,
   genre: "BAND",
   posterImage: exImg,
   performanceVenue: "홍대상상마당",

@@ -4,7 +4,7 @@ export const InfoContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 32.7rem;
+  width: 100%;
   margin-top: 1.6rem;
 `;
 
