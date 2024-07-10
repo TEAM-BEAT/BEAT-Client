@@ -1,4 +1,4 @@
-import React, { ChangeEvent, InputHTMLAttributes, useRef, useState } from "react";
+import React, { ChangeEvent, InputHTMLAttributes, useRef } from "react";
 import * as S from "./TextField.styled";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -26,7 +26,6 @@ const TextField = ({
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [hasText, setHasText] = useState(false);
 
   // 값 입력될 떄
   const handleOnInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +48,6 @@ const TextField = ({
       },
     } as ChangeEvent<HTMLInputElement>;
 
-    setHasText(inputValue.length > 0);
     onChange(newEvent);
   };
 
@@ -69,7 +67,6 @@ const TextField = ({
       } as ChangeEvent<HTMLInputElement>;
 
       inputRef.current.focus();
-      setHasText(false);
       onChange(newEvent);
     }
   };
@@ -79,13 +76,14 @@ const TextField = ({
       <S.TextFieldWrapper>
         <S.TextFieldInput
           ref={inputRef}
+          value={value}
           name={name}
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
           {...rest}
         />
-        {!narrow && !unit && hasText && <S.TextClear onClick={handleClearInput} />}
+        {!narrow && !unit && value && <S.TextClear onClick={handleClearInput} />}
         {unit && <S.TextUnit>{label}</S.TextUnit>}
       </S.TextFieldWrapper>
       {maxLength && cap && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
