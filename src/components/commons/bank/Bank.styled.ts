@@ -6,14 +6,15 @@ import styled from "styled-components";
 export const BankLayout = styled.section`
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
   z-index: 1;
-
   display: block;
-  width: 100%;
+  width: 37.5rem;
+  margin: 0;
   padding: 4rem 2.4rem 4.5rem;
 
   background: ${({ theme }) => theme.colors.gray_800};
+  transform: translateX(-50%);
   border-radius: 20px 20px 0 0;
 `;
 
@@ -49,7 +50,7 @@ export const BankBtnWrapper = styled.button`
   border-radius: 6px;
 `;
 
-export const BankImg = styled(IconNh)`
+export const BankImg = styled(<BankImgProps>)`
   width: 4rem;
   height: 4rem;
 `;
@@ -66,7 +67,8 @@ export const InputBank = styled.div<{ $hasChildren: boolean }>`
   height: 4.8rem;
   padding: 1.2rem 1.6rem;
 
-  color: ${({ theme, $hasChildren }) => ($hasChildren ? theme.colors.white : theme.colors.gray_600)};
+  color: ${({ theme, $hasChildren }) =>
+    $hasChildren ? theme.colors.white : theme.colors.gray_600};
 
   background: ${({ theme }) => theme.colors.gray_800};
   border-radius: 6px;

@@ -7,6 +7,8 @@ export interface BankBottomSheetProps {
   value: string;
   onBankClick: (value: string) => void;
   onOutClick: () => void;
+  isVisible: boolean;
+  bankBottom?: number;
 }
 
 const BankBottomSheet = ({ value, onBankClick, onOutClick }: BankBottomSheetProps) => {
