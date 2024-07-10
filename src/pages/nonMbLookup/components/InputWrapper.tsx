@@ -114,7 +114,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
         filter={numericFilter}
         maxLength={4}
       />
-      <S.EyeTest onClick={handlePwd}>버튼 임시 위치!!!!!!!</S.EyeTest>
+      {/* <S.EyeTest onClick={handlePwd}>버튼 임시 위치!!!!!!!</S.EyeTest> */}
     </S.InputWrapperLayout>
   );
 };

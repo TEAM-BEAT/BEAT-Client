@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./NonMbLookup.styled";
 
 import useModal from "@hooks/useModal";
 
-import InputWrapper from "./components/InputWrapper";
 import Button from "@components/commons/button/Button";
+import InputWrapper from "./components/InputWrapper";
 
 const NonMbLookup = () => {
   const { openAlert } = useModal();
