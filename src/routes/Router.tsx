@@ -10,6 +10,7 @@ import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
+import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
+  },
+  {
+    path: "/NonMb-Lookup",
+    element: <NonMbLookup />,
   },
   {
     path: "/bank-sheet",

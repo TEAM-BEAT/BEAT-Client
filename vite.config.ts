@@ -15,4 +15,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+  },
 });
