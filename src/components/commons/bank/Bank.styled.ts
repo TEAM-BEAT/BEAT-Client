@@ -11,7 +11,7 @@ export const BankLayout = styled.section`
   display: block;
   width: 37.5rem;
   margin: 0;
-  padding: 4rem 2.4rem 4.5rem;
+  padding: 2.1rem 2.4rem 4.5rem;
 
   background: ${({ theme }) => theme.colors.gray_800};
   transform: translateX(-50%);
