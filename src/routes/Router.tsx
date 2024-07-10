@@ -20,6 +20,7 @@ const router = createBrowserRouter([
       { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
+      { path: "register-complete", element: <Register /> },
       { path: "book", element: <Book /> },
       { path: "manage", element: <Manage /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },
