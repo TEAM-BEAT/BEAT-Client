@@ -34,7 +34,7 @@ export const SHOW_DETAIL_INFO = {
       castId: 2,
       castName: "이비트",
       castRole: "건반",
-      castPhoto: "/src/pages/book/constants/jiwoo.png",
+      castPhoto: "/src/pages/gig/constants/jiwoo.png",
     },
   ],
   staffList: [
@@ -42,7 +42,7 @@ export const SHOW_DETAIL_INFO = {
       staffId: 1,
       staffName: "황혜린",
       staffRole: "서버",
-      staffPhoto: "/src/pages/book/constants/jiwoo.png",
+      staffPhoto: "/src/pages/gig/constants/jiwoo.png",
     },
     {
       staffId: 2,
