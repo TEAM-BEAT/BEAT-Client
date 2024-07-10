@@ -65,8 +65,8 @@ export const InputBank = styled.div<{ $hasChildren: boolean }>`
     $hasChildren ? theme.colors.white : theme.colors.gray_600};
 
   background: ${({ theme }) => theme.colors.gray_800};
+  cursor: pointer;
   border-radius: 6px;
-
   ${({ theme }) => theme.fonts["body2-normal-medi"]}
 `;
 
