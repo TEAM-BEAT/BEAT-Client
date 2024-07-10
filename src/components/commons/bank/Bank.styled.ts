@@ -1,4 +1,5 @@
 import SvgIconArrowDown from "@assets/svgs/IconArrowDown";
+import { Generators } from "@styles/generator";
 import styled from "styled-components";
 
 // BankBottomSheet
@@ -63,6 +64,8 @@ export const InputBank = styled.div<{ $hasChildren: boolean }>`
 
   color: ${({ theme, $hasChildren }) =>
     $hasChildren ? theme.colors.white : theme.colors.gray_600};
+
+  ${Generators.flexGenerator("column", "start", "center")}
 
   background: ${({ theme }) => theme.colors.gray_800};
   cursor: pointer;

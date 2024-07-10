@@ -22,14 +22,6 @@ const BankTest = () => {
     setAccountInfo(value);
   };
 
-  useEffect(() => {
-    console.log(bankInfo);
-  }, [bankInfo]);
-
-  useEffect(() => {
-    console.log(accountInfo);
-  }, [accountInfo]);
-
   return (
     <Test>
       <InputAccountWrapper>
