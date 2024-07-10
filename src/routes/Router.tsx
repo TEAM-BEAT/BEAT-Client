@@ -10,7 +10,7 @@ import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
-import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
+import NonMbLookup from "@pages/NonMbLookup/NonMbLookup";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
