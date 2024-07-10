@@ -1,10 +1,10 @@
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
-import styled from "styled-components";
-import { useEffect, useState } from "react";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
 import InputBank from "@components/commons/bank/InputBank";
-import { numericFilter } from "@utils/useInputFilter";
 import TextField from "@components/commons/input/textField/TextField";
+import { numericFilter } from "@utils/useInputFilter";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const BankTest = () => {
   const [bankOpen, setBankOpen] = useState(false);
@@ -18,8 +18,8 @@ const BankTest = () => {
     setBankInfo(value);
     handleBankOpen();
   };
-  const handleChangeInput = (value: string) => {
-    setAccountInfo(value);
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAccountInfo(e.target.value);
   };
 
   return (
@@ -30,7 +30,7 @@ const BankTest = () => {
         </InputBank>
         <TextField
           value={accountInfo}
-          onChangeValue={handleChangeInput}
+          onChange={handleChangeInput}
           filter={numericFilter}
           placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
         />{" "}
