@@ -7,7 +7,7 @@ interface DropdownProps {
   schedule: number;
   payment: boolean | undefined;
   setSchedule?: (param: number) => void;
-  setPayment?: (param: boolean) => void;
+  setPayment?: (param: boolean | undefined) => void;
 }
 
 const NarrowDropDown = ({
@@ -19,6 +19,7 @@ const NarrowDropDown = ({
   setPayment,
 }: DropdownProps) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [isOneChoosed, setIsOneChoosed] = useState(false);
 
   const handleToggle = () => {
     setShowDropdown(!showDropdown);
@@ -28,33 +29,61 @@ const NarrowDropDown = ({
     const items = [];
     const childrenString = childrenNode?.toString();
     if (childrenString === "모든 회차") {
+      const handleScheduleAll = () => {
+        setSchedule?.(0);
+        setIsOneChoosed(false);
+        setShowDropdown(false);
+      };
+      items.push(
+        <S.DropdownContentButton onClick={handleScheduleAll}>
+          <S.DropdownContentText $selected={schedule === 0}>전체</S.DropdownContentText>
+        </S.DropdownContentButton>
+      );
       for (let i = 1; i <= count; i++) {
         const handleSchedule = () => {
           setSchedule?.(i);
+          setIsOneChoosed(true);
+          setShowDropdown(false);
         };
         items.push(
           <S.DropdownContentButton key={`dropdown-${i}`} onClick={handleSchedule}>
-            <S.DropdownContentText>{i}차</S.DropdownContentText>
+            <S.DropdownContentText $selected={schedule === i}>{i}차</S.DropdownContentText>
           </S.DropdownContentButton>
         );
       }
     } else if (childrenString === "입금 상태") {
+      const handlePaymentUndefined = () => {
+        setPayment?.(undefined);
+        setIsOneChoosed(false);
+        setShowDropdown(false);
+      };
+
       const handlePaymentFalse = () => {
         setPayment?.(false);
+        setIsOneChoosed(true);
+        setShowDropdown(false);
       };
 
       const handlePaymentTrue = () => {
         setPayment?.(true);
+        setIsOneChoosed(true);
+        setShowDropdown(false);
       };
 
       items.push(
+        <S.DropdownContentButton onClick={handlePaymentUndefined}>
+          <S.DropdownContentText $selected={payment === undefined}>전체</S.DropdownContentText>
+        </S.DropdownContentButton>
+      );
+
+      items.push(
         <S.DropdownContentButton key={"dropdown-1"} onClick={handlePaymentFalse}>
-          <S.DropdownContentText>미입금</S.DropdownContentText>
+          <S.DropdownContentText $selected={payment === false}>미입금</S.DropdownContentText>
         </S.DropdownContentButton>
       );
       items.push(
         <S.DropdownContentButton key={"dropdown-2"} onClick={handlePaymentTrue}>
-          <S.DropdownContentText>입금완료</S.DropdownContentText>
+          <S.DropdownContentText $selected={payment === true}>입금완료</S.DropdownContentText>
         </S.DropdownContentButton>
       );
     }
@@ -76,7 +105,7 @@ const NarrowDropDown = ({
 
   return (
     <S.DropdownWrapper>
-      <S.DropdownButton onClick={handleToggle}>
+      <S.DropdownButton $isChoosed={isOneChoosed} onClick={handleToggle}>
         <S.DropDownButtonContent>
           <S.ButtonContentSpan>
             {changedChildren === undefined ? children : changedChildren}

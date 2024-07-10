@@ -5,7 +5,7 @@ export const DropdownWrapper = styled.div`
   position: relative;
 `;
 
-export const DropdownButton = styled.button`
+export const DropdownButton = styled.button<{ $isChoosed: boolean }>`
   display: inline-flex;
   flex-shrink: 0;
   gap: 0.6rem;
@@ -14,7 +14,8 @@ export const DropdownButton = styled.button`
   height: 4rem;
   padding: 0.8rem 0.8rem 0.8rem 1.2rem;
 
-  border: 1px solid ${({ theme }) => theme.colors.gray_400};
+  border: 1px solid
+    ${({ theme, $isChoosed }) => ($isChoosed ? theme.colors.gray_0 : theme.colors.gray_700)};
   border-radius: 0.4rem;
 `;
 
@@ -82,7 +83,9 @@ export const DropdownContentButton = styled.button`
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray_700};
 `;
 
-export const DropdownContentText = styled.span`
+export const DropdownContentText = styled.span<{
+  $selected: boolean;
+}>`
   display: flex;
   gap: 0.4rem;
   align-items: center;
@@ -91,6 +94,12 @@ export const DropdownContentText = styled.span`
 
   color: ${({ theme }) => theme.colors.gray_0};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
+
+  ${({ $selected }) =>
+    $selected &&
+    css`
+      color: ${({ theme }) => theme.colors.pink_400};
+    `}
 `;
 
 export const DropdownItem = styled.a`
