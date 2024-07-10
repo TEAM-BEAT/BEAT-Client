@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// InputWrapper.tsx
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./InputWrapper.styled";
 
@@ -19,41 +20,49 @@ const fail = 404;
 const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) => {
   const navigate = useNavigate();
 
-  const [nameInputValue, setNameInputValue] = useState("");
-  const [birthInputValue, setBirthInputValue] = useState("");
-  const [numberInputValue, setNumberInputValue] = useState("");
-  const [pwdInputValue, setPwdInputValue] = useState("");
-  const [pwdStatus, setPwdStatus] = useState(false);
+  const [nonMemberInfo, setNonMemberInfo] = useState({
+    name: "",
+    birth: "",
+    number: "",
+    password: "",
+    pwdStatus: false,
+  });
 
-  const handleChangeNameInput = (value: string) => {
-    setNameInputValue(value);
-  };
-  const handleChangeBirthInput = (value: string) => {
-    setBirthInputValue(value);
-  };
-  const handleChangeNumberInput = (value: string) => {
-    setNumberInputValue(value);
-  };
-  const handleChangePwdInput = (value: string) => {
-    setPwdInputValue(value);
+  const { name, birth, number, password, pwdStatus } = nonMemberInfo;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: fieldName, value } = e.target;
+
+    setNonMemberInfo((prevState) => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
   };
 
   const handlePwd = () => {
-    setPwdStatus(!pwdStatus);
+    setNonMemberInfo((prevState) => ({
+      ...prevState,
+      pwdStatus: !prevState.pwdStatus,
+    }));
+  };
+
+  const resetForm = () => {
+    setNonMemberInfo({
+      name: "",
+      birth: "",
+      number: "",
+      password: "",
+      pwdStatus: false,
+    });
   };
 
   useEffect(() => {
-    if (
-      nameInputValue &&
-      birthInputValue.length === 6 &&
-      numberInputValue.length === 13 &&
-      pwdInputValue.length === 4
-    ) {
+    if (name && birth.length === 6 && number.length === 13 && password.length === 4) {
       btnOn();
     } else {
       btnOff();
     }
-  }, [nameInputValue, birthInputValue, numberInputValue, pwdInputValue, inputActive]);
+  }, [name, birth, number, password, inputActive]);
 
   useEffect(() => {
     if (inputActive) {
@@ -65,13 +74,10 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
 
         navigate("/lookup");
         // 200일 경우 잘 오는지 확인하기 위한 console.log -> API 붙일 때 지우면 됨
-        console.log([nameInputValue, birthInputValue, numberInputValue, pwdInputValue]);
+        console.log([name, birth, number, password]);
         // 404 혹은 통신 실패 경우
       } else {
-        setNameInputValue("");
-        setBirthInputValue("");
-        setNumberInputValue("");
-        setPwdInputValue("");
+        resetForm();
         // API 붙일 때는 들어온 에러 번호로 보내기
         dataStatus(404);
       }
@@ -81,32 +87,30 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
   return (
     <S.InputWrapperLayout>
       {/* maxLenght 있는 부분 InputField에서 글자수 보이게 / 안 보이게 조정 필요 */}
+      <TextField name="name" type="input" value={name} onChange={handleChange} placeholder="이름" />
       <TextField
         type="input"
-        value={nameInputValue}
-        onChangeValue={handleChangeNameInput}
-        placeholder="이름"
-      />
-      <TextField
-        type="input"
-        value={birthInputValue}
-        onChangeValue={handleChangeBirthInput}
+        name="birth"
+        value={birth}
+        onChange={handleChange}
         placeholder="생년월일 앞 6자리"
         filter={numericFilter}
         maxLength={6}
       />
       <TextField
         type="input"
-        value={numberInputValue}
-        onChangeValue={handleChangeNumberInput}
+        name="number"
+        value={number}
+        onChange={handleChange}
         placeholder="휴대폰 번호 '-' 없이 입력"
         filter={phoneNumberFilter}
         maxLength={13}
       />
       <TextField
         type={pwdStatus ? "input" : "password"}
-        value={pwdInputValue}
-        onChangeValue={handleChangePwdInput}
+        name="password"
+        value={password}
+        onChange={handleChange}
         placeholder="비밀번호(숫자 4자리)"
         filter={numericFilter}
         maxLength={4}
