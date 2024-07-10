@@ -4,8 +4,6 @@ import * as S from "./NarrowDropDown.styled";
 interface DropdownProps {
   children: ReactNode;
   totalScheduleCount: number;
-  schedule: number;
-  payment?: boolean | undefined;
   setSchedule?: (param: number) => void;
   setPayment?: (param: boolean) => void;
 }
@@ -13,8 +11,6 @@ interface DropdownProps {
 const NarrowDropDown = ({
   children,
   totalScheduleCount,
-  schedule,
-  payment,
   setSchedule,
   setPayment,
 }: DropdownProps) => {
@@ -33,12 +29,7 @@ const NarrowDropDown = ({
           setSchedule?.(i);
         };
         items.push(
-          <S.DropdownContentButton
-            key={i}
-            $schedule={schedule}
-            $payment={payment}
-            onClick={handleSchedule}
-          >
+          <S.DropdownContentButton key={`dropdown-${i}`} onClick={handleSchedule}>
             <S.DropdownContentText>{i}차</S.DropdownContentText>
           </S.DropdownContentButton>
         );
@@ -53,22 +44,12 @@ const NarrowDropDown = ({
       };
 
       items.push(
-        <S.DropdownContentButton
-          key={"dropdown-1"}
-          $schedule={schedule}
-          $payment={payment}
-          onClick={handlePaymentFalse}
-        >
+        <S.DropdownContentButton key={"dropdown-1"} onClick={handlePaymentFalse}>
           <S.DropdownContentText>미입금</S.DropdownContentText>
         </S.DropdownContentButton>
       );
       items.push(
-        <S.DropdownContentButton
-          key={"dropdown-2"}
-          $schedule={schedule}
-          $payment={payment}
-          onClick={handlePaymentTrue}
-        >
+        <S.DropdownContentButton key={"dropdown-2"} onClick={handlePaymentTrue}>
           <S.DropdownContentText>입금완료</S.DropdownContentText>
         </S.DropdownContentButton>
       );
