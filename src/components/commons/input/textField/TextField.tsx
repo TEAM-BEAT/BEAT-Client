@@ -8,6 +8,7 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   narrow?: false | true;
   unit?: "time" | "ticket" | "amount"; // 단위 : "분", "매", "원"
   filter?: (value: string) => string;
+  cap?: false | true;
 }
 
 const TextField = ({
@@ -18,6 +19,7 @@ const TextField = ({
   narrow,
   unit,
   filter,
+  cap,
   ...rest
 }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
@@ -52,7 +54,7 @@ const TextField = ({
         {!narrow && !unit && value && <S.TextClear onClick={handleClearInput} />}
         {unit && <S.TextUnit>{label}</S.TextUnit>}
       </S.TextFieldWrapper>
-      {maxLength && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
+      {maxLength && cap && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
     </S.TextFieldLayout>
   );
 };

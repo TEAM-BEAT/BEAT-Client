@@ -16,7 +16,7 @@
     "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
     "prepare": "husky install",
     "lint-front": "lint-staged",
-    "svgr": "npx @svgr/cli -d src/assets/svgs --ignore-existing --typescript --no-dimensions public/svgs"
+    "svgr": "node svgr-generate.cjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -26,12 +26,19 @@
     ]
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.16.0",
+    "@mui/material": "^5.16.0",
+    "@mui/x-date-pickers": "^7.9.0",
+    "dayjs": "^1.11.11",
     "jotai": "^2.8.4",
     "postcss": "^8.4.38",
     "postcss-scss": "^4.0.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.0",
+    "shelljs": "^0.8.5",
     "styled-components": "^6.1.11",
     "styled-reset": "^4.5.2",
     "supports-color": "^9.4.0",
@@ -54,6 +61,7 @@
     "@types/prettier-linter-helpers": "^1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/shelljs": "^0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react-swc": "^3.5.0",

@@ -5,14 +5,18 @@ import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
+import TimePicker from "@components/commons/timepicker/TimePicker";
 import Toast from "@components/commons/toast/Toast";
 import useToast from "@hooks/useToast";
+import { numericFilter } from "@utils/useInputFilter";
 import { useState } from "react";
+import { Dayjs } from "dayjs";
 
 const TestPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputAreaValue, setInputAreaValue] = useState("");
   const [round, setRound] = useState(1);
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const { showToast, isToastVisible } = useToast();
 
   const handleChangeInput = (value: string) => {
@@ -27,14 +31,19 @@ const TestPage = () => {
   const onPlusClick = () => {
     setRound((prev) => prev + 1);
   };
+  const handleDateChange = (value: Dayjs | null) => {
+    setSelectedDate(value);
+  };
+  console.log(selectedDate);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
         <TextField
           value={inputValue}
           onChangeValue={handleChangeInput}
-          maxLength={30}
-          placeholder="입력해주세요"
+          filter={numericFilter}
+          maxLength={4}
+          placeholder="비밀번호 숫자 4자리"
         />
         <TextArea
           value={inputAreaValue}
@@ -54,7 +63,7 @@ const TestPage = () => {
       </div>
       <Spacing marginBottom="3" />
       <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
-
+      <TimePicker value={selectedDate} onChangeValue={handleDateChange} />{" "}
       <Button size="medium" variant="primary" onClick={showToast}>
         토스트 보이기
       </Button>
