@@ -1,7 +1,8 @@
 import Layout from "@components/layout/Layout";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
-import Book from "@pages/book/Book";
+import BankTest from "@pages/BankTest";
+import Gig from "@pages/gig/Gig";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
@@ -9,6 +10,7 @@ import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
+import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
       { path: "register-complete", element: <Register /> },
-      { path: "book", element: <Book /> },
+      { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },
       // ... other pages
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
   {
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
+  },
+  {
+    path: "/NonMb-Lookup",
+    element: <NonMbLookup />,
+  },
+  {
+    path: "/bank-sheet",
+    element: <BankTest />,
   },
   //   {
   //     path: "/C",
