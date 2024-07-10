@@ -80,6 +80,8 @@ export const ToggleIcon = styled(SvgIconArrowDown)`
   width: 2.4rem;
 
   cursor: pointer;
+
+  transition: transform 0.3s;
 `;
 
 // InputAccountWrapper
