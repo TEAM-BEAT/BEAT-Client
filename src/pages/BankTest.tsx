@@ -25,7 +25,9 @@ const BankTest = () => {
   return (
     <Test>
       <InputAccountWrapper>
-        <InputBank onClick={handleBankOpen}>{bankInfo}</InputBank>
+        <InputBank bankOpen={bankOpen} onClick={handleBankOpen}>
+          {bankInfo}
+        </InputBank>
         <TextField
           value={accountInfo}
           onChangeValue={handleChangeInput}
