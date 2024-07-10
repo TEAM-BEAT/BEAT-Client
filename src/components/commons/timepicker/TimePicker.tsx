@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import * as S from "./TimePicker.styled";
 import { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 
 export interface TimePickerProps {
   value: Dayjs | null;
