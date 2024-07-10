@@ -8,8 +8,8 @@ import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
 import Toast from "@components/commons/toast/Toast";
 import useToast from "@hooks/useToast";
+import { ChangeEvent, useState } from "react";
 import { numericFilter } from "@utils/useInputFilter";
-import { useState } from "react";
 import { Dayjs } from "dayjs";
 
 const TestPage = () => {
@@ -19,11 +19,11 @@ const TestPage = () => {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const { showToast, isToastVisible } = useToast();
 
-  const handleChangeInput = (value: string) => {
-    setInputValue(value);
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
-  const handleChangeInputArea = (value: string) => {
-    setInputAreaValue(value);
+  const handleChangeInputArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputAreaValue(e.target.value);
   };
   const onMinusClick = () => {
     setRound((prev) => prev - 1);
@@ -37,17 +37,16 @@ const TestPage = () => {
   console.log(selectedDate);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
           value={inputValue}
-          onChangeValue={handleChangeInput}
-          filter={numericFilter}
-          maxLength={4}
-          placeholder="비밀번호 숫자 4자리"
+          onChange={handleChangeInput}
+          maxLength={30}
+          placeholder="입력해주세요"
         />
         <TextArea
           value={inputAreaValue}
-          onChangeValue={handleChangeInputArea}
+          onChange={handleChangeInputArea}
           maxLength={300}
           placeholder="입력해주세요"
         />
