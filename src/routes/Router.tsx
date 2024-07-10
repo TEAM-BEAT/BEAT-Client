@@ -12,6 +12,7 @@ import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import { createBrowserRouter } from "react-router-dom";
+import RegisterComplete from "@pages/register/RegisterComplete";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
-      { path: "register-complete", element: <Register /> },
+      { path: "register-complete", element: <RegisterComplete /> },
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },
