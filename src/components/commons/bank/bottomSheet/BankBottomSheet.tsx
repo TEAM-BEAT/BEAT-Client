@@ -7,20 +7,19 @@ export interface BankBottomSheetProps {
   value: string;
   onBankClick: (value: string) => void;
   onOutClick: () => void;
-  isVisible: boolean;
-  bankBottom?: number;
 }
 
 const BankBottomSheet = ({ value, onBankClick, onOutClick }: BankBottomSheetProps) => {
   return (
     <>
       <S.BankLayout>
+        {typeof BANK_LIST[0].bankImg}
         <S.BankTitle>은행을 선택해주세요</S.BankTitle>
         <Spacing marginBottom={"3.2"} />
         <S.BankWrapper>
           {BANK_LIST.map((bank, index) => {
             return (
-              <BankBtn key={index} onClick={onBankClick}>
+              <BankBtn key={index} onClick={onBankClick} icon={<bank.bankImg />}>
                 {bank.name}
               </BankBtn>
             );

@@ -1,4 +1,3 @@
-import { IconNh } from "@assets/svgs";
 import SvgIconArrowDown from "@assets/svgs/IconArrowDown";
 import styled from "styled-components";
 
@@ -48,11 +47,6 @@ export const BankBtnWrapper = styled.button`
 
   background: ${({ theme }) => theme.colors.gray_700};
   border-radius: 6px;
-`;
-
-export const BankImg = styled(<BankImgProps>)`
-  width: 4rem;
-  height: 4rem;
 `;
 
 export const BankName = styled.p`

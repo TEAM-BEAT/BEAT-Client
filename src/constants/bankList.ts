@@ -1,79 +1,95 @@
-import { IconNh } from "@assets/svgs";
+import {
+  IconNonghyup,
+  IconKabank,
+  IconKb,
+  IconToss,
+  IconShinhan,
+  IconWoori,
+  IconIbk,
+  IconHanna,
+  IconSaemauel,
+  IconBnk,
+  IconIm,
+  IconShinhyup,
+  IconWoochaegook,
+  IconSc,
+  IconSoohyup,
+} from "@assets/svgs";
 
 export const BANK_LIST = [
   {
     id: 1,
     name: "NH농협",
-    bankImg: IconNh,
+    bankImg: IconNonghyup,
   },
   {
     id: 2,
     name: "카카오뱅크",
-    bankImg: IconNh,
+    bankImg: IconKabank,
   },
   {
     id: 3,
     name: "KB국민",
-    bankImg: IconNh,
+    bankImg: IconKb,
   },
   {
     id: 4,
     name: "토스뱅크",
-    bankImg: IconNh,
+    bankImg: IconToss,
   },
   {
     id: 5,
     name: "신한",
-    bankImg: IconNh,
+    bankImg: IconShinhan,
   },
   {
     id: 6,
     name: "우리",
-    bankImg: IconNh,
+    bankImg: IconWoori,
   },
   {
     id: 7,
     name: "IBK기업",
-    bankImg: IconNh,
+    bankImg: IconIbk,
   },
   {
     id: 8,
     name: "하나",
-    bankImg: IconNh,
+    bankImg: IconHanna,
   },
   {
     id: 9,
     name: "새마을",
-    bankImg: IconNh,
+    bankImg: IconSaemauel,
   },
   {
     id: 10,
     name: "부산",
-    bankImg: IconNh,
+    bankImg: IconBnk,
   },
   {
     id: 11,
     name: "IM뱅크(대구)",
-    bankImg: IconNh,
+    bankImg: IconIm,
   },
   {
     id: 12,
     name: "신협",
-    bankImg: IconNh,
+    bankImg: IconShinhyup,
   },
   {
     id: 13,
     name: "우체국",
-    bankImg: IconNh,
+    bankImg: IconWoochaegook,
   },
   {
     id: 14,
     name: "SC제일",
-    bankImg: IconNh,
+    bankImg: IconSc,
   },
   {
     id: 15,
     name: "수협",
-    bankImg: IconNh,
+    bankImg: IconSoohyup,
   },
 ];
