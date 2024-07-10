@@ -20,8 +20,7 @@ const Banner = ({ image, reservedCount, isOutdated }: BannerProps) => {
               </S.BannerStateTextBox>
             ) : (
               <S.BannerStateTextBox>
-                현재
-                <S.CountTextSpan> {reservedCount}매 </S.CountTextSpan>
+                총<S.CountTextSpan> {reservedCount}매 </S.CountTextSpan>
                 예매됨
               </S.BannerStateTextBox>
             )}

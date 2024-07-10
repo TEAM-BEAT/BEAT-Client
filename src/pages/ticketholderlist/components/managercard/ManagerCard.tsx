@@ -1,18 +1,21 @@
+import { Dispatch, SetStateAction } from "react";
 import * as S from "./ManagerCard.styled";
 
 const ManagerCard = ({
+  bookingId,
   isPaid,
   isDetail,
-  setDetail,
+  setPaid,
   bookername,
   purchaseTicketeCount,
   scheduleNumber,
   bookerPhoneNumber,
   createAt,
 }: {
+  bookingId: number;
   isPaid: boolean;
   isDetail: boolean;
-  setDetail: () => void;
+  setPaid: Dispatch<SetStateAction<any[]>>;
   bookername: string;
   purchaseTicketeCount: number;
   scheduleNumber: string;
@@ -35,6 +38,16 @@ const ManagerCard = ({
       default:
         console.log("error");
     }
+  };
+  //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
+  const handlePaymentToggle = () => {
+    setPaid((arr) =>
+      arr.map((item) =>
+        item.bookingId === bookingId
+          ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
+          : item
+      )
+    );
   };
   return (
     <S.ManagerCardWrapper $isDetail={isDetail}>
@@ -67,7 +80,7 @@ const ManagerCard = ({
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
       <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid}>
-        <S.ManagerCardRadioBox onClick={setDetail}>
+        <S.ManagerCardRadioBox onClick={handlePaymentToggle}>
           {isPaid ? <S.SelectedIcon /> : <S.UnselectedIcon />}
           <S.ManagerCardRadioText>{isPaid ? "입금 완료" : "미입금"}</S.ManagerCardRadioText>
         </S.ManagerCardRadioBox>
