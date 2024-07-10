@@ -1,9 +1,10 @@
 import Button from "@components/commons/button/Button";
 import { useState } from "react";
 import Banner from "./components/banner/Banner";
-import ManagerCard from "./components/managecard/ManagerCard";
+import ManagerCard from "./components/managercard/ManagerCard";
 import NarrowDropDown from "./components/narrowdropdown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
+import { RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
 const TicketHolderList = () => {
@@ -25,7 +26,8 @@ const TicketHolderList = () => {
     setPaid((prop) => !prop);
   };
 
-  const count = 5; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
+  const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
+  const response_data = RESPONSE_TICKETHOLDER.data.bookingList; // 나중에 state로 관리해주기
   return (
     <>
       <Banner image={eximg} reservedCount={reservedCount} isOutdated={isOutdated} />
@@ -73,9 +75,23 @@ const TicketHolderList = () => {
               )}
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
-          <ManagerCard isPaid={paid} isDetail={detail} setDetail={handlePaidButton} />
+          {response_data.map((obj, index) => (
+            <ManagerCard
+              isPaid={paid}
+              isDetail={detail}
+              setDetail={handlePaidButton}
+              bookername={obj.bookerName}
+              purchaseTicketeCount={obj.purchaseTicketCount}
+              scheduleNumber={obj.scheduleNumber}
+              bookerPhoneNumber={obj.bookerPhoneNumber}
+              createAt={obj.createdAt}
+            />
+          ))}
+          {/*
           <span style={{ color: "white" }}>{`현재 눌린 회차 번호 : ${schedule}`}</span>
           <span style={{ color: "white" }}>{`현재 눌린 지불 여부 : ${payment}`}</span>
+          */}
+
           <S.FooterButtonWrapper>
             <Button>변경내용 저장하기</Button>
           </S.FooterButtonWrapper>

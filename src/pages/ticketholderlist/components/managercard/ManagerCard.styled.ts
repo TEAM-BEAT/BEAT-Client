@@ -25,6 +25,35 @@ export const ManagerCardLayout = styled.div<{ $isDetail: boolean }>`
   border-radius: 6px;
 `;
 
+export const ManagerCardBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+  align-self: stretch;
+`;
+
+export const ManagerCardTextBox = styled.div`
+  display: flex;
+  gap: 2.2rem;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const ManagerCardTextTitle = styled.span`
+  width: 3.7rem;
+
+  color: ${({ theme }) => theme.colors.gray_400};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
+export const ManagerCardTextContent = styled.span`
+  width: 17.3rem;
+
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
 export const ManagerCardRadioLayout = styled.div<{ $isDetail: boolean; $isPaid: boolean }>`
   display: flex;
   flex-shrink: 0;

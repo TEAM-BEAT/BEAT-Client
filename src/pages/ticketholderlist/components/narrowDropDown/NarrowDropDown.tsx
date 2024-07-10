@@ -35,7 +35,7 @@ const NarrowDropDown = ({
         setShowDropdown(false);
       };
       items.push(
-        <S.DropdownContentButton onClick={handleScheduleAll}>
+        <S.DropdownContentButton key={"dropdown-all-schedule"} onClick={handleScheduleAll}>
           <S.DropdownContentText $selected={schedule === 0}>전체</S.DropdownContentText>
         </S.DropdownContentButton>
       );
@@ -71,7 +71,7 @@ const NarrowDropDown = ({
       };
 
       items.push(
-        <S.DropdownContentButton onClick={handlePaymentUndefined}>
+        <S.DropdownContentButton key={"dropdown-all-payment"} onClick={handlePaymentUndefined}>
           <S.DropdownContentText $selected={payment === undefined}>전체</S.DropdownContentText>
         </S.DropdownContentButton>
       );
