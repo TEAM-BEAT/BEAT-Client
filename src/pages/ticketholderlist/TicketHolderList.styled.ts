@@ -8,7 +8,7 @@ export const BodyWrapper = styled.div`
   width: 37.4rem;
   height: auto;
   min-height: 60.8rem; /* 60.8rem(body의 높이) +  5.6rem(버튼의 높이) */
-  margin-bottom: 5.6rem;
+  margin-bottom: 10.4rem;
   padding: 2.4rem;
 `;
 
@@ -57,5 +57,15 @@ export const ToggleOffIcon = styled(IconToggleOff)<{ $width: string; $height: st
 export const FooterButtonWrapper = styled.div`
   position: fixed;
   bottom: 0;
+  left: 50%;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 37.4rem;
+  height: 10.4rem;
+  padding: 2.4rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_900};
+  transform: translate(-50%, 0);
 `;
