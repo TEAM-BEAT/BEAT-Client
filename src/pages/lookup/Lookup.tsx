@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import * as S from "./Lookup.styled";
-import { dummyData } from "./dummyData";
-
 import NonExistent from "./components/nonExistent/NonExistent";
 import LookupWrapper from "./components/LookupWrapper";
+
+import { dummyData } from "./dummyData";
+
+import { LookupProps } from "@typings/lookupType";
 
 import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
 import PhoneNumber from "@components/commons/bottomSheet/actionsBottomSheet/phoneNumber/PhoneNumber";
@@ -11,15 +13,18 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 
 import Button from "@components/commons/button/Button";
 
-const Lookup = () => {
-  const [selectedBookingId, setSelectedBookingId] = useState(0);
+// dummyData 빈 배열일 경우 경우 (주석 처리하면서 사용)
+// const dummyData: LookupProps[] = [];
+
+const Lookup: React.FC = () => {
+  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
 
   const handleSheetOpen = (bookingId: number) => {
     setSelectedBookingId(bookingId);
   };
 
   const handleSheetClose = () => {
-    setSelectedBookingId(0);
+    setSelectedBookingId(null);
   };
 
   return (
