@@ -34,10 +34,18 @@ const TicketHolderList = () => {
           <S.LayoutHeaderBox>
             <S.LayoutFilterBox>
               {/*set 함수 직접 넘기는 거 안좋다고 했지만, 내부에서 감싸야 하므로 넘김 */}
-              <NarrowDropDown totalScheduleCount={count} setSchedule={setSchedule}>
+              <NarrowDropDown
+                totalScheduleCount={count}
+                schedule={schedule}
+                setSchedule={setSchedule}
+              >
                 모든 회차
               </NarrowDropDown>
-              <NarrowDropDown totalScheduleCount={count} setPayment={setPayment}>
+              <NarrowDropDown
+                totalScheduleCount={count}
+                schedule={schedule}
+                setPayment={setPayment}
+              >
                 입금 상태
               </NarrowDropDown>
             </S.LayoutFilterBox>

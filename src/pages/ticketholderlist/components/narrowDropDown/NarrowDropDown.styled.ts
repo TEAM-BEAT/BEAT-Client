@@ -66,7 +66,10 @@ export const DropdownContentLayout = styled.div`
   justify-content: center;
 `;
 
-export const DropdownContentButton = styled.button`
+export const DropdownContentButton = styled.button<{
+  $schedule: number;
+  $payment: boolean | undefined;
+}>`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -76,6 +79,10 @@ export const DropdownContentButton = styled.button`
   /* 피그마에서는 겹치는 부분이 제대로 계산 안되서, 개발하면서 적당히 줄여둠 */
   padding: 0.2rem 0 0.6rem;
 
+  background-color: ${({ theme, $schedule, key }) =>
+    $schedule === key ? theme.colors.gray_800 : "initial"};
+
+  /* 그냥 눌렀을 때 색깔 변경되는거 내일 하자......... */
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray_700};
 `;
 
