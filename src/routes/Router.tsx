@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
-      { path: "book", element: <Book /> },
+      { path: "book/:performanceId", element: <Book /> },
       { path: "manage", element: <Manage /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },
       // ... other pages
