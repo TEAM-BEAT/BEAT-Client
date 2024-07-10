@@ -1,8 +1,9 @@
-export { default as IcomCopy } from "./IcomCopy";
 export { default as IcHamburgar } from "./IcHamburgar";
+export { default as IcomCopy } from "./IcomCopy";
 export { default as IconArrowLeft } from "./IconArrowLeft";
 export { default as IconArrowRight } from "./IconArrowRight";
 export { default as IconCheck } from "./IconCheck";
+export { default as IconEyeOff } from "./IconEyeOff";
 export { default as IconLogo } from "./IconLogo";
 export { default as IconMinus } from "./IconMinus";
 export { default as IconPlus } from "./IconPlus";
