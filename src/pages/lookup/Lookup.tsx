@@ -12,14 +12,14 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import Button from "@components/commons/button/Button";
 
 const Lookup = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState(0);
 
-  const handleSheetOpen = () => {
-    setIsOpen(true);
+  const handleSheetOpen = (bookingId: number) => {
+    setSelectedBookingId(bookingId);
   };
 
   const handleSheetClose = () => {
-    setIsOpen(false);
+    setSelectedBookingId(0);
   };
 
   return (
@@ -28,8 +28,8 @@ const Lookup = () => {
         <>
           {dummyData.map((item) => (
             <React.Fragment key={item.bookingId}>
-              <LookupWrapper {...item} handleBtn={handleSheetOpen} />
-              {isOpen && (
+              <LookupWrapper {...item} handleBtn={() => handleSheetOpen(item.bookingId)} />
+              {selectedBookingId === item.bookingId && (
                 <ActionBottomSheet
                   onClickOutside={handleSheetClose}
                   title="대표자에게 연락하여 취소를 요청해 주세요"

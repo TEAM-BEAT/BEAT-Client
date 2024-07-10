@@ -10,7 +10,7 @@ export const dummyData = [
     purchaseTicketCount: 2,
     scheduleNumber: "FIRST",
     bookerName: "서지우",
-    bookerPhoneNumber: "010-2222-7196",
+    bookerPhoneNumber: "010-1111-7196",
     bankName: "부산",
     accountNumber: "924232-22-234232",
     dueDate: 2,
@@ -46,7 +46,7 @@ export const dummyData = [
     purchaseTicketCount: 2,
     scheduleNumber: "SECOND",
     bookerName: "윤신지",
-    bookerPhoneNumber: "010-2222-0000",
+    bookerPhoneNumber: "010-3333-0000",
     bankName: "국민",
     accountNumber: "031701-00-014842",
     dueDate: -1, // -1이면 관람완료!
