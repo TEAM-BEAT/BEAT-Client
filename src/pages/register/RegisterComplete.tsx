@@ -4,12 +4,12 @@ import * as S from "./Register.styled";
 import Spacing from "@components/commons/spacing/Spacing";
 import Button from "@components/commons/button/Button";
 import { useNavigate } from "react-router-dom";
+import { REGISTER_RESPONSE } from "./constants";
 
 const RegisterComplete = () => {
   const user = "메이커";
   const navigate = useNavigate();
-  const performanceId = 1;
-  const goGigsPage = () => navigate(`/gig/${performanceId}`);
+  const goGigsPage = () => navigate(`/gig/${REGISTER_RESPONSE.performanceId}`);
 
   return (
     <>
