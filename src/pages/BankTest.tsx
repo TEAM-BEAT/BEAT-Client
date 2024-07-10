@@ -23,16 +23,18 @@ const BankTest = () => {
   };
 
   return (
-    <Test>
-      <InputAccountWrapper>
-        <InputBank onClick={handleBankOpen}>{bankInfo}</InputBank>
-        <TextField
-          value={accountInfo}
-          onChangeValue={handleChangeInput}
-          filter={numericFilter}
-          placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
-        />{" "}
-      </InputAccountWrapper>
+    <>
+      <Test>
+        <InputAccountWrapper>
+          <InputBank onClick={handleBankOpen}>{bankInfo}</InputBank>
+          <TextField
+            value={accountInfo}
+            onChangeValue={handleChangeInput}
+            filter={numericFilter}
+            placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+          />{" "}
+        </InputAccountWrapper>
+      </Test>
       {bankOpen && (
         <BankBottomSheet
           value={bankInfo}
@@ -40,7 +42,7 @@ const BankTest = () => {
           onOutClick={handleBankOpen}
         />
       )}
-    </Test>
+    </>
   );
 };
 
