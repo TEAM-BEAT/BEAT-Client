@@ -12,7 +12,7 @@ const NonMbLookup = () => {
   // 하단 내역 확인 버튼 활성화/비활성화 상태
   const [btnActive, setBtnActive] = useState(false);
   // 하단 내역 확인 버튼 클릭 시 true
-  const [inputActive, setInputActive] = useState(false);
+  const [isReadyRequest, setIsReadyRequest] = useState(false);
   // API 연결 후 들어오는 상태
   const [dataState, setDataState] = useState(0);
 
@@ -25,7 +25,7 @@ const NonMbLookup = () => {
   };
 
   const handleBtnState = () => {
-    setInputActive(true);
+    setIsReadyRequest(true);
   };
 
   const handleData = (status: number) => {
@@ -36,7 +36,7 @@ const NonMbLookup = () => {
     openAlert({
       title: "일치하는 정보가 없습니다. \n 확인 후 다시 조회해 주세요",
       okCallback: () => {
-        setInputActive(false);
+        setIsReadyRequest(false);
         setDataState(0);
       },
     });
@@ -56,7 +56,7 @@ const NonMbLookup = () => {
       <InputWrapper
         btnOn={handleBtnOn}
         btnOff={handleBtnOff}
-        inputActive={inputActive}
+        isReadyRequest={isReadyRequest}
         dataStatus={handleData}
       />
       <S.BtnLayout>

@@ -1,4 +1,3 @@
-// InputWrapper.tsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./InputWrapper.styled";
@@ -9,7 +8,7 @@ import { numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
 interface InputProps {
   btnOn: () => void;
   btnOff: () => void;
-  inputActive: boolean;
+  isReadyRequest: boolean;
   dataStatus: (status: number) => void;
 }
 
@@ -17,7 +16,7 @@ interface InputProps {
 const success = 200;
 const fail = 404;
 
-const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) => {
+const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps) => {
   const navigate = useNavigate();
 
   const [nonMemberInfo, setNonMemberInfo] = useState({
@@ -62,10 +61,10 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
     } else {
       btnOff();
     }
-  }, [name, birth, number, password, inputActive]);
+  }, [name, birth, number, password, isReadyRequest]);
 
   useEffect(() => {
-    if (inputActive) {
+    if (isReadyRequest) {
       // API 붙일 때 이 부분 서버 통신 성공 경우
       // API 붙일 때 여기서 서버 POST
       if (success === 200) {
@@ -82,7 +81,7 @@ const InputWrapper = ({ btnOn, btnOff, inputActive, dataStatus }: InputProps) =>
         dataStatus(404);
       }
     }
-  }, [inputActive]);
+  }, [isReadyRequest]);
 
   return (
     <S.InputWrapperLayout>
