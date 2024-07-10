@@ -1,4 +1,4 @@
-import { TAB_TYPE, TabType } from "@pages/book/constants";
+import { TAB_TYPE, TabType } from "@pages/gig/constants";
 import { useState } from "react";
 import MakerIntroduce from "../makerIntroduce/MakerIntroduce";
 import PerformanceIntroduce from "../performanceIntroduce/PerformanceIntroduce";
