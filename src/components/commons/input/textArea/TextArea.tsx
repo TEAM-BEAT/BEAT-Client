@@ -1,19 +1,28 @@
-import { ChangeEvent, TextareaHTMLAttributes } from "react";
+import React, { ChangeEvent, TextareaHTMLAttributes } from "react";
 import * as S from "./TextArea.styled";
 
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  onChangeValue: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   maxLength?: number;
   placeholder: string;
 }
 
-const TextArea = ({ value, onChangeValue, maxLength, placeholder, ...rest }: TextAreaProps) => {
+const TextArea = ({ value, onChange, maxLength, placeholder, ...rest }: TextAreaProps) => {
   const handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     let inputValue = e.target.value;
     if (maxLength && inputValue.length > maxLength) {
       inputValue = inputValue.slice(0, maxLength);
     }
-    onChangeValue(inputValue);
+
+    const newEvent = {
+      ...e,
+      target: {
+        ...e.target,
+        value: inputValue,
+      },
+    } as ChangeEvent<HTMLTextAreaElement>;
+
+    onChange(newEvent);
   };
   return (
     <S.TextAreaWrapper>
