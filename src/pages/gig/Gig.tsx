@@ -6,7 +6,7 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_DETAIL_INFO } from "./constants";
 
-const Book = () => {
+const Gig = () => {
   // TODO: performanceId로 상세 정보 조회(GET)
   const { performanceId } = useParams<{ performanceId: string }>();
   const [detail, setDetail] = useState(SHOW_DETAIL_INFO);
@@ -38,7 +38,7 @@ const Book = () => {
   );
 };
 
-export default Book;
+export default Gig;
 
 const FooterContainer = styled.div`
   position: sticky;

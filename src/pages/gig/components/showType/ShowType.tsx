@@ -1,4 +1,4 @@
-import { SHOW_TYPE, ShowTypes } from "@pages/book/constants";
+import { SHOW_TYPE, ShowTypes } from "@pages/gig/constants";
 import * as S from "./ShowType.styled";
 
 interface ShowTypeProps {
