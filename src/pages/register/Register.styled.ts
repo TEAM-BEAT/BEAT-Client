@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const RegisterCompleteLayout = styled.section`
   width: 37.4rem;
-  height: 60.8rem;
   padding: 2.4rem;
 `;
 
@@ -11,7 +10,7 @@ export const RegisterCompleteWrapper = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1.2rem 2.4rem 2.2rem;
+  margin: 12rem 2.4rem 22rem;
 `;
 
 export const RegisterCompleteTitle = styled.h1`

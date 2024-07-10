@@ -25,10 +25,10 @@ const RegisterComplete = () => {
             {user}님, <br />
             공연 등록이 완료되었어요!
           </S.RegisterCompleteTitle>
+          <Spacing marginBottom="1" />
           <S.ReigsterCompleteSubTitle>
             가슴 뛰는 이야기의 시작을 축하드려요.
           </S.ReigsterCompleteSubTitle>
-          <Spacing marginBottom="1" />
         </S.RegisterCompleteWrapper>
       </S.RegisterCompleteLayout>
       <S.FooterContainer>
