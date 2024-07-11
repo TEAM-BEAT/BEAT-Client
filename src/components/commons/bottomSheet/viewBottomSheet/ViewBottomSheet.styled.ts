@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-import { BoxTitleStyle, BoxDividerStyle } from "@typings/contextBoxProps";
+import { BoxDividerStyle, BoxTitleStyle } from "@typings/contextBoxProps";
 
 export const ViewBottomSheetWrapper = styled.section`
   position: fixed;
-  top: 0;
   bottom: 0;
-  left: auto;
+
   display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
 `;

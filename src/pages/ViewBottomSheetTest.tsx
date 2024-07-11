@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
-import Context from "@components/commons/contextBox/Context";
-import Button from "@components/commons/button/Button";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
+import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
+import Button from "@components/commons/button/Button";
+import Context from "@components/commons/contextBox/Context";
 import { useState } from "react";
+import styled from "styled-components";
 
 const ViewBottomSheetTest = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,8 +46,10 @@ const ViewBottomSheetTest = () => {
 export default ViewBottomSheetTest;
 
 const Test = styled.div`
-  width: 37.5rem;
-  height: 660.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2.4rem;
 
   background-color: white;
 `;
