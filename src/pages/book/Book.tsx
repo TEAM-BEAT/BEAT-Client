@@ -7,10 +7,12 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import BookerInfo from "./components/bookerInfo/BookerInfo";
 import Count from "./components/count/Count";
+import EasyPassEntry from "./components/easyPassEntry/EasyPassEntry";
 import Info from "./components/info/Info";
 import Select from "./components/select/Select";
 import TermCheck from "./components/termCheck/TermCheck";
 import { BOOK_DETAIL_INFO } from "./constants/dummy";
+import { FormData } from "./typings/formData";
 
 const Book = () => {
   const { performanceId } = useParams<{ performanceId: string }>();
@@ -27,6 +29,10 @@ const Book = () => {
     bookerPhoneNumber: "",
     birthDate: "",
   });
+  const [easyPassword, setEasyPassword] = useState({
+    password: "",
+    passwordCheck: "",
+  });
   const [isTermChecked, setIsTermChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState(false);
@@ -39,6 +45,12 @@ const Book = () => {
     const { name, value } = e.target;
 
     setBookerInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onChangeEasyPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setEasyPassword((prev) => ({ ...prev, [name]: value }));
   };
 
   const onMinusClick = () => {
@@ -70,28 +82,44 @@ const Book = () => {
   const handleClickBookRequst = () => {
     // TODO: 티켓 매수 요청 get 요청 후, true 인 상태이면, 바텀 시트 열기
 
-    const formData = {
+    let formData = {
       scheduleId: performanceId,
       selectedValue,
       purchaseTicketCount: round,
-      ...bookerInfo,
       totalPaymentAmount: detail.ticketPrice * round,
-    };
-
-    console.log(formData);
+    } as FormData;
 
     // TODO: 회원, 비회원 여부에 따라서 예매하기 post 요청
+    if (isNonMember) {
+      // 비회원 예매하기 post 요청
+      formData = { ...formData, ...bookerInfo, password: easyPassword.password } as FormData;
+
+      console.log(formData);
+    } else {
+      // 회원 예매하기 post 요청
+      formData = {
+        ...formData,
+        bookerName: bookerInfo.bookerName,
+        bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
+      } as FormData;
+
+      console.log(formData);
+    }
 
     // TODO: 완료 페이지로 navigate
   };
 
   useEffect(() => {
     if (selectedValue && bookerInfo.bookerName && bookerInfo.bookerPhoneNumber && isTermChecked) {
-      setActiveButton(true);
+      if (isNonMember && easyPassword.password === easyPassword.passwordCheck) {
+        setActiveButton(true);
+      } else {
+        setActiveButton(false);
+      }
     } else {
       setActiveButton(false);
     }
-  }, [selectedValue, bookerInfo, isTermChecked]);
+  }, [isNonMember, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
   return (
     <ContentWrapper>
@@ -103,7 +131,6 @@ const Book = () => {
         period={detail.performancePeriod}
       />
       <Divider />
-
       <Select
         selectedValue={selectedValue as number}
         handleRadioChange={handleRadioChange}
@@ -118,12 +145,19 @@ const Book = () => {
           selectedValue ? detail.scheduleList[selectedValue - 1].availableTicketCount : undefined
         }
       />
-
       <BookerInfo
         isNonMember={isNonMember}
         bookerInfo={bookerInfo}
         onChangeBookerInfo={onChangeBookerInfo}
       />
+      {isNonMember && (
+        <EasyPassEntry
+          password={easyPassword.password}
+          passwordCheck={easyPassword.passwordCheck}
+          onChangeEasyPassword={onChangeEasyPassword}
+        />
+      )}
+
       <TermCheck isTermChecked={isTermChecked} onClickTermCheck={onClickTermCheck} />
       <FooterContainer>
         <Button disabled={!activeButton} onClick={handleClickBook}>
