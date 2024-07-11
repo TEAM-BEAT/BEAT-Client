@@ -1,6 +1,11 @@
 import * as S from "./TermCheck.styled";
 
-const TermCheck = () => {
+interface TermCheckProps {
+  isTermChecked: boolean;
+  onClickTermCheck: () => void;
+}
+
+const TermCheck = ({ isTermChecked, onClickTermCheck }: TermCheckProps) => {
   return (
     <S.Wrapper>
       <div>
@@ -8,7 +13,7 @@ const TermCheck = () => {
         <S.HyperLinkText href="http://www.naver.com">이용약관</S.HyperLinkText>
         <S.HyperLinkSpan>에 동의합니다</S.HyperLinkSpan>
       </div>
-      <S.StyledCheckbox type="checkbox" />
+      <S.StyledCheckbox type="checkbox" checked={isTermChecked} onChange={onClickTermCheck} />
     </S.Wrapper>
   );
 };
