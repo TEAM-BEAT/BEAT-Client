@@ -75,6 +75,21 @@ export const handleDateChange = (
   });
 };
 
+// 티켓 판매수 모든 회차에 동일하게 적용되도록 핸들링
+export const handleTotalTicketCountChange = (
+  e: ChangeEvent<HTMLInputElement>,
+  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+) => {
+  const { value } = e.target;
+  setGigInfo((prev) => ({
+    ...prev,
+    scheduleList: prev.scheduleList.map((schedule) => ({
+      ...schedule,
+      totalTicketCount: value,
+    })),
+  }));
+};
+
 // Bank 핸들링
 export const handleBankOpen = (setBankOpen: Dispatch<SetStateAction<boolean>>) => {
   setBankOpen((current) => !current);

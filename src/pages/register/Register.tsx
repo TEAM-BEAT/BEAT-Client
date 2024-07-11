@@ -26,6 +26,7 @@ import {
   handleDateChange,
   handleBankOpen,
   handleBankClick,
+  handleTotalTicketCountChange,
 } from "./utils/handleEvent";
 import { GigInfo } from "./typings/gigInfo";
 
@@ -197,6 +198,18 @@ const Register = () => {
           placeholder="가격을 입력해주세요."
           filter={priceFilter}
           unit="amount"
+        />
+      </InputRegisterBox>
+
+      <InputRegisterBox title="회차별 티켓 판매수">
+        <TextField
+          type="input"
+          name="totalTicketCount"
+          value={scheduleList[0].totalTicketCount}
+          onChange={(e) => handleTotalTicketCountChange(e, setGigInfo)}
+          placeholder="판매할 티켓의 매 수를 입력해주세요."
+          filter={numericFilter}
+          unit="ticket"
         />
       </InputRegisterBox>
 
