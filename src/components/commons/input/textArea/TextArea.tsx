@@ -9,6 +9,7 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 
 const TextArea = ({ value, onChange, maxLength, placeholder, ...rest }: TextAreaProps) => {
   const handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const inputName = e.target.name;
     let inputValue = e.target.value;
     if (maxLength && inputValue.length > maxLength) {
       inputValue = inputValue.slice(0, maxLength);
@@ -18,6 +19,7 @@ const TextArea = ({ value, onChange, maxLength, placeholder, ...rest }: TextArea
       ...e,
       target: {
         ...e.target,
+        name: inputName,
         value: inputValue,
       },
     } as ChangeEvent<HTMLTextAreaElement>;

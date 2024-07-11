@@ -91,5 +91,5 @@ export const InputAccountWrapper = styled.section`
 
 export const InputAccountLabel = styled.label`
   color: ${({ theme }) => theme.colors.white};
-  ${({ theme }) => theme.fonts["body1-normal-semi"]}
+  ${({ theme }) => theme.fonts.heading4}
 `;
