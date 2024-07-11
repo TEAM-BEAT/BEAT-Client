@@ -9,6 +9,7 @@ import ModalTest from "@pages/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
+import Main from "@pages/main/Main";
 import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
   //   },
   { path: "/testpage", element: <TestPage /> },
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
+  { path: "/main", element: <Main /> },
   //   ...
 ]);
 export default router;
