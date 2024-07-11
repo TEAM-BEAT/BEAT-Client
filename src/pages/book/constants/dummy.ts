@@ -17,7 +17,7 @@ export const BOOK_DETAIL_INFO = {
     {
       scheduleId: 2,
       performanceDate: "2023-12-29T19:30:00",
-      availableTicketCount: 90,
+      availableTicketCount: 4,
       scheduleNumber: "SECOND",
     },
   ],

@@ -101,6 +101,9 @@ const Book = () => {
         onMinusClick={onMinusClick}
         onPlusClick={onPlusClick}
         ticketPrice={detail.ticketPrice}
+        availableTicketCount={
+          selectedValue ? detail.scheduleList[selectedValue - 1].availableTicketCount : undefined
+        }
       />
 
       <BookerInfo bookerInfo={bookerInfo} onChangeBookerInfo={onChangeBookerInfo} />
