@@ -10,7 +10,7 @@ const bottomSheetDown = keyframes`
   100% { transform: translateY(100%); }
 `;
 
-export const BottomSheetWrapper = styled.section<{ isOpen: boolean }>`
+export const BottomSheetWrapper = styled.section<{ $isOpen: boolean }>`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -19,7 +19,7 @@ export const BottomSheetWrapper = styled.section<{ isOpen: boolean }>`
   justify-content: center;
   width: 100%;
 
-  animation: ${({ isOpen }) => (isOpen ? bottomSheetUp : bottomSheetDown)} 250ms ease-in-out;
+  animation: ${({ $isOpen }) => ($isOpen ? bottomSheetUp : bottomSheetDown)} 250ms ease-in-out;
 `;
 
 export const BottomSheetLayout = styled.section`
