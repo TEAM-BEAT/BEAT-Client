@@ -10,6 +10,8 @@ import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
+import KakaoLoginTest from "@pages/KakaoLoginTest";
+import KakaoAuthTest from "@pages/KakaoAuthTest";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: "/modal-test",
     element: <ModalTest />,
+  },
+  {
+    path: "/kakao-login",
+    element: <KakaoLoginTest />,
+  },
+  {
+    path: "/auth",
+    element: <KakaoAuthTest />,
   },
   {
     path: "/action-bottom-sheet",
