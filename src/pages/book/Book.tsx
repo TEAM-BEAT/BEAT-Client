@@ -89,6 +89,8 @@ const Book = () => {
         venue={detail.performanceVenue}
         period={detail.performancePeriod}
       />
+      <Divider />
+
       <Select
         selectedValue={selectedValue as number}
         handleRadioChange={handleRadioChange}
@@ -100,6 +102,7 @@ const Book = () => {
         onPlusClick={onPlusClick}
         ticketPrice={detail.ticketPrice}
       />
+
       <BookerInfo bookerInfo={bookerInfo} onChangeBookerInfo={onChangeBookerInfo} />
       <TermCheck isTermChecked={isTermChecked} onClickTermCheck={onClickTermCheck} />
       <FooterContainer>
@@ -147,6 +150,16 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0 2.4rem;
+`;
+
+const Divider = styled.div`
+  width: 375px;
+  height: 8px;
+  margin-top: 1.6rem;
+
+  background: ${({ theme }) => theme.colors.gray_800};
+  opacity: 0.6;
+  border: 1px s;
 `;
 
 const FooterContainer = styled.div`

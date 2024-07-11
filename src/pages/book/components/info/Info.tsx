@@ -18,7 +18,7 @@ const Info = ({ genre, title, teamName, venue, period }: InfoProps) => {
         <S.InfoPoster $imgsrc={"src/pages/MyRegisterdShow/constants/silkagel.png"} />
 
         <S.InfoTextBox>
-          {/* TODO: 유형에 따라 view 변경 */}
+          {/* TODO: genre에 따라 view 변경 */}
           <S.InfoType>{genre}</S.InfoType>
           <Spacing marginBottom="0.2" />
           <S.InfoTitle>{title}</S.InfoTitle>
