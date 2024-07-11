@@ -6,7 +6,7 @@ import useModal from "@hooks/useModal";
 import Button from "@components/commons/button/Button";
 import LookupCard from "./LookupCard";
 
-import { LookupProps } from "@typings/lookupType";
+import { LookupProps } from "../types/lookupType";
 
 const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
   const { openAlert, closeAlert } = useModal();

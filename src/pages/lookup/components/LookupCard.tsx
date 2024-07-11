@@ -1,5 +1,5 @@
 import * as S from "./LookupCard.styled";
-import { LookupProps } from "@typings/lookupType";
+import { LookupProps } from "../types/lookupType";
 
 const LookupCard = ({
   createdAt,

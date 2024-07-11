@@ -5,7 +5,7 @@ import LookupWrapper from "./components/LookupWrapper";
 
 import { dummyData } from "./dummyData";
 
-import { LookupProps } from "@typings/lookupType";
+import { LookupProps } from "./types/lookupType";
 
 import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
 import PhoneNumber from "@components/commons/bottomSheet/actionsBottomSheet/phoneNumber/PhoneNumber";
