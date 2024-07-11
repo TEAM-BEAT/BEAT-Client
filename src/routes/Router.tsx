@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       { path: "a", element: <Apage /> },
       { path: "lookup", element: <Lookup /> },
-      { path: "book", element: <Book /> },
+      { path: "book/:performanceId", element: <Book /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
       { path: "gig/:performanceId", element: <Gig /> },
