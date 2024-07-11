@@ -11,6 +11,7 @@ const RadioGroup = ({ selectedValue, handleRadioChange, scheduleList }: SelectPr
           label={schedule.performanceDate}
           value={schedule.scheduleId}
           checked={selectedValue === schedule.scheduleId}
+          isSoldOut={schedule.availableTicketCount === 0}
           onChange={handleRadioChange}
         />
       ))}

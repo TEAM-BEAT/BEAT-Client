@@ -11,7 +11,7 @@ export const BOOK_DETAIL_INFO = {
     {
       scheduleId: 1,
       performanceDate: "2023-12-28T19:30:00",
-      availableTicketCount: 100,
+      availableTicketCount: 0,
       scheduleNumber: "FIRST",
     },
     {
@@ -19,6 +19,12 @@ export const BOOK_DETAIL_INFO = {
       performanceDate: "2023-12-29T19:30:00",
       availableTicketCount: 4,
       scheduleNumber: "SECOND",
+    },
+    {
+      scheduleId: 3,
+      performanceDate: "2023-12-30T19:30:00",
+      availableTicketCount: 8,
+      scheduleNumber: "THIRD",
     },
   ],
 };

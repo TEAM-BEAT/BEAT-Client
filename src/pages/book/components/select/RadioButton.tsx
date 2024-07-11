@@ -4,33 +4,45 @@ interface RadioButtonProps {
   label: string;
   value: number;
   checked: boolean;
+  isSoldOut: boolean;
   onChange: (value: number) => void;
 }
 
-const RadioButton = ({ label, value, checked, onChange }: RadioButtonProps) => {
+const RadioButton = ({ label, value, checked, isSoldOut, onChange }: RadioButtonProps) => {
   const [date, time] = label.split("T");
-
   return (
-    <Label checked={checked}>
+    <Label checked={checked} $isSoldOut={isSoldOut}>
       <div>
         <Text>{date}</Text>
         <DateTimeDivider />
         <Text>{time.slice(0, 5)}</Text>
       </div>
 
-      <Input type="radio" value={value} checked={checked} onChange={() => onChange(value)} />
-      <CustomRadio checked={checked} />
+      {isSoldOut ? (
+        <SoldOutText>매진</SoldOutText>
+      ) : (
+        <>
+          <Input type="radio" value={value} checked={checked} onChange={() => onChange(value)} />
+          <CustomRadio checked={checked} />
+        </>
+      )}
     </Label>
   );
 };
 
 export default RadioButton;
 
-const Label = styled.label<{ checked: boolean }>`
+const Label = styled.label<{ checked: boolean; $isSoldOut: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 1rem 1.2rem 1.6rem;
+
+  ${({ $isSoldOut, theme }) =>
+    $isSoldOut
+      ? `
+    color: ${theme.colors.gray_600};`
+      : `color: ${theme.colors.gray_0}`};
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   cursor: pointer;
@@ -43,11 +55,6 @@ const Label = styled.label<{ checked: boolean }>`
         background-color: ${theme.colors.gray_800};
         border: 2px solid ${theme.colors.pink_400};
       `}
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray_800};
-    border-color: ${({ theme }) => theme.colors.pink_400};
-  }
 `;
 
 const Input = styled.input`
@@ -64,7 +71,6 @@ const DateTimeDivider = styled.div`
 `;
 
 const Text = styled.span`
-  color: ${({ theme }) => theme.colors.gray_0};
   ${({ theme }) => theme.fonts["body1-normal-medi"]};
 `;
 
@@ -94,4 +100,9 @@ const CustomRadio = styled.span<{ checked: boolean }>`
 
     content: "";
   }
+`;
+
+const SoldOutText = styled.span`
+  color: ${({ theme }) => theme.colors.gray_600};
+  ${({ theme }) => theme.fonts["body2-normal-semi"]};
 `;
