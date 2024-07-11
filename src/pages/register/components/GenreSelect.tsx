@@ -1,11 +1,11 @@
 import Spacing from "@components/commons/spacing/Spacing";
 import * as S from "../Register.styled";
-import { ReactNode } from "react";
+import { ComponentType } from "react";
 
 interface Genre {
   id: number;
   genre: string;
-  genreIcon: ReactNode;
+  genreIcon: ComponentType;
 }
 interface GenreSelectProps {
   title: string;
@@ -27,16 +27,19 @@ const GenreSelect = ({
       <S.InputTitle>{title}</S.InputTitle>
       <Spacing marginBottom={"1.4"} />
       <S.GenreContainer>
-        {genres.map((genre) => (
-          <S.GenreItem
-            key={genre.id}
-            onClick={() => onGenreSelect(genre.genre)}
-            selected={selectedGenre === genre.genre}
-          >
-            <genre.genreIcon />
-            {genre.genre}
-          </S.GenreItem>
-        ))}
+        {genres.map((genre) => {
+          const GenreIcon = genre.genreIcon;
+          return (
+            <S.GenreItem
+              key={genre.id}
+              onClick={() => onGenreSelect(genre.genre)}
+              selected={selectedGenre === genre.genre}
+            >
+              <GenreIcon />
+              {genre.genre}
+            </S.GenreItem>
+          );
+        })}
       </S.GenreContainer>
     </S.InputRegisterBox>
   );

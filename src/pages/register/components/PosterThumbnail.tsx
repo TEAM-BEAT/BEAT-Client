@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import * as S from "../Register.styled";
 import { IconCamera } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
@@ -11,8 +11,8 @@ const PosterThumbnail = ({ onImageUpload }: PosterThumbnailProps) => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
 
-  function uploadFile(e) {
-    const file = e.target.files[0];
+  function uploadFile(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
     if (file) {
       setPostImg(file);
 

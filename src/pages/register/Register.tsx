@@ -1,7 +1,7 @@
 import TextField from "@components/commons/input/textField/TextField";
 import InputRegisterBox from "./components/InputRegisterBox";
 import * as S from "./Register.styled";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import Stepper from "@components/commons/stepper/Stepper";
