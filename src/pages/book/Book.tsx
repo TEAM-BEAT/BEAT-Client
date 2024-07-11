@@ -15,12 +15,17 @@ import { BOOK_DETAIL_INFO } from "./constants/dummy";
 const Book = () => {
   const { performanceId } = useParams<{ performanceId: string }>();
 
+  // TODO: 회원/비회원 여부
+  // navigate 할 때 state로 넘기기 ?
+  const isNonMember = true;
+
   const [detail, setDetail] = useState(BOOK_DETAIL_INFO);
   const [selectedValue, setSelectedValue] = useState<number>();
   const [round, setRound] = useState(1);
   const [bookerInfo, setBookerInfo] = useState({
-    name: "",
-    phoneNumber: "",
+    bookerName: "",
+    bookerPhoneNumber: "",
+    birthDate: "",
   });
   const [isTermChecked, setIsTermChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,17 +68,25 @@ const Book = () => {
   };
 
   const handleClickBookRequst = () => {
-    // TODO: 티켓 매수 요청 get 요청 후, true 인 상태일 때 바텀 시트 열기
-    const formData = { selectedValue, round, bookerInfo, isTermChecked };
+    // TODO: 티켓 매수 요청 get 요청 후, true 인 상태이면, 바텀 시트 열기
+
+    const formData = {
+      scheduleId: performanceId,
+      selectedValue,
+      purchaseTicketCount: round,
+      ...bookerInfo,
+      totalPaymentAmount: detail.ticketPrice * round,
+    };
+
     console.log(formData);
 
-    // TODO: 예매하기 post 요청
+    // TODO: 회원, 비회원 여부에 따라서 예매하기 post 요청
 
     // TODO: 완료 페이지로 navigate
   };
 
   useEffect(() => {
-    if (selectedValue && bookerInfo.name && bookerInfo.phoneNumber && isTermChecked) {
+    if (selectedValue && bookerInfo.bookerName && bookerInfo.bookerPhoneNumber && isTermChecked) {
       setActiveButton(true);
     } else {
       setActiveButton(false);
@@ -106,7 +119,11 @@ const Book = () => {
         }
       />
 
-      <BookerInfo bookerInfo={bookerInfo} onChangeBookerInfo={onChangeBookerInfo} />
+      <BookerInfo
+        isNonMember={isNonMember}
+        bookerInfo={bookerInfo}
+        onChangeBookerInfo={onChangeBookerInfo}
+      />
       <TermCheck isTermChecked={isTermChecked} onClickTermCheck={onClickTermCheck} />
       <FooterContainer>
         <Button disabled={!activeButton} onClick={handleClickBook}>
@@ -132,7 +149,7 @@ const Book = () => {
             .toString()}
         />
         <Context subTitle="가격" text={`${(detail.ticketPrice * round).toLocaleString()}원`} />
-        <Context subTitle="예매자" text={bookerInfo.name} />
+        <Context subTitle="예매자" text={bookerInfo.bookerName} />
         <OuterLayout gap="1.1rem" margin="2.4rem 0 0 0">
           <Button variant="gray" size="medium" onClick={handleSheetClose}>
             다시 할게요
