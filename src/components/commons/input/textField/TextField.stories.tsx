@@ -11,7 +11,7 @@ const meta = {
     layout: "centered",
   },
   argTypes: {},
-  args: { value: "", onClick: fn(), placeholder: "플레이스 홀더", onChangeValue: fn() },
+  args: { value: "", onClick: fn(), placeholder: "플레이스 홀더", onChange: fn() },
 } satisfies Meta<typeof TextField>;
 
 export default meta;
@@ -19,7 +19,7 @@ type Story = StoryObj<TextFieldProps>;
 const Template: StoryFn<TextFieldProps> = (args) => {
   const [value, setValue] = useState(args.value);
 
-  return <TextField {...args} value={value} onChangeValue={setValue} />;
+  return <TextField {...args} value={value} onChange={(e) => setValue(e.target.value)} />;
 };
 
 export const DefaultCapOn: Story = Template.bind({});

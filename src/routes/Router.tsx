@@ -7,6 +7,7 @@ import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
+import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
+  },
+  {
+    path: "/NonMb-Lookup",
+    element: <NonMbLookup />,
   },
   {
     path: "/bank-sheet",
