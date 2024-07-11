@@ -78,18 +78,13 @@ const Register = () => {
     runningTime,
     performanceDescription,
     performanceAttentionNote,
-    bankName,
     accountNumber,
-    posterImage,
     performanceTeamName,
     performanceVenue,
     performanceContact,
-    performancePeriod,
     ticketPrice,
     totalScheduleCount,
     scheduleList,
-    castList,
-    staffList,
   } = gigInfo;
 
   const [round, setRound] = useState(1); // 회차
