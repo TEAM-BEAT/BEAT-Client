@@ -8,8 +8,6 @@ export const requestKakaoLogin = () => {
     const code = new URL(window.location.href).searchParams.get("code");
     window.location.href = kakaoURL;
 
-    console.log(code);
-
     return code;
   };
 

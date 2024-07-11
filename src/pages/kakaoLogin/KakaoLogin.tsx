@@ -6,7 +6,6 @@ import { getData } from "@apis/kakoLogin/getKakaoData";
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
-  //   const [userData, setUserData] = useState(null);
 
   const code = new URL(window.location.href).searchParams.get("code");
 
