@@ -10,7 +10,7 @@ const meta = {
     layout: "centered",
   },
   argTypes: {},
-  args: { value: "", onClick: fn(), placeholder: "플레이스 홀더", onChangeValue: fn() },
+  args: { value: "", onClick: fn(), placeholder: "플레이스 홀더", onChange: fn() },
 } satisfies Meta<typeof TextArea>;
 
 export default meta;
@@ -19,7 +19,7 @@ type Story = StoryObj<TextAreaProps>;
 const Template: StoryFn<TextAreaProps> = (args) => {
   const [value, setValue] = useState(args.value);
 
-  return <TextArea {...args} value={value} onChangeValue={setValue} />;
+  return <TextArea {...args} value={value} onChange={(e) => setValue(e.target.value)} />;
 };
 
 export const CapOn: Story = Template.bind({});
