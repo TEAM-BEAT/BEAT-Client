@@ -17,8 +17,20 @@ import Spacing from "@components/commons/spacing/Spacing";
 import { GENRE_LIST } from "./constants/genreList";
 import { Dayjs } from "dayjs";
 
+import {
+  handleImageUpload,
+  handleGenreSelect,
+  handleChange,
+  onMinusClick,
+  onPlusClick,
+  handleDateChange,
+  handleBankOpen,
+  handleBankClick,
+} from "./utils/handleEvent";
+import { GigInfo } from "./typings/gigInfo";
+
 const Register = () => {
-  const [gigInfo, setGigInfo] = useState({
+  const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
     genre: "", // 공연 장르
     runningTime: "", // 러닝 타임
@@ -55,8 +67,6 @@ const Register = () => {
       },
     ],
   });
-  const [round, setRound] = useState(1); // 회차
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null); // 선택한 날짜
 
   // 구조 분해 할당
   const {
@@ -79,92 +89,22 @@ const Register = () => {
     staffList,
   } = gigInfo;
 
-  // Image 핸들링
-  const handleImageUpload = (imageUrl: string) => {
-    setGigInfo((prev) => ({
-      ...prev,
-      posterImage: imageUrl,
-    }));
-  };
-
-  // Genre 핸들링
-  const handleGenreSelect = (selectedGenre: string) => {
-    setGigInfo((prev) => ({
-      ...prev,
-      genre: selectedGenre,
-    }));
-  };
-
-  // 일반 input 핸들링
-  const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setGigInfo((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Stepper 핸들링
-  const onMinusClick = () => {
-    setGigInfo((prev) => ({
-      ...prev,
-      totalScheduleCount: prev.totalScheduleCount - 1,
-      // 회차 줄면 scheduleList 맨 마지막 객체 삭제
-      scheduleList: prev.scheduleList.slice(0, prev.totalScheduleCount - 1),
-    }));
-  };
-
-  const onPlusClick = () => {
-    setGigInfo((prev) => ({
-      ...prev,
-      totalScheduleCount: prev.totalScheduleCount + 1,
-      // 회차 생기면 sheculeList 객체 추가
-      scheduleList: [
-        ...prev.scheduleList,
-        {
-          performanceDate: null, // 공연 일시
-          totalTicketCount: "", // 총 티켓 수
-          scheduleNumber: "", // 회차 번호
-        },
-      ],
-    }));
-  };
-
-  // TimePicker 핸들링
-  const handleDateChange = (index: number, date: Dayjs | null) => {
-    setGigInfo((prev) => {
-      const newScheduleList = [...prev.scheduleList];
-      newScheduleList[index].performanceDate = date;
-      return { ...prev, scheduleList: newScheduleList };
-    });
-  };
-
-  // Bank 핸들링
+  const [round, setRound] = useState(1); // 회차
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null); // 선택한 날짜
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState("");
-
-  const handleBankOpen = () => {
-    setBankOpen((current) => !current);
-  };
-  const handleBankClick = (value: string) => {
-    setGigInfo((prev) => ({
-      ...prev,
-      bankName: value,
-    }));
-    handleBankOpen();
-  };
 
   console.log(gigInfo);
 
   return (
     <S.RegisterContainer>
-      <PosterThumbnail onImageUpload={handleImageUpload} />
+      <PosterThumbnail onImageUpload={(url) => handleImageUpload(url, setGigInfo)} />
 
       <GenreSelect
         title="공연 장르"
         genres={GENRE_LIST}
         selectedGenre={genre}
-        onGenreSelect={handleGenreSelect}
+        onGenreSelect={(selectedGenre) => handleGenreSelect(selectedGenre, setGigInfo)}
         marginBottom={2.4}
       />
 
@@ -173,7 +113,7 @@ const Register = () => {
           type="input"
           name="performanceTitle"
           value={performanceTitle}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="등록될 공연의 이름을 입력해주세요."
           maxLength={30}
           cap={true}
@@ -185,7 +125,7 @@ const Register = () => {
           type="input"
           name="performanceTeamName"
           value={performanceTeamName}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
           maxLength={10}
           cap={true}
@@ -196,7 +136,7 @@ const Register = () => {
         <TextArea
           name="performanceDescription"
           value={performanceDescription}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
           maxLength={300}
         />
@@ -207,7 +147,7 @@ const Register = () => {
           type="input"
           name="runningTime"
           value={runningTime}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           filter={numericFilter}
           unit="time"
           placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
@@ -218,8 +158,8 @@ const Register = () => {
         <Stepper
           max={3}
           round={totalScheduleCount}
-          onMinusClick={onMinusClick}
-          onPlusClick={onPlusClick}
+          onMinusClick={() => onMinusClick(setGigInfo)}
+          onPlusClick={() => onPlusClick(setGigInfo)}
         />
       </StepperRegisterBox>
 
@@ -230,7 +170,7 @@ const Register = () => {
             <Spacing marginBottom={"1"} />
             <TimePicker
               value={schedule.performanceDate}
-              onChangeValue={(date) => handleDateChange(index, date)}
+              onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
             />
           </div>
         ))}
@@ -241,7 +181,7 @@ const Register = () => {
           type="input"
           name="performanceVenue"
           value={performanceVenue}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="ex:) 홍익아트홀 303호 소극장"
           maxLength={15}
           cap={true}
@@ -253,7 +193,7 @@ const Register = () => {
           type="input"
           name="ticketPrice"
           value={ticketPrice}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="가격을 입력해주세요."
           filter={priceFilter}
           unit="amount"
@@ -264,20 +204,20 @@ const Register = () => {
         <TextArea
           name="performanceAttentionNote"
           value={performanceAttentionNote}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
           maxLength={300}
         />
       </InputRegisterBox>
 
       <InputAccountWrapper>
-        <InputBank bankOpen={bankOpen} onClick={handleBankOpen}>
+        <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
           {bankInfo}
         </InputBank>
         <TextField
           name="accountNumber"
           value={accountNumber}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           filter={numericFilter}
           placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
         />
@@ -285,8 +225,8 @@ const Register = () => {
       {bankOpen && (
         <BankBottomSheet
           value={bankInfo}
-          onBankClick={handleBankClick}
-          onOutClick={handleBankOpen}
+          onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
+          onOutClick={() => handleBankOpen(setBankOpen)}
         />
       )}
 
@@ -296,7 +236,7 @@ const Register = () => {
           name="performanceContact"
           value={performanceContact}
           filter={phoneNumberFilter}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, setGigInfo)}
           placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
         />
       </InputRegisterBox>
