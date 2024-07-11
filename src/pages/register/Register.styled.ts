@@ -1,5 +1,6 @@
 import { IconPhotoDelete } from "@assets/svgs";
 import { Generators } from "@styles/generator";
+import { ComponentType } from "react";
 import styled from "styled-components";
 
 // 페이지 전체 레이아웃
@@ -100,4 +101,10 @@ export const GenreItem = styled.article<{ selected: boolean }>`
     selected ? theme.colors.gray_0 : theme.colors.gray_800};
   cursor: pointer;
   border-radius: 6px;
+`;
+
+export const StyledIcon = (IconComponent: ComponentType) => styled(IconComponent)<{
+  selected: boolean;
+}>`
+  fill: ${({ theme, selected }) => (selected ? theme.colors.main_pink_400 : theme.colors.gray_500)};
 `;

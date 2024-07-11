@@ -28,14 +28,14 @@ const GenreSelect = ({
       <Spacing marginBottom={"1.4"} />
       <S.GenreContainer>
         {genres.map((genre) => {
-          const GenreIcon = genre.genreIcon;
+          const GenreIcon = S.StyledIcon(genre.genreIcon);
           return (
             <S.GenreItem
               key={genre.id}
               onClick={() => onGenreSelect(genre.genre)}
               selected={selectedGenre === genre.genre}
             >
-              <GenreIcon />
+              <GenreIcon selected={selectedGenre === genre.genre} />
               {genre.genre}
             </S.GenreItem>
           );
