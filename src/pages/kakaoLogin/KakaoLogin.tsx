@@ -22,7 +22,13 @@ const KakaoLogin = () => {
           const userData = await getData(token);
 
           // 이 부분 이메일 + 닉네임 + 인가코드까지 서버에 POST
+          // 현재는 임시로 console 찍어뒀는데, API POST 붙이기
+
+          const nickname = userData.properties.nickname;
+          const email = userData.kakao_account.email;
+
           console.log(userData);
+          console.log(`Nickname: ${nickname}, Email: ${email}`);
         } catch (error) {
           console.error(error);
         }
