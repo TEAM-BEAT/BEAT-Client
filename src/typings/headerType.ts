@@ -3,7 +3,7 @@ import { NavigationState } from "@constants/navigationState";
 export interface HeaderProps {
   headerStyle: NavigationState;
   title?: string;
-  subTitle?: string;
+  subText?: string;
   leftOnClick?: () => void;
-  rightOnClikc?: () => void;
+  rightOnClick?: () => void;
 }
