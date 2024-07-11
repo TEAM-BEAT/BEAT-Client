@@ -1,10 +1,17 @@
 import * as S from "./Performance.styled";
+import { useNavigate } from "react-router-dom";
 
 import Spacing from "@components/commons/spacing/Spacing";
 
 import { dummyData } from "./dummyData";
 
 const Performance = ({ genre }: { genre: string }) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/register");
+  };
+
   // 이 위치에 API로 불러온 배열 넣기
   const data = dummyData.performanceList;
 
@@ -23,6 +30,12 @@ const Performance = ({ genre }: { genre: string }) => {
         {data1.map((item) => (
           <S.PerformanceCardWrapper key={item.performanceId}>
             <S.PerformanceImg />
+            {item.dueDate <= 5 ? (
+              <>
+                <S.SubtractBox></S.SubtractBox>
+                <S.DueDate>D-{item.dueDate}</S.DueDate>
+              </>
+            ) : null}
             <S.PerformanceTitleWrapper>
               <S.PerformanceTitle>{item.performanceTitle}</S.PerformanceTitle>
               <S.PerformancePeriod>{item.performancePeriod}</S.PerformancePeriod>
@@ -32,12 +45,20 @@ const Performance = ({ genre }: { genre: string }) => {
         ))}
       </S.PerformanceLayout>
       <Spacing marginBottom="1.5" />
-      {/* 배너 자리!  */}
-      <Spacing marginBottom="5.6" />
+      <S.BannerWrapper onClick={handleNavigate}>
+        <S.Banner />
+      </S.BannerWrapper>
+      <Spacing marginBottom="3.2" />
       <S.PerformanceLayout>
         {data2.map((item) => (
           <S.PerformanceCardWrapper key={item.performanceId}>
             <S.PerformanceImg />
+            {item.dueDate <= 5 ? (
+              <>
+                <S.SubtractBox></S.SubtractBox>
+                <S.DueDate>D-{item.dueDate}</S.DueDate>
+              </>
+            ) : null}
             <S.PerformanceTitleWrapper>
               <S.PerformanceTitle>{item.performanceTitle}</S.PerformanceTitle>
               <S.PerformancePeriod>{item.performancePeriod}</S.PerformancePeriod>
