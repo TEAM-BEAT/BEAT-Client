@@ -33,7 +33,10 @@ const Book = () => {
     password: "",
     passwordCheck: "",
   });
-  const [isTermChecked, setIsTermChecked] = useState(false);
+  const [isTermChecked, setIsTermChecked] = useState({
+    term1: false,
+    term2: false,
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState(false);
 
@@ -61,8 +64,10 @@ const Book = () => {
     setRound((prev) => prev + 1);
   };
 
-  const onClickTermCheck = () => {
-    setIsTermChecked((prev) => !prev);
+  const onChangeTermCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+
+    setIsTermChecked((prev) => ({ ...prev, [name]: checked }));
   };
 
   const handleSheetOpen = () => {
@@ -110,8 +115,17 @@ const Book = () => {
   };
 
   useEffect(() => {
-    if (selectedValue && bookerInfo.bookerName && bookerInfo.bookerPhoneNumber && isTermChecked) {
-      if (isNonMember && easyPassword.password === easyPassword.passwordCheck) {
+    if (
+      selectedValue &&
+      bookerInfo.bookerName &&
+      bookerInfo.bookerPhoneNumber &&
+      isTermChecked.term2
+    ) {
+      if (
+        isNonMember &&
+        isTermChecked.term1 &&
+        easyPassword.password === easyPassword.passwordCheck
+      ) {
         setActiveButton(true);
       } else {
         setActiveButton(false);
@@ -158,7 +172,11 @@ const Book = () => {
         />
       )}
 
-      <TermCheck isTermChecked={isTermChecked} onClickTermCheck={onClickTermCheck} />
+      <TermCheck
+        isNonMember={isNonMember}
+        isTermChecked={isTermChecked}
+        onClickTermCheck={onChangeTermCheck}
+      />
       <FooterContainer>
         <Button disabled={!activeButton} onClick={handleClickBook}>
           예매하기

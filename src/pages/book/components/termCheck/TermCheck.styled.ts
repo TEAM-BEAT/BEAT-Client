@@ -2,9 +2,16 @@ import styled from "styled-components";
 
 export const Wrapper = styled.section`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.4rem;
   width: 100%;
   padding: 1.6rem 0 0;
+`;
+
+export const Box = styled.div`
+  display: flex;
+  gap: 0.4rem;
+  justify-content: space-between;
 `;
 
 export const HyperLinkText = styled.a`
@@ -14,8 +21,6 @@ export const HyperLinkText = styled.a`
 `;
 
 export const HyperLinkSpan = styled.span`
-  margin-left: 0.2rem;
-
   color: ${({ theme }) => theme.colors.gray_300};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;
