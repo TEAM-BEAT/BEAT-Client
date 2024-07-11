@@ -23,17 +23,6 @@ const TicketHolderList = () => {
   };
   const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
 
-  //도영이가 axios 사용하면 useEffect 필요없다고 했는데, 나중에 리팩토링 할 수도 있음.
-  useEffect(() => {
-    const totalCount = responseData.reduce(
-      (totalSum, obj) => obj.purchaseTicketCount + totalSum,
-      0
-    );
-    setReservedCount(totalCount);
-    //그리고 여기서 바로 다시 axios 요청 쏘는 로직 구성해두기
-  }, [responseData]);
-  //이해하기 어려울 것 같아 주석 남깁니다. 모든 회차, 입금 상태 2가지 필터를 사용하여 원하는 결과만 가져오는 형식입니다.
-  //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
   const filteredData = responseData.filter((obj) => {
     const isScheduleMatched =
       schedule === 0 ||
@@ -44,6 +33,18 @@ const TicketHolderList = () => {
 
     return isScheduleMatched && isPaymentMatched;
   });
+  //도영이가 axios 사용하면 useEffect 필요없다고 했는데, 나중에 리팩토링 할 수도 있음.
+  useEffect(() => {
+    const totalCount = filteredData.reduce(
+      (totalSum, obj) => obj.purchaseTicketCount + totalSum,
+      0
+    );
+    setReservedCount(totalCount);
+    //그리고 여기서 바로 다시 axios 요청 쏘는 로직 구성해두기
+  }, [filteredData]);
+  //이해하기 어려울 것 같아 주석 남깁니다. 모든 회차, 입금 상태 2가지 필터를 사용하여 원하는 결과만 가져오는 형식입니다.
+  //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
+
   return (
     <>
       <Banner image={eximg} reservedCount={reservedCount} isOutdated={isOutdated} />
