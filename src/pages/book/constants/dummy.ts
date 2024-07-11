@@ -1,11 +1,9 @@
-import exImg from "src/pages/MyRegisterdShow/constants/silkagel.png";
-
 export const BOOK_DETAIL_INFO = {
   performanceId: 1,
   performanceTitle: "비트밴드 정기공연",
   ticketPrice: 5000,
   genre: "BAND",
-  posterImage: exImg,
+  posterImage: "/src/pages/MyRegisterdShow/constants/silkagel.png",
   performanceVenue: "홍대상상마당",
   performancePeriod: "2023.12.28~2023.12.29",
   performanceTeamName: "비트밴드",
