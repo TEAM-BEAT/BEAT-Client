@@ -1,4 +1,6 @@
+import { IconTime, IcOutlinePlace } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
+import IconText from "@pages/gig/components/iconText/IconText";
 import * as S from "./Info.styled";
 
 interface InfoProps {
@@ -16,6 +18,7 @@ const Info = ({ genre, title, teamName, venue, period }: InfoProps) => {
         <S.InfoPoster $imgsrc={"src/pages/MyRegisterdShow/constants/silkagel.png"} />
 
         <S.InfoTextBox>
+          {/* TODO: 유형에 따라 view 변경 */}
           <S.InfoType>{genre}</S.InfoType>
           <Spacing marginBottom="0.2" />
           <S.InfoTitle>{title}</S.InfoTitle>
@@ -28,11 +31,8 @@ const Info = ({ genre, title, teamName, venue, period }: InfoProps) => {
       </S.InfoTop>
 
       <S.InfoBottom>
-        {/* TODO: 변경 */}
-        {/* <IconText icon={<IcOutlinePlace />} text={venue} /> */}
-        <span>{venue}</span>
-        {/* <IconText icon={<IconTime />} text={period} /> */}
-        <span>{period}</span>
+        <IconText icon={<IcOutlinePlace />} text={venue} />
+        <IconText icon={<IconTime />} text={period} />
       </S.InfoBottom>
     </S.InfoContainer>
   );
