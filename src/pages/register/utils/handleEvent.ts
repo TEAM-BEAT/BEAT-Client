@@ -38,13 +38,15 @@ export const handleChange = (
 
 // Stepper 핸들링
 export const onMinusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
-  setGigInfo((prev) => ({
-    ...prev,
-    totalScheduleCount: prev.totalScheduleCount - 1,
-    // 회차 줄면 scheduleList 맨 마지막 객체 삭제
-    scheduleList: prev.scheduleList.slice(0, prev.totalScheduleCount - 1),
-    performancePeriod: calculatePerformancePeriod(prev.scheduleList.slice(0, newScheduleCount)),
-  }));
+  setGigInfo((prev) => {
+    const newScheduleCount = prev.totalScheduleCount - 1;
+    return {
+      ...prev,
+      totalScheduleCount: newScheduleCount,
+      scheduleList: prev.scheduleList.slice(0, newScheduleCount),
+      performancePeriod: calculatePerformancePeriod(prev.scheduleList.slice(0, newScheduleCount)),
+    };
+  });
 };
 
 export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
@@ -54,7 +56,7 @@ export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
       {
         performanceDate: null, // 공연 일시
         totalTicketCount: "", // 총 티켓 수
-        scheduleNumber: "", // 회차 번호
+        scheduleNumber: getScheduleNumber(prev.scheduleList.length), // 회차 번호
       },
     ];
     return {
@@ -168,4 +170,11 @@ export const calculatePerformancePeriod = (scheduleList: { performanceDate: Dayj
   const endDate = dates[dates.length - 1].format("YYYY.MM.DD");
 
   return startDate === endDate ? startDate : `${startDate}~${endDate}`;
+};
+
+// scheduleNumber 생성
+const scheduleNumbers = ["FIRST", "SECOND", "THIRD"];
+
+export const getScheduleNumber = (index: number): string => {
+  return scheduleNumbers[index] || `SCHEDULE_${index + 1}`;
 };

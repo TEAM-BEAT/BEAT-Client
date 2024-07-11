@@ -52,7 +52,7 @@ const Register = () => {
       {
         performanceDate: null, // 공연 일시
         totalTicketCount: "", // 총 티켓 수
-        scheduleNumber: "", // 회차 번호
+        scheduleNumber: "FIRST", // 회차 번호
       },
     ],
     castList: [
