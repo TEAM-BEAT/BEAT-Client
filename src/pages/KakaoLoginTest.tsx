@@ -1,17 +1,15 @@
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "@components/commons/button/Button";
 
-import { requestKakaoCode } from "@utils/kakaoLogin";
+import { requestKakaoLogin } from "@utils/kakaoLogin";
+
+// 실제 사용할 때는 원하는 페이지에 button onClick에 requestKakaoLogin만 주면 됨
 
 const KakaoLoginTest = () => {
-  const { state } = useLocation();
-  console.log(state);
-
   return (
     <Test>
-      <Button onClick={requestKakaoCode}>카카오 로그인 테스트~~</Button>
+      <Button onClick={requestKakaoLogin}>카카오 로그인 테스트~~</Button>
     </Test>
   );
 };

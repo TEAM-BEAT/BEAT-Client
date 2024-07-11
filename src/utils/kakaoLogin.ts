@@ -1,4 +1,4 @@
-export const requestKakaoCode = () => {
+export const requestKakaoLogin = () => {
   const REST_API = import.meta.env.VITE_REST_API;
   const REDIRECT_URI = "http://localhost:5173/auth";
 
