@@ -17,7 +17,7 @@ const TimePickerRegisterBox = ({
     <S.TimePickerRegisterBox $marginBottom={marginBottom}>
       <S.InputTitle>{title}</S.InputTitle>
       <Spacing marginBottom={"1.4"} />
-      {children}
+      <S.TimePickerWrapper>{children}</S.TimePickerWrapper>
     </S.TimePickerRegisterBox>
   );
 };

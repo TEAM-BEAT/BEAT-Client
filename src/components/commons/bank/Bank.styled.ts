@@ -87,6 +87,7 @@ export const ToggleIcon = styled(SvgIconArrowDown)`
 // InputAccountWrapper
 export const InputAccountWrapper = styled.section`
   width: 100%;
+  margin-top: 2.4rem;
 `;
 
 export const InputAccountLabel = styled.label`

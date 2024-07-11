@@ -8,6 +8,49 @@ export const RegisterContainer = styled.main`
   padding: 0 2.4rem;
 `;
 
+export const Divider = styled.div`
+  width: 32.7rem;
+  height: 0.1rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_700};
+`;
+
+export const FooterContainer = styled.div`
+  position: sticky;
+  bottom: 0;
+  padding: 2.4rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_900};
+`;
+
+export const FooterDivider = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 37.5rem;
+  height: 0.1rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_700};
+`;
+
+export const CheckboxContainer = styled.div`
+  ${Generators.flexGenerator()}
+  margin-bottom: 2.4rem;
+`;
+
+export const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+
+  color: ${({ theme }) => theme.colors.gray_200};
+  ${({ theme }) => theme.fonts["body2-normal-semi"]};
+`;
+
+export const Checkbox = styled.input`
+  margin-right: 0.8rem;
+  accent-color: ${({ theme }) => theme.colors.main_pink_400};
+`;
+
 // 입력 Box
 export const InputRegisterBox = styled.section<{ $marginBottom: number }>`
   padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
@@ -107,4 +150,9 @@ export const StyledIcon = (IconComponent: ComponentType) => styled(IconComponent
   selected: boolean;
 }>`
   fill: ${({ theme, selected }) => (selected ? theme.colors.main_pink_400 : theme.colors.gray_500)};
+`;
+
+export const TimePickerWrapper = styled.section`
+  ${Generators.flexGenerator("column", "center", "center")}
+  gap: 1.6rem;
 `;
