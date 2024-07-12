@@ -34,21 +34,22 @@ export const FooterDivider = styled.div`
 `;
 
 export const CheckboxContainer = styled.div`
-  ${Generators.flexGenerator()}
+  width: 100%;
+  ${Generators.flexGenerator("row", "center", "space-between")}
+  margin: 0;
   margin-bottom: 2.4rem;
 `;
 
 export const CheckboxLabel = styled.label`
-  display: flex;
-  align-items: center;
+  width: inherit;
 
+  ${Generators.flexGenerator("row", "center", "space-between")}
   color: ${({ theme }) => theme.colors.gray_200};
   ${({ theme }) => theme.fonts["body2-normal-semi"]};
 `;
 
 export const Checkbox = styled.input`
-  margin-right: 0.8rem;
-  accent-color: ${({ theme }) => theme.colors.main_pink_400};
+  display: none;
 `;
 
 // 입력 Box
@@ -69,13 +70,30 @@ export const BankRegisterBox = styled.section<{ $marginBottom: number }>`
 `;
 
 export const InputTitle = styled.h1`
+  ${Generators.flexGenerator("row", "center", "space-between")}
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.heading4};
 `;
 
-export const InputDescription = styled.p`
-  color: ${({ theme }) => theme.colors.gray_300};
+export const InputDescription = styled.p<{ warning?: boolean }>`
+  color: ${({ theme, warning }) => (warning ? theme.colors.red : theme.colors.gray_300)};
   ${({ theme }) => theme.fonts["body2-long"]};
+`;
+
+export const CheckBox = styled.div`
+  ${Generators.flexGenerator("row", "center", "space-between")}
+  width: 7.5rem;
+
+  color: ${({ theme }) => theme.colors.gray_300};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
+export const NonCheck = styled.div`
+  width: 1.8rem;
+  height: 1.8rem;
+
+  border: 1px solid ${({ theme }) => theme.colors.gray_500};
+  border-radius: 2px;
 `;
 
 export const FileInputWrapper = styled.div`

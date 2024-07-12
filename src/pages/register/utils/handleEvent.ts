@@ -100,6 +100,11 @@ export const handleTotalTicketCountChange = (
   }));
 };
 
+// 무료 공연 핸들링
+export const onFreeClick = (setIsFree: Dispatch<SetStateAction<boolean>>) => {
+  setIsFree((prev) => !prev);
+};
+
 // Bank 핸들링
 export const handleBankOpen = (setBankOpen: Dispatch<SetStateAction<boolean>>) => {
   setBankOpen((current) => !current);

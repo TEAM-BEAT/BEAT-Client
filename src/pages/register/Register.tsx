@@ -1,7 +1,7 @@
 import TextField from "@components/commons/input/textField/TextField";
 import InputRegisterBox from "./components/InputRegisterBox";
 import * as S from "./Register.styled";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import Stepper from "@components/commons/stepper/Stepper";
@@ -28,9 +28,11 @@ import {
   handleBankClick,
   handleTotalTicketCountChange,
   isAllFieldsFilled,
+  onFreeClick,
 } from "./utils/handleEvent";
 import { GigInfo } from "./typings/gigInfo";
 import Button from "@components/commons/button/Button";
+import { IconChecked } from "@assets/svgs";
 
 const Register = () => {
   const [gigInfo, setGigInfo] = useState<GigInfo>({
@@ -92,11 +94,22 @@ const Register = () => {
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [isFree, setIsFree] = useState(false);
 
   // 약관 동의
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
   };
+
+  // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
+  useEffect(() => {
+    if (isFree) {
+      setGigInfo((prev) => ({
+        ...prev,
+        ticketPrice: "0",
+      }));
+    }
+  }, [isFree]);
 
   console.log(gigInfo);
 
@@ -202,7 +215,12 @@ const Register = () => {
         </InputRegisterBox>
         <S.Divider />
 
-        <InputRegisterBox title="티켓 가격">
+        <InputRegisterBox
+          title="티켓 가격"
+          description="*티켓 가격은 수정불가합니다."
+          isFree={isFree}
+          onFreeClick={() => onFreeClick(setIsFree)}
+        >
           <TextField
             type="input"
             name="ticketPrice"
@@ -210,6 +228,7 @@ const Register = () => {
             onChange={(e) => handleChange(e, setGigInfo)}
             placeholder="가격을 입력해주세요."
             filter={priceFilter}
+            disabled={isFree}
             unit="amount"
           />
         </InputRegisterBox>
@@ -276,9 +295,13 @@ const Register = () => {
         <S.FooterDivider />
         <S.CheckboxContainer>
           <S.CheckboxLabel>
-            <S.Checkbox type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />한 명
-            이상의 예매자가 있을 경우, 공연 삭제가 불가해요.
-            {/* 준혁 오빠 머지되면 체크박스 쇽샥 ㅎㅎ */}
+            <S.Checkbox
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            ></S.Checkbox>
+            한 명 이상의 예매자가 있을 경우, 공연 삭제가 불가해요.
+            {isChecked ? <IconChecked width={18} /> : <S.NonCheck />}
           </S.CheckboxLabel>
         </S.CheckboxContainer>
         <Button
