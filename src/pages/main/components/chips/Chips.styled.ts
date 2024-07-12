@@ -1,4 +1,3 @@
-import { ComponentType } from "react";
 import styled from "styled-components";
 
 export const ChipsWrapper = styled.section`
@@ -11,6 +10,12 @@ export const ChipsLayout = styled.section`
   padding: 1.6rem 2.4rem 0;
   overflow-x: scroll;
 
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
   white-space: nowrap;
 `;
 

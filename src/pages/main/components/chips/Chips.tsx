@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import * as S from "./Chips.styled";
 
 import Chip from "@components/commons/chip/Chip";
