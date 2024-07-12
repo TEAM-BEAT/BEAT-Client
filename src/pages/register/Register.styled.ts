@@ -183,7 +183,9 @@ export const TimePickerWrapper = styled.section`
 export const RoleListWrapper = styled.section`
   display: flex;
   gap: 1.6rem;
-  width: 37.5rem;
+  width: calc(100% + 4.8rem);
+  margin-left: -2.4rem;
+  padding: 0 2.4rem;
   overflow-x: scroll;
 
   &::-webkit-scrollbar {
