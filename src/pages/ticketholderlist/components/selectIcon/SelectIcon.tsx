@@ -1,7 +1,15 @@
 import * as S from "./SelectIcon.styled";
 
-const SelectIcon = ({ isChecked }: { isChecked: boolean }) => {
-  return <>{isChecked ? <S.DeleteSelectedIcon /> : <S.DeleteUnselectedIcon />}</>;
+const SelectIcon = ({ onClick, isChecked }: { onClick: () => void; isChecked: boolean }) => {
+  return (
+    <>
+      {isChecked ? (
+        <S.DeleteSelectedIcon onClick={onClick} />
+      ) : (
+        <S.DeleteUnselectedIcon onClick={onClick} />
+      )}
+    </>
+  );
 };
 
 export default SelectIcon;

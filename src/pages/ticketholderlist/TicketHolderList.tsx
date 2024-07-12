@@ -1,6 +1,7 @@
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Banner from "./components/banner/Banner";
@@ -11,6 +12,12 @@ import { RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
 const TicketHolderList = () => {
+  /*
+    중요 : navigate 할 때 파라미터로 넘겨 받아야 함. (애초에 이 주소에 올 때!)
+    그래서 넘겨 받은 파라미터를 상태 관리를 해줄 예정. 아래는 performanceId 가 같이 왔다고 가정
+    useLocation 으로 받아온다.
+   */
+  const [performanceId, setPerformanceId] = useState(1); //예시니까 1이라고 가정~
   const [reservedCount, setReservedCount] = useState(0);
   //이거 판매 완료되었는지 여부에 따라서 렌더링하는거 다르게 할지 물어보기, 색깔도 어떻게 할 지 물어보기
   const [isOutdated, setIsOutdated] = useState(false);
@@ -21,6 +28,15 @@ const TicketHolderList = () => {
   const [payment, setPayment] = useState<boolean | undefined>(undefined);
   const [responseData, setResponseData] = useState<any[]>(RESPONSE_TICKETHOLDER.data.bookingList);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
+  const [formData, setFormData] = useState<DeleteFormDataProps>({
+    performanceId: performanceId,
+    bookingList: [
+      {
+        bookingId: -1,
+      },
+    ],
+  });
   const navigate = useNavigate();
 
   const handleLeftButton = () => {
@@ -121,6 +137,8 @@ const TicketHolderList = () => {
           {filteredData.map((obj, index) => (
             <ManagerCard
               key={`managerCard-${index}`}
+              formData={formData}
+              setFormData={setFormData}
               isDeleteMode={isDeleteMode}
               bookingId={obj.bookingId}
               isPaid={obj.isPaymentCompleted}
