@@ -40,7 +40,7 @@ const Performance = ({ genre, performanceList }: PerformanceComponentProps) => {
     <S.PerformanceWrapper>
       <S.PerformanceLayout>
         {data1.map((item) => (
-          <PerformnaceCard {...item} />
+          <PerformnaceCard key={item.performanceId} {...item} />
         ))}
       </S.PerformanceLayout>
       <Spacing marginBottom="1.5" />
@@ -50,7 +50,7 @@ const Performance = ({ genre, performanceList }: PerformanceComponentProps) => {
       <Spacing marginBottom="3.2" />
       <S.PerformanceLayout>
         {data2.map((item) => (
-          <PerformnaceCard {...item} />
+          <PerformnaceCard key={item.performanceId} {...item} />
         ))}
       </S.PerformanceLayout>
       <Spacing marginBottom="1.6" />
