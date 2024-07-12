@@ -2,6 +2,7 @@ import * as S from "./Performance.styled";
 import { useNavigate } from "react-router-dom";
 
 import Spacing from "@components/commons/spacing/Spacing";
+import PerformnaceCard from "./PerformnaceCard";
 
 import { dummyData } from "./dummyData";
 
@@ -28,20 +29,7 @@ const Performance = ({ genre }: { genre: string }) => {
     <S.PerformanceWrapper>
       <S.PerformanceLayout>
         {data1.map((item) => (
-          <S.PerformanceCardWrapper key={item.performanceId}>
-            <S.PerformanceImg />
-            {item.dueDate <= 5 ? (
-              <>
-                <S.SubtractBox></S.SubtractBox>
-                <S.DueDate>D-{item.dueDate}</S.DueDate>
-              </>
-            ) : null}
-            <S.PerformanceTitleWrapper>
-              <S.PerformanceTitle>{item.performanceTitle}</S.PerformanceTitle>
-              <S.PerformancePeriod>{item.performancePeriod}</S.PerformancePeriod>
-              <S.PerformancePrice>{item.ticketPrice.toLocaleString("en-US")}원</S.PerformancePrice>
-            </S.PerformanceTitleWrapper>
-          </S.PerformanceCardWrapper>
+          <PerformnaceCard {...item} />
         ))}
       </S.PerformanceLayout>
       <Spacing marginBottom="1.5" />
@@ -51,20 +39,7 @@ const Performance = ({ genre }: { genre: string }) => {
       <Spacing marginBottom="3.2" />
       <S.PerformanceLayout>
         {data2.map((item) => (
-          <S.PerformanceCardWrapper key={item.performanceId}>
-            <S.PerformanceImg />
-            {item.dueDate <= 5 ? (
-              <>
-                <S.SubtractBox></S.SubtractBox>
-                <S.DueDate>D-{item.dueDate}</S.DueDate>
-              </>
-            ) : null}
-            <S.PerformanceTitleWrapper>
-              <S.PerformanceTitle>{item.performanceTitle}</S.PerformanceTitle>
-              <S.PerformancePeriod>{item.performancePeriod}</S.PerformancePeriod>
-              <S.PerformancePrice>{item.ticketPrice.toLocaleString("en-US")}원</S.PerformancePrice>
-            </S.PerformanceTitleWrapper>
-          </S.PerformanceCardWrapper>
+          <PerformnaceCard {...item} />
         ))}
       </S.PerformanceLayout>
       <Spacing marginBottom="1.6" />
