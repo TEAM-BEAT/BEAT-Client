@@ -80,6 +80,7 @@ const TextField = ({
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
+          // narrow={narrow}
           {...rest}
         />
         {!narrow && !unit && value && <S.TextClear onClick={handleClearInput} />}

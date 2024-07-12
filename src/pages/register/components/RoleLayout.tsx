@@ -17,22 +17,37 @@ const RoleLayout = ({ title, onImageUpload }: RoleLayoutProps) => {
     setMakerList((prev) => [
       ...prev,
       {
-        makerList: "",
+        id: Date.now(),
+        makerName: "",
         makerRole: "",
         makerPhoto: "",
       },
     ]);
   };
+
+  const handleremoveRole = (id: number) => {
+    setMakerList((prev) => prev.filter((role) => role.id !== id));
+  };
+
+  console.log(makerList);
+
   return (
     <S.InputRegisterBox $marginBottom={2.8}>
       <S.InputTitle>{title}</S.InputTitle>
       <Spacing marginBottom="1.4" />
-      <S.RoleAddBtn onClick={handelAddRole}>
-        <IconRoleAdd width={"3.2rem"} />
-      </S.RoleAddBtn>
-      {makerList.map((role, index) => (
-        <RoleWrapper key={index} />
-      ))}
+      <S.RoleListWrapper>
+        {makerList.map((role) => (
+          <RoleWrapper
+            key={role.id}
+            id={role.id}
+            removeRole={handleremoveRole}
+            onImageUpload={onImageUpload}
+          />
+        ))}
+        <S.RoleAddBtn onClick={handelAddRole}>
+          <IconRoleAdd width={"3.2rem"} />
+        </S.RoleAddBtn>
+      </S.RoleListWrapper>
     </S.InputRegisterBox>
   );
 };

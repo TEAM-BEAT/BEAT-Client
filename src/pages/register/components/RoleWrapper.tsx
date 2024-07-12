@@ -4,7 +4,7 @@ import TextField from "@components/commons/input/textField/TextField";
 import { IconCamera } from "@assets/svgs";
 import { ChangeEvent, useState } from "react";
 
-const RoleWrapper = () => {
+const RoleWrapper = ({ id, removeRole, onImageUpload }) => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -26,23 +26,18 @@ const RoleWrapper = () => {
     }
   }
 
-  const removeImage = () => {
-    setPostImg(null);
-    setPreviewImg(null);
-  };
-
   return (
-    <>
+    <S.RoleWrapper>
       <S.FileInputWrapper>
         {previewImg ? (
           <S.PreviewImageWrapper width={13.6} height={15.8}>
             <S.PreviewImage src={previewImg} alt="Preview" width={13.6} height={15.8} />
-            <S.RemoveImageButton onClick={removeImage} />
+            <S.RemoveImageButton onClick={() => removeRole(id)} />
           </S.PreviewImageWrapper>
         ) : (
           <>
-            <S.HiddenFileInput type="file" id="file" onChange={uploadFile} />
-            <S.CustomFileInput htmlFor="file" width={13.6} height={15.8}>
+            <S.HiddenFileInput type="file" id={`file-${id}`} onChange={uploadFile} />
+            <S.CustomFileInput htmlFor={`file-${id}`} width={13.6} height={15.8}>
               <IconCamera width={"3.2rem"} />
             </S.CustomFileInput>
           </>
@@ -67,7 +62,7 @@ const RoleWrapper = () => {
           placeholder="역할"
         />
       </S.TextInputWrpper>
-    </>
+    </S.RoleWrapper>
   );
 };
 

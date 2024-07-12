@@ -180,13 +180,29 @@ export const TimePickerWrapper = styled.section`
   gap: 1.6rem;
 `;
 
+export const RoleListWrapper = styled.section`
+  display: flex;
+  gap: 1.6rem;
+  width: 37.5rem;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const RoleAddBtn = styled.section`
   ${Generators.flexGenerator()}
-
+  flex-shrink: 0;
   width: 13.6rem;
   height: 26.6rem;
 
   background: ${({ theme }) => theme.colors.gray_900};
   border: 1px dashed ${({ theme }) => theme.colors.gray_700};
   border-radius: 6px;
+`;
+
+export const RoleWrapper = styled.div`
+  ${Generators.flexGenerator("column", "center", "center")}
+  height: 26.6rem;
 `;
