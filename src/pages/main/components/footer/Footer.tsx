@@ -1,15 +1,29 @@
 import * as S from "./Footer.styled";
 
 const Footer = () => {
+  const privacy = "https://jiwoothejay.notion.site/2e52f4f9f5a14ef3a53e3457ca5066df?pvs=4";
+  const service = "https://jiwoothejay.notion.site/032adc725a3d4ec9b5f22e437c48ab4e?pvs=4";
+
   return (
     <S.FooterWrapper>
       <S.FooterTop>
         <S.Logo />
         <S.InfoLayout>
-          {/* 이용 약관 page 들어오면 navigate 걸기 */}
-          <S.InfoBtn>개인정보처리방침</S.InfoBtn>
+          <S.InfoBtn
+            onClick={() => {
+              window.open(privacy);
+            }}
+          >
+            개인정보처리방침
+          </S.InfoBtn>
           <S.BtnDivider />
-          <S.InfoBtn>이용약관</S.InfoBtn>
+          <S.InfoBtn
+            onClick={() => {
+              window.open(service);
+            }}
+          >
+            이용약관
+          </S.InfoBtn>
         </S.InfoLayout>
       </S.FooterTop>
       <S.FooterBottom>

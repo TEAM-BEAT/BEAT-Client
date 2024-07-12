@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { IconFooterLogo } from "@assets/svgs";
 
 export const FooterWrapper = styled.section`
   width: 100%;
@@ -15,12 +16,10 @@ export const FooterTop = styled.section`
 `;
 
 // 로고 확정되면 로고 들어갈 위치
-export const Logo = styled.section`
+export const Logo = styled(IconFooterLogo)`
   width: 5.7rem;
   height: 2.4rem;
   margin: 2rem 0 0 2.4rem;
-
-  background-color: white;
 `;
 
 export const InfoLayout = styled.section`
