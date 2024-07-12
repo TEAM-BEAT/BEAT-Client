@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./Lookup.styled";
 import NonExistent from "./components/nonExistent/NonExistent";
 import LookupWrapper from "./components/LookupWrapper";
@@ -24,6 +25,8 @@ const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const [lookUpList, setLookUpList] = useState(dummyData);
 
+  const navigate = useNavigate();
+
   const handleSheetOpen = (bookingId: number) => {
     setSelectedBookingId(bookingId);
   };
@@ -35,18 +38,14 @@ const Lookup = () => {
   const { setHeader } = useHeader();
 
   const handleLeftBtn = () => {
-    alert("왼쪽 버튼 클릭!");
+    navigate("/main");
   };
-  const handleRightBtn = () => {
-    alert("오른쪽 버튼 클릭!");
-  };
+
   useEffect(() => {
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_ICON,
-      title: "헤더 테스트!",
-      subText: "굿",
+      headerStyle: NAVIGATION_STATE.ICON_TITLE,
+      title: "내가 예매한 공연",
       leftOnClick: handleLeftBtn,
-      rightOnClick: handleRightBtn,
     });
   }, [setHeader]);
 
