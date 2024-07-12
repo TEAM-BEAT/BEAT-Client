@@ -4,19 +4,20 @@ import styled from "styled-components";
 export const ManagerCardWrapper = styled.article<{ $isDetail: boolean }>`
   display: flex;
   flex-shrink: 0;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width: 32.6rem;
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  padding-left: 0.4rem;
 `;
 
-export const ManagerCardLayout = styled.div<{ $isDetail: boolean }>`
+export const ManagerCardLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 1.6rem;
   align-items: flex-start;
-  width: 25.2rem;
+  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
   padding: 2rem 1.6rem;
 
@@ -84,9 +85,21 @@ export const SelectedIcon = styled(IconCheckboxSelectedOn)`
   height: 1.8rem;
 `;
 
+export const DeleteSelectedIcon = styled(IconCheckboxSelectedOn)`
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-right: 0.8rem;
+`;
+
 export const UnselectedIcon = styled(IconCheckboxUnselectedOn)`
   width: 1.8rem;
   height: 1.8rem;
+`;
+
+export const DeleteUnselectedIcon = styled(IconCheckboxUnselectedOn)`
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-right: 0.8rem;
 `;
 
 export const ManagerCardRadioText = styled.span`

@@ -1,5 +1,8 @@
 import Button from "@components/commons/button/Button";
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks/useHeader";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Banner from "./components/banner/Banner";
 import ManagerCard from "./components/managercard/ManagerCard";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
@@ -17,7 +20,30 @@ const TicketHolderList = () => {
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
   const [payment, setPayment] = useState<boolean | undefined>(undefined);
   const [responseData, setResponseData] = useState<any[]>(RESPONSE_TICKETHOLDER.data.bookingList);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const navigate = useNavigate();
 
+  const handleLeftButton = () => {
+    navigate(-1);
+  };
+  const handleRightButton = () => {
+    setIsDeleteMode(true);
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE,
+      title: "내가 등록한 공연",
+      leftOnClick: handleLeftButton,
+    });
+  };
+  const { setHeader } = useHeader();
+  useEffect(() => {
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      title: "내가 등록한 공연",
+      subText: "삭제",
+      leftOnClick: handleLeftButton,
+      rightOnClick: handleRightButton,
+    });
+  }, [setHeader]);
   const handleToggleButton = () => {
     setDetail((prop) => !prop);
   };
@@ -95,6 +121,7 @@ const TicketHolderList = () => {
           {filteredData.map((obj, index) => (
             <ManagerCard
               key={`managerCard-${index}`}
+              isDeleteMode={isDeleteMode}
               bookingId={obj.bookingId}
               isPaid={obj.isPaymentCompleted}
               isDetail={detail}

@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import * as S from "./ManagerCard.styled";
 
 const ManagerCard = ({
+  isDeleteMode,
   bookingId,
   isPaid,
   isDetail,
@@ -12,6 +13,7 @@ const ManagerCard = ({
   bookerPhoneNumber,
   createAt,
 }: {
+  isDeleteMode: boolean;
   bookingId: number;
   isPaid: boolean;
   isDetail: boolean;
@@ -51,7 +53,8 @@ const ManagerCard = ({
   };
   return (
     <S.ManagerCardWrapper $isDetail={isDetail}>
-      <S.ManagerCardLayout $isDetail={isDetail}>
+      {isDeleteMode && <S.DeleteSelectedIcon />}
+      <S.ManagerCardLayout $isDeleteMode={isDeleteMode} $isDetail={isDetail}>
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
             <S.ManagerCardTextTitle>이름</S.ManagerCardTextTitle>
