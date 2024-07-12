@@ -16,8 +16,9 @@ import Button from "@components/commons/button/Button";
 // dummyData 빈 배열일 경우 경우 (주석 처리하면서 사용)
 // const dummyData: LookupProps[] = [];
 
-const Lookup: React.FC = () => {
+const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
+  const [lookUpList, setLookUpList] = useState(dummyData);
 
   const handleSheetOpen = (bookingId: number) => {
     setSelectedBookingId(bookingId);
@@ -29,9 +30,9 @@ const Lookup: React.FC = () => {
 
   return (
     <S.LookupWrapper>
-      {dummyData.length ? (
+      {lookUpList.length ? (
         <>
-          {dummyData.map((item) => (
+          {lookUpList.map((item) => (
             <React.Fragment key={item.bookingId}>
               <LookupWrapper {...item} handleBtn={() => handleSheetOpen(item.bookingId)} />
               {selectedBookingId === item.bookingId && (
@@ -44,9 +45,7 @@ const Lookup: React.FC = () => {
                 >
                   <PhoneNumber phone={item.bookerPhoneNumber} />
                   <OuterLayout margin="1.6rem 0 0 0">
-                    <Button size="xlarge" onClick={handleSheetClose}>
-                      확인했어요
-                    </Button>
+                    <Button onClick={handleSheetClose}>확인했어요</Button>
                   </OuterLayout>
                 </ActionBottomSheet>
               )}
