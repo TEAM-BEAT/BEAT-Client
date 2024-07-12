@@ -1,3 +1,4 @@
+export { default as Empty } from "./Empty";
 export { default as IcHamburgar } from "./IcHamburgar";
 export { default as IcomCopy } from "./IcomCopy";
 export { default as IconArrowDown } from "./IconArrowDown";
