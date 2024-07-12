@@ -112,7 +112,7 @@ export const HiddenFileInput = styled.input`
   display: none;
 `;
 
-export const CustomFileInput = styled.label<{ width: number; height: number }>`
+export const CustomFileInput = styled.label<{ width?: number; height?: number }>`
   ${Generators.flexGenerator()}
   width: ${({ width }) => (width ? width : 10.8)}rem;
   height: ${({ height }) => (height ? height : 15.4)}rem;
@@ -122,13 +122,13 @@ export const CustomFileInput = styled.label<{ width: number; height: number }>`
   border-radius: 6px;
 `;
 
-export const PreviewImageWrapper = styled.article<{ width: number; height: number }>`
+export const PreviewImageWrapper = styled.article<{ width?: number; height?: number }>`
   position: relative;
   width: ${({ width }) => (width ? width : 10.8)}rem;
   height: ${({ height }) => (height ? height : 15.4)}rem;
 `;
 
-export const PreviewImage = styled.img<{ width: number; height: number }>`
+export const PreviewImage = styled.img<{ width?: number; height?: number }>`
   width: ${({ width }) => (width ? width : 10.8)}rem;
   height: ${({ height }) => (height ? height : 15.4)}rem;
   object-fit: cover;

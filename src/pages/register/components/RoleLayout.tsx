@@ -2,15 +2,13 @@ import { useState } from "react";
 import * as S from "../Register.styled";
 import Spacing from "@components/commons/spacing/Spacing";
 import { IconRoleAdd } from "@assets/svgs";
-import TextField from "@components/commons/input/textField/TextField";
 import RoleWrapper from "./RoleWrapper";
 
 interface RoleLayoutProps {
   title: string;
-  onImageUpload: (imageUrl: string) => void;
 }
 
-const RoleLayout = ({ title, onImageUpload }: RoleLayoutProps) => {
+const RoleLayout = ({ title }: RoleLayoutProps) => {
   const [makerList, setMakerList] = useState([]);
 
   const handelAddRole = () => {
@@ -29,6 +27,12 @@ const RoleLayout = ({ title, onImageUpload }: RoleLayoutProps) => {
     setMakerList((prev) => prev.filter((role) => role.id !== id));
   };
 
+  const handleUpdateRole = (id: number, name: string, value: string) => {
+    setMakerList((prev) =>
+      prev.map((role) => (role.id === id ? { ...role, [name]: value } : role))
+    );
+  };
+
   console.log(makerList);
 
   return (
@@ -41,7 +45,7 @@ const RoleLayout = ({ title, onImageUpload }: RoleLayoutProps) => {
             key={role.id}
             id={role.id}
             removeRole={handleremoveRole}
-            onImageUpload={onImageUpload}
+            onUpdateRole={handleUpdateRole}
           />
         ))}
         <S.RoleAddBtn onClick={handelAddRole}>

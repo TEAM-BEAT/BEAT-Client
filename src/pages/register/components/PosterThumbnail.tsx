@@ -11,7 +11,7 @@ const PosterThumbnail = ({ onImageUpload }: PosterThumbnailProps) => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
 
-  function uploadFile(e: ChangeEvent<HTMLInputElement>) {
+  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setPostImg(file);
@@ -25,7 +25,7 @@ const PosterThumbnail = ({ onImageUpload }: PosterThumbnailProps) => {
 
       fileReader.readAsDataURL(file);
     }
-  }
+  };
 
   const removeImage = () => {
     setPostImg(null);

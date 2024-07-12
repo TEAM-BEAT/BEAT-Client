@@ -4,13 +4,17 @@ import TextField from "@components/commons/input/textField/TextField";
 import { IconCamera } from "@assets/svgs";
 import { ChangeEvent, useState } from "react";
 
-const RoleWrapper = ({ id, removeRole, onImageUpload }) => {
+interface RoleWrapperProps {
+  id: number;
+  removeRole: (id: number) => void;
+  onUpdateRole: (id: number, name: string, value: string) => void;
+}
+
+const RoleWrapper = ({ id, removeRole, onUpdateRole }: RoleWrapperProps) => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
 
-  function uploadFile(e: ChangeEvent<HTMLInputElement>) {
+  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setPostImg(file);
@@ -19,13 +23,17 @@ const RoleWrapper = ({ id, removeRole, onImageUpload }) => {
       fileReader.onload = function (event) {
         const imageUrl = event.target?.result as string;
         setPreviewImg(imageUrl);
-        onImageUpload(imageUrl);
+        onUpdateRole(id, "makerPhoto", imageUrl);
       };
 
       fileReader.readAsDataURL(file);
     }
-  }
+  };
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    onUpdateRole(id, name, value);
+  };
   return (
     <S.RoleWrapper>
       <S.FileInputWrapper>
@@ -47,17 +55,15 @@ const RoleWrapper = ({ id, removeRole, onImageUpload }) => {
       <S.TextInputWrpper>
         <TextField
           type="input"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="makerName"
+          onChange={handleInputChange}
           narrow={true}
           placeholder="이름"
         />
         <TextField
           type="input"
-          name="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
+          name="makerRole"
+          onChange={handleInputChange}
           narrow={true}
           placeholder="역할"
         />
