@@ -21,6 +21,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "a", element: <Apage /> },
+      { path: "/NonMb-Lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
       { path: "register", element: <Register /> },
@@ -49,10 +50,6 @@ const router = createBrowserRouter([
   {
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
-  },
-  {
-    path: "/NonMb-Lookup",
-    element: <NonMbLookup />,
   },
   {
     path: "/bank-sheet",
