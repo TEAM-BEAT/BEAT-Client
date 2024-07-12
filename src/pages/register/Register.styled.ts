@@ -208,3 +208,11 @@ export const RoleWrapper = styled.div`
   ${Generators.flexGenerator("column", "center", "center")}
   height: 26.6rem;
 `;
+
+export const FooterInfo = styled.div`
+  margin-bottom: 2.4rem;
+
+  color: ${({ theme }) => theme.colors.gray_200};
+  ${({ theme }) => theme.fonts["body2-normal-semi"]};
+  text-align: center;
+`;
