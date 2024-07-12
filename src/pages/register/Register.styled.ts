@@ -96,6 +96,11 @@ export const NonCheck = styled.div`
   border-radius: 2px;
 `;
 
+export const TextInputWrpper = styled.section`
+  ${Generators.flexGenerator("column", "start", "space-between")}
+  gap: 0.8rem;
+`;
+
 export const FileInputWrapper = styled.div`
   position: relative;
 
@@ -107,25 +112,25 @@ export const HiddenFileInput = styled.input`
   display: none;
 `;
 
-export const CustomFileInput = styled.label`
+export const CustomFileInput = styled.label<{ width: number; height: number }>`
   ${Generators.flexGenerator()}
-  width: 10.8rem;
-  height: 15.4rem;
+  width: ${({ width }) => (width ? width : 10.8)}rem;
+  height: ${({ height }) => (height ? height : 15.4)}rem;
 
   background: ${({ theme }) => theme.colors.gray_800};
   cursor: pointer;
   border-radius: 6px;
 `;
 
-export const PreviewImageWrapper = styled.article`
+export const PreviewImageWrapper = styled.article<{ width: number; height: number }>`
   position: relative;
-  width: 10.8rem;
-  height: 15.4rem;
+  width: ${({ width }) => (width ? width : 10.8)}rem;
+  height: ${({ height }) => (height ? height : 15.4)}rem;
 `;
 
-export const PreviewImage = styled.img`
-  width: 10.8rem;
-  height: 15.4rem;
+export const PreviewImage = styled.img<{ width: number; height: number }>`
+  width: ${({ width }) => (width ? width : 10.8)}rem;
+  height: ${({ height }) => (height ? height : 15.4)}rem;
   object-fit: cover;
 
   border-radius: 10px;

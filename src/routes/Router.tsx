@@ -8,7 +8,9 @@ import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
+import Role from "@pages/register/components/Role";
 import Register from "@pages/register/Register";
+import RegisterMaker from "@pages/register/RegisterMaker";
 import TestPage from "@pages/test/TestPage";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
@@ -53,6 +55,8 @@ const router = createBrowserRouter([
   //     element: <CPage />,
   //   },
   { path: "/testpage", element: <TestPage /> },
+
+  { path: "/role", element: <RegisterMaker /> },
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   //   ...
 ]);
