@@ -5,7 +5,7 @@ import BankTest from "@pages/BankTest";
 import Gig from "@pages/gig/Gig";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
-import ModalTest from "@pages/ModalTest";
+import ModalTest from "@pages/modalTest/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
