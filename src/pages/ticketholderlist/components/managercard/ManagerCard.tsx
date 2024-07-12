@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import SelectIcon from "../selectIcon/SelectIcon";
 import * as S from "./ManagerCard.styled";
 
 const ManagerCard = ({
@@ -53,7 +54,7 @@ const ManagerCard = ({
   };
   return (
     <S.ManagerCardWrapper $isDetail={isDetail}>
-      {isDeleteMode && <S.DeleteSelectedIcon />}
+      {isDeleteMode && <SelectIcon isChecked={true} />}
       <S.ManagerCardLayout $isDeleteMode={isDeleteMode} $isDetail={isDetail}>
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
