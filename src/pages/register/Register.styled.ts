@@ -179,3 +179,14 @@ export const TimePickerWrapper = styled.section`
   ${Generators.flexGenerator("column", "center", "center")}
   gap: 1.6rem;
 `;
+
+export const RoleAddBtn = styled.section`
+  ${Generators.flexGenerator()}
+
+  width: 13.6rem;
+  height: 26.6rem;
+
+  background: ${({ theme }) => theme.colors.gray_900};
+  border: 1px dashed ${({ theme }) => theme.colors.gray_700};
+  border-radius: 6px;
+`;
