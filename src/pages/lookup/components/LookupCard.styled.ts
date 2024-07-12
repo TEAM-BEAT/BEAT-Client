@@ -13,7 +13,8 @@ export const LookupCardWrapper = styled.section`
   border-radius: 0.6rem;
 `;
 
-export const LookupTitle = styled.h1`
+export const LookupTitle = styled.button`
+  display: flex;
   overflow: hidden;
 
   color: ${({ theme }) => theme.colors.gray_0};

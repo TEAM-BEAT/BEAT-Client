@@ -1,7 +1,7 @@
 import * as S from "./LookupCard.styled";
+import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";
 import useModal from "@hooks/useModal";
-
 import BankAccount from "@pages/modalTest/BankAccount";
 
 const LookupCard = ({
@@ -15,6 +15,8 @@ const LookupCard = ({
   bankName,
   accountNumber,
 }: LookupProps) => {
+  const navigate = useNavigate();
+
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
 
@@ -30,7 +32,10 @@ const LookupCard = ({
 
   return (
     <S.LookupCardWrapper>
-      <S.LookupTitle>{performanceTitle}</S.LookupTitle>
+      {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! */}
+      <S.LookupTitle type="button" onClick={() => navigate("/")}>
+        {performanceTitle}
+      </S.LookupTitle>
       <S.BoxDivider />
       <S.ContextLayout>
         <S.Context>
