@@ -11,7 +11,7 @@ const Footer = () => {
         <S.InfoLayout>
           <S.InfoBtn
             onClick={() => {
-              window.open(privacy);
+              window.open(privacy, "개인정보처리방침", "noopener");
             }}
           >
             개인정보처리방침
@@ -19,7 +19,7 @@ const Footer = () => {
           <S.BtnDivider />
           <S.InfoBtn
             onClick={() => {
-              window.open(service);
+              window.open(service, "이용약관", "noopener");
             }}
           >
             이용약관
