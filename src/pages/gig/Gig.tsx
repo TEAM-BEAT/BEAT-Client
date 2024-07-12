@@ -1,12 +1,13 @@
 import Button from "@components/commons/button/Button";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_DETAIL_INFO } from "./constants";
 
 const Gig = () => {
+  const navigate = useNavigate();
   // TODO: performanceId로 상세 정보 조회(GET)
   const { performanceId } = useParams<{ performanceId: string }>();
   const [detail, setDetail] = useState(SHOW_DETAIL_INFO);
@@ -32,7 +33,7 @@ const Gig = () => {
       />
       <FooterContainer>
         {/* TODO: 토큰 여부에 따라서 리다이렉트 */}
-        <Button onClick={() => console.log("예매하기 클릭")}>예매하기</Button>
+        <Button onClick={() => navigate("/book/1")}>예매하기</Button>
       </FooterContainer>
     </div>
   );
