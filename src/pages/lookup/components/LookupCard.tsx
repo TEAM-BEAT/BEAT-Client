@@ -1,5 +1,8 @@
 import * as S from "./LookupCard.styled";
 import { LookupProps } from "../types/lookupType";
+import useModal from "@hooks/useModal";
+
+import BankAccount from "@pages/modalTest/BankAccount";
 
 const LookupCard = ({
   createdAt,
@@ -9,12 +12,21 @@ const LookupCard = ({
   performanceVenue,
   purchaseTicketCount,
   paymentStatus,
-  handleAccount,
+  bankName,
+  accountNumber,
 }: LookupProps) => {
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
 
   const performanceDateArray = performanceDate.split("-");
+
+  const { openModal } = useModal();
+
+  const handleModal = (bank: string, number: string) => {
+    openModal({
+      children: <BankAccount bankName={bank} number={number} />,
+    });
+  };
 
   return (
     <S.LookupCardWrapper>
@@ -53,7 +65,7 @@ const LookupCard = ({
             ) : (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
             )}
-            <S.AccountLayout onClick={handleAccount}>
+            <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
               <S.Account>계좌번호</S.Account>
               <S.ArrowRightIcon />
             </S.AccountLayout>
