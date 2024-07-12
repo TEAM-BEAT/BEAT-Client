@@ -5,11 +5,13 @@ import BankTest from "@pages/BankTest";
 import Gig from "@pages/gig/Gig";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
-import ModalTest from "@pages/ModalTest";
+import ModalTest from "@pages/modalTest/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
+import KakaoLoginTest from "@pages/KakaoLoginTest";
+import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: "/modal-test",
     element: <ModalTest />,
+  },
+  {
+    path: "/kakao-login",
+    element: <KakaoLoginTest />,
+  },
+  {
+    path: "/auth",
+    element: <KakaoLogin />,
   },
   {
     path: "/action-bottom-sheet",
