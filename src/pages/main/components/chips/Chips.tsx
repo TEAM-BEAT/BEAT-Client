@@ -18,11 +18,11 @@ const Chips = ({ handleGenre }: { handleGenre: (value: string) => void }) => {
             setChipState("ALL");
           }}
         />
-        {CHIP_LIST.map((item) => {
+        {CHIP_LIST.map((item, i) => {
           const GenreIcon = item.icon ? item.icon : () => <></>;
           return (
             <Chip
-              key={item.genre} // key 세팅하기!!
+              key={`performance-${i}`}
               label={item.label}
               color={chipState === item.genre ? "white" : "gray"}
               icon={<GenreIcon />}
