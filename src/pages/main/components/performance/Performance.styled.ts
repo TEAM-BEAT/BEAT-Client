@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { BannerBasic } from "@assets/svgs";
 
 export const PerformanceWrapper = styled.section`
   padding: 2.4rem;
@@ -17,10 +16,14 @@ export const BannerWrapper = styled.button`
   width: auto;
 `;
 
-export const Banner = styled(BannerBasic)`
+export const Banner = styled.div<{ $image: string }>`
   display: flex;
   width: 32.7rem;
   height: 9.2rem;
 
+  background-image: url(${({ $image }) => $image});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   border-radius: 0.6rem;
 `;

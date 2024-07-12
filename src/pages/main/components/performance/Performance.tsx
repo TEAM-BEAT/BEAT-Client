@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Spacing from "@components/commons/spacing/Spacing";
 import PerformnaceCard from "./PerformnaceCard";
+import BannerImg from "../../../../assets/images/banner_basic.png";
 
 import { dummyData } from "./dummyData";
 
@@ -34,7 +35,7 @@ const Performance = ({ genre }: { genre: string }) => {
       </S.PerformanceLayout>
       <Spacing marginBottom="1.5" />
       <S.BannerWrapper onClick={handleNavigate}>
-        <S.Banner />
+        <S.Banner $image={BannerImg} />
       </S.BannerWrapper>
       <Spacing marginBottom="3.2" />
       <S.PerformanceLayout>
