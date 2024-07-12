@@ -1,20 +1,22 @@
-import { NAVIGATION_STATE, NavigationState } from "@constants/navigationState";
-import useModal from "@hooks/useModal";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks/useHeader";
 import * as S from "./Navigation.styled";
 
 const Navigation = () => {
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
-  const { openConfirm } = useModal();
+  const { header } = useHeader();
+  const { headerStyle, title, subText, leftOnClick, rightOnClick } = header;
 
-  const [headerPosition, setHeaderPosition] = useState<NavigationState>();
-  const [title, setTitle] = useState("");
-  const [subText, setSubText] = useState("");
-  // TODO: 전역상태로 관리?
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //함수 연결은 거의 필수이므로, 경고 콘솔 띄워 디버깅 용이하도록 구성.
+  if (!leftOnClick) {
+    //만약 왼쪽 함수를 부여하지 않았다면
+    console.log("warn: 왼쪽 버튼 미연결");
+  }
+  if (!rightOnClick) {
+    //만약 오른쪽 함수를 부여하지 않았다면
+    console.log("warn: 오른쪽 버튼 미연결");
+  }
 
+<<<<<<< HEAD
   const onClickLogo = () => {
     // TODO: 화면 맨 위로 스크롤? 어떤 액션할 지
     navigate("/");
@@ -87,70 +89,77 @@ const Navigation = () => {
   }, [pathname]);
 
   if (headerPosition === NAVIGATION_STATE.ICON_TITLE) {
+=======
+  if (headerStyle === NAVIGATION_STATE.ICON_TITLE) {
+>>>>>>> develop
     return (
       <S.NavigationWrapper>
-        <S.NavigationLeftButton onClick={onClickBack} />
+        <S.NavigationLeftButton onClick={leftOnClick} />
         <S.NavigationTitle>{title}</S.NavigationTitle>
         <S.FragmentDiv />
       </S.NavigationWrapper>
     );
   }
 
-  if (headerPosition === NAVIGATION_STATE.TITLE_ICON) {
+  if (headerStyle === NAVIGATION_STATE.TITLE_ICON) {
     return (
       <S.NavigationWrapper>
         <S.FragmentDiv />
         <S.NavigationTitle>{title}</S.NavigationTitle>
-        <S.NavigationXButton onClick={onClickTest} />
+        <S.NavigationXButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
   }
 
-  if (headerPosition === NAVIGATION_STATE.ICON_TITLE_ICON) {
+  if (headerStyle === NAVIGATION_STATE.ICON_TITLE_ICON) {
     return (
       <S.NavigationWrapper>
-        <S.NavigationLeftButton onClick={onClickTest} />
+        <S.NavigationLeftButton onClick={leftOnClick} />
         <S.NavigationTitle>{title}</S.NavigationTitle>
-        <S.NavigationXButton onClick={onClickTest} />
+        <S.NavigationXButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
   }
 
-  if (headerPosition === NAVIGATION_STATE.ICON_TITLE_SUB_TEXT) {
+  if (headerStyle === NAVIGATION_STATE.ICON_TITLE_SUB_TEXT) {
     return (
       <S.NavigationWrapper>
-        <S.NavigationLeftButton onClick={onClickTest} />
+        <S.NavigationLeftButton onClick={leftOnClick} />
         <S.NavigationTitle>{title}</S.NavigationTitle>
-        <S.SubTextButton onClick={onClickTest}>{subText}</S.SubTextButton>
+        <S.SubTextButton onClick={rightOnClick}>{subText}</S.SubTextButton>
       </S.NavigationWrapper>
     );
   }
 
-  if (headerPosition === NAVIGATION_STATE.ICON) {
+  if (headerStyle === NAVIGATION_STATE.ICON) {
     return (
       <S.NavigationWrapper>
         <S.FragmentDiv />
-        <S.NavigationXButton onClick={onClickTest} />
+        <S.NavigationXButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
   }
 
-  if (headerPosition === NAVIGATION_STATE.LOGO_HAMBURGAR) {
+  if (headerStyle === NAVIGATION_STATE.LOGO_HAMBURGAR) {
     return (
       <S.NavigationWrapper>
-        <S.Logo onClick={onClickLogo} />
-        <S.HamburgarButton onClick={onClickMenuBar} />
+        <S.Logo onClick={leftOnClick} />
+        <S.HamburgarButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
   }
 
-  if (headerPosition === NAVIGATION_STATE.ICON_ICON) {
+  if (headerStyle === NAVIGATION_STATE.ICON_ICON) {
     return (
       <S.NavigationWrapper>
-        <S.NavigationLeftButton onClick={onClickTest} />
-        <S.NavigationXButton onClick={onClickTest} />
+        <S.NavigationLeftButton onClick={leftOnClick} />
+        <S.NavigationXButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
+  }
+
+  if (!headerStyle) {
+    return null;
   }
 
   return <></>;

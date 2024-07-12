@@ -1,5 +1,7 @@
 import Button from "@components/commons/button/Button";
-import { useState } from "react";
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks/useHeader";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bannerNarrow from "../../assets/images/banner_narrow.png";
 import * as S from "./MyRegisterdShow.styled";
@@ -7,11 +9,24 @@ import RegisteredCard from "./components/registeredcard/RegisteredCard";
 import { MY_REGISTERED_SHOW, RegisteredObjProps } from "./constants/myRegisterShow";
 
 const MyRegisterdShow = () => {
+  const { setHeader } = useHeader();
   const navigate = useNavigate();
+
   //추후 공연등록하기 주소(채현) 나오면 변경 예정
-  const handleBtn = () => {
-    navigate("/");
+  const handleBackBtn = () => {
+    navigate(-1);
   };
+
+  //모든 페이지 컴포넌트는 반드시 헤더 설정하기 + useEffect, NAVIGATION_STATE 사용하기
+  useEffect(() => {
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE,
+      title: "내가 등록한 공연",
+      subText: "메롱",
+      leftOnClick: handleBackBtn,
+    });
+  }, [setHeader]);
+
   //추후 API에서 받아온 걸로 set할 예정
   const [showList, setShowList] = useState(MY_REGISTERED_SHOW.data);
   const [isNothing, setIsNothing] = useState(false);
