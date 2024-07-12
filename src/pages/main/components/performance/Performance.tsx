@@ -5,19 +5,29 @@ import Spacing from "@components/commons/spacing/Spacing";
 import PerformnaceCard from "./PerformnaceCard";
 import BannerImg from "../../../../assets/images/banner_basic.png";
 
-import { dummyData } from "./dummyData";
+interface PerfonmanceProps {
+  performanceId: number;
+  performanceTitle: string;
+  performancePeriod: string;
+  ticketPrice: number;
+  dueDate: number;
+  genre: string;
+  posterImage: string;
+}
+interface PerformanceComponentProps {
+  genre: string;
+  performanceList: PerfonmanceProps[];
+}
 
-const Performance = ({ genre }: { genre: string }) => {
+const Performance = ({ genre, performanceList }: PerformanceComponentProps) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate("/register");
   };
 
-  // 이 위치에 API로 불러온 배열 넣기
-  const data = dummyData.performanceList;
-
-  const filteredData = genre === "ALL" ? data : data.filter((item) => item.genre === genre);
+  const filteredData =
+    genre === "ALL" ? performanceList : performanceList.filter((item) => item.genre === genre);
 
   const sortData = filteredData
     .filter((item) => item.dueDate >= 1)
