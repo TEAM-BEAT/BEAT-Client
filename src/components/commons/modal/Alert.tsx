@@ -20,7 +20,7 @@ const Alert = () => {
 
   if (isOpen) {
     return (
-      <ModalWrapper type="alert">
+      <ModalWrapper>
         <ModalTextBox title={title} subTitle={subTitle} />
 
         <Button size="large" variant="primary" onClick={handleOk}>
