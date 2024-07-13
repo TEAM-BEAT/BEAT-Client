@@ -10,6 +10,7 @@ import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import TestPage from "@pages/test/TestPage";
+import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
 import KakaoLoginTest from "@pages/KakaoLoginTest";
 import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
+      { path: "ticketholderlist", element: <TicketHolderList /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },
       // ... other pages
     ],
@@ -63,7 +65,7 @@ const router = createBrowserRouter([
   //     element: <CPage />,
   //   },
   { path: "/testpage", element: <TestPage /> },
-  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
+
   //   ...
 ]);
 export default router;
