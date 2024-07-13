@@ -42,6 +42,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
     const { name, value } = e.target;
     onUpdateRole(id, name, value);
   };
+
   return (
     <S.RoleWrapper>
       <S.FileInputWrapper>

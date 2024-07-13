@@ -34,16 +34,16 @@ const RegisterMaker = ({
     setIsButtonDisabled(
       !(
         (castList.length === 1 &&
-          !castList[0].castName &&
-          !castList[0].castRole &&
-          !castList[0].castPhoto) ||
+          !castList[0]?.castName &&
+          !castList[0]?.castRole &&
+          !castList[0]?.castPhoto) ||
         allCastFieldsFilled
       ) ||
         !(
           (castList.length === 1 &&
-            !staffList[0].staffName &&
-            !staffList[0].staffRole &&
-            !staffList[0].staffPhoto) ||
+            !staffList[0]?.staffName &&
+            !staffList[0]?.staffRole &&
+            !staffList[0]?.staffPhoto) ||
           allStaffFieldsFilled
         )
     );
