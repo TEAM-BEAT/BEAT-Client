@@ -50,6 +50,13 @@ export const TextUnit = styled.p`
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;
 
+export const ToggleVisibilityIcon = styled.section`
+  position: absolute;
+  right: 1.6rem;
+
+  width: 2.4rem;
+`;
+
 export const TextCap = styled.p`
   ${Generators.flexGenerator("row", "center", "end")}
 

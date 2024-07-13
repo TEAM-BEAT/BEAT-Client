@@ -1,5 +1,6 @@
-import React, { ChangeEvent, InputHTMLAttributes, useRef } from "react";
+import React, { ChangeEvent, InputHTMLAttributes, useRef, useState } from "react";
 import * as S from "./TextField.styled";
+import { IconEyeOff, IconEyeOn } from "@assets/svgs";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,9 +10,11 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   unit?: "time" | "ticket" | "amount"; // 단위 : "분", "매", "원"
   filter?: (value: string) => string;
   cap?: false | true;
+  onToggleClick?: () => void;
 }
 
 const TextField = ({
+  type = "input",
   name,
   value,
   onChange,
@@ -21,11 +24,13 @@ const TextField = ({
   unit,
   filter,
   cap,
+  onToggleClick,
   ...rest
 }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(type !== "password"); // 비밀번호 입력값 보이기/숨기기
 
   // 값 입력될 떄
   const handleOnInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +75,11 @@ const TextField = ({
     }
   };
 
+  // 비밀번호 입력값 보이기 여부 관리
+  const handlePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
   return (
     <S.TextFieldLayout $narrow={narrow}>
       <S.TextFieldWrapper>
@@ -81,10 +91,19 @@ const TextField = ({
           maxLength={maxLength}
           placeholder={placeholder}
           $narrow={narrow}
+          type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
           {...rest}
         />
-        {!narrow && !unit && value && <S.TextClear onClick={handleClearInput} />}
+        {!narrow && !unit && value && type !== "password" && (
+          <S.TextClear onClick={handleClearInput} />
+        )}
         {unit && <S.TextUnit>{label}</S.TextUnit>}
+        {type === "password" && (
+          <S.ToggleVisibilityIcon
+            onClick={handlePasswordVisibility}
+            as={isPasswordVisible ? IconEyeOn : IconEyeOff}
+          />
+        )}
       </S.TextFieldWrapper>
       {maxLength && cap && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
     </S.TextFieldLayout>
