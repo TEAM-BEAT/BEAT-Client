@@ -16,8 +16,6 @@ export const Divider = styled.div`
 `;
 
 export const FooterContainer = styled.div`
-  position: sticky;
-  bottom: 0;
   padding: 2.4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};

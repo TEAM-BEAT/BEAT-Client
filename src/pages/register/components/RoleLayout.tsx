@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "../Register.styled";
 import Spacing from "@components/commons/spacing/Spacing";
 import { IconRoleAdd } from "@assets/svgs";
 import RoleWrapper from "./RoleWrapper";
 
+interface Role {
+  id: number;
+  makerName: string;
+  makerRole: string;
+  makerPhoto: string;
+}
+
 interface RoleLayoutProps {
+  updateList: (list: any[]) => void;
   title: string;
 }
 
-const RoleLayout = ({ title }: RoleLayoutProps) => {
-  const [makerList, setMakerList] = useState([]);
+const RoleLayout = ({ updateList, title }: RoleLayoutProps) => {
+  const [makerList, setMakerList] = useState<Role[]>([]);
 
   const handelAddRole = () => {
     setMakerList((prev) => [
@@ -33,7 +41,25 @@ const RoleLayout = ({ title }: RoleLayoutProps) => {
     );
   };
 
-  console.log(makerList);
+  useEffect(() => {
+    const newMakerList = makerList.map((role) => {
+      if (title === "출연진") {
+        return {
+          castName: role.makerName,
+          castRole: role.makerRole,
+          castPhoto: role.makerPhoto,
+        };
+      }
+      if (title === "스태프") {
+        return {
+          staffName: role.makerName,
+          staffRole: role.makerRole,
+          staffPhoto: role.makerPhoto,
+        };
+      }
+    });
+    updateList(newMakerList);
+  }, [makerList]);
 
   return (
     <S.InputRegisterBox $marginBottom={2.8}>
