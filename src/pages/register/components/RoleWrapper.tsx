@@ -4,15 +4,23 @@ import TextField from "@components/commons/input/textField/TextField";
 import { IconCamera } from "@assets/svgs";
 import { ChangeEvent, useState } from "react";
 
+interface Role {
+  id: number;
+  makerName: string;
+  makerRole: string;
+  makerPhoto: string;
+}
 interface RoleWrapperProps {
   id: number;
+  role: Role;
   removeRole: (id: number) => void;
   onUpdateRole: (id: number, name: string, value: string) => void;
 }
 
-const RoleWrapper = ({ id, removeRole, onUpdateRole }: RoleWrapperProps) => {
+const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) => {
+  const { makerName, makerRole, makerPhoto } = role;
   const [postImg, setPostImg] = useState<File | null>(null);
-  const [previewImg, setPreviewImg] = useState<string | null>(null);
+  const [previewImg, setPreviewImg] = useState<string | null>(makerPhoto || null);
 
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,6 +64,7 @@ const RoleWrapper = ({ id, removeRole, onUpdateRole }: RoleWrapperProps) => {
         <TextField
           type="input"
           name="makerName"
+          value={makerName}
           onChange={handleInputChange}
           narrow={true}
           placeholder="이름"
@@ -63,6 +72,7 @@ const RoleWrapper = ({ id, removeRole, onUpdateRole }: RoleWrapperProps) => {
         <TextField
           type="input"
           name="makerRole"
+          value={makerRole}
           onChange={handleInputChange}
           narrow={true}
           placeholder="역할"

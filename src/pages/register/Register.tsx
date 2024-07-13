@@ -84,12 +84,15 @@ const Register = () => {
     performanceDescription,
     performanceAttentionNote,
     accountNumber,
+    posterImage,
     performanceTeamName,
     performanceVenue,
     performanceContact,
     ticketPrice,
     totalScheduleCount,
     scheduleList,
+    castList,
+    staffList,
   } = gigInfo;
 
   // const [round, setRound] = useState(1); // 회차
@@ -117,6 +120,7 @@ const Register = () => {
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
   };
+
   const updateGigInfo = (newInfo: Partial<GigInfo>) => {
     setGigInfo((prev) => ({
       ...prev,
@@ -130,18 +134,14 @@ const Register = () => {
   const handleLeftBtn = () => {
     setRegisterStep((prev) => prev - 1);
   };
-  const handleRightBtn = () => {
-    alert("오른쪽 버튼 클릭!");
-  };
+
   useEffect(() => {
     const pageTitle =
       registerStep === 1 ? "공연 등록하기" : registerStep === 2 ? "공연진 상세정보" : "미리보기";
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE,
       title: pageTitle,
-      subText: "굿",
       leftOnClick: handleLeftBtn,
-      rightOnClick: handleRightBtn,
     });
   }, [setHeader, registerStep]);
 
@@ -150,7 +150,10 @@ const Register = () => {
       return (
         <>
           <S.RegisterContainer>
-            <PosterThumbnail onImageUpload={(url) => handleImageUpload(url, setGigInfo)} />
+            <PosterThumbnail
+              value={posterImage}
+              onImageUpload={(url) => handleImageUpload(url, setGigInfo)}
+            />
             <S.Divider />
 
             <GenreSelect
@@ -353,7 +356,14 @@ const Register = () => {
   }
 
   if (registerStep === 2) {
-    return <RegisterMaker handleRegisterStep={handleRegisterStep} updateGigInfo={updateGigInfo} />;
+    return (
+      <RegisterMaker
+        castList={castList}
+        staffList={staffList}
+        handleRegisterStep={handleRegisterStep}
+        updateGigInfo={updateGigInfo}
+      />
+    );
   }
 
   return <></>;

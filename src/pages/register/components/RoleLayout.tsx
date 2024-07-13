@@ -3,6 +3,7 @@ import * as S from "../Register.styled";
 import Spacing from "@components/commons/spacing/Spacing";
 import { IconRoleAdd } from "@assets/svgs";
 import RoleWrapper from "./RoleWrapper";
+import { Cast, Staff } from "../typings/gigInfo";
 
 interface Role {
   id: number;
@@ -12,12 +13,20 @@ interface Role {
 }
 
 interface RoleLayoutProps {
+  list: Cast[] | Staff[];
   updateList: (list: any[]) => void;
   title: string;
 }
 
-const RoleLayout = ({ updateList, title }: RoleLayoutProps) => {
-  const [makerList, setMakerList] = useState<Role[]>([]);
+const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
+  const [makerList, setMakerList] = useState<Role[]>(
+    list.map((item, index) => ({
+      id: index, // ID 생성
+      makerName: "castName" in item ? item.castName : item.staffName,
+      makerRole: "castRole" in item ? item.castRole : item.staffRole,
+      makerPhoto: "castPhoto" in item ? item.castPhoto : item.staffPhoto,
+    }))
+  );
 
   const handelAddRole = () => {
     setMakerList((prev) => [
@@ -70,6 +79,7 @@ const RoleLayout = ({ updateList, title }: RoleLayoutProps) => {
           <RoleWrapper
             key={role.id}
             id={role.id}
+            role={role}
             removeRole={handleremoveRole}
             onUpdateRole={handleUpdateRole}
           />

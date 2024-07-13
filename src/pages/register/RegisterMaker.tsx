@@ -1,17 +1,24 @@
 import Button from "@components/commons/button/Button";
 import RoleLayout from "./components/RoleLayout";
 import * as S from "./Register.styled";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Cast, Staff } from "./typings/gigInfo";
 
 interface RegisterMakerProps {
+  castList: Cast[];
+  staffList: Staff[];
   handleRegisterStep: () => void;
   updateGigInfo: (newInfo: Partial<{ castList: Cast[]; staffList: Staff[] }>) => void;
 }
 
-const RegisterMaker = ({ handleRegisterStep, updateGigInfo }: RegisterMakerProps) => {
-  const [castList, setCastList] = useState<Cast[]>([]);
-  const [staffList, setStaffList] = useState<Staff[]>([]);
+const RegisterMaker = ({
+  castList: prevCastList,
+  staffList: prevStaffList,
+  handleRegisterStep,
+  updateGigInfo,
+}: RegisterMakerProps) => {
+  const [castList, setCastList] = useState<Cast[]>(prevCastList);
+  const [staffList, setStaffList] = useState<Staff[]>(prevStaffList);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -19,12 +26,26 @@ const RegisterMaker = ({ handleRegisterStep, updateGigInfo }: RegisterMakerProps
     const allCastFieldsFilled = castList.every(
       (cast) => cast.castName && cast.castRole && cast.castPhoto
     );
+
     const allStaffFieldsFilled = staffList.every(
       (staff) => staff.staffName && staff.staffRole && staff.staffPhoto
     );
+
     setIsButtonDisabled(
-      !(castList.length === 0 || allCastFieldsFilled) ||
-        !(staffList.length === 0 || allStaffFieldsFilled)
+      !(
+        (castList.length === 1 &&
+          !castList[0].castName &&
+          !castList[0].castRole &&
+          !castList[0].castPhoto) ||
+        allCastFieldsFilled
+      ) ||
+        !(
+          (castList.length === 1 &&
+            !staffList[0].staffName &&
+            !staffList[0].staffRole &&
+            !staffList[0].staffPhoto) ||
+          allStaffFieldsFilled
+        )
     );
   }, [castList, staffList]);
 
@@ -36,16 +57,25 @@ const RegisterMaker = ({ handleRegisterStep, updateGigInfo }: RegisterMakerProps
     }
   };
 
-  const handleList = () => {
+  const handleList = useCallback(() => {
     updateGigInfo({ castList, staffList });
     handleRegisterStep();
-  };
+  }, [castList, staffList, updateGigInfo, handleRegisterStep]);
+
   return (
     <>
       <S.RegisterContainer>
-        <RoleLayout title="출연진" updateList={(list) => handleUpdateList("출연진", list)} />
+        <RoleLayout
+          title="출연진"
+          list={castList}
+          updateList={(list) => handleUpdateList("출연진", list)}
+        />
         <S.Divider />
-        <RoleLayout title="스태프" updateList={(list) => handleUpdateList("스태프", list)} />
+        <RoleLayout
+          title="스태프"
+          list={staffList}
+          updateList={(list) => handleUpdateList("스태프", list)}
+        />
       </S.RegisterContainer>
       <S.FooterContainer>
         <S.FooterDivider />
