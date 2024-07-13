@@ -5,11 +5,13 @@ import Spacing from "@components/commons/spacing/Spacing";
 import Button from "@components/commons/button/Button";
 import { useNavigate } from "react-router-dom";
 import { REGISTER_RESPONSE } from "./constants";
+import { useState } from "react";
 
 const RegisterComplete = () => {
   const user = "메이커";
   const navigate = useNavigate();
-  const goGigsPage = () => navigate(`/gig/${REGISTER_RESPONSE.performanceId}`);
+  const [response, setResponse] = useState(REGISTER_RESPONSE);
+  const goGigsPage = () => navigate(`/gig/${response.performanceId}`);
 
   return (
     <>
@@ -17,6 +19,7 @@ const RegisterComplete = () => {
         <S.RegisterCompleteWrapper>
           <Lottie
             animationData={registerComplete}
+            loop={false}
             play={true}
             style={{ width: "150px", height: "150px", margin: "0 auto" }}
           />
