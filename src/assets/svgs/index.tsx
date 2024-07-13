@@ -11,6 +11,7 @@ export { default as IconCheck } from "./IconCheck";
 export { default as IconCheckboxSelectedOn } from "./IconCheckboxSelectedOn";
 export { default as IconCheckboxUnselectedOn } from "./IconCheckboxUnselectedOn";
 export { default as IconChevronBack } from "./IconChevronBack";
+export { default as IconEmpty } from "./IconEmpty";
 export { default as IconEyeOff } from "./IconEyeOff";
 export { default as IconEyeOn } from "./IconEyeOn";
 export { default as IconHanna } from "./IconHanna";

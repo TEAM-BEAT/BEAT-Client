@@ -3,19 +3,19 @@ import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
 import BankTest from "@pages/BankTest";
 import Gig from "@pages/gig/Gig";
+import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
+import KakaoLoginTest from "@pages/KakaoLoginTest";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/modalTest/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
+import RegisterComplete from "@pages/register/RegisterComplete";
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
-import KakaoLoginTest from "@pages/KakaoLoginTest";
-import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
-import RegisterComplete from "@pages/register/RegisterComplete";
 
 const router = createBrowserRouter([
   {
@@ -29,8 +29,9 @@ const router = createBrowserRouter([
       { path: "register-complete", element: <RegisterComplete /> },
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
-      { path: "ticketholderlist", element: <TicketHolderList /> },
-      { path: "myregisteredshow", element: <MyRegisterdShow /> },
+      { path: "gig-manage", element: <MyRegisterdShow /> },
+      { path: "guest-manage", element: <TicketHolderList /> },
+
       // ... other pages
     ],
   },
