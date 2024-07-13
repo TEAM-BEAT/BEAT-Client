@@ -57,10 +57,18 @@ const RegisterMaker = ({
     }
   };
 
-  const handleList = useCallback(() => {
-    updateGigInfo({ castList, staffList });
+  const handleList = () => {
+    // 모든 속성이 비어있는 객체들 필터링
+    const filteredCastList = castList.filter(
+      (cast) => cast.castName || cast.castRole || cast.castPhoto
+    );
+    const filteredStaffList = staffList.filter(
+      (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
+    );
+
+    updateGigInfo({ castList: filteredCastList, staffList: filteredStaffList });
     handleRegisterStep();
-  }, [castList, staffList, updateGigInfo, handleRegisterStep]);
+  };
 
   return (
     <>
