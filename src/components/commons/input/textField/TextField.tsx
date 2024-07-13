@@ -90,8 +90,8 @@ const TextField = ({
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
-          type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
           $narrow={narrow}
+          type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
           {...rest}
         />
         {!narrow && !unit && value && type !== "password" && (
