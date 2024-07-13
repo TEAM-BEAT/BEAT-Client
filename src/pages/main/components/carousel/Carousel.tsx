@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./Carousel.styled";
 
 import carouselImg from "../../../../assets/images/banner_roll.png";
@@ -16,6 +17,8 @@ interface PromotionComponentProps {
 const ImgList = [carouselImg, carouselImg, carouselImg, carouselImg, carouselImg];
 
 const Carousel = (promotionList: PromotionComponentProps) => {
+  const navigate = useNavigate();
+
   const carouselList = ImgList;
   const [currIndex, setCurrIndex] = useState(1);
   const [currList, setCurrList] = useState<string[]>();
@@ -65,7 +68,7 @@ const Carousel = (promotionList: PromotionComponentProps) => {
       if (carouselRef.current !== null) {
         carouselRef.current.style.transition = "all 0.5s ease-in-out";
       }
-    }, 5000);
+    }, 3000);
     return () => {
       clearInterval(time);
     };
@@ -79,7 +82,13 @@ const Carousel = (promotionList: PromotionComponentProps) => {
             const key = `${image}-${idx}`;
 
             return (
-              <S.CarouselItem key={key}>
+              <S.CarouselItem
+                key={key}
+                onClick={() => {
+                  // id값 줘서 클릭하면 해당 공연으로 넘어갈 수 있도록
+                  navigate("/lookup");
+                }}
+              >
                 <img src={image} alt="carousel-img" />
               </S.CarouselItem>
             );
