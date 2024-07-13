@@ -1,8 +1,15 @@
 import useModal from "@hooks/useModal";
 import styled from "styled-components";
+import BankAccount from "./BankAccount";
 
 const ModalTest = () => {
-  const { openAlert, openConfirm } = useModal();
+  const { openAlert, openConfirm, openModal } = useModal();
+
+  const bankName1 = "농협";
+  const bankNumber1 = "신지바보-5678-1234-5678";
+
+  const bankName2 = "바보신지은행";
+  const bankNumber2 = "메롱메롱-5678-1234-5678";
 
   const handleAlert = () => {
     openAlert({
@@ -29,6 +36,12 @@ const ModalTest = () => {
     });
   };
 
+  const handleModal = (bankName: string, number: string) => {
+    openModal({
+      children: <BankAccount bankName={bankName} number={number} />,
+    });
+  };
+
   return (
     <Wrapper>
       <button style={{ color: "white" }} onClick={handleAlert}>
@@ -36,6 +49,13 @@ const ModalTest = () => {
       </button>
       <button style={{ color: "white" }} onClick={handleConfirm}>
         컴펌!
+      </button>
+      <button style={{ color: "white" }} onClick={() => handleModal(bankName1, bankNumber1)}>
+        모달!
+      </button>
+
+      <button style={{ color: "white" }} onClick={() => handleModal(bankName2, bankNumber2)}>
+        모달!
       </button>
     </Wrapper>
   );

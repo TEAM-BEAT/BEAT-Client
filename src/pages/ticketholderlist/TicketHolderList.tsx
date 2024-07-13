@@ -8,7 +8,7 @@ import Banner from "./components/banner/Banner";
 import ManagerCard from "./components/managercard/ManagerCard";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
-import { RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
+import { BookingListProps, RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
 const TicketHolderList = () => {
@@ -26,7 +26,9 @@ const TicketHolderList = () => {
   // 0, undefined 일 때는 전체 렌더링 (필터링을 위한 state들)
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
   const [payment, setPayment] = useState<boolean | undefined>(undefined);
-  const [responseData, setResponseData] = useState<any[]>(RESPONSE_TICKETHOLDER.data.bookingList);
+  const [responseData, setResponseData] = useState<BookingListProps[]>(
+    RESPONSE_TICKETHOLDER.data.bookingList
+  );
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
   const [formData, setFormData] = useState<DeleteFormDataProps>({
@@ -63,6 +65,7 @@ const TicketHolderList = () => {
   const handleToggleButton = () => {
     setDetail((prop) => !prop);
   };
+
   const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
 
   const filteredData = responseData.filter((obj) => {
@@ -87,6 +90,18 @@ const TicketHolderList = () => {
   //이해하기 어려울 것 같아 주석 남깁니다. 모든 회차, 입금 상태 2가지 필터를 사용하여 원하는 결과만 가져오는 형식입니다.
   //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
 
+  //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
+  const handlePaymentToggle = (bookingId: number, isDeleteModeee: boolean) => {
+    if (!isDeleteModeee) {
+      setResponseData((arr) =>
+        arr.map((item) =>
+          item.bookingId === bookingId
+            ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
+            : item
+        )
+      );
+    }
+  };
   return (
     <>
       <Banner image={eximg} reservedCount={reservedCount} isOutdated={isOutdated} />
@@ -143,7 +158,7 @@ const TicketHolderList = () => {
               bookingId={obj.bookingId}
               isPaid={obj.isPaymentCompleted}
               isDetail={detail}
-              setPaid={setResponseData}
+              setPaid={() => handlePaymentToggle(obj.bookingId, isDeleteMode)}
               bookername={obj.bookerName}
               purchaseTicketeCount={obj.purchaseTicketCount}
               scheduleNumber={obj.scheduleNumber}
@@ -151,10 +166,7 @@ const TicketHolderList = () => {
               createAt={obj.createdAt}
             />
           ))}
-          {/*
-          <span style={{ color: "white" }}>{`현재 눌린 회차 번호 : ${schedule}`}</span>
-          <span style={{ color: "white" }}>{`현재 눌린 지불 여부 : ${payment}`}</span>
-          */}
+
           {isDeleteMode ? (
             <S.FooterButtonWrapper>
               <Button>삭제</Button>

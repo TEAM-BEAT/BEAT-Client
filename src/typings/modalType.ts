@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface AlertProps {
   isOpen: boolean;
   title: string;
@@ -14,4 +16,9 @@ export interface ConfirmProps {
   okCallback?: () => void;
   noText?: string;
   noCallback?: () => void;
+}
+
+export interface ModalProps {
+  isOpen: boolean;
+  children?: React.ReactNode;
 }

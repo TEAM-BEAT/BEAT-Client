@@ -18,6 +18,7 @@ const TestPage = () => {
   const [round, setRound] = useState(1);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const { showToast, isToastVisible } = useToast();
+  const [pwdStatus, setPwdStatus] = useState(false);
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -34,14 +35,16 @@ const TestPage = () => {
   const handleDateChange = (value: Dayjs | null) => {
     setSelectedDate(value);
   };
-  console.log(selectedDate);
+  console.log(inputValue);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
+          type="password"
           value={inputValue}
           onChange={handleChangeInput}
-          maxLength={30}
+          filter={numericFilter}
+          maxLength={4}
           placeholder="입력해주세요"
         />
         <TextArea
