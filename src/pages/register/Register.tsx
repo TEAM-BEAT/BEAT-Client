@@ -32,6 +32,8 @@ import { GigInfo } from "./typings/gigInfo";
 import Button from "@components/commons/button/Button";
 import { IconChecked } from "@assets/svgs";
 import RegisterMaker from "./RegisterMaker";
+import { useHeader } from "./../../hooks/useHeader";
+import { NAVIGATION_STATE } from "@constants/navigationState";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
@@ -121,8 +123,27 @@ const Register = () => {
       ...newInfo,
     }));
   };
-  console.log(registerStep);
   console.log(gigInfo);
+
+  const { setHeader } = useHeader();
+
+  const handleLeftBtn = () => {
+    setRegisterStep((prev) => prev - 1);
+  };
+  const handleRightBtn = () => {
+    alert("오른쪽 버튼 클릭!");
+  };
+  useEffect(() => {
+    const pageTitle =
+      registerStep === 1 ? "공연 등록하기" : registerStep === 2 ? "공연진 상세정보" : "미리보기";
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE,
+      title: pageTitle,
+      subText: "굿",
+      leftOnClick: handleLeftBtn,
+      rightOnClick: handleRightBtn,
+    });
+  }, [setHeader, registerStep]);
 
   if (registerStep === 1) {
     {
