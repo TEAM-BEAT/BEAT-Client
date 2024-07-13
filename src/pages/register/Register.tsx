@@ -15,7 +15,6 @@ import GenreSelect from "./components/GenreSelect";
 import PosterThumbnail from "./components/PosterThumbnail";
 import Spacing from "@components/commons/spacing/Spacing";
 import { GENRE_LIST } from "./constants/genreList";
-import { Dayjs } from "dayjs";
 import {
   handleImageUpload,
   handleGenreSelect,
@@ -35,7 +34,8 @@ import { IconChecked } from "@assets/svgs";
 import RegisterMaker from "./RegisterMaker";
 
 const Register = () => {
-  const [registerStep, setRegisterStep] = useState(2);
+  const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
+  // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
     genre: "", // 공연 장르
@@ -90,7 +90,7 @@ const Register = () => {
     scheduleList,
   } = gigInfo;
 
-  const [round, setRound] = useState(1); // 회차
+  // const [round, setRound] = useState(1); // 회차
   // const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null); // 선택한 날짜
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState("");
