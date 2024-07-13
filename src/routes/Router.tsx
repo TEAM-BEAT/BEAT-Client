@@ -9,6 +9,7 @@ import ModalTest from "@pages/modalTest/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
+
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
 import KakaoLoginTest from "@pages/KakaoLoginTest";
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
   //   },
   { path: "/testpage", element: <TestPage /> },
 
+  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   //   ...
 ]);
 export default router;

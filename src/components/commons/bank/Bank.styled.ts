@@ -87,9 +87,10 @@ export const ToggleIcon = styled(SvgIconArrowDown)`
 // InputAccountWrapper
 export const InputAccountWrapper = styled.section`
   width: 100%;
+  margin-top: 2.4rem;
 `;
 
 export const InputAccountLabel = styled.label`
   color: ${({ theme }) => theme.colors.white};
-  ${({ theme }) => theme.fonts["body1-normal-semi"]}
+  ${({ theme }) => theme.fonts.heading4}
 `;
