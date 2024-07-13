@@ -35,7 +35,11 @@ const NarrowDropDown = ({
         setShowDropdown(false);
       };
       items.push(
-        <S.DropdownContentButton key={"dropdown-all-schedule"} onClick={handleScheduleAll}>
+        <S.DropdownContentButton
+          key={"dropdown-all-schedule"}
+          $isLast={false}
+          onClick={handleScheduleAll}
+        >
           <S.DropdownContentText $selected={schedule === 0}>전체</S.DropdownContentText>
         </S.DropdownContentButton>
       );
@@ -45,9 +49,14 @@ const NarrowDropDown = ({
           setIsOneChoosed(true);
           setShowDropdown(false);
         };
+
         items.push(
-          <S.DropdownContentButton key={`dropdown-${i}`} onClick={handleSchedule}>
-            <S.DropdownContentText $selected={schedule === i}>{i}차</S.DropdownContentText>
+          <S.DropdownContentButton
+            key={`dropdown-${i}`}
+            $isLast={i === count}
+            onClick={handleSchedule}
+          >
+            <S.DropdownContentText $selected={schedule === i}>{i}회차</S.DropdownContentText>
           </S.DropdownContentButton>
         );
       }
@@ -71,18 +80,22 @@ const NarrowDropDown = ({
       };
 
       items.push(
-        <S.DropdownContentButton key={"dropdown-all-payment"} onClick={handlePaymentUndefined}>
+        <S.DropdownContentButton
+          key={"dropdown-all-payment"}
+          $isLast={false}
+          onClick={handlePaymentUndefined}
+        >
           <S.DropdownContentText $selected={payment === undefined}>전체</S.DropdownContentText>
         </S.DropdownContentButton>
       );
 
       items.push(
-        <S.DropdownContentButton key={"dropdown-1"} onClick={handlePaymentFalse}>
+        <S.DropdownContentButton key={"dropdown-1"} $isLast={false} onClick={handlePaymentFalse}>
           <S.DropdownContentText $selected={payment === false}>미입금</S.DropdownContentText>
         </S.DropdownContentButton>
       );
       items.push(
-        <S.DropdownContentButton key={"dropdown-2"} onClick={handlePaymentTrue}>
+        <S.DropdownContentButton key={"dropdown-2"} $isLast={true} onClick={handlePaymentTrue}>
           <S.DropdownContentText $selected={payment === true}>입금완료</S.DropdownContentText>
         </S.DropdownContentButton>
       );

@@ -70,7 +70,7 @@ export const DropdownContentLayout = styled.div`
   justify-content: center;
 `;
 
-export const DropdownContentButton = styled.button`
+export const DropdownContentButton = styled.button<{ $isLast: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -80,7 +80,11 @@ export const DropdownContentButton = styled.button`
   /* 피그마에서는 겹치는 부분이 제대로 계산 안되서, 개발하면서 적당히 줄여둠 */
   padding: 0.2rem 0 0.6rem;
 
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_700};
+  ${({ $isLast }) =>
+    !$isLast &&
+    css`
+      border-bottom: 1px solid ${({ theme }) => theme.colors.gray_700};
+    `}
 `;
 
 export const DropdownContentText = styled.span<{
@@ -100,16 +104,4 @@ export const DropdownContentText = styled.span<{
     css`
       color: ${({ theme }) => theme.colors.pink_400};
     `}
-`;
-
-export const DropdownItem = styled.a`
-  display: block;
-  padding: 12px 16px;
-
-  color: black;
-  text-decoration: none;
-
-  &:hover {
-    background-color: #f1f1f1;
-  }
 `;
