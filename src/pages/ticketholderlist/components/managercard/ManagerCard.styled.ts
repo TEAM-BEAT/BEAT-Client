@@ -69,7 +69,7 @@ export const ManagerCardRadioLayout = styled.div<{ $isDetail: boolean; $isPaid: 
   border-radius: 6px;
 `;
 
-export const ManagerCardRadioBox = styled.div`
+export const ManagerCardRadioBox = styled.div<{ $isDeleteMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -77,7 +77,7 @@ export const ManagerCardRadioBox = styled.div`
   align-items: center;
   width: 4.3rem;
 
-  cursor: pointer;
+  cursor: ${({ $isDeleteMode }) => ($isDeleteMode ? "default" : "pointer")};
 `;
 
 export const SelectedIcon = styled(IconCheckboxSelectedOn)`
@@ -85,21 +85,9 @@ export const SelectedIcon = styled(IconCheckboxSelectedOn)`
   height: 1.8rem;
 `;
 
-export const DeleteSelectedIcon = styled(IconCheckboxSelectedOn)`
-  width: 1.8rem;
-  height: 1.8rem;
-  margin-right: 0.8rem;
-`;
-
 export const UnselectedIcon = styled(IconCheckboxUnselectedOn)`
   width: 1.8rem;
   height: 1.8rem;
-`;
-
-export const DeleteUnselectedIcon = styled(IconCheckboxUnselectedOn)`
-  width: 1.8rem;
-  height: 1.8rem;
-  margin-right: 0.8rem;
 `;
 
 export const ManagerCardRadioText = styled.span`

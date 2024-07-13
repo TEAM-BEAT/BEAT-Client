@@ -63,14 +63,16 @@ const ManagerCard = ({
     }
   };
   //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
-  const handlePaymentToggle = () => {
-    setPaid((arr) =>
-      arr.map((item) =>
-        item.bookingId === bookingId
-          ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
-          : item
-      )
-    );
+  const handlePaymentToggle = (isDeleteModeee: boolean) => {
+    if (!isDeleteModeee) {
+      setPaid((arr) =>
+        arr.map((item) =>
+          item.bookingId === bookingId
+            ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
+            : item
+        )
+      );
+    }
   };
   return (
     <S.ManagerCardWrapper $isDetail={isDetail}>
@@ -109,8 +111,11 @@ const ManagerCard = ({
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
       <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid}>
-        <S.ManagerCardRadioBox onClick={handlePaymentToggle}>
-          {isPaid ? <S.SelectedIcon /> : <S.UnselectedIcon />}
+        <S.ManagerCardRadioBox
+          $isDeleteMode={isDeleteMode}
+          onClick={() => handlePaymentToggle(isDeleteMode)}
+        >
+          {isDeleteMode ? <></> : isPaid ? <S.SelectedIcon /> : <S.UnselectedIcon />}
           <S.ManagerCardRadioText>{isPaid ? "입금 완료" : "미입금"}</S.ManagerCardRadioText>
         </S.ManagerCardRadioBox>
       </S.ManagerCardRadioLayout>

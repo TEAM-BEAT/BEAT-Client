@@ -155,10 +155,15 @@ const TicketHolderList = () => {
           <span style={{ color: "white" }}>{`현재 눌린 회차 번호 : ${schedule}`}</span>
           <span style={{ color: "white" }}>{`현재 눌린 지불 여부 : ${payment}`}</span>
           */}
-
-          <S.FooterButtonWrapper>
-            <Button>변경내용 저장하기</Button>
-          </S.FooterButtonWrapper>
+          {isDeleteMode ? (
+            <S.FooterButtonWrapper>
+              <Button>삭제</Button>
+            </S.FooterButtonWrapper>
+          ) : (
+            <S.FooterButtonWrapper>
+              <Button>변경내용 저장하기</Button>
+            </S.FooterButtonWrapper>
+          )}
         </S.BodyLayout>
       </S.BodyWrapper>
     </>
