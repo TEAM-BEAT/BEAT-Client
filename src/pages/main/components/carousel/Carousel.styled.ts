@@ -17,7 +17,7 @@ export const CarouselContainer = styled.ul`
   width: 100%;
 `;
 
-export const CarouselItem = styled.li`
+export const CarouselItem = styled.button`
   flex-shrink: 0;
   width: 100%;
 
