@@ -1,10 +1,18 @@
 import * as S from "./MainNavigation.styled";
 import { useNavigate } from "react-router-dom";
 
+import Hamburger from "../../../../components/commons/hamburger/Hamburger";
+import useHamburger from "@hooks/useHamburger";
+
 const MainNavigation = () => {
   const navigate = useNavigate();
+  const { openHamburger } = useHamburger();
 
-  return (
+  const toggleSide = () => {
+    openHamburger();
+  };
+
+  https: return (
     <S.MainNavigationWrapper>
       <S.LogoBtn
         onClick={() => {
@@ -13,9 +21,10 @@ const MainNavigation = () => {
       >
         <S.LogoIcon />
       </S.LogoBtn>
-      <S.HamburgarBtn onClick={() => {}}>
+      <S.HamburgarBtn onClick={toggleSide}>
         <S.HamburgarIcon />
       </S.HamburgarBtn>
+      <Hamburger />
     </S.MainNavigationWrapper>
   );
 };
