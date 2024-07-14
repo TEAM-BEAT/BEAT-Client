@@ -2,6 +2,7 @@ import { BANK_LIST } from "@constants/bankList";
 import Spacing from "../../spacing/Spacing";
 import * as S from "../Bank.styled";
 import BankBtn from "./BankBtn";
+import { useEffect } from "react";
 
 export interface BankBottomSheetProps {
   value: string;
@@ -11,6 +12,14 @@ export interface BankBottomSheetProps {
 }
 
 const BankBottomSheet = ({ value, isOpen, onBankClick, onOutClick }: BankBottomSheetProps) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
   return (
     <>
       <S.BankLayout $isOpen={isOpen}>

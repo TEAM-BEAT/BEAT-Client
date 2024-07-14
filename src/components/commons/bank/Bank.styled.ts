@@ -57,6 +57,7 @@ export const OutLayout = styled.div<{ $isOpen: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 
   background: ${({ theme }) => theme.colors.black};
   visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};

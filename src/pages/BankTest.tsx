@@ -49,5 +49,6 @@ export default BankTest;
 
 const Test = styled.div`
   width: 37.5rem;
+  height: 800rem;
   padding: 0 2.4rem;
 `;
