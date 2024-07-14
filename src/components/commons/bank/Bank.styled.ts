@@ -4,14 +4,14 @@ import styled from "styled-components";
 
 // BankBottomSheet
 export const BankLayout = styled.section`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 50%;
   z-index: 1;
   display: block;
   width: 37.5rem;
   margin: 0;
-  padding: 2.1rem 2.4rem 4.5rem;
+  padding: 2.1rem 2.4rem 0;
 
   background: ${({ theme }) => theme.colors.gray_800};
   transform: translateX(-50%);
@@ -27,10 +27,20 @@ export const BankWrapper = styled.article`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
+  width: 33rem;
+  height: 39.3rem;
+  padding-bottom: 2.1rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const OutLayout = styled.div`
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 0;
   width: 100%;
   height: 100%;
