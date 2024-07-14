@@ -12,10 +12,9 @@ const EasyPassEntry = ({ password, passwordCheck, onChangeEasyPassword }: EasyPa
   return (
     <S.Wrapper>
       <S.Title>간편 비밀번호</S.Title>
-      {/* TODO: eye input으로 변경 */}
       <TextField
         name="password"
-        type="input"
+        type="password"
         value={password}
         onChange={onChangeEasyPassword}
         maxLength={4}
@@ -23,7 +22,7 @@ const EasyPassEntry = ({ password, passwordCheck, onChangeEasyPassword }: EasyPa
       />
       <TextField
         name="passwordCheck"
-        type="input"
+        type="password"
         value={passwordCheck}
         onChange={onChangeEasyPassword}
         maxLength={4}
