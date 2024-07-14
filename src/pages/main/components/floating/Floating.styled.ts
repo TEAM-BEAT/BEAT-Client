@@ -14,8 +14,9 @@ const float = keyframes`
 `;
 
 export const FloatingWrapper = styled.section`
-  position: relative;
-  top: 13.9rem;
+  position: fixed;
+  right: 0.3rem;
+  bottom: 12rem;
   z-index: 25;
   display: flex;
   flex-direction: column;
