@@ -1,7 +1,7 @@
 import useHamburger from "@hooks/useHamburger";
 import { hamburgerAtom } from "@stores/hamburger";
 import { useAtomValue } from "jotai";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import * as S from "./Hamburger.styled";
 
 const Hamburger = () => {
@@ -11,14 +11,14 @@ const Hamburger = () => {
   const { closeHamburger } = useHamburger();
   const outside = useRef<HTMLDivElement>(null);
 
-  const handlerOutside = (e: any) => {
+  const handlerOutside = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     closeHamburger();
     e.stopPropagation();
   };
 
   return (
     <>
-      <S.Overlay onClick={handlerOutside} />
+      {isOpen && <S.Overlay onClick={handlerOutside} />}
       <S.HamburgerWrapper
         ref={outside}
         className={isOpen ? "open" : ""}

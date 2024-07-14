@@ -11,8 +11,7 @@ const MainNavigation = () => {
   const toggleSide = () => {
     openHamburger();
   };
-
-  https: return (
+  return (
     <S.MainNavigationWrapper>
       <S.LogoBtn
         onClick={() => {
