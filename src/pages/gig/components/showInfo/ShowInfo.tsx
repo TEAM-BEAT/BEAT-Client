@@ -12,10 +12,10 @@ type SchelduleListType = {
 interface ShowInfoProps {
   posterImage: string;
   title: string;
-  price: number | null;
+  price: number;
   venue: string;
   period: string;
-  runningTime: number | null;
+  runningTime: number;
   scheduleList: SchelduleListType[];
 }
 
