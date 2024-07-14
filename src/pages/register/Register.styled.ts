@@ -16,8 +16,6 @@ export const Divider = styled.div`
 `;
 
 export const FooterContainer = styled.div`
-  position: sticky;
-  bottom: 0;
   padding: 2.4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
@@ -210,12 +208,3 @@ export const ReigsterCompleteSubTitle = styled.p`
   ${({ theme }) => theme.fonts["body2-normal-medi"]}
   text-align: center;
 `;
-
-export const FooterContainer = styled.div`
-  position: sticky;
-  bottom: 0;
-  padding: 2.4rem;
-
-  background-color: ${({ theme }) => theme.colors.gray_900};
-  `;
-
