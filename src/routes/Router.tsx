@@ -67,6 +67,8 @@ const router = createBrowserRouter([
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   { path: "/main", element: <Main /> },
 
+  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
+
   //   ...
 ]);
 export default router;

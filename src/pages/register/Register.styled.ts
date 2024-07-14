@@ -105,6 +105,11 @@ export const NonCheck = styled.div`
   border-radius: 2px;
 `;
 
+export const TextInputWrpper = styled.section`
+  ${Generators.flexGenerator("column", "start", "space-between")}
+  gap: 0.8rem;
+`;
+
 export const FileInputWrapper = styled.div`
   position: relative;
 
@@ -116,25 +121,25 @@ export const HiddenFileInput = styled.input`
   display: none;
 `;
 
-export const CustomFileInput = styled.label`
+export const CustomFileInput = styled.label<{ width?: number; height?: number }>`
   ${Generators.flexGenerator()}
-  width: 10.8rem;
-  height: 15.4rem;
+  width: ${({ width }) => (width ? width : 10.8)}rem;
+  height: ${({ height }) => (height ? height : 15.4)}rem;
 
   background: ${({ theme }) => theme.colors.gray_800};
   cursor: pointer;
   border-radius: 6px;
 `;
 
-export const PreviewImageWrapper = styled.article`
+export const PreviewImageWrapper = styled.article<{ width?: number; height?: number }>`
   position: relative;
-  width: 10.8rem;
-  height: 15.4rem;
+  width: ${({ width }) => (width ? width : 10.8)}rem;
+  height: ${({ height }) => (height ? height : 15.4)}rem;
 `;
 
-export const PreviewImage = styled.img`
-  width: 10.8rem;
-  height: 15.4rem;
+export const PreviewImage = styled.img<{ width?: number; height?: number }>`
+  width: ${({ width }) => (width ? width : 10.8)}rem;
+  height: ${({ height }) => (height ? height : 15.4)}rem;
   object-fit: cover;
 
   border-radius: 10px;
@@ -182,6 +187,43 @@ export const StyledIcon = (IconComponent: ComponentType) => styled(IconComponent
 export const TimePickerWrapper = styled.section`
   ${Generators.flexGenerator("column", "center", "center")}
   gap: 1.6rem;
+`;
+
+export const RoleListWrapper = styled.section`
+  display: flex;
+  gap: 1.6rem;
+  width: calc(100% + 4.8rem);
+  margin-left: -2.4rem;
+  padding: 0 2.4rem;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const RoleAddBtn = styled.section`
+  ${Generators.flexGenerator()}
+  flex-shrink: 0;
+  width: 13.6rem;
+  height: 26.6rem;
+
+  background: ${({ theme }) => theme.colors.gray_900};
+  border: 1px dashed ${({ theme }) => theme.colors.gray_700};
+  border-radius: 6px;
+`;
+
+export const RoleWrapper = styled.div`
+  ${Generators.flexGenerator("column", "center", "center")}
+  height: 26.6rem;
+`;
+
+export const FooterInfo = styled.div`
+  margin-bottom: 2.4rem;
+
+  color: ${({ theme }) => theme.colors.gray_200};
+  ${({ theme }) => theme.fonts["body2-normal-semi"]};
+  text-align: center;
 `;
 
 // 완료 페이지
