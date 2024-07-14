@@ -49,7 +49,9 @@ const TicketHolderList = () => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE,
       title: "내가 등록한 공연",
-      leftOnClick: handleLeftButton,
+      leftOnClick: () => {
+        window.location.reload();
+      },
     });
   };
   const { setHeader } = useHeader();
