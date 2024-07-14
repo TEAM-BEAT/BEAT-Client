@@ -145,18 +145,12 @@ export const isAllFieldsFilled = (gigInfo: GigInfo) => {
   const scheduleFilled = gigInfo.scheduleList.every(
     (schedule) => schedule.performanceDate && schedule.totalTicketCount && schedule.scheduleNumber
   );
-  //   const castFilled = gigInfo.castList.every(
-  //     (cast) => cast.castName && cast.castRole && cast.castPhoto
-  //   );
-  //   const staffFilled = gigInfo.staffList.every(
-  //     (staff) => staff.staffName && staff.staffRole && staff.staffPhoto
-  //   );
 
+  // null과 빈 문자열이 아니어야 함
   return (
-    requiredFields.every((field) => gigInfo[field as keyof GigInfo]) && scheduleFilled
-    // &&
-    // castFilled &&
-    // staffFilled
+    requiredFields.every(
+      (field) => gigInfo[field as keyof GigInfo] !== null && gigInfo[field as keyof GigInfo] !== ""
+    ) && scheduleFilled
   );
 };
 
