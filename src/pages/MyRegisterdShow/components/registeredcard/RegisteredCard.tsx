@@ -32,7 +32,7 @@ const RegisteredCard = ({ title, period, genre, image }: Omit<RegisteredObjProps
               공연정보 수정
             </Button>
             <Button onClick={handleGuestListBtn} size="xsmall" variant="line" disabled={false}>
-              예매자 확인
+              예매자 관리
             </Button>
           </S.CardInfoButtonBox>
         </S.CardInfoButtonBoxWrapper>

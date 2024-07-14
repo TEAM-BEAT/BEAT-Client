@@ -1,6 +1,7 @@
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import useModal from "@hooks/useModal";
 import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +31,40 @@ const TicketHolderList = () => {
     RESPONSE_TICKETHOLDER.data.bookingList
   );
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+  const { openConfirm, closeConfirm } = useModal();
+  const handlePaymentFixAxiosFunc = () => {
+    //나중에 api 요청 작성할 예정
+
+    closeConfirm();
+  };
+  const handleFixSaveBtn = () => {
+    openConfirm({
+      title: "입급 상태를 저장하시겠어요?",
+      subTitle: "입금 완료로 변경된 예매자에게\n 입금 확인 완료 웹발신이 발송돼요.",
+      okText: "저장할게요",
+      noText: "아니요",
+      okCallback: handlePaymentFixAxiosFunc,
+      noCallback: closeConfirm,
+    });
+  };
+
+  const handleBookerDeleteAxiosFunc = () => {
+    //나중에 api 요청 작성할 예정
+
+    closeConfirm();
+  };
+
+  const handleDeleteBtn = () => {
+    openConfirm({
+      title: "선택한 게스트를 삭제하시겠어요?",
+      subTitle: "삭제된 게스트는 복구되지 않아요.",
+      okText: "삭제할게요",
+      noText: "아니요",
+      okCallback: handleBookerDeleteAxiosFunc,
+      noCallback: closeConfirm,
+    });
+  };
   //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
   const [formData, setFormData] = useState<DeleteFormDataProps>({
     performanceId: performanceId,
@@ -171,11 +206,11 @@ const TicketHolderList = () => {
 
           {isDeleteMode ? (
             <S.FooterButtonWrapper>
-              <Button>삭제</Button>
+              <Button onClick={handleDeleteBtn}>삭제</Button>
             </S.FooterButtonWrapper>
           ) : (
             <S.FooterButtonWrapper>
-              <Button>변경내용 저장하기</Button>
+              <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
             </S.FooterButtonWrapper>
           )}
         </S.BodyLayout>
