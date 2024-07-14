@@ -9,7 +9,7 @@ export interface BottomSheetPropType {
 
 const BottomSheet = ({ isOpen, title, children }: BottomSheetPropType) => {
   return (
-    <S.BottomSheetWrapper $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
+    <S.BottomSheetWrapper $isOpen={isOpen}>
       <S.BottomSheetLayout>
         <S.Title>{title}</S.Title>
         {children}
