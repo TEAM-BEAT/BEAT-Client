@@ -1,8 +1,8 @@
+import useHamburger from "@hooks/useHamburger";
+import { hamburgerAtom } from "@stores/hamburger";
+import { useAtomValue } from "jotai";
 import { useRef } from "react";
 import * as S from "./Hamburger.styled";
-import { useAtomValue } from "jotai";
-import { hamburgerAtom } from "@stores/hamburger";
-import useHamburger from "@hooks/useHamburger";
 
 const Hamburger = () => {
   const hamburger = useAtomValue(hamburgerAtom);
@@ -18,16 +18,12 @@ const Hamburger = () => {
 
   return (
     <>
-      {isOpen && (
-        <S.HamburgerWrapper>
-          <S.Overlay onClick={handlerOutside} />
-          <S.HamburgerContainer
-            ref={outside}
-            className={isOpen ? "open" : ""}
-            onClick={(e) => e.preventDefault()}
-          />
-        </S.HamburgerWrapper>
-      )}
+      <S.Overlay onClick={handlerOutside} />
+      <S.HamburgerWrapper
+        ref={outside}
+        className={isOpen ? "open" : ""}
+        onClick={(e) => e.preventDefault()}
+      />
     </>
   );
 };
