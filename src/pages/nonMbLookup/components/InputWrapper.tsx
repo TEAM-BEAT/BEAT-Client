@@ -20,7 +20,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   const navigate = useNavigate();
 
   const [nonMemberInfo, setNonMemberInfo] = useState({
-    name: "",
+    bookerName: "",
     birth: "",
     number: "",
     password: "",
@@ -47,7 +47,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
 
   const resetForm = () => {
     setNonMemberInfo({
-      name: "",
+      bookerName: "",
       birth: "",
       number: "",
       password: "",

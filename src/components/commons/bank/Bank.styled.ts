@@ -1,21 +1,35 @@
 import SvgIconArrowDown from "@assets/svgs/IconArrowDown";
 import { Generators } from "@styles/generator";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // BankBottomSheet
-export const BankLayout = styled.section`
-  position: fixed;
-  bottom: 0;
+const bottomSheetUp = keyframes`
+  0% { transform: translate(-50%, 100%); }
+  100% { transform: translate(-50%, 0); }
+`;
+
+const bottomSheetDown = keyframes`
+  0% { transform: translate(-50%, 0); }
+  100% { transform: translate(-50%, 100%); }
+`;
+
+export const BankLayout = styled.section<{ $isOpen: boolean }>`
+  position: absolute;
+  bottom: 0%;
   left: 50%;
   z-index: 1;
   display: block;
   width: 37.5rem;
   margin: 0;
-  padding: 2.1rem 2.4rem 4.5rem;
+  padding: 2.1rem 2.4rem 0;
 
   background: ${({ theme }) => theme.colors.gray_800};
-  transform: translateX(-50%);
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   border-radius: 20px 20px 0 0;
+
+  transition: visibility 250ms ease-in-out;
+  animation: ${({ $isOpen }) => ($isOpen ? bottomSheetUp : bottomSheetDown)} 250ms ease-in-out;
+  animation-fill-mode: forwards;
 `;
 
 export const BankTitle = styled.h1`
@@ -27,13 +41,31 @@ export const BankWrapper = styled.article`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
+  width: 33rem;
+  height: 39.3rem;
+  padding-bottom: 2.1rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-export const OutLayout = styled.div`
+export const OutLayout = styled.div<{ $isOpen: boolean }>`
   position: absolute;
-  z-index: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+
+  background: ${({ theme }) => theme.colors.black};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 0.7 : 0)};
+
+  transition:
+    opacity 250ms ease-in-out,
+    visibility 250ms ease-in-out;
 `;
 
 // BankBtn
@@ -73,15 +105,16 @@ export const InputBank = styled.div<{ $hasChildren: boolean }>`
   ${({ theme }) => theme.fonts["body2-normal-medi"]}
 `;
 
-export const ToggleIcon = styled(SvgIconArrowDown)`
+export const ToggleIcon = styled(SvgIconArrowDown)<{ bankOpen: boolean }>`
   position: absolute;
   top: 1.2rem;
   right: 1.2rem;
   width: 2.4rem;
 
+  transform: ${({ bankOpen }) => (bankOpen ? "rotate(180deg)" : "rotate(0deg)")};
   cursor: pointer;
 
-  transition: transform 0.3s;
+  transition: transform 0.5s;
 `;
 
 // InputAccountWrapper

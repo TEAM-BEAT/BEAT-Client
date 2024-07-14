@@ -60,6 +60,8 @@ const global = createGlobalStyle`
         margin: 0 auto; 
         overflow-x: hidden;
 
+        color: ${({ theme }) => theme.colors.white};
+
         background-color: ${({ theme }) => theme.colors.gray_900}; 
     }
 
