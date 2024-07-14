@@ -53,6 +53,7 @@ const TicketHolderList = () => {
     //나중에 api 요청 작성할 예정
 
     closeConfirm();
+    window.location.reload();
   };
 
   const handleDeleteBtn = () => {
@@ -82,9 +83,9 @@ const TicketHolderList = () => {
 
   const handleLeftButton = () => {
     openConfirm({
-      title: "수정을 취소할까요?",
-      subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
-      okText: "계속 수정할게요",
+      title: "화면을 나갈까요?",
+      subTitle: "'상태 저장' 없이 화면을 나갈 경우,\n 수정 내용이 저장되지 않아요.",
+      okText: "계속할게요",
       noText: "나갈게요",
       okCallback: closeConfirm,
       noCallback: handleNavigateBack,
