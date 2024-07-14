@@ -254,7 +254,7 @@ const Register = () => {
         {!isFree && (
           <>
             <InputAccountWrapper>
-              <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen, isFree)}>
+              <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
                 {bankInfo}
               </InputBank>
               <TextField
