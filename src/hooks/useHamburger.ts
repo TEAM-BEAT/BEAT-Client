@@ -1,5 +1,4 @@
 import { hamburgerAtom } from "@stores/hamburger";
-import { HamburgerProps } from "@typings/hamburgerType";
 import { useAtom } from "jotai";
 
 const useHamburger = () => {

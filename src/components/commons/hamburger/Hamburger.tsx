@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import * as S from "./Hamburger.styled";
 import { useAtomValue } from "jotai";
 import { hamburgerAtom } from "@stores/hamburger";
@@ -9,26 +9,27 @@ const Hamburger = () => {
   const { isOpen } = hamburger;
 
   const { closeHamburger } = useHamburger();
-  const outside = useRef<any>();
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handlerOutside);
-    return () => {
-      document.removeEventListener("mousedown", handlerOutside);
-    };
-  });
+  const outside = useRef<HTMLDivElement>(null);
 
   const handlerOutside = (e: any) => {
-    if (!outside.current.contains(e.target)) {
-      toggleSide();
-    }
-  };
-
-  const toggleSide = () => {
     closeHamburger();
+    e.stopPropagation();
   };
 
-  return <S.HamburgerWrapper ref={outside} className={isOpen ? "open" : ""}></S.HamburgerWrapper>;
+  return (
+    <>
+      {isOpen && (
+        <S.HamburgerWrapper>
+          <S.Overlay onClick={handlerOutside} />
+          <S.HamburgerContainer
+            ref={outside}
+            className={isOpen ? "open" : ""}
+            onClick={(e) => e.preventDefault()}
+          />
+        </S.HamburgerWrapper>
+      )}
+    </>
+  );
 };
 
 export default Hamburger;

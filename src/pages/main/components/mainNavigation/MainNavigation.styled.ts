@@ -25,6 +25,7 @@ export const LogoIcon = styled(IconFooterLogo)`
 `;
 
 export const HamburgarBtn = styled.button`
+  z-index: 25;
   width: 3.2rem;
   height: 3.2rem;
   margin-right: 1.7rem;
