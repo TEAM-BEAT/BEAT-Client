@@ -1,5 +1,5 @@
 import Button from "@components/commons/button/Button";
-import { RegisteredObjProps } from "../constants/myRegisterShow";
+import { RegisteredObjProps } from "../../constants/myRegisterShow";
 import * as S from "./RegisteredCard.styled";
 
 const RegisteredCard = ({ title, period, genre, image }: Omit<RegisteredObjProps, "id">) => {

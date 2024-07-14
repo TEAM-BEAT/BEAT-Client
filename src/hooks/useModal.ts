@@ -1,10 +1,11 @@
-import { alertAtom, confirmAtom } from "@stores/modal";
-import { AlertProps, ConfirmProps } from "@typings/modalType";
+import { alertAtom, confirmAtom, modalAtom } from "@stores/modal";
+import { AlertProps, ConfirmProps, ModalProps } from "@typings/modalType";
 import { useAtom } from "jotai";
 
 const useModal = () => {
   const [alert, setAlert] = useAtom(alertAtom);
   const [confirm, setConfirm] = useAtom(confirmAtom);
+  const [modal, setModal] = useAtom(modalAtom);
 
   const openAlert = (alertProps: Omit<AlertProps, "isOpen">) => {
     setAlert({
@@ -42,6 +43,19 @@ const useModal = () => {
     });
   };
 
+  const openModal = (modalProps: Omit<ModalProps, "isOpen">) => {
+    setModal({
+      isOpen: true,
+      ...modalProps,
+    });
+  };
+
+  const closeModal = () => {
+    setModal({
+      isOpen: false,
+    });
+  };
+
   return {
     openAlert,
     closeAlert,
@@ -49,6 +63,9 @@ const useModal = () => {
     openConfirm,
     closeConfirm,
     confirm,
+    openModal,
+    closeModal,
+    modal,
   };
 };
 
