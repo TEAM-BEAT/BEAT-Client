@@ -4,7 +4,8 @@ import Button from "@components/commons/button/Button";
 import Context from "@components/commons/contextBox/Context";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+
+import * as S from "./Book.styled";
 import BookerInfo from "./components/bookerInfo/BookerInfo";
 import Count from "./components/count/Count";
 import EasyPassEntry from "./components/easyPassEntry/EasyPassEntry";
@@ -136,7 +137,7 @@ const Book = () => {
   }, [isNonMember, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
   return (
-    <ContentWrapper>
+    <S.ContentWrapper>
       <Info
         genre={detail.genre}
         title={detail.performanceTitle}
@@ -144,7 +145,7 @@ const Book = () => {
         venue={detail.performanceVenue}
         period={detail.performancePeriod}
       />
-      <Divider />
+      <S.Divider />
       <Select
         selectedValue={selectedValue as number}
         handleRadioChange={handleRadioChange}
@@ -177,11 +178,11 @@ const Book = () => {
         isTermChecked={isTermChecked}
         onClickTermCheck={onChangeTermCheck}
       />
-      <FooterContainer>
+      <S.FooterContainer>
         <Button disabled={!activeButton} onClick={handleClickBook}>
           예매하기
         </Button>
-      </FooterContainer>
+      </S.FooterContainer>
 
       <ViewBottomSheet
         isOpen={isOpen}
@@ -211,33 +212,8 @@ const Book = () => {
           </Button>
         </OuterLayout>
       </ViewBottomSheet>
-    </ContentWrapper>
+    </S.ContentWrapper>
   );
 };
 
 export default Book;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 2.4rem;
-`;
-
-const Divider = styled.div`
-  width: 375px;
-  height: 8px;
-  margin-top: 1.6rem;
-
-  background: ${({ theme }) => theme.colors.gray_800};
-  opacity: 0.6;
-  border: 1px s;
-`;
-
-const FooterContainer = styled.div`
-  position: sticky;
-  bottom: 0;
-  padding: 2.4rem;
-
-  background-color: ${({ theme }) => theme.colors.gray_900};
-`;
