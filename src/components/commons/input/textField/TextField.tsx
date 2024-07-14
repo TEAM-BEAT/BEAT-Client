@@ -6,7 +6,7 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
   placeholder: string;
-  narrow?: false | true;
+  narrow?: boolean;
   unit?: "time" | "ticket" | "amount"; // 단위 : "분", "매", "원"
   filter?: (value: string) => string;
   cap?: false | true;
@@ -71,6 +71,7 @@ const TextField = ({
         },
       } as ChangeEvent<HTMLInputElement>;
 
+      inputRef.current.focus();
       onChange(newEvent);
     }
   };
@@ -81,15 +82,16 @@ const TextField = ({
   };
 
   return (
-    <S.TextFieldLayout narrow={narrow}>
+    <S.TextFieldLayout $narrow={narrow}>
       <S.TextFieldWrapper>
         <S.TextFieldInput
           ref={inputRef}
-          name={name}
           value={value}
+          name={name}
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
+          $narrow={narrow}
           type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
           {...rest}
         />

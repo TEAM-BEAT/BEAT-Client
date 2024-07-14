@@ -16,7 +16,7 @@ interface PromotionComponentProps {
 // 서버에서 이미지 url 받아오기
 const ImgList = [carouselImg, carouselImg, carouselImg, carouselImg, carouselImg];
 
-const Carousel = (promotionList: PromotionComponentProps) => {
+const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const navigate = useNavigate();
 
   const carouselList = ImgList;
