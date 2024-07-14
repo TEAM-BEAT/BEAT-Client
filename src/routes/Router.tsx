@@ -1,7 +1,6 @@
 import Layout from "@components/layout/Layout";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
-import BankTest from "@pages/BankTest";
 import Book from "@pages/book/Book";
 import Gig from "@pages/gig/Gig";
 import Lookup from "@pages/lookup/Lookup";
@@ -58,10 +57,7 @@ const router = createBrowserRouter([
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
   },
-  {
-    path: "/bank-sheet",
-    element: <BankTest />,
-  },
+
   //   {
   //     path: "/C",
   //     element: <CPage />,
