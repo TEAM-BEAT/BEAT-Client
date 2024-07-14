@@ -34,6 +34,7 @@ import { IconChecked } from "@assets/svgs";
 import RegisterMaker from "./RegisterMaker";
 import { useHeader } from "./../../hooks/useHeader";
 import { NAVIGATION_STATE } from "@constants/navigationState";
+import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import useModal from "@hooks/useModal";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +45,7 @@ const Register = () => {
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
     genre: "", // 공연 장르
-    runningTime: "", // 러닝 타임
+    runningTime: null, // 러닝 타임
     performanceDescription: "", // 공연 소개
     performanceAttentionNote: "", // 유의사항
     bankName: "", // 은행명
@@ -54,7 +55,7 @@ const Register = () => {
     performanceVenue: "", // 공연 장소
     performanceContact: "", // 대표자 연락처
     performancePeriod: "", // 2023.12.28~2023.12.29
-    ticketPrice: "", // 가격
+    ticketPrice: null, // 가격
     totalScheduleCount: 1, // 총 회차 수
     scheduleList: [
       {
@@ -90,6 +91,7 @@ const Register = () => {
     posterImage,
     performanceTeamName,
     performanceVenue,
+    performancePeriod,
     performanceContact,
     ticketPrice,
     totalScheduleCount,
@@ -98,8 +100,6 @@ const Register = () => {
     staffList,
   } = gigInfo;
 
-  // const [round, setRound] = useState(1); // 회차
-  // const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null); // 선택한 날짜
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -116,7 +116,7 @@ const Register = () => {
     if (isFree) {
       setGigInfo((prev) => ({
         ...prev,
-        ticketPrice: "0",
+        ticketPrice: 0,
       }));
     }
   }, [isFree]);
@@ -170,6 +170,11 @@ const Register = () => {
       leftOnClick: handleLeftBtn,
     });
   }, [setHeader, registerStep]);
+
+  const navigate = useNavigate();
+  const handleComplete = () => {
+    navigate("/register-complete");
+  };
 
   if (registerStep === 1) {
     {
@@ -391,7 +396,45 @@ const Register = () => {
     );
   }
 
-  return <></>;
+  if (registerStep === 3) {
+    return (
+      <>
+        <S.PreviewBanner>예매자에게 보여질 화면 예시입니다. 확인해주세요.</S.PreviewBanner>
+        <ShowInfo
+          posterImage={posterImage}
+          title={performanceTitle}
+          price={ticketPrice}
+          venue={performanceVenue}
+          period={performancePeriod}
+          runningTime={runningTime}
+          // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
+          scheduleList={scheduleList.map((schedule, index) => ({
+            scheduleId: index + 1,
+            performanceDate: schedule.performanceDate?.toString() || "",
+            scheduleNumber: index + 1,
+          }))}
+        />
+        <Content
+          description={performanceDescription}
+          attentionNote={performanceAttentionNote}
+          contact={performanceContact}
+          teamName={performanceTeamName}
+          castList={castList.map((cast, index) => ({
+            ...cast,
+            castId: index + 1,
+          }))}
+          staffList={staffList.map((cast, index) => ({
+            ...cast,
+            staffId: index + 1,
+          }))}
+        />
+        <S.FooterContainer>
+          {/* TODO: 토큰 여부에 따라서 리다이렉트 */}
+          <Button onClick={handleComplete}>완료하기</Button>
+        </S.FooterContainer>
+      </>
+    );
+  }
 };
 
 export default Register;

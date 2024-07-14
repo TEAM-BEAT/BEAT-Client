@@ -21,7 +21,7 @@ export interface Staff {
 export interface GigInfo {
   performanceTitle: string;
   genre: string;
-  runningTime: string;
+  runningTime: number | null;
   performanceDescription: string;
   performanceAttentionNote: string;
   bankName: string;
@@ -31,7 +31,7 @@ export interface GigInfo {
   performanceVenue: string;
   performanceContact: string;
   performancePeriod: string;
-  ticketPrice: string;
+  ticketPrice: number | null;
   totalScheduleCount: number;
   scheduleList: Schedule[];
   castList: Cast[];

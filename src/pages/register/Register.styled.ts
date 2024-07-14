@@ -250,3 +250,16 @@ export const ReigsterCompleteSubTitle = styled.p`
   ${({ theme }) => theme.fonts["body2-normal-medi"]}
   text-align: center;
 `;
+
+export const PreviewBanner = styled.div`
+  ${Generators.flexGenerator()}
+  position: sticky;
+  top: 5.6rem;
+  width: 37.5rem;
+  padding: 0.8rem 6.7rem;
+
+  color: ${({ theme }) => theme.colors.red};
+
+  ${({ theme }) => theme.fonts["caption1-medi"]}
+  background:  rgb(15 15 15 / 70%);
+`;
