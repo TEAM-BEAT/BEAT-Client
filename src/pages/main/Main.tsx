@@ -1,12 +1,14 @@
 import { useState } from "react";
 import * as S from "./Main.styled";
 
-import Performance from "./components/performance/Performance";
+import Carousel from "./components/carousel/Carousel";
 import Chips from "./components/chips/Chips";
+import Performance from "./components/performance/Performance";
 import Footer from "./components/footer/Footer";
 
+import { dummyData } from "./constants/dummyData";
+
 const Main = () => {
-  // chips 클릭하면 seGenre 달라지게!
   const [genre, setGenre] = useState("ALL");
 
   const handleGenre = (value: string) => {
@@ -15,8 +17,9 @@ const Main = () => {
 
   return (
     <S.MainWrapper>
+      <Carousel promotionList={dummyData.promotionList} />
       <Chips handleGenre={handleGenre} />
-      <Performance genre={genre} />
+      <Performance genre={genre} performanceList={dummyData.performanceList} />
       <Footer />
     </S.MainWrapper>
   );
