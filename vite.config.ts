@@ -18,4 +18,7 @@ export default defineConfig({
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
+  optimizeDeps: {
+    include: ["react-lottie-player"],
+  },
 });
