@@ -32,3 +32,7 @@ export const priceFilter = (value: string) => {
 
   return result;
 };
+
+export const nameFilter = (value: string) => {
+  return value.replace(/[^A-Za-zㄱ-힣]/gi, "");
+};
