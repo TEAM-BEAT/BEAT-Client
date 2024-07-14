@@ -62,9 +62,20 @@ export const StepperRegisterBox = styled.section<{ $marginBottom: number }>`
   padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
 `;
 
+export const InputTitleWrapper = styled.div`
+  gap: 1rem;
+  ${Generators.flexGenerator("row", "center", "start")};
+`;
+
+export const StepperDiscription = styled.section`
+  color: ${({ theme }) => theme.colors.gray_500};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
+`;
+
 export const TimePickerRegisterBox = styled.section<{ $marginBottom: number }>`
   padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
 `;
+
 export const BankRegisterBox = styled.section<{ $marginBottom: number }>`
   padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
 `;

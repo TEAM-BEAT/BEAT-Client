@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       { path: "a", element: <Apage /> },
       { path: "lookup", element: <Lookup /> },
       { path: "testpage", element: <TestPage /> },
-      { path: "register", element: <Register /> },
+      { path: "gig-register", element: <Register /> },
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
       { path: "myregisteredshow", element: <MyRegisterdShow /> },

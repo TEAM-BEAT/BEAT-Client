@@ -187,7 +187,7 @@ const Register = () => {
         </InputRegisterBox>
         <S.Divider />
 
-        <StepperRegisterBox title="회차 수">
+        <StepperRegisterBox title="회차 수" description="최대 3회차">
           <Stepper
             max={3}
             round={totalScheduleCount}
