@@ -79,6 +79,7 @@ const Register = () => {
     genre,
     runningTime,
     performanceDescription,
+    bankName,
     performanceAttentionNote,
     accountNumber,
     performanceTeamName,
@@ -89,8 +90,6 @@ const Register = () => {
     scheduleList,
   } = gigInfo;
 
-  const [round, setRound] = useState(1); // 회차
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null); // 선택한 날짜
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -107,9 +106,19 @@ const Register = () => {
       setGigInfo((prev) => ({
         ...prev,
         ticketPrice: "0",
+        accountNumber: "",
+        bankName: "",
       }));
+      setBankInfo("");
     }
   }, [isFree]);
+
+  // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
+  useEffect(() => {
+    if (ticketPrice === "0") {
+      setIsFree(true);
+    }
+  }, [ticketPrice]);
 
   console.log(gigInfo);
 
@@ -259,7 +268,7 @@ const Register = () => {
         <S.Divider />
 
         <InputAccountWrapper>
-          <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
+          <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen, isFree)}>
             {bankInfo}
           </InputBank>
           <TextField
@@ -267,6 +276,7 @@ const Register = () => {
             value={accountNumber}
             onChange={(e) => handleChange(e, setGigInfo)}
             filter={numericFilter}
+            disabled={isFree}
             placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
           />
         </InputAccountWrapper>
@@ -276,7 +286,7 @@ const Register = () => {
           <BankBottomSheet
             value={bankInfo}
             onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
-            onOutClick={() => handleBankOpen(setBankOpen)}
+            onOutClick={() => handleBankOpen(setBankOpen, isFree)}
           />
         )}
 
@@ -306,7 +316,7 @@ const Register = () => {
         </S.CheckboxContainer>
         <Button
           onClick={() => console.log("예매하기 클릭")}
-          disabled={!isAllFieldsFilled(gigInfo) || !isChecked}
+          disabled={!isAllFieldsFilled(gigInfo, isFree) || !isChecked}
         >
           다음
         </Button>
