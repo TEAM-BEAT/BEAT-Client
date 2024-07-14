@@ -353,9 +353,7 @@ const Register = () => {
         </>
       );
     }
-  }
-
-  if (registerStep === 2) {
+  } else if (registerStep === 2) {
     return (
       <RegisterMaker
         castList={castList}
