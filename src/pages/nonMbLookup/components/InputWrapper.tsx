@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
-import { numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
+import { nameFilter, numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
 
 interface InputProps {
   btnOn: () => void;
@@ -27,7 +27,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     pwdStatus: false,
   });
 
-  const { name, birth, number, password, pwdStatus } = nonMemberInfo;
+  const { bookerName, birth, number, password, pwdStatus } = nonMemberInfo;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: fieldName, value } = e.target;
@@ -35,13 +35,6 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     setNonMemberInfo((prevState) => ({
       ...prevState,
       [fieldName]: value,
-    }));
-  };
-
-  const handlePwd = () => {
-    setNonMemberInfo((prevState) => ({
-      ...prevState,
-      pwdStatus: !prevState.pwdStatus,
     }));
   };
 
@@ -56,12 +49,12 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   };
 
   useEffect(() => {
-    if (name && birth.length === 6 && number.length === 13 && password.length === 4) {
+    if (bookerName && birth.length === 6 && number.length === 13 && password.length === 4) {
       btnOn();
     } else {
       btnOff();
     }
-  }, [name, birth, number, password]);
+  }, [bookerName, birth, number, password]);
 
   useEffect(() => {
     if (isReadyRequest) {
@@ -85,8 +78,14 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
 
   return (
     <S.InputWrapperLayout>
-      {/* maxLenght 있는 부분 InputField에서 글자수 보이게 / 안 보이게 조정 필요 */}
-      <TextField name="name" type="input" value={name} onChange={handleChange} placeholder="이름" />
+      <TextField
+        name="bookerName"
+        type="input"
+        value={bookerName}
+        placeholder="이름"
+        onChange={handleChange}
+        filter={nameFilter}
+      />
       <TextField
         type="input"
         name="birth"
@@ -114,7 +113,6 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
         filter={numericFilter}
         maxLength={4}
       />
-      {/* <S.EyeTest onClick={handlePwd}>버튼 임시 위치!!!!!!!</S.EyeTest> */}
     </S.InputWrapperLayout>
   );
 };
