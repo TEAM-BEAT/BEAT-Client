@@ -28,8 +28,8 @@ const PosterThumbnail = ({ onImageUpload }: PosterThumbnailProps) => {
   }
 
   const removeImage = () => {
-    setPostImg(null);
     setPreviewImg(null);
+    onImageUpload("");
   };
 
   return (
