@@ -22,6 +22,7 @@ export { default as IconLogo } from "./IconLogo";
 export { default as IconMinus } from "./IconMinus";
 export { default as IconNonghyup } from "./IconNonghyup";
 export { default as IconPlus } from "./IconPlus";
+export { default as IconProfile } from "./IconProfile";
 export { default as IconSaemauel } from "./IconSaemauel";
 export { default as IconSc } from "./IconSc";
 export { default as IconShinhan } from "./IconShinhan";
