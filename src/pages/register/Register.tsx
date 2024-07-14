@@ -35,11 +35,12 @@ import RegisterMaker from "./RegisterMaker";
 import { useHeader } from "./../../hooks/useHeader";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
-import Content from "@pages/gig/components/content/Content";
+import useModal from "@hooks/useModal";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
+  const { openConfirm } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
@@ -103,6 +104,7 @@ const Register = () => {
   const [bankInfo, setBankInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isFree, setIsFree] = useState(false);
+  const navigate = useNavigate();
 
   // 약관 동의
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +121,13 @@ const Register = () => {
     }
   }, [isFree]);
 
+  // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
+  useEffect(() => {
+    if (ticketPrice === "0") {
+      setIsFree(true);
+    }
+  }, [ticketPrice]);
+
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
   };
@@ -134,7 +143,22 @@ const Register = () => {
   const { setHeader } = useHeader();
 
   const handleLeftBtn = () => {
-    setRegisterStep((prev) => prev - 1);
+    if (registerStep === 1) {
+      openConfirm({
+        title: "정말 나가시겠습니까?",
+        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지 않습니다.",
+        okText: "작성할게요",
+        okCallback: () => {
+          setRegisterStep(1);
+        },
+        noText: "나갈게요",
+        noCallback: () => {
+          navigate("/main");
+        },
+      });
+    } else {
+      setRegisterStep((prev) => prev - 1);
+    }
   };
 
   useEffect(() => {
@@ -222,7 +246,7 @@ const Register = () => {
             </InputRegisterBox>
             <S.Divider />
 
-            <StepperRegisterBox title="회차 수">
+            <StepperRegisterBox title="회차 수" description="최대 3회차">
               <Stepper
                 max={3}
                 round={totalScheduleCount}
@@ -302,29 +326,30 @@ const Register = () => {
             </InputRegisterBox>
             <S.Divider />
 
-            <InputAccountWrapper>
-              <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
-                {bankInfo}
-              </InputBank>
-              <TextField
-                name="accountNumber"
-                value={accountNumber}
-                onChange={(e) => handleChange(e, setGigInfo)}
-                filter={numericFilter}
-                placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
-              />
-            </InputAccountWrapper>
-            <S.Divider />
-
-            {bankOpen && (
-              <BankBottomSheet
-                value={bankInfo}
-                onBankClick={(value) =>
-                  handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)
-                }
-                onOutClick={() => handleBankOpen(setBankOpen)}
-              />
+            {!isFree && (
+              <>
+                <InputAccountWrapper>
+                  <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
+                    {bankInfo}
+                  </InputBank>
+                  <TextField
+                    name="accountNumber"
+                    value={accountNumber}
+                    onChange={(e) => handleChange(e, setGigInfo)}
+                    filter={numericFilter}
+                    placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                  />
+                </InputAccountWrapper>
+                <S.Divider />
+              </>
             )}
+
+            <BankBottomSheet
+              value={bankInfo}
+              isOpen={bankOpen}
+              onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
+              onOutClick={() => handleBankOpen(setBankOpen)}
+            />
 
             <InputRegisterBox title="대표자 연락처">
               <TextField
@@ -352,7 +377,7 @@ const Register = () => {
             </S.CheckboxContainer>
             <Button
               onClick={handleRegisterStep}
-              disabled={!isAllFieldsFilled(gigInfo) || !isChecked}
+              disabled={!isAllFieldsFilled(gigInfo, isFree) || !isChecked}
             >
               다음
             </Button>
@@ -360,9 +385,7 @@ const Register = () => {
         </>
       );
     }
-  }
-
-  if (registerStep === 2) {
+  } else if (registerStep === 2) {
     return (
       <RegisterMaker
         castList={castList}

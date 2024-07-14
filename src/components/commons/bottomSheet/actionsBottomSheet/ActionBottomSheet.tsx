@@ -5,11 +5,12 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ContextBox from "@components/commons/contextBox/ContextBox";
 import { ContextBoxStyle } from "@typings/contextBoxProps";
 
-import React, { ReactNode, Children, isValidElement } from "react";
+import React, { Children, isValidElement, ReactNode, useEffect } from "react";
 
 interface ActionBottomSheetProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     ContextBoxStyle {
+  isOpen: boolean;
   title?: string;
   subTitle?: string;
   children?: ReactNode;
@@ -17,6 +18,7 @@ interface ActionBottomSheetProps
 }
 
 const ActionBottomSheet = ({
+  isOpen,
   title,
   subTitle,
   onClickOutside,
@@ -37,9 +39,20 @@ const ActionBottomSheet = ({
     onClickOutside();
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
-    <S.ActionBottomSheetWrapper onClick={handleWrapperClick}>
-      <BottomSheet title={title}>
+    <S.ActionBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>
+      <BottomSheet isOpen={isOpen} title={title}>
         <ContextBox {...rest}>
           <S.SubTitle>{subTitle}</S.SubTitle>
           {innerChildren}

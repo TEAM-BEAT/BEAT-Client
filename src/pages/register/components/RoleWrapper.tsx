@@ -3,6 +3,7 @@ import * as S from "../Register.styled";
 import TextField from "@components/commons/input/textField/TextField";
 import { IconCamera } from "@assets/svgs";
 import { ChangeEvent, useState } from "react";
+import { nameFilter } from "@utils/useInputFilter";
 
 interface Role {
   id: number;
@@ -67,6 +68,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
           name="makerName"
           value={makerName}
           onChange={handleInputChange}
+          filter={nameFilter}
           narrow={true}
           placeholder="이름"
         />

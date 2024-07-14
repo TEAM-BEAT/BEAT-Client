@@ -32,13 +32,34 @@ export const ChipWrapper = styled.div<{ color?: ChipsColorTypes }>`
       default:
         return `
           background-color: ${theme.colors.gray_0};
-          color:  ${theme.colors.gray_900};
+          color:  ${theme.colors.pink_400};
         `;
     }
   }}
 `;
 
-export const ChipIcon = styled.span`
+export const ChipIcon = styled.span<{ iconColor?: string }>`
   width: 1.6rem;
   height: 1.6rem;
+
+  ${({ theme, iconColor }) => {
+    switch (iconColor) {
+      case "pink":
+        return `
+          color: ${theme.colors.pink_400};
+        `;
+      case "white":
+        return `
+          color:  ${theme.colors.white};
+        `;
+      case "gray":
+        return `
+          color: ${theme.colors.gray_500}; 
+        `;
+      default:
+        return `
+          color:  ${theme.colors.gray_500};
+        `;
+    }
+  }}
 `;
