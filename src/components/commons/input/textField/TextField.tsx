@@ -24,7 +24,6 @@ const TextField = ({
   unit,
   filter,
   cap,
-  onToggleClick,
   ...rest
 }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
@@ -71,7 +70,6 @@ const TextField = ({
         },
       } as ChangeEvent<HTMLInputElement>;
 
-      inputRef.current.focus();
       onChange(newEvent);
     }
   };
@@ -86,8 +84,8 @@ const TextField = ({
       <S.TextFieldWrapper>
         <S.TextFieldInput
           ref={inputRef}
-          value={value}
           name={name}
+          value={value}
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
