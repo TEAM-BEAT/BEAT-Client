@@ -15,7 +15,6 @@ import GenreSelect from "./components/GenreSelect";
 import PosterThumbnail from "./components/PosterThumbnail";
 import Spacing from "@components/commons/spacing/Spacing";
 import { GENRE_LIST } from "./constants/genreList";
-import { Dayjs } from "dayjs";
 
 import {
   handleImageUpload,
@@ -79,7 +78,6 @@ const Register = () => {
     genre,
     runningTime,
     performanceDescription,
-    bankName,
     performanceAttentionNote,
     accountNumber,
     performanceTeamName,
@@ -120,14 +118,11 @@ const Register = () => {
     }
   }, [ticketPrice]);
 
-  console.log(gigInfo);
-
   return (
     <>
       <S.RegisterContainer>
         <PosterThumbnail onImageUpload={(url) => handleImageUpload(url, setGigInfo)} />
         <S.Divider />
-
         <GenreSelect
           title="공연 장르"
           genres={GENRE_LIST}
@@ -136,7 +131,6 @@ const Register = () => {
           marginBottom={2.4}
         />
         <S.Divider />
-
         <InputRegisterBox title="공연명">
           <TextField
             type="input"
@@ -149,7 +143,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <InputRegisterBox title="주최 단체명">
           <TextField
             type="input"
@@ -162,7 +155,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <InputRegisterBox title="공연 소개">
           <TextArea
             name="performanceDescription"
@@ -173,7 +165,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <InputRegisterBox title="러닝 타임">
           <TextField
             type="input"
@@ -186,7 +177,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <StepperRegisterBox title="회차 수" description="최대 3회차">
           <Stepper
             max={3}
@@ -196,7 +186,6 @@ const Register = () => {
           />
         </StepperRegisterBox>
         <S.Divider />
-
         <TimePickerRegisterBox title="회차별 시간대">
           {scheduleList.map((schedule, index) => (
             <div key={index}>
@@ -210,7 +199,6 @@ const Register = () => {
           ))}
         </TimePickerRegisterBox>
         <S.Divider />
-
         <InputRegisterBox title="공연 장소">
           <TextField
             type="input"
@@ -223,7 +211,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <InputRegisterBox
           title="티켓 가격"
           description="*티켓 가격은 수정불가합니다."
@@ -242,7 +229,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <InputRegisterBox title="회차별 티켓 판매수">
           <TextField
             type="input"
@@ -255,7 +241,6 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
         <InputRegisterBox title="유의사항">
           <TextArea
             name="performanceAttentionNote"
@@ -266,30 +251,29 @@ const Register = () => {
           />
         </InputRegisterBox>
         <S.Divider />
-
-        <InputAccountWrapper>
-          <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen, isFree)}>
-            {bankInfo}
-          </InputBank>
-          <TextField
-            name="accountNumber"
-            value={accountNumber}
-            onChange={(e) => handleChange(e, setGigInfo)}
-            filter={numericFilter}
-            disabled={isFree}
-            placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
-          />
-        </InputAccountWrapper>
-        <S.Divider />
-
-        {bankOpen && (
-          <BankBottomSheet
-            value={bankInfo}
-            onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
-            onOutClick={() => handleBankOpen(setBankOpen, isFree)}
-          />
+        {!isFree && (
+          <>
+            <InputAccountWrapper>
+              <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen, isFree)}>
+                {bankInfo}
+              </InputBank>
+              <TextField
+                name="accountNumber"
+                value={accountNumber}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                filter={numericFilter}
+                placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+              />
+            </InputAccountWrapper>
+            <S.Divider />
+          </>
         )}
-
+        <BankBottomSheet
+          value={bankInfo}
+          isOpen={bankOpen}
+          onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
+          onOutClick={() => handleBankOpen(setBankOpen)}
+        />
         <InputRegisterBox title="대표자 연락처">
           <TextField
             type="input"

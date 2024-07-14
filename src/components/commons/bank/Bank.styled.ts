@@ -14,10 +14,10 @@ const bottomSheetDown = keyframes`
 `;
 
 export const BankLayout = styled.section<{ $isOpen: boolean }>`
-  position: absolute;
-  bottom: 0%;
+  position: fixed;
+  bottom: 0;
   left: 50%;
-  z-index: 1;
+  z-index: 1000;
   display: block;
   width: 37.5rem;
   margin: 0;
@@ -52,7 +52,7 @@ export const BankWrapper = styled.article`
 `;
 
 export const OutLayout = styled.div<{ $isOpen: boolean }>`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -114,7 +114,7 @@ export const ToggleIcon = styled(SvgIconArrowDown)<{ bankOpen: boolean }>`
   transform: ${({ bankOpen }) => (bankOpen ? "rotate(180deg)" : "rotate(0deg)")};
   cursor: pointer;
 
-  transition: transform 0.5s;
+  transition: transform 0.3s;
 `;
 
 // InputAccountWrapper

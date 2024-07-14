@@ -106,10 +106,8 @@ export const onFreeClick = (setIsFree: Dispatch<SetStateAction<boolean>>) => {
 };
 
 // Bank 핸들링
-export const handleBankOpen = (setBankOpen: Dispatch<SetStateAction<boolean>>, isFree: boolean) => {
-  if (!isFree) {
-    setBankOpen((current) => !current);
-  }
+export const handleBankOpen = (setBankOpen: Dispatch<SetStateAction<boolean>>) => {
+  setBankOpen((current) => !current);
 };
 
 export const handleBankClick = (
@@ -141,11 +139,9 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
     "performancePeriod",
     "ticketPrice",
     "totalScheduleCount",
+    ...(!isFree ? ["bankName", "accountNumber"] : []),
   ];
 
-  if (!isFree) {
-    requiredFields.push("bankName", "accountNumber");
-  }
   const scheduleFilled = gigInfo.scheduleList.every(
     (schedule) => schedule.performanceDate && schedule.totalTicketCount && schedule.scheduleNumber
   );
