@@ -15,7 +15,6 @@ export const FooterTop = styled.section`
   width: auto;
 `;
 
-// 로고 확정되면 로고 들어갈 위치
 export const Logo = styled(IconFooterLogo)`
   width: 5.7rem;
   height: 2.4rem;

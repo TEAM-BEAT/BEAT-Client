@@ -1,6 +1,7 @@
 import { useState } from "react";
 import * as S from "./Main.styled";
 
+import MainNavigation from "./components/mainNavigation/MainNavigation";
 import Carousel from "./components/carousel/Carousel";
 import Chips from "./components/chips/Chips";
 import Performance from "./components/performance/Performance";
@@ -17,6 +18,7 @@ const Main = () => {
 
   return (
     <S.MainWrapper>
+      <MainNavigation />
       <Carousel promotionList={dummyData.promotionList} />
       <Chips handleGenre={handleGenre} />
       <Performance genre={genre} performanceList={dummyData.performanceList} />
