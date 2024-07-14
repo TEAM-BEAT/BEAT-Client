@@ -86,7 +86,7 @@ const TextField = ({
       <S.TextFieldWrapper>
         <S.TextFieldInput
           ref={inputRef}
-          value={value?.toString()}
+          value={value}
           name={name}
           onChange={handleOnInput}
           maxLength={maxLength}
