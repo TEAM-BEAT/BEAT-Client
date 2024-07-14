@@ -146,16 +146,12 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
     (schedule) => schedule.performanceDate && schedule.totalTicketCount && schedule.scheduleNumber
   );
 
-<<<<<<< HEAD
   // null과 빈 문자열이 아니어야 함
   return (
     requiredFields.every(
       (field) => gigInfo[field as keyof GigInfo] !== null && gigInfo[field as keyof GigInfo] !== ""
     ) && scheduleFilled
   );
-=======
-  return requiredFields.every((field) => gigInfo[field as keyof GigInfo]) && scheduleFilled;
->>>>>>> develop
 };
 
 // performancePeriod 계산

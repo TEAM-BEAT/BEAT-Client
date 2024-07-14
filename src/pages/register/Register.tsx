@@ -38,9 +38,11 @@ import { NAVIGATION_STATE } from "@constants/navigationState";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import Content from "@pages/gig/components/content/Content";
 import { useNavigate } from "react-router-dom";
+import useModal from "@hooks/useModal";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
+  const { openConfirm } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
@@ -104,6 +106,11 @@ const Register = () => {
   const [bankInfo, setBankInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isFree, setIsFree] = useState(false);
+  const navigate = useNavigate();
+
+  const handleComplete = () => {
+    navigate("/register-complete");
+  };
 
   // 약관 동의
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,9 +137,12 @@ const Register = () => {
     }
   }, [ticketPrice]);
 
-  const handleRegisterStep = () => {
-    setRegisterStep((prev) => prev + 1);
-  };
+  // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
+  useEffect(() => {
+    if (ticketPrice === 0) {
+      setIsFree(true);
+    }
+  }, [ticketPrice]);
 
   const updateGigInfo = (newInfo: Partial<GigInfo>) => {
     setGigInfo((prev) => ({
@@ -142,10 +152,29 @@ const Register = () => {
   };
   console.log(gigInfo);
 
+  const handleRegisterStep = () => {
+    setRegisterStep((prev) => prev + 1);
+  };
+
   const { setHeader } = useHeader();
 
   const handleLeftBtn = () => {
-    setRegisterStep((prev) => prev - 1);
+    if (registerStep === 1) {
+      openConfirm({
+        title: "정말 나가시겠습니까?",
+        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지 않습니다.",
+        okText: "작성할게요",
+        okCallback: () => {
+          setRegisterStep(1);
+        },
+        noText: "나갈게요",
+        noCallback: () => {
+          navigate("/main");
+        },
+      });
+    } else {
+      setRegisterStep((prev) => prev - 1);
+    }
   };
 
   useEffect(() => {
@@ -158,16 +187,14 @@ const Register = () => {
     });
   }, [setHeader, registerStep]);
 
-  const navigate = useNavigate();
-  const handleComplete = () => {
-    navigate("/register-complete");
-  };
-
   if (registerStep === 1) {
     return (
       <>
         <S.RegisterContainer>
-          <PosterThumbnail onImageUpload={(url) => handleImageUpload(url, setGigInfo)} />
+          <PosterThumbnail
+            value={posterImage}
+            onImageUpload={(url) => handleImageUpload(url, setGigInfo)}
+          />
           <S.Divider />
           <GenreSelect
             title="공연 장르"
@@ -215,7 +242,7 @@ const Register = () => {
             <TextField
               type="input"
               name="runningTime"
-              value={runningTime}
+              value={runningTime ?? ""}
               onChange={(e) => handleChange(e, setGigInfo)}
               filter={numericFilter}
               unit="time"
@@ -266,7 +293,7 @@ const Register = () => {
             <TextField
               type="input"
               name="ticketPrice"
-              value={ticketPrice}
+              value={ticketPrice ?? ""}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="가격을 입력해주세요."
               filter={priceFilter}
