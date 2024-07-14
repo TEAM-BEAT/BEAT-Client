@@ -76,8 +76,19 @@ const TicketHolderList = () => {
   });
   const navigate = useNavigate();
 
-  const handleLeftButton = () => {
+  const handleNavigateBack = () => {
     navigate(-1);
+  };
+
+  const handleLeftButton = () => {
+    openConfirm({
+      title: "수정을 취소할까요?",
+      subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
+      okText: "계속 수정할게요",
+      noText: "나갈게요",
+      okCallback: closeConfirm,
+      noCallback: handleNavigateBack,
+    });
   };
   const handleRightButton = () => {
     setIsDeleteMode(true);
