@@ -9,7 +9,7 @@ import TimePicker from "@components/commons/timepicker/TimePicker";
 import Toast from "@components/commons/toast/Toast";
 import useToast from "@hooks/useToast";
 import { ChangeEvent, useState } from "react";
-import { numericFilter } from "@utils/useInputFilter";
+import { nameFilter, numericFilter } from "@utils/useInputFilter";
 import { Dayjs } from "dayjs";
 
 const TestPage = () => {
@@ -40,11 +40,9 @@ const TestPage = () => {
     <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
-          type="password"
           value={inputValue}
           onChange={handleChangeInput}
-          filter={numericFilter}
-          maxLength={4}
+          filter={nameFilter}
           placeholder="입력해주세요"
         />
         <TextArea

@@ -121,6 +121,13 @@ const Register = () => {
     }
   }, [isFree]);
 
+  // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
+  useEffect(() => {
+    if (ticketPrice === "0") {
+      setIsFree(true);
+    }
+  }, [ticketPrice]);
+
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
   };
@@ -234,7 +241,7 @@ const Register = () => {
             </InputRegisterBox>
             <S.Divider />
 
-            <StepperRegisterBox title="회차 수">
+            <StepperRegisterBox title="회차 수" description="최대 3회차">
               <Stepper
                 max={3}
                 round={totalScheduleCount}
@@ -314,29 +321,30 @@ const Register = () => {
             </InputRegisterBox>
             <S.Divider />
 
-            <InputAccountWrapper>
-              <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
-                {bankInfo}
-              </InputBank>
-              <TextField
-                name="accountNumber"
-                value={accountNumber}
-                onChange={(e) => handleChange(e, setGigInfo)}
-                filter={numericFilter}
-                placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
-              />
-            </InputAccountWrapper>
-            <S.Divider />
-
-            {bankOpen && (
-              <BankBottomSheet
-                value={bankInfo}
-                onBankClick={(value) =>
-                  handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)
-                }
-                onOutClick={() => handleBankOpen(setBankOpen)}
-              />
+            {!isFree && (
+              <>
+                <InputAccountWrapper>
+                  <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
+                    {bankInfo}
+                  </InputBank>
+                  <TextField
+                    name="accountNumber"
+                    value={accountNumber}
+                    onChange={(e) => handleChange(e, setGigInfo)}
+                    filter={numericFilter}
+                    placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                  />
+                </InputAccountWrapper>
+                <S.Divider />
+              </>
             )}
+
+            <BankBottomSheet
+              value={bankInfo}
+              isOpen={bankOpen}
+              onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
+              onOutClick={() => handleBankOpen(setBankOpen)}
+            />
 
             <InputRegisterBox title="대표자 연락처">
               <TextField
@@ -364,7 +372,7 @@ const Register = () => {
             </S.CheckboxContainer>
             <Button
               onClick={handleRegisterStep}
-              disabled={!isAllFieldsFilled(gigInfo) || !isChecked}
+              disabled={!isAllFieldsFilled(gigInfo, isFree) || !isChecked}
             >
               다음
             </Button>

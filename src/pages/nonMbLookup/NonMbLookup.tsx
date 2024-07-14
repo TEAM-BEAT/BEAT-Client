@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./NonMbLookup.styled";
 
 import useModal from "@hooks/useModal";
@@ -6,8 +7,14 @@ import useModal from "@hooks/useModal";
 import Button from "@components/commons/button/Button";
 import InputWrapper from "./components/InputWrapper";
 
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks/useHeader";
+
 const NonMbLookup = () => {
+  const navigate = useNavigate();
+
   const { openAlert } = useModal();
+  const { setHeader } = useHeader();
 
   // 하단 내역 확인 버튼 활성화/비활성화 상태
   const [btnActive, setBtnActive] = useState(false);
@@ -42,6 +49,10 @@ const NonMbLookup = () => {
     });
   };
 
+  const handleLeftBtn = () => {
+    navigate("/main");
+  };
+
   useEffect(() => {
     if (dataState === 404) {
       handleAlert();
@@ -50,6 +61,14 @@ const NonMbLookup = () => {
       // console.log("오류 처리");
     }
   }, [dataState]);
+
+  useEffect(() => {
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE,
+      title: "비회원 예매 조회",
+      leftOnClick: handleLeftBtn,
+    });
+  }, [setHeader]);
 
   return (
     <S.NonMbLookupWrapper>

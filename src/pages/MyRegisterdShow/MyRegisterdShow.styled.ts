@@ -1,3 +1,4 @@
+import { IconEmpty } from "@assets/svgs";
 import styled from "styled-components";
 
 export const BodyWrapper = styled.main`
@@ -20,13 +21,9 @@ export const BodyNothingLayout = styled.section`
   height: auto;
 `;
 
-export const GrapicImg = styled.div`
-  width: 12.6rem;
-  height: 12.6rem;
-
-  /* background-image: ; 나중에 얘로 대체 예정 */
-  background-color: red;
-  border-radius: 10px;
+export const GrapicImg = styled(IconEmpty)`
+  width: 15rem;
+  height: 15rem;
 `;
 
 export const NothingText = styled.span`

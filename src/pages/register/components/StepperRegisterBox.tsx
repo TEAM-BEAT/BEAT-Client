@@ -4,14 +4,23 @@ import { ReactNode } from "react";
 
 interface StepperRegisterBoxProps {
   title: string;
+  description: string;
   marginBottom?: number;
   children: ReactNode;
 }
 
-const StepperRegisterBox = ({ title, marginBottom = 1.6, children }: StepperRegisterBoxProps) => {
+const StepperRegisterBox = ({
+  title,
+  description,
+  marginBottom = 1.6,
+  children,
+}: StepperRegisterBoxProps) => {
   return (
     <S.StepperRegisterBox $marginBottom={marginBottom}>
-      <S.InputTitle>{title}</S.InputTitle>
+      <S.InputTitleWrapper>
+        <S.InputTitle>{title}</S.InputTitle>
+        <S.StepperDiscription>{description}</S.StepperDiscription>
+      </S.InputTitleWrapper>
       {children}
     </S.StepperRegisterBox>
   );
