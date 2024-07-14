@@ -34,9 +34,12 @@ import { IconChecked } from "@assets/svgs";
 import RegisterMaker from "./RegisterMaker";
 import { useHeader } from "./../../hooks/useHeader";
 import { NAVIGATION_STATE } from "@constants/navigationState";
+import useModal from "@hooks/useModal";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
+  const { openConfirm } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
@@ -101,6 +104,7 @@ const Register = () => {
   const [bankInfo, setBankInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isFree, setIsFree] = useState(false);
+  const navigate = useNavigate();
 
   // 약관 동의
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +136,22 @@ const Register = () => {
   const { setHeader } = useHeader();
 
   const handleLeftBtn = () => {
-    setRegisterStep((prev) => prev - 1);
+    if (registerStep === 1) {
+      openConfirm({
+        title: "정말 나가시겠습니까?",
+        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지 않습니다.",
+        okText: "작성할게요",
+        okCallback: () => {
+          setRegisterStep(1);
+        },
+        noText: "나갈게요",
+        noCallback: () => {
+          navigate("/main");
+        },
+      });
+    } else {
+      setRegisterStep((prev) => prev - 1);
+    }
   };
 
   useEffect(() => {
