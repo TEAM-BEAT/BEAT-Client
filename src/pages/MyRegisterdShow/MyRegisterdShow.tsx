@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bannerNarrow from "../../assets/images/banner_narrow.png";
 import * as S from "./MyRegisterdShow.styled";
-import RegisteredCard from "./components/RegisteredCard";
+import RegisteredCard from "./components/registeredcard/RegisteredCard";
 import { MY_REGISTERED_SHOW, RegisteredObjProps } from "./constants/myRegisterShow";
 
 const MyRegisterdShow = () => {

@@ -1,11 +1,12 @@
-import * as S from "./ViewBottomSheet.styled";
 import BottomSheet from "@components/commons/bottomSheet/BottomSheet";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ContextBox from "@components/commons/contextBox/ContextBox";
+import * as S from "./ViewBottomSheet.styled";
 
-import { ReactNode, Children, isValidElement } from "react";
+import { Children, isValidElement, ReactNode, useEffect } from "react";
 
 interface ViewBottomSheetProps {
+  isOpen: boolean;
   title?: string;
   boxTitle?: string;
   boxTitleColor?: string;
@@ -14,6 +15,7 @@ interface ViewBottomSheetProps {
 }
 
 const ViewBottomSheet = ({
+  isOpen,
   title,
   boxTitle,
   boxTitleColor,
@@ -35,9 +37,20 @@ const ViewBottomSheet = ({
     onClickOutside();
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
-    <S.ViewBottomSheetWrapper onClick={handleWrapperClick}>
-      <BottomSheet title={title}>
+    <S.ViewBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>
+      <BottomSheet isOpen={isOpen} title={title}>
         <ContextBox {...rest}>
           <S.BoxTitle customColor={boxTitleColor}>{boxTitle}</S.BoxTitle>
           <S.BoxDivider />

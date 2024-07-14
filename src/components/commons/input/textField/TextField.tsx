@@ -71,6 +71,7 @@ const TextField = ({
         },
       } as ChangeEvent<HTMLInputElement>;
 
+      inputRef.current.focus();
       onChange(newEvent);
     }
   };
@@ -85,8 +86,8 @@ const TextField = ({
       <S.TextFieldWrapper>
         <S.TextFieldInput
           ref={inputRef}
-          name={name}
           value={value}
+          name={name}
           onChange={handleOnInput}
           maxLength={maxLength}
           placeholder={placeholder}
