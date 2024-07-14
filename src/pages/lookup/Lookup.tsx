@@ -24,11 +24,13 @@ import { useEffect } from "react";
 const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const [lookUpList, setLookUpList] = useState(dummyData);
+  const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSheetOpen = (bookingId: number) => {
     setSelectedBookingId(bookingId);
+    setIsOpen(true);
   };
 
   const handleSheetClose = () => {
@@ -58,6 +60,7 @@ const Lookup = () => {
               <LookupWrapper {...item} handleBtn={() => handleSheetOpen(item.bookingId)} />
               {selectedBookingId === item.bookingId && (
                 <ActionBottomSheet
+                  isOpen={isOpen}
                   onClickOutside={handleSheetClose}
                   title="대표자에게 연락하여 취소를 요청해 주세요"
                   subTitle="대표자 연락처"
