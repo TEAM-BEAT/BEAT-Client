@@ -14,11 +14,11 @@ export const dummyData = {
   performanceList: [
     {
       performanceId: 1,
-      performanceTitle: "새소년 밴드",
+      performanceTitle: "이정우의 코딩 강의",
       performancePeriod: "2023.12.28",
       ticketPrice: 5000,
       dueDate: 1,
-      genre: "BAND",
+      genre: "ETC",
       posterImage: "포스터 사진 URL",
     },
     {

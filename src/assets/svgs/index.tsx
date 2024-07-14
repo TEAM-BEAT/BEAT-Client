@@ -1,4 +1,5 @@
 export { default as BannerBasic } from "./BannerBasic";
+export { default as ButtonDelete24 } from "./ButtonDelete24";
 export { default as Empty } from "./Empty";
 export { default as IcHamburgar } from "./IcHamburgar";
 export { default as IcomCopy } from "./IcomCopy";
@@ -32,6 +33,7 @@ export { default as IconMinus } from "./IconMinus";
 export { default as IconNonghyup } from "./IconNonghyup";
 export { default as IconPhotoDelete } from "./IconPhotoDelete";
 export { default as IconPlus } from "./IconPlus";
+export { default as IconProfile } from "./IconProfile";
 export { default as IconRoleAdd } from "./IconRoleAdd";
 export { default as IconSaemauel } from "./IconSaemauel";
 export { default as IconSc } from "./IconSc";
