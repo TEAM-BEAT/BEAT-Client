@@ -9,6 +9,8 @@ export const ManagerCardWrapper = styled.article<{ $isDetail: boolean }>`
   width: 32.6rem;
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
   padding-left: 0.4rem;
+
+  transition: height 0.5s ease-in-out;
 `;
 
 export const ManagerCardLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
