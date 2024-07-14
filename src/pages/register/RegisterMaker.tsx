@@ -1,7 +1,7 @@
 import Button from "@components/commons/button/Button";
 import RoleLayout from "./components/RoleLayout";
 import * as S from "./Register.styled";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Cast, Staff } from "./typings/gigInfo";
 
 interface RegisterMakerProps {
@@ -33,14 +33,14 @@ const RegisterMaker = ({
 
     setIsButtonDisabled(
       !(
-        (castList.length === 1 &&
+        (castList.length <= 1 &&
           !castList[0]?.castName &&
           !castList[0]?.castRole &&
           !castList[0]?.castPhoto) ||
         allCastFieldsFilled
       ) ||
         !(
-          (castList.length === 1 &&
+          (castList.length <= 1 &&
             !staffList[0]?.staffName &&
             !staffList[0]?.staffRole &&
             !staffList[0]?.staffPhoto) ||
@@ -55,6 +55,7 @@ const RegisterMaker = ({
     } else if (title === "스태프") {
       setStaffList(updatedList as Staff[]);
     }
+    updateGigInfo({ castList, staffList });
   };
 
   const handleList = () => {

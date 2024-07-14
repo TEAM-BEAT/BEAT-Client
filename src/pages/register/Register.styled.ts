@@ -250,6 +250,7 @@ export const ReigsterCompleteSubTitle = styled.p`
   ${({ theme }) => theme.fonts["body2-normal-medi"]}
   text-align: center;
 `;
+
 export const PreviewBanner = styled.div`
   ${Generators.flexGenerator()}
   position: sticky;

@@ -15,7 +15,6 @@ import GenreSelect from "./components/GenreSelect";
 import PosterThumbnail from "./components/PosterThumbnail";
 import Spacing from "@components/commons/spacing/Spacing";
 import { GENRE_LIST } from "./constants/genreList";
-
 import {
   handleImageUpload,
   handleGenreSelect,
@@ -36,9 +35,9 @@ import RegisterMaker from "./RegisterMaker";
 import { useHeader } from "./../../hooks/useHeader";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
-import Content from "@pages/gig/components/content/Content";
-import { useNavigate } from "react-router-dom";
 import useModal from "@hooks/useModal";
+import { useNavigate } from "react-router-dom";
+import Content from "@pages/gig/components/content/Content";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
@@ -126,7 +125,6 @@ const Register = () => {
         accountNumber: "",
         bankName: "",
       }));
-      setBankInfo("");
     }
   }, [isFree]);
 
