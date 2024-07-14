@@ -11,8 +11,7 @@ const InputBank = ({ bankOpen, onClick, children }: InputBankProps) => {
   return (
     <S.InputBank onClick={onClick} $hasChildren={!!children}>
       {children ? children : "은행을 선택해주세요."}
-      {/* bankOpen하면 토글 회전하는거 나중에할게요요 */}
-      <S.ToggleIcon />
+      <S.ToggleIcon bankOpen={bankOpen} />
     </S.InputBank>
   );
 };

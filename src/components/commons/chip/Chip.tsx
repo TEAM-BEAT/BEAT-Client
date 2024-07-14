@@ -7,13 +7,14 @@ interface ChipProps {
   label: string;
   color?: ChipsColorTypes;
   icon?: React.ReactNode;
+  iconColor?: string;
   onClick?: () => void;
 }
 
-const Chip = ({ label, color, icon, onClick }: ChipProps) => {
+const Chip = ({ label, color, icon, iconColor, onClick }: ChipProps) => {
   return (
     <S.ChipWrapper color={color} onClick={onClick}>
-      {icon && <S.ChipIcon>{icon}</S.ChipIcon>}
+      {icon && <S.ChipIcon iconColor={iconColor}>{icon}</S.ChipIcon>}
       <span>{label}</span>
     </S.ChipWrapper>
   );

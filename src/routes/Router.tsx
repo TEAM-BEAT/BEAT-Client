@@ -1,21 +1,22 @@
 import Layout from "@components/layout/Layout";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
-import BankTest from "@pages/BankTest";
+import Book from "@pages/book/Book";
 import Gig from "@pages/gig/Gig";
+import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
+import KakaoLoginTest from "@pages/KakaoLoginTest";
 import Lookup from "@pages/lookup/Lookup";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/modalTest/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
+import RegisterComplete from "@pages/register/RegisterComplete";
+import Main from "@pages/main/Main";
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
-import KakaoLoginTest from "@pages/KakaoLoginTest";
-import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter } from "react-router-dom";
-import RegisterComplete from "@pages/register/RegisterComplete";
 
 const router = createBrowserRouter([
   {
@@ -23,14 +24,17 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "a", element: <Apage /> },
+      { path: "/NonMb-Lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
+      { path: "book/:performanceId", element: <Book /> },
       { path: "testpage", element: <TestPage /> },
-      { path: "register", element: <Register /> },
+      { path: "gig-register", element: <Register /> },
       { path: "register-complete", element: <RegisterComplete /> },
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
-      { path: "ticketholderlist", element: <TicketHolderList /> },
-      { path: "myregisteredshow", element: <MyRegisterdShow /> },
+      { path: "gig-manage", element: <MyRegisterdShow /> },
+      { path: "guest-manage", element: <TicketHolderList /> },
+
       // ... other pages
     ],
   },
@@ -54,19 +58,14 @@ const router = createBrowserRouter([
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
   },
-  {
-    path: "/NonMb-Lookup",
-    element: <NonMbLookup />,
-  },
-  {
-    path: "/bank-sheet",
-    element: <BankTest />,
-  },
+
   //   {
   //     path: "/C",
   //     element: <CPage />,
   //   },
   { path: "/testpage", element: <TestPage /> },
+  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
+  { path: "/main", element: <Main /> },
 
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   //   ...

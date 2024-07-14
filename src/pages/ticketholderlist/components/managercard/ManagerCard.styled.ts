@@ -4,19 +4,20 @@ import styled from "styled-components";
 export const ManagerCardWrapper = styled.article<{ $isDetail: boolean }>`
   display: flex;
   flex-shrink: 0;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   width: 32.6rem;
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  padding-left: 0.4rem;
 `;
 
-export const ManagerCardLayout = styled.div<{ $isDetail: boolean }>`
+export const ManagerCardLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 1.6rem;
   align-items: flex-start;
-  width: 25.2rem;
+  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
   padding: 1.6rem;
 
@@ -68,7 +69,7 @@ export const ManagerCardRadioLayout = styled.div<{ $isDetail: boolean; $isPaid: 
   border-radius: 6px;
 `;
 
-export const ManagerCardRadioBox = styled.div`
+export const ManagerCardRadioBox = styled.div<{ $isDeleteMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -76,7 +77,7 @@ export const ManagerCardRadioBox = styled.div`
   align-items: center;
   width: 4.3rem;
 
-  cursor: pointer;
+  cursor: ${({ $isDeleteMode }) => ($isDeleteMode ? "default" : "pointer")};
 `;
 
 export const SelectedIcon = styled(IconCheckboxSelectedOn)`

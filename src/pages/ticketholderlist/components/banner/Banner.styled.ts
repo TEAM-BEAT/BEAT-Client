@@ -30,8 +30,13 @@ export const BannerTextBox = styled.div`
 `;
 
 export const BannerTitleText = styled.span`
+  width: 17.7rem;
+  overflow: hidden;
+
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.heading4};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const BannerStateTextBox = styled.span`

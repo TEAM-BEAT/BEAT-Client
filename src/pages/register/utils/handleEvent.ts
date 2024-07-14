@@ -125,15 +125,13 @@ export const handleBankClick = (
 };
 
 // 모든 필드가 null이 아닌지 체크
-export const isAllFieldsFilled = (gigInfo: GigInfo) => {
+export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
   const requiredFields = [
     "performanceTitle",
     "genre",
     "runningTime",
     "performanceDescription",
     "performanceAttentionNote",
-    "bankName",
-    "accountNumber",
     "posterImage",
     "performanceTeamName",
     "performanceVenue",
@@ -141,17 +139,23 @@ export const isAllFieldsFilled = (gigInfo: GigInfo) => {
     "performancePeriod",
     "ticketPrice",
     "totalScheduleCount",
+    ...(!isFree ? ["bankName", "accountNumber"] : []),
   ];
+
   const scheduleFilled = gigInfo.scheduleList.every(
     (schedule) => schedule.performanceDate && schedule.totalTicketCount && schedule.scheduleNumber
   );
 
+<<<<<<< HEAD
   // null과 빈 문자열이 아니어야 함
   return (
     requiredFields.every(
       (field) => gigInfo[field as keyof GigInfo] !== null && gigInfo[field as keyof GigInfo] !== ""
     ) && scheduleFilled
   );
+=======
+  return requiredFields.every((field) => gigInfo[field as keyof GigInfo]) && scheduleFilled;
+>>>>>>> develop
 };
 
 // performancePeriod 계산
