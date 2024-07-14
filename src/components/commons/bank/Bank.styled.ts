@@ -1,11 +1,21 @@
 import SvgIconArrowDown from "@assets/svgs/IconArrowDown";
 import { Generators } from "@styles/generator";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // BankBottomSheet
-export const BankLayout = styled.section`
+const bottomSheetUp = keyframes`
+  0% { transform: translate(-50%, 100%); }
+  100% { transform: translate(-50%, 0); }
+`;
+
+const bottomSheetDown = keyframes`
+  0% { transform: translate(-50%, 0); }
+  100% { transform: translate(-50%, 100%); }
+`;
+
+export const BankLayout = styled.section<{ $isOpen: boolean }>`
   position: absolute;
-  bottom: 0;
+  bottom: 0%;
   left: 50%;
   z-index: 1;
   display: block;
@@ -14,8 +24,12 @@ export const BankLayout = styled.section`
   padding: 2.1rem 2.4rem 0;
 
   background: ${({ theme }) => theme.colors.gray_800};
-  transform: translateX(-50%);
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   border-radius: 20px 20px 0 0;
+
+  transition: visibility 250ms ease-in-out;
+  animation: ${({ $isOpen }) => ($isOpen ? bottomSheetUp : bottomSheetDown)} 250ms ease-in-out;
+  animation-fill-mode: forwards;
 `;
 
 export const BankTitle = styled.h1`
@@ -37,13 +51,20 @@ export const BankWrapper = styled.article`
   }
 `;
 
-export const OutLayout = styled.div`
+export const OutLayout = styled.div<{ $isOpen: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
   width: 100%;
   height: 100%;
+
+  background: ${({ theme }) => theme.colors.black};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 0.7 : 0)};
+
+  transition:
+    opacity 250ms ease-in-out,
+    visibility 250ms ease-in-out;
 `;
 
 // BankBtn

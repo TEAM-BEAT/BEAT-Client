@@ -21,7 +21,7 @@ const BankTest = () => {
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAccountInfo(e.target.value);
   };
-
+  console.log(bankOpen);
   return (
     <Test>
       <InputAccountWrapper>
@@ -35,13 +35,12 @@ const BankTest = () => {
           placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
         />{" "}
       </InputAccountWrapper>
-      {bankOpen && (
-        <BankBottomSheet
-          value={bankInfo}
-          onBankClick={handleBankClick}
-          onOutClick={handleBankOpen}
-        />
-      )}
+      <BankBottomSheet
+        value={bankInfo}
+        onBankClick={handleBankClick}
+        onOutClick={handleBankOpen}
+        isOpen={bankOpen}
+      />
     </Test>
   );
 };
