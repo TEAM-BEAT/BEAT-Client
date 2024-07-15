@@ -1,10 +1,12 @@
 import { IconTime, IcOutlinePlace } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
 import IconText from "@pages/gig/components/iconText/IconText";
+import ShowType from "@pages/gig/components/showType/ShowType";
+import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import * as S from "./Info.styled";
 
 interface InfoProps {
-  genre: string;
+  genre: SHOW_TYPE_KEY;
   title: string;
   teamName: string;
   venue: string;
@@ -12,14 +14,15 @@ interface InfoProps {
 }
 
 const Info = ({ genre, title, teamName, venue, period }: InfoProps) => {
+  const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
+
   return (
     <S.InfoContainer>
       <S.InfoTop>
         <S.InfoPoster $imgsrc={"src/pages/MyRegisterdShow/constants/silkagel.png"} />
 
         <S.InfoTextBox>
-          {/* TODO: genre에 따라 view 변경 */}
-          <S.InfoType>{genre}</S.InfoType>
+          <ShowType type={getShowTypeText(genre)} />
           <Spacing marginBottom="0.2" />
           <S.InfoTitle>{title}</S.InfoTitle>
           <Spacing marginBottom="5.2" />

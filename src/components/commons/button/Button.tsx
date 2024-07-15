@@ -19,6 +19,7 @@ const Button = ({
   disabled,
   variant = "primary",
   children,
+  ...props
 }: ButtonProps) => {
   return (
     <S.DefaultBtn
@@ -27,6 +28,7 @@ const Button = ({
       disabled={disabled}
       $isDisabled={disabled}
       $variant={variant}
+      {...props}
     >
       {children}
     </S.DefaultBtn>

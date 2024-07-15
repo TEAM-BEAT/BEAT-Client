@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Subtract } from "@assets/svgs";
 
 export const LookupLayout = styled.section`
   display: flex;
@@ -26,4 +27,20 @@ export const TempImage = styled.div`
 
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 0.6rem;
+`;
+
+export const SubtractBox = styled(Subtract)`
+  position: absolute;
+  width: 3.6rem;
+  height: 2.4rem;
+  margin-top: 1rem;
+`;
+
+export const DueDate = styled.div`
+  position: absolute;
+  margin: 1.3rem 0 0 0.6rem;
+
+  color: ${({ theme }) => theme.colors.pink_400};
+
+  ${({ theme }) => theme.fonts["caption1-semi"]};
 `;

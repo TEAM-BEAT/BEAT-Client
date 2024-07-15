@@ -13,14 +13,28 @@ export const LookupCardWrapper = styled.section`
   border-radius: 0.6rem;
 `;
 
-export const LookupTitle = styled.button`
+export const LookupTitleWrapper = styled.button`
   display: flex;
+`;
+
+export const LookupTitle = styled.div`
+  display: flex;
+  width: 17.3rem;
   overflow: hidden;
 
   color: ${({ theme }) => theme.colors.gray_0};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+export const TitleArrowRightIcon = styled(IconArrowRight)`
+  right: 0;
+  display: flex;
+  width: 1.8rem;
+  height: 1.8rem;
+
+  fill: ${({ theme }) => theme.colors.gray_400};
 `;
 
 export const BoxDivider = styled.div`
