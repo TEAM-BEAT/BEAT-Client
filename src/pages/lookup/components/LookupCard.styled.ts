@@ -15,16 +15,19 @@ export const LookupCardWrapper = styled.section`
 
 export const LookupTitleWrapper = styled.button`
   display: flex;
+  width: 17.5rem;
 `;
 
 export const LookupTitle = styled.div`
-  display: flex;
+  display: block;
+  flex: 1;
   width: 17.3rem;
   overflow: hidden;
 
   color: ${({ theme }) => theme.colors.gray_0};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
   white-space: nowrap;
+  text-align: start;
   text-overflow: ellipsis;
 `;
 
@@ -34,7 +37,9 @@ export const TitleArrowRightIcon = styled(IconArrowRight)`
   width: 1.8rem;
   height: 1.8rem;
 
-  fill: ${({ theme }) => theme.colors.gray_400};
+  path {
+    fill: ${({ theme }) => theme.colors.gray_400};
+  }
 `;
 
 export const BoxDivider = styled.div`
@@ -110,5 +115,7 @@ export const ArrowRightIcon = styled(IconArrowRight)`
   width: 0.8rem;
   height: 0.8rem;
 
-  fill: ${({ theme }) => theme.colors.gray_400};
+  path {
+    fill: ${({ theme }) => theme.colors.gray_400};
+  }
 `;
