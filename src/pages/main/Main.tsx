@@ -9,6 +9,8 @@ import Performance from "./components/performance/Performance";
 
 import Floating from "./components/floating/Floating";
 import { dummyData } from "./constants/dummyData";
+import { useAtom } from "jotai";
+import { navigateAtom } from "@stores/navigate";
 
 const Main = () => {
   const [genre, setGenre] = useState("ALL");
@@ -16,6 +18,10 @@ const Main = () => {
   const handleGenre = (value: string) => {
     setGenre(value);
   };
+
+  const [navigateUrl, setNavigateUrl] = useAtom(navigateAtom);
+
+  console.log("main", navigateUrl);
 
   return (
     <S.MainWrapper>
