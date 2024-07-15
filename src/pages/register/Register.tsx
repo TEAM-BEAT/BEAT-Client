@@ -288,25 +288,6 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
-          <InputRegisterBox
-            title="티켓 가격"
-            description="*티켓 가격은 수정불가합니다."
-            isFree={isFree}
-            onFreeClick={() => onFreeClick(setIsFree)}
-          >
-            <TextField
-              type="input"
-              name="ticketPrice"
-              value={ticketPrice !== null ? priceFilter(ticketPrice.toString()) : ""}
-              onChange={(e) => {
-                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
-              }}
-              placeholder="가격을 입력해주세요."
-              disabled={isFree}
-              unit="amount"
-            />
-          </InputRegisterBox>
-          <S.Divider />
           <InputRegisterBox title="회차별 티켓 판매수">
             <TextField
               type="input"
@@ -330,6 +311,25 @@ const Register = () => {
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
               maxLength={300}
+            />
+          </InputRegisterBox>
+          <S.Divider />
+          <InputRegisterBox
+            title="티켓 가격"
+            description="*티켓 가격은 수정불가합니다."
+            isFree={isFree}
+            onFreeClick={() => onFreeClick(setIsFree)}
+          >
+            <TextField
+              type="input"
+              name="ticketPrice"
+              value={ticketPrice !== null ? priceFilter(ticketPrice.toString()) : ""}
+              onChange={(e) => {
+                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
+              }}
+              placeholder="가격을 입력해주세요."
+              disabled={isFree}
+              unit="amount"
             />
           </InputRegisterBox>
           <S.Divider />
