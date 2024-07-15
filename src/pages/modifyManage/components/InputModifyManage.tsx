@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import * as S from "../ModifyManage.styled";
 
 interface InputModifyManageBoxProps {
+  isDisabled: boolean;
   title: string;
   description?: string;
   marginBottom?: number;
@@ -13,6 +14,7 @@ interface InputModifyManageBoxProps {
 }
 
 const InputModifyManageBox = ({
+  isDisabled,
   title,
   description,
   marginBottom = 1.6,
@@ -20,6 +22,11 @@ const InputModifyManageBox = ({
   isFree,
   onFreeClick,
 }: InputModifyManageBoxProps) => {
+  const handleOnFreeClick = (isDisableddd: boolean) => {
+    if (!isDisableddd) {
+      onFreeClick?.();
+    }
+  };
   return (
     <S.InputModifyManageBox $marginBottom={marginBottom}>
       <S.InputTitle>
@@ -28,14 +35,14 @@ const InputModifyManageBox = ({
           <S.CheckBox>
             무료 공연
             {isFree ? (
-              <IconChecked width={18} onClick={onFreeClick} />
+              <IconChecked width={18} onClick={() => handleOnFreeClick(isDisabled)} />
             ) : (
-              <S.NonCheck onClick={onFreeClick} />
+              <S.NonCheck onClick={() => handleOnFreeClick(isDisabled)} />
             )}
           </S.CheckBox>
         )}
       </S.InputTitle>
-      <S.InputDescription warning={true}>{description}</S.InputDescription>
+      <S.InputDescription $warning={true}>{description}</S.InputDescription>
       <Spacing marginBottom={"1.4"} />
       {children}
     </S.InputModifyManageBox>

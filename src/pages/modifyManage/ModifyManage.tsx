@@ -65,12 +65,14 @@ const ModifyManage = () => {
     castList,
     staffList,
     bankName,
+    isBookerExist,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState(bankName); //가져온 은행 이름으로 초기화
   const [isChecked, setIsChecked] = useState(true); //처음 가져오는 거니까 그냥 체크된 상태로 시작
-  const [isFree, setIsFree] = useState(false);
+  const [isFree, setIsFree] = useState(ticketPrice === 0); //티켓 가격이 0원이면 체크 박스 표시되도록 변경.
+  const [isExist, setIsExist] = useState(isBookerExist);
   const navigate = useNavigate();
 
   const handleComplete = () => {
@@ -211,8 +213,9 @@ const ModifyManage = () => {
             marginBottom={2.4}
           />
           <S.Divider />
-          <InputModifyManageBox title="공연명">
+          <InputModifyManageBox isDisabled={isExist} title="공연명">
             <TextField
+              isDisabled={isExist}
               type="input"
               name="performanceTitle"
               value={performanceTitle}
@@ -223,8 +226,9 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox title="주최 단체명">
+          <InputModifyManageBox isDisabled={isExist} title="주최 단체명">
             <TextField
+              isDisabled={isExist}
               type="input"
               name="performanceTeamName"
               value={performanceTeamName}
@@ -235,7 +239,7 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox title="공연 소개">
+          <InputModifyManageBox isDisabled={isExist} title="공연 소개">
             <TextArea
               name="performanceDescription"
               value={performanceDescription}
@@ -245,8 +249,9 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox title="러닝 타임">
+          <InputModifyManageBox isDisabled={isExist} title="러닝 타임">
             <TextField
+              isDisabled={isExist}
               type="input"
               name="runningTime"
               value={runningTime ?? ""}
@@ -279,8 +284,9 @@ const ModifyManage = () => {
             ))}
           </TimePickerModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox title="공연 장소">
+          <InputModifyManageBox isDisabled={isExist} title="공연 장소">
             <TextField
+              isDisabled={isExist}
               type="input"
               name="performanceVenue"
               value={performanceVenue}
@@ -292,25 +298,28 @@ const ModifyManage = () => {
           </InputModifyManageBox>
           <S.Divider />
           <InputModifyManageBox
+            isDisabled={isExist}
             title="티켓 가격"
             description="*티켓 가격은 수정불가합니다."
             isFree={isFree}
             onFreeClick={() => onFreeClick(setIsFree)}
           >
             <TextField
+              isDisabled={isExist}
               type="input"
               name="ticketPrice"
               value={ticketPrice ?? ""}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="가격을 입력해주세요."
               filter={priceFilter}
-              disabled={isFree}
+              disabled={isFree || isExist}
               unit="amount"
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox title="회차별 티켓 판매수">
+          <InputModifyManageBox isDisabled={isExist} title="회차별 티켓 판매수">
             <TextField
+              isDisabled={isExist}
               type="input"
               name="totalTicketCount"
               value={scheduleList[0].totalTicketCount}
@@ -321,7 +330,7 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox title="유의사항">
+          <InputModifyManageBox isDisabled={isExist} title="유의사항">
             <TextArea
               name="performanceAttentionNote"
               value={performanceAttentionNote}
@@ -334,15 +343,21 @@ const ModifyManage = () => {
           {!isFree && (
             <>
               <InputAccountWrapper>
-                <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
+                <InputBank
+                  isDisabled={isExist}
+                  bankOpen={bankOpen}
+                  onClick={() => handleBankOpen(setBankOpen)}
+                >
                   {getBankNameKr(bankInfo, BANK_LIST)}
                 </InputBank>
                 <TextField
+                  isDisabled={isExist}
                   name="accountNumber"
                   value={accountNumber}
                   onChange={(e) => handleChange(e, setGigInfo)}
                   filter={numericFilter}
                   placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                  disabled={isExist}
                 />
               </InputAccountWrapper>
               <S.Divider />
@@ -355,8 +370,9 @@ const ModifyManage = () => {
             onOutClick={() => handleBankOpen(setBankOpen)}
           />
 
-          <InputModifyManageBox title="대표자 연락처">
+          <InputModifyManageBox isDisabled={isExist} title="대표자 연락처">
             <TextField
+              isDisabled={isExist}
               type="input"
               name="performanceContact"
               value={performanceContact}

@@ -39,6 +39,7 @@ export interface DataProps {
   performancePeriod: string;
   ticketPrice: number | null;
   totalScheduleCount: number;
+  isBookerExist: boolean;
   scheduleList: Schedule[];
   castList: Cast[];
   staffList: Staff[];

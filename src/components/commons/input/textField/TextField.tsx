@@ -1,6 +1,6 @@
+import { IconEyeOff, IconEyeOn } from "@assets/svgs";
 import React, { ChangeEvent, InputHTMLAttributes, useRef, useState } from "react";
 import * as S from "./TextField.styled";
-import { IconEyeOff, IconEyeOn } from "@assets/svgs";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,6 +11,7 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   filter?: (value: string) => string;
   cap?: false | true;
   onToggleClick?: () => void;
+  isDisabled: boolean;
 }
 
 const TextField = ({
@@ -24,6 +25,7 @@ const TextField = ({
   unit,
   filter,
   cap,
+  isDisabled,
   onToggleClick,
   ...rest
 }: TextFieldProps) => {
@@ -95,7 +97,7 @@ const TextField = ({
           type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
           {...rest}
         />
-        {!narrow && !unit && value && type !== "password" && (
+        {!narrow && !unit && value && type !== "password" && !isDisabled && (
           <S.TextClear onClick={handleClearInput} />
         )}
         {unit && <S.TextUnit>{label}</S.TextUnit>}

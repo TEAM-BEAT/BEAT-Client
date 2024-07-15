@@ -28,6 +28,7 @@ export const GET_MODIFY_MANAGE_RESPONSE: GigInfo = {
     performancePeriod: "2023.12.28~2023.12.29",
     ticketPrice: 50000,
     totalScheduleCount: 2,
+    isBookerExist: true,
     scheduleList: [
       {
         scheduleId: 1,
