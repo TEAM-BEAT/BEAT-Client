@@ -17,11 +17,11 @@ export const HamburgerWrapper = styled.section`
   transform: translateX(100%);
   visibility: hidden;
 
-  transition: 0.5s ease;
+  transition:
+    transform 0.5s ease,
+    visibility 0.5s ease;
 
   &.open {
-    right: 0;
-
     transform: translateX(0);
     visibility: visible;
   }

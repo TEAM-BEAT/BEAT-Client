@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useHamburger from "@hooks/useHamburger";
 import { hamburgerAtom } from "@stores/hamburger";

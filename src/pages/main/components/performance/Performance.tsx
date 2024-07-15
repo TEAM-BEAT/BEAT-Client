@@ -23,7 +23,7 @@ const Performance = ({ genre, performanceList }: PerformanceComponentProps) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/register");
+    navigate("/gig-register");
   };
 
   const filteredData =
@@ -44,9 +44,13 @@ const Performance = ({ genre, performanceList }: PerformanceComponentProps) => {
         ))}
       </S.PerformanceLayout>
       <Spacing marginBottom="1.5" />
-      <S.BannerWrapper onClick={handleNavigate}>
-        <S.Banner $image={BannerImg} />
-      </S.BannerWrapper>
+      {genre === "ALL" ? (
+        <S.BannerWrapper onClick={handleNavigate}>
+          <S.Banner $image={BannerImg} />
+        </S.BannerWrapper>
+      ) : (
+        <></>
+      )}
       <Spacing marginBottom="3.2" />
       <S.PerformanceLayout>
         {data2.map((item) => (
