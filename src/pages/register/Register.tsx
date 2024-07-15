@@ -138,7 +138,7 @@ const Register = () => {
 
   // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
   useEffect(() => {
-    if (ticketPrice == 0) {
+    if (ticketPrice === 0) {
       setIsFree(true);
     }
   }, [ticketPrice]);
