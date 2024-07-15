@@ -177,7 +177,11 @@ const TicketHolderList = () => {
               </NarrowDropDown>
             </S.LayoutFilterBox>
             <S.ToggleWrapper>
-              {detail ? (
+              {detail ? <S.ToggleText>자세히</S.ToggleText> : <S.ToggleText>간략히</S.ToggleText>}
+              <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
+                <S.Circle $detail={detail} />
+              </S.ToggleButton>
+              {/*detail ? (
                 <>
                   <S.ToggleText>자세히</S.ToggleText>
                   <S.ToggleOnIcon
@@ -195,7 +199,7 @@ const TicketHolderList = () => {
                     $height={"3.3rem"}
                   />
                 </>
-              )}
+              )*/}
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
           {filteredData.map((obj, index) => (
