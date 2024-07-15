@@ -52,6 +52,7 @@ const Register = () => {
     performanceAttentionNote: "", // 유의사항
     bankName: "", // 은행명
     accountNumber: "", // 계좌번호
+    accountHolder: "", // 예금주
     posterImage: "", // 포스터 이미지 URL
     performanceTeamName: "", // 공연 팀명
     performanceVenue: "", // 공연 장소
@@ -90,6 +91,7 @@ const Register = () => {
     performanceDescription,
     performanceAttentionNote,
     accountNumber,
+    accountHolder,
     posterImage,
     performanceTeamName,
     performanceVenue,
@@ -286,25 +288,6 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
-          <InputRegisterBox
-            title="티켓 가격"
-            description="*티켓 가격은 수정불가합니다."
-            isFree={isFree}
-            onFreeClick={() => onFreeClick(setIsFree)}
-          >
-            <TextField
-              type="input"
-              name="ticketPrice"
-              value={ticketPrice !== null ? priceFilter(ticketPrice.toString()) : ""}
-              onChange={(e) => {
-                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
-              }}
-              placeholder="가격을 입력해주세요."
-              disabled={isFree}
-              unit="amount"
-            />
-          </InputRegisterBox>
-          <S.Divider />
           <InputRegisterBox title="회차별 티켓 판매수">
             <TextField
               type="input"
@@ -331,6 +314,25 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
+          <InputRegisterBox
+            title="티켓 가격"
+            description="*티켓 가격은 수정불가합니다."
+            isFree={isFree}
+            onFreeClick={() => onFreeClick(setIsFree)}
+          >
+            <TextField
+              type="input"
+              name="ticketPrice"
+              value={ticketPrice !== null ? priceFilter(ticketPrice.toString()) : ""}
+              onChange={(e) => {
+                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
+              }}
+              placeholder="가격을 입력해주세요."
+              disabled={isFree}
+              unit="amount"
+            />
+          </InputRegisterBox>
+          <S.Divider />
           {!isFree && (
             <>
               <InputAccountWrapper>
@@ -343,6 +345,12 @@ const Register = () => {
                   onChange={(e) => handleChange(e, setGigInfo)}
                   filter={numericFilter}
                   placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                />
+                <TextField
+                  name="accountHolder"
+                  value={accountHolder}
+                  onChange={(e) => handleChange(e, setGigInfo)}
+                  placeholder="예금주명을 입력해주세요."
                 />
               </InputAccountWrapper>
               <S.Divider />
