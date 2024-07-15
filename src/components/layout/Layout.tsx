@@ -9,8 +9,6 @@ const Layout = () => {
       <Main>
         <Outlet />
       </Main>
-
-      {/* TODO: footer 추가 */}
     </div>
   );
 };

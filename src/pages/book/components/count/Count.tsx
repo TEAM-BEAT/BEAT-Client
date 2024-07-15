@@ -29,7 +29,7 @@ const Count = ({
             )}
           </div>
 
-          <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
+          <Stepper max={10} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
         </S.Box>
       </S.Container>
       <div>
