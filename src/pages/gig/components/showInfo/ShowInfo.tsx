@@ -1,6 +1,7 @@
 import { IconTime, IcOutlinePlace } from "@assets/svgs";
+import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import IconText from "../iconText/IconText";
-import ShowTypes from "../showType/ShowType";
+import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
 
 type SchelduleListType = {
@@ -11,6 +12,7 @@ type SchelduleListType = {
 
 interface ShowInfoProps {
   posterImage: string;
+  genre: SHOW_TYPE_KEY;
   title: string;
   price: number | null;
   venue: string;
@@ -21,6 +23,7 @@ interface ShowInfoProps {
 
 const ShowInfo = ({
   posterImage,
+  genre,
   title,
   price,
   venue,
@@ -28,10 +31,12 @@ const ShowInfo = ({
   runningTime,
   scheduleList,
 }: ShowInfoProps) => {
+  const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
+
   return (
     <S.ShowInfoWrapper>
       <S.Poster $imgsrc={posterImage} />
-      <ShowTypes type="밴드" />
+      <ShowType type={getShowTypeText(genre)} />
       <S.Title>{title}</S.Title>
       <div>
         <S.Price>{price}</S.Price>

@@ -10,7 +10,6 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   unit?: "time" | "ticket" | "amount"; // 단위 : "분", "매", "원"
   filter?: (value: string) => string;
   cap?: false | true;
-  onToggleClick?: () => void;
 }
 
 const TextField = ({
@@ -24,7 +23,6 @@ const TextField = ({
   unit,
   filter,
   cap,
-  onToggleClick,
   ...rest
 }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";

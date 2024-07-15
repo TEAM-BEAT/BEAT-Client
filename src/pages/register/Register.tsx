@@ -62,7 +62,7 @@ const Register = () => {
     scheduleList: [
       {
         performanceDate: null, // 공연 일시
-        totalTicketCount: "", // 총 티켓 수
+        totalTicketCount: null, // 총 티켓 수
         scheduleNumber: "FIRST", // 회차 번호
       },
     ],
@@ -242,8 +242,10 @@ const Register = () => {
             <TextField
               type="input"
               name="runningTime"
-              value={runningTime ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
+              value={runningTime !== null ? runningTime.toString() : ""}
+              onChange={(e) => {
+                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
+              }}
               filter={numericFilter}
               unit="time"
               placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
@@ -293,10 +295,11 @@ const Register = () => {
             <TextField
               type="input"
               name="ticketPrice"
-              value={ticketPrice ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
+              value={ticketPrice !== null ? priceFilter(ticketPrice.toString()) : ""}
+              onChange={(e) => {
+                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
+              }}
               placeholder="가격을 입력해주세요."
-              filter={priceFilter}
               disabled={isFree}
               unit="amount"
             />
@@ -306,7 +309,11 @@ const Register = () => {
             <TextField
               type="input"
               name="totalTicketCount"
-              value={scheduleList[0].totalTicketCount}
+              value={
+                scheduleList[0].totalTicketCount !== null
+                  ? scheduleList[0].totalTicketCount.toString()
+                  : ""
+              }
               onChange={(e) => handleTotalTicketCountChange(e, setGigInfo)}
               placeholder="판매할 티켓의 매 수를 입력해주세요."
               filter={numericFilter}

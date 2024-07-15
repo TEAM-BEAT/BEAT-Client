@@ -42,7 +42,7 @@ const TestPage = () => {
         <TextField
           value={inputValue}
           onChange={handleChangeInput}
-          filter={nameFilter}
+          filter={numericFilter}
           placeholder="입력해주세요"
         />
         <TextArea

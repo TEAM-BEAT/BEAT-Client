@@ -3,7 +3,7 @@ import { Dayjs } from "dayjs";
 
 export interface Schedule {
   performanceDate: Dayjs | null;
-  totalTicketCount: string;
+  totalTicketCount: number | null;
   scheduleNumber: string;
 }
 
