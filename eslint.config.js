@@ -37,7 +37,7 @@ const jsConfig = {
     "no-console": "warn",
     "no-extra-semi": "error",
     "no-unused-expressions": "error",
-    indent: ["error", 2, { SwitchCase: 1, ignoredNodes: ["PropertyDefinition"] }],
+    indent: "off", // prettier 충돌로 인해 off
     semi: ["warn", "always"],
     "no-undef": "error",
     "no-trailing-spaces": "warn",

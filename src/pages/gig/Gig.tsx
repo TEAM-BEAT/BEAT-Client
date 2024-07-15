@@ -5,6 +5,8 @@ import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { navigateAtom } from "@stores/navigate";
 import { useNavigate, useParams } from "react-router-dom";
 import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
@@ -13,6 +15,7 @@ import * as S from "./Gig.styled";
 
 const Gig = () => {
   const navigate = useNavigate();
+  const [, setNavigateUrl] = useAtom(navigateAtom);
   const { setHeader } = useHeader();
   const isLoggedIn = false;
 
@@ -40,6 +43,11 @@ const Gig = () => {
     }
 
     setIsSheetOpen(true);
+  };
+
+  const handleKakaoLogin = (url: string) => {
+    setNavigateUrl(url);
+    requestKakaoLogin();
   };
 
   const handleSheetClose = () => {
@@ -82,7 +90,7 @@ const Gig = () => {
               variant="primary"
               size="xlarge"
               style={{ backgroundColor: "#FEE500", color: "#0F0F0F" }}
-              onClick={requestKakaoLogin}
+              onClick={() => handleKakaoLogin(`/book/${performanceId}`)}
             >
               카카오 로그인
             </Button>
