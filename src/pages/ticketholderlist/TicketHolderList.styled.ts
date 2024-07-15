@@ -44,6 +44,35 @@ export const ToggleText = styled.span`
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;
 
+export const ToggleButton = styled.button<{ $detail: boolean }>`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 5.6rem;
+  height: 3.3rem;
+
+  background-color: ${({ theme, $detail }) =>
+    $detail ? theme.colors.pink_500 : theme.colors.gray_700};
+  cursor: pointer;
+  border: none;
+  border-radius: 36px;
+`;
+
+export const Circle = styled.span<{ $detail: boolean }>`
+  position: absolute;
+  top: 50%;
+  left: ${({ $detail }) => ($detail ? "4rem" : "1.6rem")};
+  width: 2.7rem;
+  height: 2.7rem;
+
+  background-color: ${({ theme }) => theme.colors.white};
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+
+  transition: left 0.25s ease-in-out; /* left 속성은 변하게 된다면 이 애니메이션 적용 */
+`;
+
 export const ToggleOnIcon = styled(IconToggleOn)<{ $width: string; $height: string }>`
   width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};

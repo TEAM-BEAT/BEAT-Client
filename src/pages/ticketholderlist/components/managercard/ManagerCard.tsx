@@ -81,8 +81,8 @@ const ManagerCard = ({
             <S.ManagerCardTextTitle>매수</S.ManagerCardTextTitle>
             <S.ManagerCardTextContent>{`${purchaseTicketeCount}매`}</S.ManagerCardTextContent>
           </S.ManagerCardTextBox>
-          {isDetail && (
-            <>
+          {
+            <S.ManagerCardDetailBox $isDetail={isDetail}>
               <S.ManagerCardTextBox>
                 <S.ManagerCardTextTitle>회차</S.ManagerCardTextTitle>
                 <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber)}회차`}</S.ManagerCardTextContent>
@@ -95,8 +95,8 @@ const ManagerCard = ({
                 <S.ManagerCardTextTitle>예매일</S.ManagerCardTextTitle>
                 <S.ManagerCardTextContent>{formattedDate}</S.ManagerCardTextContent>
               </S.ManagerCardTextBox>
-            </>
-          )}
+            </S.ManagerCardDetailBox>
+          }
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
       <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid}>

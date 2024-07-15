@@ -1,17 +1,22 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import * as S from "../Register.styled";
 import { IconCamera } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
 
 interface PosterThumbnailProps {
+  value?: string | undefined;
   onImageUpload: (imageUrl: string) => void;
 }
 
-const PosterThumbnail = ({ onImageUpload }: PosterThumbnailProps) => {
+const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
   const [postImg, setPostImg] = useState<File | null>(null);
-  const [previewImg, setPreviewImg] = useState<string | null>(null);
+  const [previewImg, setPreviewImg] = useState<string | null>(value || null);
 
-  function uploadFile(e: ChangeEvent<HTMLInputElement>) {
+  useEffect(() => {
+    setPreviewImg(value || null);
+  }, [value]);
+
+  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setPostImg(file);
@@ -25,7 +30,7 @@ const PosterThumbnail = ({ onImageUpload }: PosterThumbnailProps) => {
 
       fileReader.readAsDataURL(file);
     }
-  }
+  };
 
   const removeImage = () => {
     setPreviewImg(null);
