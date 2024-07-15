@@ -143,9 +143,9 @@ const ModifyManage = () => {
     }
   };
 
-  const handleDeletePerformance = (performanceId: number, bookerCount: number) => {
+  const handleDeletePerformance = (performanceId: number, isExisttt: boolean) => {
     //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
-    if (bookerCount > 0) {
+    if (isExisttt) {
       openAlert({
         title: "공연 삭제가 불가해요.",
         subTitle: "예매자가 1명 이상 있을 경우, 삭제할 수 없어요.",
@@ -165,7 +165,7 @@ const ModifyManage = () => {
       okText: "삭제할게요",
       okCallback: () => {
         //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(1, 1); //예시로 박아둠
+        handleDeletePerformance(1, isExist); //예시로 박아둠
       },
       noText: "아니요",
       noCallback: () => {
