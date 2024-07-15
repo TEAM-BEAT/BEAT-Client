@@ -1,5 +1,49 @@
 import { IconCheckboxSelectedOn, IconCheckboxUnselectedOn } from "@assets/svgs";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const expandAnimation = keyframes`
+  0% {
+    height: 7.4rem;
+  }
+
+  100% {
+    height: 14.6rem;
+  }
+`;
+
+const unexpandAnimation = keyframes`
+  0% {
+    height: 14.6rem;
+  }
+
+  100% {
+    height: 7.4rem;
+  }
+`;
+
+const revealAnimation = keyframes`
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const unrevealAnimation = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+`;
 
 export const ManagerCardWrapper = styled.article<{ $isDetail: boolean }>`
   display: flex;
@@ -7,7 +51,7 @@ export const ManagerCardWrapper = styled.article<{ $isDetail: boolean }>`
   align-items: center;
   justify-content: center;
   width: 32.6rem;
-  height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  max-height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
   padding-left: 0.4rem;
 `;
 
@@ -24,6 +68,8 @@ export const ManagerCardLayout = styled.div<{ $isDetail: boolean; $isDeleteMode:
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-right: 1px solid ${({ theme }) => theme.colors.black};
   border-radius: 6px;
+
+  transition: max-height 0.5s ease;
 `;
 
 export const ManagerCardBox = styled.div`
@@ -32,6 +78,36 @@ export const ManagerCardBox = styled.div`
   gap: 0.4rem;
   align-items: flex-start;
   align-self: stretch;
+`;
+
+export const ManagerCardDetailBox = styled.div<{ $isDetail: boolean }>`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+  align-self: stretch;
+
+  background-color: ${({ theme, $isDetail }) => $isDetail && theme.colors.gray_800};
+  opacity: ${({ $isDetail }) => ($isDetail ? "1" : "0")};
+
+  transition: background-color 0.25s ease;
+  animation: ${({ $isDetail }) => ($isDetail ? revealAnimation : unrevealAnimation)} 0.7s ease;
+`;
+
+export const ManagerCardDetailLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 1.6rem;
+  align-items: flex-start;
+  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
+  height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  padding: 1.6rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_800};
+  opacity: ${({ $isDetail }) => ($isDetail ? "1" : "0")};
+  border-right: 1px solid ${({ theme }) => theme.colors.black};
+  border-radius: 6px;
 `;
 
 export const ManagerCardTextBox = styled.div`
