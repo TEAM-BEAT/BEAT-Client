@@ -38,6 +38,7 @@ import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import useModal from "@hooks/useModal";
 import { useNavigate } from "react-router-dom";
 import Content from "@pages/gig/components/content/Content";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
@@ -45,7 +46,7 @@ const Register = () => {
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
-    genre: "", // 공연 장르
+    genre: "" as SHOW_TYPE_KEY, // 공연 장르
     runningTime: null, // 러닝 타임
     performanceDescription: "", // 공연 소개
     performanceAttentionNote: "", // 유의사항
@@ -138,7 +139,7 @@ const Register = () => {
 
   // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
   useEffect(() => {
-    if (ticketPrice == 0) {
+    if (ticketPrice === 0) {
       setIsFree(true);
     }
   }, [ticketPrice]);
@@ -399,6 +400,7 @@ const Register = () => {
         <S.PreviewBanner>예매자에게 보여질 화면 예시입니다. 확인해주세요.</S.PreviewBanner>
         <ShowInfo
           posterImage={posterImage}
+          genre={genre}
           title={performanceTitle}
           price={ticketPrice}
           venue={performanceVenue}

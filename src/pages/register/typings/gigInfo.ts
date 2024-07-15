@@ -1,3 +1,4 @@
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { Dayjs } from "dayjs";
 
 export interface Schedule {
@@ -20,7 +21,7 @@ export interface Staff {
 
 export interface GigInfo {
   performanceTitle: string;
-  genre: string;
+  genre: SHOW_TYPE_KEY;
   runningTime: number | null;
   performanceDescription: string;
   performanceAttentionNote: string;

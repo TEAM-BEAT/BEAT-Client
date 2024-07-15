@@ -1,18 +1,19 @@
 import Spacing from "@components/commons/spacing/Spacing";
 import * as S from "../Register.styled";
 import { ComponentType } from "react";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 interface Genre {
   id: number;
-  genre: string;
+  genre: SHOW_TYPE_KEY;
   genre_kr: string;
   genreIcon: ComponentType<{ $selected: boolean }>;
 }
 interface GenreSelectProps {
   title: string;
   genres: Genre[];
-  selectedGenre: string;
-  onGenreSelect: (genre: string) => void;
+  selectedGenre: SHOW_TYPE_KEY;
+  onGenreSelect: (genre: SHOW_TYPE_KEY) => void;
   marginBottom?: number;
 }
 
