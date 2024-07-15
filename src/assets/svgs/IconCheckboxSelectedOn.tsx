@@ -1,8 +1,7 @@
-import * as React from "react";
 import type { SVGProps } from "react";
 const SvgIconCheckboxSelectedOn = (props: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 18" {...props}>
-    <rect width={17} height={17} x={1} y={0.5} fill="#E30964" rx={1.5} />
+    <rect width={17} height={17} x={1} y={0.5} fill="#B80450" rx={1.5} />
     <rect width={17} height={17} x={1} y={0.5} stroke="#FF97C2" rx={1.5} />
     <path
       fill="#fff"
