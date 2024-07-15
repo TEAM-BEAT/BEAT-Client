@@ -8,6 +8,7 @@ import TextField from "@components/commons/input/textField/TextField";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
+import { BANK_LIST, BankListTypes } from "@constants/bankList";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import useModal from "@hooks/useModal";
 import Content from "@pages/gig/components/content/Content";
@@ -63,11 +64,12 @@ const ModifyManage = () => {
     scheduleList,
     castList,
     staffList,
+    bankName,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
-  const [bankInfo, setBankInfo] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
+  const [bankInfo, setBankInfo] = useState(bankName); //가져온 은행 이름으로 초기화
+  const [isChecked, setIsChecked] = useState(true); //처음 가져오는 거니까 그냥 체크된 상태로 시작
   const [isFree, setIsFree] = useState(false);
   const navigate = useNavigate();
 
@@ -185,6 +187,12 @@ const ModifyManage = () => {
       rightOnClick: handleRightBtn,
     });
   }, [setHeader, ModifyManageStep]);
+
+  //해당 뱅크 영어 이름(api 통신 때의 값)에 객체의 한글 이름을 뽑아내어주는 함수
+  const getBankNameKr = (bankInfooo: string, BANK_LISTTT: BankListTypes) => {
+    const bank = BANK_LISTTT.find((obj) => obj.name === bankInfooo);
+    return bank ? bank.nameKr : "에러";
+  };
 
   if (ModifyManageStep === 1) {
     return (
@@ -327,7 +335,7 @@ const ModifyManage = () => {
             <>
               <InputAccountWrapper>
                 <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
-                  {bankInfo}
+                  {getBankNameKr(bankInfo, BANK_LIST)}
                 </InputBank>
                 <TextField
                   name="accountNumber"

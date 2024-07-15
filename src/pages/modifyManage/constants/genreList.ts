@@ -19,7 +19,7 @@ export const GET_MODIFY_MANAGE_RESPONSE: GigInfo = {
     runningTime: 120,
     performanceDescription: "공연 소개입니다",
     performanceAttentionNote: "유의사항입니다",
-    bankName: "국민",
+    bankName: "KB_KOOKMIN",
     accountNumber: "924232-22-234232",
     posterImage: "포스터 이미지 URL입니다",
     performanceTeamName: "비트",
