@@ -7,6 +7,7 @@ import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
 import Toast from "@components/commons/toast/Toast";
+import Loading from "@components/commons/loading/Loading";
 import useToast from "@hooks/useToast";
 import { ChangeEvent, useState } from "react";
 import { nameFilter, numericFilter } from "@utils/useInputFilter";
@@ -37,40 +38,43 @@ const TestPage = () => {
   };
   console.log(inputValue);
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <TextField
-          value={inputValue}
-          onChange={handleChangeInput}
-          filter={numericFilter}
-          placeholder="입력해주세요"
-        />
-        <TextArea
-          value={inputAreaValue}
-          onChange={handleChangeInputArea}
-          maxLength={300}
-          placeholder="입력해주세요"
-        />
+    <>
+      <Loading />
+      <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            value={inputValue}
+            onChange={handleChangeInput}
+            filter={nameFilter}
+            placeholder="입력해주세요"
+          />
+          <TextArea
+            value={inputAreaValue}
+            onChange={handleChangeInputArea}
+            maxLength={300}
+            placeholder="입력해주세요"
+          />
+        </div>
+        <div style={{ display: "flex" }}>
+          <Chip
+            label="바보"
+            color="pink"
+            icon={<IconTextfiedlDelete />}
+            onClick={() => console.log("clicked chip")}
+          />
+          <Chip label="테스트" />
+        </div>
+        <Spacing marginBottom="3" />
+        <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
+        <TimePicker value={selectedDate} onChangeValue={handleDateChange} />{" "}
+        <Button size="medium" variant="primary" onClick={showToast}>
+          토스트 보이기
+        </Button>
+        <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+          클립보드에 복사되었습니다!
+        </Toast>
       </div>
-      <div style={{ display: "flex" }}>
-        <Chip
-          label="바보"
-          color="pink"
-          icon={<IconTextfiedlDelete />}
-          onClick={() => console.log("clicked chip")}
-        />
-        <Chip label="테스트" />
-      </div>
-      <Spacing marginBottom="3" />
-      <Stepper max={3} round={round} onMinusClick={onMinusClick} onPlusClick={onPlusClick} />
-      <TimePicker value={selectedDate} onChangeValue={handleDateChange} />{" "}
-      <Button size="medium" variant="primary" onClick={showToast}>
-        토스트 보이기
-      </Button>
-      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
-        클립보드에 복사되었습니다!
-      </Toast>
-    </div>
+    </>
   );
 };
 
