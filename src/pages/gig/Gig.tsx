@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
-import { SHOW_DETAIL_INFO } from "./constants";
+import { SHOW_DETAIL_INFO, SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
 
 const Gig = () => {
@@ -49,6 +49,7 @@ const Gig = () => {
     <S.ContentWrapper>
       <ShowInfo
         posterImage={detail.posterImage}
+        genre={detail.genre as SHOW_TYPE_KEY}
         title={detail.performanceTitle}
         price={detail.ticketPrice}
         venue={detail.performanceVenue}
