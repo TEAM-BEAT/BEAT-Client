@@ -6,13 +6,14 @@ import Gig from "@pages/gig/Gig";
 import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import KakaoLoginTest from "@pages/KakaoLoginTest";
 import Lookup from "@pages/lookup/Lookup";
+import Main from "@pages/main/Main";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/modalTest/ModalTest";
+import ModifyManage from "@pages/modifyManage/ModifyManage";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import RegisterComplete from "@pages/register/RegisterComplete";
-import Main from "@pages/main/Main";
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { path: "manage", element: <Manage /> },
       { path: "gig-manage", element: <MyRegisterdShow /> },
       { path: "guest-manage", element: <TicketHolderList /> },
+      { path: "gig-modify-manage", element: <ModifyManage /> },
 
       // ... other pages
     ],
