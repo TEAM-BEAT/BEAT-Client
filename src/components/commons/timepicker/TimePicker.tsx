@@ -72,7 +72,7 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
             "& .MuiMultiSectionDigitalClockSection-item.Mui-focused": {
               background: "#FB247F",
             },
-            "&  .MuiMultiSectionDigitalClock-root": {
+            "& .MuiMultiSectionDigitalClock-root": {
               height: "25.7rem",
             },
 
