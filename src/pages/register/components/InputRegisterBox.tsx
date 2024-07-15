@@ -35,7 +35,7 @@ const InputRegisterBox = ({
           </S.CheckBox>
         )}
       </S.InputTitle>
-      <S.InputDescription warning={true}>{description}</S.InputDescription>
+      <S.InputDescription $warning={true}>{description}</S.InputDescription>
       <Spacing marginBottom={"1.4"} />
       {children}
     </S.InputRegisterBox>

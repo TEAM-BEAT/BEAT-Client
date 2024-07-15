@@ -84,8 +84,8 @@ export const InputTitle = styled.h1`
   ${({ theme }) => theme.fonts.heading4};
 `;
 
-export const InputDescription = styled.p<{ warning?: boolean }>`
-  color: ${({ theme, warning }) => (warning ? theme.colors.red : theme.colors.gray_300)};
+export const InputDescription = styled.p<{ $warning?: boolean }>`
+  color: ${({ theme, $warning }) => ($warning ? theme.colors.red : theme.colors.gray_300)};
   ${({ theme }) => theme.fonts["body2-long"]};
 `;
 
