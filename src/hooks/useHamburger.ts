@@ -2,17 +2,17 @@ import { hamburgerAtom } from "@stores/hamburger";
 import { useAtom } from "jotai";
 
 const useHamburger = () => {
-  const [hamburger, setHamburger] = useAtom(hamburgerAtom);
+  const [isHamburgerOpen, setIsHamburgerOpen] = useAtom(hamburgerAtom);
 
   const openHamburger = () => {
-    setHamburger({ isOpen: true });
+    setIsHamburgerOpen({ isOpen: true });
   };
 
   const closeHamburger = () => {
-    setHamburger({ isOpen: false });
+    setIsHamburgerOpen({ isOpen: false });
   };
 
-  return { hamburger, openHamburger, closeHamburger };
+  return { isHamburgerOpen, openHamburger, closeHamburger };
 };
 
 export default useHamburger;

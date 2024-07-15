@@ -9,8 +9,7 @@ import { requestKakaoLogin } from "@utils/kakaoLogin";
 const Hamburger = () => {
   const navigate = useNavigate();
 
-  const hamburger = useAtomValue(hamburgerAtom);
-  const { isOpen } = hamburger;
+  const { isOpen } = useAtomValue(hamburgerAtom);
 
   const [isLogin, setIsLogin] = useState(true);
 

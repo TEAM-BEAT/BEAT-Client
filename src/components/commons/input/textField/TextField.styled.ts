@@ -2,18 +2,18 @@ import { IconTextfiedlDelete } from "@assets/svgs";
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
 
-export const TextFieldLayout = styled.section<{ narrow?: false | true }>`
+export const TextFieldLayout = styled.section<{ $narrow: boolean | undefined }>`
   position: relative;
-  width: ${({ narrow }) => (narrow ? "13.6rem" : "32.7rem")};
+  width: ${({ $narrow }) => ($narrow ? "13.6rem" : "32.7rem")};
 `;
 
 export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
 `;
 
-export const TextFieldInput = styled.input`
+export const TextFieldInput = styled.input<{ $narrow: boolean | undefined }>`
   width: 100%;
-  height: 4.8rem;
+  height: ${({ $narrow }) => ($narrow ? "4.2rem" : "4.8rem")};
   padding: 0 1.6rem;
 
   color: ${({ theme }) => theme.colors.gray_0};
