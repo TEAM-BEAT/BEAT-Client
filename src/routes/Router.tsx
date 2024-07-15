@@ -2,6 +2,7 @@ import Layout from "@components/layout/Layout";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
 import Book from "@pages/book/Book";
+import Complete from "@pages/book/components/complete/Complete";
 import Gig from "@pages/gig/Gig";
 import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import KakaoLoginTest from "@pages/KakaoLoginTest";
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "a", element: <Apage /> },
       { path: "/NonMb-Lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
+      { path: "book/complete", element: <Complete /> },
       { path: "book/:performanceId", element: <Book /> },
       { path: "testpage", element: <TestPage /> },
       { path: "gig-register", element: <Register /> },

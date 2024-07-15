@@ -177,7 +177,7 @@ const TicketHolderList = () => {
               </NarrowDropDown>
             </S.LayoutFilterBox>
             <S.ToggleWrapper>
-              {detail ? <S.ToggleText>자세히</S.ToggleText> : <S.ToggleText>간략히</S.ToggleText>}
+              {detail ? <S.ToggleText>자세히</S.ToggleText> : <S.ToggleText>자세히</S.ToggleText>}
               <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
                 <S.Circle $detail={detail} />
               </S.ToggleButton>

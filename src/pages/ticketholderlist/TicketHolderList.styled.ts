@@ -16,7 +16,7 @@ export const BodyLayout = styled.section`
   display: flex;
   flex: 1 0 0;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 1.2rem;
   align-items: flex-start;
 `;
 

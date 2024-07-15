@@ -1,7 +1,13 @@
 import * as React from "react";
 import type { SVGProps } from "react";
 const SvgSubtract = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 24" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 36 24"
+    {...props}
+    preserveAspectRatio="none"
+  >
     <mask id="Subtract_svg__a" fill="#fff">
       <path fillRule="evenodd" d="M0 0v24h36v-8a4 4 0 0 1 0-8V0z" clipRule="evenodd" />
     </mask>

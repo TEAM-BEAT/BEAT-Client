@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
-import { numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
+import { nameFilter, numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
 
 interface InputProps {
   btnOn: () => void;
@@ -35,13 +35,6 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     setNonMemberInfo((prevState) => ({
       ...prevState,
       [fieldName]: value,
-    }));
-  };
-
-  const handlePwd = () => {
-    setNonMemberInfo((prevState) => ({
-      ...prevState,
-      pwdStatus: !prevState.pwdStatus,
     }));
   };
 
@@ -85,13 +78,13 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
 
   return (
     <S.InputWrapperLayout>
-      {/* maxLenght 있는 부분 InputField에서 글자수 보이게 / 안 보이게 조정 필요 */}
       <TextField
-        name="name"
+        name="bookerName"
         type="input"
         value={bookerName}
-        onChange={handleChange}
         placeholder="이름"
+        onChange={handleChange}
+        filter={nameFilter}
       />
       <TextField
         type="input"
@@ -120,7 +113,6 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
         filter={numericFilter}
         maxLength={4}
       />
-      {/* <S.EyeTest onClick={handlePwd}>버튼 임시 위치!!!!!!!</S.EyeTest> */}
     </S.InputWrapperLayout>
   );
 };

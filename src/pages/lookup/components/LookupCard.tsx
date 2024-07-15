@@ -33,9 +33,10 @@ const LookupCard = ({
   return (
     <S.LookupCardWrapper>
       {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! */}
-      <S.LookupTitle type="button" onClick={() => navigate("/")}>
-        {performanceTitle}
-      </S.LookupTitle>
+      <S.LookupTitleWrapper type="button" onClick={() => navigate("/gigs")}>
+        <S.LookupTitle>{performanceTitle}</S.LookupTitle>
+        <S.TitleArrowRightIcon />
+      </S.LookupTitleWrapper>
       <S.BoxDivider />
       <S.ContextLayout>
         <S.Context>

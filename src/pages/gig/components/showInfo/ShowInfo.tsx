@@ -1,7 +1,11 @@
 import { IconTime, IcOutlinePlace } from "@assets/svgs";
+<<<<<<< HEAD
 import { priceFilter } from "@utils/useInputFilter";
+=======
+import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
+>>>>>>> develop
 import IconText from "../iconText/IconText";
-import ShowTypes from "../showType/ShowType";
+import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
 
 type SchelduleListType = {
@@ -12,6 +16,7 @@ type SchelduleListType = {
 
 interface ShowInfoProps {
   posterImage: string;
+  genre: SHOW_TYPE_KEY;
   title: string;
   price: number;
   venue: string;
@@ -23,6 +28,7 @@ interface ShowInfoProps {
 
 const ShowInfo = ({
   posterImage,
+  genre,
   title,
   price,
   venue,
@@ -31,6 +37,7 @@ const ShowInfo = ({
   genre,
   scheduleList,
 }: ShowInfoProps) => {
+<<<<<<< HEAD
   const transformGenreName = (genreee: string): ShowTypes | string => {
     if (genreee === "BAND") {
       return "밴드";
@@ -45,11 +52,18 @@ const ShowInfo = ({
   };
 
   const genreKr = transformGenreName(genre);
+=======
+  const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
+>>>>>>> develop
 
   return (
     <S.ShowInfoWrapper>
       <S.Poster $imgsrc={posterImage} />
+<<<<<<< HEAD
       <ShowTypes type={genreKr} />
+=======
+      <ShowType type={getShowTypeText(genre)} />
+>>>>>>> develop
       <S.Title>{title}</S.Title>
       <div>
         <S.Price>{priceFilter(price.toString())}</S.Price>

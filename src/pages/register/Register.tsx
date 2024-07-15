@@ -116,7 +116,7 @@ const Register = () => {
     setIsChecked(e.target.checked);
   };
 
-  // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
+  // 티켓 가격이 무료일 때 가격을 null로 설정하고 수정 불가능하게 함
   useEffect(() => {
     if (isFree) {
       setGigInfo((prev) => ({
@@ -125,19 +125,20 @@ const Register = () => {
         accountNumber: "",
         bankName: "",
       }));
+    } else {
+      setGigInfo((prev) => ({
+        ...prev,
+        ticketPrice: null,
+        accountNumber: "",
+        bankName: "",
+      }));
+      setBankInfo("");
     }
   }, [isFree]);
 
   // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
   useEffect(() => {
-    if (ticketPrice === 0) {
-      setIsFree(true);
-    }
-  }, [ticketPrice]);
-
-  // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
-  useEffect(() => {
-    if (ticketPrice === 0) {
+    if (ticketPrice == 0) {
       setIsFree(true);
     }
   }, [ticketPrice]);
