@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const NavigationWrapper = styled.div`
   position: fixed;
-  z-index: 1;
+  z-index: 2;
 
   display: flex;
   align-items: center;

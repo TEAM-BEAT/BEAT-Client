@@ -420,7 +420,6 @@ const ModifyManage = () => {
   if (ModifyManageStep === 3) {
     return (
       <>
-        <S.PreviewBanner>예매자에게 보여질 화면 예시입니다. 확인해주세요.</S.PreviewBanner>
         <ShowInfo
           posterImage={posterImage}
           title={performanceTitle}

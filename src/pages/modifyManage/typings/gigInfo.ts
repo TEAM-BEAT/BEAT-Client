@@ -1,3 +1,4 @@
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { Dayjs } from "dayjs";
 
 export interface Schedule {
@@ -26,7 +27,7 @@ export interface DataProps {
   userId: number;
   performanceId: number;
   performanceTitle: string;
-  genre: string;
+  genre: SHOW_TYPE_KEY;
   runningTime: number | null;
   performanceDescription: string;
   performanceAttentionNote: string;
@@ -37,7 +38,7 @@ export interface DataProps {
   performanceVenue: string;
   performanceContact: string;
   performancePeriod: string;
-  ticketPrice: number | null;
+  ticketPrice: number;
   totalScheduleCount: number;
   isBookerExist: boolean;
   scheduleList: Schedule[];

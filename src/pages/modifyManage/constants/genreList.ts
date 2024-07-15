@@ -1,7 +1,16 @@
 import { IconLargeBand, IconLargeDance, IconLargeEtc, IconLargeMusical } from "@assets/svgs";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import { ComponentType } from "react";
 import { GigInfo } from "../typings/gigInfo";
 
-export const GENRE_LIST = [
+interface Genre {
+  id: number;
+  genre: SHOW_TYPE_KEY;
+  genreKor: string;
+  genreIcon: ComponentType;
+}
+
+export const GENRE_LIST: Genre[] = [
   { id: 1, genre: "PLAY", genreKor: "연극/뮤지컬", genreIcon: IconLargeMusical },
   { id: 2, genre: "BAND", genreKor: "밴드", genreIcon: IconLargeBand },
   { id: 3, genre: "DANCE", genreKor: "댄스", genreIcon: IconLargeDance },

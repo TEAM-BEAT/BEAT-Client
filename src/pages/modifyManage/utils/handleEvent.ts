@@ -1,3 +1,4 @@
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { DataProps } from "../typings/gigInfo";
@@ -15,7 +16,7 @@ export const handleImageUpload = (
 
 // Genre 핸들링
 export const handleGenreSelect = (
-  selectedGenre: string,
+  selectedGenre: SHOW_TYPE_KEY,
   setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   setGigInfo((prev) => ({
