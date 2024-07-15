@@ -179,9 +179,10 @@ export const GenreItem = styled.article<{ selected: boolean }>`
 `;
 
 export const StyledIcon = (IconComponent: ComponentType) => styled(IconComponent)<{
-  selected: boolean;
+  $selected: boolean;
 }>`
-  fill: ${({ theme, selected }) => (selected ? theme.colors.main_pink_400 : theme.colors.gray_500)};
+  fill: ${({ theme, $selected }) =>
+    $selected ? theme.colors.main_pink_400 : theme.colors.gray_500};
 `;
 
 export const TimePickerWrapper = styled.section`
