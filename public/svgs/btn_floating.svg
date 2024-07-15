@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="btn_floating" clip-path="url(#clip0_1396_5351)">
+<circle id="Ellipse 866" cx="32" cy="32" r="32" fill="#FF006B"/>
+<path id="Vector" d="M41.1095 32.9164L36.937 19.7305L34.8905 13L32.8958 19.8261L28.4526 37.519L25.0086 28.3697L22.9224 21.695L20.219 28.278L18.0212 32.9164H14V36.6383H21.1268L22.8746 33.3269L26.7804 45.3014L29.1613 52L30.8096 45.1619L35.1613 27.8277L37.9482 36.6383H50V32.9164H41.1095Z" fill="url(#paint0_linear_1396_5351)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1396_5351" x1="30.8447" y1="13" x2="29.8647" y2="58.6799" gradientUnits="userSpaceOnUse">
+<stop offset="0.257954" stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.16"/>
+</linearGradient>
+<clipPath id="clip0_1396_5351">
+<rect width="64" height="64" fill="white"/>
+</clipPath>
+</defs>
+</svg>
