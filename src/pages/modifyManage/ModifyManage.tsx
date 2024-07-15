@@ -41,7 +41,7 @@ import {
 
 const ModifyManage = () => {
   const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
-  const { openConfirm } = useModal();
+  const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
@@ -159,15 +159,15 @@ const ModifyManage = () => {
   const handleLeftBtn = () => {
     if (ModifyManageStep === 1) {
       openConfirm({
-        title: "정말 나가시겠습니까?",
-        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지 않습니다.",
-        okText: "작성할게요",
+        title: "수정을 취소할까요?",
+        subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
+        okText: "취소할게요",
         okCallback: () => {
-          setModifyManageStep(1);
+          navigate("/gig-manage");
         },
-        noText: "나갈게요",
+        noText: "아니요",
         noCallback: () => {
-          navigate("/main");
+          setModifyManageStep(1);
         },
       });
     } else {
@@ -175,17 +175,50 @@ const ModifyManage = () => {
     }
   };
 
+  const handleDeletePerformance = (performanceId: number, bookerCount: number) => {
+    //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
+    if (bookerCount > 0) {
+      openAlert({
+        title: "공연 삭제가 불가해요.",
+        subTitle: "예매자가 1명 이상 있을 경우, 삭제할 수 없어요.",
+        okText: "확인했어요",
+        okCallback: closeAlert,
+      });
+    } else {
+      //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
+      navigate("/gig-manage");
+    }
+  };
+
+  const handleRightBtn = () => {
+    openConfirm({
+      title: "공연을 삭제하시겠어요?",
+      subTitle: "삭제할 경우, 작성했던 내용을 되돌릴 수 없어요.",
+      okText: "삭제할게요",
+      okCallback: () => {
+        //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
+        handleDeletePerformance(1, 1); //예시로 박아둠
+      },
+      noText: "아니요",
+      noCallback: () => {
+        closeConfirm();
+      },
+    });
+  };
+
   useEffect(() => {
     const pageTitle =
       ModifyManageStep === 1
-        ? "공연 등록하기"
+        ? "공연 수정하기"
         : ModifyManageStep === 2
-          ? "공연진 상세정보"
+          ? "공연 수정하기"
           : "미리보기";
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE,
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: pageTitle,
+      subText: "삭제",
       leftOnClick: handleLeftBtn,
+      rightOnClick: handleRightBtn,
     });
   }, [setHeader, ModifyManageStep]);
 
