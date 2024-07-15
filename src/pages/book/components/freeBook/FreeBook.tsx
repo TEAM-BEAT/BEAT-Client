@@ -1,4 +1,4 @@
-import bookComplete from "@assets/lottie/book-complete.json";
+import bookComplete from "@assets/lottie/book.json";
 import Spacing from "@components/commons/spacing/Spacing";
 import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,7 @@ const FreeBook = ({ id, title }: FreeBookProps) => {
       <S.Title>{`${title} \n예매가 완료되었어요!`}</S.Title>
       <Spacing marginBottom="1" />
 
-      <S.Description>입금자명은 예약자 이름과 동일하게 설정해주세요.</S.Description>
+      <S.Description>어떻게 오셨어요? 비트 타고요.</S.Description>
 
       <S.FloatingWrapper>
         <S.GigButtonBox onClick={navigateGig}>
