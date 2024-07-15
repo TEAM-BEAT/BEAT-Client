@@ -3,16 +3,18 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_DETAIL_INFO } from "./constants";
+import * as S from "./Gig.styled";
 
 const Gig = () => {
   const navigate = useNavigate();
   const { setHeader } = useHeader();
+  const isLoggedIn = false;
 
   useEffect(() => {
     setHeader({
@@ -30,15 +32,21 @@ const Gig = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleBookClick = () => {
+    /* TODO: 토큰 여부에 따라서 리다이렉트 */
+
+    if (isLoggedIn) {
+      navigate(`/book/${performanceId}`);
+      return;
+    }
+
     setIsSheetOpen(true);
   };
 
   const handleSheetClose = () => {
     setIsSheetOpen(false);
   };
-
   return (
-    <ContentWrapper>
+    <S.ContentWrapper>
       <ShowInfo
         posterImage={detail.posterImage}
         title={detail.performanceTitle}
@@ -56,10 +64,9 @@ const Gig = () => {
         castList={detail.castList}
         staffList={detail.staffList}
       />
-      <FooterContainer>
-        {/* TODO: 토큰 여부에 따라서 리다이렉트 */}
+      <S.FooterContainer>
         <Button onClick={handleBookClick}>예매하기</Button>
-      </FooterContainer>
+      </S.FooterContainer>
 
       <ActionBottomSheet
         isOpen={isSheetOpen}
@@ -69,31 +76,23 @@ const Gig = () => {
         padding="2rem 2rem 2.4rem 2rem"
       >
         <OuterLayout margin="1.6rem 0 0 0">
-          <Button variant="primary" size="xlarge">
-            확인했어요
-          </Button>
-          <Button variant="primary" size="xlarge">
-            확인했어요
-          </Button>
+          <S.ButtonWrapper>
+            <Button
+              variant="primary"
+              size="xlarge"
+              style={{ backgroundColor: "#FEE500", color: "#0F0F0F" }}
+              onClick={requestKakaoLogin}
+            >
+              카카오 로그인
+            </Button>
+            <Button variant="gray" size="xlarge" onClick={() => navigate(`/book/${performanceId}`)}>
+              비회원 예매
+            </Button>
+          </S.ButtonWrapper>
         </OuterLayout>
       </ActionBottomSheet>
-    </ContentWrapper>
+    </S.ContentWrapper>
   );
 };
 
 export default Gig;
-
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 2.4rem;
-`;
-
-const FooterContainer = styled.div`
-  position: sticky;
-  bottom: 0;
-  padding: 2.4rem;
-
-  background-color: ${({ theme }) => theme.colors.gray_900};
-`;
