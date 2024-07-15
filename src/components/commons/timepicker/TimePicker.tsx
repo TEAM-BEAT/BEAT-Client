@@ -63,7 +63,6 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
             "button.MuiPickersDay-root.Mui-selected": {
               background: "#FB247F",
             },
-
             "& .MuiMultiSectionDigitalClockSection-item": {
               width: "30px",
               height: "20px",
@@ -75,7 +74,7 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
             "& .MuiMultiSectionDigitalClockSection-item.Mui-focused": {
               background: "#FB247F",
             },
-            "&. MuiMultiSectionDigitalClock-root": {
+            "&  .MuiMultiSectionDigitalClock-root": {
               height: "25.7rem",
             },
 
