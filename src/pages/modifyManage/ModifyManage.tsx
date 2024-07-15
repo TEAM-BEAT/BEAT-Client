@@ -428,6 +428,7 @@ const ModifyManage = () => {
           venue={performanceVenue}
           period={performancePeriod}
           runningTime={runningTime}
+          genre={genre}
           // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
           scheduleList={scheduleList.map((schedule, index) => ({
             scheduleId: index + 1,

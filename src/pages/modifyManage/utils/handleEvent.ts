@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { DataProps } from "../typings/gigInfo";
 
@@ -161,7 +161,8 @@ export const calculatePerformancePeriod = (
   scheduleList: { performanceDate: Dayjs | null | string }[]
 ) => {
   const dates = scheduleList
-    .map((schedule) => schedule.performanceDate)
+    //dayjs로
+    .map((schedule) => dayjs(schedule.performanceDate))
     .filter((date): date is Dayjs => date !== null)
     .sort((a, b) => a.toDate().getTime() - b.toDate().getTime());
 
