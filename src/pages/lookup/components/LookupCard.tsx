@@ -26,7 +26,16 @@ const LookupCard = ({
 
   const handleModal = (bank: string, number: string) => {
     openModal({
-      children: <BankAccount bankName={bank} number={number} />,
+      // 예금주랑 가격은 내일 API 명세서 보고 맞추기
+      children: (
+        <BankAccount
+          bankName={bank}
+          number={number}
+          accountName="전희주"
+          accountNumber={accountNumber}
+          price={5000}
+        />
+      ),
     });
   };
 
