@@ -5,6 +5,7 @@ import * as S from "../ModifyManage.styled";
 interface Genre {
   id: number;
   genre: string;
+  genreKor: string;
   genreIcon: ComponentType;
 }
 interface GenreSelectProps {
@@ -36,7 +37,7 @@ const GenreSelect = ({
               selected={selectedGenre === genre.genre}
             >
               <GenreIcon selected={selectedGenre === genre.genre} />
-              {genre.genre}
+              {genre.genreKor}
             </S.GenreItem>
           );
         })}

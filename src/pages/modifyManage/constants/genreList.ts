@@ -2,10 +2,10 @@ import { IconLargeBand, IconLargeDance, IconLargeEtc, IconLargeMusical } from "@
 import { GigInfo } from "../typings/gigInfo";
 
 export const GENRE_LIST = [
-  { id: 1, genre: "연극/뮤지컬", genreIcon: IconLargeMusical },
-  { id: 2, genre: "밴드", genreIcon: IconLargeBand },
-  { id: 3, genre: "댄스", genreIcon: IconLargeDance },
-  { id: 4, genre: "기타", genreIcon: IconLargeEtc },
+  { id: 1, genre: "PLAY", genreKor: "연극/뮤지컬", genreIcon: IconLargeMusical },
+  { id: 2, genre: "BAND", genreKor: "밴드", genreIcon: IconLargeBand },
+  { id: 3, genre: "DANCE", genreKor: "댄스", genreIcon: IconLargeDance },
+  { id: 4, genre: "ETC", genreKor: "기타", genreIcon: IconLargeEtc },
 ];
 
 export const GET_MODIFY_MANAGE_RESPONSE: GigInfo = {
