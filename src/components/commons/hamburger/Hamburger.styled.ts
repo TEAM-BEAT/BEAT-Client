@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ButtonDelete24, IconProfile, IconArrowRight } from "@assets/svgs";
 
 export const HamburgerWrapper = styled.section`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: -25.6rem;
   z-index: 10;
