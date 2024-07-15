@@ -6,7 +6,7 @@ import FreeBook from "../freeBook/FreeBook";
 import PaidBook from "../paidBook/PaidBook";
 
 const Complete = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const isPaid = false;
 
   // TODO: state로 받아오기
@@ -24,7 +24,7 @@ const Complete = () => {
       title: "내가 등록한 공연",
       subText: "삭제",
       rightOnClick: () => {
-        navigation("/");
+        navigate("/main");
       },
     });
   }, [setHeader]);
