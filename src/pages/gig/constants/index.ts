@@ -62,6 +62,8 @@ export const SHOW_TYPE = {
 
 export type ShowTypes = (typeof SHOW_TYPE)[keyof typeof SHOW_TYPE];
 
+export type SHOW_TYPE_KEY = keyof typeof SHOW_TYPE;
+
 export const TAB_TYPE = {
   PERFORMANCE: "performance",
   MAKER: "maker",

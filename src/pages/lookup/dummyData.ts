@@ -49,7 +49,7 @@ export const dummyData = [
     bookerPhoneNumber: "010-3333-0000",
     bankName: "국민",
     accountNumber: "031701-00-014842",
-    dueDate: -1, // -1이면 관람완료!
+    dueDate: 0, // -1이면 관람완료!
     paymentStatus: true, // 입금 완료
     createdAt: "2023-11-18T12:34:56.789Z",
   },

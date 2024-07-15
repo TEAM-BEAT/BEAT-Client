@@ -53,10 +53,12 @@ const ActionBottomSheet = ({
   return (
     <S.ActionBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>
       <BottomSheet isOpen={isOpen} title={title}>
-        <ContextBox {...rest}>
-          <S.SubTitle>{subTitle}</S.SubTitle>
-          {innerChildren}
-        </ContextBox>
+        {innerChildren.length > 0 && (
+          <ContextBox {...rest}>
+            <S.SubTitle>{subTitle}</S.SubTitle>
+            {innerChildren}
+          </ContextBox>
+        )}
         {outerChildren}
       </BottomSheet>
     </S.ActionBottomSheetWrapper>

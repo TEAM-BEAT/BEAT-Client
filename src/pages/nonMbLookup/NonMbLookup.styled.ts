@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const NonMbLookupWrapper = styled.section`
   width: auto;
   height: 100%;
-  min-height: 66.4rem;
+
+  /*  812(전체) - 44(상단) */
+  min-height: 77.8rem;
 `;
 
 export const BtnLayout = styled.section`

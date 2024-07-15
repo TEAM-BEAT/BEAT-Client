@@ -3,8 +3,11 @@ import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/Vie
 import Button from "@components/commons/button/Button";
 import Context from "@components/commons/contextBox/Context";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks/useHeader";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import * as S from "./Book.styled";
 import BookerInfo from "./components/bookerInfo/BookerInfo";
 import Count from "./components/count/Count";
@@ -16,11 +19,22 @@ import { BOOK_DETAIL_INFO } from "./constants/dummy";
 import { FormData } from "./typings/formData";
 
 const Book = () => {
+  const navigate = useNavigate();
   const { performanceId } = useParams<{ performanceId: string }>();
 
   // TODO: 회원/비회원 여부
-  // navigate 할 때 state로 넘기기 ?
+  const { setHeader } = useHeader();
   const isNonMember = true;
+
+  useEffect(() => {
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      title: "예매하기",
+      leftOnClick: () => {
+        navigate(`/gig/${performanceId}`);
+      },
+    });
+  }, []);
 
   const [detail, setDetail] = useState(BOOK_DETAIL_INFO);
   const [selectedValue, setSelectedValue] = useState<number>();
@@ -108,11 +122,25 @@ const Book = () => {
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as FormData;
-
-      console.log(formData);
     }
 
-    // TODO: 완료 페이지로 navigate
+    // TODO: response로 변경
+    console.log(formData, {
+      state: {
+        bankName: "농협",
+        accountNumber: "3561202376833",
+        totalPaymentAmount: formData.totalPaymentAmount,
+      },
+    });
+
+    // TODO: 요청 성공 시, 완료 페이지로 navigate
+    navigate("/book/complete", {
+      state: {
+        bankName: "농협",
+        accountNumber: "3561202376833",
+        totalPaymentAmount: formData.totalPaymentAmount,
+      },
+    });
   };
 
   useEffect(() => {
@@ -139,7 +167,7 @@ const Book = () => {
   return (
     <S.ContentWrapper>
       <Info
-        genre={detail.genre}
+        genre={detail.genre as SHOW_TYPE_KEY}
         title={detail.performanceTitle}
         teamName={detail.performanceTeamName}
         venue={detail.performanceVenue}

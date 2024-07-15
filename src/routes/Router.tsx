@@ -2,17 +2,18 @@ import Layout from "@components/layout/Layout";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
 import Book from "@pages/book/Book";
+import Complete from "@pages/book/components/complete/Complete";
 import Gig from "@pages/gig/Gig";
 import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
 import KakaoLoginTest from "@pages/KakaoLoginTest";
 import Lookup from "@pages/lookup/Lookup";
+import Main from "@pages/main/Main";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/modalTest/ModalTest";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import RegisterComplete from "@pages/register/RegisterComplete";
-import Main from "@pages/main/Main";
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "a", element: <Apage /> },
       { path: "/NonMb-Lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
+      { path: "book/complete", element: <Complete /> },
       { path: "book/:performanceId", element: <Book /> },
       { path: "testpage", element: <TestPage /> },
       { path: "gig-register", element: <Register /> },
