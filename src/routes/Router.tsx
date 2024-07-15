@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "a", element: <Apage /> },
-      { path: "/NonMb-Lookup", element: <NonMbLookup /> },
+      { path: "NonMb-Lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
       { path: "book/complete", element: <Complete /> },
       { path: "book/:performanceId", element: <Book /> },
