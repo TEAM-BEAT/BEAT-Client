@@ -87,6 +87,7 @@ const TextField = ({
     <S.TextFieldLayout $narrow={narrow}>
       <S.TextFieldWrapper>
         <S.TextFieldInput
+          $isDisabled={isDisabled}
           ref={inputRef}
           value={value}
           name={name}

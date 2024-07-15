@@ -94,8 +94,8 @@ export const InputBank = styled.div<{ $hasChildren: boolean; $isDisabled: boolea
   height: 4.8rem;
   padding: 1.2rem 1.6rem;
 
-  color: ${({ theme, $hasChildren }) =>
-    $hasChildren ? theme.colors.white : theme.colors.gray_600};
+  color: ${({ theme, $hasChildren, $isDisabled }) =>
+    $hasChildren && !$isDisabled ? theme.colors.white : theme.colors.gray_600};
 
   ${Generators.flexGenerator("column", "start", "center")}
 

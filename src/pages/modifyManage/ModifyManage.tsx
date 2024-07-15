@@ -213,9 +213,9 @@ const ModifyManage = () => {
             marginBottom={2.4}
           />
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="공연명">
+          <InputModifyManageBox isDisabled={false} title="공연명">
             <TextField
-              isDisabled={isExist}
+              isDisabled={false}
               type="input"
               name="performanceTitle"
               value={performanceTitle}
@@ -226,9 +226,9 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="주최 단체명">
+          <InputModifyManageBox isDisabled={false} title="주최 단체명">
             <TextField
-              isDisabled={isExist}
+              isDisabled={false}
               type="input"
               name="performanceTeamName"
               value={performanceTeamName}
@@ -239,7 +239,7 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="공연 소개">
+          <InputModifyManageBox isDisabled={false} title="공연 소개">
             <TextArea
               name="performanceDescription"
               value={performanceDescription}
@@ -249,9 +249,9 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="러닝 타임">
+          <InputModifyManageBox isDisabled={false} title="러닝 타임">
             <TextField
-              isDisabled={isExist}
+              isDisabled={false}
               type="input"
               name="runningTime"
               value={runningTime ?? ""}
@@ -284,9 +284,9 @@ const ModifyManage = () => {
             ))}
           </TimePickerModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="공연 장소">
+          <InputModifyManageBox isDisabled={false} title="공연 장소">
             <TextField
-              isDisabled={isExist}
+              isDisabled={false}
               type="input"
               name="performanceVenue"
               value={performanceVenue}
@@ -317,9 +317,9 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="회차별 티켓 판매수">
+          <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
             <TextField
-              isDisabled={isExist}
+              isDisabled={false}
               type="input"
               name="totalTicketCount"
               value={scheduleList[0].totalTicketCount}
@@ -330,7 +330,7 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox isDisabled={isExist} title="유의사항">
+          <InputModifyManageBox isDisabled={false} title="유의사항">
             <TextArea
               name="performanceAttentionNote"
               value={performanceAttentionNote}
@@ -370,9 +370,9 @@ const ModifyManage = () => {
             onOutClick={() => handleBankOpen(setBankOpen)}
           />
 
-          <InputModifyManageBox isDisabled={isExist} title="대표자 연락처">
+          <InputModifyManageBox isDisabled={false} title="대표자 연락처">
             <TextField
-              isDisabled={isExist}
+              isDisabled={false}
               type="input"
               name="performanceContact"
               value={performanceContact}
