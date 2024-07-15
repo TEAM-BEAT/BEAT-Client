@@ -43,6 +43,7 @@ const Hamburger = () => {
               <S.NavigateBtn
                 onClick={() => {
                   navigate("/gig-register");
+                  closeHamburger();
                 }}
               >
                 <S.NavigateBtnText>내가 등록한 공연</S.NavigateBtnText>
@@ -51,6 +52,7 @@ const Hamburger = () => {
               <S.NavigateBtn
                 onClick={() => {
                   navigate("/lookup");
+                  closeHamburger();
                 }}
               >
                 <S.NavigateBtnText>내가 예매한 공연</S.NavigateBtnText>

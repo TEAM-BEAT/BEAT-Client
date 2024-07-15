@@ -4,7 +4,7 @@ import { ButtonDelete24, IconProfile, IconArrowRight } from "@assets/svgs";
 export const HamburgerWrapper = styled.section`
   position: absolute;
   top: 0;
-  right: 0;
+  right: -25.6rem;
   z-index: 10;
 
   display: flex;
@@ -14,15 +14,15 @@ export const HamburgerWrapper = styled.section`
   height: 100vh;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
-  transform: translateX(100%);
   visibility: hidden;
 
   transition:
-    transform 0.5s ease,
+    right 0.5s ease,
     visibility 0.5s ease;
 
   &.open {
-    transform: translateX(0);
+    right: 0;
+
     visibility: visible;
   }
 `;
