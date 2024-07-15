@@ -140,7 +140,6 @@ const Register = () => {
   useEffect(() => {
     if (ticketPrice == 0) {
       setIsFree(true);
-      console.log("무료");
     }
   }, [ticketPrice]);
 
