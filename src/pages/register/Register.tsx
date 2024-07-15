@@ -161,7 +161,7 @@ const Register = () => {
     if (registerStep === 1) {
       openConfirm({
         title: "정말 나가시겠습니까?",
-        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지 않습니다.",
+        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지\n 않습니다.",
         okText: "작성할게요",
         okCallback: () => {
           setRegisterStep(1);
