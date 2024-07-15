@@ -54,7 +54,6 @@ const Lookup = () => {
           {lookUpList.map((item) => (
             <React.Fragment key={item.bookingId}>
               <LookupWrapper {...item} handleBtn={() => handleSheetOpen(item.bookingId)} />
-
               <ActionBottomSheet
                 isOpen={selectedBookingId === item.bookingId}
                 onClickOutside={handleSheetClose}

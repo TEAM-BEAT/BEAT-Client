@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       { path: "book/complete", element: <Complete /> },
       { path: "book/:performanceId", element: <Book /> },
       { path: "testpage", element: <TestPage /> },
-      { path: "register", element: <Register /> },
+      { path: "gig-register", element: <Register /> },
       { path: "register-complete", element: <RegisterComplete /> },
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
@@ -69,6 +69,7 @@ const router = createBrowserRouter([
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   { path: "/main", element: <Main /> },
 
+  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   //   ...
 ]);
 export default router;

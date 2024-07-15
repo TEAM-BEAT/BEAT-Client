@@ -5,13 +5,28 @@ import Spacing from "@components/commons/spacing/Spacing";
 import Button from "@components/commons/button/Button";
 import { useNavigate } from "react-router-dom";
 import { REGISTER_RESPONSE } from "./constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks/useHeader";
 
 const RegisterComplete = () => {
   const user = "메이커";
   const navigate = useNavigate();
   const [response, setResponse] = useState(REGISTER_RESPONSE);
   const goGigsPage = () => navigate(`/gig/${response.performanceId}`);
+
+  const { setHeader } = useHeader();
+
+  const handleRightBtn = () => {
+    navigate("/main");
+  };
+
+  useEffect(() => {
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON,
+      rightOnClick: handleRightBtn,
+    });
+  }, [setHeader]);
 
   return (
     <>

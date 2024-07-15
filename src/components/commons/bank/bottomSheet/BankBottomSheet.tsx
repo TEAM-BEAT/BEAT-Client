@@ -26,9 +26,9 @@ const BankBottomSheet = ({ value, isOpen, onBankClick, onOutClick }: BankBottomS
         <S.BankTitle>은행을 선택해주세요</S.BankTitle>
         <Spacing marginBottom={"3.2"} />
         <S.BankWrapper>
-          {BANK_LIST.map((bank, index) => {
+          {BANK_LIST.map((bank) => {
             return (
-              <BankBtn key={index} onClick={onBankClick} icon={<bank.bankImg />}>
+              <BankBtn key={bank.id} onClick={() => onBankClick(bank.name)} icon={<bank.bankImg />}>
                 {bank.name}
               </BankBtn>
             );

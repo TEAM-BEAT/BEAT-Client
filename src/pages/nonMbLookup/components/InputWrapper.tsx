@@ -27,7 +27,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     pwdStatus: false,
   });
 
-  const { name, birth, number, password, pwdStatus } = nonMemberInfo;
+  const { bookerName, birth, number, password, pwdStatus } = nonMemberInfo;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: fieldName, value } = e.target;
@@ -56,12 +56,12 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   };
 
   useEffect(() => {
-    if (name && birth.length === 6 && number.length === 13 && password.length === 4) {
+    if (bookerName && birth.length === 6 && number.length === 13 && password.length === 4) {
       btnOn();
     } else {
       btnOff();
     }
-  }, [name, birth, number, password]);
+  }, [bookerName, birth, number, password]);
 
   useEffect(() => {
     if (isReadyRequest) {
@@ -86,7 +86,13 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   return (
     <S.InputWrapperLayout>
       {/* maxLenght 있는 부분 InputField에서 글자수 보이게 / 안 보이게 조정 필요 */}
-      <TextField name="name" type="input" value={name} onChange={handleChange} placeholder="이름" />
+      <TextField
+        name="name"
+        type="input"
+        value={bookerName}
+        onChange={handleChange}
+        placeholder="이름"
+      />
       <TextField
         type="input"
         name="birth"

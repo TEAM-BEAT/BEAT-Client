@@ -10,7 +10,7 @@ export const TextAreaInput = styled.textarea`
   ${Generators.flexGenerator("row", "center", "center")}
   width: 100%;
   height: 12.9rem;
-  padding: 1.8rem;
+  padding: 1.8rem 1.2rem;
 
   color: ${({ theme }) => theme.colors.gray_0};
 
