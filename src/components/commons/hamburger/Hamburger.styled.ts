@@ -1,12 +1,30 @@
-import styled from "styled-components";
-import { ButtonDelete24, IconProfile, IconArrowRight } from "@assets/svgs";
+import { ButtonDelete24, IconArrowRight, IconProfile } from "@assets/svgs";
+import styled, { css, keyframes } from "styled-components";
 
-export const HamburgerWrapper = styled.section`
+interface HamburgerWrapperProps {
+  $isOpen: boolean;
+  width: number;
+}
+
+const hamburgerAnimation = keyframes`
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+  }
+  100%{
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+
+  }
+`;
+
+export const HamburgerWrapper = styled.section<HamburgerWrapperProps>`
   position: absolute;
   top: 0;
-  right: -25.6rem;
+  left: ${({ width }) => `${width / 2 - 68}px`};
   z-index: 10;
-
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -14,24 +32,33 @@ export const HamburgerWrapper = styled.section`
   height: 100vh;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
-  visibility: hidden;
+  transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
 
-  transition: 0.5s ease;
-
-  &.open {
-    right: 0;
-
-    visibility: visible;
-  }
+  animation: ${({ $isOpen }) =>
+      $isOpen &&
+      css`
+        ${hamburgerAnimation}
+      `}
+    0.2s ease-in-out;
 `;
 
-export const Overlay = styled.div`
+export const Overlay = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   z-index: 5;
   width: 100%;
   height: 100%;
+
+  background-color: rgb(0 0 0 / 70%);
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+
+  transition:
+    opacity 200ms ease-in-out,
+    visibility 200ms ease-in-out;
 `;
 
 export const CloseBtn = styled.section`
