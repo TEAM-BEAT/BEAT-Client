@@ -14,6 +14,7 @@ const LookupCard = ({
   paymentStatus,
   bankName,
   accountNumber,
+  dueDate,
 }: LookupProps) => {
   const navigate = useNavigate();
 
@@ -80,10 +81,14 @@ const LookupCard = ({
             ) : (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
             )}
-            <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
-              <S.Account>계좌번호</S.Account>
-              <S.ArrowRightIcon />
-            </S.AccountLayout>
+            {dueDate >= 0 ? (
+              <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
+                <S.Account>계좌번호</S.Account>
+                <S.ArrowRightIcon />
+              </S.AccountLayout>
+            ) : (
+              <></>
+            )}
           </S.DepositLayout>
         </S.Context>
       </S.ContextLayout>
