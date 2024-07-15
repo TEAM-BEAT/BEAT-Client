@@ -7,6 +7,7 @@ import Footer from "./components/footer/Footer";
 import MainNavigation from "./components/mainNavigation/MainNavigation";
 import Performance from "./components/performance/Performance";
 
+import Floating from "./components/floating/Floating";
 import { dummyData } from "./constants/dummyData";
 
 const Main = () => {
@@ -21,7 +22,7 @@ const Main = () => {
       <MainNavigation />
       <Carousel promotionList={dummyData.promotionList} />
       <Chips handleGenre={handleGenre} />
-      {/* <Floating /> */}
+      <Floating />
       <Performance genre={genre} performanceList={dummyData.performanceList} />
       <Footer />
     </S.MainWrapper>
