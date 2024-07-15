@@ -105,13 +105,13 @@ export const InputBank = styled.div<{ $hasChildren: boolean }>`
   ${({ theme }) => theme.fonts["body2-normal-medi"]}
 `;
 
-export const ToggleIcon = styled(SvgIconArrowDown)<{ bankOpen: boolean }>`
+export const ToggleIcon = styled(SvgIconArrowDown)<{ $bankOpen: boolean }>`
   position: absolute;
   top: 1.2rem;
   right: 1.2rem;
   width: 2.4rem;
 
-  transform: ${({ bankOpen }) => (bankOpen ? "rotate(180deg)" : "rotate(0deg)")};
+  transform: ${({ $bankOpen }) => ($bankOpen ? "rotate(180deg)" : "rotate(0deg)")};
   cursor: pointer;
 
   transition: transform 0.3s;
