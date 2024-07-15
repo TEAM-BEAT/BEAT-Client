@@ -16,6 +16,7 @@ export const ButtonWrapper = styled.div`
 export const FooterContainer = styled.div`
   position: sticky;
   bottom: 0;
+  z-index: 2;
   padding: 2.4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
