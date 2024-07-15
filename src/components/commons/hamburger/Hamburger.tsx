@@ -1,15 +1,20 @@
 import useHamburger from "@hooks/useHamburger";
 import { hamburgerAtom } from "@stores/hamburger";
-import { requestKakaoLogin } from "@utils/kakaoLogin";
-import { useAtomValue } from "jotai";
+
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Hamburger.styled";
+
+import { useAtom, useAtomValue } from "jotai";
+
+import { navigateAtom } from "@stores/navigate";
+import { requestKakaoLogin } from "@utils/kakaoLogin";
 
 const Hamburger = () => {
   const navigate = useNavigate();
 
   const { isOpen } = useAtomValue(hamburgerAtom);
+  const [, setNavigateUrl] = useAtom(navigateAtom);
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -45,6 +50,11 @@ const Hamburger = () => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
+
+  const handleKakaoLogin = (url: string) => {
+    setNavigateUrl(url);
+    requestKakaoLogin();
+  };
 
   return (
     <>
@@ -88,7 +98,7 @@ const Hamburger = () => {
             <>
               <S.ProfileContainer>
                 <S.ProfileIcon />
-                <S.LoginBtn onClick={requestKakaoLogin}>로그인 하기</S.LoginBtn>
+                <S.LoginBtn onClick={() => handleKakaoLogin("/main")}>로그인 하기</S.LoginBtn>
               </S.ProfileContainer>
               <S.NavigateBtn
                 onClick={() => {
