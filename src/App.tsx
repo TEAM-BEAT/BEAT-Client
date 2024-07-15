@@ -10,6 +10,8 @@ import { ThemeProvider } from "styled-components";
 
 import Modal from "@components/commons/modal/Modal";
 import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const darkTheme = createTheme({
   palette: {
@@ -18,18 +20,23 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <MuiThemeProvider theme={darkTheme}>
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <GlobalStyle />
-          <RouterProvider router={router} />
-          <Modal />
-          <Alert />
-          <Confirm />
-        </LocalizationProvider>
-      </ThemeProvider>
-    </MuiThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <MuiThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <GlobalStyle />
+            <RouterProvider router={router} />
+            <Modal />
+            <Alert />
+            <Confirm />
+          </LocalizationProvider>
+        </ThemeProvider>
+      </MuiThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
