@@ -38,6 +38,7 @@ import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import useModal from "@hooks/useModal";
 import { useNavigate } from "react-router-dom";
 import Content from "@pages/gig/components/content/Content";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
@@ -45,7 +46,7 @@ const Register = () => {
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
-    genre: "", // 공연 장르
+    genre: "" as SHOW_TYPE_KEY, // 공연 장르
     runningTime: null, // 러닝 타임
     performanceDescription: "", // 공연 소개
     performanceAttentionNote: "", // 유의사항
@@ -62,7 +63,7 @@ const Register = () => {
     scheduleList: [
       {
         performanceDate: null, // 공연 일시
-        totalTicketCount: "", // 총 티켓 수
+        totalTicketCount: null, // 총 티켓 수
         scheduleNumber: "FIRST", // 회차 번호
       },
     ],
@@ -140,7 +141,7 @@ const Register = () => {
 
   // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
   useEffect(() => {
-    if (ticketPrice == 0) {
+    if (ticketPrice === 0) {
       setIsFree(true);
     }
   }, [ticketPrice]);
@@ -163,7 +164,7 @@ const Register = () => {
     if (registerStep === 1) {
       openConfirm({
         title: "정말 나가시겠습니까?",
-        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지 않습니다.",
+        subTitle: "지금 나가실 경우 작성하신 내용이 저장되지\n 않습니다.",
         okText: "작성할게요",
         okCallback: () => {
           setRegisterStep(1);
@@ -243,8 +244,10 @@ const Register = () => {
             <TextField
               type="input"
               name="runningTime"
-              value={runningTime ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
+              value={runningTime !== null ? runningTime.toString() : ""}
+              onChange={(e) => {
+                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
+              }}
               filter={numericFilter}
               unit="time"
               placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
@@ -294,10 +297,11 @@ const Register = () => {
             <TextField
               type="input"
               name="ticketPrice"
-              value={ticketPrice ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
+              value={ticketPrice !== null ? priceFilter(ticketPrice.toString()) : ""}
+              onChange={(e) => {
+                handleChange(e as ChangeEvent<HTMLInputElement>, setGigInfo);
+              }}
               placeholder="가격을 입력해주세요."
-              filter={priceFilter}
               disabled={isFree}
               unit="amount"
             />
@@ -307,7 +311,11 @@ const Register = () => {
             <TextField
               type="input"
               name="totalTicketCount"
-              value={scheduleList[0].totalTicketCount}
+              value={
+                scheduleList[0].totalTicketCount !== null
+                  ? scheduleList[0].totalTicketCount.toString()
+                  : ""
+              }
               onChange={(e) => handleTotalTicketCountChange(e, setGigInfo)}
               placeholder="판매할 티켓의 매 수를 입력해주세요."
               filter={numericFilter}
@@ -407,6 +415,7 @@ const Register = () => {
         <S.PreviewBanner>예매자에게 보여질 화면 예시입니다. 확인해주세요.</S.PreviewBanner>
         <ShowInfo
           posterImage={posterImage}
+          genre={genre}
           title={performanceTitle}
           price={ticketPrice}
           venue={performanceVenue}
