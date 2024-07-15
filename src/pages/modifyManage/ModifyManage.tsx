@@ -66,6 +66,7 @@ const ModifyManage = () => {
     staffList,
     bankName,
     isBookerExist,
+    accountHolder,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -297,26 +298,7 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
-          <InputModifyManageBox
-            isDisabled={isExist}
-            title="티켓 가격"
-            description="*티켓 가격은 수정불가합니다."
-            isFree={isFree}
-            onFreeClick={() => onFreeClick(setIsFree)}
-          >
-            <TextField
-              isDisabled={isExist}
-              type="input"
-              name="ticketPrice"
-              value={ticketPrice ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="가격을 입력해주세요."
-              filter={priceFilter}
-              disabled={isFree || isExist}
-              unit="amount"
-            />
-          </InputModifyManageBox>
-          <S.Divider />
+
           <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
             <TextField
               isDisabled={false}
@@ -340,6 +322,26 @@ const ModifyManage = () => {
             />
           </InputModifyManageBox>
           <S.Divider />
+          <InputModifyManageBox
+            isDisabled={isExist}
+            title="티켓 가격"
+            description="*티켓 가격은 수정불가합니다."
+            isFree={isFree}
+            onFreeClick={() => onFreeClick(setIsFree)}
+          >
+            <TextField
+              isDisabled={isExist}
+              type="input"
+              name="ticketPrice"
+              value={ticketPrice ?? ""}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="가격을 입력해주세요."
+              filter={priceFilter}
+              disabled={isFree || isExist}
+              unit="amount"
+            />
+          </InputModifyManageBox>
+          <S.Divider />
           {!isFree && (
             <>
               <InputAccountWrapper>
@@ -357,6 +359,14 @@ const ModifyManage = () => {
                   onChange={(e) => handleChange(e, setGigInfo)}
                   filter={numericFilter}
                   placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                  disabled={isExist}
+                />
+                <TextField
+                  isDisabled={isExist}
+                  name="accountHolder"
+                  value={accountHolder}
+                  onChange={(e) => handleChange(e, setGigInfo)}
+                  placeholder="예금주명을 입력해주세요."
                   disabled={isExist}
                 />
               </InputAccountWrapper>

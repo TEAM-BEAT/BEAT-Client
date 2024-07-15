@@ -25,6 +25,7 @@ export interface Staff {
 
 export interface DataProps {
   userId: number;
+  accountHolder: string;
   performanceId: number;
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;

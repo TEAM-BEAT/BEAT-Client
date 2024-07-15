@@ -22,6 +22,7 @@ export const GET_MODIFY_MANAGE_RESPONSE: GigInfo = {
   message: "공연 정보가 성공적으로 조회되었습니다.",
   data: {
     userId: 2,
+    accountHolder: "공준혁혁",
     performanceId: 1,
     performanceTitle: "공연 제목입니다",
     genre: "BAND",
@@ -41,14 +42,14 @@ export const GET_MODIFY_MANAGE_RESPONSE: GigInfo = {
     scheduleList: [
       {
         scheduleId: 1,
-        performanceDate: "2023-12-28T19:30:00",
+        performanceDate: "2024-12-28T19:30:00",
         totalTicketCount: 100,
         dueDate: 5, // 공연 날짜 - 현재 날짜
         scheduleNumber: "FIRST",
       },
       {
         scheduleId: 2,
-        performanceDate: "2023-12-29T19:30:00",
+        performanceDate: "2024-12-29T19:30:00",
         totalTicketCount: 100,
         dueDate: 6, // 공연 날짜 - 현재 날짜
         scheduleNumber: "SECOND",
