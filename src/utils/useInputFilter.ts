@@ -1,5 +1,5 @@
 export const numericFilter = (value: string) => {
-  return value.replace(/\D/g, "");
+  return value.replace(/[^0-9]/g, "");
 };
 
 export const phoneNumberFilter = (value: string) => {
