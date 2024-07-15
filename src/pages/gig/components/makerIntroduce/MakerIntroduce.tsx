@@ -9,41 +9,45 @@ interface MakerIntroduceProps {
 }
 
 const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) => {
+  console.log(castList);
   return (
     <S.Wrapper>
       <S.Title>{teamName}</S.Title>
       <S.MakerInfoContainer>
         <S.MakerInfoTitle>출연진</S.MakerInfoTitle>
-        {/* TODO: 출연진 없을 떄 보여줄 컴포넌트 추가 */}
-        <S.TeamPeopleCardWrapper>
-          {castList.map((cast, i) => (
-            <PeopleCard
-              key={`${cast.castId}-${i}`}
-              photo={cast.castPhoto}
-              role={cast.castRole}
-              name={cast.castName}
-            />
-          ))}
-        </S.TeamPeopleCardWrapper>
+        {castList.length > 0 ? (
+          <S.TeamPeopleCardWrapper>
+            {castList.map((cast, i) => (
+              <PeopleCard
+                key={`${cast.castId}-${i}`}
+                photo={cast.castPhoto}
+                role={cast.castRole}
+                name={cast.castName}
+              />
+            ))}
+          </S.TeamPeopleCardWrapper>
+        ) : (
+          <S.NoContentBox>등록된 메이커 정보가 없어요.</S.NoContentBox>
+        )}
       </S.MakerInfoContainer>
 
-      {staffList.length > 0 && (
-        <>
-          <S.MakerInfoContainer>
-            <S.MakerInfoTitle>스태프</S.MakerInfoTitle>
-            <S.TeamPeopleCardWrapper>
-              {staffList.map((staff, i) => (
-                <PeopleCard
-                  key={`${staff.staffId}-${i}`}
-                  photo={staff.staffPhoto}
-                  role={staff.staffRole}
-                  name={staff.staffName}
-                />
-              ))}
-            </S.TeamPeopleCardWrapper>
-          </S.MakerInfoContainer>
-        </>
-      )}
+      <S.MakerInfoContainer>
+        <S.MakerInfoTitle>스태프</S.MakerInfoTitle>
+        {staffList.length > 0 ? (
+          <S.TeamPeopleCardWrapper>
+            {staffList.map((staff, i) => (
+              <PeopleCard
+                key={`${staff.staffId}-${i}`}
+                photo={staff.staffPhoto}
+                role={staff.staffRole}
+                name={staff.staffName}
+              />
+            ))}
+          </S.TeamPeopleCardWrapper>
+        ) : (
+          <S.NoContentBox>등록된 메이커 정보가 없어요.</S.NoContentBox>
+        )}
+      </S.MakerInfoContainer>
     </S.Wrapper>
   );
 };
