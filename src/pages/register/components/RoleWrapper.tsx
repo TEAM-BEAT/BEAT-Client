@@ -57,6 +57,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
             <S.HiddenFileInput type="file" id={`file-${id}`} onChange={uploadFile} />
             <S.CustomFileInput htmlFor={`file-${id}`} width={13.6} height={15.8}>
               <IconCamera width={"3.2rem"} />
+              <S.RemoveImageButton onClick={() => removeRole(id)} />
             </S.CustomFileInput>
           </>
         )}
