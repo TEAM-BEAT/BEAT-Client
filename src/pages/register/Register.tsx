@@ -51,6 +51,7 @@ const Register = () => {
     performanceAttentionNote: "", // 유의사항
     bankName: "", // 은행명
     accountNumber: "", // 계좌번호
+    accountHolder: "", // 예금주
     posterImage: "", // 포스터 이미지 URL
     performanceTeamName: "", // 공연 팀명
     performanceVenue: "", // 공연 장소
@@ -89,6 +90,7 @@ const Register = () => {
     performanceDescription,
     performanceAttentionNote,
     accountNumber,
+    accountHolder,
     posterImage,
     performanceTeamName,
     performanceVenue,
@@ -335,6 +337,12 @@ const Register = () => {
                   onChange={(e) => handleChange(e, setGigInfo)}
                   filter={numericFilter}
                   placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                />
+                <TextField
+                  name="accountHolder"
+                  value={accountHolder}
+                  onChange={(e) => handleChange(e, setGigInfo)}
+                  placeholder="예금주명을 입력해주세요."
                 />
               </InputAccountWrapper>
               <S.Divider />

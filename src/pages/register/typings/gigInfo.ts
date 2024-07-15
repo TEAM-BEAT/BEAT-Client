@@ -26,6 +26,7 @@ export interface GigInfo {
   performanceAttentionNote: string;
   bankName: string;
   accountNumber: string;
+  accountHolder: string;
   posterImage: string;
   performanceTeamName: string;
   performanceVenue: string;
