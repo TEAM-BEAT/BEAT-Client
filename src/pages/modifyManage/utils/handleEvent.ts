@@ -1,11 +1,11 @@
 import { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { GigInfo } from "../typings/gigInfo";
+import { DataProps } from "../typings/gigInfo";
 
 // Image 핸들링
 export const handleImageUpload = (
   imageUrl: string,
-  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+  setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   setGigInfo((prev) => ({
     ...prev,
@@ -16,7 +16,7 @@ export const handleImageUpload = (
 // Genre 핸들링
 export const handleGenreSelect = (
   selectedGenre: string,
-  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+  setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   setGigInfo((prev) => ({
     ...prev,
@@ -27,7 +27,7 @@ export const handleGenreSelect = (
 // 일반 input 핸들링
 export const handleChange = (
   e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
-  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+  setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   const { name, value } = e.target;
   setGigInfo((prev) => ({
@@ -37,7 +37,7 @@ export const handleChange = (
 };
 
 // Stepper 핸들링
-export const onMinusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
+export const onMinusClick = (setGigInfo: Dispatch<SetStateAction<DataProps>>) => {
   setGigInfo((prev) => {
     const newScheduleCount = prev.totalScheduleCount - 1;
     return {
@@ -49,13 +49,13 @@ export const onMinusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
   });
 };
 
-export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
+export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<DataProps>>) => {
   setGigInfo((prev) => {
     const newScheduleList = [
       ...prev.scheduleList,
       {
         performanceDate: null, // 공연 일시
-        totalTicketCount: "", // 총 티켓 수
+        totalTicketCount: 0, // 총 티켓 수
         scheduleNumber: getScheduleNumber(prev.scheduleList.length), // 회차 번호
       },
     ];
@@ -72,7 +72,7 @@ export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
 export const handleDateChange = (
   index: number,
   date: Dayjs | null,
-  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+  setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   setGigInfo((prev) => {
     const newScheduleList = [...prev.scheduleList];
@@ -88,14 +88,15 @@ export const handleDateChange = (
 // 티켓 판매수 모든 회차에 동일하게 적용되도록 핸들링
 export const handleTotalTicketCountChange = (
   e: ChangeEvent<HTMLInputElement>,
-  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+  setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   const { value } = e.target;
+  const ticketCount = parseInt(value, 10);
   setGigInfo((prev) => ({
     ...prev,
     scheduleList: prev.scheduleList.map((schedule) => ({
       ...schedule,
-      totalTicketCount: value,
+      totalTicketCount: ticketCount,
     })),
   }));
 };
@@ -112,7 +113,7 @@ export const handleBankOpen = (setBankOpen: Dispatch<SetStateAction<boolean>>) =
 
 export const handleBankClick = (
   value: string,
-  setGigInfo: Dispatch<SetStateAction<GigInfo>>,
+  setGigInfo: Dispatch<SetStateAction<DataProps>>,
   setBankInfo: Dispatch<SetStateAction<string>>,
   setBankOpen: Dispatch<SetStateAction<boolean>>
 ) => {
@@ -125,7 +126,7 @@ export const handleBankClick = (
 };
 
 // 모든 필드가 null이 아닌지 체크
-export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
+export const isAllFieldsFilled = (gigInfo: DataProps, isFree: boolean) => {
   const requiredFields = [
     "performanceTitle",
     "genre",
@@ -149,13 +150,16 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
   // null과 빈 문자열이 아니어야 함
   return (
     requiredFields.every(
-      (field) => gigInfo[field as keyof GigInfo] !== null && gigInfo[field as keyof GigInfo] !== ""
+      (field) =>
+        gigInfo[field as keyof DataProps] !== null && gigInfo[field as keyof DataProps] !== ""
     ) && scheduleFilled
   );
 };
 
 // performancePeriod 계산
-export const calculatePerformancePeriod = (scheduleList: { performanceDate: Dayjs | null }[]) => {
+export const calculatePerformancePeriod = (
+  scheduleList: { performanceDate: Dayjs | null | string }[]
+) => {
   const dates = scheduleList
     .map((schedule) => schedule.performanceDate)
     .filter((date): date is Dayjs => date !== null)

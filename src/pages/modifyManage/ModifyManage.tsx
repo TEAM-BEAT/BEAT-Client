@@ -21,10 +21,10 @@ import InputModifyManageBox from "./components/InputModifyManage";
 import PosterThumbnail from "./components/PosterThumbnail";
 import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
-import { GENRE_LIST } from "./constants/genreList";
+import { GENRE_LIST, GET_MODIFY_MANAGE_RESPONSE } from "./constants/genreList";
 import ModifyManageMaker from "./ModifyMaker";
 import * as S from "./ModifyManage.styled";
-import { GigInfo } from "./typings/gigInfo";
+import { Cast, DataProps, Staff } from "./typings/gigInfo";
 import {
   handleBankClick,
   handleBankOpen,
@@ -43,43 +43,7 @@ const ModifyManage = () => {
   const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
   const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
   // gigInfo 초기화
-  const [gigInfo, setGigInfo] = useState<GigInfo>({
-    performanceTitle: "", // 공연명
-    genre: "", // 공연 장르
-    runningTime: null, // 러닝 타임
-    performanceDescription: "", // 공연 소개
-    performanceAttentionNote: "", // 유의사항
-    bankName: "", // 은행명
-    accountNumber: "", // 계좌번호
-    posterImage: "", // 포스터 이미지 URL
-    performanceTeamName: "", // 공연 팀명
-    performanceVenue: "", // 공연 장소
-    performanceContact: "", // 대표자 연락처
-    performancePeriod: "", // 2023.12.28~2023.12.29
-    ticketPrice: null, // 가격
-    totalScheduleCount: 1, // 총 회차 수
-    scheduleList: [
-      {
-        performanceDate: null, // 공연 일시
-        totalTicketCount: "", // 총 티켓 수
-        scheduleNumber: "FIRST", // 회차 번호
-      },
-    ],
-    castList: [
-      {
-        castName: "", // 이름
-        castRole: "", // 역할
-        castPhoto: "", // 출연진 사진 URL
-      },
-    ],
-    staffList: [
-      {
-        staffName: "", // 이름
-        staffRole: "", // 역할
-        staffPhoto: "", // 스태프 사진 URL
-      },
-    ],
-  });
+  const [gigInfo, setGigInfo] = useState<DataProps>(GET_MODIFY_MANAGE_RESPONSE.data);
 
   // 구조 분해 할당
   const {
@@ -142,7 +106,7 @@ const ModifyManage = () => {
     }
   }, [ticketPrice]);
 
-  const updateGigInfo = (newInfo: Partial<GigInfo>) => {
+  const updateGigInfo = (newInfo: Partial<{ castList: Cast[]; staffList: Staff[] }>) => {
     setGigInfo((prev) => ({
       ...prev,
       ...newInfo,

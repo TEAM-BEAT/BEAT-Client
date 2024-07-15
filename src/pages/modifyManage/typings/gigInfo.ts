@@ -1,24 +1,30 @@
 import { Dayjs } from "dayjs";
 
 export interface Schedule {
-  performanceDate: Dayjs | null;
-  totalTicketCount: string;
+  scheduleId?: number;
+  performanceDate: Dayjs | null | string;
+  totalTicketCount: number;
+  dueDate?: number;
   scheduleNumber: string;
 }
 
 export interface Cast {
+  castId: number;
   castName: string;
   castRole: string;
   castPhoto: string;
 }
 
 export interface Staff {
+  staffId: number;
   staffName: string;
   staffRole: string;
   staffPhoto: string;
 }
 
-export interface GigInfo {
+export interface DataProps {
+  userId: number;
+  performanceId: number;
   performanceTitle: string;
   genre: string;
   runningTime: number | null;
@@ -36,4 +42,10 @@ export interface GigInfo {
   scheduleList: Schedule[];
   castList: Cast[];
   staffList: Staff[];
+}
+
+export interface GigInfo {
+  status: number;
+  message: string;
+  data: DataProps;
 }

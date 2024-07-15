@@ -1,11 +1,11 @@
 import { styled } from "@mui/material/styles";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
-import * as S from "./TimePicker.styled";
+import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import { Dayjs } from "dayjs";
+import * as S from "./TimePicker.styled";
 
 export interface TimePickerProps {
-  value: Dayjs | null;
+  value: Dayjs | null | string;
   onChangeValue: (value: Dayjs | null) => void;
 }
 
@@ -21,6 +21,8 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
       onChangeValue(newValue);
     }
   };
+  const parsedValue = typeof value === "string" ? dayjs(value) : value;
+
   return (
     <S.CustomPicker
       disablePast
@@ -30,7 +32,7 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
         day: StyledDay,
         openPickerIcon: (props) => <S.CustomOpenPicker open={open} />,
       }}
-      value={value}
+      value={parsedValue}
       onAccept={handleAccept}
       slotProps={{
         popper: {
