@@ -13,7 +13,6 @@ const KakaoLoginTest = () => {
 
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
-    console.log(url);
     requestKakaoLogin();
   };
 
