@@ -1,3 +1,3 @@
 import { atomWithStorage } from "jotai/utils";
 
-export const navigateAtom = atomWithStorage<string>("navigateUrl", "");
+export const navigateAtom = atomWithStorage<string>("navigateUrl", "/main");
