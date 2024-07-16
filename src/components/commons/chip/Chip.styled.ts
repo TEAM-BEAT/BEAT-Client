@@ -38,12 +38,12 @@ export const ChipWrapper = styled.div<{ color?: ChipsColorTypes }>`
   }}
 `;
 
-export const ChipIcon = styled.span<{ iconColor?: string }>`
+export const ChipIcon = styled.span<{ $iconColor?: string }>`
   width: 1.6rem;
   height: 1.6rem;
 
-  ${({ theme, iconColor }) => {
-    switch (iconColor) {
+  ${({ theme, $iconColor }) => {
+    switch ($iconColor) {
       case "pink":
         return `
           color: ${theme.colors.pink_400};

@@ -5,7 +5,7 @@ import Labal from "@components/commons/label/Labal";
 const PerformnaceCard = ({ ...item }) => {
   return (
     <S.PerformanceCardWrapper key={item.performanceId}>
-      <S.PerformanceImg />
+      <S.PerformanceImg src={item.posterImage} />
       {item.dueDate <= 5 ? (
         <>
           <Labal type="count">D-{item.dueDate}</Labal>

@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Subtract } from "@assets/svgs";
+import styled from "styled-components";
 
 export const PerformanceCardWrapper = styled.section`
   display: flex;
@@ -8,7 +8,7 @@ export const PerformanceCardWrapper = styled.section`
   align-items: start;
 `;
 
-export const PerformanceImg = styled.image`
+export const PerformanceImg = styled.img`
   position: relative;
   width: 15.7rem;
   height: 22.4rem;

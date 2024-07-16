@@ -8,9 +8,12 @@ import styled from "styled-components";
 interface BankNumberProps {
   bankName: string;
   number: string;
+  accountName: string;
+  accountNumber: string;
+  price: number;
 }
 
-const BankAccount = ({ bankName, number }: BankNumberProps) => {
+const BankAccount = ({ bankName, number, accountName, accountNumber, price }: BankNumberProps) => {
   const { showToast, isToastVisible } = useToast();
 
   const handleCopyClipBoard = (text: string) => {
@@ -19,19 +22,33 @@ const BankAccount = ({ bankName, number }: BankNumberProps) => {
     showToast();
   };
 
+  const handleDepositClick = () => {
+    window.open(
+      `supertoss://send?bank=${bankName}&accountNo=${accountNumber}&origin=linkgen&amount=${price}`
+    );
+  };
+
   const { closeModal } = useModal();
   return (
     <Wrapper>
       <Container>
-        <Text>{bankName}</Text>
+        <Text>
+          {bankName} ({accountName})
+        </Text>
         <Box>
           <Text>{number}</Text>
           <StyledIconCopy onClick={() => handleCopyClipBoard(number)} />
         </Box>
       </Container>
-      <Button size="large" variant="gray" onClick={closeModal}>
-        닫기
-      </Button>
+      <BtnWrapper>
+        <Button size="small" variant="gray" onClick={closeModal}>
+          닫기
+        </Button>
+        <Button size="small" variant="blue" onClick={handleDepositClick}>
+          토스로 송금
+        </Button>
+      </BtnWrapper>
+
       <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
         클립보드에 복사되었습니다!
       </Toast>
@@ -63,6 +80,11 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const BtnWrapper = styled.section`
+  display: flex;
+  gap: 0.7rem;
 `;
 
 const StyledIconCopy = styled(IcomCopy)`

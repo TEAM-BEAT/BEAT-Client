@@ -1,6 +1,7 @@
 import { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { GigInfo } from "../typings/gigInfo";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 // Image 핸들링
 export const handleImageUpload = (
@@ -15,7 +16,7 @@ export const handleImageUpload = (
 
 // Genre 핸들링
 export const handleGenreSelect = (
-  selectedGenre: string,
+  selectedGenre: SHOW_TYPE_KEY,
   setGigInfo: Dispatch<SetStateAction<GigInfo>>
 ) => {
   setGigInfo((prev) => ({
@@ -30,10 +31,20 @@ export const handleChange = (
   setGigInfo: Dispatch<SetStateAction<GigInfo>>
 ) => {
   const { name, value } = e.target;
-  setGigInfo((prev) => ({
-    ...prev,
-    [name]: value,
-  }));
+
+  // 숫자 타입 처리 추가
+  if (name === "ticketPrice" || name === "runningTime" || name === "totalTicketCount") {
+    const numericValue = parseInt(value.replace(/,/g, ""), 10);
+    setGigInfo((prev: GigInfo) => ({
+      ...prev,
+      [name]: isNaN(numericValue) ? null : numericValue,
+    }));
+  } else {
+    setGigInfo((prev: GigInfo) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 };
 
 // Stepper 핸들링
@@ -55,7 +66,7 @@ export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
       ...prev.scheduleList,
       {
         performanceDate: null, // 공연 일시
-        totalTicketCount: "", // 총 티켓 수
+        totalTicketCount: null, // 총 티켓 수
         scheduleNumber: getScheduleNumber(prev.scheduleList.length), // 회차 번호
       },
     ];
@@ -91,11 +102,12 @@ export const handleTotalTicketCountChange = (
   setGigInfo: Dispatch<SetStateAction<GigInfo>>
 ) => {
   const { value } = e.target;
+  const numericValue = parseInt(value, 10);
   setGigInfo((prev) => ({
     ...prev,
     scheduleList: prev.scheduleList.map((schedule) => ({
       ...schedule,
-      totalTicketCount: value,
+      totalTicketCount: isNaN(numericValue) ? null : numericValue,
     })),
   }));
 };

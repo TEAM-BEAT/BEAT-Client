@@ -1,8 +1,8 @@
-import * as S from "./MainNavigation.styled";
 import { useNavigate } from "react-router-dom";
+import * as S from "./MainNavigation.styled";
 
-import Hamburger from "../../../../components/commons/hamburger/Hamburger";
 import useHamburger from "@hooks/useHamburger";
+import Hamburger from "../../../../components/commons/hamburger/Hamburger";
 
 const MainNavigation = () => {
   const navigate = useNavigate();

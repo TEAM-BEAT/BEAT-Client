@@ -1,5 +1,5 @@
+import { IcHamburgar, IconFooterLogo } from "@assets/svgs";
 import styled from "styled-components";
-import { IconFooterLogo, IcHamburgar } from "@assets/svgs";
 
 export const MainNavigationWrapper = styled.section`
   position: absolute;

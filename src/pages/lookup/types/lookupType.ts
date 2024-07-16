@@ -15,6 +15,7 @@ export interface LookupProps {
   dueDate: number;
   paymentStatus: boolean;
   createdAt: string;
+  price: number;
   handleBtn?: () => void;
   handleAccount?: () => void;
 }
