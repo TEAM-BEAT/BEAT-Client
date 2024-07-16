@@ -1,5 +1,12 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { getTicketReq, getTicketRetrieve, putTicketUpdate, TicketUpdateRequest } from "./api";
+import {
+  deleteTicketDelete,
+  getTicketReq,
+  getTicketRetrieve,
+  putTicketUpdate,
+  TicketDeleteRequest,
+  TicketUpdateRequest,
+} from "./api";
 // 예매자 목록 조회 API (GET)를 위한 쿼리 작성
 const QUERY_KEY = {
   LIST: "list",
@@ -20,6 +27,18 @@ export const useTicketUpdate = () => {
 
   return useMutation({
     mutationFn: (formData: TicketUpdateRequest) => putTicketUpdate(formData),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+    },
+  });
+};
+
+// 예매자의 정보를 삭제하는 API (DELETE)를 위한 쿼리 작성
+export const useTicketDelete = () => {
+  const queryClient = new QueryClient();
+
+  return useMutation({
+    mutationFn: (formData: TicketDeleteRequest) => deleteTicketDelete(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
     },

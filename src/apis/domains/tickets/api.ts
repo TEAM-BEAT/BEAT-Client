@@ -1,4 +1,4 @@
-import { get, put } from "@apis/index";
+import { del, get, put } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
@@ -52,6 +52,25 @@ export const putTicketUpdate = async (
       formData
     );
 
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+// 예매자 삭제 API (DELETE)
+export type TicketDeleteRequest = components["schemas"]["TicketDeleteRequest"];
+
+export const deleteTicketDelete = async (
+  formData: TicketDeleteRequest
+): Promise<SuccessResponseVoid | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(
+      `tickets/${formData.performanceId}`,
+      //DELETE요청의 경우 두번째 인자가 좀 다름. - config 파일을 넣어야 함
+      { data: formData }
+    );
     return response.data.data;
   } catch (error) {
     console.log("error", error);
