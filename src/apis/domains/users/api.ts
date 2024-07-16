@@ -14,7 +14,6 @@ export const postKakaoLogin = async (authCode: string): Promise<LoginSuccessRepo
       }
     );
 
-    console.log("test");
     console.log(response);
     return response.data.data;
   } catch (error) {

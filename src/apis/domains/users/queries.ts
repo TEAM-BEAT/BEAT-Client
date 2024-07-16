@@ -1,12 +1,14 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { postKakaoLogin } from "./api";
+import { useAtom } from "jotai";
+import { userAtom } from "@stores/user";
 
 const QUERY_KEY = {
   KAKAO_LOGIN: "kakaoLogin",
 };
 
 export const usePostKakaoLogin = () => {
-  //   const [user, setUser] = useAtom(userAtom);
+  const [, setUserData] = useAtom(userAtom);
   const queryClient = new QueryClient();
 
   return useMutation({
@@ -14,7 +16,7 @@ export const usePostKakaoLogin = () => {
     onSuccess: (response) => {
       console.log("login success", response);
 
-      // const resData = response.data.data;
+      const userData = response.data.data;
       // if (resData) {
       //   const { guestNickname, guestId, hostNickname, hostId, token } = resData;
 
@@ -23,6 +25,11 @@ export const usePostKakaoLogin = () => {
       //   if (token && token.accessToken) {
       //     localStorage.setItem("accessToken", token.accessToken);
       //   }
+
+      if (userData) {
+        const { accessToken, refreshToken, nickName } = userData;
+        setUserData({ nickName, accessToken });
+      }
 
       //   queryClient.invalidateQueries({ queryKey: [QUERY_KEY.KAKAO_LOGIN] });
 
