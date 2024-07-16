@@ -14,10 +14,6 @@ interface InputProps {
   dataStatus: (status: number) => void;
 }
 
-// 서버 붙일 때 지우기 (현재 서버 없어 200/404 상황 확인하기 위해 임시로 둠)
-const success = 200;
-const fail = 404;
-
 const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps) => {
   const navigate = useNavigate();
 
