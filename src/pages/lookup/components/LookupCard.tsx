@@ -15,6 +15,7 @@ const LookupCard = ({
   bankName,
   accountNumber,
   dueDate,
+  price,
 }: LookupProps) => {
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ const LookupCard = ({
   const createDataArray = createdAtString.split("-");
 
   const performanceDateArray = performanceDate.split("-");
+  const totalPrice = (price * purchaseTicketCount).toLocaleString("ko-KR");
 
   const { openModal } = useModal();
 
@@ -62,16 +64,18 @@ const LookupCard = ({
           </S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>관람회차</S.SubTitle>
-          <S.Text>{scheduleNumber}회차</S.Text>
-        </S.Context>
-        <S.Context>
           <S.SubTitle>공연장소</S.SubTitle>
           <S.Text>{performanceVenue}</S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>매수</S.SubTitle>
-          <S.Text>{purchaseTicketCount}매</S.Text>
+          <S.SubTitle>관람회차</S.SubTitle>
+          <S.Text>
+            {scheduleNumber}회차 {purchaseTicketCount}매
+          </S.Text>
+        </S.Context>
+        <S.Context>
+          <S.SubTitle>총 금액</S.SubTitle>
+          <S.Text>{totalPrice}원</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>

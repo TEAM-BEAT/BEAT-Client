@@ -4,10 +4,10 @@ import { IconArrowRight } from "@assets/svgs";
 export const LookupCardWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.8rem;
   width: 21.4rem;
   height: 19.8rem;
-  padding: 1.8rem 2rem;
+  padding: 1.4rem 2rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 0.6rem;
@@ -54,7 +54,7 @@ export const BoxDivider = styled.div`
 export const ContextLayout = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.7rem;
   height: 12.2rem;
 `;
 
