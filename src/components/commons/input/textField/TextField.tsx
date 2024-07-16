@@ -6,8 +6,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import * as S from "./TextField.styled";
 import { IconEyeOff, IconEyeOn } from "@assets/svgs";
+import * as S from "./TextField.styled";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,6 +17,7 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   unit?: "time" | "ticket" | "amount"; // 단위 : "분", "매", "원"
   filter?: (value: string) => string;
   cap?: false | true;
+  isDisabled?: boolean;
 }
 
 const TextField = ({
@@ -30,6 +31,7 @@ const TextField = ({
   unit,
   filter,
   cap,
+  isDisabled,
   ...rest
 }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
@@ -119,6 +121,7 @@ const TextField = ({
     <S.TextFieldLayout $narrow={narrow}>
       <S.TextFieldWrapper>
         <S.TextFieldInput
+          $isDisabled={isDisabled}
           ref={inputRef}
           value={value}
           name={name}
@@ -129,7 +132,7 @@ const TextField = ({
           type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
           {...rest}
         />
-        {!narrow && !unit && value && type !== "password" && (
+        {!narrow && !unit && value && type !== "password" && !isDisabled && (
           <S.TextClear onClick={handleClearInput} />
         )}
         {unit && <S.TextUnit>{label}</S.TextUnit>}

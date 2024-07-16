@@ -56,7 +56,7 @@ export const SHOW_DETAIL_INFO = {
 export const SHOW_TYPE = {
   BAND: "밴드",
   DANCE: "댄스",
-  MUSICAL: "연극/뮤지컬",
+  PLAY: "연극/뮤지컬",
   ETC: "기타",
 } as const;
 

@@ -1,8 +1,8 @@
 import { BANK_LIST } from "@constants/bankList";
+import { useEffect } from "react";
 import Spacing from "../../spacing/Spacing";
 import * as S from "../Bank.styled";
 import BankBtn from "./BankBtn";
-import { useEffect } from "react";
 
 export interface BankBottomSheetProps {
   value: string;
@@ -29,7 +29,7 @@ const BankBottomSheet = ({ value, isOpen, onBankClick, onOutClick }: BankBottomS
           {BANK_LIST.map((bank) => {
             return (
               <BankBtn key={bank.id} onClick={() => onBankClick(bank.name)} icon={<bank.bankImg />}>
-                {bank.name}
+                {bank.nameKr}
               </BankBtn>
             );
           })}

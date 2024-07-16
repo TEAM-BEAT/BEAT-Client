@@ -1,6 +1,6 @@
+import Spacing from "@components/commons/spacing/Spacing";
 import React, { ReactNode } from "react";
 import * as S from "./Bank.styled";
-import Spacing from "@components/commons/spacing/Spacing";
 
 export interface InputAccountWrapperProps {
   children?: ReactNode;
