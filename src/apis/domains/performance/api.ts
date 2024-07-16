@@ -19,3 +19,21 @@ export const getBookingPerformanceDetail = async (
     return null;
   }
 };
+
+type TicketAvailabilityResponse = components["schemas"]["TicketAvailabilityResponse"];
+
+export const getScheduleAvailable = async (
+  scheduleId: number,
+  purchaseTicketCount: number
+): Promise<TicketAvailabilityResponse | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<TicketAvailabilityResponse>> = await get(
+      `/schedules/${scheduleId}/availability?purchaseTicketCount=${purchaseTicketCount}`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
