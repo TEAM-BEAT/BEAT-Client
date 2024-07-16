@@ -16,6 +16,7 @@ import { navigateAtom } from "@stores/navigate";
 import { useAtom } from "jotai";
 
 const Main = () => {
+  // 3. 훅 불러와서 사용
   const { data, isLoading } = useGetAllScheduleList();
 
   const [genre, setGenre] = useState("ALL");
