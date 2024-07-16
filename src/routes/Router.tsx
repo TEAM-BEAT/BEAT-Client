@@ -11,6 +11,7 @@ import Lookup from "@pages/lookup/Lookup";
 import Main from "@pages/main/Main";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/modalTest/ModalTest";
+import ModifyManage from "@pages/modifyManage/ModifyManage";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: "manage", element: <Manage /> },
       { path: "gig-manage", element: <MyRegisterdShow /> },
       { path: "guest-manage", element: <TicketHolderList /> },
+      { path: "gig-modify-manage", element: <ModifyManage /> },
 
       // ... other pages
     ],
