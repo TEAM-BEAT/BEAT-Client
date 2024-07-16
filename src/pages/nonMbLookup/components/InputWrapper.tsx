@@ -6,6 +6,7 @@ import TextField from "@components/commons/input/textField/TextField";
 import { nameFilter, numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
 import { usePostGuestBookingList } from "@apis/domains/bookings/queries";
 import { postGuestBookingReq } from "@apis/domains/bookings/api";
+import Loading from "@components/commons/loading/Loading";
 
 interface InputProps {
   btnOn: () => void;
@@ -17,7 +18,7 @@ interface InputProps {
 const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps) => {
   const navigate = useNavigate();
 
-  const { mutate, mutateAsync } = usePostGuestBookingList();
+  const { mutateAsync, isPending } = usePostGuestBookingList();
 
   const [nonMemberInfo, setNonMemberInfo] = useState({
     bookerName: "",
@@ -82,43 +83,46 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   }, [isReadyRequest]);
 
   return (
-    <S.InputWrapperLayout>
-      <TextField
-        name="bookerName"
-        type="input"
-        value={bookerName}
-        placeholder="이름"
-        onChange={handleChange}
-        filter={nameFilter}
-      />
-      <TextField
-        type="input"
-        name="birth"
-        value={birth}
-        onChange={handleChange}
-        placeholder="생년월일 앞 6자리"
-        filter={numericFilter}
-        maxLength={6}
-      />
-      <TextField
-        type="input"
-        name="number"
-        value={number}
-        onChange={handleChange}
-        placeholder="휴대폰 번호 '-' 없이 입력"
-        filter={phoneNumberFilter}
-        maxLength={13}
-      />
-      <TextField
-        type={pwdStatus ? "input" : "password"}
-        name="password"
-        value={password}
-        onChange={handleChange}
-        placeholder="비밀번호(숫자 4자리)"
-        filter={numericFilter}
-        maxLength={4}
-      />
-    </S.InputWrapperLayout>
+    <>
+      {isPending && <Loading />}
+      <S.InputWrapperLayout>
+        <TextField
+          name="bookerName"
+          type="input"
+          value={bookerName}
+          placeholder="이름"
+          onChange={handleChange}
+          filter={nameFilter}
+        />
+        <TextField
+          type="input"
+          name="birth"
+          value={birth}
+          onChange={handleChange}
+          placeholder="생년월일 앞 6자리"
+          filter={numericFilter}
+          maxLength={6}
+        />
+        <TextField
+          type="input"
+          name="number"
+          value={number}
+          onChange={handleChange}
+          placeholder="휴대폰 번호 '-' 없이 입력"
+          filter={phoneNumberFilter}
+          maxLength={13}
+        />
+        <TextField
+          type={pwdStatus ? "input" : "password"}
+          name="password"
+          value={password}
+          onChange={handleChange}
+          placeholder="비밀번호(숫자 4자리)"
+          filter={numericFilter}
+          maxLength={4}
+        />
+      </S.InputWrapperLayout>
+    </>
   );
 };
 
