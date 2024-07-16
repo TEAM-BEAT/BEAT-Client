@@ -32,6 +32,13 @@ const TicketHolderList = () => {
   );
   const [isDeleteMode, setIsDeleteMode] = useState(false);
 
+  //이 경우에는, 배열의 타입을 정해줘야함(initialPayment 때문)
+  const [editBlockList, setEditBlockList] = useState<boolean[]>([]);
+  useEffect(() => {
+    const initialPayments = responseData.map((obj) => obj.isPaymentCompleted);
+    setEditBlockList(initialPayments);
+  }, []);
+
   const { openConfirm, closeConfirm } = useModal();
   const handlePaymentFixAxiosFunc = () => {
     //나중에 api 요청 작성할 예정
@@ -181,25 +188,6 @@ const TicketHolderList = () => {
               <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
                 <S.Circle $detail={detail} />
               </S.ToggleButton>
-              {/*detail ? (
-                <>
-                  <S.ToggleText>자세히</S.ToggleText>
-                  <S.ToggleOnIcon
-                    onClick={handleToggleButton}
-                    $width={"5.6rem"}
-                    $height={"3.3rem"}
-                  />
-                </>
-              ) : (
-                <>
-                  <S.ToggleText>간략히</S.ToggleText>
-                  <S.ToggleOffIcon
-                    onClick={handleToggleButton}
-                    $width={"5.6rem"}
-                    $height={"3.3rem"}
-                  />
-                </>
-              )*/}
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
           {filteredData.map((obj, index) => (
@@ -217,6 +205,7 @@ const TicketHolderList = () => {
               scheduleNumber={obj.scheduleNumber}
               bookerPhoneNumber={obj.bookerPhoneNumber}
               createAt={obj.createdAt}
+              editBlock={editBlockList[index]}
             />
           ))}
 
