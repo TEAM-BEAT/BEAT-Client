@@ -52,6 +52,7 @@ export const BoxDivider = styled.div`
 `;
 
 export const ContextLayout = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -80,7 +81,9 @@ export const Text = styled.div`
 
 export const DepositLayout = styled.section`
   display: flex;
-  gap: 0.8rem;
+  gap: 1.3rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const CheckingDeposit = styled.div`
@@ -98,9 +101,17 @@ export const CheckedDeposit = styled.div`
 `;
 
 export const AccountLayout = styled.button`
+  position: absolute;
+  right: 0;
+  bottom: -1.3rem;
   display: flex;
-  gap: 0.4rem;
   align-items: center;
+  width: 5.7rem;
+  padding: 0.4rem 0.8rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_700};
+  border: 1px solid ${({ theme }) => theme.colors.gray_500};
+  border-radius: 0.4rem;
 `;
 
 export const Account = styled.div`
@@ -108,14 +119,5 @@ export const Account = styled.div`
 
   ${({ theme }) => theme.fonts["caption2-medi"]};
 
-  color: ${({ theme }) => theme.colors.gray_400};
-`;
-
-export const ArrowRightIcon = styled(IconArrowRight)`
-  width: 0.8rem;
-  height: 0.8rem;
-
-  path {
-    fill: ${({ theme }) => theme.colors.gray_400};
-  }
+  color: ${({ theme }) => theme.colors.gray_100};
 `;

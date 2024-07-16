@@ -85,16 +85,15 @@ const LookupCard = ({
             ) : (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
             )}
-            {dueDate >= 0 ? (
-              <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
-                <S.Account>계좌번호</S.Account>
-                <S.ArrowRightIcon />
-              </S.AccountLayout>
-            ) : (
-              <></>
-            )}
           </S.DepositLayout>
         </S.Context>
+        {dueDate >= 0 ? (
+          <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
+            <S.Account>계좌번호</S.Account>
+          </S.AccountLayout>
+        ) : (
+          <></>
+        )}
       </S.ContextLayout>
     </S.LookupCardWrapper>
   );
