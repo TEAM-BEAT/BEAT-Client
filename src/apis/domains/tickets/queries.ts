@@ -1,6 +1,5 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { getTicketReq, getTicketRetrieve, TicketUpdateRequest } from "./api";
-
+import { getTicketReq, getTicketRetrieve, putTicketUpdate, TicketUpdateRequest } from "./api";
 // 예매자 목록 조회 API (GET)를 위한 쿼리 작성
 const QUERY_KEY = {
   LIST: "list",

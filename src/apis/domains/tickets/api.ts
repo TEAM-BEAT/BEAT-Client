@@ -1,8 +1,7 @@
-import { get } from "@apis/index";
+import { get, put } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
-import { BookingListProps } from "./../../../pages/ticketholderlist/constants/ticketholderlist";
 
 // 예매자 목록 조회 API (GET)
 export interface getTicketReq {
@@ -30,14 +29,15 @@ export const getTicketRetrieve = async (
 };
 
 // 예매자 입급 여부 수정 API (PUT)
+/*
 export interface putTicketReq {
   performanceId: number;
   performanceTitle: string;
   totalScheduleCoun: number;
   bookingList: BookingListProps[];
 }
-
-type TicketUpdateRequest = components["schemas"]["TicketUpdateRequest"];
+*/
+export type TicketUpdateRequest = components["schemas"]["TicketUpdateRequest"];
 type SuccessResponseVoid = components["schemas"]["SuccessResponseVoid"];
 
 //async 함수는 항상 promise로 감싸서 값을 리턴한다.
