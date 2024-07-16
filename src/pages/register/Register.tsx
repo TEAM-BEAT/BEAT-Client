@@ -1,44 +1,44 @@
-import TextField from "@components/commons/input/textField/TextField";
-import InputRegisterBox from "./components/InputRegisterBox";
-import * as S from "./Register.styled";
-import { ChangeEvent, useEffect, useState } from "react";
-import TextArea from "@components/commons/input/textArea/TextArea";
-import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
-import Stepper from "@components/commons/stepper/Stepper";
-import StepperRegisterBox from "./components/StepperRegisterBox";
-import TimePickerRegisterBox from "./components/TimePickerRegisterBox";
-import TimePicker from "@components/commons/timepicker/TimePicker";
+import { IconChecked } from "@assets/svgs";
+import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
 import InputBank from "@components/commons/bank/InputBank";
-import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
-import GenreSelect from "./components/GenreSelect";
-import PosterThumbnail from "./components/PosterThumbnail";
+import Button from "@components/commons/button/Button";
+import TextArea from "@components/commons/input/textArea/TextArea";
+import TextField from "@components/commons/input/textField/TextField";
 import Spacing from "@components/commons/spacing/Spacing";
+import Stepper from "@components/commons/stepper/Stepper";
+import TimePicker from "@components/commons/timepicker/TimePicker";
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import useModal from "@hooks/useModal";
+import Content from "@pages/gig/components/content/Content";
+import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useHeader } from "./../../hooks/useHeader";
+import GenreSelect from "./components/GenreSelect";
+import InputRegisterBox from "./components/InputRegisterBox";
+import PosterThumbnail from "./components/PosterThumbnail";
+import StepperRegisterBox from "./components/StepperRegisterBox";
+import TimePickerRegisterBox from "./components/TimePickerRegisterBox";
 import { GENRE_LIST } from "./constants/genreList";
+import * as S from "./Register.styled";
+import RegisterMaker from "./RegisterMaker";
+import { GigInfo } from "./typings/gigInfo";
 import {
-  handleImageUpload,
-  handleGenreSelect,
-  handleChange,
-  onMinusClick,
-  onPlusClick,
-  handleDateChange,
-  handleBankOpen,
   handleBankClick,
+  handleBankOpen,
+  handleChange,
+  handleDateChange,
+  handleGenreSelect,
+  handleImageUpload,
   handleTotalTicketCountChange,
   isAllFieldsFilled,
   onFreeClick,
+  onMinusClick,
+  onPlusClick,
 } from "./utils/handleEvent";
-import { GigInfo } from "./typings/gigInfo";
-import Button from "@components/commons/button/Button";
-import { IconChecked } from "@assets/svgs";
-import RegisterMaker from "./RegisterMaker";
-import { useHeader } from "./../../hooks/useHeader";
-import { NAVIGATION_STATE } from "@constants/navigationState";
-import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
-import useModal from "@hooks/useModal";
-import { useNavigate } from "react-router-dom";
-import Content from "@pages/gig/components/content/Content";
-import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
@@ -336,7 +336,11 @@ const Register = () => {
           {!isFree && (
             <>
               <InputAccountWrapper>
-                <InputBank bankOpen={bankOpen} onClick={() => handleBankOpen(setBankOpen)}>
+                <InputBank
+                  isDisabled={isFree}
+                  bankOpen={bankOpen}
+                  onClick={() => handleBankOpen(setBankOpen)}
+                >
                   {bankInfo}
                 </InputBank>
                 <TextField
