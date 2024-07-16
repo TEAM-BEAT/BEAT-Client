@@ -16,7 +16,7 @@ interface ShowInfoProps {
   posterImage: string;
   genre: SHOW_TYPE_KEY;
   title: string;
-  price: number;
+  price: number | null;
   venue: string;
   period: string;
   runningTime: number | null;
