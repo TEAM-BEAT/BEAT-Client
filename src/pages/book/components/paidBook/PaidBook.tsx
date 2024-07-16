@@ -68,7 +68,7 @@ const PaidBook = ({ id, title, bankName, accountNumber, price }: PaidBookProps) 
         </S.DepositContainer>
 
         <S.FloatingWrapper>
-          <Button variant="blue" onClick={handleDepositClick}>
+          <Button variant="blue" size="xlarge" onClick={handleDepositClick}>
             토스로 송금하기
           </Button>
           <S.GigButtonBox onClick={navigateGig}>
