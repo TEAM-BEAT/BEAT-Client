@@ -5,11 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function TokenRefresher() {
   const navigate = useNavigate();
 
-  console.log("hi11");
-
   useEffect(() => {
-    console.log("hi");
-
     const interceptor = instance.interceptors.response.use(
       // 성공적인 응답 처리
       (response) => {
@@ -21,14 +17,16 @@ export default function TokenRefresher() {
         const msg = error.response.data.msg; // error msg from backend
         const status = error.response.status; // 현재 발생한 에러 코드
         // access_token 재발급
+
         if (status === 401) {
           if (msg === "Expired Access Token. 토큰이 만료되었습니다") {
             // console.log("토큰 재발급 요청");
             await instance
               .post(
-                `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/token/reissue`,
+                "/users/refresh-token",
                 {},
                 {
+                  // TODO: 쿠키로 변경 ?
                   headers: {
                     Authorization: `${localStorage.getItem("Authorization")}`,
                     Refresh: `${localStorage.getItem("Refresh")}`,
@@ -36,7 +34,7 @@ export default function TokenRefresher() {
                 }
               )
               .then((res) => {
-                // console.log("res : ", res);
+                console.log("res: ", res);
                 // 새 토큰 저장
                 localStorage.setItem("Authorization", res.headers.authorization);
                 localStorage.setItem("Refresh", res.headers.refresh);
@@ -57,10 +55,11 @@ export default function TokenRefresher() {
           // else if(msg == "만료된 리프레시 토큰입니다") {
           else {
             localStorage.clear();
-            navigate("/");
-            // window.alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.")
+            navigate("/main");
+            alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.");
           }
         } else if (status === 400 || status === 404 || status === 409) {
+          console.log("hi3");
           // window.alert(msg);
           // console.log(msg)
         }
@@ -73,5 +72,6 @@ export default function TokenRefresher() {
       instance.interceptors.response.eject(interceptor);
     };
   }, []);
+
   return <></>;
 }

@@ -35,7 +35,9 @@ function App() {
           </LocalizationProvider>
         </ThemeProvider>
       </MuiThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <div style={{ fontSize: "16px" }}>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </div>
     </QueryClientProvider>
   );
 }
