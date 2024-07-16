@@ -32,6 +32,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
     <S.CustomPicker
       disablePast
       showDaysOutsideCurrentMonth
+      closeOnSelect={false}
       format={"YYYY/MM/DD\t     HH:mm"}
       slots={{
         day: StyledDay,
@@ -79,6 +80,11 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
             },
             "button.MuiPickersDay-root.Mui-selected": {
               background: "#FB247F",
+            },
+            "& .MuiMultiSectionDigitalClockSection-list": {
+              "&::-webkit-scrollbar": {
+                background: "#FB247F",
+              },
             },
             "& .MuiMultiSectionDigitalClockSection-item": {
               width: "3rem",
