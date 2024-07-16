@@ -5,10 +5,10 @@ export interface SelectProps {
   selectedValue: number;
   handleRadioChange: (value: number) => void;
   scheduleList: {
-    scheduleId: number;
-    performanceDate: string;
-    availableTicketCount: number;
-    scheduleNumber: string;
+    scheduleId?: number;
+    performanceDate?: string;
+    availableTicketCount?: number;
+    scheduleNumber?: string;
   }[];
 }
 

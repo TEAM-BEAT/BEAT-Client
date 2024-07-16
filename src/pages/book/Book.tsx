@@ -1,10 +1,12 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { useGetBookingPerformanceDetail } from "@apis/domains/performance/queries";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
 import Button from "@components/commons/button/Button";
 import Context from "@components/commons/contextBox/Context";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
+import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
@@ -15,12 +17,13 @@ import EasyPassEntry from "./components/easyPassEntry/EasyPassEntry";
 import Info from "./components/info/Info";
 import Select from "./components/select/Select";
 import TermCheck from "./components/termCheck/TermCheck";
-import { BOOK_DETAIL_INFO } from "./constants/dummy";
 import { FormData } from "./typings/formData";
 
 const Book = () => {
   const navigate = useNavigate();
   const { performanceId } = useParams<{ performanceId: string }>();
+
+  const { data, isLoading } = useGetBookingPerformanceDetail(Number(performanceId));
 
   // TODO: 회원/비회원 여부
   const { setHeader } = useHeader();
@@ -36,7 +39,6 @@ const Book = () => {
     });
   }, []);
 
-  const [detail, setDetail] = useState(BOOK_DETAIL_INFO);
   const [selectedValue, setSelectedValue] = useState<number>();
   const [round, setRound] = useState(1);
   const [bookerInfo, setBookerInfo] = useState({
@@ -106,7 +108,7 @@ const Book = () => {
       scheduleId: performanceId,
       selectedValue,
       purchaseTicketCount: round,
-      totalPaymentAmount: detail.ticketPrice * round,
+      totalPaymentAmount: data?.ticketPrice ?? 0 * round,
     } as FormData;
 
     // TODO: 회원, 비회원 여부에 따라서 예매하기 post 요청
@@ -164,28 +166,30 @@ const Book = () => {
     }
   }, [isNonMember, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <S.ContentWrapper>
       <Info
-        genre={detail.genre as SHOW_TYPE_KEY}
-        title={detail.performanceTitle}
-        teamName={detail.performanceTeamName}
-        venue={detail.performanceVenue}
-        period={detail.performancePeriod}
+        genre={data?.genre as SHOW_TYPE_KEY}
+        title={data?.performanceTitle ?? ""}
+        teamName={data?.performanceTeamName ?? ""}
+        venue={data?.performanceVenue ?? ""}
+        period={data?.performancePeriod ?? ""}
       />
       <S.Divider />
       <Select
         selectedValue={selectedValue as number}
         handleRadioChange={handleRadioChange}
-        scheduleList={detail.scheduleList}
+        scheduleList={data?.scheduleList ?? []}
       />
       <Count
         round={round}
         onMinusClick={onMinusClick}
         onPlusClick={onPlusClick}
-        ticketPrice={detail.ticketPrice}
+        ticketPrice={data?.ticketPrice ?? 0}
         availableTicketCount={
-          selectedValue ? detail.scheduleList[selectedValue - 1].availableTicketCount : undefined
+          selectedValue ? data?.scheduleList![selectedValue - 1].availableTicketCount : undefined
         }
       />
       <BookerInfo
@@ -216,20 +220,20 @@ const Book = () => {
         isOpen={isOpen}
         onClickOutside={handleSheetClose}
         title="예매하신 내역이 맞나요?"
-        boxTitle={detail.performanceTitle}
+        boxTitle={data?.performanceTitle ?? ""}
         boxTitleColor="pink_200"
       >
         <Context
           isDate={true}
           subTitle="날짜"
-          date={detail.scheduleList[(selectedValue ?? 1) - 1].performanceDate
-            .slice(0, 10)
+          date={data
+            ?.scheduleList![(selectedValue ?? 1) - 1].performanceDate?.slice(0, 10)
             .toString()}
-          time={detail.scheduleList[(selectedValue ?? 1) - 1].performanceDate
-            .slice(11, 16)
+          time={data
+            ?.scheduleList![(selectedValue ?? 1) - 1].performanceDate?.slice(11, 16)
             .toString()}
         />
-        <Context subTitle="가격" text={`${(detail.ticketPrice * round).toLocaleString()}원`} />
+        <Context subTitle="가격" text={`${(data?.ticketPrice ?? 0 * round).toLocaleString()}원`} />
         <Context subTitle="예매자" text={bookerInfo.bookerName} />
         <OuterLayout gap="1.1rem" margin="2.4rem 0 0 0">
           <Button variant="gray" size="medium" onClick={handleSheetClose}>
