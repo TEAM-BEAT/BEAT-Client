@@ -4,12 +4,16 @@ import * as S from "./Main.styled";
 import Carousel from "./components/carousel/Carousel";
 import Chips from "./components/chips/Chips";
 import Floating from "./components/floating/Floating";
+
 import Footer from "./components/footer/Footer";
 import MainNavigation from "./components/mainNavigation/MainNavigation";
 import Performance from "./components/performance/Performance";
 
 import { useGetTest } from "@apis/domains/test";
 import Loading from "@components/commons/loading/Loading";
+
+import { navigateAtom } from "@stores/navigate";
+import { useAtom } from "jotai";
 import { dummyData } from "./constants/dummyData";
 
 const Main = () => {
@@ -21,6 +25,9 @@ const Main = () => {
 
   const { data, isLoading } = useGetTest();
   console.log("test data", data, isLoading);
+  const [navigateUrl, setNavigateUrl] = useAtom(navigateAtom);
+
+  console.log("main", navigateUrl);
 
   return (
     <>

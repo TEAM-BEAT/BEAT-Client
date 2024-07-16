@@ -11,6 +11,7 @@ interface PosterThumbnailProps {
 const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(value || null);
+  const [inputKey, setInputKey] = useState<number>(Date.now());
 
   useEffect(() => {
     setPreviewImg(value || null);
@@ -19,11 +20,10 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPostImg(file);
-
       const fileReader = new FileReader();
       fileReader.onload = function (event) {
         const imageUrl = event.target?.result as string;
+        setPostImg(file);
         setPreviewImg(imageUrl);
         onImageUpload(imageUrl);
       };
@@ -33,7 +33,9 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
   };
 
   const removeImage = () => {
+    setPostImg(null);
     setPreviewImg(null);
+    setInputKey(Date.now());
     onImageUpload("");
   };
 
@@ -43,7 +45,7 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
       <S.InputDescription>한 장만 등록 가능합니다.</S.InputDescription>
       <Spacing marginBottom="1.4" />
       <S.FileInputWrapper>
-        <S.HiddenFileInput type="file" id="file" onChange={uploadFile} />
+        <S.HiddenFileInput key={inputKey} type="file" id="file" onChange={uploadFile} />
         <S.CustomFileInput htmlFor="file">
           <IconCamera width={"3.2rem"} />
         </S.CustomFileInput>
