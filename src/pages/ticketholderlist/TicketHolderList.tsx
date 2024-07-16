@@ -1,3 +1,4 @@
+import { useTicketRetrive } from "@apis/domains/tickets/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
@@ -27,10 +28,15 @@ const TicketHolderList = () => {
   // 0, undefined 일 때는 전체 렌더링 (필터링을 위한 state들)
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
   const [payment, setPayment] = useState<boolean | undefined>(undefined);
-  const [responseData, setResponseData] = useState<BookingListProps[]>(
-    RESPONSE_TICKETHOLDER.data.bookingList
-  );
+
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+  const { data, isLoading } = useTicketRetrive({ performanceId });
+  const [responseData, setResponseData] = useState<BookingListProps[]>();
+
+  useEffect(() => {
+    setResponseData(data?.bookingList ?? []);
+  }, [data]);
 
   const { openConfirm, closeConfirm } = useModal();
   const handlePaymentFixAxiosFunc = () => {
@@ -117,7 +123,7 @@ const TicketHolderList = () => {
 
   const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
 
-  const filteredData = responseData.filter((obj) => {
+  const filteredData = responseData?.filter((obj) => {
     const isScheduleMatched =
       schedule === 0 ||
       (obj.scheduleNumber === "FIRST" && schedule === 1) ||
@@ -127,12 +133,13 @@ const TicketHolderList = () => {
 
     return isScheduleMatched && isPaymentMatched;
   });
+
   //도영이가 axios 사용하면 useEffect 필요없다고 했는데, 나중에 리팩토링 할 수도 있음.
   useEffect(() => {
-    const totalCount = filteredData.reduce(
-      (totalSum, obj) => obj.purchaseTicketCount + totalSum,
+    const totalCount = filteredData?.reduce(
+      (totalSum, obj) => (obj.purchaseTicketCount as number) + totalSum,
       0
-    );
+    ) as number;
     setReservedCount(totalCount);
     //그리고 여기서 바로 다시 axios 요청 쏘는 로직 구성해두기
   }, [filteredData]);
@@ -140,10 +147,10 @@ const TicketHolderList = () => {
   //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
 
   //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
-  const handlePaymentToggle = (bookingId: number, isDeleteModeee: boolean) => {
+  const handlePaymentToggle = (isDeleteModeee: boolean, bookingId?: number) => {
     if (!isDeleteModeee) {
       setResponseData((arr) =>
-        arr.map((item) =>
+        arr?.map((item) =>
           item.bookingId === bookingId
             ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
             : item
@@ -202,7 +209,7 @@ const TicketHolderList = () => {
               )*/}
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
-          {filteredData.map((obj, index) => (
+          {filteredData?.map((obj, index) => (
             <ManagerCard
               key={`managerCard-${index}`}
               formData={formData}
@@ -211,7 +218,7 @@ const TicketHolderList = () => {
               bookingId={obj.bookingId}
               isPaid={obj.isPaymentCompleted}
               isDetail={detail}
-              setPaid={() => handlePaymentToggle(obj.bookingId, isDeleteMode)}
+              setPaid={() => handlePaymentToggle(isDeleteMode, obj.bookingId)}
               bookername={obj.bookerName}
               purchaseTicketeCount={obj.purchaseTicketCount}
               scheduleNumber={obj.scheduleNumber}
