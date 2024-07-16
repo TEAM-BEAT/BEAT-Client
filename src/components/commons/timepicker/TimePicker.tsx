@@ -1,8 +1,8 @@
 import { styled } from "@mui/material/styles";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import * as S from "./TimePicker.styled";
-import { useState } from "react";
-import { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface TimePickerProps {
   value: Dayjs | null;
@@ -17,11 +17,17 @@ const StyledDay = styled(PickersDay)(({ theme }) => ({
 
 const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
   const [open, setOpen] = useState(false);
+  const [placeholder, setPlaceholder] = useState("");
   const handleAccept = (newValue: Dayjs | null) => {
     if (newValue) {
       onChangeValue(newValue);
     }
   };
+  useEffect(() => {
+    const now = dayjs().format("YYYY/MM/DD\t     HH:mm");
+    setPlaceholder(now);
+  }, []);
+
   return (
     <S.CustomPicker
       disablePast
@@ -29,12 +35,14 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
       format={"YYYY/MM/DD\t     HH:mm"}
       slots={{
         day: StyledDay,
+
         openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
       value={value}
       minDate={minDate || undefined}
       onAccept={handleAccept}
       slotProps={{
+        textField: { placeholder },
         popper: {
           sx: {
             "& .MuiPaper-root": {
@@ -60,6 +68,15 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
             "& .MuiPickersCalendarHeader-label": {
               fontSize: "1.3rem",
             },
+            "& .MuiPickersYear-yearButton": {
+              fontSize: "1.3rem",
+            },
+            "& .MuiPickersYear-yearButton.Mui-selected": {
+              background: "#FB247F",
+            },
+            "& .MuiPickersYear-yearButton.Mui-focused": {
+              background: "#FB247F",
+            },
             "button.MuiPickersDay-root.Mui-selected": {
               background: "#FB247F",
             },
@@ -72,7 +89,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
             "& .MuiMultiSectionDigitalClockSection-item.Mui-selected": {
               background: "#FB247F",
             },
-            "&.MuiMultiSectionDigitalClockSection-item.Mui-focused": {
+            "& .MuiMultiSectionDigitalClockSection-item.Mui-selected:hover": {
               background: "#FB247F",
             },
             "&.MuiMultiSectionDigitalClock-root": {
