@@ -101,13 +101,9 @@ export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
             `;
       case "blue":
         return css`
-          width: 32.7rem;
-          height: 5.6rem;
-
           color: ${({ theme }) => theme.colors.white};
 
           background-color: ${({ theme }) => theme.colors.blue_400};
-          ${({ theme }) => theme.fonts["body1-normal-semi"]};
         `;
     }
   }}

@@ -4,10 +4,10 @@ import { IconArrowRight } from "@assets/svgs";
 export const LookupCardWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.8rem;
   width: 21.4rem;
   height: 19.8rem;
-  padding: 1.8rem 2rem;
+  padding: 1.4rem 2rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 0.6rem;
@@ -15,16 +15,19 @@ export const LookupCardWrapper = styled.section`
 
 export const LookupTitleWrapper = styled.button`
   display: flex;
+  width: 17.5rem;
 `;
 
 export const LookupTitle = styled.div`
-  display: flex;
+  display: block;
+  flex: 1;
   width: 17.3rem;
   overflow: hidden;
 
   color: ${({ theme }) => theme.colors.gray_0};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
   white-space: nowrap;
+  text-align: start;
   text-overflow: ellipsis;
 `;
 
@@ -34,7 +37,9 @@ export const TitleArrowRightIcon = styled(IconArrowRight)`
   width: 1.8rem;
   height: 1.8rem;
 
-  fill: ${({ theme }) => theme.colors.gray_400};
+  path {
+    fill: ${({ theme }) => theme.colors.gray_400};
+  }
 `;
 
 export const BoxDivider = styled.div`
@@ -47,9 +52,10 @@ export const BoxDivider = styled.div`
 `;
 
 export const ContextLayout = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.7rem;
   height: 12.2rem;
 `;
 
@@ -75,7 +81,9 @@ export const Text = styled.div`
 
 export const DepositLayout = styled.section`
   display: flex;
-  gap: 0.8rem;
+  gap: 1.3rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const CheckingDeposit = styled.div`
@@ -93,9 +101,17 @@ export const CheckedDeposit = styled.div`
 `;
 
 export const AccountLayout = styled.button`
+  position: absolute;
+  right: 0;
+  bottom: -1.3rem;
   display: flex;
-  gap: 0.4rem;
   align-items: center;
+  width: 5.7rem;
+  padding: 0.4rem 0.8rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_700};
+  border: 1px solid ${({ theme }) => theme.colors.gray_500};
+  border-radius: 0.4rem;
 `;
 
 export const Account = styled.div`
@@ -103,12 +119,5 @@ export const Account = styled.div`
 
   ${({ theme }) => theme.fonts["caption2-medi"]};
 
-  color: ${({ theme }) => theme.colors.gray_400};
-`;
-
-export const ArrowRightIcon = styled(IconArrowRight)`
-  width: 0.8rem;
-  height: 0.8rem;
-
-  fill: ${({ theme }) => theme.colors.gray_400};
+  color: ${({ theme }) => theme.colors.gray_100};
 `;
