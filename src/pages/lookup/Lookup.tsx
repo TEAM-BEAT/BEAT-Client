@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
@@ -21,6 +21,7 @@ import { useEffect } from "react";
 
 const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
+  const { state } = useLocation();
   const [lookUpList, setLookUpList] = useState(dummyData);
 
   const navigate = useNavigate();
@@ -38,6 +39,12 @@ const Lookup = () => {
   const handleLeftBtn = () => {
     navigate("/main");
   };
+
+  useEffect(() => {
+    if (state) {
+      setLookUpList(state);
+    }
+  }, []);
 
   useEffect(() => {
     setHeader({

@@ -4,6 +4,8 @@ import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
 import { nameFilter, numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
+import { usePostGuestBookingList } from "@apis/domains/bookings/queries";
+import { postGuestBookingReq } from "@apis/domains/bookings/api";
 
 interface InputProps {
   btnOn: () => void;
@@ -18,6 +20,8 @@ const fail = 404;
 
 const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps) => {
   const navigate = useNavigate();
+
+  const { mutate, mutateAsync } = usePostGuestBookingList();
 
   const [nonMemberInfo, setNonMemberInfo] = useState({
     bookerName: "",
@@ -56,17 +60,24 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     }
   }, [bookerName, birth, number, password]);
 
+  const postUserData = async (postData: postGuestBookingReq) => {
+    const bookingData = await mutateAsync(postData);
+    dataStatus(200);
+    navigate("/lookup", { state: bookingData });
+  };
+
   useEffect(() => {
     if (isReadyRequest) {
-      // API 붙일 때 이 부분 서버 통신 성공 경우
-      // API 붙일 때 여기서 서버 POST
-      if (success === 200) {
-        // API 붙일 경우 dataStatus(서버에서 온 상태);
-        dataStatus(200);
+      const formData = {
+        bookerName: bookerName,
+        birthDate: birth,
+        bookerPhoneNumber: number,
+        password: password,
+      };
 
-        navigate("/lookup");
-        // 200일 경우 잘 오는지 확인하기 위한 console.log -> API 붙일 때 지우면 됨
-        console.log([name, birth, number, password]);
+      postUserData(formData);
+
+      if (success === 200) {
         // 404 혹은 통신 실패 경우
       } else {
         resetForm();

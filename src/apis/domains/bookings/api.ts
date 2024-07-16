@@ -3,6 +3,7 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
 
+// 비회원 예매 API
 export interface postGuestReq {
   scheduleId: number;
   purchaseTicketCount: number;
@@ -35,13 +36,30 @@ export const postGuestBook = async (
   }
 };
 
-export const getGuestBookingList = async () => {
-  try {
-    const response = await get("/bookings/guest/retrieve");
+// 비회원 예매 조회 API
 
-    console.log(response.data);
-    return response;
+export interface postGuestBookingReq {
+  bookerName: string;
+  birthDate: string;
+  bookerPhoneNumber: string;
+  password: string;
+}
+
+type GuestBookingRetrieveRequest = components["schemas"]["GuestBookingRetrieveRequest"];
+
+export const postGuestBookingList = async (
+  formData: postGuestBookingReq
+): Promise<GuestBookingRetrieveRequest | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
+      "/bookings/guest/retrieve",
+      formData
+    );
+
+    return response.data.data;
   } catch (error) {
     console.error("error", error);
+
+    return null;
   }
 };
