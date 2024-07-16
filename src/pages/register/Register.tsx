@@ -111,6 +111,10 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleComplete = () => {
+    console.log(gigInfo);
+
+    // TODO: presigned url 추가
+    // TODO: 등록하기 요청
     navigate("/register-complete");
   };
 
@@ -152,7 +156,6 @@ const Register = () => {
       ...newInfo,
     }));
   };
-  console.log(gigInfo);
 
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
