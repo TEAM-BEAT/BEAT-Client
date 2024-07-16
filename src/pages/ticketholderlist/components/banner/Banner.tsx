@@ -1,18 +1,19 @@
 import * as S from "./Banner.styled";
 
 interface BannerProps {
+  title?: string;
   image: string;
   reservedCount: number;
   isOutdated: boolean;
 }
 
-const Banner = ({ image, reservedCount, isOutdated }: BannerProps) => {
+const Banner = ({ title, image, reservedCount, isOutdated }: BannerProps) => {
   return (
     <S.BannerWrapper $image={image}>
       <S.BannerTextLayout>
         <S.BannerTextBox>
           <S.BannerTextBox>
-            <S.BannerTitleText>실리카겔 락앤롤롤롤롤롤롤롤롤롤롤롤</S.BannerTitleText>
+            <S.BannerTitleText>{title}</S.BannerTitleText>
             {isOutdated ? (
               <S.BannerStateTextBox>
                 총<S.CountTextSpan> {reservedCount}매 </S.CountTextSpan>
