@@ -1,4 +1,5 @@
 import Layout from "@components/layout/Layout";
+import TokenRefresher from "@hooks/useTokenRefresher";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Apage from "@pages/APage/Apage";
 import Book from "@pages/book/Book";
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       { path: "lookup", element: <Lookup /> },
       { path: "book/complete", element: <Complete /> },
       { path: "book/:performanceId", element: <Book /> },
-      { path: "testpage", element: <TestPage /> },
+      // { path: "testpage", element: <TestPage /> },
       { path: "gig-register", element: <Register /> },
       { path: "register-complete", element: <RegisterComplete /> },
       { path: "gig/:performanceId", element: <Gig /> },
@@ -65,9 +66,25 @@ const router = createBrowserRouter([
   //     path: "/C",
   //     element: <CPage />,
   //   },
-  { path: "/testpage", element: <TestPage /> },
+  {
+    path: "/testpage",
+    element: (
+      <>
+        <TokenRefresher />
+        <TestPage />
+      </>
+    ),
+  },
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
-  { path: "/main", element: <Main /> },
+  {
+    path: "/main",
+    element: (
+      <>
+        <TokenRefresher />
+        <Main />
+      </>
+    ),
+  },
 
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
   //   ...
