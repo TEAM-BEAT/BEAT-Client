@@ -21,11 +21,10 @@ export const LookupCardLeft = styled.section`
   gap: 0.8rem;
 `;
 
-export const TempImage = styled.div`
+export const LookupImage = styled.img`
   width: 10.5rem;
   height: 15.4rem;
 
-  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 0.6rem;
 `;
 

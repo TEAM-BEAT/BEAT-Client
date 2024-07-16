@@ -62,6 +62,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
 
   const postUserData = async (postData: postGuestBookingReq) => {
     const bookingData = await mutateAsync(postData);
+    console.log(bookingData);
     dataStatus(200);
     navigate("/lookup", { state: bookingData });
   };
