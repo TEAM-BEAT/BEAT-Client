@@ -11,7 +11,7 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   filter?: (value: string) => string;
   cap?: false | true;
   onToggleClick?: () => void;
-  isDisabled: boolean;
+  isDisabled?: boolean;
 }
 
 const TextField = ({

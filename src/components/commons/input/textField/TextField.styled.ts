@@ -11,7 +11,7 @@ export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
 `;
 
-export const TextFieldInput = styled.input<{ $narrow: boolean | undefined; $isDisabled: boolean }>`
+export const TextFieldInput = styled.input<{ $narrow: boolean | undefined; $isDisabled?: boolean }>`
   width: 100%;
   height: ${({ $narrow }) => ($narrow ? "4.2rem" : "4.8rem")};
   padding: 0 1.6rem;
