@@ -7,6 +7,7 @@ import { Dayjs } from "dayjs";
 export interface TimePickerProps {
   value: Dayjs | null;
   onChangeValue: (value: Dayjs | null) => void;
+  minDate?: Dayjs;
 }
 
 const StyledDay = styled(PickersDay)(({ theme }) => ({
@@ -14,7 +15,7 @@ const StyledDay = styled(PickersDay)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
+const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
   const [open, setOpen] = useState(false);
   const handleAccept = (newValue: Dayjs | null) => {
     if (newValue) {
@@ -25,12 +26,13 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
     <S.CustomPicker
       disablePast
       showDaysOutsideCurrentMonth
-      format={"YYYY/MM/DD HH:mm"}
+      format={"YYYY/MM/DD\t     HH:mm"}
       slots={{
         day: StyledDay,
         openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
       value={value}
+      minDate={minDate || undefined}
       onAccept={handleAccept}
       slotProps={{
         popper: {
