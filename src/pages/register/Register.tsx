@@ -274,6 +274,9 @@ const Register = () => {
                 <TimePicker
                   value={schedule.performanceDate}
                   onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
+                  minDate={
+                    index > 0 ? scheduleList[index - 1].performanceDate || undefined : undefined
+                  }
                 />
               </div>
             ))}
