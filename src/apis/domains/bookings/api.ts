@@ -1,7 +1,7 @@
 import { get, post } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 // 비회원 예매 API
 export interface postGuestReq {
@@ -31,7 +31,6 @@ export const postGuestBook = async (
     return response.data.data;
   } catch (error) {
     console.error("error", error);
-
     return null;
   }
 };
@@ -49,7 +48,7 @@ type GuestBookingRetrieveRequest = components["schemas"]["GuestBookingRetrieveRe
 
 export const postGuestBookingList = async (
   formData: postGuestBookingReq
-): Promise<GuestBookingRetrieveRequest | null> => {
+): Promise<GuestBookingRetrieveRequest | null | 404> => {
   try {
     const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
       "/bookings/guest/retrieve",
@@ -58,6 +57,10 @@ export const postGuestBookingList = async (
 
     return response.data.data;
   } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response && axiosError.response.status === 404) {
+      return 404;
+    }
     console.error("error", error);
 
     return null;

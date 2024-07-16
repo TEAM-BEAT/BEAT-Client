@@ -63,8 +63,13 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   const postUserData = async (postData: postGuestBookingReq) => {
     const bookingData = await mutateAsync(postData);
     console.log(bookingData);
-    dataStatus(200);
-    navigate("/lookup", { state: bookingData });
+    if (bookingData === 404) {
+      resetForm();
+      dataStatus(404);
+    } else {
+      dataStatus(200);
+      navigate("/lookup", { state: bookingData });
+    }
   };
 
   useEffect(() => {
@@ -77,14 +82,6 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
       };
 
       postUserData(formData);
-
-      if (success === 200) {
-        // 404 혹은 통신 실패 경우
-      } else {
-        resetForm();
-        // API 붙일 때는 들어온 에러 번호로 보내기
-        dataStatus(404);
-      }
     }
   }, [isReadyRequest]);
 
