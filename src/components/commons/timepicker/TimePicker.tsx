@@ -75,7 +75,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
             "& .MuiPickersYear-yearButton.Mui-selected": {
               background: "#FB247F",
             },
-            "& .MuiPickersYear-yearButton.Mui-focused": {
+            "& .MuiPickersYear-yearButton.Mui-selected:hover": {
               background: "#FB247F",
             },
             "button.MuiPickersDay-root.Mui-selected": {
