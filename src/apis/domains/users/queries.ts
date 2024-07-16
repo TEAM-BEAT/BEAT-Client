@@ -14,24 +14,20 @@ export const usePostKakaoLogin = () => {
   return useMutation({
     mutationFn: (authCode: string) => postKakaoLogin(authCode),
     onSuccess: (response) => {
-      console.log("login success", response);
+      if (response) {
+        console.log("login success", response);
 
-      const userData = response.data.data;
-      // if (resData) {
-      //   const { guestNickname, guestId, hostNickname, hostId, token } = resData;
+        const userData = response.data.data;
 
-      //   setUser({ ...user, guestNickname, guestId, hostNickname, hostId });
+        if (userData) {
+          const { accessToken, refreshToken, nickName } = userData;
+          setUserData({ nickName, accessToken });
+        }
 
-      //   if (token && token.accessToken) {
-      //     localStorage.setItem("accessToken", token.accessToken);
-      //   }
-
-      if (userData) {
-        const { accessToken, refreshToken, nickName } = userData;
-        setUserData({ nickName, accessToken });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.KAKAO_LOGIN] });
+      } else {
+        console.error("Login response is null");
       }
-
-      //   queryClient.invalidateQueries({ queryKey: [QUERY_KEY.KAKAO_LOGIN] });
 
       //   // navigate 로직 추가
       // }
