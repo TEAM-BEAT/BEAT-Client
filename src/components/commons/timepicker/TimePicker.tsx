@@ -28,7 +28,7 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
       format={"YYYY/MM/DD HH:mm"}
       slots={{
         day: StyledDay,
-        openPickerIcon: (props) => <S.CustomOpenPicker open={open} />,
+        openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
       value={value}
       onAccept={handleAccept}
@@ -52,8 +52,8 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
               height: "28.7rem",
             },
             "& .MuiTypography-caption": {
-              width: " 30px",
-              height: "31px",
+              width: "3rem",
+              height: "3.1rem",
             },
             "& .MuiPickersCalendarHeader-label": {
               fontSize: "1.3rem",
@@ -62,17 +62,18 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
               background: "#FB247F",
             },
             "& .MuiMultiSectionDigitalClockSection-item": {
-              width: "30px",
-              height: "20px",
+              width: "3rem",
+              height: "3rem",
               fontSize: "1.3rem",
+              borderRadius: "3px",
             },
             "& .MuiMultiSectionDigitalClockSection-item.Mui-selected": {
               background: "#FB247F",
             },
-            "& .MuiMultiSectionDigitalClockSection-item.Mui-focused": {
+            "&.MuiMultiSectionDigitalClockSection-item.Mui-focused": {
               background: "#FB247F",
             },
-            "& .MuiMultiSectionDigitalClock-root": {
+            "&.MuiMultiSectionDigitalClock-root": {
               height: "25.7rem",
             },
 
