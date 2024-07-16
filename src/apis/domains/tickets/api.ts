@@ -1,6 +1,7 @@
 import { del, get, put } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
+import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import { AxiosResponse } from "axios";
 
 // 예매자 목록 조회 API (GET)
@@ -60,10 +61,11 @@ export const putTicketUpdate = async (
 };
 
 // 예매자 삭제 API (DELETE)
-export type TicketDeleteRequest = components["schemas"]["TicketDeleteRequest"];
+//이거 타입 잘못되었을 수도..? bookingList 가 number를 담은 배열로 되어 있는데, 실제로는 아니었음
+//export type TicketDeleteRequest = components["schemas"]["TicketDeleteRequest"];
 
 export const deleteTicketDelete = async (
-  formData: TicketDeleteRequest
+  formData: DeleteFormDataProps
 ): Promise<SuccessResponseVoid | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(

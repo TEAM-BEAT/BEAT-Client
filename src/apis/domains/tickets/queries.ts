@@ -1,10 +1,10 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import {
   deleteTicketDelete,
   getTicketReq,
   getTicketRetrieve,
   putTicketUpdate,
-  TicketDeleteRequest,
   TicketUpdateRequest,
 } from "./api";
 // 예매자 목록 조회 API (GET)를 위한 쿼리 작성
@@ -38,7 +38,7 @@ export const useTicketDelete = () => {
   const queryClient = new QueryClient();
 
   return useMutation({
-    mutationFn: (formData: TicketDeleteRequest) => deleteTicketDelete(formData),
+    mutationFn: (formData: DeleteFormDataProps) => deleteTicketDelete(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
     },

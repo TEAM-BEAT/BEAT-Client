@@ -1,4 +1,4 @@
-import { useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
+import { useTicketDelete, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
@@ -43,6 +43,7 @@ const TicketHolderList = () => {
 
   const { openConfirm, closeConfirm } = useModal();
   const { mutate, mutateAsync } = useTicketUpdate();
+  const { mutate: deleteMutate, mutateAsync: deleteMutateAsync } = useTicketDelete();
   const handlePaymentFixAxiosFunc = () => {
     //PUT API 요청
     mutate({
@@ -64,9 +65,15 @@ const TicketHolderList = () => {
     });
   };
 
-  const handleBookerDeleteAxiosFunc = () => {
-    //나중에 api 요청 작성할 예정
+  //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
+  const [deleteFormData, setDeleteFormData] = useState<DeleteFormDataProps>({
+    performanceId: Number(performanceId),
+    bookingList: [],
+  });
 
+  const handleBookerDeleteAxiosFunc = () => {
+    //나중에 DELETE api 요청 작성할 예정
+    deleteMutate(deleteFormData);
     closeConfirm();
     window.location.reload();
   };
@@ -81,15 +88,7 @@ const TicketHolderList = () => {
       noCallback: closeConfirm,
     });
   };
-  //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
-  const [formData, setFormData] = useState<DeleteFormDataProps>({
-    performanceId: Number(performanceId),
-    bookingList: [
-      {
-        bookingId: -1,
-      },
-    ],
-  });
+
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
@@ -226,8 +225,8 @@ const TicketHolderList = () => {
           {filteredData?.map((obj, index) => (
             <ManagerCard
               key={`managerCard-${index}`}
-              formData={formData}
-              setFormData={setFormData}
+              deleteFormData={deleteFormData}
+              setDeleteFormData={setDeleteFormData}
               isDeleteMode={isDeleteMode}
               bookingId={obj.bookingId}
               isPaid={obj.isPaymentCompleted}
