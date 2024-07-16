@@ -16,6 +16,7 @@ export const dummyData = [
     dueDate: 2,
     paymentStatus: false, // 입금 확인중
     createdAt: "2023-11-18T12:34:56.789Z",
+    price: 5000,
   },
   {
     userId: 1,
@@ -34,6 +35,7 @@ export const dummyData = [
     dueDate: -1, // -1이면 관람완료!
     paymentStatus: true, // 입금 완료
     createdAt: "2023-11-18T12:34:56.789Z",
+    price: 2000,
   },
   {
     userId: 1,
@@ -52,5 +54,6 @@ export const dummyData = [
     dueDate: 0, // -1이면 관람완료!
     paymentStatus: true, // 입금 완료
     createdAt: "2023-11-18T12:34:56.789Z",
+    price: 7000,
   },
 ];

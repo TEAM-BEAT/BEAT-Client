@@ -1,8 +1,8 @@
 import { styled } from "@mui/material/styles";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
-import * as S from "./TimePicker.styled";
-import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
+import * as S from "./TimePicker.styled";
 
 export interface TimePickerProps {
   value: Dayjs | null;
@@ -23,6 +23,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
       onChangeValue(newValue);
     }
   };
+  
   useEffect(() => {
     const now = dayjs().format("YYYY/MM/DD\t     HH:mm");
     setPlaceholder(now);
