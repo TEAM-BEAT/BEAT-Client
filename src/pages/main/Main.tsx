@@ -9,25 +9,21 @@ import Footer from "./components/footer/Footer";
 import MainNavigation from "./components/mainNavigation/MainNavigation";
 import Performance from "./components/performance/Performance";
 
-import { useGetTest } from "@apis/domains/test";
 import Loading from "@components/commons/loading/Loading";
 
+import { useGetAllScheduleList } from "@apis/domains/home/queries";
 import { navigateAtom } from "@stores/navigate";
 import { useAtom } from "jotai";
-import { dummyData } from "./constants/dummyData";
 
 const Main = () => {
+  const { data, isLoading } = useGetAllScheduleList();
+
   const [genre, setGenre] = useState("ALL");
+  const [navigateUrl, setNavigateUrl] = useAtom(navigateAtom);
 
   const handleGenre = (value: string) => {
     setGenre(value);
   };
-
-  const { data, isLoading } = useGetTest();
-  console.log("test data", data, isLoading);
-  const [navigateUrl, setNavigateUrl] = useAtom(navigateAtom);
-
-  console.log("main", navigateUrl);
 
   return (
     <>
@@ -36,10 +32,10 @@ const Main = () => {
       ) : (
         <S.MainWrapper>
           <MainNavigation />
-          <Carousel promotionList={dummyData.promotionList} />
+          <Carousel promotionList={data?.promotionList ?? []} />
           <Chips handleGenre={handleGenre} />
           <Floating />
-          <Performance genre={genre} performanceList={dummyData.performanceList} />
+          <Performance genre={genre} performanceList={data?.performanceList ?? []} />
           <Footer />
         </S.MainWrapper>
       )}

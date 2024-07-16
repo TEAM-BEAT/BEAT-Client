@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Carousel.styled";
 
 import carouselImg from "../../../../assets/images/banner_roll.png";
 interface PromotionProps {
-  promotionId: number;
-  promotionPhoto: string;
-  performanceId: number;
+  promotionId?: number;
+  promotionPhoto?: string;
+  performanceId?: number;
 }
 
 interface PromotionComponentProps {
