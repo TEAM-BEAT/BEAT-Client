@@ -41,7 +41,7 @@ const ShowInfo = ({
       <ShowType type={getShowTypeText(genre)} />
       <S.Title>{title}</S.Title>
       <div>
-        <S.Price>{priceFilter(price.toString())}</S.Price>
+        <S.Price>{priceFilter((price as number).toString())}</S.Price>
         <S.PriceUnit>원</S.PriceUnit>
       </div>
 
