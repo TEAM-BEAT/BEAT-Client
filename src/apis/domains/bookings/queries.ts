@@ -1,5 +1,11 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { getGuestBookingList, GuestBookingRequest, postGuestBook } from "./api";
+import {
+  postGuestBookingList,
+  postGuestBook,
+  postGuestReq,
+  postGuestBookingReq,
+  GuestBookingRequest,
+} from "./api";
 
 export const QUERY_KEY = {
   LIST: "list",
@@ -18,11 +24,13 @@ export const useGuestBook = () => {
   });
 };
 
-export const useGetGuestBookingList = () => {
-  return useQuery({
-    queryKey: [QUERY_KEY.LIST],
-    queryFn: () => getGuestBookingList(),
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 24,
+export const usePostGuestBookingList = () => {
+  const queryClient = new QueryClient();
+
+  return useMutation({
+    mutationFn: (formData: postGuestBookingReq) => postGuestBookingList(formData),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+    },
   });
 };

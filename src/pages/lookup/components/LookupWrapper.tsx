@@ -14,7 +14,7 @@ const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
     <S.LookupLayout>
       <S.LookupContainer>
         <S.LookupCardLeft>
-          <S.TempImage />
+          <S.LookupImage src={item.posterImage} />
           {item.dueDate >= 1 ? (
             <>
               <Labal type="count"> {dueDateText}</Labal>

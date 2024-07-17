@@ -11,7 +11,7 @@ const Floating = () => {
         <S.UnionText>공연을 등록해보세요!</S.UnionText>
         <S.FloatingBtnWrapper
           onClick={() => {
-            navigate("/register");
+            navigate("/gig-register");
           }}
         >
           <S.FloatingBtn />

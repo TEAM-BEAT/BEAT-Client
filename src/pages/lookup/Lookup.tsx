@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
@@ -13,6 +13,7 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import Button from "@components/commons/button/Button";
 
 import { NAVIGATION_STATE } from "@constants/navigationState";
+import { usePostGuestBookingList } from "@apis/domains/bookings/queries";
 import { useHeader } from "@hooks/useHeader";
 import { useEffect } from "react";
 
@@ -21,6 +22,7 @@ import { useEffect } from "react";
 
 const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
+  const { state } = useLocation();
   const [lookUpList, setLookUpList] = useState(dummyData);
 
   const navigate = useNavigate();
@@ -38,6 +40,12 @@ const Lookup = () => {
   const handleLeftBtn = () => {
     navigate("/main");
   };
+
+  useEffect(() => {
+    if (state) {
+      setLookUpList(state);
+    }
+  }, []);
 
   useEffect(() => {
     setHeader({
