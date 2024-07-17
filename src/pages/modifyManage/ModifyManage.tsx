@@ -14,6 +14,7 @@ import useModal from "@hooks/useModal";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
+import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
@@ -278,7 +279,7 @@ const ModifyManage = () => {
                 <S.InputDescription>{index + 1}회차</S.InputDescription>
                 <Spacing marginBottom={"1"} />
                 <TimePicker
-                  value={schedule.performanceDate}
+                  value={dayjs(schedule.performanceDate)}
                   onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
                 />
               </div>
