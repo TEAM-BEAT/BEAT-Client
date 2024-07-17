@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       { path: "gig/:performanceId", element: <Gig /> },
       { path: "manage", element: <Manage /> },
       { path: "gig-manage", element: <MyRegisterdShow /> },
-      { path: "guest-manage", element: <TicketHolderList /> },
+      { path: "guest-manage/:performanceId", element: <TicketHolderList /> },
       { path: "gig-modify-manage", element: <ModifyManage /> },
 
       // ... other pages
