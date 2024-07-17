@@ -20,15 +20,15 @@ const ManagerCard = ({
   formData: DeleteFormDataProps;
   setFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
   isDeleteMode: boolean;
-  bookingId: number;
-  isPaid: boolean;
+  bookingId?: number;
+  isPaid?: boolean;
   isDetail: boolean;
   setPaid: () => void;
-  bookername: string;
-  purchaseTicketeCount: number;
-  scheduleNumber: string;
-  bookerPhoneNumber: string;
-  createAt: string;
+  bookername?: string;
+  purchaseTicketeCount?: number;
+  scheduleNumber?: string;
+  bookerPhoneNumber?: string;
+  createAt?: string;
 }) => {
   //체크박스를 누를 시에, 현재 카드의 bookingId를 인자로 받아 해당 bookingId를 delete 요청을 보낼 formData에 포함시킴.
   //만약 체크해제를 할 경우 삭제할 목록에 포함되어 있던 해당 bookingId를 삭제하는 로직 구현
@@ -45,8 +45,8 @@ const ManagerCard = ({
     });
   };
 
-  const date = createAt.split("T")[0];
-  const formattedDate = date.replace(/-/g, ".");
+  const date = createAt?.split("T")[0];
+  const formattedDate = date?.replace(/-/g, ".");
   const convertingNumber = (scheduleNumberrr: string) => {
     switch (scheduleNumberrr) {
       case "FIRST":
@@ -67,7 +67,7 @@ const ManagerCard = ({
     <S.ManagerCardWrapper $isDetail={isDetail}>
       {isDeleteMode && (
         <SelectIcon
-          onClick={() => handleCheckBox(bookingId)}
+          onClick={() => handleCheckBox(bookingId as number)}
           isChecked={formData.bookingList.some((obj) => obj.bookingId === bookingId)}
         />
       )}
@@ -85,7 +85,7 @@ const ManagerCard = ({
             <S.ManagerCardDetailBox $isDetail={isDetail}>
               <S.ManagerCardTextBox>
                 <S.ManagerCardTextTitle>회차</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber)}회차`}</S.ManagerCardTextContent>
+                <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber as string)}회차`}</S.ManagerCardTextContent>
               </S.ManagerCardTextBox>
               <S.ManagerCardTextBox>
                 <S.ManagerCardTextTitle>연락처</S.ManagerCardTextTitle>
@@ -99,7 +99,7 @@ const ManagerCard = ({
           }
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
-      <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid}>
+      <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid as boolean}>
         <S.ManagerCardRadioBox $isDeleteMode={isDeleteMode} onClick={setPaid}>
           {isDeleteMode ? <></> : isPaid ? <S.SelectedIcon /> : <S.UnselectedIcon />}
           <S.ManagerCardRadioText>{isPaid ? "입금 완료" : "미입금"}</S.ManagerCardRadioText>

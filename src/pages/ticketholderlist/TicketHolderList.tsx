@@ -1,10 +1,11 @@
+import { useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
 import useModal from "@hooks/useModal";
 import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Banner from "./components/banner/Banner";
 import ManagerCard from "./components/managercard/ManagerCard";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
@@ -16,9 +17,11 @@ const TicketHolderList = () => {
   /*
     중요 : navigate 할 때 파라미터로 넘겨 받아야 함. (애초에 이 주소에 올 때!)
     그래서 넘겨 받은 파라미터를 상태 관리를 해줄 예정. 아래는 performanceId 가 같이 왔다고 가정
-    useLocation 으로 받아온다.
+    useLocation 으로 받아온다. - useParams를 사용해서 받아와야 할 듯
    */
-  const [performanceId, setPerformanceId] = useState(1); //예시니까 1이라고 가정~
+  //    아직, 앞전의 화면()에서 performanceId를 넘기는 로직을 구성해두지 않음
+  const { performanceId } = useParams();
+  //const [performanceId, setPerformanceId] = useState(1); //예시니까 1이라고 가정~
   const [reservedCount, setReservedCount] = useState(0);
   //이거 판매 완료되었는지 여부에 따라서 렌더링하는거 다르게 할지 물어보기, 색깔도 어떻게 할 지 물어보기
   const [isOutdated, setIsOutdated] = useState(false);
@@ -27,15 +30,27 @@ const TicketHolderList = () => {
   // 0, undefined 일 때는 전체 렌더링 (필터링을 위한 state들)
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
   const [payment, setPayment] = useState<boolean | undefined>(undefined);
-  const [responseData, setResponseData] = useState<BookingListProps[]>(
-    RESPONSE_TICKETHOLDER.data.bookingList
-  );
+
   const [isDeleteMode, setIsDeleteMode] = useState(false);
 
-  const { openConfirm, closeConfirm } = useModal();
-  const handlePaymentFixAxiosFunc = () => {
-    //나중에 api 요청 작성할 예정
+  const { data, isLoading } = useTicketRetrive({ performanceId: Number(performanceId) });
+  const [responseData, setResponseData] = useState<BookingListProps[]>();
 
+  useEffect(() => {
+    setResponseData(data?.bookingList ?? []);
+  }, [data]);
+  const [putFormData, setPutFormData] = useState();
+
+  const { openConfirm, closeConfirm } = useModal();
+  const { mutate, mutateAsync } = useTicketUpdate();
+  const handlePaymentFixAxiosFunc = () => {
+    //PUT API 요청
+    mutate({
+      performanceId: Number(performanceId),
+      performanceTitle: data?.performanceTitle,
+      totalScheduleCount: data?.totalScheduleCount,
+      bookingList: responseData,
+    });
     closeConfirm();
   };
   const handleFixSaveBtn = () => {
@@ -68,7 +83,7 @@ const TicketHolderList = () => {
   };
   //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
   const [formData, setFormData] = useState<DeleteFormDataProps>({
-    performanceId: performanceId,
+    performanceId: Number(performanceId),
     bookingList: [
       {
         bookingId: -1,
@@ -117,7 +132,7 @@ const TicketHolderList = () => {
 
   const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
 
-  const filteredData = responseData.filter((obj) => {
+  const filteredData = responseData?.filter((obj) => {
     const isScheduleMatched =
       schedule === 0 ||
       (obj.scheduleNumber === "FIRST" && schedule === 1) ||
@@ -127,12 +142,13 @@ const TicketHolderList = () => {
 
     return isScheduleMatched && isPaymentMatched;
   });
+
   //도영이가 axios 사용하면 useEffect 필요없다고 했는데, 나중에 리팩토링 할 수도 있음.
   useEffect(() => {
-    const totalCount = filteredData.reduce(
-      (totalSum, obj) => obj.purchaseTicketCount + totalSum,
+    const totalCount = filteredData?.reduce(
+      (totalSum, obj) => (obj.purchaseTicketCount as number) + totalSum,
       0
-    );
+    ) as number;
     setReservedCount(totalCount);
     //그리고 여기서 바로 다시 axios 요청 쏘는 로직 구성해두기
   }, [filteredData]);
@@ -140,10 +156,10 @@ const TicketHolderList = () => {
   //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
 
   //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
-  const handlePaymentToggle = (bookingId: number, isDeleteModeee: boolean) => {
+  const handlePaymentToggle = (isDeleteModeee: boolean, bookingId?: number) => {
     if (!isDeleteModeee) {
       setResponseData((arr) =>
-        arr.map((item) =>
+        arr?.map((item) =>
           item.bookingId === bookingId
             ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
             : item
@@ -153,7 +169,12 @@ const TicketHolderList = () => {
   };
   return (
     <>
-      <Banner image={eximg} reservedCount={reservedCount} isOutdated={isOutdated} />
+      <Banner
+        title={data?.performanceTitle}
+        image={eximg}
+        reservedCount={reservedCount}
+        isOutdated={isOutdated}
+      />
       <S.BodyWrapper>
         <S.BodyLayout>
           <S.LayoutHeaderBox>
@@ -202,7 +223,7 @@ const TicketHolderList = () => {
               )*/}
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
-          {filteredData.map((obj, index) => (
+          {filteredData?.map((obj, index) => (
             <ManagerCard
               key={`managerCard-${index}`}
               formData={formData}
@@ -211,7 +232,7 @@ const TicketHolderList = () => {
               bookingId={obj.bookingId}
               isPaid={obj.isPaymentCompleted}
               isDetail={detail}
-              setPaid={() => handlePaymentToggle(obj.bookingId, isDeleteMode)}
+              setPaid={() => handlePaymentToggle(isDeleteMode, obj.bookingId)}
               bookername={obj.bookerName}
               purchaseTicketeCount={obj.purchaseTicketCount}
               scheduleNumber={obj.scheduleNumber}

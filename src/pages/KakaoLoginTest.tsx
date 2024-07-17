@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useAtom } from "jotai";
 import { navigateAtom } from "@stores/navigate";
+import { useAtom } from "jotai";
+import styled from "styled-components";
 
 import Button from "@components/commons/button/Button";
 
