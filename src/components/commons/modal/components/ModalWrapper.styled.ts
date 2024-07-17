@@ -36,6 +36,7 @@ export const ModalTextWrapper = styled.section`
 export const ModalTitle = styled.span`
   ${({ theme }) => theme.fonts.heading4};
   color: ${({ theme }) => theme.colors.white};
+  white-space: pre-line;
 `;
 
 //white-space : pre-line 을 사용하면 \n 을 인식가능.
