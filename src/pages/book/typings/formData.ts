@@ -1,6 +1,6 @@
 export interface FormData {
   scheduleId: string | undefined;
-  selectedValue: number | undefined;
+  scheduleNumber: number | undefined;
   purchaseTicketCount: number;
   totalPaymentAmount: number;
   bookerName: string;
