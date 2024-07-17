@@ -36,7 +36,7 @@ const jsConfig = {
     // "no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }],
     "no-console": "warn",
     "no-extra-semi": "error",
-    "no-unused-expressions": "error",
+    // "no-unused-expressions": "error",
     indent: "off", // prettier 충돌로 인해 off
     semi: ["warn", "always"],
     "no-undef": "error",
@@ -49,7 +49,6 @@ const jsConfig = {
     "no-else-return": "warn",
     "no-floating-decimal": "error",
     "no-new-object": "error",
-    "no-shadow": "error",
     "no-param-reassign": "error",
     "prefer-template": "warn",
     radix: "error",

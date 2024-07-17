@@ -1,6 +1,5 @@
 import useModal from "@hooks/useModal";
 import styled from "styled-components";
-import BankAccount from "./BankAccount";
 
 const ModalTest = () => {
   const { openAlert, openConfirm, openModal } = useModal();

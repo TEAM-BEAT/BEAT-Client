@@ -1,9 +1,22 @@
 import { get, post } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 export type GuestBookingRequest = components["schemas"]["GuestBookingRequest"];
+// 비회원 예매 API
+export interface postGuestReq {
+  scheduleId: number;
+  purchaseTicketCount: number;
+  scheduleNumber: string;
+  bookerName: string;
+  bookerPhoneNumber: string;
+  birthDate: string;
+  password: string;
+  totalPaymentAmount: number;
+  isPaymentCompleted: boolean;
+}
+
 type GuestBookingResponse = components["schemas"]["GuestBookingResponse"];
 
 // 1. API 요청 함수 작성 및 타입 추가
@@ -19,18 +32,38 @@ export const postGuestBook = async (
     return response.data.data;
   } catch (error) {
     console.error("error", error);
-
     return null;
   }
 };
 
-export const getGuestBookingList = async () => {
-  try {
-    const response = await get("/bookings/guest/retrieve");
+// 비회원 예매 조회 API
 
-    console.log(response.data);
-    return response;
+export interface postGuestBookingReq {
+  bookerName: string;
+  birthDate: string;
+  bookerPhoneNumber: string;
+  password: string;
+}
+
+type GuestBookingRetrieveRequest = components["schemas"]["GuestBookingRetrieveRequest"];
+
+export const postGuestBookingList = async (
+  formData: postGuestBookingReq
+): Promise<GuestBookingRetrieveRequest | null | 404> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
+      "/bookings/guest/retrieve",
+      formData
+    );
+
+    return response.data.data;
   } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response && axiosError.response.status === 404) {
+      return 404;
+    }
     console.error("error", error);
+
+    return null;
   }
 };
