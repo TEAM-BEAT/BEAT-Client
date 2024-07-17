@@ -1,12 +1,13 @@
 import { styled } from "@mui/material/styles";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
+import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
 import * as S from "./TimePicker.styled";
-import { useState } from "react";
-import { Dayjs } from "dayjs";
 
 export interface TimePickerProps {
   value: Dayjs | null;
   onChangeValue: (value: Dayjs | null) => void;
+  minDate?: Dayjs;
 }
 
 const StyledDay = styled(PickersDay)(({ theme }) => ({
@@ -14,25 +15,36 @@ const StyledDay = styled(PickersDay)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
+const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
   const [open, setOpen] = useState(false);
+  const [placeholder, setPlaceholder] = useState("");
   const handleAccept = (newValue: Dayjs | null) => {
     if (newValue) {
       onChangeValue(newValue);
     }
   };
+  
+  useEffect(() => {
+    const now = dayjs().format("YYYY/MM/DD\t     HH:mm");
+    setPlaceholder(now);
+  }, []);
+
   return (
     <S.CustomPicker
       disablePast
       showDaysOutsideCurrentMonth
-      format={"YYYY/MM/DD HH:mm"}
+      closeOnSelect={false}
+      format={"YYYY/MM/DD\t     HH:mm"}
       slots={{
         day: StyledDay,
-        openPickerIcon: (props) => <S.CustomOpenPicker open={open} />,
+
+        openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
       value={value}
+      minDate={minDate || undefined}
       onAccept={handleAccept}
       slotProps={{
+        textField: { placeholder },
         popper: {
           sx: {
             "& .MuiPaper-root": {
@@ -52,27 +64,42 @@ const TimePicker = ({ value, onChangeValue }: TimePickerProps) => {
               height: "28.7rem",
             },
             "& .MuiTypography-caption": {
-              width: " 30px",
-              height: "31px",
+              width: "3rem",
+              height: "3.1rem",
             },
             "& .MuiPickersCalendarHeader-label": {
               fontSize: "1.3rem",
             },
+            "& .MuiPickersYear-yearButton": {
+              fontSize: "1.3rem",
+            },
+            "& .MuiPickersYear-yearButton.Mui-selected": {
+              background: "#FB247F",
+            },
+            "& .MuiPickersYear-yearButton.Mui-selected:hover": {
+              background: "#FB247F",
+            },
             "button.MuiPickersDay-root.Mui-selected": {
               background: "#FB247F",
             },
+            "& .MuiMultiSectionDigitalClockSection-list": {
+              "&::-webkit-scrollbar": {
+                background: "#FB247F",
+              },
+            },
             "& .MuiMultiSectionDigitalClockSection-item": {
-              width: "30px",
-              height: "20px",
+              width: "3rem",
+              height: "3rem",
               fontSize: "1.3rem",
+              borderRadius: "3px",
             },
             "& .MuiMultiSectionDigitalClockSection-item.Mui-selected": {
               background: "#FB247F",
             },
-            "& .MuiMultiSectionDigitalClockSection-item.Mui-focused": {
+            "& .MuiMultiSectionDigitalClockSection-item.Mui-selected:hover": {
               background: "#FB247F",
             },
-            "&  .MuiMultiSectionDigitalClock-root": {
+            "&.MuiMultiSectionDigitalClock-root": {
               height: "25.7rem",
             },
 

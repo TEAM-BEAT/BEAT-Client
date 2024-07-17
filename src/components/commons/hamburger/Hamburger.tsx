@@ -23,6 +23,7 @@ const Hamburger = () => {
 
   const handlerOutside = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     closeHamburger();
+
     e.stopPropagation();
   };
 
@@ -54,6 +55,7 @@ const Hamburger = () => {
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
     requestKakaoLogin();
+    closeHamburger();
   };
 
   return (
@@ -79,6 +81,7 @@ const Hamburger = () => {
                 <S.NavigateBtn
                   onClick={() => {
                     navigate("/gig-register");
+                    closeHamburger();
                   }}
                 >
                   <S.NavigateBtnText>내가 등록한 공연</S.NavigateBtnText>
@@ -87,6 +90,7 @@ const Hamburger = () => {
                 <S.NavigateBtn
                   onClick={() => {
                     navigate("/lookup");
+                    closeHamburger();
                   }}
                 >
                   <S.NavigateBtnText>내가 예매한 공연</S.NavigateBtnText>
@@ -103,6 +107,7 @@ const Hamburger = () => {
               <S.NavigateBtn
                 onClick={() => {
                   navigate("/nonmb-lookup");
+                  closeHamburger();
                 }}
               >
                 <S.NavigateBtnText>비회원 예매 조회</S.NavigateBtnText>

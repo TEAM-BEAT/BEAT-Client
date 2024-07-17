@@ -1,5 +1,7 @@
 import { IconTime, IcOutlinePlace } from "@assets/svgs";
 import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
+import { priceFilter } from "@utils/useInputFilter";
+
 import IconText from "../iconText/IconText";
 import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
@@ -32,14 +34,14 @@ const ShowInfo = ({
   scheduleList,
 }: ShowInfoProps) => {
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
-
+  const ttest = getShowTypeText(genre);
   return (
     <S.ShowInfoWrapper>
       <S.Poster $imgsrc={posterImage} />
       <ShowType type={getShowTypeText(genre)} />
       <S.Title>{title}</S.Title>
       <div>
-        <S.Price>{price}</S.Price>
+        <S.Price>{priceFilter((price as number).toString())}</S.Price>
         <S.PriceUnit>원</S.PriceUnit>
       </div>
 

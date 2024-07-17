@@ -1,12 +1,12 @@
 export interface BookingListProps {
-  bookingId: number;
-  bookerName: string;
-  bookerPhoneNumber: string;
-  scheduleId: number;
-  purchaseTicketCount: number;
-  createdAt: string;
-  isPaymentCompleted: boolean;
-  scheduleNumber: string;
+  bookingId?: number;
+  bookerName?: string;
+  bookerPhoneNumber?: string;
+  scheduleId?: number;
+  purchaseTicketCount?: number;
+  createdAt?: string;
+  isPaymentCompleted?: boolean;
+  scheduleNumber?: string;
 }
 
 export interface TicketHolderListProps {

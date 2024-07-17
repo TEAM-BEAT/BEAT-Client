@@ -14,7 +14,7 @@ interface ChipProps {
 const Chip = ({ label, color, icon, iconColor, onClick }: ChipProps) => {
   return (
     <S.ChipWrapper color={color} onClick={onClick}>
-      {icon && <S.ChipIcon iconColor={iconColor}>{icon}</S.ChipIcon>}
+      {icon && <S.ChipIcon $iconColor={iconColor}>{icon}</S.ChipIcon>}
       <span>{label}</span>
     </S.ChipWrapper>
   );

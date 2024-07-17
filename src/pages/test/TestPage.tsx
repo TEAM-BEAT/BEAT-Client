@@ -1,3 +1,4 @@
+import { useGuestBook } from "@apis/domains/bookings/queries";
 import { IconCheck, IconTextfiedlDelete } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Chip from "@components/commons/chip/Chip";
@@ -7,11 +8,10 @@ import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
 import Toast from "@components/commons/toast/Toast";
-import Loading from "@components/commons/loading/Loading";
 import useToast from "@hooks/useToast";
-import { ChangeEvent, useState } from "react";
-import { nameFilter, numericFilter } from "@utils/useInputFilter";
+import { nameFilter } from "@utils/useInputFilter";
 import { Dayjs } from "dayjs";
+import { ChangeEvent, useState } from "react";
 
 const TestPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -36,10 +36,33 @@ const TestPage = () => {
   const handleDateChange = (value: Dayjs | null) => {
     setSelectedDate(value);
   };
-  console.log(inputValue);
+
+  // 3. 훅 불러와서 사용
+  const { mutate, mutateAsync } = useGuestBook();
+
+  const handleClick = () => {
+    const formData = {
+      scheduleId: 1,
+      purchaseTicketCount: 2,
+      scheduleNumber: "FIRST",
+      bookerName: "도영",
+      bookerPhoneNumber: "010-8627-3460",
+      birthDate: "000909",
+      password: "1461",
+      totalPaymentAmount: 20000,
+      isPaymentCompleted: true,
+    };
+
+    mutate(formData);
+
+    // 비동기의 경우
+    // mutateAsync(formData);
+
+    console.log("신지바보");
+  };
+
   return (
     <>
-      <Loading />
       <div style={{ display: "flex", flexDirection: "column", gap: "3rem", alignItems: "center" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <TextField
@@ -73,6 +96,8 @@ const TestPage = () => {
         <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
           클립보드에 복사되었습니다!
         </Toast>
+        <Spacing marginBottom="3" />
+        <Button onClick={handleClick}>제출</Button>
       </div>
     </>
   );

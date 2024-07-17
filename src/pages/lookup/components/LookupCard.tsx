@@ -14,6 +14,8 @@ const LookupCard = ({
   paymentStatus,
   bankName,
   accountNumber,
+  dueDate,
+  price,
 }: LookupProps) => {
   const navigate = useNavigate();
 
@@ -21,12 +23,22 @@ const LookupCard = ({
   const createDataArray = createdAtString.split("-");
 
   const performanceDateArray = performanceDate.split("-");
+  const totalPrice = (price * purchaseTicketCount).toLocaleString("ko-KR");
 
   const { openModal } = useModal();
 
   const handleModal = (bank: string, number: string) => {
     openModal({
-      children: <BankAccount bankName={bank} number={number} />,
+      // 예금주랑 가격은 내일 API 명세서 보고 맞추기
+      children: (
+        <BankAccount
+          bankName={bank}
+          number={number}
+          accountName="전희주"
+          accountNumber={accountNumber}
+          price={5000}
+        />
+      ),
     });
   };
 
@@ -52,16 +64,18 @@ const LookupCard = ({
           </S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>관람회차</S.SubTitle>
-          <S.Text>{scheduleNumber}회차</S.Text>
-        </S.Context>
-        <S.Context>
           <S.SubTitle>공연장소</S.SubTitle>
           <S.Text>{performanceVenue}</S.Text>
         </S.Context>
         <S.Context>
-          <S.SubTitle>매수</S.SubTitle>
-          <S.Text>{purchaseTicketCount}매</S.Text>
+          <S.SubTitle>관람회차</S.SubTitle>
+          <S.Text>
+            {scheduleNumber}회차 {purchaseTicketCount}매
+          </S.Text>
+        </S.Context>
+        <S.Context>
+          <S.SubTitle>총 금액</S.SubTitle>
+          <S.Text>{totalPrice}원</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
@@ -71,12 +85,15 @@ const LookupCard = ({
             ) : (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
             )}
-            <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
-              <S.Account>계좌번호</S.Account>
-              <S.ArrowRightIcon />
-            </S.AccountLayout>
           </S.DepositLayout>
         </S.Context>
+        {dueDate >= 0 ? (
+          <S.AccountLayout onClick={() => handleModal(bankName, accountNumber)}>
+            <S.Account>계좌번호</S.Account>
+          </S.AccountLayout>
+        ) : (
+          <></>
+        )}
       </S.ContextLayout>
     </S.LookupCardWrapper>
   );
