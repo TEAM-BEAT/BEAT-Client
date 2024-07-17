@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { usePostKakaoLogin } from "@apis/domains/users/queries";
 import { navigateAtom } from "@stores/navigate";
 import { useAtom } from "jotai";
 
@@ -9,6 +10,8 @@ const KakaoLogin = () => {
   const [navigateUrl] = useAtom(navigateAtom);
 
   const [readyLogin, setReadyLogin] = useState(false);
+
+  const { mutateAsync } = usePostKakaoLogin();
 
   // 로그인 완료되면 상태 확인
   useEffect(() => {
@@ -23,8 +26,10 @@ const KakaoLogin = () => {
     const fetchData = async () => {
       if (code) {
         try {
-          // 인가 코드 서버에 전송
           console.log(code);
+
+          const userData = await mutateAsync(code);
+          console.log("userData", userData);
 
           setReadyLogin(true);
         } catch (error) {

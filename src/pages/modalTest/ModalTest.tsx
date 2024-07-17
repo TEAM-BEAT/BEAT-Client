@@ -1,6 +1,5 @@
 import useModal from "@hooks/useModal";
 import styled from "styled-components";
-import BankAccount from "./BankAccount";
 
 const ModalTest = () => {
   const { openAlert, openConfirm, openModal } = useModal();
@@ -37,9 +36,9 @@ const ModalTest = () => {
   };
 
   const handleModal = (bankName: string, number: string) => {
-    openModal({
-      // children: <BankAccount bankName={bankName} number={number} />,
-    });
+    // openModal({
+    //   children: <BankAccount bankName={bankName} number={number} />,
+    // });
   };
 
   return (

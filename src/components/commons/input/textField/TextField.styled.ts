@@ -11,12 +11,12 @@ export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
 `;
 
-export const TextFieldInput = styled.input<{ $narrow: boolean | undefined }>`
+export const TextFieldInput = styled.input<{ $narrow: boolean | undefined; $isDisabled?: boolean }>`
   width: 100%;
   height: ${({ $narrow }) => ($narrow ? "4.2rem" : "4.8rem")};
   padding: 0 1.6rem;
 
-  color: ${({ theme }) => theme.colors.gray_0};
+  color: ${({ theme, $isDisabled }) => ($isDisabled ? theme.colors.gray_600 : theme.colors.gray_0)};
 
   background: ${({ theme }) => theme.colors.gray_800};
   border: 1px solid transparent;

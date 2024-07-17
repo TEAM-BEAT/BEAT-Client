@@ -26,13 +26,13 @@ const ShowType = ({ type }: ShowTypeProps) => {
           <S.ShowTypeText>{SHOW_TYPE.DANCE}</S.ShowTypeText>
         </S.ShowTypeWrapper>
       );
-    case SHOW_TYPE.MUSICAL:
+    case SHOW_TYPE.PLAY:
       return (
         <S.ShowTypeWrapper>
           <S.ShowTypeIcon>
             <IconSmallMusical />
           </S.ShowTypeIcon>
-          <S.ShowTypeText>{SHOW_TYPE.MUSICAL}</S.ShowTypeText>
+          <S.ShowTypeText>{SHOW_TYPE.PLAY}</S.ShowTypeText>
         </S.ShowTypeWrapper>
       );
     case SHOW_TYPE.ETC:
