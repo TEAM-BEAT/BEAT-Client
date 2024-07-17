@@ -3,6 +3,22 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import axios, { AxiosResponse } from "axios";
 
+type PerformanceDetailResponse = components["schemas"]["PerformanceDetailResponse"];
+
+export const getPerformanceDetail = async (
+  performanceId: number
+): Promise<PerformanceDetailResponse | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<PerformanceDetailResponse>> = await get(
+      `/performances/detail/${performanceId}`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
 
 type BookingPerformanceDetailResponse = components["schemas"]["BookingPerformanceDetailResponse"];
 
