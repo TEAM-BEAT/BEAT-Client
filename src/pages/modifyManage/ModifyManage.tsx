@@ -442,7 +442,7 @@ const ModifyManage = () => {
           scheduleList={scheduleList.map((schedule, index) => ({
             scheduleId: index + 1,
             performanceDate: schedule.performanceDate?.toString() || "",
-            scheduleNumber: index + 1,
+            scheduleNumber: (index + 1).toString(),
           }))}
         />
         <Content
