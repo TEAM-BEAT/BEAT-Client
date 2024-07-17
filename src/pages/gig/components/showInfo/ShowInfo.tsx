@@ -7,9 +7,9 @@ import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
 
 type SchelduleListType = {
-  scheduleId: number;
-  performanceDate: string;
-  scheduleNumber: number;
+  scheduleId?: number;
+  performanceDate?: string;
+  scheduleNumber?: string;
 };
 
 interface ShowInfoProps {
@@ -35,6 +35,7 @@ const ShowInfo = ({
 }: ShowInfoProps) => {
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
   const ttest = getShowTypeText(genre);
+
   return (
     <S.ShowInfoWrapper>
       <S.Poster $imgsrc={posterImage} />

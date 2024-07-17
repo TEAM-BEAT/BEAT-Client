@@ -51,7 +51,7 @@ const PaidBook = ({ id, title, bankName, accountNumber, price }: PaidBookProps) 
         <S.Title>{`${title} \n예매가 완료되었어요!`}</S.Title>
         <Spacing marginBottom="1" />
 
-        <S.Description>어떻게 오셨어요? 비트 타고요.</S.Description>
+        <S.Description>입금자명은 예약자 이름과 동일하게 설정해주세요.</S.Description>
         <Spacing marginBottom="3.2" />
 
         <S.DepositContainer>
