@@ -3,23 +3,12 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
 
-export interface postGuestReq {
-  scheduleId: number;
-  purchaseTicketCount: number;
-  scheduleNumber: string;
-  bookerName: string;
-  bookerPhoneNumber: string;
-  birthDate: string;
-  password: string;
-  totalPaymentAmount: number;
-  isPaymentCompleted: boolean;
-}
-
+export type GuestBookingRequest = components["schemas"]["GuestBookingRequest"];
 type GuestBookingResponse = components["schemas"]["GuestBookingResponse"];
 
 // 1. API 요청 함수 작성 및 타입 추가
 export const postGuestBook = async (
-  formData: postGuestReq
+  formData: GuestBookingRequest
 ): Promise<GuestBookingResponse | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
