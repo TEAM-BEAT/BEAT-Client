@@ -4,6 +4,7 @@ import { RegisteredObjProps } from "../../constants/myRegisterShow";
 import * as S from "./RegisteredCard.styled";
 
 const RegisteredCard = ({
+  param,
   performanceTitle,
   performancePeriod,
   genre,
@@ -13,11 +14,11 @@ const RegisteredCard = ({
   //공연 수정하기 뷰 연결하고 나면 url 변경해야할 수도 있음
   // 또한, 파라미터를 넘겨서 조회할 수 있도록 url에 파라미터를 추가해야할 수 있음.
   const handleModifiyBtn = () => {
-    navigate("/gig-modify-manage");
+    navigate(`/gig-modify-manage/${param}`);
   };
 
   const handleGuestListBtn = () => {
-    navigate("/guest-manage");
+    navigate(`/guest-manage/${param}`);
   };
   return (
     <S.CardWrapper>

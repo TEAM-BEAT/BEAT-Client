@@ -1,4 +1,5 @@
 export interface RegisteredObjProps {
+  param?: number;
   performanceId?: number;
   genre?: string;
   performanceTitle?: string;
