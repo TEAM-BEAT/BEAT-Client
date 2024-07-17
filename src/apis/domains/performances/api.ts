@@ -9,7 +9,7 @@ export type MakerPerformanceResponse = components["schemas"]["MakerPerformanceRe
 export const getMakerPerformance = async (): Promise<MakerPerformanceResponse | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<MakerPerformanceResponse>> =
-      await get("tickets/user");
+      await get("performances/user");
     return response.data.data;
   } catch (error) {
     console.log("error", error);
