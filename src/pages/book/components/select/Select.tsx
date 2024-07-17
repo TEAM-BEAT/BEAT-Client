@@ -1,15 +1,17 @@
 import RadioGroup from "./RadioGroup";
 import * as S from "./Select.styled";
 
+export interface ScheduleListTypes {
+  scheduleId?: number;
+  performanceDate?: string;
+  availableTicketCount?: number;
+  scheduleNumber?: string;
+}
+
 export interface SelectProps {
   selectedValue: number;
   handleRadioChange: (value: number) => void;
-  scheduleList: {
-    scheduleId?: number;
-    performanceDate?: string;
-    availableTicketCount?: number;
-    scheduleNumber?: string;
-  }[];
+  scheduleList: ScheduleListTypes[];
 }
 
 const Select = ({ selectedValue, handleRadioChange, scheduleList }: SelectProps) => {
