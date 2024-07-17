@@ -10,6 +10,11 @@ import { useAtom, useAtomValue } from "jotai";
 import { navigateAtom } from "@stores/navigate";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 
+interface UserProps {
+  nickname: string;
+  accessToken: string;
+}
+
 const Hamburger = () => {
   const navigate = useNavigate();
 
@@ -17,6 +22,7 @@ const Hamburger = () => {
   const [, setNavigateUrl] = useAtom(navigateAtom);
 
   const [isLogin, setIsLogin] = useState(true);
+  const [nickname, setNickname] = useState("");
 
   const { closeHamburger } = useHamburger();
   const outside = useRef<HTMLDivElement>(null);
@@ -52,6 +58,17 @@ const Hamburger = () => {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    const userJson = localStorage.getItem("user");
+
+    if (userJson) {
+      const user: UserProps = JSON.parse(userJson);
+
+      const nickName = user.nickname;
+      setNickname(nickName);
+    }
+  }, []);
+
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
     requestKakaoLogin();
@@ -74,8 +91,7 @@ const Hamburger = () => {
             <>
               <S.ProfileContainer>
                 <S.ProfileIcon />
-                {/* 이 부분 API 연결하면 사용자 이름으로 변경 */}
-                <S.UserName>프로필 이름</S.UserName>
+                <S.UserName>{nickname}</S.UserName>
               </S.ProfileContainer>
               <S.NavigateBtnWrapper>
                 <S.NavigateBtn
