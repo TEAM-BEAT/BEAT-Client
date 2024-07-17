@@ -65,7 +65,7 @@ const Lookup = () => {
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (!state && data) {
       setLookUpList(data as LookupProps[]);
     }
   }, [data]);
