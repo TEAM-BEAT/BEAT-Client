@@ -4,6 +4,7 @@ import {
   postGuestBook,
   postGuestReq,
   postGuestBookingReq,
+  getMemberBookingList,
   GuestBookingRequest,
 } from "./api";
 
@@ -32,5 +33,14 @@ export const usePostGuestBookingList = () => {
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
     },
+  });
+};
+
+export const useGetMemberBookingList = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.LIST],
+    queryFn: () => getMemberBookingList(),
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60 * 24,
   });
 };

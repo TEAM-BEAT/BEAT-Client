@@ -51,7 +51,7 @@ export const postGuestBookingList = async (
   formData: postGuestBookingReq
 ): Promise<GuestBookingRetrieveRequest | null | 404> => {
   try {
-    const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
+    const response: AxiosResponse<ApiResponseType<GuestBookingRetrieveRequest>> = await post(
       "/bookings/guest/retrieve",
       formData
     );
@@ -62,6 +62,25 @@ export const postGuestBookingList = async (
     if (axiosError.response && axiosError.response.status === 404) {
       return 404;
     }
+    console.error("error", error);
+
+    return null;
+  }
+};
+
+// 회원 예매 조회 API
+
+type MemberBookingRetrieveResponse = components["schemas"]["MemberBookingRetrieveResponse"];
+
+export const getMemberBookingList = async () => {
+  try {
+    const response: AxiosResponse<ApiResponseType<MemberBookingRetrieveResponse>> = await get(
+      "/bookings/member/retrieve"
+    );
+    console.log(response);
+
+    return response.data.data;
+  } catch (error) {
     console.error("error", error);
 
     return null;
