@@ -18,8 +18,8 @@ export const CustomPicker = styled(DesktopDateTimePicker)`
   }
 `;
 
-export const CustomOpenPicker = styled(IconCalendar)<{ open: boolean }>`
+export const CustomOpenPicker = styled(IconCalendar)<{ $open: boolean }>`
   width: 2.4rem;
 
-  fill: ${({ open, theme }) => (open ? theme.colors.gray_0 : theme.colors.gray_600)};
+  fill: ${({ $open, theme }) => ($open ? theme.colors.gray_0 : theme.colors.gray_600)};
 `;
