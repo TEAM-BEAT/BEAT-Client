@@ -1,13 +1,14 @@
+import { useMakerPerformance } from "@apis/domains/performances/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import { components } from "@typings/api/schema";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bannerNarrow from "../../assets/images/banner_narrow.png";
 import * as S from "./MyRegisterdShow.styled";
 import RegisteredCard from "./components/registeredcard/RegisteredCard";
-import { MY_REGISTERED_SHOW, RegisteredObjProps } from "./constants/myRegisterShow";
-
+import { RegisteredObjProps } from "./constants/myRegisterShow";
 const MyRegisterdShow = () => {
   const { setHeader } = useHeader();
   const navigate = useNavigate();
@@ -27,11 +28,18 @@ const MyRegisterdShow = () => {
   }, [setHeader]);
 
   //추후 API에서 받아온 걸로 set할 예정
-  const [showList, setShowList] = useState(MY_REGISTERED_SHOW.data);
+  type MakerPerformanceDetail = components["schemas"]["MakerPerformanceDetail"];
+  const { data, isLoading } = useMakerPerformance();
+  const [showList, setShowList] = useState<MakerPerformanceDetail[] | undefined>(
+    data?.performances
+  );
+  useEffect(() => {
+    setShowList(data?.performances);
+  }, [data]);
   const [isNothing, setIsNothing] = useState(true);
 
   useEffect(() => {
-    if (showList.length === 0) {
+    if (showList?.length === 0) {
       setIsNothing(true);
     } else {
       setIsNothing(false);
@@ -78,11 +86,11 @@ const MyRegisterdShow = () => {
                 {/*Get 요청 받아서 map으로 반복적으로 렌더링할 예정 */}
                 {showList?.map((item: RegisteredObjProps, index: number) => (
                   <RegisteredCard
-                    key={item.id}
-                    title={item.title}
-                    period={item.period}
+                    key={item.performanceId}
+                    performanceTitle={item.performanceTitle}
+                    performancePeriod={item.performancePeriod}
                     genre={item.genre}
-                    image={item.image}
+                    posterImage={item.posterImage}
                   />
                 ))}
               </S.RegisteredCardWrapper>
