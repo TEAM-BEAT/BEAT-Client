@@ -9,11 +9,7 @@ import { useAtom, useAtomValue } from "jotai";
 
 import { navigateAtom } from "@stores/navigate";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
-
-interface UserProps {
-  nickname: string;
-  accessToken: string;
-}
+import useLogin from "@hooks/useLogin";
 
 const Hamburger = () => {
   const navigate = useNavigate();
@@ -21,8 +17,7 @@ const Hamburger = () => {
   const { isOpen } = useAtomValue(hamburgerAtom);
   const [, setNavigateUrl] = useAtom(navigateAtom);
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [nickname, setNickname] = useState("");
+  const { isLogin, nickname } = useLogin();
 
   const { closeHamburger } = useHamburger();
   const outside = useRef<HTMLDivElement>(null);
@@ -57,17 +52,6 @@ const Hamburger = () => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    const userJson = localStorage.getItem("user");
-
-    if (userJson) {
-      const user: UserProps = JSON.parse(userJson);
-
-      const nickName = user.nickname;
-      setNickname(nickName);
-    }
-  }, []);
 
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
