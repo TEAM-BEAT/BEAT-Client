@@ -16,7 +16,7 @@ const Hamburger = () => {
   const { isOpen } = useAtomValue(hamburgerAtom);
   const [, setNavigateUrl] = useAtom(navigateAtom);
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const { closeHamburger } = useHamburger();
   const outside = useRef<HTMLDivElement>(null);
@@ -51,6 +51,12 @@ const Hamburger = () => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    }
+  }, []);
 
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
