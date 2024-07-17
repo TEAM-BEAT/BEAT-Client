@@ -3,7 +3,7 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import axios, { AxiosResponse } from "axios";
 
-type PerformanceDetailResponse = components["schemas"]["PerformanceDetailResponse"];
+export type PerformanceDetailResponse = components["schemas"]["PerformanceDetailResponse"];
 
 export const getPerformanceDetail = async (
   performanceId: number
