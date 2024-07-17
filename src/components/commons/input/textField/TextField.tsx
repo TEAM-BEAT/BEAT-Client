@@ -60,15 +60,7 @@ const TextField = ({
         // 새로운 requestAnimationFrame 요청
         let filteredValue = newValue;
         if (filter) {
-          if (newValue.length < prevValueRef.current.length) {
-            // 삭제라면 전체 값 필터링
-            filteredValue = filter(newValue);
-          } else {
-            // 추가라면 새로 추가된 부분만 추출해서 필터링 후 합치기
-            const addedPart = newValue.slice(prevValueRef.current.length);
-            const filteredAddedPart = filter(addedPart);
-            filteredValue = prevValueRef.current + filteredAddedPart;
-          }
+          filteredValue = filter(newValue); // 전체 값을 필터링
         }
 
         if (maxLength && filteredValue.length > maxLength) {
