@@ -3,7 +3,13 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
 
-type LoginSuccessReponse = components["schemas"]["LoginSuccessResponse"];
+type LoginSuccessReponse = {
+  data: {
+    accessToken: string;
+    refreshToken: string;
+    nickName: string;
+  };
+};
 
 export const postKakaoLogin = async (authCode: string): Promise<LoginSuccessReponse | null> => {
   try {
