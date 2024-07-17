@@ -36,6 +36,10 @@ const MyRegisterdShow = () => {
   useEffect(() => {
     setShowList(data?.performances);
   }, [data]);
+
+  useEffect(() => {
+    console.log("showList: ", showList);
+  }, [showList]);
   const [isNothing, setIsNothing] = useState(true);
 
   useEffect(() => {
@@ -96,6 +100,7 @@ const MyRegisterdShow = () => {
                     performancePeriod={item.performancePeriod}
                     genre={item.genre}
                     posterImage={item.posterImage}
+                    param={item.performanceId}
                   />
                 ))}
               </S.RegisteredCardWrapper>
