@@ -38,7 +38,7 @@ const ModalTest = () => {
 
   const handleModal = (bankName: string, number: string) => {
     openModal({
-      children: <BankAccount bankName={bankName} number={number} />,
+      // children: <BankAccount bankName={bankName} number={number} />,
     });
   };
 

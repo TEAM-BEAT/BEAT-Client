@@ -58,8 +58,11 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
   }, [bookerName, birth, number, password]);
 
   const postUserData = async (postData: postGuestBookingReq) => {
+    if (isPending) {
+      return;
+    }
+
     const bookingData = await mutateAsync(postData);
-    console.log(bookingData);
     if (bookingData === 404) {
       resetForm();
       dataStatus(404);

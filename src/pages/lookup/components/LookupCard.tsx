@@ -85,7 +85,7 @@ const LookupCard = ({
         </S.Context>
         <S.Context>
           <S.SubTitle>총 금액</S.SubTitle>
-          <S.Text>{totalPaymentAmount}원</S.Text>
+          <S.Text>{totalPaymentAmount.toLocaleString()}원</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
