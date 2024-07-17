@@ -124,6 +124,9 @@ const TicketHolderList = () => {
 
   const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
 
+  //이해하기 어려울 것 같아 주석 남깁니다. 모든 회차, 입금 상태 2가지 필터를 사용하여 원하는 결과만 가져오는 형식입니다.
+  //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
+  //다음 2 뭉텅이는 전체 합을 구하기 위한 코드입니다.
   const filteredData = responseData.filter((obj) => {
     const isScheduleMatched =
       schedule === 0 ||
@@ -134,17 +137,13 @@ const TicketHolderList = () => {
 
     return isScheduleMatched && isPaymentMatched;
   });
-  //도영이가 axios 사용하면 useEffect 필요없다고 했는데, 나중에 리팩토링 할 수도 있음.
   useEffect(() => {
     const totalCount = filteredData.reduce(
       (totalSum, obj) => obj.purchaseTicketCount + totalSum,
       0
     );
     setReservedCount(totalCount);
-    //그리고 여기서 바로 다시 axios 요청 쏘는 로직 구성해두기
   }, [filteredData]);
-  //이해하기 어려울 것 같아 주석 남깁니다. 모든 회차, 입금 상태 2가지 필터를 사용하여 원하는 결과만 가져오는 형식입니다.
-  //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
 
   //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
   const handlePaymentToggle = (bookingId: number, isDeleteModeee: boolean) => {
@@ -190,7 +189,7 @@ const TicketHolderList = () => {
               </S.ToggleButton>
             </S.ToggleWrapper>
           </S.LayoutHeaderBox>
-          {filteredData.map((obj, index) => (
+          {responseData.map((obj, index) => (
             <ManagerCard
               key={`managerCard-${index}`}
               formData={formData}
@@ -202,10 +201,13 @@ const TicketHolderList = () => {
               setPaid={() => handlePaymentToggle(obj.bookingId, isDeleteMode)}
               bookername={obj.bookerName}
               purchaseTicketeCount={obj.purchaseTicketCount}
-              scheduleNumber={obj.scheduleNumber}
               bookerPhoneNumber={obj.bookerPhoneNumber}
               createAt={obj.createdAt}
               editBlock={editBlockList[index]}
+              isPaymentCompleted={obj.isPaymentCompleted}
+              payment={payment as boolean}
+              scheduleNumber={obj.scheduleNumber}
+              schedule={schedule}
             />
           ))}
 
