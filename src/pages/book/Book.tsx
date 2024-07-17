@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useGetBookingPerformanceDetail } from "@apis/domains/performance/queries";
+import { GuestBookingRequest } from "@apis/domains/bookings/api";
+import { useGuestBook } from "@apis/domains/bookings/queries";
+import {
+  useGetBookingPerformanceDetail,
+  useGetScheduleAvailable,
+} from "@apis/domains/performance/queries";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
 import Button from "@components/commons/button/Button";
@@ -9,6 +14,7 @@ import Context from "@components/commons/contextBox/Context";
 import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import useModal from "@hooks/useModal";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import * as S from "./Book.styled";
 import BookerInfo from "./components/bookerInfo/BookerInfo";
@@ -17,11 +23,12 @@ import EasyPassEntry from "./components/easyPassEntry/EasyPassEntry";
 import Info from "./components/info/Info";
 import Select from "./components/select/Select";
 import TermCheck from "./components/termCheck/TermCheck";
-import { FormData } from "./typings/formData";
+import { getScheduleNumberById } from "./utils";
 
 const Book = () => {
   const navigate = useNavigate();
   const { performanceId } = useParams<{ performanceId: string }>();
+  const { openAlert } = useModal();
 
   const { data, isLoading } = useGetBookingPerformanceDetail(Number(performanceId));
 
@@ -56,6 +63,13 @@ const Book = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState(false);
+
+  const { data: availableTicket, refetch } = useGetScheduleAvailable(
+    selectedValue as number,
+    round
+  );
+
+  const { mutateAsync, isPending } = useGuestBook();
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -95,66 +109,80 @@ const Book = () => {
     setIsOpen(false);
   };
 
-  const handleClickBook = () => {
-    // TODO: 티켓 매수 요청 GET API 후, true 인 상태일 때 바텀 시트 열기
+  const handleClickBook = async () => {
+    const res = await refetch();
 
-    handleSheetOpen();
+    if (res.data === 409) {
+      openAlert({
+        title: "잔여 티켓 수가 선택한\n 티켓의 수량보다 적습니다.",
+        okText: "다시 선택할게요",
+      });
+
+      return;
+    }
+
+    if (typeof res.data !== "number" && res.data?.isAvailable) {
+      handleSheetOpen();
+    }
   };
 
-  const handleClickBookRequst = () => {
-    // TODO: 티켓 매수 요청 get 요청 후, true 인 상태이면, 바텀 시트 열기
+  const handleClickBookRequst = async () => {
+    // TODO: 티켓 매수 요청 get 요청 후 ? 예매 요청 ? 혹은 바로 요청 ? 이거 동시성 처리 됐나
+    if (isPending) {
+      return;
+    }
 
     let formData = {
-      scheduleId: performanceId,
-      selectedValue,
+      scheduleId: data?.scheduleList![selectedValue! - 1].scheduleId,
+      scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
       purchaseTicketCount: round,
       totalPaymentAmount: data?.ticketPrice ?? 0 * round,
-    } as FormData;
+    } as GuestBookingRequest;
 
     // TODO: 회원, 비회원 여부에 따라서 예매하기 post 요청
     if (isNonMember) {
-      // 비회원 예매하기 post 요청
-      formData = { ...formData, ...bookerInfo, password: easyPassword.password } as FormData;
+      // 비회원 예매 요청
+      formData = {
+        ...formData,
+        ...bookerInfo,
+        password: easyPassword.password,
+        isPaymentCompleted: data?.ticketPrice === 0,
+      } as GuestBookingRequest;
 
-      console.log(formData);
+      const res = await mutateAsync(formData);
+
+      // TODO: response로 변경하기 (API 수정 필요)
+      navigate("/book/complete", {
+        state: {
+          id: performanceId,
+          title: data?.performanceTitle,
+          bankName: "농협",
+          accountNumber: "3561202376833",
+          totalPaymentAmount: res?.totalPaymentAmount,
+        },
+      });
     } else {
-      // 회원 예매하기 post 요청
+      // 회원 예매요청
       formData = {
         ...formData,
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
-      } as FormData;
+      } as GuestBookingRequest;
     }
-
-    // TODO: response로 변경
-    console.log(formData, {
-      state: {
-        bankName: "농협",
-        accountNumber: "3561202376833",
-        totalPaymentAmount: formData.totalPaymentAmount,
-      },
-    });
-
-    // TODO: 요청 성공 시, 완료 페이지로 navigate
-    navigate("/book/complete", {
-      state: {
-        bankName: "농협",
-        accountNumber: "3561202376833",
-        totalPaymentAmount: formData.totalPaymentAmount,
-      },
-    });
   };
 
   useEffect(() => {
     if (
       selectedValue &&
       bookerInfo.bookerName &&
-      bookerInfo.bookerPhoneNumber &&
+      bookerInfo.birthDate.length === 6 &&
+      bookerInfo.bookerPhoneNumber.length === 13 &&
       isTermChecked.term2
     ) {
       if (
         isNonMember &&
         isTermChecked.term1 &&
+        easyPassword.password.length === 4 &&
         easyPassword.password === easyPassword.passwordCheck
       ) {
         setActiveButton(true);
@@ -170,6 +198,7 @@ const Book = () => {
     <Loading />
   ) : (
     <S.ContentWrapper>
+      {isPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
         title={data?.performanceTitle ?? ""}
@@ -188,9 +217,9 @@ const Book = () => {
         onMinusClick={onMinusClick}
         onPlusClick={onPlusClick}
         ticketPrice={data?.ticketPrice ?? 0}
-        availableTicketCount={
-          selectedValue ? data?.scheduleList![selectedValue - 1].availableTicketCount : undefined
-        }
+        // availableTicketCount={
+        //   selectedValue ? data?.scheduleList![selectedValue - 1].availableTicketCount : undefined
+        // }
       />
       <BookerInfo
         isNonMember={isNonMember}
