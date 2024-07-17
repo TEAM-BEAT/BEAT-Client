@@ -40,7 +40,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
 
         openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
-      value={dayjs(new Date(value as string))}
+      value={value ? dayjs(new Date(value as string)) : null}
       minDate={minDate || undefined}
       onAccept={handleAccept}
       slotProps={{
