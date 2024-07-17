@@ -4,6 +4,9 @@ import * as S from "./InputWrapper.styled";
 
 import TextField from "@components/commons/input/textField/TextField";
 import { nameFilter, numericFilter, phoneNumberFilter } from "@utils/useInputFilter";
+import { usePostGuestBookingList } from "@apis/domains/bookings/queries";
+import { postGuestBookingReq } from "@apis/domains/bookings/api";
+import Loading from "@components/commons/loading/Loading";
 
 interface InputProps {
   btnOn: () => void;
@@ -12,12 +15,10 @@ interface InputProps {
   dataStatus: (status: number) => void;
 }
 
-// 서버 붙일 때 지우기 (현재 서버 없어 200/404 상황 확인하기 위해 임시로 둠)
-const success = 200;
-const fail = 404;
-
 const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps) => {
   const navigate = useNavigate();
+
+  const { mutateAsync, isPending } = usePostGuestBookingList();
 
   const [nonMemberInfo, setNonMemberInfo] = useState({
     bookerName: "",
@@ -56,64 +57,75 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     }
   }, [bookerName, birth, number, password]);
 
+  const postUserData = async (postData: postGuestBookingReq) => {
+    if (isPending) {
+      return;
+    }
+
+    const bookingData = await mutateAsync(postData);
+    if (bookingData === 404) {
+      resetForm();
+      dataStatus(404);
+    } else {
+      dataStatus(200);
+      navigate("/lookup", { state: bookingData });
+    }
+  };
+
   useEffect(() => {
     if (isReadyRequest) {
-      // API 붙일 때 이 부분 서버 통신 성공 경우
-      // API 붙일 때 여기서 서버 POST
-      if (success === 200) {
-        // API 붙일 경우 dataStatus(서버에서 온 상태);
-        dataStatus(200);
+      const formData = {
+        bookerName: bookerName,
+        birthDate: birth,
+        bookerPhoneNumber: number,
+        password: password,
+      };
 
-        navigate("/lookup");
-        // 200일 경우 잘 오는지 확인하기 위한 console.log -> API 붙일 때 지우면 됨
-        console.log([name, birth, number, password]);
-        // 404 혹은 통신 실패 경우
-      } else {
-        resetForm();
-        // API 붙일 때는 들어온 에러 번호로 보내기
-        dataStatus(404);
-      }
+      postUserData(formData);
     }
   }, [isReadyRequest]);
 
   return (
-    <S.InputWrapperLayout>
-      <TextField
-        name="bookerName"
-        type="input"
-        value={bookerName}
-        placeholder="이름"
-        onChange={handleChange}
-        filter={nameFilter}
-      />
-      <TextField
-        type="input"
-        name="birth"
-        value={birth}
-        onChange={handleChange}
-        placeholder="생년월일 앞 6자리"
-        filter={numericFilter}
-        maxLength={6}
-      />
-      <TextField
-        type="input"
-        name="number"
-        value={number}
-        onChange={handleChange}
-        placeholder="휴대폰 번호 '-' 없이 입력"
-        filter={phoneNumberFilter}
-        maxLength={13}
-      />
-      <TextField
-        type={pwdStatus ? "input" : "password"}
-        name="password"
-        value={password}
-        onChange={handleChange}
-        placeholder="비밀번호(숫자 4자리)"
-        filter={numericFilter}
-        maxLength={4}
-      />
-    </S.InputWrapperLayout>
+    <>
+      {isPending && <Loading />}
+      <S.InputWrapperLayout>
+        <TextField
+          name="bookerName"
+          type="input"
+          value={bookerName}
+          placeholder="이름"
+          onChange={handleChange}
+          filter={nameFilter}
+        />
+        <TextField
+          type="input"
+          name="birth"
+          value={birth}
+          onChange={handleChange}
+          placeholder="생년월일 앞 6자리"
+          filter={numericFilter}
+          maxLength={6}
+        />
+        <TextField
+          type="input"
+          name="number"
+          value={number}
+          onChange={handleChange}
+          placeholder="휴대폰 번호 '-' 없이 입력"
+          filter={phoneNumberFilter}
+          maxLength={13}
+        />
+        <TextField
+          type={pwdStatus ? "input" : "password"}
+          name="password"
+          value={password}
+          onChange={handleChange}
+          placeholder="비밀번호(숫자 4자리)"
+          filter={numericFilter}
+          maxLength={4}
+        />
+      </S.InputWrapperLayout>
+    </>
   );
 };
 
