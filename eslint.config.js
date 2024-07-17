@@ -49,7 +49,6 @@ const jsConfig = {
     "no-else-return": "warn",
     "no-floating-decimal": "error",
     "no-new-object": "error",
-    "no-shadow": "error",
     "no-param-reassign": "error",
     "prefer-template": "warn",
     radix: "error",

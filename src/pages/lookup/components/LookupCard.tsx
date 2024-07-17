@@ -13,30 +13,40 @@ const LookupCard = ({
   purchaseTicketCount,
   paymentStatus,
   bankName,
+  bookerName,
   accountNumber,
   dueDate,
-  price,
+  totalPaymentAmount,
 }: LookupProps) => {
   const navigate = useNavigate();
+
+  const scheduleNum = {
+    FIRST: "1회차",
+    SECOND: "2회차",
+    THIRD: "3회차",
+  };
+
+  type ScheduleNumTypes = keyof typeof scheduleNum;
 
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
 
   const performanceDateArray = performanceDate.split("-");
-  const totalPrice = (price * purchaseTicketCount).toLocaleString("ko-KR");
+  const performanceDataDate = performanceDateArray[2].split("T");
 
   const { openModal } = useModal();
 
   const handleModal = (bank: string, number: string) => {
     openModal({
-      // 예금주랑 가격은 내일 API 명세서 보고 맞추기
+      // 가격은 내일 API 명세서 보고 맞추기
       children: (
         <BankAccount
           bankName={bank}
           number={number}
-          accountName="전희주"
+          accountName={bookerName}
           accountNumber={accountNumber}
-          price={5000}
+          // api 추가되면 수정하기
+          price={totalPaymentAmount}
         />
       ),
     });
@@ -44,8 +54,8 @@ const LookupCard = ({
 
   return (
     <S.LookupCardWrapper>
-      {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! */}
-      <S.LookupTitleWrapper type="button" onClick={() => navigate("/gigs")}>
+      {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! -> API 수정되면 반영하기*/}
+      <S.LookupTitleWrapper type="button" onClick={() => navigate(`/gig/${1}`)}>
         <S.LookupTitle>{performanceTitle}</S.LookupTitle>
         <S.TitleArrowRightIcon />
       </S.LookupTitleWrapper>
@@ -60,7 +70,7 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>관람일</S.SubTitle>
           <S.Text>
-            {performanceDateArray[0]}년 {performanceDateArray[1]}월 {performanceDateArray[2]}일
+            {performanceDateArray[0]}년 {performanceDateArray[1]}월 {performanceDataDate[0]}일
           </S.Text>
         </S.Context>
         <S.Context>
@@ -70,12 +80,12 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>관람회차</S.SubTitle>
           <S.Text>
-            {scheduleNumber}회차 {purchaseTicketCount}매
+            {scheduleNum[scheduleNumber as ScheduleNumTypes]} {purchaseTicketCount}매
           </S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>총 금액</S.SubTitle>
-          <S.Text>{totalPrice}원</S.Text>
+          <S.Text>{totalPaymentAmount}원</S.Text>
         </S.Context>
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
