@@ -20,4 +20,16 @@ export const getMakerPerformance = async (): Promise<MakerPerformanceResponse | 
 // 공연 수정 페이지 정보 조회 API (GET)
 type PerformanceEditResponse = components["schemas"]["PerformanceEditResponse"];
 
-export const getPerformanceEdit = async () : Promise<>
+export const getPerformanceEdit = async (
+  performanceId: number
+): Promise<PerformanceEditResponse | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<PerformanceEditResponse>> = await get(
+      `performances/${performanceId}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
