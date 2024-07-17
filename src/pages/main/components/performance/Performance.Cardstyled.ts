@@ -1,7 +1,7 @@
 import { Subtract } from "@assets/svgs";
 import styled from "styled-components";
 
-export const PerformanceCardWrapper = styled.section`
+export const PerformanceCardWrapper = styled.button`
   display: flex;
   flex-direction: column;
   gap: 1rem;

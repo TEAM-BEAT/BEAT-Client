@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { usePostKakaoLogin } from "@apis/domains/users/queries";
 import { navigateAtom } from "@stores/navigate";
 import { useAtom } from "jotai";
-import { usePostKakaoLogin } from "@apis/domains/users/queries";
 
 const KakaoLogin = () => {
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const KakaoLogin = () => {
           console.log(code);
 
           const userData = await mutateAsync(code);
+          console.log("userData", userData);
 
           setReadyLogin(true);
         } catch (error) {

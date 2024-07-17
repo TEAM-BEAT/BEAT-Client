@@ -1,8 +1,9 @@
 import { IconEmpty } from "@assets/svgs";
 import styled from "styled-components";
 
-export const BodyWrapper = styled.main`
+export const BodyWrapper = styled.main<{ $isNothing?: boolean }>`
   display: flex;
+  flex-direction: ${({ $isNothing }) => ($isNothing ? "column" : "row")};
   align-items: center;
   justify-content: center;
   width: 37.4rem;
@@ -27,6 +28,7 @@ export const GrapicImg = styled(IconEmpty)`
 `;
 
 export const NothingText = styled.span`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -37,6 +39,8 @@ export const NothingText = styled.span`
 `;
 
 export const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: auto;
   padding: 2.4rem;

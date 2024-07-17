@@ -86,7 +86,7 @@ const Hamburger = () => {
               <S.NavigateBtnWrapper>
                 <S.NavigateBtn
                   onClick={() => {
-                    navigate("/gig-register");
+                    navigate("/gig-manage");
                     closeHamburger();
                   }}
                 >

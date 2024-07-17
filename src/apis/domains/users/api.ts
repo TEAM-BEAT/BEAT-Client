@@ -1,5 +1,4 @@
 import { post } from "@apis/index";
-import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
 

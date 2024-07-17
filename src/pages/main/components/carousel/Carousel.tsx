@@ -86,7 +86,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
                 key={key}
                 onClick={() => {
                   // id값 줘서 클릭하면 해당 공연으로 넘어갈 수 있도록
-                  navigate("/lookup");
+                  navigate(`/gig/${1}`);
                 }}
               >
                 <img src={image} alt="carousel-img" />

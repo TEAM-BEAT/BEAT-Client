@@ -1,28 +1,30 @@
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FreeBook from "../freeBook/FreeBook";
 import PaidBook from "../paidBook/PaidBook";
 
 const Complete = () => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const isPaid = false;
 
-  // TODO: state로 받아오기
-  const title = "비트 정기공연";
-  const bankName = "농협";
-  const accountNumber = "3561202376833";
-  const price = 10000;
-  const id = 1;
+  // TODO: 기본 값 수정
+  const {
+    id = 1,
+    title = "비트 정기공연",
+    bankName = "농협",
+    accountNumber = "3561202376833",
+    price = 100002,
+  } = location.state || {};
+
+  const isPaid = price !== 0 ? true : false;
 
   const { setHeader } = useHeader();
 
   useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON,
-      title: "내가 등록한 공연",
-      subText: "삭제",
       rightOnClick: () => {
         navigate("/main");
       },
@@ -40,7 +42,7 @@ const Complete = () => {
           price={price}
         />
       ) : (
-        <FreeBook title={title} id={id} />
+        <FreeBook id={id} title={title} />
       )}
     </>
   );

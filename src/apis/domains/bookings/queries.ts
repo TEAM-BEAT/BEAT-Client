@@ -5,6 +5,7 @@ import {
   postGuestReq,
   postGuestBookingReq,
   getMemberBookingList,
+  GuestBookingRequest,
 } from "./api";
 
 export const QUERY_KEY = {
@@ -16,7 +17,7 @@ export const useGuestBook = () => {
   const queryClient = new QueryClient();
 
   return useMutation({
-    mutationFn: (formData: postGuestReq) => postGuestBook(formData), // API 요청 함수
+    mutationFn: (formData: GuestBookingRequest) => postGuestBook(formData), // API 요청 함수
     onSuccess: (res) => {
       // 성공 시, 호출
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
