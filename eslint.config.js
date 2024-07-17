@@ -33,7 +33,7 @@ const jsConfig = {
     curly: "error",
     quotes: ["error", "double"],
     "comma-style": ["error", "last"],
-    "no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }],
+    // "no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }],
     "no-console": "warn",
     "no-extra-semi": "error",
     // "no-unused-expressions": "error",
