@@ -16,3 +16,8 @@ export const getMakerPerformance = async (): Promise<MakerPerformanceResponse | 
     return null;
   }
 };
+
+// 공연 수정 페이지 정보 조회 API (GET)
+type PerformanceEditResponse = components["schemas"]["PerformanceEditResponse"];
+
+export const getPerformanceEdit = async () : Promise<>
