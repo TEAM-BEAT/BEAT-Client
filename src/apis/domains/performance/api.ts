@@ -1,7 +1,8 @@
 import { get } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
+
 
 type BookingPerformanceDetailResponse = components["schemas"]["BookingPerformanceDetailResponse"];
 
@@ -10,7 +11,7 @@ export const getBookingPerformanceDetail = async (
 ): Promise<BookingPerformanceDetailResponse | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<BookingPerformanceDetailResponse>> = await get(
-      `/performances/detail/${performanceId}`
+      `/performances/booking/${performanceId}`
     );
 
     return response.data.data;
@@ -25,7 +26,7 @@ type TicketAvailabilityResponse = components["schemas"]["TicketAvailabilityRespo
 export const getScheduleAvailable = async (
   scheduleId: number,
   purchaseTicketCount: number
-): Promise<TicketAvailabilityResponse | null> => {
+): Promise<TicketAvailabilityResponse | number> => {
   try {
     const response: AxiosResponse<ApiResponseType<TicketAvailabilityResponse>> = await get(
       `/schedules/${scheduleId}/availability?purchaseTicketCount=${purchaseTicketCount}`
@@ -34,6 +35,14 @@ export const getScheduleAvailable = async (
     return response.data.data;
   } catch (error) {
     console.error("error", error);
-    return null;
+
+    if (axios.isAxiosError(error)) {
+      console.error("err is", error);
+      const errorStatus = error.response?.data.status;
+      console.log(errorStatus);
+
+      return errorStatus;
+    }
+    return -1;
   }
 };
