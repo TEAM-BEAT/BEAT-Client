@@ -262,7 +262,10 @@ const Book = () => {
             ?.scheduleList![(selectedValue ?? 1) - 1].performanceDate?.slice(11, 16)
             .toString()}
         />
-        <Context subTitle="가격" text={`${(data?.ticketPrice ?? 0 * round).toLocaleString()}원`} />
+        <Context
+          subTitle="가격"
+          text={`${((data?.ticketPrice ?? 0) * round).toLocaleString()}원`}
+        />
         <Context subTitle="예매자" text={bookerInfo.bookerName} />
         <OuterLayout gap="1.1rem" margin="2.4rem 0 0 0">
           <Button variant="gray" size="medium" onClick={handleSheetClose}>
