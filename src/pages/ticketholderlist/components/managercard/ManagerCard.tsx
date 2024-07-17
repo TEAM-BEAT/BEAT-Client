@@ -36,11 +36,11 @@ const ManagerCard = ({
   const handleCheckBox = (managerBookingId: number) => {
     setDeleteFormData((prevFormData) => {
       const isAlreadyChecked = prevFormData.bookingList.some(
-        (obj) => obj.bookingId === managerBookingId
+        (_bookingId) => _bookingId === managerBookingId
       );
       const updateBookingList = isAlreadyChecked
-        ? prevFormData.bookingList.filter((obj) => obj.bookingId !== managerBookingId)
-        : [...prevFormData.bookingList, { bookingId: managerBookingId }];
+        ? prevFormData.bookingList.filter((_bookingId) => _bookingId !== managerBookingId)
+        : [...prevFormData.bookingList, managerBookingId];
       return { ...prevFormData, bookingList: updateBookingList };
     });
   };
@@ -68,7 +68,7 @@ const ManagerCard = ({
       {isDeleteMode && (
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
-          isChecked={deleteFormData.bookingList.some((obj) => obj.bookingId === bookingId)}
+          isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
         />
       )}
       <S.ManagerCardLayout $isDeleteMode={isDeleteMode} $isDetail={isDetail}>

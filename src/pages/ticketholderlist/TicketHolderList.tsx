@@ -74,6 +74,8 @@ const TicketHolderList = () => {
   const handleBookerDeleteAxiosFunc = () => {
     //나중에 DELETE api 요청 작성할 예정
     deleteMutate(deleteFormData);
+
+    console.log("삭제요청 보냄");
     closeConfirm();
     window.location.reload();
   };

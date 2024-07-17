@@ -67,6 +67,7 @@ export const putTicketUpdate = async (
 export const deleteTicketDelete = async (
   formData: DeleteFormDataProps
 ): Promise<SuccessResponseVoid | null> => {
+  console.log("fromdata", formData);
   try {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(
       `tickets/${formData.performanceId}`,
