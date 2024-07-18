@@ -81,14 +81,13 @@ export const ScheduleListContainer = styled.div`
 
 export const EpisodeBox = styled.p`
   display: flex;
-  gap: 4px;
   align-items: center;
   align-self: stretch;
-`;
-
-export const EpisodeText = styled.span`
-  min-width: 3.5rem;
 
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
   color: ${({ theme }) => theme.colors.gray_500};
+`;
+
+export const EpisodeText = styled.span`
+  min-width: 4rem;
 `;

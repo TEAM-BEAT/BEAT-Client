@@ -2,7 +2,7 @@ import { IconTime, IcOutlinePlace } from "@assets/svgs";
 import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import { priceFilter } from "@utils/useInputFilter";
 
-import { formatRoundDate } from "@pages/gig/utils";
+import { formatDate } from "@pages/gig/utils";
 import IconText from "../iconText/IconText";
 import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
@@ -57,12 +57,17 @@ const ShowInfo = ({
           </S.IconTextTimeBox>
 
           <S.ScheduleListContainer>
-            {scheduleList.map((schedule, i) => (
-              <S.EpisodeBox key={`schedule-${i}`}>
-                <S.EpisodeText>{i + 1}회차</S.EpisodeText>
-                <S.EpisodeText>{formatRoundDate(schedule.performanceDate)}</S.EpisodeText>
-              </S.EpisodeBox>
-            ))}
+            {scheduleList.map((schedule, i) => {
+              const { day, time } = formatDate(schedule.performanceDate);
+
+              return (
+                <S.EpisodeBox key={`schedule-${i}`}>
+                  <S.EpisodeText>{i + 1}회차</S.EpisodeText>
+                  <S.EpisodeText>{day} /&nbsp;</S.EpisodeText>
+                  <S.EpisodeText>{time}</S.EpisodeText>
+                </S.EpisodeBox>
+              );
+            })}
           </S.ScheduleListContainer>
         </S.IconTextTimeContainer>
       </S.PlaceTimeWrapper>
