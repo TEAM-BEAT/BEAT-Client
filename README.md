@@ -13,28 +13,28 @@
     <tr align="center">
       <td style="min-width: 150px;">
             <a href="https://github.com/pepperdad">
-              <img src="https://avatars.githubusercontent.com/u/58854041?v=4" width="200" alt="깃허브계정-프로필사진">
+              <img src="https://github.com/user-attachments/assets/43a13acd-1ff8-43f5-98ac-6b80515ef020" width="200" alt="깃허브계정-프로필사진">
               <br />
               <b>🐱정도영</b>
             </a>
         </td>
       <td style="min-width: 150px;">
             <a href="https://github.com/imddoy">
-              <img src="https://avatars.githubusercontent.com/u/90364711?v=4" width="200" alt="깃허브계정-프로필사진">
+              <img src="https://github.com/user-attachments/assets/734cc263-5c17-4023-bc6b-734d363ad3f9" width="200" alt="깃허브계정-프로필사진">
               <br />
               <b>🎧김채현</b>
             </a>
         </td>
       <td style="min-width: 150px;">
             <a href="https://github.com/ocahs9">
-              <img src="https://avatars.githubusercontent.com/u/155794105?v=4" width="200" alt="깃허브계정-프로필사진">
+              <img src="https://github.com/user-attachments/assets/a5ba9ed1-2df7-4bc8-93d9-8bf138988f7f" width="200" alt="깃허브계정-프로필사진">
               <br />
               <b>🐶공준혁</b>
             </a>
         </td>
       <td style="min-width: 150px;">
             <a href="https://github.com/sinji2102">
-              <img src="https://avatars.githubusercontent.com/u/66528589?v=4" width="200" alt="깃허브계정-프로필사진">
+              <img src="https://github.com/user-attachments/assets/723ddd04-2d81-4829-8c94-69ab1403171b" width="200" alt="깃허브계정-프로필사진">
               <br />
               <b>🎱윤신지</b>
             </a>
