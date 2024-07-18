@@ -83,6 +83,18 @@
 - SonarCloud
 ```
 
+<img src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=white"/> 
+<img src="https://img.shields.io/badge/Typescript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white"/> 
+<img src="https://img.shields.io/badge/yarn berry-2C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white"/> 
+<img src="https://img.shields.io/badge/styledcomponents-DB7093.svg?style=for-the-badge&logo=styledcomponents&logoColor=white"/>
+<img src="https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=white"/>
+<img src="https://img.shields.io/badge/eslint-4B32C3.svg?style=for-the-badge&logo=eslint&logoColor=white"/>
+<img src="https://img.shields.io/badge/stylelint-263238.svg?style=for-the-badge&logo=stylelint&logoColor=white"/>
+<img src="https://img.shields.io/badge/jotai-000000.svg?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4&logoColor=white"/>
+<img src="https://img.shields.io/badge/reactquery-FF4154.svg?style=for-the-badge&logo=reactquery&logoColor=white"/>
+<img src="https://img.shields.io/badge/storybook-FF4785.svg?style=for-the-badge&logo=storybook&logoColor=white"/>
+<img src="https://img.shields.io/badge/sonarcloud-F3702A.svg?style=for-the-badge&logo=sonarcloud&logoColor=white"/>
+
 <br/>
 
 <h2> 📄 컨벤션 및 브랜치 전략 </h2>
