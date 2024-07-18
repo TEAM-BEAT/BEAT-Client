@@ -1,3 +1,4 @@
+import { usePerformanceEdit } from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
@@ -8,14 +9,14 @@ import TextField from "@components/commons/input/textField/TextField";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
-import { BANK_LIST, BankListTypes } from "@constants/bankList";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import useModal from "@hooks/useModal";
 import Content from "@pages/gig/components/content/Content";
-import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
+import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
@@ -25,7 +26,7 @@ import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
 import { GENRE_LIST, GET_MODIFY_MANAGE_RESPONSE } from "./constants/genreList";
 import ModifyManageMaker from "./ModifyMaker";
 import * as S from "./ModifyManage.styled";
-import { Cast, DataProps, Staff } from "./typings/gigInfo";
+import { Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import {
   handleBankClick,
   handleBankOpen,
@@ -45,8 +46,17 @@ const ModifyManage = () => {
   const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<DataProps>(GET_MODIFY_MANAGE_RESPONSE.data);
+  const { performanceId } = useParams();
 
+  const { data, isLoading } = usePerformanceEdit(Number(performanceId));
+
+  useEffect(() => {
+    setGigInfo(data as DataProps);
+  }, [data]);
+
+  /*
   // 구조 분해 할당
+
   const {
     performanceTitle,
     genre,
@@ -68,7 +78,77 @@ const ModifyManage = () => {
     isBookerExist,
     accountHolder,
   } = gigInfo;
+   */
 
+  let performanceTitle: string | undefined,
+    genre: "BAND" | "DANCE" | "PLAY" | "ETC" | string | undefined,
+    runningTime: number | null | undefined,
+    performanceDescription: string | undefined,
+    performanceAttentionNote: string | undefined,
+    accountNumber: string | undefined,
+    posterImage: string | undefined,
+    performanceTeamName: string | undefined,
+    performanceVenue: string | undefined,
+    performancePeriod: string | undefined,
+    performanceContact: string | undefined,
+    ticketPrice: number | undefined,
+    totalScheduleCount: number | undefined,
+    scheduleList: Schedule[] | undefined,
+    castList: Cast[] | undefined,
+    staffList: Staff[] | undefined,
+    bankName: string | undefined,
+    isBookerExist: boolean | undefined,
+    accountHolder: string | undefined;
+
+  if (gigInfo) {
+    performanceTitle = gigInfo.performanceTitle;
+    genre = gigInfo.genre;
+    runningTime = gigInfo.runningTime;
+    performanceDescription = gigInfo.performanceDescription;
+    performanceAttentionNote = gigInfo.performanceAttentionNote;
+    accountNumber = gigInfo.accountNumber;
+    posterImage = gigInfo.posterImage;
+    performanceTeamName = gigInfo.performanceTeamName;
+    performanceVenue = gigInfo.performanceVenue;
+    performancePeriod = gigInfo.performancePeriod;
+    performanceContact = gigInfo.performanceContact;
+    ticketPrice = gigInfo.ticketPrice;
+    totalScheduleCount = gigInfo.totalScheduleCount;
+    scheduleList = gigInfo.scheduleList;
+    if (gigInfo.castList.length === 0) {
+      castList = [
+        {
+          castId: -1,
+          castName: "", // 이름
+          castRole: "", // 역할
+          castPhoto: "", // 출연진 사진 URL
+        },
+      ];
+    } else {
+      castList = gigInfo.castList;
+    }
+    if (gigInfo.staffList.length === 0) {
+      staffList = [
+        {
+          staffId: -1,
+          staffName: "", // 이름
+          staffRole: "", // 역할
+          staffPhoto: "", // 출연진 사진 URL
+        },
+      ];
+    } else {
+      staffList = gigInfo.staffList;
+    }
+
+    bankName = gigInfo.bankName;
+    isBookerExist = gigInfo.isBookerExist;
+    accountHolder = gigInfo.accountHolder;
+  }
+
+  console.log(castList, staffList);
+  useEffect(() => {
+    console.log("스탭:", castList, staffList);
+  }, [castList, staffList]);
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState(bankName); //가져온 은행 이름으로 초기화
   const [isChecked, setIsChecked] = useState(true); //처음 가져오는 거니까 그냥 체크된 상태로 시작
@@ -77,7 +157,8 @@ const ModifyManage = () => {
   const navigate = useNavigate();
 
   const handleComplete = () => {
-    navigate("/ModifyManage-complete");
+    console.log("gigInfo:", gigInfo);
+    //navigate("/ModifyManage-complete");
   };
 
   // 약관 동의
@@ -112,6 +193,7 @@ const ModifyManage = () => {
   }, [ticketPrice]);
 
   const updateGigInfo = (newInfo: Partial<{ castList: Cast[]; staffList: Staff[] }>) => {
+    console.log("mew", newInfo);
     setGigInfo((prev) => ({
       ...prev,
       ...newInfo,
@@ -144,7 +226,7 @@ const ModifyManage = () => {
     }
   };
 
-  const handleDeletePerformance = (performanceId: number, isExisttt: boolean) => {
+  const handleDeletePerformance = (_performanceId: number, isExisttt: boolean) => {
     //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
     if (isExisttt) {
       openAlert({
@@ -166,7 +248,7 @@ const ModifyManage = () => {
       okText: "삭제할게요",
       okCallback: () => {
         //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(1, isExist); //예시로 박아둠
+        handleDeletePerformance(1, isExist as boolean); //예시로 박아둠
       },
       noText: "아니요",
       noCallback: () => {
@@ -191,13 +273,9 @@ const ModifyManage = () => {
     });
   }, [setHeader, ModifyManageStep]);
 
-  //해당 뱅크 영어 이름(api 통신 때의 값)에 객체의 한글 이름을 뽑아내어주는 함수
-  const getBankNameKr = (bankInfooo: string, BANK_LISTTT: BankListTypes) => {
-    const bank = BANK_LISTTT.find((obj) => obj.name === bankInfooo);
-    return bank ? bank.nameKr : "에러";
-  };
+  console.log("non state", staffList);
 
-  if (ModifyManageStep === 1) {
+  if (ModifyManageStep === 1 && gigInfo) {
     return (
       <>
         <S.ModifyManageContainer>
@@ -209,7 +287,7 @@ const ModifyManage = () => {
           <GenreSelect
             title="공연 장르"
             genres={GENRE_LIST}
-            selectedGenre={genre}
+            selectedGenre={genre as string}
             onGenreSelect={(selectedGenre) => handleGenreSelect(selectedGenre, setGigInfo)}
             marginBottom={2.4}
           />
@@ -266,19 +344,19 @@ const ModifyManage = () => {
           <StepperModifyManageBox title="회차 수" description="최대 3회차">
             <Stepper
               max={3}
-              round={totalScheduleCount}
+              round={totalScheduleCount as number}
               onMinusClick={() => onMinusClick(setGigInfo)}
               onPlusClick={() => onPlusClick(setGigInfo)}
             />
           </StepperModifyManageBox>
           <S.Divider />
           <TimePickerModifyManageBox title="회차별 시간대">
-            {scheduleList.map((schedule, index) => (
+            {scheduleList?.map((schedule, index) => (
               <div key={index}>
                 <S.InputDescription>{index + 1}회차</S.InputDescription>
                 <Spacing marginBottom={"1"} />
                 <TimePicker
-                  value={schedule.performanceDate}
+                  value={dayjs(schedule.performanceDate)}
                   onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
                 />
               </div>
@@ -304,7 +382,7 @@ const ModifyManage = () => {
               isDisabled={false}
               type="input"
               name="totalTicketCount"
-              value={scheduleList[0].totalTicketCount}
+              value={scheduleList?.[0].totalTicketCount}
               onChange={(e) => handleTotalTicketCountChange(e, setGigInfo)}
               placeholder="판매할 티켓의 매 수를 입력해주세요."
               filter={numericFilter}
@@ -323,7 +401,7 @@ const ModifyManage = () => {
           </InputModifyManageBox>
           <S.Divider />
           <InputModifyManageBox
-            isDisabled={isExist}
+            isDisabled={isExist as boolean}
             title="티켓 가격"
             description="*티켓 가격은 수정불가합니다."
             isFree={isFree}
@@ -346,11 +424,11 @@ const ModifyManage = () => {
             <>
               <InputAccountWrapper>
                 <InputBank
-                  isDisabled={isExist}
+                  isDisabled={isExist as boolean}
                   bankOpen={bankOpen}
                   onClick={() => handleBankOpen(setBankOpen)}
                 >
-                  {getBankNameKr(bankInfo, BANK_LIST)}
+                  {bankInfo as string}
                 </InputBank>
                 <TextField
                   isDisabled={isExist}
@@ -374,8 +452,15 @@ const ModifyManage = () => {
             </>
           )}
           <BankBottomSheet
-            value={bankInfo}
-            onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
+            value={bankInfo as string}
+            onBankClick={(value) =>
+              handleBankClick(
+                value,
+                setGigInfo,
+                setBankInfo as Dispatch<SetStateAction<string>>,
+                setBankOpen
+              )
+            }
             isOpen={bankOpen}
             onOutClick={() => handleBankOpen(setBankOpen)}
           />
@@ -407,7 +492,7 @@ const ModifyManage = () => {
           </S.CheckboxContainer>
           <Button
             onClick={handleModifyManageStep}
-            disabled={!isAllFieldsFilled(gigInfo, isFree) || !isChecked}
+            disabled={!isAllFieldsFilled(gigInfo as DataProps, isFree) || !isChecked}
           >
             다음
           </Button>
@@ -419,45 +504,54 @@ const ModifyManage = () => {
   if (ModifyManageStep === 2) {
     return (
       <ModifyManageMaker
-        castList={castList}
-        staffList={staffList}
+        castList={castList as Cast[]}
+        staffList={staffList as Staff[]}
         handleModifyManageStep={handleModifyManageStep}
         updateGigInfo={updateGigInfo}
       />
     );
   }
-
   if (ModifyManageStep === 3) {
     return (
       <>
         <ShowInfo
-          posterImage={posterImage}
-          title={performanceTitle}
-          price={ticketPrice}
-          venue={performanceVenue}
-          period={performancePeriod}
-          runningTime={runningTime}
-          genre={genre}
+          posterImage={posterImage as string}
+          title={performanceTitle as string}
+          price={ticketPrice as number}
+          venue={performanceVenue as string}
+          period={performancePeriod as string}
+          runningTime={runningTime as number}
+          genre={genre as "BAND" | "DANCE" | "PLAY" | "ETC"}
           // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
-          scheduleList={scheduleList.map((schedule, index) => ({
-            scheduleId: index + 1,
-            performanceDate: schedule.performanceDate?.toString() || "",
-            scheduleNumber: (index + 1).toString(),
-          }))}
+          scheduleList={
+            scheduleList?.map((schedule, index) => ({
+              scheduleId: index + 1,
+              performanceDate: schedule.performanceDate?.toString() || "",
+              scheduleNumber: index + 1,
+            })) as SchelduleListType[]
+          }
         />
         <Content
-          description={performanceDescription}
-          attentionNote={performanceAttentionNote}
-          contact={performanceContact}
-          teamName={performanceTeamName}
-          castList={castList.map((cast, index) => ({
-            ...cast,
-            castId: index + 1,
-          }))}
-          staffList={staffList.map((cast, index) => ({
-            ...cast,
-            staffId: index + 1,
-          }))}
+          description={performanceDescription as string}
+          attentionNote={performanceAttentionNote as string}
+          contact={performanceContact as string}
+          teamName={performanceTeamName as string}
+          castList={
+            castList?.[0].castId === -1
+              ? []
+              : (castList?.map((cast, index) => ({
+                  ...cast,
+                  castId: index + 1,
+                })) as Cast[])
+          }
+          staffList={
+            staffList?.[0].staffId === -1
+              ? []
+              : (staffList?.map((cast, index) => ({
+                  ...cast,
+                  staffId: index + 1,
+                })) as Staff[])
+          }
         />
         <S.FooterContainer>
           <Button onClick={handleComplete}>완료하기</Button>

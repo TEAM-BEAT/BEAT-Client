@@ -263,3 +263,11 @@ export const PreviewBanner = styled.div`
   ${({ theme }) => theme.fonts["caption1-medi"]}
   background:  rgb(15 15 15 / 70%);
 `;
+
+export const NoContentBox = styled.p`
+  padding: 2.6rem 0;
+
+  color: ${({ theme }) => theme.colors.gray_500};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+  text-align: center;
+`;

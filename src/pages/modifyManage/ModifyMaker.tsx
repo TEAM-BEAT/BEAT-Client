@@ -63,9 +63,11 @@ const ModifyManageMaker = ({
     const filteredCastList = castList.filter(
       (cast) => cast.castName || cast.castRole || cast.castPhoto
     );
+    console.log("필터캐스트:", filteredCastList);
     const filteredStaffList = staffList.filter(
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
+    console.log("필터스태프:", filteredStaffList);
 
     updateGigInfo({ castList: filteredCastList, staffList: filteredStaffList });
     handleModifyManageStep();
