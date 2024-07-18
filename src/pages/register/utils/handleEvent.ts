@@ -151,7 +151,7 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
     "performancePeriod",
     "ticketPrice",
     "totalScheduleCount",
-    ...(!isFree ? ["bankName", "accountNumber"] : []),
+    ...(!isFree ? ["bankName", "accountNumber", "accountHolder"] : []),
   ];
 
   const scheduleFilled = gigInfo.scheduleList.every(
