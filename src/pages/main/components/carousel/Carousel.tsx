@@ -15,11 +15,17 @@ interface PromotionComponentProps {
 const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const navigate = useNavigate();
 
-  const carouselList = promotionList.map((promotion) => promotion.promotionPhoto || "");
   const [currIndex, setCurrIndex] = useState(1);
   const [currList, setCurrList] = useState<string[]>();
+  const [carouselList, setCarouselList] = useState<string[]>([]);
 
   const carouselRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
+
+    setCarouselList(carouselTempList);
+  }, []);
 
   // 인덱스 번호 변경
   const moveToNthSlide = (index: number) => {
