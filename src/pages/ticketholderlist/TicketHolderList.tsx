@@ -1,4 +1,4 @@
-import { useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
+import { useTicketDelete, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
@@ -12,6 +12,7 @@ import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps, RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
+import Loading from "@components/commons/loading/Loading";
 
 const TicketHolderList = () => {
   /*
@@ -43,7 +44,11 @@ const TicketHolderList = () => {
 
   const { openConfirm, closeConfirm } = useModal();
   const { mutate, mutateAsync } = useTicketUpdate();
+  const { mutate: deleteMutate, mutateAsync: deleteMutateAsync, isPending } = useTicketDelete();
   const handlePaymentFixAxiosFunc = () => {
+    if (isPending) {
+      return;
+    }
     //PUT API 요청
     mutate({
       performanceId: Number(performanceId),
@@ -64,9 +69,17 @@ const TicketHolderList = () => {
     });
   };
 
-  const handleBookerDeleteAxiosFunc = () => {
-    //나중에 api 요청 작성할 예정
+  //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
+  const [deleteFormData, setDeleteFormData] = useState<DeleteFormDataProps>({
+    performanceId: Number(performanceId),
+    bookingList: [],
+  });
 
+  const handleBookerDeleteAxiosFunc = async () => {
+    //나중에 DELETE api 요청 작성할 예정
+    await deleteMutateAsync(deleteFormData);
+
+    console.log("삭제요청 보냄");
     closeConfirm();
     window.location.reload();
   };
@@ -81,19 +94,12 @@ const TicketHolderList = () => {
       noCallback: closeConfirm,
     });
   };
-  //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
-  const [formData, setFormData] = useState<DeleteFormDataProps>({
-    performanceId: Number(performanceId),
-    bookingList: [
-      {
-        bookingId: -1,
-      },
-    ],
-  });
+
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
-    navigate(-1);
+    const url = "/gig-manage";
+    window.location.assign(url);
   };
 
   const handleLeftButton = () => {
@@ -106,6 +112,9 @@ const TicketHolderList = () => {
       noCallback: handleNavigateBack,
     });
   };
+
+  const { setHeader } = useHeader();
+
   const handleRightButton = () => {
     setIsDeleteMode(true);
     setHeader({
@@ -116,7 +125,7 @@ const TicketHolderList = () => {
       },
     });
   };
-  const { setHeader } = useHeader();
+
   useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
@@ -126,6 +135,7 @@ const TicketHolderList = () => {
       rightOnClick: handleRightButton,
     });
   }, [setHeader]);
+
   const handleToggleButton = () => {
     setDetail((prop) => !prop);
   };
@@ -169,40 +179,49 @@ const TicketHolderList = () => {
   };
   return (
     <>
-      <Banner
-        title={data?.performanceTitle}
-        image={eximg}
-        reservedCount={reservedCount}
-        isOutdated={isOutdated}
-      />
-      <S.BodyWrapper>
-        <S.BodyLayout>
-          <S.LayoutHeaderBox>
-            <S.LayoutFilterBox>
-              {/*set 함수 직접 넘기는 거 안좋다고 했지만, 내부에서 감싸야 하므로 넘김 */}
-              <NarrowDropDown
-                schedule={schedule}
-                payment={payment}
-                totalScheduleCount={count}
-                setSchedule={setSchedule}
-              >
-                모든 회차
-              </NarrowDropDown>
-              <NarrowDropDown
-                schedule={schedule}
-                payment={payment}
-                totalScheduleCount={count}
-                setPayment={setPayment}
-              >
-                입금 상태
-              </NarrowDropDown>
-            </S.LayoutFilterBox>
-            <S.ToggleWrapper>
-              {detail ? <S.ToggleText>자세히</S.ToggleText> : <S.ToggleText>자세히</S.ToggleText>}
-              <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
-                <S.Circle $detail={detail} />
-              </S.ToggleButton>
-              {/*detail ? (
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {isPending && <Loading />}
+          <Banner
+            title={data?.performanceTitle}
+            image={eximg}
+            reservedCount={reservedCount}
+            isOutdated={isOutdated}
+          />
+          <S.BodyWrapper>
+            <S.BodyLayout>
+              <S.LayoutHeaderBox>
+                <S.LayoutFilterBox>
+                  {/*set 함수 직접 넘기는 거 안좋다고 했지만, 내부에서 감싸야 하므로 넘김 */}
+                  <NarrowDropDown
+                    schedule={schedule}
+                    payment={payment}
+                    totalScheduleCount={count}
+                    setSchedule={setSchedule}
+                  >
+                    모든 회차
+                  </NarrowDropDown>
+                  <NarrowDropDown
+                    schedule={schedule}
+                    payment={payment}
+                    totalScheduleCount={count}
+                    setPayment={setPayment}
+                  >
+                    입금 상태
+                  </NarrowDropDown>
+                </S.LayoutFilterBox>
+                <S.ToggleWrapper>
+                  {detail ? (
+                    <S.ToggleText>자세히</S.ToggleText>
+                  ) : (
+                    <S.ToggleText>자세히</S.ToggleText>
+                  )}
+                  <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
+                    <S.Circle $detail={detail} />
+                  </S.ToggleButton>
+                  {/*detail ? (
                 <>
                   <S.ToggleText>자세히</S.ToggleText>
                   <S.ToggleOnIcon
@@ -221,37 +240,39 @@ const TicketHolderList = () => {
                   />
                 </>
               )*/}
-            </S.ToggleWrapper>
-          </S.LayoutHeaderBox>
-          {filteredData?.map((obj, index) => (
-            <ManagerCard
-              key={`managerCard-${index}`}
-              formData={formData}
-              setFormData={setFormData}
-              isDeleteMode={isDeleteMode}
-              bookingId={obj.bookingId}
-              isPaid={obj.isPaymentCompleted}
-              isDetail={detail}
-              setPaid={() => handlePaymentToggle(isDeleteMode, obj.bookingId)}
-              bookername={obj.bookerName}
-              purchaseTicketeCount={obj.purchaseTicketCount}
-              scheduleNumber={obj.scheduleNumber}
-              bookerPhoneNumber={obj.bookerPhoneNumber}
-              createAt={obj.createdAt}
-            />
-          ))}
+                </S.ToggleWrapper>
+              </S.LayoutHeaderBox>
+              {filteredData?.map((obj, index) => (
+                <ManagerCard
+                  key={`managerCard-${index}`}
+                  deleteFormData={deleteFormData}
+                  setDeleteFormData={setDeleteFormData}
+                  isDeleteMode={isDeleteMode}
+                  bookingId={obj.bookingId}
+                  isPaid={obj.isPaymentCompleted}
+                  isDetail={detail}
+                  setPaid={() => handlePaymentToggle(isDeleteMode, obj.bookingId)}
+                  bookername={obj.bookerName}
+                  purchaseTicketeCount={obj.purchaseTicketCount}
+                  scheduleNumber={obj.scheduleNumber}
+                  bookerPhoneNumber={obj.bookerPhoneNumber}
+                  createAt={obj.createdAt}
+                />
+              ))}
 
-          {isDeleteMode ? (
-            <S.FooterButtonWrapper>
-              <Button onClick={handleDeleteBtn}>삭제</Button>
-            </S.FooterButtonWrapper>
-          ) : (
-            <S.FooterButtonWrapper>
-              <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
-            </S.FooterButtonWrapper>
-          )}
-        </S.BodyLayout>
-      </S.BodyWrapper>
+              {isDeleteMode ? (
+                <S.FooterButtonWrapper>
+                  <Button onClick={handleDeleteBtn}>삭제</Button>
+                </S.FooterButtonWrapper>
+              ) : (
+                <S.FooterButtonWrapper>
+                  <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
+                </S.FooterButtonWrapper>
+              )}
+            </S.BodyLayout>
+          </S.BodyWrapper>
+        </>
+      )}
     </>
   );
 };

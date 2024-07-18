@@ -3,9 +3,8 @@ export interface LookupProps {
   bookingId: number;
   scheduleId: number;
   performanceTitle: string;
-  performanceVenue: string;
   performanceDate: string;
-  posterImage: string;
+  performanceVenue: string;
   purchaseTicketCount: number;
   scheduleNumber: string;
   bookerName: string;
@@ -13,9 +12,10 @@ export interface LookupProps {
   bankName: string;
   accountNumber: string;
   dueDate: number;
-  paymentStatus: boolean;
+  isPaymentCompleted: boolean;
   createdAt: string;
-  price: number;
+  posterImage: string;
+  totalPaymentAmount: number;
   handleBtn?: () => void;
   handleAccount?: () => void;
 }

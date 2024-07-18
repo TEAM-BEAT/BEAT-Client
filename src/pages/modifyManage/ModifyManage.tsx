@@ -1,3 +1,4 @@
+import { usePerformanceDelete, usePerformanceEdit } from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
@@ -5,27 +6,28 @@ import InputBank from "@components/commons/bank/InputBank";
 import Button from "@components/commons/button/Button";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import Loading from "@components/commons/loading/Loading";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
-import { BANK_LIST, BankListTypes } from "@constants/bankList";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import useModal from "@hooks/useModal";
 import Content from "@pages/gig/components/content/Content";
-import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
+import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
 import PosterThumbnail from "./components/PosterThumbnail";
 import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
-import { GENRE_LIST, GET_MODIFY_MANAGE_RESPONSE } from "./constants/genreList";
+import { GENRE_LIST } from "./constants/genreList";
 import ModifyManageMaker from "./ModifyMaker";
 import * as S from "./ModifyManage.styled";
-import { Cast, DataProps, Staff } from "./typings/gigInfo";
+import { Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import {
   handleBankClick,
   handleBankOpen,
@@ -44,9 +46,18 @@ const ModifyManage = () => {
   const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
   const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
   // gigInfo 초기화
-  const [gigInfo, setGigInfo] = useState<DataProps>(GET_MODIFY_MANAGE_RESPONSE.data);
+  const { performanceId } = useParams();
 
+  const { data, isLoading } = usePerformanceEdit(Number(performanceId));
+  const [gigInfo, setGigInfo] = useState<DataProps>(data as DataProps);
+
+  useEffect(() => {
+    setGigInfo(data as DataProps);
+  }, [data]);
+
+  /*
   // 구조 분해 할당
+
   const {
     performanceTitle,
     genre,
@@ -68,6 +79,73 @@ const ModifyManage = () => {
     isBookerExist,
     accountHolder,
   } = gigInfo;
+   */
+
+  let performanceTitle: string | undefined,
+    genre: "BAND" | "DANCE" | "PLAY" | "ETC" | string | undefined,
+    runningTime: number | null | undefined,
+    performanceDescription: string | undefined,
+    performanceAttentionNote: string | undefined,
+    accountNumber: string | undefined,
+    posterImage: string | undefined,
+    performanceTeamName: string | undefined,
+    performanceVenue: string | undefined,
+    performancePeriod: string | undefined,
+    performanceContact: string | undefined,
+    ticketPrice: number | undefined,
+    totalScheduleCount: number | undefined,
+    scheduleList: Schedule[] | undefined,
+    castList: Cast[] | undefined,
+    staffList: Staff[] | undefined,
+    bankName: string | undefined,
+    isBookerExist: boolean | undefined,
+    accountHolder: string | undefined;
+
+  if (gigInfo) {
+    performanceTitle = gigInfo.performanceTitle;
+    genre = gigInfo.genre;
+    runningTime = gigInfo.runningTime;
+    performanceDescription = gigInfo.performanceDescription;
+    performanceAttentionNote = gigInfo.performanceAttentionNote;
+    accountNumber = gigInfo.accountNumber;
+    posterImage = gigInfo.posterImage;
+    performanceTeamName = gigInfo.performanceTeamName;
+    performanceVenue = gigInfo.performanceVenue;
+    performancePeriod = gigInfo.performancePeriod;
+    performanceContact = gigInfo.performanceContact;
+    ticketPrice = gigInfo.ticketPrice;
+    totalScheduleCount = gigInfo.totalScheduleCount;
+    scheduleList = gigInfo.scheduleList;
+
+    if (gigInfo?.castList?.length === 0) {
+      castList = [
+        {
+          castId: -1,
+          castName: "", // 이름
+          castRole: "", // 역할
+          castPhoto: "", // 출연진 사진 URL
+        },
+      ];
+    } else {
+      castList = gigInfo.castList;
+    }
+    if (gigInfo?.staffList?.length === 0) {
+      staffList = [
+        {
+          staffId: -1,
+          staffName: "", // 이름
+          staffRole: "", // 역할
+          staffPhoto: "", // 출연진 사진 URL
+        },
+      ];
+    } else {
+      staffList = gigInfo.staffList;
+    }
+
+    bankName = gigInfo.bankName;
+    isBookerExist = gigInfo.isBookerExist;
+    accountHolder = gigInfo.accountHolder;
+  }
 
   const [bankOpen, setBankOpen] = useState(false);
   const [bankInfo, setBankInfo] = useState(bankName); //가져온 은행 이름으로 초기화
@@ -76,8 +154,10 @@ const ModifyManage = () => {
   const [isExist, setIsExist] = useState(isBookerExist);
   const navigate = useNavigate();
 
+  //여기서 공연 수정하기 PUT 요청 보내야함
   const handleComplete = () => {
-    navigate("/ModifyManage-complete");
+    console.log("gigInfo:", gigInfo);
+    //navigate("/ModifyManage-complete");
   };
 
   // 약관 동의
@@ -112,12 +192,13 @@ const ModifyManage = () => {
   }, [ticketPrice]);
 
   const updateGigInfo = (newInfo: Partial<{ castList: Cast[]; staffList: Staff[] }>) => {
+    console.log("mew", newInfo);
     setGigInfo((prev) => ({
       ...prev,
       ...newInfo,
     }));
   };
-  console.log(gigInfo);
+  console.log("긱인포: ", gigInfo);
 
   const handleModifyManageStep = () => {
     setModifyManageStep((prev) => prev + 1);
@@ -132,7 +213,9 @@ const ModifyManage = () => {
         subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
         okText: "취소할게요",
         okCallback: () => {
-          navigate("/gig-manage");
+          //navigate("/gig-manage");
+          const url = "/gig-manage";
+          window.location.assign(url);
         },
         noText: "아니요",
         noCallback: () => {
@@ -144,7 +227,9 @@ const ModifyManage = () => {
     }
   };
 
-  const handleDeletePerformance = (performanceId: number, isExisttt: boolean) => {
+  const { mutate, mutateAsync } = usePerformanceDelete();
+
+  const handleDeletePerformance = async (_performanceId: number, isExisttt: boolean) => {
     //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
     if (isExisttt) {
       openAlert({
@@ -155,7 +240,10 @@ const ModifyManage = () => {
       });
     } else {
       //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
-      navigate("/gig-manage");
+      await mutateAsync(Number(performanceId));
+      const url = "/gig-manage";
+      window.location.assign(url);
+      //navigate("/gig-manage");
     }
   };
 
@@ -166,7 +254,7 @@ const ModifyManage = () => {
       okText: "삭제할게요",
       okCallback: () => {
         //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(1, isExist); //예시로 박아둠
+        handleDeletePerformance(1, isExist as boolean); //예시로 박아둠
       },
       noText: "아니요",
       noCallback: () => {
@@ -191,280 +279,297 @@ const ModifyManage = () => {
     });
   }, [setHeader, ModifyManageStep]);
 
-  //해당 뱅크 영어 이름(api 통신 때의 값)에 객체의 한글 이름을 뽑아내어주는 함수
-  const getBankNameKr = (bankInfooo: string, BANK_LISTTT: BankListTypes) => {
-    const bank = BANK_LISTTT.find((obj) => obj.name === bankInfooo);
-    return bank ? bank.nameKr : "에러";
-  };
-
-  if (ModifyManageStep === 1) {
-    return (
-      <>
-        <S.ModifyManageContainer>
-          <PosterThumbnail
-            value={posterImage}
-            onImageUpload={(url) => handleImageUpload(url, setGigInfo)}
-          />
-          <S.Divider />
-          <GenreSelect
-            title="공연 장르"
-            genres={GENRE_LIST}
-            selectedGenre={genre}
-            onGenreSelect={(selectedGenre) => handleGenreSelect(selectedGenre, setGigInfo)}
-            marginBottom={2.4}
-          />
-          <S.Divider />
-          <InputModifyManageBox isDisabled={false} title="공연명">
-            <TextField
-              isDisabled={false}
-              type="input"
-              name="performanceTitle"
-              value={performanceTitle}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="등록될 공연의 이름을 입력해주세요."
-              maxLength={30}
-              cap={true}
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          <InputModifyManageBox isDisabled={false} title="주최 단체명">
-            <TextField
-              isDisabled={false}
-              type="input"
-              name="performanceTeamName"
-              value={performanceTeamName}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
-              maxLength={10}
-              cap={true}
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          <InputModifyManageBox isDisabled={false} title="공연 소개">
-            <TextArea
-              name="performanceDescription"
-              value={performanceDescription}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-              maxLength={300}
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          <InputModifyManageBox isDisabled={false} title="러닝 타임">
-            <TextField
-              isDisabled={false}
-              type="input"
-              name="runningTime"
-              value={runningTime ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              filter={numericFilter}
-              unit="time"
-              placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          <StepperModifyManageBox title="회차 수" description="최대 3회차">
-            <Stepper
-              max={3}
-              round={totalScheduleCount}
-              onMinusClick={() => onMinusClick(setGigInfo)}
-              onPlusClick={() => onPlusClick(setGigInfo)}
-            />
-          </StepperModifyManageBox>
-          <S.Divider />
-          <TimePickerModifyManageBox title="회차별 시간대">
-            {scheduleList.map((schedule, index) => (
-              <div key={index}>
-                <S.InputDescription>{index + 1}회차</S.InputDescription>
-                <Spacing marginBottom={"1"} />
-                <TimePicker
-                  value={schedule.performanceDate}
-                  onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
-                />
-              </div>
-            ))}
-          </TimePickerModifyManageBox>
-          <S.Divider />
-          <InputModifyManageBox isDisabled={false} title="공연 장소">
-            <TextField
-              isDisabled={false}
-              type="input"
-              name="performanceVenue"
-              value={performanceVenue}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="ex:) 홍익아트홀 303호 소극장"
-              maxLength={15}
-              cap={true}
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-
-          <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
-            <TextField
-              isDisabled={false}
-              type="input"
-              name="totalTicketCount"
-              value={scheduleList[0].totalTicketCount}
-              onChange={(e) => handleTotalTicketCountChange(e, setGigInfo)}
-              placeholder="판매할 티켓의 매 수를 입력해주세요."
-              filter={numericFilter}
-              unit="ticket"
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          <InputModifyManageBox isDisabled={false} title="유의사항">
-            <TextArea
-              name="performanceAttentionNote"
-              value={performanceAttentionNote}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-              maxLength={300}
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          <InputModifyManageBox
-            isDisabled={isExist}
-            title="티켓 가격"
-            description="*티켓 가격은 수정불가합니다."
-            isFree={isFree}
-            onFreeClick={() => onFreeClick(setIsFree)}
-          >
-            <TextField
-              isDisabled={isExist}
-              type="input"
-              name="ticketPrice"
-              value={ticketPrice ?? ""}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="가격을 입력해주세요."
-              filter={priceFilter}
-              disabled={isFree || isExist}
-              unit="amount"
-            />
-          </InputModifyManageBox>
-          <S.Divider />
-          {!isFree && (
-            <>
-              <InputAccountWrapper>
-                <InputBank
-                  isDisabled={isExist}
-                  bankOpen={bankOpen}
-                  onClick={() => handleBankOpen(setBankOpen)}
-                >
-                  {getBankNameKr(bankInfo, BANK_LIST)}
-                </InputBank>
-                <TextField
-                  isDisabled={isExist}
-                  name="accountNumber"
-                  value={accountNumber}
-                  onChange={(e) => handleChange(e, setGigInfo)}
-                  filter={numericFilter}
-                  placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
-                  disabled={isExist}
-                />
-                <TextField
-                  isDisabled={isExist}
-                  name="accountHolder"
-                  value={accountHolder}
-                  onChange={(e) => handleChange(e, setGigInfo)}
-                  placeholder="예금주명을 입력해주세요."
-                  disabled={isExist}
-                />
-              </InputAccountWrapper>
-              <S.Divider />
-            </>
-          )}
-          <BankBottomSheet
-            value={bankInfo}
-            onBankClick={(value) => handleBankClick(value, setGigInfo, setBankInfo, setBankOpen)}
-            isOpen={bankOpen}
-            onOutClick={() => handleBankOpen(setBankOpen)}
-          />
-
-          <InputModifyManageBox isDisabled={false} title="대표자 연락처">
-            <TextField
-              isDisabled={false}
-              type="input"
-              name="performanceContact"
-              value={performanceContact}
-              filter={phoneNumberFilter}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
-            />
-          </InputModifyManageBox>
-        </S.ModifyManageContainer>
-        <S.FooterContainer>
-          <S.FooterDivider />
-          <S.CheckboxContainer>
-            <S.CheckboxLabel>
-              <S.Checkbox
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              ></S.Checkbox>
-              한 명 이상의 예매자가 있을 경우, 공연 삭제가 불가해요.
-              {isChecked ? <IconChecked width={18} /> : <S.NonCheck />}
-            </S.CheckboxLabel>
-          </S.CheckboxContainer>
-          <Button
-            onClick={handleModifyManageStep}
-            disabled={!isAllFieldsFilled(gigInfo, isFree) || !isChecked}
-          >
-            다음
-          </Button>
-        </S.FooterContainer>
-      </>
-    );
+  if (isLoading) {
+    return <Loading />;
   }
 
-  if (ModifyManageStep === 2) {
-    return (
-      <ModifyManageMaker
-        castList={castList}
-        staffList={staffList}
-        handleModifyManageStep={handleModifyManageStep}
-        updateGigInfo={updateGigInfo}
-      />
-    );
-  }
+  if (gigInfo) {
+    if (ModifyManageStep === 1) {
+      return (
+        <>
+          <S.ModifyManageContainer>
+            <PosterThumbnail
+              value={posterImage}
+              onImageUpload={(url) => handleImageUpload(url, setGigInfo)}
+            />
+            <S.Divider />
+            <GenreSelect
+              title="공연 장르"
+              genres={GENRE_LIST}
+              selectedGenre={genre as string}
+              onGenreSelect={(selectedGenre) => handleGenreSelect(selectedGenre, setGigInfo)}
+              marginBottom={2.4}
+            />
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연명">
+              <TextField
+                isDisabled={false}
+                type="input"
+                name="performanceTitle"
+                value={performanceTitle}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="등록될 공연의 이름을 입력해주세요."
+                maxLength={30}
+                cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="주최 단체명">
+              <TextField
+                isDisabled={false}
+                type="input"
+                name="performanceTeamName"
+                value={performanceTeamName}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
+                maxLength={10}
+                cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연 소개">
+              <TextArea
+                name="performanceDescription"
+                value={performanceDescription}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
+                maxLength={300}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="러닝 타임">
+              <TextField
+                isDisabled={false}
+                type="input"
+                name="runningTime"
+                value={runningTime ?? ""}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                filter={numericFilter}
+                unit="time"
+                placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <StepperModifyManageBox title="회차 수" description="최대 3회차">
+              <Stepper
+                max={3}
+                round={totalScheduleCount as number}
+                onMinusClick={() => onMinusClick(setGigInfo)}
+                onPlusClick={() => onPlusClick(setGigInfo)}
+              />
+            </StepperModifyManageBox>
+            <S.Divider />
+            <TimePickerModifyManageBox title="회차별 시간대">
+              {scheduleList?.map((schedule, index) => (
+                <div key={index}>
+                  <S.InputDescription>{index + 1}회차</S.InputDescription>
+                  <Spacing marginBottom={"1"} />
+                  <TimePicker
+                    value={dayjs(schedule.performanceDate)}
+                    onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
+                  />
+                </div>
+              ))}
+            </TimePickerModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연 장소">
+              <TextField
+                isDisabled={false}
+                type="input"
+                name="performanceVenue"
+                value={performanceVenue}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="ex:) 홍익아트홀 303호 소극장"
+                maxLength={15}
+                cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
 
-  if (ModifyManageStep === 3) {
-    return (
-      <>
-        <ShowInfo
-          posterImage={posterImage}
-          title={performanceTitle}
-          price={ticketPrice}
-          venue={performanceVenue}
-          period={performancePeriod}
-          runningTime={runningTime}
-          genre={genre}
-          // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
-          scheduleList={scheduleList.map((schedule, index) => ({
-            scheduleId: index + 1,
-            performanceDate: schedule.performanceDate?.toString() || "",
-            scheduleNumber: index + 1,
-          }))}
+            <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
+              <TextField
+                isDisabled={false}
+                type="input"
+                name="totalTicketCount"
+                value={scheduleList?.[0].totalTicketCount}
+                onChange={(e) => handleTotalTicketCountChange(e, setGigInfo)}
+                placeholder="판매할 티켓의 매 수를 입력해주세요."
+                filter={numericFilter}
+                unit="ticket"
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="유의사항">
+              <TextArea
+                name="performanceAttentionNote"
+                value={performanceAttentionNote}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
+                maxLength={300}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox
+              isDisabled={isExist as boolean}
+              title="티켓 가격"
+              description="*티켓 가격은 수정불가합니다."
+              isFree={isFree}
+              onFreeClick={() => onFreeClick(setIsFree)}
+            >
+              <TextField
+                isDisabled={isExist}
+                type="input"
+                name="ticketPrice"
+                value={ticketPrice ?? ""}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="가격을 입력해주세요."
+                filter={priceFilter}
+                disabled={isFree || isExist}
+                unit="amount"
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            {!isFree && (
+              <>
+                <InputAccountWrapper>
+                  <InputBank
+                    isDisabled={isExist as boolean}
+                    bankOpen={bankOpen}
+                    onClick={() => handleBankOpen(setBankOpen)}
+                  >
+                    {bankInfo as string}
+                  </InputBank>
+                  <TextField
+                    isDisabled={isExist}
+                    name="accountNumber"
+                    value={accountNumber}
+                    onChange={(e) => handleChange(e, setGigInfo)}
+                    filter={numericFilter}
+                    placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                    disabled={isExist}
+                  />
+                  <TextField
+                    isDisabled={isExist}
+                    name="accountHolder"
+                    value={accountHolder}
+                    onChange={(e) => handleChange(e, setGigInfo)}
+                    placeholder="예금주명을 입력해주세요."
+                    disabled={isExist}
+                  />
+                </InputAccountWrapper>
+                <S.Divider />
+              </>
+            )}
+            <BankBottomSheet
+              value={bankInfo as string}
+              onBankClick={(value) =>
+                handleBankClick(
+                  value,
+                  setGigInfo,
+                  setBankInfo as Dispatch<SetStateAction<string>>,
+                  setBankOpen
+                )
+              }
+              isOpen={bankOpen}
+              onOutClick={() => handleBankOpen(setBankOpen)}
+            />
+
+            <InputModifyManageBox isDisabled={false} title="대표자 연락처">
+              <TextField
+                isDisabled={false}
+                type="input"
+                name="performanceContact"
+                value={performanceContact}
+                filter={phoneNumberFilter}
+                onChange={(e) => handleChange(e, setGigInfo)}
+                placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
+              />
+            </InputModifyManageBox>
+          </S.ModifyManageContainer>
+          <S.FooterContainer>
+            <S.FooterDivider />
+            <S.CheckboxContainer>
+              <S.CheckboxLabel>
+                <S.Checkbox
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                ></S.Checkbox>
+                한 명 이상의 예매자가 있을 경우, 공연 삭제가 불가해요.
+                {isChecked ? <IconChecked width={18} /> : <S.NonCheck />}
+              </S.CheckboxLabel>
+            </S.CheckboxContainer>
+            <Button
+              onClick={handleModifyManageStep}
+              disabled={!isAllFieldsFilled(gigInfo as DataProps, isFree) || !isChecked}
+            >
+              다음
+            </Button>
+          </S.FooterContainer>
+        </>
+      );
+    }
+
+    if (ModifyManageStep === 2) {
+      return (
+        <ModifyManageMaker
+          castList={castList as Cast[]}
+          staffList={staffList as Staff[]}
+          handleModifyManageStep={handleModifyManageStep}
+          updateGigInfo={updateGigInfo}
         />
-        <Content
-          description={performanceDescription}
-          attentionNote={performanceAttentionNote}
-          contact={performanceContact}
-          teamName={performanceTeamName}
-          castList={castList.map((cast, index) => ({
-            ...cast,
-            castId: index + 1,
-          }))}
-          staffList={staffList.map((cast, index) => ({
-            ...cast,
-            staffId: index + 1,
-          }))}
-        />
-        <S.FooterContainer>
-          <Button onClick={handleComplete}>완료하기</Button>
-        </S.FooterContainer>
-      </>
-    );
+      );
+    }
+    if (ModifyManageStep === 3) {
+      return (
+        <>
+          <ShowInfo
+            posterImage={posterImage as string}
+            title={performanceTitle as string}
+            price={ticketPrice as number}
+            venue={performanceVenue as string}
+            period={performancePeriod as string}
+            runningTime={runningTime as number}
+            genre={genre as "BAND" | "DANCE" | "PLAY" | "ETC"}
+            // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
+            scheduleList={
+              scheduleList?.map((schedule, index) => ({
+                scheduleId: index + 1,
+                performanceDate: schedule.performanceDate?.toString() || "",
+                scheduleNumber: index + 1,
+              })) as SchelduleListType[]
+            }
+          />
+          <Content
+            description={performanceDescription as string}
+            attentionNote={performanceAttentionNote as string}
+            contact={performanceContact as string}
+            teamName={performanceTeamName as string}
+            castList={
+              castList?.[0].castId === -1
+                ? []
+                : (castList?.map((cast, index) => ({
+                    ...cast,
+                    castId: index + 1,
+                  })) as Cast[])
+            }
+            staffList={
+              staffList?.[0].staffId === -1
+                ? []
+                : (staffList?.map((cast, index) => ({
+                    ...cast,
+                    staffId: index + 1,
+                  })) as Staff[])
+            }
+          />
+          <S.FooterContainer>
+            <Button onClick={handleComplete}>완료하기</Button>
+          </S.FooterContainer>
+        </>
+      );
+    }
   }
+  return <></>;
 };
 
 export default ModifyManage;
