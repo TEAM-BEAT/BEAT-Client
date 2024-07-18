@@ -133,7 +133,8 @@ const Book = () => {
     }
 
     let formData = {
-      scheduleId: data?.scheduleList![selectedValue! - 1].scheduleId,
+      scheduleId:
+        data?.scheduleList![selectedValue! - data?.scheduleList?.[0].scheduleId].scheduleId,
       scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
       purchaseTicketCount: round,
       totalPaymentAmount: data?.ticketPrice ?? 0 * round,
@@ -170,7 +171,6 @@ const Book = () => {
       } as GuestBookingRequest;
 
       const res = await memberBook(formData);
-      console.log("res", res);
 
       navigate("/book/complete", {
         state: {
@@ -236,7 +236,10 @@ const Book = () => {
         onPlusClick={onPlusClick}
         ticketPrice={data?.ticketPrice ?? 0}
         availableTicketCount={
-          selectedValue ? data?.scheduleList![selectedValue - 1].availableTicketCount : undefined
+          selectedValue
+            ? data?.scheduleList![selectedValue - data?.scheduleList[0].scheduleId]
+                ?.availableTicketCount
+            : undefined
         }
       />
       <BookerInfo
@@ -274,10 +277,16 @@ const Book = () => {
           isDate={true}
           subTitle="날짜"
           date={data
-            ?.scheduleList![(selectedValue ?? 1) - 1].performanceDate?.slice(0, 10)
+            ?.scheduleList![
+              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
+                data?.scheduleList?.[0].scheduleId
+            ].performanceDate?.slice(0, 10)
             .toString()}
           time={data
-            ?.scheduleList![(selectedValue ?? 1) - 1].performanceDate?.slice(11, 16)
+            ?.scheduleList![
+              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
+                data?.scheduleList?.[0].scheduleId
+            ].performanceDate?.slice(11, 16)
             .toString()}
         />
         <Context
