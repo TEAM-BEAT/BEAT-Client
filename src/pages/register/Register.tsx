@@ -350,7 +350,10 @@ const Register = () => {
             />
           </StepperRegisterBox>
           <S.Divider />
-          <TimePickerRegisterBox title="회차별 시간대">
+          <TimePickerRegisterBox
+            title="회차별 시간대"
+            description="*회차별 시간대는 수정불가합니다."
+          >
             {scheduleList.map((schedule, index) => (
               <div key={index}>
                 <S.InputDescription>{index + 1}회차</S.InputDescription>
