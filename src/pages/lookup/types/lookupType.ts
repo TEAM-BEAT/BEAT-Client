@@ -2,6 +2,7 @@ export interface LookupProps {
   userId: number;
   bookingId: number;
   scheduleId: number;
+  performanceId: number;
   performanceTitle: string;
   performanceDate: string;
   performanceVenue: string;
@@ -10,6 +11,7 @@ export interface LookupProps {
   bookerName: string;
   bookerPhoneNumber: string;
   bankName: string;
+  performanceContact: string;
   accountNumber: string;
   dueDate: number;
   isPaymentCompleted: boolean;
