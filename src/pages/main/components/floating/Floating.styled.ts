@@ -13,10 +13,14 @@ const float = keyframes`
   }
 `;
 
+export const Layer = styled.section`
+  position: relative;
+`;
+
 export const FloatingWrapper = styled.section`
   position: fixed;
   right: 0.3rem;
-  bottom: 12rem;
+  bottom: 15rem;
   z-index: 25;
   display: flex;
   flex-direction: column;
