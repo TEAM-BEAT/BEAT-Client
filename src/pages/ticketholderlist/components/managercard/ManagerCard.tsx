@@ -4,8 +4,8 @@ import SelectIcon from "../selectIcon/SelectIcon";
 import * as S from "./ManagerCard.styled";
 
 const ManagerCard = ({
-  formData,
-  setFormData,
+  deleteFormData,
+  setDeleteFormData,
   isDeleteMode,
   bookingId,
   isPaid,
@@ -17,8 +17,8 @@ const ManagerCard = ({
   bookerPhoneNumber,
   createAt,
 }: {
-  formData: DeleteFormDataProps;
-  setFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
+  deleteFormData: DeleteFormDataProps;
+  setDeleteFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
   isDeleteMode: boolean;
   bookingId?: number;
   isPaid?: boolean;
@@ -34,13 +34,13 @@ const ManagerCard = ({
   //만약 체크해제를 할 경우 삭제할 목록에 포함되어 있던 해당 bookingId를 삭제하는 로직 구현
   //사용하기 위해서는 한번 더 감싸야 함.
   const handleCheckBox = (managerBookingId: number) => {
-    setFormData((prevFormData) => {
+    setDeleteFormData((prevFormData) => {
       const isAlreadyChecked = prevFormData.bookingList.some(
-        (obj) => obj.bookingId === managerBookingId
+        (_bookingId) => _bookingId === managerBookingId
       );
       const updateBookingList = isAlreadyChecked
-        ? prevFormData.bookingList.filter((obj) => obj.bookingId !== managerBookingId)
-        : [...prevFormData.bookingList, { bookingId: managerBookingId }];
+        ? prevFormData.bookingList.filter((_bookingId) => _bookingId !== managerBookingId)
+        : [...prevFormData.bookingList, managerBookingId];
       return { ...prevFormData, bookingList: updateBookingList };
     });
   };
@@ -68,7 +68,7 @@ const ManagerCard = ({
       {isDeleteMode && (
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
-          isChecked={formData.bookingList.some((obj) => obj.bookingId === bookingId)}
+          isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
         />
       )}
       <S.ManagerCardLayout $isDeleteMode={isDeleteMode} $isDetail={isDetail}>

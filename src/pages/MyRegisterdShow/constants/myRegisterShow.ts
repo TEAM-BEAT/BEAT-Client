@@ -1,11 +1,10 @@
-import exImg from "./silkagel.png";
-
 export interface RegisteredObjProps {
-  id: number;
-  title: string;
-  period: string;
-  genre: string;
-  image: string;
+  param?: number;
+  performanceId?: number;
+  genre?: string;
+  performanceTitle?: string;
+  posterImage?: string;
+  performancePeriod?: string;
 }
 //최대한 나중에 axios 응답 받아왔을 때의 형식을 유지하도록 작성.
 export interface RegisteredResponseProps {
@@ -13,6 +12,7 @@ export interface RegisteredResponseProps {
 }
 
 //실제 응답 전, 예시 상수 응답
+/*
 export const MY_REGISTERED_SHOW: RegisteredResponseProps = {
   data: [
     {
@@ -45,3 +45,4 @@ export const MY_REGISTERED_SHOW: RegisteredResponseProps = {
     },
   ],
 };
+*/

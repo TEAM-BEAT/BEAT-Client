@@ -7,17 +7,17 @@ import * as S from "./Content.styled";
 import IntroduceContainer from "./IntroduceContainer";
 
 export type CastListType = {
-  castId: number;
-  castName: string;
-  castRole: string;
-  castPhoto: string;
+  castId?: number;
+  castName?: string;
+  castRole?: string;
+  castPhoto?: string;
 };
 
 export type StaffListType = {
-  staffId: number;
-  staffName: string;
-  staffRole: string;
-  staffPhoto: string;
+  staffId?: number;
+  staffName?: string;
+  staffRole?: string;
+  staffPhoto?: string;
 };
 
 interface ContentProps {

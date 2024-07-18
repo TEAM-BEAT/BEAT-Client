@@ -23,6 +23,7 @@ const BookerInfo = ({ isNonMember, bookerInfo, onChangeBookerInfo }: BookerInfoP
         value={bookerInfo.bookerName}
         onChange={onChangeBookerInfo}
         placeholder="예매자(대표 예매자) 이름"
+        maxLength={5}
       />
       <TextField
         name="bookerPhoneNumber"
@@ -31,6 +32,7 @@ const BookerInfo = ({ isNonMember, bookerInfo, onChangeBookerInfo }: BookerInfoP
         onChange={onChangeBookerInfo}
         filter={phoneNumberFilter}
         placeholder="휴대폰 번호 (‘-’ 없이 입력)"
+        maxLength={13}
       />
       {isNonMember && (
         <TextField
