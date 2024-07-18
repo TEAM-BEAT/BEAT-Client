@@ -3,8 +3,7 @@ import registerComplete from "@assets/lottie/register-complete.json";
 import * as S from "./Register.styled";
 import Spacing from "@components/commons/spacing/Spacing";
 import Button from "@components/commons/button/Button";
-import { useNavigate } from "react-router-dom";
-import { REGISTER_RESPONSE } from "./constants";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
@@ -12,8 +11,8 @@ import { useHeader } from "@hooks/useHeader";
 const RegisterComplete = () => {
   const user = "메이커";
   const navigate = useNavigate();
-  const [response, setResponse] = useState(REGISTER_RESPONSE);
-  const goGigsPage = () => navigate(`/gig/${response.performanceId}`);
+  const { state } = useLocation();
+  const goGigsPage = () => navigate(`/gig/${state.performanceId}`);
 
   const { setHeader } = useHeader();
 

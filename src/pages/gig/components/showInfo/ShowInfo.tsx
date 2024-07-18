@@ -35,7 +35,6 @@ const ShowInfo = ({
   scheduleList,
 }: ShowInfoProps) => {
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
-  const ttest = getShowTypeText(genre);
 
   return (
     <S.ShowInfoWrapper>

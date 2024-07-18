@@ -93,7 +93,6 @@ export const usePostPerformance = () => {
     mutationFn: (formData: PerformanceFormData) => postPerformance(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [HOME_QUERY_KEY.LIST] });
-      console.log(res);
 
       if (isPerformanceResponse(res) && res.status === 201) {
         navigate("/register-complete", {
