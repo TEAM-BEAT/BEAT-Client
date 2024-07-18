@@ -26,10 +26,7 @@ const KakaoLogin = () => {
     const fetchData = async () => {
       if (code) {
         try {
-          console.log(code);
-
           const userData = await mutateAsync(code);
-          console.log("userData", userData);
 
           setReadyLogin(true);
         } catch (error) {

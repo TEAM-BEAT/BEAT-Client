@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import * as S from "./BottomSheet.styled";
 
 export interface BottomSheetPropType {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   isOpen: boolean;
   children?: ReactNode;
   title?: string;
@@ -9,7 +10,7 @@ export interface BottomSheetPropType {
 
 const BottomSheet = ({ isOpen, title, children }: BottomSheetPropType) => {
   return (
-    <S.BottomSheetWrapper $isOpen={isOpen}>
+    <S.BottomSheetWrapper $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
       <S.BottomSheetLayout>
         <S.Title>{title}</S.Title>
         {children}

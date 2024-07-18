@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { CarouselPartInactive } from "@assets/svgs";
 
 export const CarouselWarpper = styled.div`
   position: relative;
@@ -28,4 +29,23 @@ export const CarouselItem = styled.button`
     width: 100%;
     height: auto;
   }
+`;
+
+export const IndicatorContainer = styled.section`
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  display: flex;
+  gap: 0.5rem;
+
+  transform: translateX(-50%);
+`;
+
+export const Indicator = styled(CarouselPartInactive)<{ active: boolean }>`
+  width: 0.4rem;
+  height: 0.4rem;
+
+  color: ${({ active, theme }) => (active ? theme.colors.white : theme.colors.gray_700)};
+
+  transition: background-color 0.3s ease;
 `;

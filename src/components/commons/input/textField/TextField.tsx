@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { IconEyeOff, IconEyeOn } from "@assets/svgs";
 import * as S from "./TextField.styled";
+import { splitGraphemes } from "@utils/useInputFilter";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -63,8 +64,10 @@ const TextField = ({
           filteredValue = filter(newValue); // 전체 값을 필터링
         }
 
-        if (maxLength && filteredValue.length > maxLength) {
-          filteredValue = filteredValue.slice(0, maxLength);
+        if (maxLength && splitGraphemes(filteredValue as string).length > maxLength) {
+          filteredValue = splitGraphemes(filteredValue as string)
+            .slice(0, maxLength)
+            .join("");
         }
 
         const newEvent = {
@@ -115,10 +118,9 @@ const TextField = ({
         <S.TextFieldInput
           $isDisabled={isDisabled}
           ref={inputRef}
-          value={value}
+          value={inputValue}
           name={name}
           onChange={handleOnInput}
-          maxLength={maxLength}
           placeholder={placeholder}
           $narrow={narrow}
           type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
@@ -135,7 +137,9 @@ const TextField = ({
           />
         )}
       </S.TextFieldWrapper>
-      {maxLength && cap && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
+      {maxLength && cap && (
+        <S.TextCap>{`${splitGraphemes(value as string).length}/${maxLength}`}</S.TextCap>
+      )}
     </S.TextFieldLayout>
   );
 };

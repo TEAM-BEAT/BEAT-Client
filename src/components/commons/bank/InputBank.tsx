@@ -15,6 +15,7 @@ const InputBank = ({ isDisabled, bankOpen, onClick, children }: InputBankProps) 
       onClick();
     }
   };
+
   return (
     <S.InputBank
       $isDisabled={isDisabled}
