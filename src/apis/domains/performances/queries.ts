@@ -26,7 +26,7 @@ export const usePerformanceEdit = (performanceId: number) => {
 };
 
 // 공연 삭제 API (DELETE) 를 위한 쿼리 작성
-export const usePerformanceDelete = (performanceId: number) => {
+export const usePerformanceDelete = () => {
   const queryCilent = new QueryClient();
   return useMutation({
     mutationFn: (_performanceId: number) => deletePerformance(_performanceId),
