@@ -18,6 +18,8 @@ export const MakerInfoContainer = styled.article`
 `;
 
 export const MakerInfoTitle = styled.h2`
+  width: 32.7rem;
+
   color: ${({ theme }) => theme.colors.gray_300};
 
   ${({ theme }) => theme.fonts["body2-normal-medi"]};

@@ -2,14 +2,15 @@ import { IconTime, IcOutlinePlace } from "@assets/svgs";
 import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import { priceFilter } from "@utils/useInputFilter";
 
+import { formatDate } from "@pages/gig/utils";
 import IconText from "../iconText/IconText";
 import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
 
 export type SchelduleListType = {
-  scheduleId: number;
-  performanceDate: string;
-  scheduleNumber: number;
+  scheduleId?: number;
+  performanceDate?: string;
+  scheduleNumber?: string;
 };
 
 interface ShowInfoProps {
@@ -34,7 +35,6 @@ const ShowInfo = ({
   scheduleList,
 }: ShowInfoProps) => {
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
-  const ttest = getShowTypeText(genre);
 
   return (
     <S.ShowInfoWrapper>
@@ -56,13 +56,17 @@ const ShowInfo = ({
           </S.IconTextTimeBox>
 
           <S.ScheduleListContainer>
-            {scheduleList.map((schedule, i) => (
-              <S.EpisodeBox key={`schedule-${i}`}>
-                <S.EpisodeText>{i + 1}회차</S.EpisodeText>
-                {/* TODO: 시간 형식 서버랑 논의하기 */}
-                <S.EpisodeText>{schedule.performanceDate}</S.EpisodeText>
-              </S.EpisodeBox>
-            ))}
+            {scheduleList.map((schedule, i) => {
+              const { day, time } = formatDate(schedule.performanceDate);
+
+              return (
+                <S.EpisodeBox key={`schedule-${i}`}>
+                  <S.EpisodeText>{i + 1}회차</S.EpisodeText>
+                  <S.EpisodeText>{day} /&nbsp;</S.EpisodeText>
+                  <S.EpisodeText>{time}</S.EpisodeText>
+                </S.EpisodeBox>
+              );
+            })}
           </S.ScheduleListContainer>
         </S.IconTextTimeContainer>
       </S.PlaceTimeWrapper>

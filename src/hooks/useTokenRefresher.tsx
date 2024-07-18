@@ -1,15 +1,19 @@
 import { instance } from "@apis/index";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useModal from "./useModal";
 
+// TODO: 추후 수정
 export default function TokenRefresher() {
   const navigate = useNavigate();
+  const { openAlert } = useModal();
 
   useEffect(() => {
     const interceptor = instance.interceptors.response.use(
       // 성공적인 응답 처리
+
       (response) => {
-        console.log("Starting Request", response);
+        // console.log("Starting Request", response);
         return response;
       },
       async (error) => {
@@ -56,7 +60,8 @@ export default function TokenRefresher() {
           else {
             localStorage.clear();
             navigate("/main");
-            alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.");
+
+            openAlert({ title: "토큰이 만료되어 자동으로 로그아웃 되었습니다." });
           }
         } else if (status === 400 || status === 404 || status === 409) {
           console.log("hi3");
