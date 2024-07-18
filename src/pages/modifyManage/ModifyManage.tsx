@@ -1,4 +1,4 @@
-import { usePerformanceEdit } from "@apis/domains/performances/queries";
+import { usePerformanceDelete, usePerformanceEdit } from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
@@ -237,6 +237,7 @@ const ModifyManage = () => {
       });
     } else {
       //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
+      usePerformanceDelete(Number(performanceId));
       navigate("/gig-manage");
     }
   };
