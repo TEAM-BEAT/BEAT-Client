@@ -498,17 +498,12 @@ const Register = () => {
 
   if (registerStep === 2) {
     return (
-      <>
-        <button style={{ width: "500px", color: "white" }} onClick={handleComplete}>
-          제출 테스트
-        </button>
-        <RegisterMaker
-          castList={castList}
-          staffList={staffList}
-          handleRegisterStep={handleRegisterStep}
-          updateGigInfo={updateGigInfo}
-        />
-      </>
+      <RegisterMaker
+        castList={castList}
+        staffList={staffList}
+        handleRegisterStep={handleRegisterStep}
+        updateGigInfo={updateGigInfo}
+      />
     );
   }
 
