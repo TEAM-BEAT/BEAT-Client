@@ -1,21 +1,15 @@
 import bookComplete from "@assets/lottie/book.json";
 import Spacing from "@components/commons/spacing/Spacing";
 import Lottie from "react-lottie-player";
-import { useNavigate } from "react-router-dom";
 import * as S from "./FreeBook.styled";
 
 interface FreeBookProps {
   id: number;
   title: string;
+  handleLookup: () => void;
 }
 
-const FreeBook = ({ id, title }: FreeBookProps) => {
-  const navigate = useNavigate();
-
-  const navigateGig = () => {
-    navigate(`/gig/${id}`);
-  };
-
+const FreeBook = ({ id, title, handleLookup }: FreeBookProps) => {
   return (
     <S.Wrapper>
       <Lottie
@@ -32,7 +26,7 @@ const FreeBook = ({ id, title }: FreeBookProps) => {
       <S.Description>어떻게 오셨어요? 비트 타고요.</S.Description>
 
       <S.FloatingWrapper>
-        <S.GigButtonBox onClick={navigateGig}>
+        <S.GigButtonBox onClick={handleLookup}>
           <S.GigText>예매내역 조회하기</S.GigText>
         </S.GigButtonBox>
       </S.FloatingWrapper>

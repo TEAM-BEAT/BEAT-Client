@@ -6,7 +6,6 @@ import Toast from "@components/commons/toast/Toast";
 import useToast from "@hooks/useToast";
 import { getBankNameKr } from "@utils/getBankName";
 import Lottie from "react-lottie-player";
-import { useNavigate } from "react-router-dom";
 import * as S from "./PaidBook.styled";
 
 interface PaidBookProps {
@@ -16,6 +15,7 @@ interface PaidBookProps {
   bankName: string;
   accountNumber: string;
   totalPaymentAmount: number;
+  handleLookup: () => void;
 }
 
 const PaidBook = ({
@@ -25,14 +25,9 @@ const PaidBook = ({
   bankName,
   accountNumber,
   totalPaymentAmount,
+  handleLookup,
 }: PaidBookProps) => {
-  const navigate = useNavigate();
-
   const { showToast, isToastVisible } = useToast();
-
-  const navigateGig = () => {
-    navigate(`/gig/${id}`);
-  };
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -79,7 +74,7 @@ const PaidBook = ({
           <Button variant="blue" size="xlarge" onClick={handleDepositClick}>
             토스로 송금하기
           </Button>
-          <S.GigButtonBox onClick={navigateGig}>
+          <S.GigButtonBox onClick={handleLookup}>
             <S.GigText>예매내역 조회하기</S.GigText>
           </S.GigButtonBox>
         </S.FloatingWrapper>

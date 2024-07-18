@@ -1,5 +1,6 @@
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import useLogin from "@hooks/useLogin";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FreeBook from "../freeBook/FreeBook";
@@ -8,6 +9,7 @@ import PaidBook from "../paidBook/PaidBook";
 const Complete = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isLogin } = useLogin();
 
   const {
     id = 1,
@@ -21,6 +23,14 @@ const Complete = () => {
   const isPaid = totalPaymentAmount !== 0 ? true : false;
 
   const { setHeader } = useHeader();
+
+  const handleLookup = () => {
+    if (isLogin) {
+      navigate("/lookup");
+    } else {
+      navigate("/NonMb-Lookup");
+    }
+  };
 
   useEffect(() => {
     setHeader({
@@ -41,9 +51,10 @@ const Complete = () => {
           bankName={bankName}
           accountNumber={accountNumber}
           totalPaymentAmount={totalPaymentAmount}
+          handleLookup={handleLookup}
         />
       ) : (
-        <FreeBook id={id} title={title} />
+        <FreeBook id={id} title={title} handleLookup={handleLookup} />
       )}
     </>
   );
