@@ -2,13 +2,15 @@ import { IconEmpty } from "@assets/svgs";
 import styled from "styled-components";
 
 export const BodyWrapper = styled.main<{ $isNothing?: boolean }>`
+  position: relative;
   display: flex;
   flex-direction: ${({ $isNothing }) => ($isNothing ? "column" : "row")};
   align-items: center;
   justify-content: center;
   width: 37.4rem;
   height: auto;
-  min-height: 60.8rem; /* 60.8rem(body의 높이) +  5.6rem(헤더의 높이) */
+  min-height: ${({ $isNothing }) =>
+    $isNothing ? "92vh" : "60.8rem"}; /* 60.8rem(body의 높이) +  5.6rem(헤더의 높이) */
   padding: 2.4rem;
 `;
 
