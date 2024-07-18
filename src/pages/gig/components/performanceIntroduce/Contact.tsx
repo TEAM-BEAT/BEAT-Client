@@ -16,8 +16,8 @@ const Contact = ({ contact }: ContactProps) => {
     setToggle((prev) => !prev);
   };
 
-  const handleCopyClipBoard = (text: string) => {
-    navigator.clipboard.writeText(text);
+  const handleCopyClipBoard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
 
     showToast();
   };

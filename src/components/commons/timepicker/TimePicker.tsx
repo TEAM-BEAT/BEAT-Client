@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import * as S from "./TimePicker.styled";
 
 export interface TimePickerProps {
-  value: Dayjs | null;
+  value: Dayjs | null | string;
   onChangeValue: (value: Dayjs | null) => void;
   minDate?: Dayjs;
 }
@@ -23,7 +23,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
       onChangeValue(newValue);
     }
   };
-  
+
   useEffect(() => {
     const now = dayjs().format("YYYY/MM/DD\t     HH:mm");
     setPlaceholder(now);
@@ -40,7 +40,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
 
         openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
-      value={value}
+      value={value ? dayjs(new Date(value as string)) : null}
       minDate={minDate || undefined}
       onAccept={handleAccept}
       slotProps={{
@@ -75,12 +75,15 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
             },
             "& .MuiPickersYear-yearButton.Mui-selected": {
               background: "#FB247F",
+              color: "#FFFFFF",
             },
             "& .MuiPickersYear-yearButton.Mui-selected:hover": {
               background: "#FB247F",
+              color: "#FFFFFF",
             },
             "button.MuiPickersDay-root.Mui-selected": {
               background: "#FB247F",
+              color: "#FFFFFF",
             },
             "& .MuiMultiSectionDigitalClockSection-list": {
               "&::-webkit-scrollbar": {
@@ -95,9 +98,11 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
             },
             "& .MuiMultiSectionDigitalClockSection-item.Mui-selected": {
               background: "#FB247F",
+              color: "#FFFFFF",
             },
             "& .MuiMultiSectionDigitalClockSection-item.Mui-selected:hover": {
               background: "#FB247F",
+              color: "#FFFFFF",
             },
             "&.MuiMultiSectionDigitalClock-root": {
               height: "25.7rem",

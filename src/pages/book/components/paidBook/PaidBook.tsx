@@ -4,6 +4,7 @@ import Button from "@components/commons/button/Button";
 import Spacing from "@components/commons/spacing/Spacing";
 import Toast from "@components/commons/toast/Toast";
 import useToast from "@hooks/useToast";
+import { getBankNameKr } from "@utils/getBankName";
 import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import * as S from "./PaidBook.styled";
@@ -11,12 +12,20 @@ import * as S from "./PaidBook.styled";
 interface PaidBookProps {
   id: number;
   title: string;
+  accountHolder: string;
   bankName: string;
   accountNumber: string;
-  price: number;
+  totalPaymentAmount: number;
 }
 
-const PaidBook = ({ id, title, bankName, accountNumber, price }: PaidBookProps) => {
+const PaidBook = ({
+  id,
+  title,
+  accountHolder,
+  bankName,
+  accountNumber,
+  totalPaymentAmount,
+}: PaidBookProps) => {
   const navigate = useNavigate();
 
   const { showToast, isToastVisible } = useToast();
@@ -33,7 +42,7 @@ const PaidBook = ({ id, title, bankName, accountNumber, price }: PaidBookProps) 
 
   const handleDepositClick = () => {
     window.open(
-      `supertoss://send?bank=${bankName}&accountNo=${accountNumber}&origin=linkgen&amount=${price}`
+      `supertoss://send?bank=${bankName}&accountNo=${accountNumber}&origin=linkgen&amount=${totalPaymentAmount}`
     );
   };
 
@@ -51,19 +60,18 @@ const PaidBook = ({ id, title, bankName, accountNumber, price }: PaidBookProps) 
         <S.Title>{`${title} \n예매가 완료되었어요!`}</S.Title>
         <Spacing marginBottom="1" />
 
-        <S.Description>어떻게 오셨어요? 비트 타고요.</S.Description>
+        <S.Description>입금자명은 예약자 이름과 동일하게 설정해주세요.</S.Description>
         <Spacing marginBottom="3.2" />
 
         <S.DepositContainer>
           <S.DepositBox>
-            <S.Text>{bankName}&nbsp;</S.Text>
-            <S.Text>{accountNumber}</S.Text>
-            <S.CopyIcon onClick={() => handleCopyClipBoard(accountNumber)} />
+            <S.Text>{getBankNameKr(bankName)}&nbsp;</S.Text>
+            <S.Text>({accountHolder})&nbsp;</S.Text>
+            <S.PinkText>{totalPaymentAmount.toLocaleString()}원</S.PinkText>
           </S.DepositBox>
           <S.FlexBox>
-            <S.Text>24시간 내로&nbsp;</S.Text>
-            <S.PinkText>100,000원</S.PinkText>
-            <S.Text>을 입금해주세요.</S.Text>
+            <S.Text>{accountNumber}</S.Text>
+            <S.CopyIcon onClick={() => handleCopyClipBoard(accountNumber)} />
           </S.FlexBox>
         </S.DepositContainer>
 

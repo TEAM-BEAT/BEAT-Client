@@ -1,3 +1,4 @@
+import React from "react";
 import * as S from "./TermCheck.styled";
 
 interface TermCheckProps {
