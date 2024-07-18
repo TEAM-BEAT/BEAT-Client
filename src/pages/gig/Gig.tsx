@@ -48,7 +48,7 @@ const Gig = () => {
 
   useEffect(() => {
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      headerStyle: NAVIGATION_STATE.ICON_TITLE,
       title: data?.performanceTitle,
       leftOnClick: () => {
         navigate("/main");

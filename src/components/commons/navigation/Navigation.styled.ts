@@ -67,10 +67,20 @@ export const NavigationXButton = styled(IconXButton)`
 
 // TODO: 뷰에 띄워보니 padding이 없어 스타일링 이상함 디자이너 분께 물어보기
 export const SubTextButton = styled.button`
+  width: 3.2rem;
+  margin: 0 0.4rem 0 0;
+
   ${({ theme }) => theme.fonts["body1-normal-semi"]};
   color: ${({ theme }) => theme.colors.pink_400};
 `;
 
 export const FragmentDiv = styled.div`
   width: 3.2rem;
+`;
+
+export const RightDiv = styled.div`
+  display: flex;
+  box-sizing: content-box;
+  width: 2.4rem;
+  height: 2.4rem;
 `;

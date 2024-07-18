@@ -21,7 +21,7 @@ const Navigation = () => {
       <S.NavigationWrapper>
         <S.NavigationLeftButton onClick={leftOnClick} />
         <S.NavigationTitle>{title}</S.NavigationTitle>
-        <S.FragmentDiv />
+        <S.RightDiv />
       </S.NavigationWrapper>
     );
   }
