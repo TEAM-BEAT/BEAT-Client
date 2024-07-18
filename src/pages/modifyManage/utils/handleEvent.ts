@@ -92,7 +92,12 @@ export const handleTotalTicketCountChange = (
   setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   const { value } = e.target;
-  const ticketCount = parseInt(value, 10);
+  let ticketCount: number | undefined = parseInt(value, 10);
+
+  if (isNaN(ticketCount)) {
+    ticketCount = undefined;
+  }
+
   setGigInfo((prev) => ({
     ...prev,
     scheduleList: prev.scheduleList.map((schedule) => ({
