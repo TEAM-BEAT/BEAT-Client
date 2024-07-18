@@ -6,7 +6,7 @@ import IconText from "../iconText/IconText";
 import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
 
-type SchelduleListType = {
+export type SchelduleListType = {
   scheduleId: number;
   performanceDate: string;
   scheduleNumber: number;
