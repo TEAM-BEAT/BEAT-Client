@@ -55,32 +55,6 @@ const ModifyManage = () => {
     setGigInfo(data as DataProps);
   }, [data]);
 
-  /*
-  // 구조 분해 할당
-
-  const {
-    performanceTitle,
-    genre,
-    runningTime,
-    performanceDescription,
-    performanceAttentionNote,
-    accountNumber,
-    posterImage,
-    performanceTeamName,
-    performanceVenue,
-    performancePeriod,
-    performanceContact,
-    ticketPrice,
-    totalScheduleCount,
-    scheduleList,
-    castList,
-    staffList,
-    bankName,
-    isBookerExist,
-    accountHolder,
-  } = gigInfo;
-   */
-
   let performanceTitle: string | undefined,
     genre: "BAND" | "DANCE" | "PLAY" | "ETC" | string | undefined,
     runningTime: number | null | undefined,
@@ -192,7 +166,6 @@ const ModifyManage = () => {
   }, [ticketPrice]);
 
   const updateGigInfo = (newInfo: Partial<{ castList: Cast[]; staffList: Staff[] }>) => {
-    console.log("mew", newInfo);
     setGigInfo((prev) => ({
       ...prev,
       ...newInfo,
@@ -385,7 +358,6 @@ const ModifyManage = () => {
               />
             </InputModifyManageBox>
             <S.Divider />
-
             <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
               <TextField
                 isDisabled={false}
@@ -473,7 +445,6 @@ const ModifyManage = () => {
               isOpen={bankOpen}
               onOutClick={() => handleBankOpen(setBankOpen)}
             />
-
             <InputModifyManageBox isDisabled={false} title="대표자 연락처">
               <TextField
                 isDisabled={false}
@@ -536,7 +507,7 @@ const ModifyManage = () => {
               scheduleList?.map((schedule, index) => ({
                 scheduleId: index + 1,
                 performanceDate: schedule.performanceDate?.toString() || "",
-                scheduleNumber: index + 1,
+                scheduleNumber: (index + 1).toString(),
               })) as SchelduleListType[]
             }
           />
