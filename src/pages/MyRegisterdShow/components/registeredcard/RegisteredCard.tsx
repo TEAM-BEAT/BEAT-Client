@@ -1,4 +1,5 @@
 import Button from "@components/commons/button/Button";
+import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import { useNavigate } from "react-router-dom";
 import { RegisteredObjProps } from "../../constants/myRegisterShow";
 import * as S from "./RegisteredCard.styled";
@@ -23,13 +24,15 @@ const RegisteredCard = ({
     window.location.assign(url);
   };
 
+  const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
+
   return (
     <S.CardWrapper>
       <S.CardImg imgsrc={posterImage ?? ""} />
       <S.CardInfo>
         <S.CardInfoTextBox>
           <S.CardInfoTextTitleBox>
-            <S.CardInfoGenreText>{genre}</S.CardInfoGenreText>
+            <S.CardInfoGenreText>{getShowTypeText(genre as SHOW_TYPE_KEY)}</S.CardInfoGenreText>
             <S.CardInfoTitleText>{performanceTitle}</S.CardInfoTitleText>
           </S.CardInfoTextTitleBox>
 
