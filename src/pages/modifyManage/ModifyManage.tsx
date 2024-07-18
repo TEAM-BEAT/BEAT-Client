@@ -157,7 +157,8 @@ const ModifyManage = () => {
   const navigate = useNavigate();
 
   const handleComplete = () => {
-    navigate("/ModifyManage-complete");
+    console.log("gigInfo:", gigInfo);
+    //navigate("/ModifyManage-complete");
   };
 
   // 약관 동의
