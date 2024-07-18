@@ -81,7 +81,7 @@ export const ScheduleListContainer = styled.div`
 
 export const EpisodeBox = styled.p`
   display: flex;
-  gap: 6px;
+  gap: 4px;
   align-items: center;
   align-self: stretch;
 `;
