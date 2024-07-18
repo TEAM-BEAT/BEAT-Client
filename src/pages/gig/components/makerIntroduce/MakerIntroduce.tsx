@@ -9,7 +9,6 @@ interface MakerIntroduceProps {
 }
 
 const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) => {
-  console.log(castList);
   return (
     <S.Wrapper>
       <S.Title>{teamName}</S.Title>
