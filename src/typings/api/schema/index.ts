@@ -17,8 +17,8 @@ export interface paths {
      */
     get: operations["getTickets"];
     /**
-     * 예매자 입금여부 수정 API
-     * @description 메이커가 자신의 공연에 대한 예매자의 입금여부 정보를 수정하는 PUT API입니다.
+     * 예매자 입금여부 수정 및 웹발신 API
+     * @description 메이커가 자신의 공연에 대한 예매자의 입금여부 정보를 수정한 뒤 예매확정 웹발신을 보내는 PUT API입니다.
      */
     put: operations["updateTickets"];
     post?: never;
@@ -27,6 +27,30 @@ export interface paths {
      * @description 메이커가 자신의 공연에 대한 예매자의 정보를 삭제하는 DELETE API입니다.
      */
     delete: operations["deleteTickets"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/performances": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * 공연 정보 수정 API
+     * @description 공연 정보를 수정하는 PUT API입니다.
+     */
+    put: operations["updatePerformance"];
+    /**
+     * 공연 생성 API
+     * @description 공연을 생성하는 POST API입니다.
+     */
+    post: operations["createPerformance"];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -132,6 +156,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/health-check": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["healthcheck"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/users/refresh-token": {
     parameters: {
       query?: never;
@@ -163,6 +203,30 @@ export interface paths {
     put?: never;
     post?: never;
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/performances/{performanceId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 공연 수정 페이지 정보 조회 API
+     * @description 공연 정보를 조회하는 GET API입니다.
+     */
+    get: operations["getPerformanceForEdit"];
+    put?: never;
+    post?: never;
+    /**
+     * 공연 삭제 API
+     * @description 공연을 삭제하는 DELETE API입니다.
+     */
+    delete: operations["deletePerformance"];
     options?: never;
     head?: never;
     patch?: never;
@@ -300,6 +364,145 @@ export interface components {
       message?: string;
       data?: Record<string, never>;
     };
+    CastUpdateRequest: {
+      /** Format: int64 */
+      castId?: number;
+      castName?: string;
+      castRole?: string;
+      castPhoto?: string;
+    };
+    PerformanceUpdateRequest: {
+      /** Format: int64 */
+      performanceId?: number;
+      performanceTitle?: string;
+      /** @enum {string} */
+      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /** Format: int32 */
+      runningTime?: number;
+      performanceDescription?: string;
+      performanceAttentionNote?: string;
+      /** @enum {string} */
+      bankName?:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP";
+      accountNumber?: string;
+      accountHolder?: string;
+      posterImage?: string;
+      performanceTeamName?: string;
+      performanceVenue?: string;
+      performanceContact?: string;
+      performancePeriod?: string;
+      /** Format: int32 */
+      totalScheduleCount?: number;
+      scheduleList?: components["schemas"]["ScheduleUpdateRequest"][];
+      castList?: components["schemas"]["CastUpdateRequest"][];
+      staffList?: components["schemas"]["StaffUpdateRequest"][];
+    };
+    ScheduleUpdateRequest: {
+      /** Format: int64 */
+      scheduleId?: number;
+      /** Format: date-time */
+      performanceDate?: string;
+      /** Format: int32 */
+      totalTicketCount?: number;
+      scheduleNumber?: string;
+    };
+    StaffUpdateRequest: {
+      /** Format: int64 */
+      staffId?: number;
+      staffName?: string;
+      staffRole?: string;
+      staffPhoto?: string;
+    };
+    CastUpdateResponse: {
+      /** Format: int64 */
+      castId?: number;
+      castName?: string;
+      castRole?: string;
+      castPhoto?: string;
+    };
+    PerformanceUpdateResponse: {
+      /** Format: int64 */
+      userId?: number;
+      /** Format: int64 */
+      performanceId?: number;
+      performanceTitle?: string;
+      /** @enum {string} */
+      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /** Format: int32 */
+      runningTime?: number;
+      performanceDescription?: string;
+      performanceAttentionNote?: string;
+      /** @enum {string} */
+      bankName?:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP";
+      accountNumber?: string;
+      accountHolder?: string;
+      posterImage?: string;
+      performanceTeamName?: string;
+      performanceVenue?: string;
+      performanceContact?: string;
+      performancePeriod?: string;
+      /** Format: int32 */
+      ticketPrice?: number;
+      /** Format: int32 */
+      totalScheduleCount?: number;
+      scheduleList?: components["schemas"]["ScheduleUpdateResponse"][];
+      castList?: components["schemas"]["CastUpdateResponse"][];
+      staffList?: components["schemas"]["StaffUpdateResponse"][];
+    };
+    ScheduleUpdateResponse: {
+      /** Format: int64 */
+      scheduleId?: number;
+      /** Format: date-time */
+      performanceDate?: string;
+      /** Format: int32 */
+      totalTicketCount?: number;
+      /** Format: int32 */
+      dueDate?: number;
+      /** @enum {string} */
+      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+    };
+    StaffUpdateResponse: {
+      /** Format: int64 */
+      staffId?: number;
+      staffName?: string;
+      staffRole?: string;
+      staffPhoto?: string;
+    };
+    SuccessResponsePerformanceUpdateResponse: {
+      /** Format: int32 */
+      status?: number;
+      message?: string;
+      data?: components["schemas"]["PerformanceUpdateResponse"];
+    };
     MemberLoginRequest: {
       /** @enum {string} */
       socialType: "KAKAO";
@@ -314,6 +517,140 @@ export interface components {
       status?: number;
       message?: string;
       data?: components["schemas"]["LoginSuccessResponse"];
+    };
+    CastRequest: {
+      castName?: string;
+      castRole?: string;
+      castPhoto?: string;
+    };
+    PerformanceRequest: {
+      performanceTitle?: string;
+      /** @enum {string} */
+      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /** Format: int32 */
+      runningTime?: number;
+      performanceDescription?: string;
+      performanceAttentionNote?: string;
+      /** @enum {string} */
+      bankName?:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP";
+      accountNumber?: string;
+      accountHolder?: string;
+      posterImage?: string;
+      performanceTeamName?: string;
+      performanceVenue?: string;
+      performanceContact?: string;
+      performancePeriod?: string;
+      /** Format: int32 */
+      ticketPrice?: number;
+      /** Format: int32 */
+      totalScheduleCount?: number;
+      scheduleList?: components["schemas"]["ScheduleRequest"][];
+      castList?: components["schemas"]["CastRequest"][];
+      staffList?: components["schemas"]["StaffRequest"][];
+    };
+    ScheduleRequest: {
+      /** Format: date-time */
+      performanceDate?: string;
+      /** Format: int32 */
+      totalTicketCount?: number;
+      /** @enum {string} */
+      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+    };
+    StaffRequest: {
+      staffName?: string;
+      staffRole?: string;
+      staffPhoto?: string;
+    };
+    CastResponse: {
+      /** Format: int64 */
+      castId?: number;
+      castName?: string;
+      castRole?: string;
+      castPhoto?: string;
+    };
+    PerformanceResponse: {
+      /** Format: int64 */
+      userId?: number;
+      /** Format: int64 */
+      performanceId?: number;
+      performanceTitle?: string;
+      /** @enum {string} */
+      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /** Format: int32 */
+      runningTime?: number;
+      performanceDescription?: string;
+      performanceAttentionNote?: string;
+      /** @enum {string} */
+      bankName?:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP";
+      accountNumber?: string;
+      accountHolder?: string;
+      posterImage?: string;
+      performanceTeamName?: string;
+      performanceVenue?: string;
+      performanceContact?: string;
+      performancePeriod?: string;
+      /** Format: int32 */
+      ticketPrice?: number;
+      /** Format: int32 */
+      totalScheduleCount?: number;
+      scheduleList?: components["schemas"]["ScheduleResponse"][];
+      castList?: components["schemas"]["CastResponse"][];
+      staffList?: components["schemas"]["StaffResponse"][];
+    };
+    ScheduleResponse: {
+      /** Format: int64 */
+      scheduleId?: number;
+      /** Format: date-time */
+      performanceDate?: string;
+      /** Format: int32 */
+      totalTicketCount?: number;
+      /** Format: int32 */
+      dueDate?: number;
+      /** @enum {string} */
+      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+    };
+    StaffResponse: {
+      /** Format: int64 */
+      staffId?: number;
+      staffName?: string;
+      staffRole?: string;
+      staffPhoto?: string;
+    };
+    SuccessResponsePerformanceResponse: {
+      /** Format: int32 */
+      status?: number;
+      message?: string;
+      data?: components["schemas"]["PerformanceResponse"];
     };
     MemberBookingRequest: {
       /** Format: int64 */
@@ -482,6 +819,57 @@ export interface components {
       requestedTicketCount?: number;
       isAvailable?: boolean;
     };
+    PerformanceEditResponse: {
+      /** Format: int64 */
+      userId?: number;
+      /** Format: int64 */
+      performanceId?: number;
+      performanceTitle?: string;
+      /** @enum {string} */
+      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /** Format: int32 */
+      runningTime?: number;
+      performanceDescription?: string;
+      performanceAttentionNote?: string;
+      /** @enum {string} */
+      bankName?:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP";
+      accountNumber?: string;
+      accountHolder?: string;
+      posterImage?: string;
+      performanceTeamName?: string;
+      performanceVenue?: string;
+      performanceContact?: string;
+      performancePeriod?: string;
+      /** Format: int32 */
+      ticketPrice?: number;
+      /** Format: int32 */
+      totalScheduleCount?: number;
+      isBookerExist?: boolean;
+      scheduleList?: components["schemas"]["ScheduleResponse"][];
+      castList?: components["schemas"]["CastResponse"][];
+      staffList?: components["schemas"]["StaffResponse"][];
+    };
+    SuccessResponsePerformanceEditResponse: {
+      /** Format: int32 */
+      status?: number;
+      message?: string;
+      data?: components["schemas"]["PerformanceEditResponse"];
+    };
     MakerPerformanceDetail: {
       /** Format: int64 */
       performanceId?: number;
@@ -560,6 +948,9 @@ export interface components {
       posterImage?: string;
       performanceVenue?: string;
       performanceTeamName?: string;
+      bankName?: string;
+      accountNumber?: string;
+      accountHolder?: string;
     };
     BookingPerformanceDetailSchedule: {
       /** Format: int64 */
@@ -733,6 +1124,58 @@ export interface operations {
       };
     };
   };
+  updatePerformance: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerformanceUpdateRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceUpdateResponse"];
+        };
+      };
+    };
+  };
+  createPerformance: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerformanceRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceResponse"];
+        };
+      };
+    };
+  };
   signUp: {
     parameters: {
       query: {
@@ -853,6 +1296,26 @@ export interface operations {
       };
     };
   };
+  healthcheck: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
   refreshToken: {
     parameters: {
       query: {
@@ -895,6 +1358,54 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["SuccessResponseTicketAvailabilityResponse"];
+        };
+      };
+    };
+  };
+  getPerformanceForEdit: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path: {
+        performanceId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceEditResponse"];
+        };
+      };
+    };
+  };
+  deletePerformance: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path: {
+        performanceId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponseVoid"];
         };
       };
     };

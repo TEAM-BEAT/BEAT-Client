@@ -9,16 +9,16 @@ const Complete = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // TODO: 기본 값 수정
   const {
     id = 1,
-    title = "비트 정기공연",
-    bankName = "농협",
+    title = "",
+    bankName = "",
+    accountHolder = "",
     accountNumber = "3561202376833",
-    price = 100002,
+    totalPaymentAmount = 0,
   } = location.state || {};
 
-  const isPaid = price !== 0 ? true : false;
+  const isPaid = totalPaymentAmount !== 0 ? true : false;
 
   const { setHeader } = useHeader();
 
@@ -37,9 +37,10 @@ const Complete = () => {
         <PaidBook
           id={id}
           title={title}
+          accountHolder={accountHolder}
           bankName={bankName}
           accountNumber={accountNumber}
-          price={price}
+          totalPaymentAmount={totalPaymentAmount}
         />
       ) : (
         <FreeBook id={id} title={title} />
