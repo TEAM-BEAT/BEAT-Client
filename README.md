@@ -1,8 +1,22 @@
 <div align="center">
 
 <h2> BEAT </h2>
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_3999_41443)">
+<rect width="192" height="192" rx="96" fill="#0F0F0F"/>
+<path d="M125.859 96.856L112.182 53.9171L105.474 32L98.9363 54.2286L84.3723 111.844L73.0839 82.05L66.2455 60.3145L57.3845 81.7515L50.1807 96.856H37V108.976H60.3599L66.0889 98.1926L78.8912 137.187L86.6952 159L92.098 136.733L106.362 80.2852L115.497 108.976H155V96.856H125.859Z" fill="url(#paint0_linear_3999_41443)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_3999_41443" x1="92.2133" y1="32" x2="89.0426" y2="180.753" gradientUnits="userSpaceOnUse">
+<stop offset="0.257954" stop-color="#FF006B"/>
+<stop offset="1" stop-color="#FF006B" stop-opacity="0.16"/>
+</linearGradient>
+<clipPath id="clip0_3999_41443">
+<rect width="192" height="192" fill="white"/>
+</clipPath>
+</defs>
+</svg>
 
-<img width="421" alt="Screenshot 2024-07-04 at 5 01 50 PM" src="https://github.com/TEAM-BEAT/BEAT-Client/assets/58854041/89dc6e6b-ab96-4fd0-bcfa-77a3439f9442" alt="서비스대표-이미지" />
 <div>모두를 위한, </br>그래서 대학생을 위한 예매 플랫폼</div>
 
 </div>
@@ -142,7 +156,46 @@ rename : 파일 혹은 폴더명 변경
 |-- yarn.lock
 ```
 
-<h3>비트 아이엠 그라운드 룰</h3>
+<h2>📷 스크린샷</h2>
+<table align="center">
+        <tr align="center">
+            <th>뷰</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+        </tr>
+        <tr>
+            <td>예매하기</td>
+            <td><img src="path/to/image1.png" alt="Book 1"></td>
+            <td><img src="path/to/image2.png" alt="Book 2"></td>
+            <td><img src="path/to/image3.png" alt="Book 3"></td>
+            <td><img src="path/to/image4.png" alt="Book 4"></td>
+        </tr>
+        <tr>
+            <td>등록하기</td>
+            <td><img src="path/to/image5.png" alt="Register 1"></td>
+            <td><img src="path/to/image6.png" alt="Register 2"></td>
+            <td><img src="path/to/image7.png" alt="Register 3"></td>
+            <td><img src="path/to/image8.png" alt="Register 4"></td>
+        </tr>
+        <tr>
+            <td>관리하기</td>
+            <td><img src="path/to/image9.png" alt="Manage 1"></td>
+            <td><img src="path/to/image10.png" alt="Manage 2"></td>
+            <td><img src="path/to/image11.png" alt="Manage 3"></td>
+            <td><img src="path/to/image12.png" alt="Manage 4"></td>
+        </tr>
+        <tr>
+            <td>메인/조회하기</td>
+            <td><img src="path/to/image13.png" alt="Look up 1"></td>
+            <td><img src="path/to/image14.png" alt="Look up 2"></td>
+            <td><img src="path/to/image15.png" alt="Look up 3"></td>
+            <td><img src="path/to/image16.png" alt="Look up 4"></td>
+        </tr>
+    </table>
+
+<h3>🎸 비트 아이엠 그라운드 룰</h3>
 
 ✅ 우울하지 말고 우웅하기 <br/>
 ✅ 서로 칭찬하고 굿 ~~ 해주기 <br/>
