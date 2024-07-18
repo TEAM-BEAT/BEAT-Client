@@ -80,7 +80,8 @@ const Hamburger = () => {
               <S.NavigateBtnWrapper>
                 <S.NavigateBtn
                   onClick={() => {
-                    navigate("/gig-manage");
+                    // navigate("/gig-manage");
+                    window.location.assign("/gig-manage");
                     closeHamburger();
                   }}
                 >

@@ -83,6 +83,4 @@ export const RightDiv = styled.div`
   box-sizing: content-box;
   width: 2.4rem;
   height: 2.4rem;
-
-  background-color: white;
 `;
