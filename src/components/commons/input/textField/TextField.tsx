@@ -115,7 +115,7 @@ const TextField = ({
         <S.TextFieldInput
           $isDisabled={isDisabled}
           ref={inputRef}
-          value={value}
+          value={inputValue}
           name={name}
           onChange={handleOnInput}
           maxLength={maxLength}
