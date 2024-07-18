@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { GuestBookingRequest } from "@apis/domains/bookings/api";
-import { useGuestBook } from "@apis/domains/bookings/queries";
+import { useGuestBook, useMemberBook } from "@apis/domains/bookings/queries";
 import {
   useGetBookingPerformanceDetail,
   useGetScheduleAvailable,
@@ -33,8 +33,8 @@ const Book = () => {
   const { data, isLoading } = useGetBookingPerformanceDetail(Number(performanceId));
 
   // TODO: 회원/비회원 여부
+  const isNonMember = localStorage.getItem("accessToken") ? false : true;
   const { setHeader } = useHeader();
-  const isNonMember = true;
 
   useEffect(() => {
     setHeader({
@@ -70,6 +70,7 @@ const Book = () => {
   );
 
   const { mutateAsync, isPending } = useGuestBook();
+  const { mutateAsync: memberBook, isPending: isMemberRequestPending } = useMemberBook();
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -127,8 +128,7 @@ const Book = () => {
   };
 
   const handleClickBookRequst = async () => {
-    // TODO: 티켓 매수 요청 get 요청 후 ? 예매 요청 ? 혹은 바로 요청 ? 이거 동시성 처리 됐나
-    if (isPending) {
+    if (isPending && isMemberRequestPending) {
       return;
     }
 
@@ -139,7 +139,6 @@ const Book = () => {
       totalPaymentAmount: data?.ticketPrice ?? 0 * round,
     } as GuestBookingRequest;
 
-    // TODO: 회원, 비회원 여부에 따라서 예매하기 post 요청
     if (isNonMember) {
       // 비회원 예매 요청
       formData = {
@@ -156,8 +155,9 @@ const Book = () => {
         state: {
           id: performanceId,
           title: data?.performanceTitle,
-          bankName: "농협",
-          accountNumber: "3561202376833",
+          bankName: data?.bankName,
+          accountHolder: data?.accountHolder,
+          accountNumber: data?.accountNumber,
           totalPaymentAmount: res?.totalPaymentAmount,
         },
       });
@@ -168,6 +168,20 @@ const Book = () => {
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as GuestBookingRequest;
+
+      const res = await memberBook(formData);
+      console.log("res", res);
+
+      navigate("/book/complete", {
+        state: {
+          id: performanceId,
+          title: data?.performanceTitle,
+          bankName: data?.bankName,
+          accountHolder: data?.accountHolder,
+          accountNumber: data?.accountNumber,
+          totalPaymentAmount: res?.totalPaymentAmount,
+        },
+      });
     }
   };
 
@@ -175,7 +189,6 @@ const Book = () => {
     if (
       selectedValue &&
       bookerInfo.bookerName &&
-      bookerInfo.birthDate.length === 6 &&
       bookerInfo.bookerPhoneNumber.length === 13 &&
       isTermChecked.term2
     ) {
@@ -183,11 +196,16 @@ const Book = () => {
         isNonMember &&
         isTermChecked.term1 &&
         easyPassword.password.length === 4 &&
+        bookerInfo.birthDate.length === 6 &&
         easyPassword.password === easyPassword.passwordCheck
       ) {
         setActiveButton(true);
       } else {
-        setActiveButton(false);
+        if (!isNonMember) {
+          setActiveButton(true);
+        } else {
+          setActiveButton(false);
+        }
       }
     } else {
       setActiveButton(false);
@@ -217,9 +235,9 @@ const Book = () => {
         onMinusClick={onMinusClick}
         onPlusClick={onPlusClick}
         ticketPrice={data?.ticketPrice ?? 0}
-        // availableTicketCount={
-        //   selectedValue ? data?.scheduleList![selectedValue - 1].availableTicketCount : undefined
-        // }
+        availableTicketCount={
+          selectedValue ? data?.scheduleList![selectedValue - 1].availableTicketCount : undefined
+        }
       />
       <BookerInfo
         isNonMember={isNonMember}
