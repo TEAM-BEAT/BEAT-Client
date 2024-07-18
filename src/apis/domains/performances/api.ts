@@ -1,4 +1,4 @@
-import { get } from "@apis/index";
+import { del, get } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
@@ -25,6 +25,23 @@ export const getPerformanceEdit = async (
 ): Promise<PerformanceEditResponse | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<PerformanceEditResponse>> = await get(
+      `performances/${performanceId}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+// 공연 삭제 API (DELETE)
+type SuccessResponseVoid = components["schemas"]["SuccessResponseVoid"];
+
+export const deletePerformance = async (
+  performanceId: number
+): Promise<SuccessResponseVoid | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(
       `performances/${performanceId}`
     );
     return response.data.data;
