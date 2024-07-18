@@ -8,9 +8,9 @@ import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
 
 export type SchelduleListType = {
-  scheduleId: number;
-  performanceDate: string;
-  scheduleNumber: number;
+  scheduleId?: number;
+  performanceDate?: string;
+  scheduleNumber?: string;
 };
 
 interface ShowInfoProps {

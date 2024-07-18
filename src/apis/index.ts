@@ -1,11 +1,25 @@
 import axios from "axios";
 
+const getAccessToken = (): string | null => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    try {
+      const userObj = JSON.parse(user);
+      return userObj.accessToken || "";
+    } catch (error) {
+      console.error("Failed to parse user from localStorage", error);
+      return "";
+    }
+  }
+  return "";
+};
+
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
 
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+    Authorization: `Bearer ${getAccessToken()}`,
   },
 });
 

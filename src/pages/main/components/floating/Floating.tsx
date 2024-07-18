@@ -1,5 +1,5 @@
-import * as S from "./Floating.styled";
 import { useNavigate } from "react-router-dom";
+import * as S from "./Floating.styled";
 
 const Floating = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Floating = () => {
           <S.UnionText>공연을 등록해보세요!</S.UnionText>
           <S.FloatingBtnWrapper
             onClick={() => {
-              navigate("/register");
+              navigate("/gig-register");
             }}
           >
             <S.FloatingBtn />

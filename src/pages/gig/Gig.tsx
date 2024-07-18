@@ -5,6 +5,7 @@ import Button from "@components/commons/button/Button";
 import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import useLogin from "@hooks/useLogin";
 import { navigateAtom } from "@stores/navigate";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
@@ -19,7 +20,7 @@ const Gig = () => {
   const navigate = useNavigate();
   const [, setNavigateUrl] = useAtom(navigateAtom);
   const { setHeader } = useHeader();
-  const isLoggedIn = false;
+  const { isLogin } = useLogin();
 
   const { performanceId } = useParams<{ performanceId: string }>();
   const { data, isLoading } = useGetPerformanceDetail(Number(performanceId));
@@ -27,9 +28,7 @@ const Gig = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleBookClick = () => {
-    // TODO: 토큰 여부에 따라서 리다이렉트
-
-    if (isLoggedIn) {
+    if (isLogin) {
       navigate(`/book/${performanceId}`);
       return;
     }
