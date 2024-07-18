@@ -1,4 +1,4 @@
-import { get } from "@apis/index";
+import { get, post } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import axios, { AxiosResponse } from "axios";
@@ -60,5 +60,22 @@ export const getScheduleAvailable = async (
       return errorStatus;
     }
     return -1;
+  }
+};
+
+type PerformanceResponse = components["schemas"]["PerformanceResponse"];
+
+export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<PerformanceResponse>> = await post(
+      "/performances",
+      formData
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.error("error", error);
+
+    return null;
   }
 };
