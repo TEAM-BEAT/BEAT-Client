@@ -22,10 +22,21 @@ export const getPresignedUrl = async (
   params: GetPresignedUrlParams
 ): Promise<PresignedResponse | null> => {
   try {
+    const paramsWithEmptyArrays = {
+      ...params,
+      castImages: params.castImages.length === 0 ? [""] : params.castImages,
+      staffImages: params.staffImages.length === 0 ? [""] : params.staffImages,
+    };
+
     const response: AxiosResponse<PresignedResponse> = await get("/files/presigned-url", {
-      params,
+      params: paramsWithEmptyArrays,
       paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: "repeat" });
+        const queryString = qs.stringify(params, { arrayFormat: "repeat" });
+
+        const modifiedQueryString = queryString
+          .replace(/castImages=%5B%5D/g, "castImages")
+          .replace(/staffImages=%5B%5D/g, "staffImages");
+        return modifiedQueryString;
       },
     });
 
