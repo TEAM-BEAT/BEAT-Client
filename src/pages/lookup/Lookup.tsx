@@ -20,6 +20,7 @@ interface LookupProps {
   userId: number;
   bookingId: number;
   scheduleId: number;
+  performanceId: number;
   performanceTitle: string;
   performanceDate: string;
   performanceVenue: string;
@@ -28,6 +29,7 @@ interface LookupProps {
   bookerName: string;
   bookerPhoneNumber: string;
   bankName: string;
+  performanceContact: string;
   accountNumber: string;
   dueDate: number;
   isPaymentCompleted: boolean;
@@ -97,7 +99,7 @@ const Lookup = () => {
                     alignItems="center"
                     padding="2rem 2rem 2.4rem 2rem"
                   >
-                    <PhoneNumber phone={item.bookerPhoneNumber} />
+                    <PhoneNumber phone={item.performanceContact} />
                     <OuterLayout margin="1.6rem 0 0 0">
                       <Button onClick={handleSheetClose}>확인했어요</Button>
                     </OuterLayout>

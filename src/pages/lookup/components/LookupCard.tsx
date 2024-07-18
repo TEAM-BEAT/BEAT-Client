@@ -9,12 +9,14 @@ const LookupCard = ({
   createdAt,
   performanceDate,
   performanceTitle,
+  performanceId,
   scheduleNumber,
   performanceVenue,
   purchaseTicketCount,
   isPaymentCompleted,
   bankName,
   bookerName,
+  performanceContact,
   accountNumber,
   dueDate,
   totalPaymentAmount,
@@ -56,7 +58,7 @@ const LookupCard = ({
   return (
     <S.LookupCardWrapper>
       {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! -> API 수정되면 반영하기*/}
-      <S.LookupTitleWrapper type="button" onClick={() => navigate(`/gig/${1}`)}>
+      <S.LookupTitleWrapper type="button" onClick={() => navigate(`/gig/${performanceId}`)}>
         <S.LookupTitle>{performanceTitle}</S.LookupTitle>
         <S.TitleArrowRightIcon />
       </S.LookupTitleWrapper>
