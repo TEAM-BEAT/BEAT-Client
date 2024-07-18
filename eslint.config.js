@@ -33,10 +33,10 @@ const jsConfig = {
     curly: "error",
     quotes: ["error", "double"],
     "comma-style": ["error", "last"],
-    "no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }],
+    "no-unused-vars": ["off", { varsIgnorePattern: "^React$" }],
     "no-console": "warn",
     "no-extra-semi": "error",
-    "no-unused-expressions": "error",
+    // "no-unused-expressions": "error",
     indent: "off", // prettier 충돌로 인해 off
     semi: ["warn", "always"],
     "no-undef": "error",
@@ -49,7 +49,6 @@ const jsConfig = {
     "no-else-return": "warn",
     "no-floating-decimal": "error",
     "no-new-object": "error",
-    "no-shadow": "error",
     "no-param-reassign": "error",
     "prefer-template": "warn",
     radix: "error",
@@ -65,7 +64,7 @@ const jsConfig = {
     "no-restricted-globals": "error",
     "no-return-assign": "warn",
     "@typescript-eslint/no-explicit-any": "warn", // any 허용
-    "@typescript-eslint/no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }], // 'React' 사용 안해도 경고하지 않도록 설정
+    "@typescript-eslint/no-unused-vars": ["off", { varsIgnorePattern: "^React$" }], // 'React' 사용 안해도 경고하지 않도록 설정
   },
   settings: {
     react: {

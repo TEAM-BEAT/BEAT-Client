@@ -5,5 +5,5 @@ interface BookingListObjProps {
 
 export interface DeleteFormDataProps {
   performanceId: number;
-  bookingList: BookingListObjProps[];
+  bookingList: number[];
 }
