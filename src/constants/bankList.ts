@@ -19,7 +19,7 @@ import {
 export const BANK_LIST = [
   {
     id: 1,
-    name: "NH_NONHYUP",
+    name: "NH_NONGHYUP",
     nameKr: "NH농협",
     bankImg: IconNonghyup,
   },
