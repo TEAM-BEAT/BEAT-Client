@@ -6,6 +6,8 @@ export const PerformanceCardWrapper = styled.button`
   flex-direction: column;
   gap: 1rem;
   align-items: start;
+
+  text-align: start;
 `;
 
 export const PerformanceImg = styled.img`

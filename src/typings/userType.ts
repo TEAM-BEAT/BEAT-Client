@@ -1,4 +1,4 @@
 export interface UserProps {
-  nickName: string;
+  nickname: string;
   accessToken: string;
 }
