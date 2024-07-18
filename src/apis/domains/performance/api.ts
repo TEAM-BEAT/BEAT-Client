@@ -63,16 +63,13 @@ export const getScheduleAvailable = async (
   }
 };
 
-type PerformanceResponse = components["schemas"]["PerformanceResponse"];
+export type PerformanceResponse = components["schemas"]["PerformanceResponse"];
 
 export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
   try {
-    const response: AxiosResponse<ApiResponseType<PerformanceResponse>> = await post(
-      "/performances",
-      formData
-    );
+    const response = await post("/performances", formData);
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error("error", error);
 

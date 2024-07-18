@@ -1,3 +1,6 @@
+import { PresignedResponse } from "@apis/domains/files/api";
+import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
+import { usePostPerformance } from "@apis/domains/performance/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
@@ -14,6 +17,7 @@ import Content from "@pages/gig/components/content/Content";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
+import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
@@ -110,12 +114,90 @@ const Register = () => {
   const [isFree, setIsFree] = useState(false);
   const navigate = useNavigate();
 
-  const handleComplete = () => {
-    console.log(gigInfo);
+  const [castImages, setCastImages] = useState<string[]>([]);
+  const [staffImages, setStaffImages] = useState<string[]>([]);
 
-    // TODO: presigned url 추가
-    // TODO: 등록하기 요청
-    navigate("/register-complete");
+  useEffect(() => {
+    setCastImages(gigInfo.castList.map((_, index) => `cast-${index + 1}-${new Date().getTime()}`));
+    setStaffImages(
+      gigInfo.staffList.map((_, index) => `staff-${index + 1}-${new Date().getTime()}`)
+    );
+  }, [gigInfo.castList.length, gigInfo.staffList.length]);
+
+  const params = {
+    posterImage: `poster-${new Date().getTime()}`,
+    castImages,
+    staffImages,
+  };
+
+  const { data, refetch } = useGetPresignedUrl(params);
+  const { mutate } = usePutS3Upload();
+  const { mutateAsync: postPerformance } = usePostPerformance();
+
+  const handleComplete = async () => {
+    const { data, isSuccess } = await refetch();
+
+    let posterUrls;
+    let castUrls;
+    let staffUrls;
+
+    if (isSuccess) {
+      const extractUrls = (data: PresignedResponse) => {
+        posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
+        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+
+        return [...posterUrls, ...castUrls, ...staffUrls];
+      };
+
+      const S3Urls = extractUrls(data);
+
+      const files = [
+        gigInfo.posterImage,
+        ...gigInfo.castList.map((cast) => cast.castPhoto),
+        ...gigInfo.staffList.map((staff) => staff.staffPhoto),
+      ];
+
+      try {
+        const res = await Promise.all(
+          S3Urls.map(async (url, index) => {
+            const file = files[index];
+
+            const response = await fetch(file);
+            const blob = await response.blob();
+            const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
+
+            return mutate({ url, file: newFile });
+          })
+        );
+
+        const formData = {
+          ...gigInfo,
+          posterImage: posterUrls[0],
+          castList: gigInfo.castList.map((cast, index) => ({
+            ...cast,
+            castPhoto: castUrls[index] || cast.castPhoto,
+          })),
+          staffList: gigInfo.staffList.map((staff, index) => ({
+            ...staff,
+            staffPhoto: staffUrls[index] || staff.staffPhoto,
+          })),
+          scheduleList: gigInfo.scheduleList.map((schedule) => ({
+            ...schedule,
+            performanceDate: dayjs(schedule.performanceDate).toISOString(),
+          })),
+          bankName: bankInfo ? bankInfo : "NONE",
+        };
+
+        try {
+          await postPerformance(formData);
+        } catch (err) {
+          console.error("공연 등록 중 오류 발생:", err);
+        }
+      } catch (err) {
+        console.error("파일 업로드 중 오류 발생:", err);
+      }
+    }
   };
 
   // 약관 동의
@@ -131,6 +213,7 @@ const Register = () => {
         ticketPrice: 0,
         accountNumber: "",
         bankName: "",
+        accountHolder: "",
       }));
     } else {
       setGigInfo((prev) => ({
@@ -138,6 +221,7 @@ const Register = () => {
         ticketPrice: null,
         accountNumber: "",
         bankName: "",
+        accountHolder: "",
       }));
       setBankInfo("");
     }
@@ -410,12 +494,17 @@ const Register = () => {
 
   if (registerStep === 2) {
     return (
-      <RegisterMaker
-        castList={castList}
-        staffList={staffList}
-        handleRegisterStep={handleRegisterStep}
-        updateGigInfo={updateGigInfo}
-      />
+      <>
+        <button style={{ width: "500px", color: "white" }} onClick={handleComplete}>
+          제출 테스트
+        </button>
+        <RegisterMaker
+          castList={castList}
+          staffList={staffList}
+          handleRegisterStep={handleRegisterStep}
+          updateGigInfo={updateGigInfo}
+        />
+      </>
     );
   }
 

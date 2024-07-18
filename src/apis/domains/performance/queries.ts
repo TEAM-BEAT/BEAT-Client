@@ -1,6 +1,7 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
+import { useNavigate } from "react-router-dom";
 import { HOME_QUERY_KEY } from "../home/queries";
 import {
   getBookingPerformanceDetail,
@@ -73,14 +74,34 @@ interface PerformanceFormData {
   }[];
 }
 
+interface PerformanceResponse {
+  status: number;
+  data: {
+    performanceId: number;
+  };
+}
+
+const isPerformanceResponse = (res: any): res is PerformanceResponse => {
+  return res && typeof res === "object" && "status" in res && "data" in res;
+};
+
 export const usePostPerformance = () => {
   const queryClient = new QueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: (formData: PerformanceFormData) => postPerformance(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [HOME_QUERY_KEY.LIST] });
-      console.log("성공 ~", res);
+      console.log(res);
+
+      if (isPerformanceResponse(res) && res.status === 201) {
+        navigate("/register-complete", {
+          state: { performanceId: res.data.performanceId },
+        });
+      } else {
+        console.error("Unexpected response type", res);
+      }
     },
   });
 };
