@@ -19,9 +19,10 @@ export const Title = styled.h1`
 `;
 
 export const Description = styled.pre`
+  width: 32.7rem;
   ${({ theme }) => theme.fonts["body2-long"]};
   color: ${({ theme }) => theme.colors.white};
-  word-break: break-all;
+  white-space: pre-line;
 `;
 
 export const Divider = styled.div`
