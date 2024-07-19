@@ -25,7 +25,7 @@ const Stepper = ({ round, max, disabled, onMinusClick, onPlusClick }: StepperPro
       </S.StepperBtn>
       <S.StepperNum>{round}</S.StepperNum>
       <S.StepperBtn
-        disabled={max === 1 || disabled}
+        disabled={max === round || disabled}
         onClick={() => {
           setNum((prev) => prev + 1);
           onPlusClick();
