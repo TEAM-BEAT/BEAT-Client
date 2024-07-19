@@ -16,6 +16,7 @@ const LookupCard = ({
   isPaymentCompleted,
   bankName,
   bookerName,
+  accountHolder,
   accountNumber,
   dueDate,
   totalPaymentAmount,
@@ -45,7 +46,7 @@ const LookupCard = ({
         <BankAccount
           bankName={bank}
           number={number}
-          accountName={bookerName}
+          accountName={accountHolder}
           accountNumber={accountNumber}
           // api 추가되면 수정하기
           price={totalPaymentAmount}

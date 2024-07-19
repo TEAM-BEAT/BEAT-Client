@@ -13,6 +13,7 @@ export interface LookupProps {
   bankName: string;
   performanceContact: string;
   accountNumber: string;
+  accountHolder: string;
   dueDate: number;
   isPaymentCompleted: boolean;
   createdAt: string;
