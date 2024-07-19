@@ -1,3 +1,4 @@
+import { IcomCopy } from "@assets/svgs";
 import styled from "styled-components";
 
 export const Wrapper = styled.section`
@@ -57,9 +58,17 @@ export const Contact = styled.p`
   width: 100%;
   padding: 1.2rem 1.2rem 1.2rem 0;
   text-decoration-line: underline;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
   color: ${({ theme }) => theme.colors.white};
 
   ${({ theme }) => theme.fonts["body2-long"]};
   cursor: pointer;
+`;
+
+export const IconCopy = styled(IcomCopy)<{ $width: number; $height: number }>`
+  width: ${({ $width }) => `${$width}px`};
+  height: ${({ $height }) => `${$height}px`};
 `;
