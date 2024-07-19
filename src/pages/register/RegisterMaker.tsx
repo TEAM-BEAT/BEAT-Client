@@ -3,6 +3,7 @@ import RoleLayout from "./components/RoleLayout";
 import * as S from "./Register.styled";
 import { useEffect, useState } from "react";
 import { Cast, Staff } from "./typings/gigInfo";
+import Spacing from "@components/commons/spacing/Spacing";
 
 interface RegisterMakerProps {
   castList: Cast[];
@@ -74,6 +75,9 @@ const RegisterMaker = ({
   return (
     <>
       <S.RegisterContainer>
+        <Spacing marginBottom="1" />
+        <S.InputDescription $warning={true}>*출연진/스태프는 수정불가합니다.</S.InputDescription>
+        <Spacing marginBottom="-1.8" />
         <RoleLayout
           title="출연진"
           list={castList}
