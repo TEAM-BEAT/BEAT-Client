@@ -1,9 +1,9 @@
-import * as S from "./LookupCard.styled";
-import { useNavigate } from "react-router-dom";
-import { LookupProps } from "../types/lookupType";
 import useModal from "@hooks/useModal";
 import BankAccount from "@pages/modalTest/BankAccount";
 import { getBankNameKr } from "@utils/getBankName";
+import { useNavigate } from "react-router-dom";
+import { LookupProps } from "../types/lookupType";
+import * as S from "./LookupCard.styled";
 
 const LookupCard = ({
   createdAt,
@@ -94,9 +94,9 @@ const LookupCard = ({
           <S.SubTitle>입금상태</S.SubTitle>
           <S.DepositLayout>
             {isPaymentCompleted ? (
-              <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
-            ) : (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
+            ) : (
+              <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
             )}
           </S.DepositLayout>
         </S.Context>

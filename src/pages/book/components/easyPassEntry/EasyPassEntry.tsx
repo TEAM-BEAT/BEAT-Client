@@ -1,4 +1,5 @@
 import TextField from "@components/commons/input/textField/TextField";
+import { numericFilter } from "@utils/useInputFilter";
 import React from "react";
 import * as S from "./EasyPassEntry.styled";
 
@@ -17,6 +18,7 @@ const EasyPassEntry = ({ password, passwordCheck, onChangeEasyPassword }: EasyPa
         type="password"
         value={password}
         onChange={onChangeEasyPassword}
+        filter={numericFilter}
         maxLength={4}
         placeholder="숫자 4자리"
       />
@@ -25,6 +27,7 @@ const EasyPassEntry = ({ password, passwordCheck, onChangeEasyPassword }: EasyPa
         type="password"
         value={passwordCheck}
         onChange={onChangeEasyPassword}
+        filter={numericFilter}
         maxLength={4}
         placeholder="한 번 더 입력"
       />

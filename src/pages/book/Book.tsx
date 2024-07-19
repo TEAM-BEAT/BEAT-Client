@@ -219,6 +219,7 @@ const Book = () => {
       {isPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
+        posterImage={data?.posterImage}
         title={data?.performanceTitle ?? ""}
         teamName={data?.performanceTeamName ?? ""}
         venue={data?.performanceVenue ?? ""}

@@ -251,7 +251,7 @@ const ModifyManage = () => {
       });
     } else {
       //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
-      await mutateAsync(Number(performanceId));
+      mutateAsync(Number(performanceId));
       navigate("/gig-manage");
     }
   };
@@ -263,7 +263,7 @@ const ModifyManage = () => {
       okText: "삭제할게요",
       okCallback: () => {
         //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(1, isExist as boolean); //예시로 박아둠
+        handleDeletePerformance(1, isBookerExist as boolean); //예시로 박아둠
       },
       noText: "아니요",
       noCallback: () => {

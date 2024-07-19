@@ -7,19 +7,20 @@ import * as S from "./Info.styled";
 
 interface InfoProps {
   genre: SHOW_TYPE_KEY;
+  posterImage: string;
   title: string;
   teamName: string;
   venue: string;
   period: string;
 }
 
-const Info = ({ genre, title, teamName, venue, period }: InfoProps) => {
+const Info = ({ genre, title, posterImage, teamName, venue, period }: InfoProps) => {
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
 
   return (
     <S.InfoContainer>
       <S.InfoTop>
-        <S.InfoPoster $imgsrc={"src/pages/MyRegisterdShow/constants/silkagel.png"} />
+        <S.InfoPoster $imgsrc={posterImage} />
 
         <S.InfoTextBox>
           <ShowType type={getShowTypeText(genre)} />
