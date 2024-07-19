@@ -66,9 +66,8 @@ const Register = () => {
       openAlert({
         title: "로그인이 필요한 서비스입니다.",
       });
+      handleKakaoLogin("/gig-register");
     }
-
-    handleKakaoLogin("/register");
   }, []);
 
   // gigInfo 초기화
