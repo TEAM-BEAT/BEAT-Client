@@ -2,6 +2,10 @@ import { IcomCopy } from "@assets/svgs";
 import styled from "styled-components";
 
 export const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: calc(100vh - 156px);
   padding: 0 2.4rem 2.4rem;
 `;
