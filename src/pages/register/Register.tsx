@@ -96,18 +96,18 @@ const Register = () => {
       },
     ],
     castList: [
-      {
-        castName: "", // 이름
-        castRole: "", // 역할
-        castPhoto: "", // 출연진 사진 URL
-      },
+      // {
+      // castName: "", // 이름
+      // castRole: "", // 역할
+      // castPhoto: "", // 출연진 사진 URL
+      // },
     ],
     staffList: [
-      {
-        staffName: "", // 이름
-        staffRole: "", // 역할
-        staffPhoto: "", // 스태프 사진 URL
-      },
+      // {
+      // staffName: "", // 이름
+      // staffRole: "", // 역할
+      // staffPhoto: "", // 스태프 사진 URL
+      // },
     ],
   });
 
