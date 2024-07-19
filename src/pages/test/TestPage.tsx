@@ -53,7 +53,7 @@ const TestPage = () => {
       isPaymentCompleted: true,
     };
 
-    mutate(formData);
+    // mutate(formData);
 
     // 비동기의 경우
     // mutateAsync(formData);
