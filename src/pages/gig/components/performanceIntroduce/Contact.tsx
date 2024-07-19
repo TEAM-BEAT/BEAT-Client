@@ -28,8 +28,13 @@ const Contact = ({ contact }: ContactProps) => {
         <S.Title>문의 연락처</S.Title>
         <S.Toggle onClick={handleToggle}>{toggle ? <IconArrowUp /> : <IconArrowDown />}</S.Toggle>
       </S.ContactTitleBox>
-      {toggle && <S.Contact onClick={() => handleCopyClipBoard(contact)}>{contact}</S.Contact>}
-      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+      {toggle && (
+        <S.Contact onClick={() => handleCopyClipBoard(contact)}>
+          {contact}
+          <S.IconCopy $width={24} $height={24} />
+        </S.Contact>
+      )}
+      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={100}>
         클립보드에 복사되었습니다!
       </Toast>
     </S.ContactContainer>
