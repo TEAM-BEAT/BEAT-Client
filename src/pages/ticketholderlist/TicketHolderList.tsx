@@ -1,5 +1,6 @@
 import { useTicketDelete, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
 import Button from "@components/commons/button/Button";
+import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
 import useModal from "@hooks/useModal";
@@ -12,7 +13,6 @@ import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps, RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
-import Loading from "@components/commons/loading/Loading";
 
 const TicketHolderList = () => {
   /*
@@ -221,25 +221,6 @@ const TicketHolderList = () => {
                   <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
                     <S.Circle $detail={detail} />
                   </S.ToggleButton>
-                  {/*detail ? (
-                <>
-                  <S.ToggleText>자세히</S.ToggleText>
-                  <S.ToggleOnIcon
-                    onClick={handleToggleButton}
-                    $width={"5.6rem"}
-                    $height={"3.3rem"}
-                  />
-                </>
-              ) : (
-                <>
-                  <S.ToggleText>간략히</S.ToggleText>
-                  <S.ToggleOffIcon
-                    onClick={handleToggleButton}
-                    $width={"5.6rem"}
-                    $height={"3.3rem"}
-                  />
-                </>
-              )*/}
                 </S.ToggleWrapper>
               </S.LayoutHeaderBox>
               {filteredData?.map((obj, index) => (

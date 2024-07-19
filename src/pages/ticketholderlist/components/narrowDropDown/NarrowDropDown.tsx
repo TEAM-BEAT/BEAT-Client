@@ -113,7 +113,7 @@ const NarrowDropDown = ({
   if (children === "입금 상태" && payment !== undefined) {
     changedChildren = payment ? "입금완료" : "미입금";
   } else if (children === "모든 회차" && schedule !== 0) {
-    changedChildren = `${schedule}차`;
+    changedChildren = `${schedule}회차`;
   }
 
   return (
