@@ -8,24 +8,24 @@ interface Genre {
   id: number;
   genre: SHOW_TYPE_KEY;
   genreKor: string;
-  genreIcon: ComponentType;
+  genreIcon: ComponentType<{ $selected: boolean }>;
 }
 
 export const GENRE_LIST = [
   {
     id: 1,
     genre: "PLAY" as SHOW_TYPE_KEY,
-    genre_kr: "연극/뮤지컬",
+    genreKor: "연극/뮤지컬",
     genreIcon: StyledIcon(IconLargeMusical),
   },
-  { id: 2, genre: "BAND" as SHOW_TYPE_KEY, genre_kr: "밴드", genreIcon: StyledIcon(IconLargeBand) },
+  { id: 2, genre: "BAND" as SHOW_TYPE_KEY, genreKor: "밴드", genreIcon: StyledIcon(IconLargeBand) },
   {
     id: 3,
     genre: "DANCE" as SHOW_TYPE_KEY,
-    genre_kr: "댄스",
+    genreKor: "댄스",
     genreIcon: StyledIcon(IconLargeDance),
   },
-  { id: 4, genre: "ETC" as SHOW_TYPE_KEY, genre_kr: "기타", genreIcon: StyledIcon(IconLargeEtc) },
+  { id: 4, genre: "ETC" as SHOW_TYPE_KEY, genreKor: "기타", genreIcon: StyledIcon(IconLargeEtc) },
 ];
 
 export const GET_MODIFY_MANAGE_RESPONSE: GigInfo = {

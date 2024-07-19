@@ -60,6 +60,10 @@ export const StepperModifyManageBox = styled.section<{ $marginBottom: number }>`
   padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
 `;
 
+export const InputTitleLayout = styled.section`
+  width: 100%;
+`;
+
 export const InputTitleWrapper = styled.div`
   gap: 1rem;
   ${Generators.flexGenerator("row", "center", "start")};
@@ -179,9 +183,10 @@ export const GenreItem = styled.article<{ selected: boolean }>`
 `;
 
 export const StyledIcon = (IconComponent: ComponentType) => styled(IconComponent)<{
-  selected: boolean;
+  $selected: boolean;
 }>`
-  fill: ${({ theme, selected }) => (selected ? theme.colors.main_pink_400 : theme.colors.gray_500)};
+  fill: ${({ theme, $selected }) =>
+    $selected ? theme.colors.main_pink_400 : theme.colors.gray_500};
 `;
 
 export const TimePickerWrapper = styled.section`
