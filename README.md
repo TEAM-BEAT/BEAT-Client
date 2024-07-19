@@ -18,9 +18,15 @@
 </svg>
 <img src="https://github.com/user-attachments/assets/0efee26a-a268-49ea-9ef9-dba61c685695" />
 <img src="https://github.com/user-attachments/assets/54068895-2813-4feb-9bef-8fe5186ae044" />
-<h1>모두를 위한, </br>그래서 대학생을 위한 예매 플랫폼</h1>
+<h1>간편하게 소규모 공연을 등록하고 관리할 수 있는 티켓 예매 플랫폼</h1>
 
 </div>
+
+<h2>💓 핵심 기능</h2>
+<li>공연 등록하기</li>
+<li>공연 예매하기</li>
+<li>공연 관리하기</li>
+<li>예매 조회하기</li>
 
 <h2> 👥 Team </h2>
 
@@ -169,7 +175,7 @@ rename : 파일 혹은 폴더명 변경
 |-- yarn.lock
 ```
 
-<h2>📷 스크린샷</h2>
+<h2>📷 구현 스크린샷</h2>
 <table align="center">
         <tr align="center">
             <th>뷰</th>
@@ -195,10 +201,10 @@ rename : 파일 혹은 폴더명 변경
         </tr>
         <tr>
             <td>관리하기</td>
-            <td><img src="path/to/image9.png" alt="Manage 1"></td>
-            <td><img src="path/to/image10.png" alt="Manage 2"></td>
-            <td><img src="path/to/image11.png" alt="Manage 3"></td>
-            <td><img src="path/to/image12.png" alt="Manage 4"></td>
+            <td><img src="https://github.com/user-attachments/assets/36c00380-337d-4bc5-aeee-d6a4df5c9773" alt="Manage 1"></td>
+            <td><img src="https://github.com/user-attachments/assets/83bb227f-c8a2-4d6b-a2ce-9ee951562204" alt="Manage 2"></td>
+            <td><img src="https://github.com/user-attachments/assets/4b44f238-4b9f-42ff-9eeb-06d08f505ed5" alt="Manage 3"></td>
+            <td><img src="https://github.com/user-attachments/assets/86f52faf-cfab-47f1-a33d-c1f1aaaf7223" alt="Manage 4"></td>
         </tr>
         <tr>
             <td>메인/조회하기</td>
