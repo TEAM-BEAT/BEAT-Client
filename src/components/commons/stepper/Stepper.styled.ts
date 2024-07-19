@@ -18,6 +18,8 @@ export const StepperBtn = styled.button<{ disabled: boolean }>`
   width: 2.4rem;
   height: 2.4rem;
 
+  color: ${({ theme, disabled }) => (disabled ? theme.colors.gray_500 : theme.colors.white)};
+
   cursor: ${({ theme, disabled }) => (disabled ? "not-allowed" : "pointer")};
 
   stroke: ${({ theme, disabled }) => (disabled ? theme.colors.gray_500 : theme.colors.white)};

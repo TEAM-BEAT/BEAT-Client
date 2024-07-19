@@ -58,9 +58,9 @@ export const CardInfoTitleText = styled.span`
   width: 21rem;
   overflow: hidden;
 
-  text-overflow: ellipsis;
-  white-space: nowrap;
   color: ${({ theme }) => theme.colors.white};
+  white-space: nowrap;
+  text-overflow: ellipsis;
   ${({ theme }) => theme.fonts.heading4};
 `;
 

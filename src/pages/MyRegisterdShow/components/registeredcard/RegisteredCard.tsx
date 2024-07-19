@@ -6,11 +6,12 @@ import * as S from "./RegisteredCard.styled";
 
 const RegisteredCard = ({
   param,
+  performanceId,
   performanceTitle,
   performancePeriod,
   genre,
   posterImage,
-}: Omit<RegisteredObjProps, "performanceId">) => {
+}: RegisteredObjProps) => {
   const navigate = useNavigate();
   //공연 수정하기 뷰 연결하고 나면 url 변경해야할 수도 있음
   // 또한, 파라미터를 넘겨서 조회할 수 있도록 url에 파라미터를 추가해야할 수 있음.
@@ -26,9 +27,18 @@ const RegisteredCard = ({
 
   return (
     <S.CardWrapper>
-      <S.CardImg imgsrc={posterImage ?? ""} />
+      <S.CardImg
+        imgsrc={posterImage ?? ""}
+        onClick={() => {
+          navigate(`/gig/${performanceId}`);
+        }}
+      />
       <S.CardInfo>
-        <S.CardInfoTextBox>
+        <S.CardInfoTextBox
+          onClick={() => {
+            navigate(`/gig/${performanceId}`);
+          }}
+        >
           <S.CardInfoTextTitleBox>
             <S.CardInfoGenreText>{getShowTypeText(genre as SHOW_TYPE_KEY)}</S.CardInfoGenreText>
             <S.CardInfoTitleText>{performanceTitle}</S.CardInfoTitleText>

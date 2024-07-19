@@ -65,10 +65,10 @@ const Register = () => {
     if (userObj === null) {
       openAlert({
         title: "로그인이 필요한 서비스입니다.",
+        okCallback: () => navigate("/main"),
       });
+      handleKakaoLogin("/gig-register");
     }
-
-    handleKakaoLogin("/register");
   }, []);
 
   // gigInfo 초기화
@@ -96,18 +96,18 @@ const Register = () => {
       },
     ],
     castList: [
-      {
-        castName: "", // 이름
-        castRole: "", // 역할
-        castPhoto: "", // 출연진 사진 URL
-      },
+      // {
+      // castName: "", // 이름
+      // castRole: "", // 역할
+      // castPhoto: "", // 출연진 사진 URL
+      // },
     ],
     staffList: [
-      {
-        staffName: "", // 이름
-        staffRole: "", // 역할
-        staffPhoto: "", // 스태프 사진 URL
-      },
+      // {
+      // staffName: "", // 이름
+      // staffRole: "", // 역할
+      // staffPhoto: "", // 스태프 사진 URL
+      // },
     ],
   });
 
@@ -363,7 +363,7 @@ const Register = () => {
               value={performanceDescription}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-              maxLength={300}
+              maxLength={250}
             />
           </InputRegisterBox>
           <S.Divider />
@@ -440,7 +440,7 @@ const Register = () => {
               value={performanceAttentionNote}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-              maxLength={300}
+              maxLength={250}
             />
           </InputRegisterBox>
           <S.Divider />
