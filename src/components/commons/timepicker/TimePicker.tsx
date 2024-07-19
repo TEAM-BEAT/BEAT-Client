@@ -3,7 +3,7 @@ import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import * as S from "./TimePicker.styled";
-import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
+import { InputAdornment } from "@mui/material";
 
 export interface TimePickerProps {
   value: Dayjs | null | string;
@@ -20,6 +20,7 @@ const StyledDay = styled(PickersDay)(({ theme }) => ({
 const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps) => {
   const [open, setOpen] = useState(false);
   const [placeholder, setPlaceholder] = useState("");
+
   const handleAccept = (newValue: Dayjs | null) => {
     if (newValue) {
       onChangeValue(newValue);
@@ -36,11 +37,13 @@ const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps
       disablePast
       disabled={disabled}
       showDaysOutsideCurrentMonth
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
       closeOnSelect={false}
       format={"YYYY/MM/DD\t     HH:mm"}
       slots={{
         day: StyledDay,
-
         openPickerIcon: (props) => <S.CustomOpenPicker $open={open} />,
       }}
       value={value ? dayjs(new Date(value as string)) : null}
@@ -50,6 +53,14 @@ const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps
         textField: {
           placeholder,
           inputProps: { readOnly: true },
+          onClick: () => setOpen(true),
+          InputProps: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <S.CustomOpenPicker $open={open} />
+              </InputAdornment>
+            ),
+          },
         },
         popper: {
           sx: {
@@ -137,8 +148,6 @@ const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps
           },
         },
       }}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
     />
   );
 };
