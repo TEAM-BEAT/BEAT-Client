@@ -95,6 +95,7 @@ const MyRegisterdShow = () => {
                 {showList?.map((item: RegisteredObjProps, index: number) => (
                   <RegisteredCard
                     key={item.performanceId}
+                    performanceId={item.performanceId}
                     performanceTitle={item.performanceTitle}
                     performancePeriod={item.performancePeriod}
                     genre={item.genre}

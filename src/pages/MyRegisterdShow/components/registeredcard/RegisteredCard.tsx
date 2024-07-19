@@ -6,6 +6,7 @@ import * as S from "./RegisteredCard.styled";
 
 const RegisteredCard = ({
   param,
+  performanceId,
   performanceTitle,
   performancePeriod,
   genre,
@@ -26,9 +27,18 @@ const RegisteredCard = ({
 
   return (
     <S.CardWrapper>
-      <S.CardImg imgsrc={posterImage ?? ""} />
+      <S.CardImg
+        imgsrc={posterImage ?? ""}
+        onClick={() => {
+          navigate(`/gig/${performanceId}`);
+        }}
+      />
       <S.CardInfo>
-        <S.CardInfoTextBox>
+        <S.CardInfoTextBox
+          onClick={() => {
+            navigate(`/gig/${performanceId}`);
+          }}
+        >
           <S.CardInfoTextTitleBox>
             <S.CardInfoGenreText>{getShowTypeText(genre as SHOW_TYPE_KEY)}</S.CardInfoGenreText>
             <S.CardInfoTitleText>{performanceTitle}</S.CardInfoTitleText>
