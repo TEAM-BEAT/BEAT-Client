@@ -82,7 +82,6 @@ export type PerformanceUpdateResponse = components["schemas"]["PerformanceUpdate
 export const updatePerformance = async (
   formData
 ): Promise<PerformanceUpdateResponse | null | any> => {
-  console.log(formData);
   try {
     const response = await put("/performances", formData);
 

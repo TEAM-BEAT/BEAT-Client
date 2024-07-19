@@ -3,6 +3,7 @@ import Button from "@components/commons/button/Button";
 import Toast from "@components/commons/toast/Toast";
 import useModal from "@hooks/useModal";
 import useToast from "@hooks/useToast";
+import { getBankNameKr } from "@utils/getBankName";
 import styled from "styled-components";
 
 interface BankNumberProps {
@@ -24,7 +25,7 @@ const BankAccount = ({ bankName, number, accountName, accountNumber, price }: Ba
 
   const handleDepositClick = () => {
     window.open(
-      `supertoss://send?bank=${bankName}&accountNo=${accountNumber}&origin=linkgen&amount=${price}`
+      `supertoss://send?bank=${getBankNameKr(bankName)}&accountNo=${accountNumber}&origin=linkgen&amount=${price}`
     );
   };
 
