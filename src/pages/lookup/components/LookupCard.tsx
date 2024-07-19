@@ -16,7 +16,6 @@ const LookupCard = ({
   isPaymentCompleted,
   bankName,
   bookerName,
-  performanceContact,
   accountNumber,
   dueDate,
   totalPaymentAmount,
