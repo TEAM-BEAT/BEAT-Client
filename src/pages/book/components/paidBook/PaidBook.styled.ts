@@ -42,6 +42,7 @@ export const GigText = styled.p`
 `;
 
 export const DepositContainer = styled.section`
+  width: 100%;
   padding: 20px 16px;
 
   background: ${({ theme }) => theme.colors.gray_800};
