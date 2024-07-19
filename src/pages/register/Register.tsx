@@ -43,9 +43,14 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
+import useLogin from "@hooks/useLogin";
+import { useAtom } from "jotai";
+import { navigateAtom } from "@stores/navigate";
+import { requestKakaoLogin } from "@utils/kakaoLogin";
 
 const Register = () => {
-  const [registerStep, setRegisterStep] = useState(2); // 등록 step 나누기
+  const { isLogin } = useLogin();
+  const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
   const { openConfirm } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
@@ -287,6 +292,16 @@ const Register = () => {
       leftOnClick: handleLeftBtn,
     });
   }, [setHeader, registerStep]);
+
+  const [, setNavigateUrl] = useAtom(navigateAtom);
+  const handleKakaoLogin = (url: string) => {
+    setNavigateUrl(url);
+    requestKakaoLogin();
+  };
+
+  if (!isLogin) {
+    handleKakaoLogin("/main");
+  }
 
   if (registerStep === 1) {
     return (
