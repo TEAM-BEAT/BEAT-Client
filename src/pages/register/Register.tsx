@@ -45,7 +45,7 @@ import {
 } from "./utils/handleEvent";
 
 const Register = () => {
-  const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
+  const [registerStep, setRegisterStep] = useState(2); // 등록 step 나누기
   const { openConfirm } = useModal();
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
