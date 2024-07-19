@@ -3,8 +3,10 @@ import { IconCheck } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Spacing from "@components/commons/spacing/Spacing";
 import Toast from "@components/commons/toast/Toast";
+import useModal from "@hooks/useModal";
 import useToast from "@hooks/useToast";
 import { getBankNameKr } from "@utils/getBankName";
+import { getDeviceType } from "@utils/getDeviceType";
 import Lottie from "react-lottie-player";
 import * as S from "./PaidBook.styled";
 
@@ -28,6 +30,8 @@ const PaidBook = ({
   handleLookup,
 }: PaidBookProps) => {
   const { showToast, isToastVisible } = useToast();
+  const { openAlert } = useModal();
+  const deviceType = getDeviceType();
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -36,9 +40,15 @@ const PaidBook = ({
   };
 
   const handleDepositClick = () => {
-    window.open(
-      `supertoss://send?bank=${getBankNameKr(bankName)}&accountNo=${accountNumber}&origin=linkgen&amount=${totalPaymentAmount}`
-    );
+    if (deviceType === "Android" || deviceType === "iOS") {
+      window.open(
+        `supertoss://send?bank=${getBankNameKr(bankName)}&accountNo=${accountNumber}&origin=linkgen&amount=${totalPaymentAmount}`
+      );
+    } else {
+      openAlert({
+        title: "모바일 기기에서 결제를 진행해주세요.",
+      });
+    }
   };
 
   return (
