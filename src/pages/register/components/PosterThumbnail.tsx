@@ -43,6 +43,7 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
     <S.InputRegisterBox $marginBottom={2.8}>
       <S.InputTitle>포스터 썸네일</S.InputTitle>
       <S.InputDescription>한 장만 등록 가능합니다.</S.InputDescription>
+      <S.InputDescription $warning={true}>*포스터 썸네일은 수정불가합니다.</S.InputDescription>
       <Spacing marginBottom="1.4" />
       <S.FileInputWrapper>
         <S.HiddenFileInput key={inputKey} type="file" id="file" onChange={uploadFile} />
