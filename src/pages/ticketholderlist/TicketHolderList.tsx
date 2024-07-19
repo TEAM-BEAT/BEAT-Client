@@ -1,9 +1,12 @@
 import { useTicketDelete, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
+import { IconCheck } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Loading from "@components/commons/loading/Loading";
+import Toast from "@components/commons/toast/Toast";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
 import useModal from "@hooks/useModal";
+import useToast from "@hooks/useToast";
 import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -36,6 +39,7 @@ const TicketHolderList = () => {
 
   const { data, isLoading } = useTicketRetrive({ performanceId: Number(performanceId) });
   const [responseData, setResponseData] = useState<BookingListProps[]>();
+  const { showToast, isToastVisible } = useToast();
 
   useEffect(() => {
     setResponseData(data?.bookingList ?? []);
@@ -57,6 +61,7 @@ const TicketHolderList = () => {
       bookingList: responseData,
     });
     closeConfirm();
+    showToast();
   };
   const handleFixSaveBtn = () => {
     openConfirm({
@@ -245,10 +250,17 @@ const TicketHolderList = () => {
                   <Button onClick={handleDeleteBtn}>삭제</Button>
                 </S.FooterButtonWrapper>
               ) : (
-                <S.FooterButtonWrapper $isPaymentFixButton={true}>
-                  <S.FooterButtonText>저장 후, 입금 상태 재변경은 불가능합니다.</S.FooterButtonText>
-                  <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
-                </S.FooterButtonWrapper>
+                <>
+                  <S.FooterButtonWrapper $isPaymentFixButton={true}>
+                    <S.FooterButtonText>
+                      저장 후, 입금 상태 재변경은 불가능합니다.
+                    </S.FooterButtonText>
+                    <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
+                  </S.FooterButtonWrapper>
+                  <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={17}>
+                    예매 확정 WEB 발신 문자가 전송되었습니다.
+                  </Toast>
+                </>
               )}
             </S.BodyLayout>
           </S.BodyWrapper>
