@@ -43,14 +43,14 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
       <S.InputDescription>한 장만 등록 가능합니다.</S.InputDescription>
       <Spacing marginBottom="1.4" />
       <S.FileInputWrapper>
-        <S.HiddenFileInput type="file" id="file" onChange={uploadFile} />
+        <S.HiddenFileInput type="file" id="file" disabled={true} onChange={uploadFile} />
         <S.CustomFileInput htmlFor="file">
           <IconCamera width={"3.2rem"} />
         </S.CustomFileInput>
         {previewImg && (
           <S.PreviewImageWrapper>
             <S.PreviewImage src={previewImg} alt="Preview" />
-            <S.RemoveImageButton onClick={removeImage} />
+            {/* <S.RemoveImageButton onClick={removeImage} /> */}
           </S.PreviewImageWrapper>
         )}
       </S.FileInputWrapper>
