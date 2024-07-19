@@ -16,8 +16,9 @@
 </clipPath>
 </defs>
 </svg>
-
-<div>모두를 위한, </br>그래서 대학생을 위한 예매 플랫폼</div>
+<img src="https://github.com/user-attachments/assets/0efee26a-a268-49ea-9ef9-dba61c685695" />
+<img src="https://github.com/user-attachments/assets/54068895-2813-4feb-9bef-8fe5186ae044" />
+<h1>모두를 위한, </br>그래서 대학생을 위한 예매 플랫폼</h1>
 
 </div>
 
@@ -179,17 +180,18 @@ rename : 파일 혹은 폴더명 변경
         </tr>
         <tr>
             <td>예매하기</td>
-            <td><img src="path/to/image1.png" alt="Book 1"></td>
-            <td><img src="path/to/image2.png" alt="Book 2"></td>
-            <td><img src="path/to/image3.png" alt="Book 3"></td>
-            <td><img src="path/to/image4.png" alt="Book 4"></td>
+            <td><img width="277" alt="image" src="https://github.com/user-attachments/assets/38492824-314b-4734-8d84-17319c19e6db"></td>
+            <td><img width="277" alt="image" src="https://github.com/user-attachments/assets/eae8e73d-da98-4581-8c96-6cc70319251b"></td>
+            <td><img width="281" alt="image" src="https://github.com/user-attachments/assets/ae4fdc84-5141-43c4-91ab-2835005f5676">
+</td>
+            <td><img width="308" alt="image" src="https://github.com/user-attachments/assets/8128410e-f227-4944-a165-ed3c1e11883c"></td>
         </tr>
         <tr>
             <td>등록하기</td>
-            <td><img src="path/to/image5.png" alt="Register 1"></td>
-            <td><img src="path/to/image6.png" alt="Register 2"></td>
-            <td><img src="path/to/image7.png" alt="Register 3"></td>
-            <td><img src="path/to/image8.png" alt="Register 4"></td>
+            <td><img width="278" alt="image" src="https://github.com/user-attachments/assets/174c165e-a9a8-492e-b3d0-2267f6268dd4"></td>
+            <td><img width="283" alt="image" src="https://github.com/user-attachments/assets/3e2383da-ae73-4b43-bf66-de1a36554dac"></td>
+            <td><img width="281" alt="image" src="https://github.com/user-attachments/assets/77edf936-0bc8-4af5-9658-eba3ae5241de"></td>
+            <td><img width="239" alt="image" src="https://github.com/user-attachments/assets/1f15a6cd-331b-4c4c-9a0e-9eb7d5e0c921"></td>
         </tr>
         <tr>
             <td>관리하기</td>
@@ -200,10 +202,10 @@ rename : 파일 혹은 폴더명 변경
         </tr>
         <tr>
             <td>메인/조회하기</td>
-            <td><img src="path/to/image13.png" alt="Look up 1"></td>
-            <td><img src="path/to/image14.png" alt="Look up 2"></td>
-            <td><img src="path/to/image15.png" alt="Look up 3"></td>
-            <td><img src="path/to/image16.png" alt="Look up 4"></td>
+            <td><img width="280" alt="image" src="https://github.com/user-attachments/assets/22a9e216-9fdb-4a17-832b-eac7822b9833"></td>
+            <td><img width="275" alt="image" src="https://github.com/user-attachments/assets/7b62ad05-fa93-4f34-8675-ff10e4315b27"></td>
+            <td><img width="284" alt="image" src="https://github.com/user-attachments/assets/60ecea4a-0377-47a8-ae17-29eae1e38b45"></td>
+            <td><img width="276" alt="image" src="https://github.com/user-attachments/assets/facf500a-1f88-4d8a-b5b4-b4a67babc757"></td>
         </tr>
     </table>
 
