@@ -22,7 +22,9 @@ export const useGetPerformanceDetail = (performanceId: number) => {
   return useQuery({
     queryKey: [PERFORMANCE_QUERY_KEY.DETAIL, performanceId],
     queryFn: () => getPerformanceDetail(performanceId),
-    staleTime: 1000 * 60 * 60,
+    // staleTime: 1000 * 60 * 60,
+
+    staleTime: 0,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
@@ -32,7 +34,9 @@ export const useGetBookingPerformanceDetail = (performanceId: number) => {
   return useQuery({
     queryKey: [PERFORMANCE_QUERY_KEY.BOOKING_DETAIL, performanceId],
     queryFn: () => getBookingPerformanceDetail(performanceId),
-    staleTime: 1000 * 60 * 60,
+    // staleTime: 1000 * 60 * 60,
+
+    staleTime: 0,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
