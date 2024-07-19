@@ -189,12 +189,11 @@ const Register = () => {
           bankName: bankInfo ? bankInfo : "NONE",
         };
 
-        console.log("formData:", formData);
-        // try {
-        //   await postPerformance(formData);
-        // } catch (err) {
-        //   console.error("공연 등록 중 오류 발생:", err);
-        // }
+        try {
+          await postPerformance(formData);
+        } catch (err) {
+          console.error("공연 등록 중 오류 발생:", err);
+        }
       } catch (err) {
         console.error("파일 업로드 중 오류 발생:", err);
       }
