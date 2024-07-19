@@ -57,11 +57,6 @@ export const InputRegisterBox = styled.section<{ $marginBottom: number }>`
 
 export const StepperRegisterBox = styled.section<{ $marginBottom: number }>`
   ${Generators.flexGenerator("row", "center", "space-between")}
-  padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
-`;
-
-export const InputTitleLayout = styled.section`
-  width: 100%;
 `;
 
 export const InputTitleWrapper = styled.div`
