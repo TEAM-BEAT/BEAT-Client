@@ -1,4 +1,5 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import { BANK_TYPE, Cast, Staff } from "@pages/modifyManage/typings/gigInfo";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import {
   getPerformanceDetail,
   getScheduleAvailable,
   postPerformance,
+  updatePerformance,
 } from "./api";
 
 export const PERFORMANCE_QUERY_KEY = {
@@ -112,6 +114,66 @@ export const usePostPerformance = () => {
       } else {
         console.error("Unexpected response type", res);
       }
+    },
+  });
+};
+
+interface Schedule {
+  scheduleId?: number;
+  performanceDate: string | Dayjs;
+  totalTicketCount?: number;
+  scheduleNumber?: string;
+}
+
+// gigInfo 타입 정의 예제
+export interface PerformanceUpdateFormData {
+  accountHolder: string;
+  performanceId: number;
+  performanceTitle: string;
+  genre: SHOW_TYPE_KEY;
+  runningTime: number | null;
+  performanceDescription: string;
+  performanceAttentionNote: string;
+  bankName: BANK_TYPE;
+  accountNumber: string;
+  posterImage: string;
+  performanceTeamName: string;
+  performanceVenue: string;
+  performanceContact: string;
+  performancePeriod: string;
+  ticketPrice?: number | null;
+  totalScheduleCount: number;
+  scheduleList: Schedule[];
+  castList: Cast[];
+  staffList: Staff[];
+}
+
+export const useUpdatePerformance = () => {
+  const queryClient = new QueryClient();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: (formData: PerformanceUpdateFormData) => updatePerformance(formData),
+    onSuccess: (res) => {
+      // TODO: useGetPerformanceDetail 키 수정
+
+      queryClient.invalidateQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.BOOKING_DETAIL, res.data.performanceId],
+      });
+
+      queryClient.refetchQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
+        exact: true,
+      });
+
+      queryClient.refetchQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.BOOKING_DETAIL, res.data.performanceId],
+        exact: true,
+      });
     },
   });
 };

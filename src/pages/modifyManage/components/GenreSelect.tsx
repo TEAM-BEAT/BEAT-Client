@@ -7,7 +7,7 @@ interface Genre {
   id: number;
   genre: SHOW_TYPE_KEY;
   genreKor: string;
-  genreIcon: ComponentType;
+  genreIcon: ComponentType<{ $selected: boolean }>;
 }
 interface GenreSelectProps {
   title: string;
@@ -30,14 +30,13 @@ const GenreSelect = ({
       <Spacing marginBottom={"1.4"} />
       <S.GenreContainer>
         {genres.map((genre) => {
-          const GenreIcon = S.StyledIcon(genre.genreIcon);
           return (
             <S.GenreItem
               key={genre.id}
               onClick={() => onGenreSelect(genre.genre)}
               selected={selectedGenre === genre.genre}
             >
-              <GenreIcon selected={selectedGenre === genre.genre} />
+              <genre.genreIcon $selected={selectedGenre === genre.genre} />
               {genre.genreKor}
             </S.GenreItem>
           );

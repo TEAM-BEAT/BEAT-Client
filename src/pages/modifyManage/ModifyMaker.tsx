@@ -1,9 +1,9 @@
 import Button from "@components/commons/button/Button";
+import Spacing from "@components/commons/spacing/Spacing";
 import { useEffect, useState } from "react";
 import RoleLayout from "./components/RoleLayout";
 import * as S from "./ModifyManage.styled";
 import { Cast, Staff } from "./typings/gigInfo";
-
 interface ModifyManageMakerProps {
   castList: Cast[];
   staffList: Staff[];
@@ -63,11 +63,9 @@ const ModifyManageMaker = ({
     const filteredCastList = castList.filter(
       (cast) => cast.castName || cast.castRole || cast.castPhoto
     );
-    console.log("필터캐스트:", filteredCastList);
     const filteredStaffList = staffList.filter(
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
-    console.log("필터스태프:", filteredStaffList);
 
     updateGigInfo({ castList: filteredCastList, staffList: filteredStaffList });
     handleModifyManageStep();
@@ -76,6 +74,9 @@ const ModifyManageMaker = ({
   return (
     <>
       <S.ModifyManageContainer>
+        <Spacing marginBottom="1" />
+        <S.InputDescription $warning={true}>*출연진/스태프는 수정불가합니다.</S.InputDescription>
+        <Spacing marginBottom="-1.8" />
         <RoleLayout
           title="출연진"
           list={castList}

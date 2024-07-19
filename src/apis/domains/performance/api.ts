@@ -1,4 +1,4 @@
-import { get, post } from "@apis/index";
+import { get, post, put } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import axios, { AxiosResponse } from "axios";
@@ -68,6 +68,23 @@ export type PerformanceResponse = components["schemas"]["PerformanceResponse"];
 export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
   try {
     const response = await post("/performances", formData);
+
+    return response.data;
+  } catch (error) {
+    console.error("error", error);
+
+    return null;
+  }
+};
+
+export type PerformanceUpdateResponse = components["schemas"]["PerformanceUpdateResponse"];
+
+export const updatePerformance = async (
+  formData
+): Promise<PerformanceUpdateResponse | null | any> => {
+  console.log(formData);
+  try {
+    const response = await put("/performances", formData);
 
     return response.data;
   } catch (error) {
