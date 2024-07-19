@@ -56,7 +56,7 @@ export const Toggle = styled.span`
 export const Contact = styled.p`
   width: 100%;
   padding: 1.2rem 1.2rem 1.2rem 0;
-  text-decoration-line: underline;
+  text-decoration-line: none;
 
   color: ${({ theme }) => theme.colors.white};
 
