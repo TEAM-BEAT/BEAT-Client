@@ -119,6 +119,13 @@ const ModifyManage = () => {
 
   //여기서 공연 수정하기 PUT 요청 보내야함
   const handleComplete = async () => {
+    const filteredCastList = castList.filter(
+      (cast) => cast.castName || cast.castRole || cast.castPhoto
+    );
+    const filteredStaffList = staffList.filter(
+      (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
+    );
+
     const formData = {
       performanceId: Number(performanceId),
       performanceTitle,
@@ -135,8 +142,8 @@ const ModifyManage = () => {
       ticketPrice,
       totalScheduleCount,
       scheduleList,
-      castList,
-      staffList,
+      castList: filteredCastList,
+      staffList: filteredStaffList,
       bankName: (!!bankName ? bankName : "NONE") as BANK_TYPE,
       isBookerExist,
       accountHolder,
