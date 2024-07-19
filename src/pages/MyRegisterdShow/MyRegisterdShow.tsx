@@ -15,9 +15,7 @@ const MyRegisterdShow = () => {
 
   //추후 공연등록하기 주소(채현) 나오면 변경 예정
   const handleBackBtn = () => {
-    //navigate(-1);
-    const url = "/main";
-    window.location.assign(url);
+    navigate("/main");
   };
 
   //모든 페이지 컴포넌트는 반드시 헤더 설정하기 + useEffect, NAVIGATION_STATE 사용하기

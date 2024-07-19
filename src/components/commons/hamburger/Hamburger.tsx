@@ -80,8 +80,8 @@ const Hamburger = () => {
               <S.NavigateBtnWrapper>
                 <S.NavigateBtn
                   onClick={() => {
-                    // navigate("/gig-manage");
-                    window.location.assign("/gig-manage");
+                    navigate("/gig-manage");
+                    // window.location.assign("/gig-manage");
                     closeHamburger();
                   }}
                 >
@@ -91,6 +91,8 @@ const Hamburger = () => {
                 <S.NavigateBtn
                   onClick={() => {
                     navigate("/lookup");
+                    // const url = "/lookup";
+                    // window.location.assign(url);
                     closeHamburger();
                   }}
                 >

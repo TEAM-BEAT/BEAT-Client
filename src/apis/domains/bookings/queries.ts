@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   MemberBookingRequest,
   postGuestBook,
@@ -9,51 +9,69 @@ import {
   GuestBookingRequest,
 } from "./api";
 
-export const QUERY_KEY = {
-  LIST: "list",
+export const BOOKING_QUERY_KEY = {
+  BOOKING: "booking",
+  BOOKING_LIST: "bookingList",
 };
 
-// 2. 쿼리 작성
+// 비회원 예매
 export const useGuestBook = () => {
-  const queryClient = new QueryClient();
-
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (formData: GuestBookingRequest) => postGuestBook(formData), // API 요청 함수
+    mutationFn: (formData: GuestBookingRequest) => postGuestBook(formData),
     onSuccess: (res) => {
-      // 성공 시, 호출
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST] });
+      queryClient.refetchQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING], exact: true });
+      queryClient.refetchQueries({
+        queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST],
+        exact: true,
+      });
     },
   });
 };
 
+// 비회원 예매 목록 조회
 export const usePostGuestBookingList = () => {
   const queryClient = new QueryClient();
 
   return useMutation({
     mutationFn: (formData: postGuestBookingReq) => postGuestBookingList(formData),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST] });
+      queryClient.refetchQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING], exact: true });
+      queryClient.refetchQueries({
+        queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST],
+        exact: true,
+      });
     },
   });
 };
 
+// 회원 예매 조회
 export const useGetMemberBookingList = () => {
   return useQuery({
-    queryKey: [QUERY_KEY.LIST],
+    queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST],
     queryFn: () => getMemberBookingList(),
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
 
+// 회원 예매
 export const useMemberBook = () => {
-  const queryClient = new QueryClient();
-
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (formData: MemberBookingRequest) => postMemberBook(formData), // API 요청 함수
+    mutationFn: (formData: MemberBookingRequest) => postMemberBook(formData),
     onSuccess: (res) => {
-      // 성공 시, 호출
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST] });
+      queryClient.refetchQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING], exact: true });
+      queryClient.refetchQueries({
+        queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST],
+        exact: true,
+      });
     },
   });
 };
