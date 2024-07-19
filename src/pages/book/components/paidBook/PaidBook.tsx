@@ -37,7 +37,7 @@ const PaidBook = ({
 
   const handleDepositClick = () => {
     window.open(
-      `supertoss://send?bank=${bankName}&accountNo=${accountNumber}&origin=linkgen&amount=${totalPaymentAmount}`
+      `supertoss://send?bank=${getBankNameKr(bankName)}&accountNo=${accountNumber}&origin=linkgen&amount=${totalPaymentAmount}`
     );
   };
 
