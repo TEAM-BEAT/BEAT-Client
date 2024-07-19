@@ -13,7 +13,6 @@ import ModalTest from "@pages/modalTest/ModalTest";
 import ModifyManage from "@pages/modifyManage/ModifyManage";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
-import Redirect from "@pages/redirect/Redirect";
 import Register from "@pages/register/Register";
 import RegisterComplete from "@pages/register/RegisterComplete";
 import TestPage from "@pages/test/TestPage";
