@@ -138,7 +138,7 @@ const ModifyManage = () => {
       scheduleList,
       castList,
       staffList,
-      bankName: (bankName ?? "NONE") as BANK_TYPE,
+      bankName: (!!bankName ? bankName : "NONE") as BANK_TYPE,
       isBookerExist,
       accountHolder,
     };
@@ -182,7 +182,9 @@ const ModifyManage = () => {
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
   useEffect(() => {
     if (isFree) {
-      setTicketPrice(0), setAccountNumber(""), setBankName("");
+      setTicketPrice(0);
+      setAccountNumber("");
+      setBankName("");
     }
   }, [isFree]);
 
@@ -218,6 +220,19 @@ const ModifyManage = () => {
     } else {
       setModifyManageStep((prev) => prev - 1);
     }
+  };
+
+  const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    console.log(value);
+
+    let numericValue = parseInt(value.replace(/,/g, ""), 10);
+
+    if (isNaN(numericValue)) {
+      numericValue = undefined;
+    }
+
+    setTicketPrice(numericValue);
   };
 
   const { mutate, mutateAsync } = usePerformanceDelete();
@@ -271,7 +286,6 @@ const ModifyManage = () => {
       rightOnClick: handleRightBtn,
     });
   }, [setHeader, ModifyManageStep]);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -348,18 +362,23 @@ const ModifyManage = () => {
               <Stepper
                 max={3}
                 round={totalScheduleCount as number}
+                disabled={true}
                 onMinusClick={() => setTotalScheduleCount((prev) => prev - 1)}
                 onPlusClick={() => setTotalScheduleCount((prev) => prev + 1)}
               />
             </StepperModifyManageBox>
             <S.Divider />
-            <TimePickerModifyManageBox title="회차별 시간대">
+            <TimePickerModifyManageBox
+              title="회차별 시간대"
+              description="*회차별 시간대는 수정불가합니다."
+            >
               {scheduleList?.map((schedule, index) => (
                 <div key={index}>
                   <S.InputDescription>{index + 1}회차</S.InputDescription>
                   <Spacing marginBottom={"1"} />
                   <TimePicker
                     value={dayjs(schedule.performanceDate)}
+                    disabled={true}
                     onChangeValue={(date) => {
                       const updatedSchedules = [...scheduleList];
                       updatedSchedules[index].performanceDate = date;
@@ -421,8 +440,8 @@ const ModifyManage = () => {
                 isDisabled={isExist}
                 type="input"
                 name="ticketPrice"
-                value={ticketPrice ?? ""}
-                onChange={(e) => setTicketPrice(parseInt(e.target.value, 10))}
+                value={ticketPrice !== undefined ? priceFilter(ticketPrice.toString()) : ""}
+                onChange={handlePriceChange}
                 placeholder="가격을 입력해주세요."
                 filter={priceFilter}
                 disabled={isFree || isExist}
