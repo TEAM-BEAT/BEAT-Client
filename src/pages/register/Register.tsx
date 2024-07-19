@@ -133,6 +133,7 @@ const Register = () => {
   const { data, refetch } = useGetPresignedUrl(params);
   const { mutate } = usePutS3Upload();
   const { mutateAsync: postPerformance } = usePostPerformance();
+  console.log(gigInfo);
 
   const handleComplete = async () => {
     const { data, isSuccess } = await refetch();
@@ -157,7 +158,6 @@ const Register = () => {
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
       ];
-
       try {
         const res = await Promise.all(
           S3Urls.map(async (url, index) => {
@@ -189,11 +189,12 @@ const Register = () => {
           bankName: bankInfo ? bankInfo : "NONE",
         };
 
-        try {
-          await postPerformance(formData);
-        } catch (err) {
-          console.error("공연 등록 중 오류 발생:", err);
-        }
+        console.log("formData:", formData);
+        // try {
+        //   await postPerformance(formData);
+        // } catch (err) {
+        //   console.error("공연 등록 중 오류 발생:", err);
+        // }
       } catch (err) {
         console.error("파일 업로드 중 오류 발생:", err);
       }
@@ -246,6 +247,19 @@ const Register = () => {
   };
 
   const { setHeader } = useHeader();
+
+  // 티켓 수량이 동일하게 적용
+  useEffect(() => {
+    const updatedScheduleList = Array.from({ length: gigInfo.totalScheduleCount }, (_, index) => {
+      const existingSchedule = gigInfo.scheduleList[index];
+      const totalTicketCount = gigInfo.scheduleList[0]?.totalTicketCount || null;
+      return { ...existingSchedule, totalTicketCount };
+    });
+    setGigInfo((prev) => ({
+      ...prev,
+      scheduleList: updatedScheduleList,
+    }));
+  }, [gigInfo.totalScheduleCount]);
 
   const handleLeftBtn = () => {
     if (registerStep === 1) {
