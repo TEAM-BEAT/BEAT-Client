@@ -84,10 +84,11 @@ export const ToggleOffIcon = styled(IconToggleOff)<{ $width: string; $height: st
 `;
 
 export const FooterButtonText = styled.span`
+  padding: 2.4rem 0;
+
   color: ${({ theme }) => theme.colors.gray_200};
   text-align: center;
   ${({ theme }) => theme.fonts["body2-normal-semi"]};
-  padding: 2.4rem 0;
 `;
 
 export const FooterButtonWrapper = styled.div<{ $isPaymentFixButton?: boolean }>`
