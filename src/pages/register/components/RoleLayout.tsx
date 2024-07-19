@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import * as S from "../Register.styled";
 import { Cast, Staff } from "../typings/gigInfo";
 import RoleWrapper from "./RoleWrapper";
+import { IconRoleAdd } from "@assets/svgs";
 
 interface Role {
   id: number;
@@ -83,9 +84,9 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
             onUpdateRole={handleUpdateRole}
           />
         ))}
-        {/* <S.RoleAddBtn onClick={handelAddRole}>
+        <S.RoleAddBtn onClick={handelAddRole}>
           <IconRoleAdd width={"3.2rem"} />
-        </S.RoleAddBtn> */}
+        </S.RoleAddBtn>
       </S.RoleListWrapper>
     </S.InputRegisterBox>
   );
