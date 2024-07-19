@@ -15,13 +15,11 @@ const RegisteredCard = ({
   //공연 수정하기 뷰 연결하고 나면 url 변경해야할 수도 있음
   // 또한, 파라미터를 넘겨서 조회할 수 있도록 url에 파라미터를 추가해야할 수 있음.
   const handleModifiyBtn = () => {
-    const url = `/gig-modify-manage/${param}`;
-    window.location.assign(url);
+    navigate(`/gig-modify-manage/${param}`);
   };
 
   const handleGuestListBtn = () => {
-    const url = `/guest-manage/${param}`;
-    window.location.assign(url);
+    navigate(`/guest-manage/${param}`);
   };
 
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];

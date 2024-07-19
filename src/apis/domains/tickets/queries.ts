@@ -7,6 +7,9 @@ import {
   putTicketUpdate,
   TicketUpdateRequest,
 } from "./api";
+
+import { BOOKING_QUERY_KEY } from "../bookings/queries";
+
 // 예매자 목록 조회 API (GET)를 위한 쿼리 작성
 const QUERY_KEY = {
   LIST: "list",
@@ -14,7 +17,7 @@ const QUERY_KEY = {
 
 export const useTicketRetrive = (formData: getTicketReq) => {
   return useQuery({
-    queryKey: [QUERY_KEY.LIST],
+    queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST],
     queryFn: () => getTicketRetrieve(formData),
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
@@ -28,7 +31,7 @@ export const useTicketUpdate = () => {
   return useMutation({
     mutationFn: (formData: TicketUpdateRequest) => putTicketUpdate(formData),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
     },
   });
 };
@@ -40,7 +43,7 @@ export const useTicketDelete = () => {
   return useMutation({
     mutationFn: (formData: DeleteFormDataProps) => deleteTicketDelete(formData),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
     },
   });
 };

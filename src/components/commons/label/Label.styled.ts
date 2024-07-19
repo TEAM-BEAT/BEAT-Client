@@ -14,8 +14,9 @@ export const CountLabel = styled(Subtract)`
 
 export const CountDueDate = styled.div`
   position: absolute;
+  left: 0.6rem;
   width: 3.6rem;
-  margin: 1.3rem 0 0 ;
+  margin: 1.3rem 0 0;
 
   color: ${({ theme }) => theme.colors.pink_400};
 

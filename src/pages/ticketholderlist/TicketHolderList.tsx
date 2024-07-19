@@ -98,8 +98,7 @@ const TicketHolderList = () => {
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
-    const url = "/gig-manage";
-    window.location.assign(url);
+    navigate("/gig-manage");
   };
 
   const handleLeftButton = () => {
