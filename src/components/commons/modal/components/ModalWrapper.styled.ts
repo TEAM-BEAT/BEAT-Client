@@ -18,7 +18,7 @@ export const ModalContainer = styled.div`
   z-index: 30;
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
+  gap: 2rem;
   width: 31.1rem;
   padding: 3.2rem 1.6rem 1.6rem;
 
@@ -29,7 +29,7 @@ export const ModalContainer = styled.div`
 export const ModalTextWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 0.6rem;
   align-items: center;
 `;
 

@@ -17,10 +17,13 @@ const StepperRegisterBox = ({
 }: StepperRegisterBoxProps) => {
   return (
     <S.StepperRegisterBox $marginBottom={marginBottom}>
-      <S.InputTitleWrapper>
-        <S.InputTitle>{title}</S.InputTitle>
-        <S.StepperDiscription>{description}</S.StepperDiscription>
-      </S.InputTitleWrapper>
+      <S.InputTitleLayout>
+        <S.InputTitleWrapper>
+          <S.InputTitle>{title}</S.InputTitle>
+          <S.StepperDiscription>{description}</S.StepperDiscription>
+        </S.InputTitleWrapper>
+        <S.InputDescription $warning={true}>*회차 수는 수정불가합니다.</S.InputDescription>
+      </S.InputTitleLayout>
       {children}
     </S.StepperRegisterBox>
   );

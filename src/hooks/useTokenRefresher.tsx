@@ -1,4 +1,4 @@
-import { instance } from "@apis/index";
+import { instance, post } from "@apis/index";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useModal from "./useModal";
@@ -25,18 +25,17 @@ export default function TokenRefresher() {
         if (status === 401) {
           if (msg === "Expired Access Token. 토큰이 만료되었습니다") {
             // console.log("토큰 재발급 요청");
-            await instance
-              .post(
-                "/users/refresh-token",
-                {},
-                {
-                  // TODO: 쿠키로 변경 ?
-                  headers: {
-                    Authorization: `${localStorage.getItem("Authorization")}`,
-                    Refresh: `${localStorage.getItem("Refresh")}`,
-                  },
-                }
-              )
+            await post(
+              "/users/refresh-token",
+              {},
+              {
+                // TODO: 쿠키로 변경 ?
+                headers: {
+                  Authorization: `${localStorage.getItem("Authorization")}`,
+                  Refresh: `${localStorage.getItem("Refresh")}`,
+                },
+              }
+            )
               .then((res) => {
                 console.log("res: ", res);
                 // 새 토큰 저장

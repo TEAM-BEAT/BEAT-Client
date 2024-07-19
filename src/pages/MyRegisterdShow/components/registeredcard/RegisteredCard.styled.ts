@@ -33,7 +33,7 @@ export const CardInfo = styled.div`
 export const CardInfoTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 0.8rem;
   align-items: flex-start;
   align-self: stretch; /* row 방향으로 늘림 */
 `;
@@ -55,7 +55,11 @@ export const CardInfoGenreText = styled.span`
 
 export const CardInfoTitleText = styled.span`
   align-self: stretch;
+  width: 21rem;
+  overflow: hidden;
 
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.heading4};
 `;
@@ -75,7 +79,7 @@ export const CardInfoButtonBoxWrapper = styled.div`
 `;
 export const CardInfoButtonBox = styled.div`
   display: flex;
-  gap: 0.4rem;
+  gap: 0.6rem;
   align-items: center;
   margin-bottom: 0.2rem;
 `;

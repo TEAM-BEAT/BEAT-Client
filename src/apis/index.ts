@@ -2,6 +2,7 @@ import axios from "axios";
 
 const getAccessToken = (): string | null => {
   const user = localStorage.getItem("user");
+
   if (user) {
     try {
       const userObj = JSON.parse(user);
@@ -22,6 +23,14 @@ export const instance = axios.create({
   headers: {
     Authorization: `Bearer ${getAccessToken()}`,
   },
+});
+
+instance.interceptors.request.use((config) => {
+  const token = getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export function get<T>(...args: Parameters<typeof instance.get>) {
