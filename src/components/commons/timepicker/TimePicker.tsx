@@ -3,8 +3,7 @@ import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import * as S from "./TimePicker.styled";
-import { TextField, InputAdornment } from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { InputAdornment } from "@mui/material";
 
 export interface TimePickerProps {
   value: Dayjs | null | string;
@@ -58,7 +57,7 @@ const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps
           InputProps: {
             endAdornment: (
               <InputAdornment position="end">
-                <CalendarTodayIcon />
+                <S.CustomOpenPicker $open={open} />
               </InputAdornment>
             ),
           },
