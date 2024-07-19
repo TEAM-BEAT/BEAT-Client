@@ -33,7 +33,7 @@ export const CardInfo = styled.div`
 export const CardInfoTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 0.8rem;
   align-items: flex-start;
   align-self: stretch; /* row 방향으로 늘림 */
 `;
