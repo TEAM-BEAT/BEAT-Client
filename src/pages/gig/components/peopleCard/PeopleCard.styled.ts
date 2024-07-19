@@ -9,9 +9,12 @@ export const PeopleCardPhoto = styled.img<{ $imgsrc: string }>`
   width: 15.7rem;
   height: 14rem;
   margin-bottom: 0.7rem;
+  object-fit: cover;
+  object-position: center;
 
   background-image: url(${({ $imgsrc }) => $imgsrc});
-  background-size: 100% 100%;
+  background-position: center;
+  background-size: cover;
   border-radius: 6px;
 `;
 
