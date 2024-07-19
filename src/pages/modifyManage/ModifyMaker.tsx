@@ -1,5 +1,4 @@
 import Button from "@components/commons/button/Button";
-import Spacing from "@components/commons/spacing/Spacing";
 import { useEffect, useState } from "react";
 import RoleLayout from "./components/RoleLayout";
 import * as S from "./ModifyManage.styled";
@@ -33,14 +32,14 @@ const ModifyManageMaker = ({
 
     setIsButtonDisabled(
       !(
-        (castList.length <= 1 &&
+        (castList?.length <= 1 &&
           !castList[0]?.castName &&
           !castList[0]?.castRole &&
           !castList[0]?.castPhoto) ||
         allCastFieldsFilled
       ) ||
         !(
-          (castList.length <= 1 &&
+          (castList?.length <= 1 &&
             !staffList[0]?.staffName &&
             !staffList[0]?.staffRole &&
             !staffList[0]?.staffPhoto) ||

@@ -89,7 +89,7 @@ const ModifyManage = () => {
         }))
       );
       setCastList(
-        data.castList.length > 0
+        data.castList && data.castList.length > 0
           ? data.castList.map((item) => ({
               castId: item.castId ?? -1,
               castName: item.castName ?? "",
@@ -99,7 +99,7 @@ const ModifyManage = () => {
           : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }]
       );
       setStaffList(
-        data.staffList.length > 0
+        data.staffList && data.staffList.length > 0
           ? data.staffList.map((item) => ({
               staffId: item.staffId ?? -1,
               staffName: item.staffName ?? "",
