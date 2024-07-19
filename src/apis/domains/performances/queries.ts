@@ -1,4 +1,4 @@
-import { useQueryClient, QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deletePerformance, getMakerPerformance, getPerformanceEdit } from "./api";
 
 const QUERY_KEY = {
@@ -15,7 +15,7 @@ export const useMakerPerformance = () => {
   return useQuery({
     queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
     queryFn: getMakerPerformance,
-    staleTime: 1000 * 60 * 60,
+    // staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
@@ -25,7 +25,7 @@ export const usePerformanceEdit = (performanceId: number) => {
   return useQuery({
     queryKey: [PERFORMANCE_QUERY_KEY.BOOKING_DETAIL, performanceId],
     queryFn: () => getPerformanceEdit(performanceId),
-    staleTime: 1000 * 60 * 60,
+    // staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };

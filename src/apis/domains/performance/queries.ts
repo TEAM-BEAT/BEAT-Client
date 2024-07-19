@@ -157,16 +157,23 @@ export const useUpdatePerformance = () => {
     onSuccess: (res) => {
       // TODO: useGetPerformanceDetail 키 수정
 
-      console.log("res", res);
-      // queryClient.invalidateQueries({ queryKey: [HOME_QUERY_KEY.LIST] });
+      queryClient.invalidateQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
+      });
 
-      // if (isPerformanceResponse(res) && res.status === 201) {
-      //   navigate("/register-complete", {
-      //     state: { performanceId: res.data.performanceId },
-      //   });
-      // } else {
-      //   console.error("Unexpected response type", res);
-      // }
+      queryClient.invalidateQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.BOOKING_DETAIL, res.data.performanceId],
+      });
+
+      queryClient.refetchQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
+        exact: true,
+      });
+
+      queryClient.refetchQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.BOOKING_DETAIL, res.data.performanceId],
+        exact: true,
+      });
     },
   });
 };
