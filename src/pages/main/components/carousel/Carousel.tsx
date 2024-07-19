@@ -24,7 +24,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
 
   useEffect(() => {
     const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
-    const carouselItemList = promotionList.map((promotion) => promotion.promotionId || null);
+    const carouselItemList = promotionList.map((promotion) => promotion.performanceId || null);
 
     setCarouselId(carouselItemList);
     setCarouselList(carouselTempList);

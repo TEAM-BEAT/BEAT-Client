@@ -3,6 +3,7 @@ import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import * as S from "./TimePicker.styled";
+import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 
 export interface TimePickerProps {
   value: Dayjs | null | string;
@@ -46,7 +47,10 @@ const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps
       minDate={minDate || undefined}
       onAccept={handleAccept}
       slotProps={{
-        textField: { placeholder },
+        textField: {
+          placeholder,
+          inputProps: { readOnly: true },
+        },
         popper: {
           sx: {
             "& .MuiPaper-root": {
