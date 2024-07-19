@@ -133,48 +133,6 @@ rename : 파일 혹은 폴더명 변경
 <h3>Coding Convention</h3>
 <a href="https://jiwoothejay.notion.site/Coding-Convention-499fe091765e48bb8e933039a26555e6">Team Beat Web의 코딩 컨벤션</a>
 
-<h2> 📁 폴더 구조 </h2>
-
-```
-|-- 📁 public
-|-- 📁 src
-    |-- 📁 asset
-	      |-- 📁 svgs
-	      |-- 📁 images
-    |-- 📁 apis
-    |-- 📁 components
-	      |-- 📁 commons (button , input 등 재사용의 가장 작은 단위)
-	      |-- 📁 icons(React Icon Components)
-    |-- 📁 constants
-    |-- 📁 pages
-   	    |-- 📁 Apage
-            |-- 📁components
-            |-- 📁constants
-            |-- 📁types
-            |-- 📁hooks
-            |-- 📁utils
-            |-- Apage.tsx
-            |-- Apage.styled.ts
-        |-- 📁 Bpage
-        |-- 📁 Cpage
-   |-- 📁 hooks (커스텀 훅을 담아두는 폴더)
-   |-- 📁 styles (GlobalStyles , theme.ts 등)
-   |-- 📁 utils (재사용이 높은 함수모음 폴더)
-   |-- 📁 types
-   |-- 📁 routes
-       |-- Router.tsx (라우터 파일)
-|-- App.tsx
-|-- main.tsx
-|-- eslint.config.js
-|-- .gitignore
-|-- .prettierrc.json
-|-- .stylelintrc.json
-|-- README.md
-|-- package.json
-|-- tsconfig.json
-|-- yarn.lock
-```
-
 <h2>📷 구현 스크린샷</h2>
 <table align="center">
         <tr align="center">
@@ -215,9 +173,136 @@ rename : 파일 혹은 폴더명 변경
         </tr>
     </table>
 
-<h3>✒️ 비트 팀 블로그</h3>
+<h2>✒️ 비트 팀 블로그</h2>
 
 [티팔놈들의 블로그 보러가기](https://team-beat.tistory.com/)
+
+<h2> 📁 폴더 구조 </h2>
+
+```
+📦src
+ ┣ 📂apis
+ ┃ ┣ 📂domains
+ ┃ ┃ ┣ 📂bookings
+ ┃ ┃ ┣ 📂files
+ ┃ ┃ ┣ 📂home
+ ┃ ┃ ┣ 📂performance
+ ┃ ┃ ┣ 📂performances
+ ┃ ┃ ┣ 📂register
+ ┃ ┃ ┣ 📂tickets
+ ┃ ┃ ┗ 📂users
+ ┃ ┣ 📂kakoLogin
+ ┃ ┗ 📜index.ts
+ ┣ 📂assets
+ ┃ ┣ 📂images
+ ┃ ┣ 📂lottie
+ ┃ ┗ 📂svgs
+ ┣ 📂components
+ ┃ ┣ 📂commons
+ ┃ ┃ ┣ 📂bank
+ ┃ ┃ ┃ ┣ 📂bottomSheet
+ ┃ ┃ ┣ 📂bottomSheet
+ ┃ ┃ ┃ ┣ 📂actionsBottomSheet
+ ┃ ┃ ┃ ┃ ┣ 📂phoneNumber
+ ┃ ┃ ┃ ┣ 📂viewBottomSheet
+ ┃ ┃ ┣ 📂button
+ ┃ ┃ ┣ 📂chip
+ ┃ ┃ ┣ 📂contextBox
+ ┃ ┃ ┣ 📂hamburger
+ ┃ ┃ ┣ 📂input
+ ┃ ┃ ┃ ┣ 📂textArea
+ ┃ ┃ ┃ ┗ 📂textField
+ ┃ ┃ ┣ 📂label
+ ┃ ┃ ┣ 📂loading
+ ┃ ┃ ┣ 📂modal
+ ┃ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂navigation
+ ┃ ┃ ┣ 📂scrollToTop
+ ┃ ┃ ┣ 📂spacing
+ ┃ ┃ ┣ 📂stepper
+ ┃ ┃ ┣ 📂timepicker
+ ┃ ┃ ┗ 📂toast
+ ┃ ┗ 📂layout
+ ┣ 📂constants
+ ┣ 📂hooks
+ ┣ 📂pages
+ ┃ ┣ 📂book
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📂bookerInfo
+ ┃ ┃ ┃ ┣ 📂complete
+ ┃ ┃ ┃ ┣ 📂count
+ ┃ ┃ ┃ ┣ 📂easyPassEntry
+ ┃ ┃ ┃ ┣ 📂freeBook
+ ┃ ┃ ┃ ┣ 📂info
+ ┃ ┃ ┃ ┣ 📂paidBook
+ ┃ ┃ ┃ ┣ 📂select
+ ┃ ┃ ┃ ┗ 📂termCheck
+ ┃ ┃ ┣ 📂constants
+ ┃ ┃ ┣ 📂typings
+ ┃ ┃ ┣ 📂utils
+ ┃ ┣ 📂gig
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📂content
+ ┃ ┃ ┃ ┣ 📂iconText
+ ┃ ┃ ┃ ┣ 📂makerIntroduce
+ ┃ ┃ ┃ ┣ 📂peopleCard
+ ┃ ┃ ┃ ┣ 📂performanceIntroduce
+ ┃ ┃ ┃ ┣ 📂showInfo
+ ┃ ┃ ┃ ┣ 📂showType
+ ┃ ┃ ┃ ┗ 📂tabBar
+ ┃ ┃ ┣ 📂constants
+ ┃ ┃ ┣ 📂utils
+ ┃ ┣ 📂kakaoLogin
+ ┃ ┣ 📂lookup
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📂nonExistent
+ ┃ ┃ ┣ 📂types
+ ┃ ┣ 📂main
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📂carousel
+ ┃ ┃ ┃ ┣ 📂chips
+ ┃ ┃ ┃ ┣ 📂floating
+ ┃ ┃ ┃ ┣ 📂footer
+ ┃ ┃ ┃ ┣ 📂mainNavigation
+ ┃ ┃ ┃ ┗ 📂performance
+ ┃ ┃ ┣ 📂constants
+ ┃ ┣ 📂manage
+ ┃ ┣ 📂modalTest
+ ┃ ┣ 📂modifyManage
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂constants
+ ┃ ┃ ┣ 📂typings
+ ┃ ┃ ┣ 📂utils
+ ┃ ┣ 📂MyRegisterdShow
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┗ 📂registeredcard
+ ┃ ┃ ┣ 📂constants
+ ┃ ┣ 📂nonMbLookup
+ ┃ ┃ ┣ 📂components
+ ┃ ┣ 📂register
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂constants
+ ┃ ┃ ┣ 📂typings
+ ┃ ┃ ┣ 📂utils
+ ┃ ┣ 📂ticketholderlist
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📂banner
+ ┃ ┃ ┃ ┣ 📂managercard
+ ┃ ┃ ┃ ┣ 📂narrowDropDown
+ ┃ ┃ ┃ ┗ 📂selectIcon
+ ┃ ┃ ┣ 📂constants
+ ┣ 📂routes
+ ┣ 📂stores
+ ┣ 📂styles
+ ┃ ┣ 📂fonts
+ ┣ 📂typings
+ ┃ ┣ 📂api
+ ┃ ┃ ┗ 📂schema
+ ┣ 📂utils
+ ┣ 📜App.css
+ ┣ 📜App.tsx
+ ┣ 📜main.tsx
+```
 
 <h3>🎸 비트 아이엠 그라운드 룰</h3>
 
