@@ -20,6 +20,7 @@ export const Title = styled.h1`
 export const Description = styled.p`
   ${({ theme }) => theme.fonts["body2-long"]};
   color: ${({ theme }) => theme.colors.white};
+  word-break: break-all;
 `;
 
 export const Divider = styled.div`
