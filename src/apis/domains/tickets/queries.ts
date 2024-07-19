@@ -32,6 +32,7 @@ export const useTicketUpdate = () => {
     mutationFn: (formData: TicketUpdateRequest) => putTicketUpdate(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
+      queryClient.refetchQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
     },
   });
 };
@@ -44,6 +45,7 @@ export const useTicketDelete = () => {
     mutationFn: (formData: DeleteFormDataProps) => deleteTicketDelete(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
+      queryClient.refetchQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
     },
   });
 };

@@ -33,6 +33,7 @@ export const usePostKakaoLogin = () => {
         }
 
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.KAKAO_LOGIN] });
+        queryClient.refetchQueries({ queryKey: [QUERY_KEY.KAKAO_LOGIN] });
       } else {
         console.error("Login response is null");
       }

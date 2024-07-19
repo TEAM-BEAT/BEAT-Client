@@ -1,5 +1,5 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { HOME_QUERY_KEY } from "../home/queries";
@@ -90,7 +90,7 @@ const isPerformanceResponse = (res: any): res is PerformanceResponse => {
 
 // 공연 등록 API
 export const usePostPerformance = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
@@ -98,6 +98,11 @@ export const usePostPerformance = () => {
     onSuccess: (res) => {
       queryClient.invalidateQueries({
         queryKey: [HOME_QUERY_KEY.LIST, PERFORMANCE_QUERY_KEY.DETAIL],
+      });
+      queryClient.refetchQueries({ queryKey: [HOME_QUERY_KEY.LIST], exact: true });
+      queryClient.refetchQueries({
+        queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
+        exact: true,
       });
 
       if (isPerformanceResponse(res) && res.status === 201) {
