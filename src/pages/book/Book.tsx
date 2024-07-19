@@ -14,6 +14,7 @@ import Context from "@components/commons/contextBox/Context";
 import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import useLogin from "@hooks/useLogin";
 import useModal from "@hooks/useModal";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import * as S from "./Book.styled";
@@ -32,8 +33,7 @@ const Book = () => {
 
   const { data, isLoading } = useGetBookingPerformanceDetail(Number(performanceId));
 
-  // TODO: 회원/비회원 여부
-  const isNonMember = localStorage.getItem("accessToken") ? false : true;
+  const { isLogin } = useLogin();
   const { setHeader } = useHeader();
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const Book = () => {
       totalPaymentAmount: data?.ticketPrice ?? 0 * round,
     } as GuestBookingRequest;
 
-    if (isNonMember) {
+    if (!isLogin) {
       // 비회원 예매 요청
       formData = {
         ...formData,
@@ -193,7 +193,7 @@ const Book = () => {
       isTermChecked.term2
     ) {
       if (
-        isNonMember &&
+        !isLogin &&
         isTermChecked.term1 &&
         easyPassword.password.length === 4 &&
         bookerInfo.birthDate.length === 6 &&
@@ -201,7 +201,7 @@ const Book = () => {
       ) {
         setActiveButton(true);
       } else {
-        if (!isNonMember) {
+        if (isLogin) {
           setActiveButton(true);
         } else {
           setActiveButton(false);
@@ -210,7 +210,7 @@ const Book = () => {
     } else {
       setActiveButton(false);
     }
-  }, [isNonMember, selectedValue, bookerInfo, easyPassword, isTermChecked]);
+  }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
   return isLoading ? (
     <Loading />
@@ -243,11 +243,11 @@ const Book = () => {
         }
       />
       <BookerInfo
-        isNonMember={isNonMember}
+        isNonMember={!isLogin}
         bookerInfo={bookerInfo}
         onChangeBookerInfo={onChangeBookerInfo}
       />
-      {isNonMember && (
+      {!isLogin && (
         <EasyPassEntry
           password={easyPassword.password}
           passwordCheck={easyPassword.passwordCheck}
@@ -256,7 +256,7 @@ const Book = () => {
       )}
 
       <TermCheck
-        isNonMember={isNonMember}
+        isNonMember={!isLogin}
         isTermChecked={isTermChecked}
         onClickTermCheck={onChangeTermCheck}
       />
