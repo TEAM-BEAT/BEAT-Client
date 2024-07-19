@@ -157,7 +157,6 @@ const Register = () => {
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
       ];
-
       try {
         const res = await Promise.all(
           S3Urls.map(async (url, index) => {
@@ -246,6 +245,19 @@ const Register = () => {
   };
 
   const { setHeader } = useHeader();
+
+  // 티켓 수량이 동일하게 적용
+  useEffect(() => {
+    const updatedScheduleList = Array.from({ length: gigInfo.totalScheduleCount }, (_, index) => {
+      const existingSchedule = gigInfo.scheduleList[index];
+      const totalTicketCount = gigInfo.scheduleList[0]?.totalTicketCount || null;
+      return { ...existingSchedule, totalTicketCount };
+    });
+    setGigInfo((prev) => ({
+      ...prev,
+      scheduleList: updatedScheduleList,
+    }));
+  }, [gigInfo.totalScheduleCount]);
 
   const handleLeftBtn = () => {
     if (registerStep === 1) {
