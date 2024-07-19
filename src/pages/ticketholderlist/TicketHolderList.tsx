@@ -246,7 +246,8 @@ const TicketHolderList = () => {
                   <Button onClick={handleDeleteBtn}>삭제</Button>
                 </S.FooterButtonWrapper>
               ) : (
-                <S.FooterButtonWrapper>
+                <S.FooterButtonWrapper $isPaymentFixButton={true}>
+                  <S.FooterButtonText>저장 후, 입금 상태 재변경은 불가능합니다.</S.FooterButtonText>
                   <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
                 </S.FooterButtonWrapper>
               )}

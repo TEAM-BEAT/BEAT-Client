@@ -1,5 +1,5 @@
 import { IconToggleOff, IconToggleOn } from "@assets/svgs";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const BodyWrapper = styled.div`
   display: flex;
@@ -83,17 +83,32 @@ export const ToggleOffIcon = styled(IconToggleOff)<{ $width: string; $height: st
   height: ${({ $height }) => $height};
 `;
 
-export const FooterButtonWrapper = styled.div`
+export const FooterButtonText = styled.span`
+  color: ${({ theme }) => theme.colors.gray_200};
+  text-align: center;
+  ${({ theme }) => theme.fonts["body2-normal-semi"]};
+  padding: 2.4rem 0;
+`;
+
+export const FooterButtonWrapper = styled.div<{ $isPaymentFixButton?: boolean }>`
   position: fixed;
   bottom: 0;
   left: 50%;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 37.4rem;
-  height: 10.4rem;
-  padding: 2.4rem;
+  height: ${({ $isPaymentFixButton }) => ($isPaymentFixButton ? "13.7rem" : "10.4rem")};
+  ${({ $isPaymentFixButton }) =>
+    $isPaymentFixButton
+      ? css`
+          border-top: 1px solid #3e3e3e;
+        `
+      : css`
+          justify-content: center;
+          padding: 2.4rem;
+        `};
 
   background-color: ${({ theme }) => theme.colors.gray_900};
   transform: translate(-50%, 0);
