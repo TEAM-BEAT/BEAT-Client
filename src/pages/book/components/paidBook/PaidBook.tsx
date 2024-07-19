@@ -58,7 +58,7 @@ const PaidBook = ({
           animationData={bookComplete}
           loop={false}
           play={true}
-          style={{ width: "150px", height: "150px", margin: "78px auto 0" }}
+          style={{ width: "150px", height: "150px", margin: "40px auto 0" }}
         />
         <Spacing marginBottom="3.2" />
 
@@ -66,7 +66,7 @@ const PaidBook = ({
         <Spacing marginBottom="1" />
 
         <S.Description>입금자명은 예약자 이름과 동일하게 설정해주세요.</S.Description>
-        <Spacing marginBottom="3.2" />
+        <Spacing marginBottom="2.6" />
 
         <S.DepositContainer>
           <S.DepositBox>

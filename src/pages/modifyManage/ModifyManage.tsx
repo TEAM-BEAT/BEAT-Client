@@ -37,7 +37,7 @@ const ModifyManage = () => {
   const { performanceId } = useParams();
   const navigate = useNavigate();
 
-  const { data, isLoading } = usePerformanceEdit(Number(performanceId));
+  const { data, isLoading, isSuccess } = usePerformanceEdit(Number(performanceId));
 
   const [performanceTitle, setPerformanceTitle] = useState<string>("");
   const [genre, setGenre] = useState<"BAND" | "DANCE" | "PLAY" | "ETC" | string>("");
@@ -65,7 +65,7 @@ const ModifyManage = () => {
   const [isExist, setIsExist] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
-    if (data) {
+    if (data && isSuccess) {
       setPerformanceTitle(data.performanceTitle);
       setGenre(data.genre);
       setRunningTime(data.runningTime);
@@ -178,8 +178,8 @@ const ModifyManage = () => {
   };
 
   useEffect(() => {
-    setIsExist(isBookerExist);
-  }, [isBookerExist]);
+    setIsExist(data?.isBookerExist);
+  }, [data?.isBookerExist]);
 
   // useEffect(() => {
   //   setBankInfo(bankName);
@@ -242,6 +242,8 @@ const ModifyManage = () => {
 
   const handleDeletePerformance = async (_performanceId: number, isExisttt: boolean) => {
     //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
+    console.log("isExisttt", isExisttt);
+
     if (isExisttt) {
       openAlert({
         title: "공연 삭제가 불가해요.",
@@ -263,7 +265,7 @@ const ModifyManage = () => {
       okText: "삭제할게요",
       okCallback: () => {
         //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(1, isBookerExist as boolean); //예시로 박아둠
+        handleDeletePerformance(Number(performanceId), isBookerExist as boolean); //예시로 박아둠
       },
       noText: "아니요",
       noCallback: () => {

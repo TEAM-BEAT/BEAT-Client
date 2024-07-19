@@ -16,9 +16,9 @@ const FreeBook = ({ id, title, handleLookup }: FreeBookProps) => {
         animationData={bookComplete}
         loop={false}
         play={true}
-        style={{ width: "150px", height: "150px", margin: "120px auto 0" }}
+        style={{ width: "150px", height: "150px", margin: "80px auto 0" }}
       />
-      <Spacing marginBottom="3.2" />
+      <Spacing marginBottom="2.6" />
 
       <S.Title>{`${title} \n예매가 완료되었어요!`}</S.Title>
       <Spacing marginBottom="1" />
