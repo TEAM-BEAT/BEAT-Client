@@ -16,7 +16,7 @@ const LookupCard = ({
   isPaymentCompleted,
   bankName,
   bookerName,
-  performanceContact,
+  accountHolder,
   accountNumber,
   dueDate,
   totalPaymentAmount,
@@ -46,7 +46,7 @@ const LookupCard = ({
         <BankAccount
           bankName={bank}
           number={number}
-          accountName={bookerName}
+          accountName={accountHolder}
           accountNumber={accountNumber}
           // api 추가되면 수정하기
           price={totalPaymentAmount}
@@ -100,7 +100,7 @@ const LookupCard = ({
             )}
           </S.DepositLayout>
         </S.Context>
-        {dueDate >= 0 ? (
+        {dueDate >= 0 && totalPaymentAmount > 0 ? (
           <S.AccountLayout onClick={() => handleModal(getBankNameKr(bankName), accountNumber)}>
             <S.Account>계좌번호</S.Account>
           </S.AccountLayout>

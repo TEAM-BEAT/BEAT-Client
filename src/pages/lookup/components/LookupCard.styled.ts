@@ -73,10 +73,15 @@ export const SubTitle = styled.div`
 `;
 
 export const Text = styled.div`
-  display: flex;
+  display: block;
+  flex: 1;
+  width: 8rem;
+  overflow: hidden;
 
   ${({ theme }) => theme.fonts["caption2-medi"]};
   color: ${({ theme }) => theme.colors.gray_0};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const DepositLayout = styled.section`
