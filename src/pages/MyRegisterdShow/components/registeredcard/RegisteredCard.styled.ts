@@ -79,7 +79,7 @@ export const CardInfoButtonBoxWrapper = styled.div`
 `;
 export const CardInfoButtonBox = styled.div`
   display: flex;
-  gap: 0.4rem;
+  gap: 0.6rem;
   align-items: center;
   margin-bottom: 0.2rem;
 `;
