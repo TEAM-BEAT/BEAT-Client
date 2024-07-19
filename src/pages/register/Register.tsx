@@ -54,17 +54,6 @@ const Register = () => {
   const { openAlert, openConfirm } = useModal();
 
   const user = localStorage?.getItem("user");
-
-  useEffect(() => {
-    const userObj = JSON.parse(user);
-
-    if (userObj?.accessToken === null) {
-      openAlert({
-        title: "로그인이 필요한 서비스입니다.",
-      });
-    }
-  }, [user]);
-
   const [, setNavigateUrl] = useAtom(navigateAtom);
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
