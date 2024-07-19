@@ -1,5 +1,6 @@
 import React, { ChangeEvent, TextareaHTMLAttributes } from "react";
 import * as S from "./TextArea.styled";
+import { splitGraphemes } from "@utils/useInputFilter";
 
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -10,9 +11,12 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 const TextArea = ({ value, onChange, maxLength, placeholder, ...rest }: TextAreaProps) => {
   const handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const inputName = e.target.name;
-    let inputValue = e.target.value;
-    if (maxLength && inputValue.length > maxLength) {
-      inputValue = inputValue.slice(0, maxLength);
+    const inputValue = e.target.value;
+    let newValue = inputValue;
+    if (maxLength && splitGraphemes(newValue as string).length > maxLength) {
+      newValue = splitGraphemes(newValue as string)
+        .slice(0, maxLength)
+        .join("");
     }
 
     const newEvent = {
@@ -20,7 +24,7 @@ const TextArea = ({ value, onChange, maxLength, placeholder, ...rest }: TextArea
       target: {
         ...e.target,
         name: inputName,
-        value: inputValue,
+        value: newValue,
       },
     } as ChangeEvent<HTMLTextAreaElement>;
 
@@ -28,14 +32,10 @@ const TextArea = ({ value, onChange, maxLength, placeholder, ...rest }: TextArea
   };
   return (
     <S.TextAreaWrapper>
-      <S.TextAreaInput
-        {...rest}
-        value={value}
-        onChange={handleOnInput}
-        maxLength={maxLength}
-        placeholder={placeholder}
-      />
-      {maxLength && <S.TextCap>{`${(value as string).length}/${maxLength}`}</S.TextCap>}
+      <S.TextAreaInput {...rest} value={value} onChange={handleOnInput} placeholder={placeholder} />
+      {maxLength && (
+        <S.TextCap>{`${splitGraphemes(value as string).length}/${maxLength}`}</S.TextCap>
+      )}
     </S.TextAreaWrapper>
   );
 };
