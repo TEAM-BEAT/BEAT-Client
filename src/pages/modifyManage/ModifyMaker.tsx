@@ -74,9 +74,6 @@ const ModifyManageMaker = ({
   return (
     <>
       <S.ModifyManageContainer>
-        <Spacing marginBottom="1" />
-        <S.InputDescription $warning={true}>*출연진/스태프는 수정불가합니다.</S.InputDescription>
-        <Spacing marginBottom="-1.8" />
         <RoleLayout
           title="출연진"
           list={castList}
@@ -91,7 +88,7 @@ const ModifyManageMaker = ({
       </S.ModifyManageContainer>
       <S.FooterContainer>
         <S.FooterDivider />
-        <S.FooterInfo>공연진 상세정보는 선택사항 입니다.</S.FooterInfo>
+        <S.FooterInfo>공연진 상세정보는 선택사항이며, 이후 수정불가합니다.</S.FooterInfo>
         <Button onClick={handleList} disabled={isButtonDisabled}>
           다음
         </Button>
