@@ -29,7 +29,7 @@ const Contact = ({ contact }: ContactProps) => {
         <S.Toggle onClick={handleToggle}>{toggle ? <IconArrowUp /> : <IconArrowDown />}</S.Toggle>
       </S.ContactTitleBox>
       {toggle && <S.Contact onClick={() => handleCopyClipBoard(contact)}>{contact}</S.Contact>}
-      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={100}>
         클립보드에 복사되었습니다!
       </Toast>
     </S.ContactContainer>
