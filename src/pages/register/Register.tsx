@@ -205,13 +205,17 @@ const Register = () => {
             ...staff,
             staffPhoto: staffUrls[index] || staff.staffPhoto,
           })),
-          scheduleList: gigInfo.scheduleList.map((schedule) => ({
-            ...schedule,
-            performanceDate: dayjs(schedule.performanceDate).toISOString(),
-          })),
+          scheduleList: gigInfo.scheduleList.map((schedule) => {
+            const date = dayjs(schedule.performanceDate).toDate();
+            const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
+            const dateOffset = new Date(date.getTime() - offset);
+            return {
+              ...schedule,
+              performanceDate: dateOffset.toISOString(),
+            };
+          }),
           bankName: bankInfo ? bankInfo : "NONE",
         };
-
         try {
           await postPerformance(formData);
         } catch (err) {
