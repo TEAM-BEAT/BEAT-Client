@@ -1,7 +1,6 @@
 import Layout from "@components/layout/Layout";
 import TokenRefresher from "@hooks/useTokenRefresher";
 import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
-import Apage from "@pages/APage/Apage";
 import Book from "@pages/book/Book";
 import Complete from "@pages/book/components/complete/Complete";
 import Gig from "@pages/gig/Gig";
@@ -14,19 +13,20 @@ import ModalTest from "@pages/modalTest/ModalTest";
 import ModifyManage from "@pages/modifyManage/ModifyManage";
 import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
+import Redirect from "@pages/redirect/Redirect";
 import Register from "@pages/register/Register";
 import RegisterComplete from "@pages/register/RegisterComplete";
 import TestPage from "@pages/test/TestPage";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
 import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "a", element: <Apage /> },
+      { path: "", element: <Navigate to="/main" replace /> },
       { path: "NonMb-Lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
       { path: "book/complete", element: <Complete /> },
