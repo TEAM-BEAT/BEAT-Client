@@ -137,7 +137,7 @@ const Book = () => {
         data?.scheduleList![selectedValue! - data?.scheduleList?.[0].scheduleId].scheduleId,
       scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
       purchaseTicketCount: round,
-      totalPaymentAmount: data?.ticketPrice ?? 0 * round,
+      totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
     } as GuestBookingRequest;
 
     if (!isLogin) {
@@ -170,7 +170,11 @@ const Book = () => {
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as GuestBookingRequest;
 
+      console.log(formData);
+
       const res = await memberBook(formData);
+
+      console.log(res);
 
       navigate("/book/complete", {
         state: {
