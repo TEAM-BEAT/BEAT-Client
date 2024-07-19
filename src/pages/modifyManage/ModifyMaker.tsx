@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import RoleLayout from "./components/RoleLayout";
 import * as S from "./ModifyManage.styled";
 import { Cast, Staff } from "./typings/gigInfo";
+import Spacing from "@components/commons/spacing/Spacing";
 
 interface ModifyManageMakerProps {
   castList: Cast[];
@@ -76,6 +77,9 @@ const ModifyManageMaker = ({
   return (
     <>
       <S.ModifyManageContainer>
+        <Spacing marginBottom="1" />
+        <S.InputDescription $warning={true}>*출연진/스태프는 수정불가합니다.</S.InputDescription>
+        <Spacing marginBottom="-1.8" />
         <RoleLayout
           title="출연진"
           list={castList}

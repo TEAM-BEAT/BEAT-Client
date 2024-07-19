@@ -84,9 +84,9 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
             onUpdateRole={handleUpdateRole}
           />
         ))}
-        <S.RoleAddBtn onClick={handelAddRole}>
+        {/* <S.RoleAddBtn onClick={handelAddRole}>
           <IconRoleAdd width={"3.2rem"} />
-        </S.RoleAddBtn>
+        </S.RoleAddBtn> */}
       </S.RoleListWrapper>
     </S.InputModifyManageBox>
   );
