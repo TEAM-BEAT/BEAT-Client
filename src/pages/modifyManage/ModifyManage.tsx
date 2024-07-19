@@ -26,7 +26,6 @@ import PosterThumbnail from "./components/PosterThumbnail";
 import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
 import { GENRE_LIST } from "./constants/genreList";
-import ModifyManageMaker from "./ModifyMaker";
 import * as S from "./ModifyManage.styled";
 import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
@@ -222,7 +221,6 @@ const ModifyManage = () => {
 
   const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(value);
 
     let numericValue = parseInt(value.replace(/,/g, ""), 10);
 
@@ -523,18 +521,19 @@ const ModifyManage = () => {
       );
     }
 
+    // if (ModifyManageStep === 2) {
+    //   return (
+    //     <ModifyManageMaker
+    //       castList={castList as Cast[]}
+    //       staffList={staffList as Staff[]}
+    //       handleModifyManageStep={handleModifyManageStep}
+    //       // updateGigInfo={updateGigInfo}
+    //       updateGigInfo={() => console.log("")}
+    //     />
+    //   );
+    // }
+
     if (ModifyManageStep === 2) {
-      return (
-        <ModifyManageMaker
-          castList={castList as Cast[]}
-          staffList={staffList as Staff[]}
-          handleModifyManageStep={handleModifyManageStep}
-          // updateGigInfo={updateGigInfo}
-          updateGigInfo={() => console.log("")}
-        />
-      );
-    }
-    if (ModifyManageStep === 3) {
       return (
         <>
           <ShowInfo
