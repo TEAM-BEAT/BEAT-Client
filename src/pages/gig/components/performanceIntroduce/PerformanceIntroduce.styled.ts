@@ -18,7 +18,7 @@ export const Title = styled.h1`
   color: ${({ theme }) => theme.colors.gray_400};
 `;
 
-export const Description = styled.p`
+export const Description = styled.pre`
   ${({ theme }) => theme.fonts["body2-long"]};
   color: ${({ theme }) => theme.colors.white};
   word-break: break-all;
