@@ -57,7 +57,7 @@ export const InputModifyManageBox = styled.section<{ $marginBottom: number }>`
 
 export const StepperModifyManageBox = styled.section<{ $marginBottom: number }>`
   ${Generators.flexGenerator("row", "center", "space-between")}
-  padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
+  padding:0 ${(props) => props.$marginBottom}rem;
 `;
 
 export const InputTitleLayout = styled.section`

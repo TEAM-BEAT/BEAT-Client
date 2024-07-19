@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import * as S from "../ModifyManage.styled";
+import Spacing from "@components/commons/spacing/Spacing";
 
 interface StepperModifyManageBoxProps {
   title: string;
@@ -15,16 +16,18 @@ const StepperModifyManageBox = ({
   children,
 }: StepperModifyManageBoxProps) => {
   return (
-    <S.StepperModifyManageBox $marginBottom={marginBottom}>
-      <S.InputTitleLayout>
-        <S.InputTitleWrapper>
-          <S.InputTitle>{title}</S.InputTitle>
-          <S.StepperDiscription>{description}</S.StepperDiscription>
-        </S.InputTitleWrapper>
-        <S.InputDescription $warning={true}>*회차 수는 수정불가합니다.</S.InputDescription>
-      </S.InputTitleLayout>
-      {children}
-    </S.StepperModifyManageBox>
+    <S.InputModifyManageBox $marginBottom={marginBottom}>
+      <S.StepperModifyManageBox $marginBottom={0}>
+        <S.InputTitleLayout>
+          <S.InputTitleWrapper>
+            <S.InputTitle>{title}</S.InputTitle>
+            <S.StepperDiscription>{description}</S.StepperDiscription>
+          </S.InputTitleWrapper>
+        </S.InputTitleLayout>
+        {children}
+      </S.StepperModifyManageBox>
+      <S.InputDescription $warning={true}>*회차 수는 수정불가합니다.</S.InputDescription>
+    </S.InputModifyManageBox>
   );
 };
 
