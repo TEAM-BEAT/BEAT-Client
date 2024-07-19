@@ -5,6 +5,7 @@ const getAccessToken = (): string | null => {
   if (user) {
     try {
       const userObj = JSON.parse(user);
+
       return userObj.accessToken || "";
     } catch (error) {
       console.error("Failed to parse user from localStorage", error);

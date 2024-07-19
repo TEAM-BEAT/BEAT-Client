@@ -60,6 +60,10 @@ export const StepperModifyManageBox = styled.section<{ $marginBottom: number }>`
   padding: 2.4rem 0 ${(props) => props.$marginBottom}rem;
 `;
 
+export const InputTitleLayout = styled.section`
+  width: 100%;
+`;
+
 export const InputTitleWrapper = styled.div`
   gap: 1rem;
   ${Generators.flexGenerator("row", "center", "start")};

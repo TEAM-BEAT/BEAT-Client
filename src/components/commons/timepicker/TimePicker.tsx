@@ -8,6 +8,7 @@ export interface TimePickerProps {
   value: Dayjs | null | string;
   onChangeValue: (value: Dayjs | null) => void;
   minDate?: Dayjs;
+  disabled?: boolean;
 }
 
 const StyledDay = styled(PickersDay)(({ theme }) => ({
@@ -15,7 +16,7 @@ const StyledDay = styled(PickersDay)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
+const TimePicker = ({ value, disabled, onChangeValue, minDate }: TimePickerProps) => {
   const [open, setOpen] = useState(false);
   const [placeholder, setPlaceholder] = useState("");
   const handleAccept = (newValue: Dayjs | null) => {
@@ -32,6 +33,7 @@ const TimePicker = ({ value, onChangeValue, minDate }: TimePickerProps) => {
   return (
     <S.CustomPicker
       disablePast
+      disabled={disabled}
       showDaysOutsideCurrentMonth
       closeOnSelect={false}
       format={"YYYY/MM/DD\t     HH:mm"}

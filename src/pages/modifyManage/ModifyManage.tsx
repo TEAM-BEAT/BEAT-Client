@@ -327,17 +327,22 @@ const ModifyManage = () => {
               <Stepper
                 max={3}
                 round={totalScheduleCount as number}
+                disabled={true}
                 onMinusClick={() => onMinusClick(setGigInfo)}
                 onPlusClick={() => onPlusClick(setGigInfo)}
               />
             </StepperModifyManageBox>
             <S.Divider />
-            <TimePickerModifyManageBox title="회차별 시간대">
+            <TimePickerModifyManageBox
+              title="회차별 시간대"
+              description="*회차별 시간대는 수정불가합니다."
+            >
               {scheduleList?.map((schedule, index) => (
                 <div key={index}>
                   <S.InputDescription>{index + 1}회차</S.InputDescription>
                   <Spacing marginBottom={"1"} />
                   <TimePicker
+                    disabled={true}
                     value={dayjs(schedule.performanceDate)}
                     onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
                   />
