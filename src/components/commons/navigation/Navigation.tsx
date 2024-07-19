@@ -6,16 +6,6 @@ const Navigation = () => {
   const { header } = useHeader();
   const { headerStyle, title, subText, leftOnClick, rightOnClick } = header;
 
-  //함수 연결은 거의 필수이므로, 경고 콘솔 띄워 디버깅 용이하도록 구성.
-  if (!leftOnClick) {
-    //만약 왼쪽 함수를 부여하지 않았다면
-    console.log("warn: 왼쪽 버튼 미연결");
-  }
-  if (!rightOnClick) {
-    //만약 오른쪽 함수를 부여하지 않았다면
-    console.log("warn: 오른쪽 버튼 미연결");
-  }
-
   if (headerStyle === NAVIGATION_STATE.ICON_TITLE) {
     return (
       <S.NavigationWrapper>
