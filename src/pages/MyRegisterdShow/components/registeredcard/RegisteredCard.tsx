@@ -11,7 +11,7 @@ const RegisteredCard = ({
   performancePeriod,
   genre,
   posterImage,
-}: Omit<RegisteredObjProps, "performanceId">) => {
+}: RegisteredObjProps) => {
   const navigate = useNavigate();
   //공연 수정하기 뷰 연결하고 나면 url 변경해야할 수도 있음
   // 또한, 파라미터를 넘겨서 조회할 수 있도록 url에 파라미터를 추가해야할 수 있음.
