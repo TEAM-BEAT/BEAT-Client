@@ -55,7 +55,11 @@ export const CardInfoGenreText = styled.span`
 
 export const CardInfoTitleText = styled.span`
   align-self: stretch;
+  width: 21rem;
+  overflow: hidden;
 
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts.heading4};
 `;
