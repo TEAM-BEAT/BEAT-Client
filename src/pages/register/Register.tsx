@@ -43,11 +43,6 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 const Register = () => {
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
