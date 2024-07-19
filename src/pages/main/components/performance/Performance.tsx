@@ -30,7 +30,7 @@ const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps)
     genre === "ALL" ? performanceList : performanceList.filter((item) => item.genre === genre);
 
   const sortData = filteredData
-    .filter((item) => item.dueDate! >= 1)
+    .filter((item) => item.dueDate! >= 0)
     .sort((a, b) => a.dueDate! - b.dueDate!);
 
   const data1 = sortData.slice(0, 4);
