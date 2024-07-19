@@ -13,20 +13,14 @@ export const StepperWrapper = styled.div`
   border-radius: 6px;
 `;
 
-export const StepperBtn = styled.button`
+export const StepperBtn = styled.button<{ disabled: boolean }>`
   ${Generators.flexGenerator()};
   width: 2.4rem;
   height: 2.4rem;
 
-  color: ${({ theme }) => theme.colors.white};
+  cursor: ${({ theme, disabled }) => (disabled ? "not-allowed" : "pointer")};
 
-  cursor: pointer;
-
-  &:disabled {
-    color: ${({ theme }) => theme.colors.gray_500};
-
-    cursor: not-allowed;
-  }
+  stroke: ${({ theme, disabled }) => (disabled ? theme.colors.gray_500 : theme.colors.white)};
 `;
 
 export const StepperNum = styled.p`
