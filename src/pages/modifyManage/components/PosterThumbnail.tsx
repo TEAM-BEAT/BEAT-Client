@@ -44,10 +44,10 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
       <S.InputDescription $warning={true}>*포스터 썸네일은 수정불가합니다.</S.InputDescription>
       <Spacing marginBottom="1.4" />
       <S.FileInputWrapper>
-        <S.HiddenFileInput type="file" id="file" disabled={true} onChange={uploadFile} />
+        {/* <S.HiddenFileInput type="file" id="file" disabled={true} onChange={uploadFile} />
         <S.CustomFileInput htmlFor="file">
           <IconCamera width={"3.2rem"} />
-        </S.CustomFileInput>
+        </S.CustomFileInput> */}
         {previewImg && (
           <S.PreviewImageWrapper>
             <S.PreviewImage src={previewImg} alt="Preview" />
