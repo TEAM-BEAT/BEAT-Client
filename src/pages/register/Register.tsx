@@ -312,7 +312,7 @@ const Register = () => {
               value={performanceTitle}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="등록될 공연의 이름을 입력해주세요."
-              maxLength={30}
+              maxLength={10}
               cap={true}
             />
           </InputRegisterBox>
