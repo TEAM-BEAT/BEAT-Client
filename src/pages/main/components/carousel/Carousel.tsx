@@ -18,12 +18,15 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const [currIndex, setCurrIndex] = useState(1);
   const [currList, setCurrList] = useState<string[]>();
   const [carouselList, setCarouselList] = useState<string[]>([]);
+  const [carouselId, setCarouselId] = useState<number[]>([]);
 
   const carouselRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
+    const carouselItemList = promotionList.map((promotion) => promotion.promotionId || null);
 
+    setCarouselId(carouselItemList);
     setCarouselList(carouselTempList);
   }, []);
 
@@ -87,7 +90,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
               <S.CarouselItem
                 key={key}
                 onClick={() => {
-                  navigate(`/gig/${1}`);
+                  navigate(`/gig/${carouselId[idx - 1]}`);
                 }}
               >
                 <img src={image} alt="carousel-img" />
