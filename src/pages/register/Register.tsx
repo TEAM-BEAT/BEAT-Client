@@ -12,12 +12,16 @@ import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
 import { NAVIGATION_STATE } from "@constants/navigationState";
+import useLogin from "@hooks/useLogin";
 import useModal from "@hooks/useModal";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import { navigateAtom } from "@stores/navigate";
+import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
+import { useAtom } from "jotai";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
@@ -43,15 +47,41 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
-import useLogin from "@hooks/useLogin";
-import { useAtom } from "jotai";
-import { navigateAtom } from "@stores/navigate";
-import { requestKakaoLogin } from "@utils/kakaoLogin";
 
 const Register = () => {
   const { isLogin } = useLogin();
   const [registerStep, setRegisterStep] = useState(1); // 등록 step 나누기
-  const { openConfirm } = useModal();
+  const { openAlert, openConfirm } = useModal();
+
+  const user = localStorage?.getItem("user");
+
+  useEffect(() => {
+    const userObj = JSON.parse(user);
+
+    if (userObj?.accessToken === null) {
+      openAlert({
+        title: "로그인이 필요한 서비스입니다.",
+      });
+    }
+  }, [user]);
+
+  const [, setNavigateUrl] = useAtom(navigateAtom);
+  const handleKakaoLogin = (url: string) => {
+    setNavigateUrl(url);
+    requestKakaoLogin();
+  };
+  useEffect(() => {
+    const userObj = JSON.parse(user);
+
+    if (userObj === null) {
+      openAlert({
+        title: "로그인이 필요한 서비스입니다.",
+      });
+    }
+
+    handleKakaoLogin("/register");
+  }, []);
+
   // gigInfo 초기화
   const [gigInfo, setGigInfo] = useState<GigInfo>({
     performanceTitle: "", // 공연명
@@ -292,16 +322,6 @@ const Register = () => {
       leftOnClick: handleLeftBtn,
     });
   }, [setHeader, registerStep]);
-
-  const [, setNavigateUrl] = useAtom(navigateAtom);
-  const handleKakaoLogin = (url: string) => {
-    setNavigateUrl(url);
-    requestKakaoLogin();
-  };
-
-  if (!isLogin) {
-    handleKakaoLogin("/main");
-  }
 
   if (registerStep === 1) {
     return (
