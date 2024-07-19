@@ -157,7 +157,6 @@ const Register = () => {
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
       ];
-
       try {
         const res = await Promise.all(
           S3Urls.map(async (url, index) => {
@@ -246,6 +245,19 @@ const Register = () => {
   };
 
   const { setHeader } = useHeader();
+
+  // 티켓 수량이 동일하게 적용
+  useEffect(() => {
+    const updatedScheduleList = Array.from({ length: gigInfo.totalScheduleCount }, (_, index) => {
+      const existingSchedule = gigInfo.scheduleList[index];
+      const totalTicketCount = gigInfo.scheduleList[0]?.totalTicketCount || null;
+      return { ...existingSchedule, totalTicketCount };
+    });
+    setGigInfo((prev) => ({
+      ...prev,
+      scheduleList: updatedScheduleList,
+    }));
+  }, [gigInfo.totalScheduleCount]);
 
   const handleLeftBtn = () => {
     if (registerStep === 1) {
@@ -350,7 +362,10 @@ const Register = () => {
             />
           </StepperRegisterBox>
           <S.Divider />
-          <TimePickerRegisterBox title="회차별 시간대">
+          <TimePickerRegisterBox
+            title="회차별 시간대"
+            description="*회차별 시간대는 수정불가합니다."
+          >
             {scheduleList.map((schedule, index) => (
               <div key={index}>
                 <S.InputDescription>{index + 1}회차</S.InputDescription>
@@ -495,17 +510,12 @@ const Register = () => {
 
   if (registerStep === 2) {
     return (
-      <>
-        <button style={{ width: "500px", color: "white" }} onClick={handleComplete}>
-          제출 테스트
-        </button>
-        <RegisterMaker
-          castList={castList}
-          staffList={staffList}
-          handleRegisterStep={handleRegisterStep}
-          updateGigInfo={updateGigInfo}
-        />
-      </>
+      <RegisterMaker
+        castList={castList}
+        staffList={staffList}
+        handleRegisterStep={handleRegisterStep}
+        updateGigInfo={updateGigInfo}
+      />
     );
   }
 

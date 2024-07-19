@@ -208,9 +208,7 @@ const ModifyManage = () => {
         subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
         okText: "취소할게요",
         okCallback: () => {
-          //navigate("/gig-manage");
-          const url = "/gig-manage";
-          window.location.assign(url);
+          navigate("/gig-manage");
         },
         noText: "아니요",
         noCallback: () => {
@@ -249,9 +247,7 @@ const ModifyManage = () => {
     } else {
       //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
       await mutateAsync(Number(performanceId));
-      const url = "/gig-manage";
-      window.location.assign(url);
-      //navigate("/gig-manage");
+      navigate("/gig-manage");
     }
   };
 
