@@ -99,7 +99,7 @@ const LookupCard = ({
             )}
           </S.DepositLayout>
         </S.Context>
-        {dueDate >= 0 ? (
+        {dueDate >= 0 && totalPaymentAmount > 0 ? (
           <S.AccountLayout onClick={() => handleModal(getBankNameKr(bankName), accountNumber)}>
             <S.Account>계좌번호</S.Account>
           </S.AccountLayout>
