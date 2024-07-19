@@ -18,7 +18,7 @@
 </svg>
 <img src="https://github.com/user-attachments/assets/0efee26a-a268-49ea-9ef9-dba61c685695" />
 <img src="https://github.com/user-attachments/assets/54068895-2813-4feb-9bef-8fe5186ae044" />
-<h1>간편하게 소규모 공연을 등록하고 관리할 수 있는 티켓 예매 플랫폼</h1>
+<h1>간편하게 소규모 공연을 등록하고 관리할 수 있는<br /> 티켓 예매 플랫폼</h1>
 
 </div>
 
