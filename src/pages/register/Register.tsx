@@ -133,7 +133,6 @@ const Register = () => {
   const { data, refetch } = useGetPresignedUrl(params);
   const { mutate } = usePutS3Upload();
   const { mutateAsync: postPerformance } = usePostPerformance();
-  console.log(gigInfo);
 
   const handleComplete = async () => {
     const { data, isSuccess } = await refetch();
