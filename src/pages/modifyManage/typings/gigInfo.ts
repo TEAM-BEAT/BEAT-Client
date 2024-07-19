@@ -1,4 +1,5 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import { components } from "@typings/api/schema";
 import { Dayjs } from "dayjs";
 
 export interface Schedule {
@@ -22,6 +23,8 @@ export interface Staff {
   staffRole: string;
   staffPhoto: string;
 }
+
+export type BANK_TYPE = components["schemas"]["GuestBookingRetrieveResponse"]["bankName"];
 
 export interface DataProps {
   userId: number;
