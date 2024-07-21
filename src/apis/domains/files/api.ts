@@ -1,6 +1,5 @@
 import { get } from "@apis/index";
 import axios, { AxiosResponse } from "axios";
-import qs from "qs";
 
 interface ImageInterface {
   [key: string]: string;
