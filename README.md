@@ -1,9 +1,8 @@
 <div align="center">
-
-<h2> BEAT </h2>
-<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+<div style="width: 100%; display: flex; gap: 8px; margin: 10px 0;">
+<svg width="100" height="100" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_3999_41443)">
-<rect width="192" height="192" rx="96" fill="#0F0F0F"/>
+<rect width="192" height="192" rx="8" fill="#0F0F0F"/>
 <path d="M125.859 96.856L112.182 53.9171L105.474 32L98.9363 54.2286L84.3723 111.844L73.0839 82.05L66.2455 60.3145L57.3845 81.7515L50.1807 96.856H37V108.976H60.3599L66.0889 98.1926L78.8912 137.187L86.6952 159L92.098 136.733L106.362 80.2852L115.497 108.976H155V96.856H125.859Z" fill="url(#paint0_linear_3999_41443)"/>
 </g>
 <defs>
@@ -16,9 +15,15 @@
 </clipPath>
 </defs>
 </svg>
+
+<div style="text-align: left">
+
+# BEAT
+간편하게 소규모 공연을 등록하고 관리할 수 있는 티켓 예매 플랫폼
+</div>
+</div>
 <img src="https://github.com/user-attachments/assets/0efee26a-a268-49ea-9ef9-dba61c685695" />
 <img src="https://github.com/user-attachments/assets/54068895-2813-4feb-9bef-8fe5186ae044" />
-<h1>간편하게 소규모 공연을 등록하고 관리할 수 있는<br /> 티켓 예매 플랫폼</h1>
 
 </div>
 
