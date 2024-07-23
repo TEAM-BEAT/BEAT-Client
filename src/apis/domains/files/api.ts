@@ -1,6 +1,5 @@
 import { get } from "@apis/index";
 import axios, { AxiosResponse } from "axios";
-import qs from "qs";
 
 interface ImageInterface {
   [key: string]: string;
@@ -31,9 +30,15 @@ export const getPresignedUrl = async (
     const response: AxiosResponse<PresignedResponse> = await get("/files/presigned-url", {
       params: paramsWithEmptyArrays,
       paramsSerializer: (params) => {
-        const queryString = qs.stringify(params, { arrayFormat: "repeat" });
+        // const queryString = qs.stringify(params, { arrayFormat: "repeat" });
+        const searchParams = new URLSearchParams();
 
-        const modifiedQueryString = queryString
+        for (const [k, v] of Object.entries(params)) {
+          searchParams.set(k, v);
+        }
+
+        const modifiedQueryString = searchParams
+          .toString()
           .replace(/castImages=%5B%5D/g, "castImages")
           .replace(/staffImages=%5B%5D/g, "staffImages");
         return modifiedQueryString;
