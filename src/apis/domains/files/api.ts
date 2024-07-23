@@ -36,7 +36,8 @@ export const getPresignedUrl = async (
           searchParams.set(k, v);
         }
 
-        const modifiedQueryString = searchParams.toString()
+        const modifiedQueryString = searchParams
+          .toString()
           .replace(/castImages=%5B%5D/g, "castImages")
           .replace(/staffImages=%5B%5D/g, "staffImages");
         return modifiedQueryString;
