@@ -30,7 +30,6 @@ export const getPresignedUrl = async (
     const response: AxiosResponse<PresignedResponse> = await get("/files/presigned-url", {
       params: paramsWithEmptyArrays,
       paramsSerializer: (params) => {
-        // const queryString = qs.stringify(params, { arrayFormat: "repeat" });
         const searchParams = new URLSearchParams();
 
         for (const [k, v] of Object.entries(params)) {
