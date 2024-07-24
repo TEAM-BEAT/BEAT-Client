@@ -3,18 +3,18 @@
   "short_name": "BEAT",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FF006B",
+  "background_color": "#1B1B1B",
+  "theme_color": "#1B1B1B",
   "icons": [
     {
-      "src": "/BEAT.svg",
+      "src": "/symbol_192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/BEAT.svg",
+      "src": "/symbol_512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
