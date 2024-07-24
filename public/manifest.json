@@ -7,12 +7,12 @@
   "theme_color": "#1B1B1B",
   "icons": [
     {
-      "src": "/BEAT.png",
+      "src": "/symbol_192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/BEAT.png",
+      "src": "/symbol_512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
