@@ -4,14 +4,14 @@ import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Book from "@pages/book/Book";
 import Complete from "@pages/book/components/complete/Complete";
 import Gig from "@pages/gig/Gig";
-import KakaoLogin from "@pages/kakaoLogin/KakaoLogin";
+import KakaoAuth from "@pages/kakaoAuth/KakaoAuth";
 import KakaoLoginTest from "@pages/KakaoLoginTest";
 import Lookup from "@pages/lookup/Lookup";
 import Main from "@pages/main/Main";
 import Manage from "@pages/manage/Manage";
 import ModalTest from "@pages/modalTest/ModalTest";
 import ModifyManage from "@pages/modifyManage/ModifyManage";
-import MyRegisterdShow from "@pages/MyRegisterdShow/MyRegisterdShow";
+import MyRegisterdShow from "@pages/myRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import RegisterComplete from "@pages/register/RegisterComplete";
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth",
-    element: <KakaoLogin />,
+    element: <KakaoAuth />,
   },
   {
     path: "/action-bottom-sheet",
