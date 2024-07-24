@@ -1,5 +1,5 @@
 import useModal from "@hooks/useModal";
-import BankAccount from "@pages/modalTest/BankAccount";
+import BankAccount from "@pages/test/modalTest/BankAccount";
 import { getBankNameKr } from "@utils/getBankName";
 import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";

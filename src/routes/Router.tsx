@@ -1,26 +1,34 @@
 import Layout from "@components/layout/Layout";
 import TokenRefresher from "@hooks/useTokenRefresher";
-import ActionBottomSheetTest from "@pages/ActionBottomSheetTest";
 import Book from "@pages/book/Book";
 import Complete from "@pages/book/components/complete/Complete";
 import Gig from "@pages/gig/Gig";
 import KakaoAuth from "@pages/kakaoAuth/KakaoAuth";
-import KakaoLoginTest from "@pages/KakaoLoginTest";
 import Lookup from "@pages/lookup/Lookup";
 import Main from "@pages/main/Main";
 import Manage from "@pages/manage/Manage";
-import ModalTest from "@pages/modalTest/ModalTest";
 import ModifyManage from "@pages/modifyManage/ModifyManage";
 import MyRegisterdShow from "@pages/myRegisterdShow/MyRegisterdShow";
 import NonMbLookup from "@pages/nonMbLookup/NonMbLookup";
 import Register from "@pages/register/Register";
 import RegisterComplete from "@pages/register/RegisterComplete";
-import TestPage from "@pages/test/TestPage";
+import ActionBottomSheetTest from "@pages/test/ActionBottomSheetTest";
+import KakaoLoginTest from "@pages/test/KakaoLoginTest";
+import ModalTest from "@pages/test/modalTest/ModalTest";
+import ViewBottomSheetTest from "@pages/test/ViewBottomSheetTest";
 import TicketHolderList from "@pages/ticketholderlist/TicketHolderList";
-import ViewBottomSheetTest from "@pages/ViewBottomSheetTest";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 const router = createBrowserRouter([
+  {
+    path: "/main",
+    element: (
+      <>
+        <TokenRefresher />
+        <Main />
+      </>
+    ),
+  },
   {
     path: "/",
     element: <Layout />,
@@ -40,47 +48,29 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/modal-test",
-    element: <ModalTest />,
-  },
-  {
-    path: "/kakao-login",
-    element: <KakaoLoginTest />,
-  },
-  {
     path: "/auth",
     element: <KakaoAuth />,
   },
   {
-    path: "/action-bottom-sheet",
-    element: <ActionBottomSheetTest />,
+    path: "/test",
+    children: [
+      {
+        path: "modal-test",
+        element: <ModalTest />,
+      },
+      {
+        path: "kakao-login",
+        element: <KakaoLoginTest />,
+      },
+      {
+        path: "action-bottom-sheet",
+        element: <ActionBottomSheetTest />,
+      },
+      {
+        path: "view-bottom-sheet",
+        element: <ViewBottomSheetTest />,
+      },
+    ],
   },
-  {
-    path: "/view-bottom-sheet",
-    element: <ViewBottomSheetTest />,
-  },
-
-  {
-    path: "/testpage",
-    element: (
-      <>
-        <TokenRefresher />
-        <TestPage />
-      </>
-    ),
-  },
-  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
-  {
-    path: "/main",
-    element: (
-      <>
-        <TokenRefresher />
-        <Main />
-      </>
-    ),
-  },
-
-  { path: "/myregisteredshow", element: <MyRegisterdShow /> },
-  //   ...
 ]);
 export default router;
