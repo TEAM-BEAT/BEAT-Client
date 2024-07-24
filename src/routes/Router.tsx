@@ -38,8 +38,6 @@ const router = createBrowserRouter([
       { path: "gig-manage", element: <MyRegisterdShow /> },
       { path: "guest-manage/:performanceId", element: <TicketHolderList /> },
       { path: "gig-modify-manage/:performanceId", element: <ModifyManage /> },
-
-      // ... other pages
     ],
   },
   {
@@ -62,11 +60,6 @@ const router = createBrowserRouter([
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
   },
-
-  //   {
-  //     path: "/C",
-  //     element: <CPage />,
-  //   },
   {
     path: "/testpage",
     element: (
@@ -88,6 +81,5 @@ const router = createBrowserRouter([
   },
 
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
-  //   ...
 ]);
 export default router;
