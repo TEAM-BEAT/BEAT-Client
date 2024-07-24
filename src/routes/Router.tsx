@@ -26,11 +26,10 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <Navigate to="/main" replace /> },
-      { path: "NonMb-Lookup", element: <NonMbLookup /> },
+      { path: "nonmb-lookup", element: <NonMbLookup /> },
       { path: "lookup", element: <Lookup /> },
       { path: "book/complete", element: <Complete /> },
       { path: "book/:performanceId", element: <Book /> },
-      // { path: "testpage", element: <TestPage /> },
       { path: "gig-register", element: <Register /> },
       { path: "register-complete", element: <RegisterComplete /> },
       { path: "gig/:performanceId", element: <Gig /> },
@@ -60,6 +59,7 @@ const router = createBrowserRouter([
     path: "/view-bottom-sheet",
     element: <ViewBottomSheetTest />,
   },
+
   {
     path: "/testpage",
     element: (
@@ -81,5 +81,6 @@ const router = createBrowserRouter([
   },
 
   { path: "/myregisteredshow", element: <MyRegisterdShow /> },
+  //   ...
 ]);
 export default router;
