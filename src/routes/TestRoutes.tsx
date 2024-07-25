@@ -3,7 +3,7 @@ import KakaoLoginTest from "@pages/test/KakaoLoginTest";
 import ModalTest from "@pages/test/modalTest/ModalTest";
 import ViewBottomSheetTest from "@pages/test/ViewBottomSheetTest";
 
-export const TEST_ROUTES = [
+const TEST_ROUTES = [
   {
     path: "/test",
     children: [
@@ -26,3 +26,5 @@ export const TEST_ROUTES = [
     ],
   },
 ];
+
+export default TEST_ROUTES;
