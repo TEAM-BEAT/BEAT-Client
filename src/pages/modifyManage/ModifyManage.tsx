@@ -1,5 +1,8 @@
-import { useUpdatePerformance } from "@apis/domains/performance/queries";
-import { usePerformanceDelete, usePerformanceEdit } from "@apis/domains/performances/queries";
+import {
+  usePerformanceDelete,
+  usePerformanceEdit,
+  useUpdatePerformance,
+} from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";

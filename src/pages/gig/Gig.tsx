@@ -1,4 +1,4 @@
-import { useGetPerformanceDetail } from "@apis/domains/performance/queries";
+import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
 import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import Button from "@components/commons/button/Button";

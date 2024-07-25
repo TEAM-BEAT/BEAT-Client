@@ -1,6 +1,6 @@
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
-import { usePostPerformance } from "@apis/domains/performance/queries";
+import { usePostPerformance } from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
