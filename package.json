@@ -16,7 +16,8 @@
     "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
     "prepare": "husky install",
     "lint-front": "lint-staged",
-    "svgr": "node svgr-generate.cjs"
+    "svgr": "node svgr-generate.cjs",
+    "generate-index": "node index-generate.cjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
