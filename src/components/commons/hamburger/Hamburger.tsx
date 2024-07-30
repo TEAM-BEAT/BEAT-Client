@@ -1,15 +1,12 @@
-import useHamburger from "@hooks/useHamburger";
-import { hamburgerAtom } from "@stores/hamburger";
-
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Hamburger.styled";
 
 import { useAtom, useAtomValue } from "jotai";
 
-import { navigateAtom } from "@stores/navigate";
+import { useHamburger, useLogin } from "@hooks";
+import { hamburgerAtom, navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
-import useLogin from "@hooks/useLogin";
 
 const Hamburger = () => {
   const navigate = useNavigate();

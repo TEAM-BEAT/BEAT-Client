@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostKakaoLogin } from "@apis/domains/users/queries";
-import { navigateAtom } from "@stores/navigate";
+import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const KakaoAuth = () => {

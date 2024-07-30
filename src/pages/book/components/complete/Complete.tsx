@@ -1,6 +1,5 @@
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useLogin from "@hooks/useLogin";
+import { useHeader, useLogin } from "@hooks";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FreeBook from "../freeBook/FreeBook";

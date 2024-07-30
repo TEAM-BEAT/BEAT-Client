@@ -1,4 +1,4 @@
-import useModal from "@hooks/useModal";
+import { useModal } from "@hooks";
 import BankAccount from "@pages/test/modalTest/BankAccount";
 import { getBankNameKr } from "@utils/getBankName";
 import { useNavigate } from "react-router-dom";

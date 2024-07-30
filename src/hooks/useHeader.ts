@@ -1,4 +1,4 @@
-import { headerAtom } from "@stores/header";
+import { headerAtom } from "@stores";
 import { useAtom } from "jotai";
 
 export const useHeader = () => {
@@ -7,3 +7,5 @@ export const useHeader = () => {
 
   return { header, setHeader };
 };
+
+export default useHeader;

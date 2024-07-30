@@ -1,9 +1,9 @@
 import Layout from "@components/layout/Layout";
-import TokenRefresher from "@hooks/useTokenRefresher";
 import KakaoAuth from "@pages/kakaoAuth/KakaoAuth";
 import Main from "@pages/main/Main";
-import { GIG_ROUTES, LOOKUP_ROUTES, MANAGE_ROUTES, REGISTER_ROUTES, TEST_ROUTES } from "@routes/";
+import { GIG_ROUTES, LOOKUP_ROUTES, MANAGE_ROUTES, REGISTER_ROUTES, TEST_ROUTES } from "@routes";
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import TokenRefresher from "src/hooks/useTokenRefresher";
 
 const router = createBrowserRouter([
   {

@@ -1,4 +1,4 @@
-import { hamburgerAtom } from "@stores/hamburger";
+import { hamburgerAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const useHamburger = () => {

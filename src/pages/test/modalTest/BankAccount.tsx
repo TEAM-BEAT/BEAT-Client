@@ -1,8 +1,7 @@
 import { IcomCopy, IconCheck } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Toast from "@components/commons/toast/Toast";
-import useModal from "@hooks/useModal";
-import useToast from "@hooks/useToast";
+import { useModal, useToast } from "@hooks";
 import { getBankNameKr } from "@utils/getBankName";
 import styled from "styled-components";
 

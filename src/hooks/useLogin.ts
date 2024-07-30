@@ -1,4 +1,4 @@
-import { userAtom } from "@stores/user";
+import { userAtom } from "@stores";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
