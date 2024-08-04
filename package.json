@@ -16,7 +16,8 @@
     "lints": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
     "prepare": "husky install",
     "lint-front": "lint-staged",
-    "svgr": "node svgr-generate.cjs"
+    "svgr": "node svgr-generate.cjs",
+    "postbuild": "react-snap"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -31,6 +32,8 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material": "^5.16.0",
     "@mui/x-date-pickers": "^7.9.0",
+    "@prerenderer/renderer-puppeteer": "^1.2.4",
+    "@prerenderer/rollup-plugin": "^0.3.12",
     "@tanstack/react-query": "^5.51.1",
     "@tanstack/react-query-devtools": "^5.51.1",
     "axios": "^1.7.2",
@@ -39,13 +42,16 @@
     "lottie-react": "^2.4.0",
     "postcss": "^8.4.38",
     "postcss-scss": "^4.0.9",
+    "prerender-spa-plugin": "^3.4.0",
+    "puppeteer": "^22.15.0",
     "react": "^18.3.1",
+    "react-components": "^0.5.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-lottie-player": "^2.0.0",
     "react-router-dom": "^6.24.0",
     "shelljs": "^0.8.5",
-    "styled-components": "^6.1.11",
+    "styled-components": "^6.1.12",
     "styled-reset": "^4.5.2",
     "supports-color": "^9.4.0",
     "typescript": "^5.5.2",
