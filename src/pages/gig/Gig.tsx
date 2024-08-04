@@ -15,6 +15,7 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
+import { Helmet } from "react-helmet-async";
 
 const Gig = () => {
   const navigate = useNavigate();
@@ -61,6 +62,20 @@ const Gig = () => {
 
   return (
     <S.ContentWrapper>
+      <Helmet>
+        <title>{data?.performanceTitle}</title>
+        <meta property="og:title" content={data?.performanceTitle} />
+        <meta
+          property="og:description"
+          content={`${data?.performanceTitle} - 심장이 뛰는 공연, BEAT에서 만나보세요.`}
+        />
+        <meta property="og:image" content={data?.posterImage} />
+        <meta
+          name="keywords"
+          content={`공연, 밴드, 뮤지컬, 비트, beat, ${data?.performanceTitle}`}
+        />
+        <meta property="og:url" content={`https://www.beatlive.kr/gig/${performanceId}`} />
+      </Helmet>
       <ShowInfo
         posterImage={data?.posterImage ?? ""}
         genre={data?.genre as SHOW_TYPE_KEY}
