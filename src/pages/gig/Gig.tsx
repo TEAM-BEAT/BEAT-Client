@@ -64,7 +64,7 @@ const Gig = () => {
     <S.ContentWrapper>
       <MetaTag
         title={data?.performanceTitle}
-        description={`${data?.performanceTitle} - 심장이 뛰는 공연, BEAT에서 만나보세요.`}
+        description={`${data?.performanceTitle} - 심장이 뛰는 곳, BEAT에서 만나보세요.`}
         image={data?.posterImage}
         url={`https://www.beatlive.kr/gig/${performanceId}`}
       />
