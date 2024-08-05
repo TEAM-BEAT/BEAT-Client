@@ -13,6 +13,7 @@ import Modal from "@components/commons/modal/Modal";
 import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const darkTheme = createTheme({
   palette: {
@@ -25,6 +26,11 @@ function App() {
 
   return (
     <HelmetProvider>
+      <MetaTag
+        title="BEAT"
+        description="BE AT WHERE YOUR HEART BEATS"
+        image="https://www.beatlive.kr/og_img.png"
+      />
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={darkTheme}>
           <ThemeProvider theme={theme}>
