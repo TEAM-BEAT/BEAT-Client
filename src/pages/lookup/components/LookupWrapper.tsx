@@ -15,22 +15,7 @@ const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
       <S.LookupContainer>
         <S.LookupCardLeft>
           <S.LookupImage src={item.posterImage} />
-          {item.dueDate >= 1 && item.dueDate <= 6 ? (
-            <>
-              <Labal type="count"> {dueDateText}</Labal>
-            </>
-          ) : item.dueDate === 0 ? (
-            <>
-              <Labal type="today"> {dueDateText}</Labal>
-            </>
-          ) : item.dueDate < 0 ? (
-            <>
-              <Labal type="finish"> {dueDateText}</Labal>
-            </>
-          ) : (
-            <></>
-          )}
-
+          <Labal dueDate={item.dueDate} />
           <Button variant="line" size="xsmall" onClick={handleBtn}>
             취소하기
           </Button>
