@@ -1,12 +1,9 @@
 import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
-import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
+import { ActionBottomSheet, Button, Loading } from "@components/commons";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-import Button from "@components/commons/button/Button";
-import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useLogin from "@hooks/useLogin";
-import { navigateAtom } from "@stores/navigate";
+import { useHeader, useLogin } from "@hooks";
+import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";

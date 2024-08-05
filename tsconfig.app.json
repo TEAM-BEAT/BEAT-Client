@@ -29,10 +29,10 @@
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@constants/*": ["src/constants/*"],
-      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
       "@pages/*": ["src/pages/*"],
-      "@routes/*": ["src/routes"],
-      "@stores/*": ["src/stores/*"],
+      "@routes": ["src/routes"],
+      "@stores": ["src/stores"],
       "@styles/*": ["src/styles/*"],
       "@typings/*": ["src/typings/*"],
       "@utils/*": ["src/utils/*"]

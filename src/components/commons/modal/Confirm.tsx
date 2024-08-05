@@ -1,5 +1,5 @@
-import useModal from "@hooks/useModal";
-import { confirmAtom } from "@stores/modal";
+import { useModal } from "@hooks";
+import { confirmAtom } from "@stores";
 import { useAtomValue } from "jotai";
 import Button from "../button/Button";
 import ModalTextBox from "./components/ModalTextBox";

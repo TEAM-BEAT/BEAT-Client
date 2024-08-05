@@ -1,4 +1,4 @@
-import { navigateAtom } from "@stores/navigate";
+import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 

@@ -1,6 +1,6 @@
 import { IconArrowDown, IconArrowUp, IconCheck } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
-import useToast from "@hooks/useToast";
+import { useToast } from "@hooks";
 import { useState } from "react";
 import * as S from "./PerformanceIntroduce.styled";
 

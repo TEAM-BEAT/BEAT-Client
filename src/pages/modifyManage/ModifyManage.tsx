@@ -4,25 +4,27 @@ import {
   useUpdatePerformance,
 } from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
-import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
-import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
-import InputBank from "@components/commons/bank/InputBank";
-import Button from "@components/commons/button/Button";
-import TextArea from "@components/commons/input/textArea/TextArea";
-import TextField from "@components/commons/input/textField/TextField";
-import Loading from "@components/commons/loading/Loading";
-import Spacing from "@components/commons/spacing/Spacing";
-import Stepper from "@components/commons/stepper/Stepper";
-import TimePicker from "@components/commons/timepicker/TimePicker";
+import {
+  BankBottomSheet,
+  Button,
+  InputAccountWrapper,
+  InputBank,
+  Loading,
+  Spacing,
+  Stepper,
+  TextArea,
+  TextField,
+  TimePicker,
+} from "@components/commons";
+
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import useModal from "@hooks/useModal";
+import { useHeader, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useHeader } from "./../../hooks/useHeader";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
 import PosterThumbnail from "./components/PosterThumbnail";

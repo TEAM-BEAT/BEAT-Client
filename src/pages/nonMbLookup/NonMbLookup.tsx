@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./NonMbLookup.styled";
 
-import useModal from "@hooks/useModal";
-
 import Button from "@components/commons/button/Button";
 import InputWrapper from "./components/InputWrapper";
 
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
+import { useHeader, useModal } from "@hooks";
 
 const NonMbLookup = () => {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { userAtom } from "@stores/user";
+import { userAtom } from "@stores";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { components } from "@typings/api/schema";
 import { useAtom } from "jotai";
