@@ -6,7 +6,7 @@ import { useGuestBook, useMemberBook } from "@apis/domains/bookings/queries";
 import {
   useGetBookingPerformanceDetail,
   useGetScheduleAvailable,
-} from "@apis/domains/performance/queries";
+} from "@apis/domains/performances/queries";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
 import Button from "@components/commons/button/Button";

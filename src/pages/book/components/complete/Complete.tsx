@@ -28,7 +28,7 @@ const Complete = () => {
     if (isLogin) {
       navigate("/lookup");
     } else {
-      navigate("/NonMb-Lookup");
+      navigate("/nonmb-lookup");
     }
   };
 

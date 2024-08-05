@@ -5,7 +5,7 @@ import { usePostKakaoLogin } from "@apis/domains/users/queries";
 import { navigateAtom } from "@stores/navigate";
 import { useAtom } from "jotai";
 
-const KakaoLogin = () => {
+const KakaoAuth = () => {
   const navigate = useNavigate();
   const [navigateUrl] = useAtom(navigateAtom);
 
@@ -41,4 +41,4 @@ const KakaoLogin = () => {
   return <div></div>;
 };
 
-export default KakaoLogin;
+export default KakaoAuth;
