@@ -2,8 +2,7 @@
   "rewrites": [{ "source": "/(.*)", "destination": "/" }],
   "build": {
     "env": {
-      "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
-      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+      "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
     }
   }
 }
