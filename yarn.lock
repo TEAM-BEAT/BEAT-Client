@@ -5210,6 +5210,7 @@ __metadata:
     "@yarnpkg/sdks": "npm:^3.1.3"
     axios: "npm:^1.7.2"
     chromatic: "npm:^11.5.4"
+    chrome-aws-lambda: "npm:^10.1.0"
     dayjs: "npm:^1.11.11"
     eslint: "npm:^9.6.0"
     eslint-config-prettier: "npm:^9.1.0"
@@ -5636,6 +5637,17 @@ __metadata:
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
   checksum: 10c0/3d812122548f9c29ab7116f7054e03cbf523b30ddde7e3142017cd23c42b6b99b3023e0146ef3afcfe4245a8cbb2ed97cedecca4e2cf9e5f6e8666db84a827d4
+  languageName: node
+  linkType: hard
+
+"chrome-aws-lambda@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "chrome-aws-lambda@npm:10.1.0"
+  dependencies:
+    lambdafs: "npm:^2.0.3"
+  peerDependencies:
+    puppeteer-core: ^10.1.0
+  checksum: 10c0/968efb72640a99c0648cdf96f31260f07fcb3a6231ad8dec45bcd61f4e07e6f7f47cdbbc7fd91e34cd35632549eeec61e91845b47ee31ba9a0a1b4e2057b2b50
   languageName: node
   linkType: hard
 
@@ -9362,6 +9374,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lambdafs@npm:^2.0.3":
+  version: 2.1.1
+  resolution: "lambdafs@npm:2.1.1"
+  dependencies:
+    tar-fs: "npm:*"
+  bin:
+    lambdafs: bin/brotli.js
+  checksum: 10c0/eec9780fb2e34376c31a6c0c6d2ac2f8cc664e48f3531304bb5286018696c465403729bf1a1b42e9f1fef617959948048042af9f64205cfe75e703a06f07915a
+  languageName: node
+  linkType: hard
+
 "language-subtag-registry@npm:^0.3.20":
   version: 0.3.23
   resolution: "language-subtag-registry@npm:0.3.23"
@@ -12839,7 +12862,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar-fs@npm:^3.0.6":
+"tar-fs@npm:*, tar-fs@npm:^3.0.6":
   version: 3.0.6
   resolution: "tar-fs@npm:3.0.6"
   dependencies:
