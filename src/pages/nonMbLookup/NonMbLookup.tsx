@@ -6,12 +6,8 @@ import Button from "@components/commons/button/Button";
 import InputWrapper from "./components/InputWrapper";
 
 import { NAVIGATION_STATE } from "@constants/navigationState";
-<<<<<<< HEAD
-import { useHeader } from "@hooks/useHeader";
 import MetaTag from "@components/commons/meta/MetaTag";
-=======
 import { useHeader, useModal } from "@hooks";
->>>>>>> develop
 
 const NonMbLookup = () => {
   const navigate = useNavigate();

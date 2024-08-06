@@ -12,12 +12,9 @@ import Button from "@components/commons/button/Button";
 
 import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
-<<<<<<< HEAD
 import MetaTag from "@components/commons/meta/MetaTag";
-=======
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks";
->>>>>>> develop
 
 interface LookupProps {
   userId: number;
