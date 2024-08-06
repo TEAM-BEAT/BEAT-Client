@@ -15,6 +15,7 @@ import { useHeader } from "@hooks/useHeader";
 import { useEffect } from "react";
 import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 interface LookupProps {
   userId: number;
@@ -87,6 +88,7 @@ const Lookup = () => {
         <Loading />
       ) : (
         <S.LookupWrapper>
+          <MetaTag title="내가 예매한 공연" />
           {lookUpList.length ? (
             <>
               {lookUpList.map((item) => (

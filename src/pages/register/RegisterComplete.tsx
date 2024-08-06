@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks/useHeader";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const RegisterComplete = () => {
   const user = "메이커";
@@ -29,6 +30,7 @@ const RegisterComplete = () => {
 
   return (
     <>
+      <MetaTag title="등록완료" />
       <S.RegisterCompleteLayout>
         <S.RegisterCompleteWrapper>
           <Lottie

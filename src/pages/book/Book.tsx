@@ -25,6 +25,7 @@ import Info from "./components/info/Info";
 import Select from "./components/select/Select";
 import TermCheck from "./components/termCheck/TermCheck";
 import { getScheduleNumberById } from "./utils";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -220,6 +221,7 @@ const Book = () => {
     <Loading />
   ) : (
     <S.ContentWrapper>
+      <MetaTag title="공연 예매하기" />
       {isPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}

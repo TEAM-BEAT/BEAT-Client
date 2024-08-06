@@ -26,11 +26,7 @@ function App() {
 
   return (
     <HelmetProvider>
-      <MetaTag
-        title="BEAT"
-        description="BE AT WHERE YOUR HEART BEATS"
-        image="https://www.beatlive.kr/og_img.png"
-      />
+      <MetaTag title="BEAT" />
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={darkTheme}>
           <ThemeProvider theme={theme}>

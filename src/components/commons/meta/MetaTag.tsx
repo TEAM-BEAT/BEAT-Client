@@ -2,19 +2,21 @@ import { Helmet } from "react-helmet-async";
 
 interface MetaTagProps {
   title: string;
-  description: string;
-  image: string;
+  ogTitle?: string;
+  description?: string;
+  image?: string;
+  keywords?: string;
   url?: string;
 }
 
-const MetaTag = ({ title, description, image, url }: MetaTagProps) => {
+const MetaTag = ({ title, ogTitle, description, image, url, keywords }: MetaTagProps) => {
   return (
     <Helmet>
       <title>{title}</title>
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      <meta name="keywords" content={`공연, 밴드, 뮤지컬, 비트, beat, ${title}`} />
+      <meta property="og:title" content={ogTitle ?? "BEAT"} />
+      <meta property="og:description" content={description ?? "BE AT WHERE YOUR HEART BEATS"} />
+      <meta property="og:image" content={image ?? "https://www.beatlive.kr/og_img.png"} />
+      <meta name="keywords" content={`공연, 밴드, 뮤지컬, 비트, beat, ${keywords}`} />
       {url && <meta property="og:url" content={url} />}
     </Helmet>
   );
