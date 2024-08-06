@@ -19,6 +19,10 @@ export default defineConfig(async ({ mode }) => {
         rendererOptions: {
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
+          puppeteerArgs: ["--no-sandbox", "--disable-setuid-sandbox"],
+          executablePath: process.env.CHROME_BIN || undefined,
+          useCustomPuppeteer: true,
+          customPuppeteerModule: "puppeteer-core",
         },
       }),
       svgr({
