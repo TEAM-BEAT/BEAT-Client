@@ -46,6 +46,7 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -318,6 +319,7 @@ const Register = () => {
   if (registerStep === 1) {
     return (
       <>
+        <MetaTag title="공연 등록" />
         <S.RegisterContainer>
           <PosterThumbnail
             value={posterImage}
@@ -534,18 +536,22 @@ const Register = () => {
 
   if (registerStep === 2) {
     return (
-      <RegisterMaker
-        castList={castList}
-        staffList={staffList}
-        handleRegisterStep={handleRegisterStep}
-        updateGigInfo={updateGigInfo}
-      />
+      <>
+        <MetaTag title="공연 등록" />
+        <RegisterMaker
+          castList={castList}
+          staffList={staffList}
+          handleRegisterStep={handleRegisterStep}
+          updateGigInfo={updateGigInfo}
+        />
+      </>
     );
   }
 
   if (registerStep === 3) {
     return (
       <>
+        <MetaTag title="공연 등록" />
         <S.PreviewBanner>예매자에게 보여질 화면 예시입니다. 확인해주세요.</S.PreviewBanner>
         <ShowInfo
           posterImage={posterImage}

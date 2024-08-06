@@ -14,6 +14,7 @@ import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps, RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const TicketHolderList = () => {
   /*
@@ -181,6 +182,7 @@ const TicketHolderList = () => {
   };
   return (
     <>
+      <MetaTag title="예매자 확인 및 상태변경" />
       {isLoading ? (
         <Loading />
       ) : (

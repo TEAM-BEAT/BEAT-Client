@@ -6,6 +6,7 @@ import Button from "@components/commons/button/Button";
 import InputWrapper from "./components/InputWrapper";
 
 import { NAVIGATION_STATE } from "@constants/navigationState";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { useHeader, useModal } from "@hooks";
 
 const NonMbLookup = () => {
@@ -70,6 +71,7 @@ const NonMbLookup = () => {
 
   return (
     <S.NonMbLookupWrapper>
+      <MetaTag title="비회원 예매 조회" />
       <InputWrapper
         btnOn={handleBtnOn}
         btnOff={handleBtnOff}

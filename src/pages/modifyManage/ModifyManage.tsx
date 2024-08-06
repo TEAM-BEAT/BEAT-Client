@@ -34,6 +34,7 @@ import { GENRE_LIST } from "./constants/genreList";
 import * as S from "./ModifyManage.styled";
 import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const ModifyManage = () => {
   const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
@@ -302,6 +303,7 @@ const ModifyManage = () => {
     if (ModifyManageStep === 1) {
       return (
         <>
+          <MetaTag title="공연 수정" />
           <S.ModifyManageContainer>
             <PosterThumbnail
               value={posterImage}
@@ -547,6 +549,7 @@ const ModifyManage = () => {
     if (ModifyManageStep === 2) {
       return (
         <>
+          <MetaTag title="공연 수정" />
           <ShowInfo
             posterImage={posterImage as string}
             title={performanceTitle as string}

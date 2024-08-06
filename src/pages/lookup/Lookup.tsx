@@ -12,6 +12,7 @@ import Button from "@components/commons/button/Button";
 
 import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks";
 
@@ -86,6 +87,7 @@ const Lookup = () => {
         <Loading />
       ) : (
         <S.LookupWrapper>
+          <MetaTag title="내가 예매한 공연" />
           {lookUpList.length ? (
             <>
               {lookUpList.map((item) => (

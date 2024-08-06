@@ -2,6 +2,7 @@ import registerComplete from "@assets/lottie/register-complete.json";
 import Button from "@components/commons/button/Button";
 import Spacing from "@components/commons/spacing/Spacing";
 import { NAVIGATION_STATE } from "@constants/navigationState";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { useHeader } from "@hooks";
 import { useEffect } from "react";
 import Lottie from "react-lottie-player";
@@ -29,6 +30,7 @@ const RegisterComplete = () => {
 
   return (
     <>
+      <MetaTag title="등록완료" />
       <S.RegisterCompleteLayout>
         <S.RegisterCompleteWrapper>
           <Lottie

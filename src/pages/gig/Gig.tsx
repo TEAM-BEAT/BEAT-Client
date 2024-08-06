@@ -12,6 +12,7 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const Gig = () => {
   const navigate = useNavigate();
@@ -58,6 +59,14 @@ const Gig = () => {
 
   return (
     <S.ContentWrapper>
+      <MetaTag
+        title={data?.performanceTitle}
+        ogTitle={data?.performanceTitle}
+        description={`${data?.performanceTitle} - 심장이 뛰는 곳, BEAT에서 만나보세요.`}
+        image={data?.posterImage}
+        keywords={data?.performanceTitle}
+        url={`https://www.beatlive.kr/gig/${performanceId}`}
+      />
       <ShowInfo
         posterImage={data?.posterImage ?? ""}
         genre={data?.genre as SHOW_TYPE_KEY}

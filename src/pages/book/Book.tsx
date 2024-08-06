@@ -14,6 +14,7 @@ import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@page
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import * as S from "./Book.styled";
 import { getScheduleNumberById } from "./utils";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -209,6 +210,7 @@ const Book = () => {
     <Loading />
   ) : (
     <S.ContentWrapper>
+      <MetaTag title="공연 예매" />
       {isPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
