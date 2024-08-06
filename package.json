@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "node -r @yarnpkg/pnpify",
@@ -43,7 +43,7 @@
     "postcss": "^8.4.38",
     "postcss-scss": "^4.0.9",
     "prerender-spa-plugin": "^3.4.0",
-    "puppeteer-core": "~6.0.0",
+    "puppeteer": "^22.15.0",
     "react": "^18.3.1",
     "react-components": "^0.5.1",
     "react-dom": "^18.3.1",

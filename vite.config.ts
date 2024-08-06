@@ -19,12 +19,10 @@ export default defineConfig(async ({ mode }) => {
         rendererOptions: {
           launchOptions: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            executablePath: "/usr/bin/chromium-browser",
             headless: true,
           },
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
-          customPuppeteerModule: "puppeteer-core",
         },
       }),
       svgr({
