@@ -3,8 +3,7 @@
   "build": {
     "env": {
       "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
-      "CHROME_BIN": "/opt/google/chrome/chrome",
-      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "false"
     }
   }
 }

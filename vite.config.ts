@@ -20,7 +20,7 @@ export default defineConfig(async ({ mode }) => {
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
           puppeteerArgs: ["--no-sandbox", "--disable-setuid-sandbox"],
-          executablePath: process.env.CHROME_BIN || undefined,
+          executablePath: "/usr/bin/google-chrome-stable",
           useCustomPuppeteer: true,
           customPuppeteerModule: "puppeteer-core",
         },
