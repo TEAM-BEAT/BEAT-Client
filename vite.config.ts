@@ -4,7 +4,6 @@ import { defineConfig, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { generatePerformanceRoutes } from "./src/utils/generatePerformanceRoute";
-import chromium from "chrome-aws-lambda";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
@@ -20,7 +19,7 @@ export default defineConfig(async ({ mode }) => {
         rendererOptions: {
           launchOptions: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            executablePath: await chromium.executablePath,
+            executablePath: "/usr/bin/chromium-browser",
             headless: true,
           },
           maxConcurrentRoutes: 1,
