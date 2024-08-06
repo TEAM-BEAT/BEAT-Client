@@ -5242,7 +5242,7 @@ __metadata:
     shelljs: "npm:^0.8.5"
     storybook: "npm:^8.1.11"
     storybook-addon-theme-provider: "npm:^0.2.2"
-    styled-components: "npm:^6.1.12"
+    styled-components: "npm:^6.1.11"
     styled-reset: "npm:^4.5.2"
     stylelint: "npm:^16.6.1"
     stylelint-config-concentric-order: "npm:^5.2.0"
@@ -12605,7 +12605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^6.1.12":
+"styled-components@npm:^6.1.11":
   version: 6.1.12
   resolution: "styled-components@npm:6.1.12"
   dependencies:
