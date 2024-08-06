@@ -210,7 +210,7 @@ const Book = () => {
     <Loading />
   ) : (
     <S.ContentWrapper>
-      <MetaTag title="공연 예매하기" />
+      <MetaTag title="공연 예매" />
       {isPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
