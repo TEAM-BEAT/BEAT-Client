@@ -1,4 +1,4 @@
-import { alertAtom, confirmAtom, modalAtom } from "@stores/modal";
+import { alertAtom, confirmAtom, modalAtom } from "@stores";
 import { AlertProps, ConfirmProps, ModalProps } from "@typings/modalType";
 import { useAtom } from "jotai";
 

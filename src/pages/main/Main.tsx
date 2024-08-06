@@ -1,18 +1,18 @@
 import { useState } from "react";
 import * as S from "./Main.styled";
 
-import Carousel from "./components/carousel/Carousel";
-import Chips from "./components/chips/Chips";
-import Floating from "./components/floating/Floating";
-
-import Footer from "./components/footer/Footer";
-import MainNavigation from "./components/mainNavigation/MainNavigation";
-import Performance from "./components/performance/Performance";
-
 import Loading from "@components/commons/loading/Loading";
 
 import { useGetAllScheduleList } from "@apis/domains/home/queries";
-import { navigateAtom } from "@stores/navigate";
+import {
+  Carousel,
+  Chips,
+  Floating,
+  Footer,
+  MainNavigation,
+  Performance,
+} from "@pages/main/components";
+import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const Main = () => {

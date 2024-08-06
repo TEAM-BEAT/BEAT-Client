@@ -1,4 +1,4 @@
-import useModal from "@hooks/useModal";
+import { useModal } from "@hooks";
 import styled from "styled-components";
 
 const ModalTest = () => {

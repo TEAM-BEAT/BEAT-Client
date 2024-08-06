@@ -17,7 +17,8 @@
     "prepare": "husky install",
     "lint-front": "lint-staged",
     "svgr": "node svgr-generate.cjs",
-    "postbuild": "react-snap"
+    "postbuild": "react-snap",
+    "generate-index": "node index-generate.cjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

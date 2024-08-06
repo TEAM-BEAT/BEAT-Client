@@ -6,24 +6,13 @@ import { useGuestBook, useMemberBook } from "@apis/domains/bookings/queries";
 import {
   useGetBookingPerformanceDetail,
   useGetScheduleAvailable,
-} from "@apis/domains/performance/queries";
-import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
-import Button from "@components/commons/button/Button";
-import Context from "@components/commons/contextBox/Context";
-import Loading from "@components/commons/loading/Loading";
+} from "@apis/domains/performances/queries";
+import { Button, Context, Loading, OuterLayout, ViewBottomSheet } from "@components/commons";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useLogin from "@hooks/useLogin";
-import useModal from "@hooks/useModal";
+import { useHeader, useLogin, useModal } from "@hooks";
+import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@pages/book/components";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import * as S from "./Book.styled";
-import BookerInfo from "./components/bookerInfo/BookerInfo";
-import Count from "./components/count/Count";
-import EasyPassEntry from "./components/easyPassEntry/EasyPassEntry";
-import Info from "./components/info/Info";
-import Select from "./components/select/Select";
-import TermCheck from "./components/termCheck/TermCheck";
 import { getScheduleNumberById } from "./utils";
 import MetaTag from "@components/commons/meta/MetaTag";
 

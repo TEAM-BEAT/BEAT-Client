@@ -1,4 +1,4 @@
-import { modalAtom } from "@stores/modal";
+import { modalAtom } from "@stores";
 import { useAtomValue } from "jotai";
 import ModalWrapper from "./components/ModalWrapper";
 

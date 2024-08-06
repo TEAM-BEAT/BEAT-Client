@@ -1,5 +1,5 @@
-import useModal from "@hooks/useModal";
-import { alertAtom } from "@stores/modal";
+import { useModal } from "@hooks";
+import { alertAtom } from "@stores";
 import { useAtomValue } from "jotai";
 import React from "react";
 import Button from "../button/Button";

@@ -1,7 +1,7 @@
 import { useMakerPerformance } from "@apis/domains/performances/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
+import { useHeader } from "@hooks";
 import { components } from "@typings/api/schema";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
