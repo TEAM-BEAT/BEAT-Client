@@ -1,16 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [{ "src": "/(.*)", "dest": "/" }],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
   "build": {
     "env": {
-      "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
-      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "false"
+      "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
     }
   }
 }
