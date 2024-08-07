@@ -30,6 +30,7 @@ export default defineConfig(async ({ mode }) => {
         rendererOptions: {
           launchOptions: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            ignoreDefaultArgs: ["--disable-extensions"],
             defaultViewport: chromium.defaultViewport,
             executablePath,
             ignoreHTTPSErrors: true,
