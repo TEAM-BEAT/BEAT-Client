@@ -1,12 +1,13 @@
-import Lottie from "react-lottie-player";
 import registerComplete from "@assets/lottie/register-complete.json";
-import * as S from "./Register.styled";
-import Spacing from "@components/commons/spacing/Spacing";
 import Button from "@components/commons/button/Button";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import Spacing from "@components/commons/spacing/Spacing";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
+import MetaTag from "@components/commons/meta/MetaTag";
+import { useHeader } from "@hooks";
+import { useEffect } from "react";
+import Lottie from "react-lottie-player";
+import { useLocation, useNavigate } from "react-router-dom";
+import * as S from "./Register.styled";
 
 const RegisterComplete = () => {
   const user = "메이커";
@@ -29,6 +30,7 @@ const RegisterComplete = () => {
 
   return (
     <>
+      <MetaTag title="등록완료" />
       <S.RegisterCompleteLayout>
         <S.RegisterCompleteWrapper>
           <Lottie

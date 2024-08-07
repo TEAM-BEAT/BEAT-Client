@@ -1,12 +1,9 @@
-import { useGetPerformanceDetail } from "@apis/domains/performance/queries";
-import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
+import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
+import { ActionBottomSheet, Button, Loading } from "@components/commons";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-import Button from "@components/commons/button/Button";
-import Loading from "@components/commons/loading/Loading";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useLogin from "@hooks/useLogin";
-import { navigateAtom } from "@stores/navigate";
+import { useHeader, useLogin } from "@hooks";
+import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -15,6 +12,7 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const Gig = () => {
   const navigate = useNavigate();
@@ -61,6 +59,14 @@ const Gig = () => {
 
   return (
     <S.ContentWrapper>
+      <MetaTag
+        title={data?.performanceTitle}
+        ogTitle={data?.performanceTitle}
+        description={`${data?.performanceTitle} - 심장이 뛰는 곳, BEAT에서 만나보세요.`}
+        image={data?.posterImage}
+        keywords={data?.performanceTitle}
+        url={`https://www.beatlive.kr/gig/${performanceId}`}
+      />
       <ShowInfo
         posterImage={data?.posterImage ?? ""}
         genre={data?.genre as SHOW_TYPE_KEY}

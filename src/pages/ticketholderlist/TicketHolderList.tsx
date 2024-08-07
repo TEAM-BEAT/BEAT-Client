@@ -4,9 +4,7 @@ import Button from "@components/commons/button/Button";
 import Loading from "@components/commons/loading/Loading";
 import Toast from "@components/commons/toast/Toast";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useModal from "@hooks/useModal";
-import useToast from "@hooks/useToast";
+import { useHeader, useModal, useToast } from "@hooks";
 import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +14,7 @@ import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps, RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
+import MetaTag from "@components/commons/meta/MetaTag";
 
 const TicketHolderList = () => {
   /*
@@ -183,6 +182,7 @@ const TicketHolderList = () => {
   };
   return (
     <>
+      <MetaTag title="예매자 확인 및 상태변경" />
       {isLoading ? (
         <Loading />
       ) : (

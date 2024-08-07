@@ -1,8 +1,8 @@
-import * as S from "./PhoneNumber.styled";
 import { IconCheck } from "@assets/svgs";
+import * as S from "./PhoneNumber.styled";
 
 import Toast from "@components/commons/toast/Toast";
-import useToast from "@hooks/useToast";
+import { useToast } from "@hooks";
 
 interface PhoneNumProps {
   phone?: string;

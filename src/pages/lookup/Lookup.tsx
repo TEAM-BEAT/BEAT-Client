@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
@@ -10,11 +10,11 @@ import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
 
 import Button from "@components/commons/button/Button";
 
-import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import { useEffect } from "react";
 import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
+import MetaTag from "@components/commons/meta/MetaTag";
+import { NAVIGATION_STATE } from "@constants/navigationState";
+import { useHeader } from "@hooks";
 
 interface LookupProps {
   userId: number;
@@ -87,6 +87,7 @@ const Lookup = () => {
         <Loading />
       ) : (
         <S.LookupWrapper>
+          <MetaTag title="내가 예매한 공연" />
           {lookUpList.length ? (
             <>
               {lookUpList.map((item) => (

@@ -29,12 +29,8 @@ const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps)
   const filteredData =
     genre === "ALL" ? performanceList : performanceList.filter((item) => item.genre === genre);
 
-  const sortData = filteredData
-    .filter((item) => item.dueDate! >= 0)
-    .sort((a, b) => a.dueDate! - b.dueDate!);
-
-  const data1 = sortData.slice(0, 4);
-  const data2 = sortData.slice(4);
+  const data1 = filteredData.slice(0, 4);
+  const data2 = filteredData.slice(4);
 
   return (
     <S.PerformanceWrapper>

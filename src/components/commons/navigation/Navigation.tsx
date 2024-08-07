@@ -1,5 +1,5 @@
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
+import { useHeader } from "@hooks";
 import * as S from "./Navigation.styled";
 
 const Navigation = () => {

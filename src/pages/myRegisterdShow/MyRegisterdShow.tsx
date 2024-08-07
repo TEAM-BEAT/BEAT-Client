@@ -1,7 +1,7 @@
 import { useMakerPerformance } from "@apis/domains/performances/queries";
 import Button from "@components/commons/button/Button";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
+import { useHeader } from "@hooks";
 import { components } from "@typings/api/schema";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import bannerNarrow from "../../assets/images/banner_narrow.png";
 import * as S from "./MyRegisterdShow.styled";
 import RegisteredCard from "./components/registeredcard/RegisteredCard";
 import { RegisteredObjProps } from "./constants/myRegisterShow";
+import MetaTag from "@components/commons/meta/MetaTag";
 const MyRegisterdShow = () => {
   const { setHeader } = useHeader();
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const MyRegisterdShow = () => {
   };
   return (
     <>
+      <MetaTag title="내가 등록한 공연" />
       {isNothing ? (
         <>
           {/*navigate 위치할 곳 - fix로 예상함*/}
