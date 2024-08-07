@@ -21,7 +21,11 @@ export default defineConfig(async ({ mode }) => {
           launchOptions: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             defaultViewport: chromium.defaultViewport,
-            executablePath: env.VITE_CHROME_PATH || (await chromium.executablePath()),
+            executablePath:
+              env.VITE_CHROME_PATH ||
+              (await chromium.executablePath(
+                "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
+              )),
             headless: chromium.headless,
           },
           maxConcurrentRoutes: 1,
