@@ -12,12 +12,13 @@ export default defineConfig(async ({ mode }) => {
   const routes = await generatePerformanceRoutes(env.VITE_API_BASE_URL);
   console.log("routes path: ", routes);
 
-  const executablePath = env.VITE_CHROME_PATH || (await chromium.executablePath());
-  console.log("Chromium executable path:", executablePath);
+  const executablePath =
+    env.VITE_CHROME_PATH ||
+    (await chromium.executablePath(
+      "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
+    ));
 
-  // await chromium.executablePath(
-  //   "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
-  // )
+  console.log("Chromium executable path:", executablePath);
 
   return {
     plugins: [
