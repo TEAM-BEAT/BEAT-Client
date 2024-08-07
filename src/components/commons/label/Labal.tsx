@@ -2,29 +2,31 @@ import { ReactNode } from "react";
 import * as S from "./Label.styled";
 
 interface LabelProps {
-  type: "count" | "finish" | "today";
-  children: ReactNode;
+  dueDate: number;
 }
 
-const Labal = ({ type, children }: LabelProps) => {
+const Labal = ({ dueDate }: LabelProps) => {
   return (
     <S.LabelWrapper>
-      {type === "count" ? (
-        <>
-          <S.CountLabel />
-          <S.CountDueDate>{children}</S.CountDueDate>
-        </>
-      ) : type === "finish" ? (
-        <>
-          <S.FinishLabel />
-          <S.FinishDueDate>{children}</S.FinishDueDate>
-        </>
-      ) : (
+      {dueDate === 0 && (
         <>
           <S.TodayLabel />
-          <S.CountDueDate>{children}</S.CountDueDate>
+          <S.CountDueDate>D-DAY</S.CountDueDate>
         </>
       )}
+      {dueDate < 0 && (
+        <>
+          <S.FinishLabel />
+          <S.FinishDueDate>공연종료</S.FinishDueDate>
+        </>
+      )}
+      {dueDate > 0 &&
+        (dueDate <= 5 ? (
+          <>
+            <S.CountLabel />
+            <S.CountDueDate>D-{dueDate}</S.CountDueDate>
+          </>
+        ) : null)}
     </S.LabelWrapper>
   );
 };
