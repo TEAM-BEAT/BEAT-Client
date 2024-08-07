@@ -10,6 +10,14 @@ import { generatePerformanceRoutes } from "./src/utils/generatePerformanceRoute"
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const routes = await generatePerformanceRoutes(env.VITE_API_BASE_URL);
+  console.log("routes path: ", routes);
+
+  const executablePath = env.VITE_CHROME_PATH || (await chromium.executablePath());
+  console.log("Chromium executable path:", executablePath);
+
+  // await chromium.executablePath(
+  //   "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
+  // )
 
   return {
     plugins: [
@@ -21,17 +29,17 @@ export default defineConfig(async ({ mode }) => {
           launchOptions: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             defaultViewport: chromium.defaultViewport,
-            executablePath:
-              env.VITE_CHROME_PATH ||
-              (await chromium.executablePath(
-                "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
-              )),
+            executablePath,
             ignoreHTTPSErrors: true,
             headless: chromium.headless,
           },
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
           customPuppeteerModule: "puppeteer-core",
+        },
+        // Debugging
+        postProcess: (context) => {
+          console.log(`Prerendered: ${context.route}`);
         },
       }),
       svgr({
