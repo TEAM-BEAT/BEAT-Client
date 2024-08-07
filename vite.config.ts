@@ -24,8 +24,9 @@ export default defineConfig(async ({ mode }) => {
             executablePath:
               env.VITE_CHROME_PATH ||
               (await chromium.executablePath(
-                "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
+                "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
               )),
+            ignoreHTTPSErrors: true,
             headless: chromium.headless,
           },
           maxConcurrentRoutes: 1,
