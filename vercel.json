@@ -13,5 +13,6 @@
       "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "false"
     }
   },
-  "installCommand": "apt-get update && apt-get install -y libnss3 && yarn install && yarn run build"
+  "installCommand": "apt-get update && apt-get install -y libnss3 && yarn install",
+  "buildCommand": "yarn run build"
 }
