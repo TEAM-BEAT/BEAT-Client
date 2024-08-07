@@ -2784,6 +2784,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sparticuz/chromium-min@npm:^126.0.0":
+  version: 126.0.0
+  resolution: "@sparticuz/chromium-min@npm:126.0.0"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    tar-fs: "npm:^3.0.6"
+  checksum: 10c0/ad4b2b7b46086828458ebc7ecb46e60825fd8b1a9d4ae6d07d205f76fe2ef0a1e60ac3afc720e78274ee0801b01d5948c844d945d6accdcee6dd42df91576209
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-actions@npm:8.2.1":
   version: 8.2.1
   resolution: "@storybook/addon-actions@npm:8.2.1"
@@ -5187,6 +5197,7 @@ __metadata:
     "@mui/x-date-pickers": "npm:^7.9.0"
     "@prerenderer/renderer-puppeteer": "npm:^1.2.4"
     "@prerenderer/rollup-plugin": "npm:^0.3.12"
+    "@sparticuz/chromium-min": "npm:^126.0.0"
     "@storybook/addon-essentials": "npm:^8.1.11"
     "@storybook/addon-interactions": "npm:^8.1.11"
     "@storybook/addon-links": "npm:^8.1.11"
@@ -5232,7 +5243,7 @@ __metadata:
     prerender-spa-plugin: "npm:^3.4.0"
     prettier: "npm:^3.3.2"
     prettier-linter-helpers: "npm:^1.0.0"
-    puppeteer: "npm:^22.15.0"
+    puppeteer-core: "npm:^22.15.0"
     react: "npm:^18.3.1"
     react-components: "npm:^0.5.1"
     react-dom: "npm:^18.3.1"
@@ -11049,7 +11060,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:22.15.0":
+"puppeteer-core@npm:^22.15.0":
   version: 22.15.0
   resolution: "puppeteer-core@npm:22.15.0"
   dependencies:
@@ -11075,20 +11086,6 @@ __metadata:
     rimraf: "npm:^2.6.1"
     ws: "npm:^6.1.0"
   checksum: 10c0/8bc7afabeffb72399b977e88e157df5f6f367547b62000511fb32572c8f452b93c531a48b645d6f32d2c4b9d68235cc5e971618e8aad591f88c51e500246b9ab
-  languageName: node
-  linkType: hard
-
-"puppeteer@npm:^22.15.0":
-  version: 22.15.0
-  resolution: "puppeteer@npm:22.15.0"
-  dependencies:
-    "@puppeteer/browsers": "npm:2.3.0"
-    cosmiconfig: "npm:^9.0.0"
-    devtools-protocol: "npm:0.0.1312386"
-    puppeteer-core: "npm:22.15.0"
-  bin:
-    puppeteer: lib/esm/puppeteer/node/cli.js
-  checksum: 10c0/c31ec024dd7722c32a681c3e2ae23751021abb3f4c39fbdd895859327e855ae2b89e5682fcdb789de7412314701d882bd37e8545e45cf0a97cd5df06449987b9
   languageName: node
   linkType: hard
 

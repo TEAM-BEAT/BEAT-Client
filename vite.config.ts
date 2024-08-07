@@ -4,6 +4,7 @@ import { defineConfig, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { generatePerformanceRoutes } from "./src/utils/generatePerformanceRoute";
+import chromium from "@sparticuz/chromium-min";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
@@ -19,10 +20,13 @@ export default defineConfig(async ({ mode }) => {
         rendererOptions: {
           launchOptions: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            headless: true,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: env.VITE_CHROME_PATH || (await chromium.executablePath()),
+            headless: chromium.headless,
           },
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
+          customPuppeteerModule: "puppeteer-core",
         },
       }),
       svgr({
