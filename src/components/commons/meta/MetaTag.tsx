@@ -15,7 +15,10 @@ const MetaTag = ({ title, ogTitle, description, image, url, keywords }: MetaTagP
       <title>{title}</title>
       <meta property="og:title" content={ogTitle ?? "BEAT"} />
       <meta property="og:description" content={description ?? "BE AT WHERE YOUR HEART BEATS"} />
-      <meta property="og:image" content={image ?? "https://www.beatlive.kr/og_img.png"} />
+      <meta
+        property="og:image"
+        content={image ?? `${import.meta.env.VITE_CLIENT_URL}/og_img.png`}
+      />
       {keywords ? (
         <meta name="keywords" content={`공연, 밴드, 뮤지컬, 비트, beat, ${keywords}`} />
       ) : (
