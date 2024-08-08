@@ -22,8 +22,6 @@ async function fetchPerformanceIds(url: string) {
       (performance: PerformanceType) => `/gig/${performance.performanceId}`
     );
 
-    console.log("validIds:", validIds);
-
     return validIds;
   } catch (error) {
     console.error("Error fetching performance IDs:", error);
