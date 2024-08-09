@@ -1,4 +1,5 @@
 import Button from "@components/commons/button/Button";
+import Labal from "@components/commons/label/Labal";
 import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import { useNavigate } from "react-router-dom";
 import { RegisteredObjProps } from "../../constants/myRegisterShow";
@@ -25,8 +26,32 @@ const RegisteredCard = ({
 
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
 
+  const calculateDueDate = (dateString: string): number => {
+    // 문자열이 '~'을 포함하는지 확인
+    const endDateStr = dateString.includes("~")
+      ? dateString.split("~")[1].trim()
+      : dateString.trim();
+
+    // 문자열을 Date 객체로 변환
+    const endDate = new Date(endDateStr);
+
+    // 현재 날짜를 얻음
+    const currentDate = new Date();
+
+    // 두 날짜 간의 차이를 계산 (밀리초 단위)
+    const timeDifference = endDate.getTime() - currentDate.getTime();
+
+    // 밀리초를 일 단위로 변환
+    const dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    return dayDifference;
+  };
+
+  const dueDate = calculateDueDate(performancePeriod);
+
   return (
     <S.CardWrapper>
+      <Labal dueDate={dueDate} />
       <S.CardImg
         imgsrc={posterImage ?? ""}
         onClick={() => {

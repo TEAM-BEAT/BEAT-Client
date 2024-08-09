@@ -1,5 +1,6 @@
 import { useMakerPerformance } from "@apis/domains/performances/queries";
 import Button from "@components/commons/button/Button";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks";
 import { components } from "@typings/api/schema";
@@ -9,7 +10,6 @@ import bannerNarrow from "../../assets/images/banner_narrow.png";
 import * as S from "./MyRegisterdShow.styled";
 import RegisteredCard from "./components/registeredcard/RegisteredCard";
 import { RegisteredObjProps } from "./constants/myRegisterShow";
-import MetaTag from "@components/commons/meta/MetaTag";
 const MyRegisterdShow = () => {
   const { setHeader } = useHeader();
   const navigate = useNavigate();
