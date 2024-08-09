@@ -5,16 +5,13 @@ export const PeopleCardContainer = styled.article`
   flex-direction: column;
 `;
 
-export const PeopleCardPhoto = styled.img<{ $imgsrc: string }>`
+export const PeopleCardPhoto = styled.img`
   width: 15.7rem;
-  height: 14rem;
+  height: calc(15.7rem * 4 / 3);
   margin-bottom: 0.7rem;
   object-fit: cover;
   object-position: center;
 
-  background-image: url(${({ $imgsrc }) => $imgsrc});
-  background-position: center;
-  background-size: cover;
   border-radius: 6px;
 `;
 
