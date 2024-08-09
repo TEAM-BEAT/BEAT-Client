@@ -5,13 +5,13 @@ export const ShowInfoWrapper = styled.section`
   ${Generators.flexGenerator("column", "center", "flex-start")};
 `;
 
-export const Poster = styled.img<{ $imgsrc: string }>`
+export const Poster = styled.img`
   width: 14.7rem;
   height: 19.8rem;
   margin: 1.2rem 0;
+  object-fit: cover;
+  object-position: center;
 
-  background-image: url(${({ $imgsrc }) => $imgsrc});
-  background-size: 100% 100%;
   border-radius: 4px;
 `;
 

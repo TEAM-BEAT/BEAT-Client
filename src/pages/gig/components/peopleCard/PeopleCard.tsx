@@ -9,7 +9,7 @@ interface PeopleCardProps {
 const PeopleCard = ({ photo, role, name }: PeopleCardProps) => {
   return (
     <S.PeopleCardContainer>
-      <S.PeopleCardPhoto $imgsrc={photo} />
+      <S.PeopleCardPhoto src={photo} />
       <S.PeopleCardTextBox>
         <S.PeopleCardRole>{role}</S.PeopleCardRole>
         <S.PeopleCardName>{name}</S.PeopleCardName>

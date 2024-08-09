@@ -15,6 +15,7 @@ export const PerformanceImg = styled.img`
   width: 15.7rem;
   height: 22.4rem;
 
+
   background-color: black;
   border-radius: 0.6rem;
 `;
