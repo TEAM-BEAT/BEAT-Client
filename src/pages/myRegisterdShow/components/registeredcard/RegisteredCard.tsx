@@ -53,39 +53,41 @@ const RegisteredCard = ({
   const dueDate = calculateDueDate(performancePeriod);
 
   return (
-    <S.CardWrapper>
+    <>
       <Labal dueDate={dueDate} />
-      <S.CardImg
-        imgsrc={posterImage ?? ""}
-        onClick={() => {
-          navigate(`/gig/${performanceId}`);
-        }}
-      />
-      <S.CardInfo>
-        <S.CardInfoTextBox
+      <S.CardWrapper>
+        <S.CardImg
+          imgsrc={posterImage ?? ""}
           onClick={() => {
             navigate(`/gig/${performanceId}`);
           }}
-        >
-          <S.CardInfoTextTitleBox>
-            <S.CardInfoGenreText>{getShowTypeText(genre as SHOW_TYPE_KEY)}</S.CardInfoGenreText>
-            <S.CardInfoTitleText>{performanceTitle}</S.CardInfoTitleText>
-          </S.CardInfoTextTitleBox>
+        />
+        <S.CardInfo>
+          <S.CardInfoTextBox
+            onClick={() => {
+              navigate(`/gig/${performanceId}`);
+            }}
+          >
+            <S.CardInfoTextTitleBox>
+              <S.CardInfoGenreText>{getShowTypeText(genre as SHOW_TYPE_KEY)}</S.CardInfoGenreText>
+              <S.CardInfoTitleText>{performanceTitle}</S.CardInfoTitleText>
+            </S.CardInfoTextTitleBox>
 
-          <S.CardInfoPeriodBox>{performancePeriod}</S.CardInfoPeriodBox>
-        </S.CardInfoTextBox>
-        <S.CardInfoButtonBoxWrapper>
-          <S.CardInfoButtonBox>
-            <Button onClick={handleModifiyBtn} size="xsmall" variant="gray" disabled={false}>
-              공연정보 수정
-            </Button>
-            <Button onClick={handleGuestListBtn} size="xsmall" variant="line" disabled={false}>
-              예매자 관리
-            </Button>
-          </S.CardInfoButtonBox>
-        </S.CardInfoButtonBoxWrapper>
-      </S.CardInfo>
-    </S.CardWrapper>
+            <S.CardInfoPeriodBox>{performancePeriod}</S.CardInfoPeriodBox>
+          </S.CardInfoTextBox>
+          <S.CardInfoButtonBoxWrapper>
+            <S.CardInfoButtonBox>
+              <Button onClick={handleModifiyBtn} size="xsmall" variant="gray" disabled={false}>
+                공연정보 수정
+              </Button>
+              <Button onClick={handleGuestListBtn} size="xsmall" variant="line" disabled={false}>
+                예매자 관리
+              </Button>
+            </S.CardInfoButtonBox>
+          </S.CardInfoButtonBoxWrapper>
+        </S.CardInfo>
+      </S.CardWrapper>
+    </>
   );
 };
 
