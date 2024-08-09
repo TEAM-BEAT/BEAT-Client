@@ -25,26 +25,29 @@ const RegisteredCard = ({
   };
 
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
-
   const calculateDueDate = (dateString: string): number => {
-    // 문자열이 '~'을 포함하는지 확인
-    const endDateStr = dateString.includes("~")
+    //문자열이 ~ 를 포함하는지 확인 (즉, 단일 문자인지 아닌지 확인)
+    const endDateString = dateString.includes("~")
       ? dateString.split("~")[1].trim()
       : dateString.trim();
 
-    // 문자열을 Date 객체로 변환
-    const endDate = new Date(endDateStr);
+    //해당 날짜를 표준 형식(YYYY-MM-DD) 형식으로 변환 (물론 YYYY.MM.DD도 인식되긴 함 -표준은 아님)
+    const [year, month, day] = endDateString.split(".").map(Number); //숫자로 저장
+    const endDate = new Date(year, month - 1, day); //month는 0부터 시작하므로 -1 해줌
 
-    // 현재 날짜를 얻음
-    const currentDate = new Date();
+    //현재 시간을 얻은 뒤, 밀리초 계산은 배제하기 위해 연,월,일로 현재 날짜의 Date 객체 재생성
+    const nowDate = new Date();
+    const nowYear = nowDate.getFullYear();
+    const nowMonth = nowDate.getMonth();
+    const nowDay = nowDate.getDate(); //getDay는 요일을 반환하는거니까, 헷갈리지 말자 !!
+    const startDate = new Date(nowYear, nowMonth, nowDay);
 
-    // 두 날짜 간의 차이를 계산 (밀리초 단위)
-    const timeDifference = endDate.getTime() - currentDate.getTime();
+    //두 날짜간의 차이를 계산
+    const timeDiff = endDate.getTime() - startDate.getTime();
 
-    // 밀리초를 일 단위로 변환
-    const dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-    return dayDifference;
+    //계산값을 일 단위로 변환(floor를 이용해 내림)
+    const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+    return dayDiff;
   };
 
   const dueDate = calculateDueDate(performancePeriod);
