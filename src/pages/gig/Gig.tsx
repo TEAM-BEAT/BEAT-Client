@@ -1,8 +1,10 @@
 import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
 import { ActionBottomSheet, Button, Loading } from "@components/commons";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useLogin } from "@hooks";
+import NotFound from "@pages/notFound/NotFound";
 import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
@@ -12,7 +14,6 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const Gig = () => {
   const navigate = useNavigate();
@@ -44,17 +45,23 @@ const Gig = () => {
   };
 
   useEffect(() => {
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE,
-      title: data?.performanceTitle,
-      leftOnClick: () => {
-        navigate("/main");
-      },
-    });
+    if (data) {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE,
+        title: data?.performanceTitle,
+        leftOnClick: () => {
+          navigate("/main");
+        },
+      });
+    }
   }, [data]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (!data) {
+    return <NotFound />;
   }
 
   return (
