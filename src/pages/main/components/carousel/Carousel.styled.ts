@@ -16,7 +16,8 @@ export const CarouselLayout = styled.div`
 
 export const CarouselContainer = styled.ul`
   display: flex;
-  width: 100%;
+  width: 37.5rem;
+  height: 48rem;
 `;
 
 export const CarouselItem = styled.button`
