@@ -27,7 +27,7 @@ const Main = () => {
   };
 
   const onclickTest = async () => {
-    const res = await fetch(`${import.meta.env.VITE_CLIENT_URL}/api/prerender`, {
+    const res = await fetch("/api/hello", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
