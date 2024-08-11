@@ -26,12 +26,30 @@ const Main = () => {
     setGenre(value);
   };
 
+  const onclickTest = async () => {
+    const res = await fetch(`${import.meta.env.VITE_CLIENT_URL}/api/prerender`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("testres is: ", res);
+
+    if (res.ok) {
+      console.log("testres successful");
+    } else {
+      console.error("testres failed");
+    }
+  };
+
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
         <S.MainWrapper>
+          <button onClick={onclickTest}>테스트</button>
           <MainNavigation />
           <Carousel promotionList={data?.promotionList ?? []} />
           <Chips handleGenre={handleGenre} />
