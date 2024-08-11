@@ -22,3 +22,8 @@ export const SubText = styled.p`
   color: ${({ theme }) => theme.colors.gray_300};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
 `;
+
+export const CountdownText = styled.p`
+  color: ${({ theme }) => theme.colors.gray_300};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
