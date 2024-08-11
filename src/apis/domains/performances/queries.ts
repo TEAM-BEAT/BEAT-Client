@@ -153,7 +153,7 @@ export const usePostPerformance = () => {
 
       if (isPerformanceResponse(res) && res.status === 201) {
         // 프리렌더 작업 수행
-        const prerenderResponse = await fetch("/api/prerender", {
+        const prerenderResponse = await fetch(`${import.meta.env.VITE_CLIENT_URL}/api/prerender`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
