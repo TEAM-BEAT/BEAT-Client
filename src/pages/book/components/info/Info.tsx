@@ -20,7 +20,7 @@ const Info = ({ genre, title, posterImage, teamName, venue, period }: InfoProps)
   return (
     <S.InfoContainer>
       <S.InfoTop>
-        <S.InfoPoster $imgsrc={posterImage} />
+        <S.InfoPoster src={posterImage} />
 
         <S.InfoTextBox>
           <ShowType type={getShowTypeText(genre)} />

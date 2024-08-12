@@ -12,13 +12,11 @@ export const InfoTop = styled.div`
   display: flex;
 `;
 
-export const InfoPoster = styled.img<{ $imgsrc: string }>`
+export const InfoPoster = styled.img`
   width: 9.5rem;
   height: 12.8rem;
   margin-right: 1.4rem;
 
-  background-image: url(${({ $imgsrc }) => $imgsrc});
-  background-size: 100% 100%;
   border-radius: 4px;
 `;
 
