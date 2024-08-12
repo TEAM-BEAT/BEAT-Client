@@ -1,5 +1,5 @@
+import { BtnFloating, Union } from "@assets/svgs";
 import styled, { keyframes } from "styled-components";
-import { Union, BtnFloating } from "@assets/svgs";
 
 const float = keyframes`
   0% {
@@ -13,15 +13,15 @@ const float = keyframes`
   }
 `;
 
-export const Layer = styled.section`
-  position: relative;
+export const Layer = styled.section<{ $width: number }>`
+  position: fixed;
+  bottom: 15rem;
+  left: ${({ $width }) => `${$width / 2 + 50}px`};
+  z-index: 25;
 `;
 
 export const FloatingWrapper = styled.section`
-  position: fixed;
-  right: 0.3rem;
-  bottom: 15rem;
-  z-index: 25;
+  position: absolute;
   display: flex;
   flex-direction: column;
 
@@ -29,8 +29,6 @@ export const FloatingWrapper = styled.section`
 `;
 
 export const FloatingContainer = styled.section`
-  position: absolute;
-  right: 2.4rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;

@@ -26,12 +26,18 @@ const Gig = () => {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  const nowDate = new Date();
+  const lastPerformanceDate = new Date(
+    data?.scheduleList[data?.scheduleList.length - 1]?.performanceDate
+  );
+  // 현재 시간이 마지막 공연 시간보다 크면 예매 버튼 비활성화
+  const isBookDisabled = nowDate > lastPerformanceDate;
+
   const handleBookClick = () => {
     if (isLogin) {
       navigate(`/book/${performanceId}`);
       return;
     }
-
     setIsSheetOpen(true);
   };
 
@@ -93,7 +99,9 @@ const Gig = () => {
         staffList={data?.staffList ?? []}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick}>예매하기</Button>
+        <Button onClick={handleBookClick} disabled={isBookDisabled}>
+          {isBookDisabled ? "종료된 공연은 예매할 수 없습니다." : "예매하기"}
+        </Button>
       </S.FooterContainer>
 
       <ActionBottomSheet
