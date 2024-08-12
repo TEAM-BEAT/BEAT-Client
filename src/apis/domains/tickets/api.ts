@@ -49,7 +49,7 @@ export const putTicketUpdate = async (
 ): Promise<SuccessResponseVoid | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      `tickets/${formData.performanceId}`,
+      "tickets",
       formData
     );
 
@@ -70,7 +70,7 @@ export const deleteTicketDelete = async (
   // console.log("fromdata", formData);
   try {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(
-      `tickets/${formData.performanceId}`,
+      "tickets",
       //DELETE요청의 경우 두번째 인자가 좀 다름. - config 파일을 넣어야 함
       { data: formData }
     );
