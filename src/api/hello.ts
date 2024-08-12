@@ -1,4 +1,7 @@
-export function GET(request: Request, res) {
+export function GET(request) {
   console.log("hi im test");
-  return res.status(200).json({ message: "Hello from the server!" });
+  return new Response(JSON.stringify({ message: "Hello from the server!" }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 }
