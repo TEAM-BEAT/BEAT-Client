@@ -27,7 +27,7 @@ const Main = () => {
   };
 
   const onClickHi = async () => {
-    const res = await fetch("/api/hello", {
+    const res = await fetch("/api/hi", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
