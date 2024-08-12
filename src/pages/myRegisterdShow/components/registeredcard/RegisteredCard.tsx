@@ -51,17 +51,18 @@ const RegisteredCard = ({
   };
 
   const dueDate = calculateDueDate(performancePeriod);
-
   return (
     <>
-      <Labal dueDate={dueDate} />
       <S.CardWrapper>
         <S.CardImg
           imgsrc={posterImage ?? ""}
           onClick={() => {
             navigate(`/gig/${performanceId}`);
           }}
-        />
+        >
+          <Labal dueDate={dueDate} />
+        </S.CardImg>
+
         <S.CardInfo>
           <S.CardInfoTextBox
             onClick={() => {
