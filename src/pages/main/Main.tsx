@@ -34,7 +34,7 @@ const Main = () => {
       },
     });
 
-    console.log("testres is: ", res);
+    console.log("testres is: ", res.json());
 
     if (res.ok) {
       console.log("testres successful");
