@@ -36,7 +36,7 @@ const NotFound = () => {
     <S.Container>
       <S.NotFoundImage />
       <S.HeadingText>요청하신 페이지를 찾을 수 없어요.</S.HeadingText>
-      <S.SubText>너 때문에 비트가 다 깨져버렸으니 책임져.!</S.SubText>
+      <S.SubText>너 때문에 비트가 다 깨져버렸으니 책임져!</S.SubText>
       <S.CountdownText>{secondsLeft}초 후에 메인 페이지로 이동합니다.</S.CountdownText>
     </S.Container>
   );
