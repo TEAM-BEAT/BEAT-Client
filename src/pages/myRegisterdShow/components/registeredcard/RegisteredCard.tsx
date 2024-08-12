@@ -1,5 +1,5 @@
 import Button from "@components/commons/button/Button";
-import Labal from "@components/commons/label/Labal";
+import Label from "@components/commons/label/Label";
 import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import { useNavigate } from "react-router-dom";
 import { RegisteredObjProps } from "../../constants/myRegisterShow";
@@ -25,6 +25,7 @@ const RegisteredCard = ({
   };
 
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
+
   const calculateDueDate = (dateString: string): number => {
     //문자열이 ~ 를 포함하는지 확인 (즉, 단일 문자인지 아닌지 확인)
     const endDateString = dateString.includes("~")
@@ -42,7 +43,6 @@ const RegisteredCard = ({
     const nowDay = nowDate.getDate(); //getDay는 요일을 반환하는거니까, 헷갈리지 말자 !!
     const startDate = new Date(nowYear, nowMonth, nowDay);
 
-    //두 날짜간의 차이를 계산
     const timeDiff = endDate.getTime() - startDate.getTime();
 
     //계산값을 일 단위로 변환(floor를 이용해 내림)
@@ -60,7 +60,7 @@ const RegisteredCard = ({
             navigate(`/gig/${performanceId}`);
           }}
         >
-          <Labal dueDate={dueDate} />
+          <Label dueDate={dueDate} />
         </S.CardImg>
 
         <S.CardInfo>

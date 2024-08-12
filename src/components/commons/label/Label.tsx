@@ -4,7 +4,7 @@ interface LabelProps {
   dueDate: number;
 }
 
-const Labal = ({ dueDate }: LabelProps) => {
+const Label = ({ dueDate }: LabelProps) => {
   return (
     <S.LabelWrapper>
       {dueDate === 0 && (
@@ -30,4 +30,4 @@ const Labal = ({ dueDate }: LabelProps) => {
   );
 };
 
-export default Labal;
+export default Label;
