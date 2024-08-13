@@ -1,8 +1,10 @@
 import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
 import { ActionBottomSheet, Button, Loading } from "@components/commons";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useLogin } from "@hooks";
+import NotFound from "@pages/notFound/NotFound";
 import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
@@ -12,7 +14,6 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const Gig = () => {
   const navigate = useNavigate();
@@ -25,12 +26,18 @@ const Gig = () => {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  const nowDate = new Date();
+  const lastPerformanceDate = new Date(
+    data?.scheduleList[data?.scheduleList.length - 1]?.performanceDate
+  );
+  // 현재 시간이 마지막 공연 시간보다 크면 예매 버튼 비활성화
+  const isBookDisabled = nowDate > lastPerformanceDate;
+
   const handleBookClick = () => {
     if (isLogin) {
       navigate(`/book/${performanceId}`);
       return;
     }
-
     setIsSheetOpen(true);
   };
 
@@ -44,17 +51,23 @@ const Gig = () => {
   };
 
   useEffect(() => {
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE,
-      title: data?.performanceTitle,
-      leftOnClick: () => {
-        navigate("/main");
-      },
-    });
+    if (data) {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE,
+        title: data?.performanceTitle,
+        leftOnClick: () => {
+          navigate("/main");
+        },
+      });
+    }
   }, [data]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (!data) {
+    return <NotFound />;
   }
 
   return (
@@ -86,7 +99,9 @@ const Gig = () => {
         staffList={data?.staffList ?? []}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick}>예매하기</Button>
+        <Button onClick={handleBookClick} disabled={isBookDisabled}>
+          {isBookDisabled ? "종료된 공연은 예매할 수 없습니다." : "예매하기"}
+        </Button>
       </S.FooterContainer>
 
       <ActionBottomSheet

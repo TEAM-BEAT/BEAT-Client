@@ -8,13 +8,14 @@ import {
   useGetScheduleAvailable,
 } from "@apis/domains/performances/queries";
 import { Button, Context, Loading, OuterLayout, ViewBottomSheet } from "@components/commons";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useLogin, useModal } from "@hooks";
 import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@pages/book/components";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
 import { getScheduleNumberById } from "./utils";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -25,6 +26,24 @@ const Book = () => {
 
   const { isLogin } = useLogin();
   const { setHeader } = useHeader();
+
+  useEffect(() => {
+    if (data) {
+      const nowDate = new Date();
+      const lastPerformanceDate = new Date(
+        data.scheduleList[data?.scheduleList.length - 1].performanceDate
+      );
+      if (nowDate > lastPerformanceDate) {
+        openAlert({
+          title: "종료된 공연입니다.",
+          okText: "확인",
+          okCallback: () => {
+            navigate("/main");
+          },
+        });
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     setHeader({
@@ -160,11 +179,7 @@ const Book = () => {
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as GuestBookingRequest;
 
-      console.log(formData);
-
       const res = await memberBook(formData);
-
-      console.log(res);
 
       navigate("/book/complete", {
         state: {
@@ -206,9 +221,15 @@ const Book = () => {
     }
   }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!data) {
+    return <NotFound />;
+  }
+
+  return (
     <S.ContentWrapper>
       <MetaTag title="공연 예매" />
       {isPending && <Loading />}

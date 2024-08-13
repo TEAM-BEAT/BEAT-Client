@@ -8,6 +8,7 @@ import InputBank from "@components/commons/bank/InputBank";
 import Button from "@components/commons/button/Button";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import MetaTag from "@components/commons/meta/MetaTag";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
@@ -46,7 +47,6 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -55,10 +55,12 @@ const Register = () => {
 
   const user = localStorage?.getItem("user");
   const [, setNavigateUrl] = useAtom(navigateAtom);
+
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
     requestKakaoLogin();
   };
+
   useEffect(() => {
     const userObj = JSON.parse(user);
 
@@ -181,6 +183,7 @@ const Register = () => {
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
       ];
+
       try {
         const res = await Promise.all(
           S3Urls.map(async (url, index) => {

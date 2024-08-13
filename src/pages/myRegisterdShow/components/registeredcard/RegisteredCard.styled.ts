@@ -9,6 +9,7 @@ export const CardWrapper = styled.article`
 `;
 
 export const CardImg = styled.div<{ imgsrc: string }>`
+  position: relative;
   width: 10.8rem;
   height: 15.4rem;
 

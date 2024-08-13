@@ -1,8 +1,8 @@
 import * as S from "./LookupWrapper.styled";
 
 import Button from "@components/commons/button/Button";
+import Label from "@components/commons/label/Label";
 import LookupCard from "./LookupCard";
-import Labal from "@components/commons/label/Labal";
 
 import { LookupProps } from "../types/lookupType";
 
@@ -12,7 +12,7 @@ const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
       <S.LookupContainer>
         <S.LookupCardLeft>
           <S.LookupImage src={item.posterImage} />
-          <Labal dueDate={item.dueDate} />
+          <Label dueDate={item.dueDate} />
           <Button variant="line" size="xsmall" onClick={handleBtn}>
             취소하기
           </Button>
