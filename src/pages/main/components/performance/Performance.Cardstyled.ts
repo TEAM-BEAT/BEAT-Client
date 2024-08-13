@@ -14,7 +14,8 @@ export const PerformanceImg = styled.img`
   position: relative;
   width: 15.7rem;
   height: 22.4rem;
-
+  object-fit: cover;
+  object-position: center;
 
   background-color: black;
   border-radius: 0.6rem;
