@@ -1,12 +1,12 @@
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  MemberBookingRequest,
-  postGuestBook,
-  postMemberBook,
-  postGuestBookingList,
-  postGuestBookingReq,
   getMemberBookingList,
   GuestBookingRequest,
+  MemberBookingRequest,
+  postGuestBook,
+  postGuestBookingList,
+  postGuestBookingReq,
+  postMemberBook,
 } from "./api";
 
 export const BOOKING_QUERY_KEY = {
@@ -64,8 +64,10 @@ export const useGetMemberBookingList = () => {
 // 회원 예매
 export const useMemberBook = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (formData: MemberBookingRequest) => postMemberBook(formData),
+
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING] });
       queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST] });
