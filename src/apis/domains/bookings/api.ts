@@ -88,21 +88,15 @@ export const getMemberBookingList = async () => {
 };
 
 export type MemberBookingRequest = components["schemas"]["MemberBookingRequest"];
-type MemberBookingResponse = components["schemas"]["MemberBookingResponse"];
+export type MemberBookingResponse = components["schemas"]["MemberBookingResponse"];
 
 export const postMemberBook = async (
   formData: MemberBookingRequest
-): Promise<MemberBookingResponse | null> => {
-  try {
-    const response: AxiosResponse<ApiResponseType<MemberBookingResponse>> = await post(
-      "/bookings/member",
-      formData
-    );
+): Promise<MemberBookingResponse> => {
+  const response: AxiosResponse<ApiResponseType<MemberBookingResponse>> = await post(
+    "/bookings/member",
+    formData
+  );
 
-    return response.data.data;
-  } catch (error) {
-    console.error("error", error);
-
-    return null;
-  }
+  return response.data.data;
 };
