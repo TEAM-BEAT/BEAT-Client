@@ -8,6 +8,8 @@ export const CarouselWarpper = styled.div`
 `;
 
 export const CarouselLayout = styled.div`
+  /* position: relative; */
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
