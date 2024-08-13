@@ -24,7 +24,11 @@ const MetaTag = ({ title, ogTitle, description, image, url, keywords }: MetaTagP
       ) : (
         <meta name="keywords" content="공연, 밴드, 뮤지컬, 비트, beat" />
       )}
-      {url && <meta property="og:url" content={url} />}
+      {url ? (
+        <meta property="og:url" content={url} />
+      ) : (
+        <meta property="og:url" content={`${import.meta.env.VITE_CLIENT_URL}`} />
+      )}
     </Helmet>
   );
 };
