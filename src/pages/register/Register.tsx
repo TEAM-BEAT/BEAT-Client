@@ -62,11 +62,14 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (!isLogin) {
+    const userObj = JSON.parse(user);
+
+    if (userObj === null) {
       openAlert({
         title: "로그인이 필요한 서비스입니다.",
         okCallback: () => navigate("/main"),
       });
+      handleKakaoLogin("/gig-register");
     }
   }, []);
 
