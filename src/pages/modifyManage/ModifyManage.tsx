@@ -3,6 +3,7 @@ import {
   usePerformanceEdit,
   useUpdatePerformance,
 } from "@apis/domains/performances/queries";
+
 import { IconChecked } from "@assets/svgs";
 import {
   BankBottomSheet,
@@ -17,6 +18,7 @@ import {
   TimePicker,
 } from "@components/commons";
 
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
@@ -34,16 +36,93 @@ import { GENRE_LIST } from "./constants/genreList";
 import * as S from "./ModifyManage.styled";
 import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
-import MetaTag from "@components/commons/meta/MetaTag";
+
+// Reducer로 상태 관리 통합
+type State = {
+  ModifyManageStep: number;
+  performanceTitle: string;
+  genre: string;
+  runningTime: string | null;
+  performanceDescription: string;
+  performanceAttentionNote: string;
+  accountNumber: string;
+  posterImage: string;
+  performanceTeamName: string;
+  performanceVenue: string;
+  performancePeriod: string;
+  performanceContact: string;
+  ticketPrice: number | undefined;
+  totalScheduleCount: number;
+  scheduleList: Schedule[];
+  castList: Cast[];
+  staffList: Staff[];
+  bankName: string;
+  isBookerExist: boolean | undefined;
+  accountHolder: string;
+  isFree: boolean;
+  isChecked: boolean;
+  bankOpen: boolean;
+};
+
+type Action =
+  | { type: "SET_STEP"; payload: number }
+  | { type: "SET_DATA"; payload: Partial<State> }
+  | { type: "SET_FIELD"; field: keyof State; value: State[keyof State] }
+  | { type: "TOGGLE_FREE" };
+
+const initialState: State = {
+  ModifyManageStep: 1,
+  performanceTitle: "",
+  genre: "",
+  runningTime: null,
+  performanceDescription: "",
+  performanceAttentionNote: "",
+  accountNumber: "",
+  posterImage: "",
+  performanceTeamName: "",
+  performanceVenue: "",
+  performancePeriod: "",
+  performanceContact: "",
+  ticketPrice: undefined,
+  totalScheduleCount: 1,
+  scheduleList: [],
+  castList: [],
+  staffList: [],
+  bankName: "",
+  isBookerExist: undefined,
+  accountHolder: "",
+  isFree: false,
+  isChecked: true,
+  bankOpen: false,
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "SET_STEP":
+      return { ...state, ModifyManageStep: action.payload };
+    case "SET_DATA":
+      return { ...state, ...action.payload };
+    case "SET_FIELD":
+      return { ...state, [action.field]: action.value };
+    case "TOGGLE_FREE":
+      return { ...state, isFree: !state.isFree, ticketPrice: !state.isFree ? 0 : undefined };
+    default:
+      return state;
+  }
+};
 
 const ModifyManage = () => {
-  const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
-  const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
-  // gigInfo 초기화
   const { performanceId } = useParams();
   const navigate = useNavigate();
+  const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
+  const { setHeader } = useHeader();
 
   const { data, isLoading, isSuccess } = usePerformanceEdit(Number(performanceId));
+  const { mutateAsync: updatePerformance } = useUpdatePerformance();
+  const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
+
+  const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
+  // gigInfo 초기화
 
   const [performanceTitle, setPerformanceTitle] = useState<string>("");
   const [genre, setGenre] = useState<"BAND" | "DANCE" | "PLAY" | "ETC" | string>("");
@@ -120,8 +199,6 @@ const ModifyManage = () => {
       setIsFree(data.ticketPrice === 0);
     }
   }, [data]);
-
-  const { mutateAsync: updatePerformance } = useUpdatePerformance();
 
   //여기서 공연 수정하기 PUT 요청 보내야함
   const handleComplete = async () => {
@@ -211,8 +288,6 @@ const ModifyManage = () => {
     setModifyManageStep((prev) => prev + 1);
   };
 
-  const { setHeader } = useHeader();
-
   const handleLeftBtn = () => {
     if (ModifyManageStep === 1) {
       openConfirm({
@@ -243,8 +318,6 @@ const ModifyManage = () => {
 
     setTicketPrice(numericValue);
   };
-
-  const { mutate, mutateAsync } = usePerformanceDelete();
 
   const handleDeletePerformance = async (_performanceId: number, isExisttt: boolean) => {
     //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
