@@ -1,12 +1,11 @@
-import { useGetPerformanceDetail } from "@apis/domains/performance/queries";
-import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
+import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
+import { ActionBottomSheet, Button, Loading } from "@components/commons";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-import Button from "@components/commons/button/Button";
-import Loading from "@components/commons/loading/Loading";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useLogin from "@hooks/useLogin";
-import { navigateAtom } from "@stores/navigate";
+import { useHeader, useLogin } from "@hooks";
+import NotFound from "@pages/notFound/NotFound";
+import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -27,12 +26,18 @@ const Gig = () => {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  const nowDate = new Date();
+  const lastPerformanceDate = new Date(
+    data?.scheduleList[data?.scheduleList.length - 1]?.performanceDate
+  );
+  // 현재 시간이 마지막 공연 시간보다 크면 예매 버튼 비활성화
+  const isBookDisabled = nowDate > lastPerformanceDate;
+
   const handleBookClick = () => {
     if (isLogin) {
       navigate(`/book/${performanceId}`);
       return;
     }
-
     setIsSheetOpen(true);
   };
 
@@ -46,21 +51,35 @@ const Gig = () => {
   };
 
   useEffect(() => {
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE,
-      title: data?.performanceTitle,
-      leftOnClick: () => {
-        navigate("/main");
-      },
-    });
+    if (data) {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE,
+        title: data?.performanceTitle,
+        leftOnClick: () => {
+          navigate("/main");
+        },
+      });
+    }
   }, [data]);
 
   if (isLoading) {
     return <Loading />;
   }
 
+  if (!data) {
+    return <NotFound />;
+  }
+
   return (
     <S.ContentWrapper>
+      <MetaTag
+        title={data?.performanceTitle}
+        ogTitle={data?.performanceTitle}
+        description={`${data?.performanceTitle} - 심장이 뛰는 곳, BEAT에서 만나보세요.`}
+        image={data?.posterImage}
+        keywords={data?.performanceTitle}
+        url={`${import.meta.env.VITE_CLIENT_URL}/gig/${performanceId}`}
+      />
       <ShowInfo
         posterImage={data?.posterImage ?? ""}
         genre={data?.genre as SHOW_TYPE_KEY}
@@ -80,7 +99,9 @@ const Gig = () => {
         staffList={data?.staffList ?? []}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick}>예매하기</Button>
+        <Button onClick={handleBookClick} disabled={isBookDisabled}>
+          {isBookDisabled ? "종료된 공연은 예매할 수 없습니다." : "예매하기"}
+        </Button>
       </S.FooterContainer>
 
       <ActionBottomSheet

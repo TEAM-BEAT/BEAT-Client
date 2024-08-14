@@ -38,7 +38,7 @@ const ShowInfo = ({
 
   return (
     <S.ShowInfoWrapper>
-      <S.Poster $imgsrc={posterImage} />
+      <S.Poster src={posterImage} />
       <ShowType type={getShowTypeText(genre)} />
       <S.Title>{title}</S.Title>
       <div>

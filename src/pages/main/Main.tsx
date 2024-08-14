@@ -1,18 +1,18 @@
 import { useState } from "react";
 import * as S from "./Main.styled";
 
-import Carousel from "./components/carousel/Carousel";
-import Chips from "./components/chips/Chips";
-import Floating from "./components/floating/Floating";
-
-import Footer from "./components/footer/Footer";
-import MainNavigation from "./components/mainNavigation/MainNavigation";
-import Performance from "./components/performance/Performance";
-
 import Loading from "@components/commons/loading/Loading";
 
 import { useGetAllScheduleList } from "@apis/domains/home/queries";
-import { navigateAtom } from "@stores/navigate";
+import {
+  Carousel,
+  Chips,
+  Floating,
+  Footer,
+  MainNavigation,
+  Performance,
+} from "@pages/main/components";
+import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const Main = () => {
@@ -26,12 +26,52 @@ const Main = () => {
     setGenre(value);
   };
 
+  const onClickHi = async () => {
+    const res = await fetch("/api/hi", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("testres is: ", res.json());
+
+    if (res.ok) {
+      console.log("testres successful");
+    } else {
+      console.error("testres failed");
+    }
+  };
+
+  const onClickHello = async () => {
+    const res = await fetch("/api/hello", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("testres is: ", res.json());
+
+    if (res.ok) {
+      console.log("testres successful");
+    } else {
+      console.error("testres failed");
+    }
+  };
+
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
         <S.MainWrapper>
+          {/* <button style={{ color: "white" }} onClick={onClickHi}>
+            하이 테스트
+          </button>
+          <button style={{ color: "white" }} onClick={onClickHello}>
+            헬로 테스트
+          </button> */}
           <MainNavigation />
           <Carousel promotionList={data?.promotionList ?? []} />
           <Chips handleGenre={handleGenre} />

@@ -6,24 +6,16 @@ import { useGuestBook, useMemberBook } from "@apis/domains/bookings/queries";
 import {
   useGetBookingPerformanceDetail,
   useGetScheduleAvailable,
-} from "@apis/domains/performance/queries";
-import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-import ViewBottomSheet from "@components/commons/bottomSheet/viewBottomSheet/ViewBottomSheet";
-import Button from "@components/commons/button/Button";
-import Context from "@components/commons/contextBox/Context";
-import Loading from "@components/commons/loading/Loading";
+} from "@apis/domains/performances/queries";
+import { ErrorResponse } from "@apis/errorResponse";
+import { Button, Context, Loading, OuterLayout, ViewBottomSheet } from "@components/commons";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks/useHeader";
-import useLogin from "@hooks/useLogin";
-import useModal from "@hooks/useModal";
+import { useHeader, useLogin, useModal } from "@hooks";
+import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@pages/book/components";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
-import BookerInfo from "./components/bookerInfo/BookerInfo";
-import Count from "./components/count/Count";
-import EasyPassEntry from "./components/easyPassEntry/EasyPassEntry";
-import Info from "./components/info/Info";
-import Select from "./components/select/Select";
-import TermCheck from "./components/termCheck/TermCheck";
 import { getScheduleNumberById } from "./utils";
 
 const Book = () => {
@@ -35,6 +27,25 @@ const Book = () => {
 
   const { isLogin } = useLogin();
   const { setHeader } = useHeader();
+
+  useEffect(() => {
+    if (data) {
+      const nowDate = new Date();
+      const lastPerformanceDate = new Date(
+        data.scheduleList[data?.scheduleList.length - 1].performanceDate
+      );
+
+      if (nowDate > lastPerformanceDate) {
+        openAlert({
+          title: "종료된 공연입니다.",
+          okText: "확인",
+          okCallback: () => {
+            navigate("/main");
+          },
+        });
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     setHeader({
@@ -69,8 +80,8 @@ const Book = () => {
     round
   );
 
-  const { mutateAsync, isPending } = useGuestBook();
-  const { mutateAsync: memberBook, isPending: isMemberRequestPending } = useMemberBook();
+  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook();
+  const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -128,7 +139,7 @@ const Book = () => {
   };
 
   const handleClickBookRequst = async () => {
-    if (isPending && isMemberRequestPending) {
+    if (isGuestBookingPending && isMemberBookPending) {
       return;
     }
 
@@ -146,35 +157,19 @@ const Book = () => {
         ...formData,
         ...bookerInfo,
         password: easyPassword.password,
-        isPaymentCompleted: data?.ticketPrice === 0,
+        isPaymentCompleted: false,
       } as GuestBookingRequest;
-
-      const res = await mutateAsync(formData);
-
-      // TODO: response로 변경하기 (API 수정 필요)
-      navigate("/book/complete", {
-        state: {
-          id: performanceId,
-          title: data?.performanceTitle,
-          bankName: data?.bankName,
-          accountHolder: data?.accountHolder,
-          accountNumber: data?.accountNumber,
-          totalPaymentAmount: res?.totalPaymentAmount,
-        },
-      });
     } else {
-      // 회원 예매요청
+      // 회원 예매 요청
       formData = {
         ...formData,
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as GuestBookingRequest;
+    }
 
-      console.log(formData);
-
-      const res = await memberBook(formData);
-
-      console.log(res);
+    try {
+      const res = isLogin ? await memberBook(formData) : await guestBook(formData);
 
       navigate("/book/complete", {
         state: {
@@ -186,6 +181,13 @@ const Book = () => {
           totalPaymentAmount: res?.totalPaymentAmount,
         },
       });
+    } catch (error) {
+      const errorResponse = error.response?.data as ErrorResponse;
+      if (errorResponse.status === 409) {
+        openAlert({
+          title: "이미 매진된 공연입니다.",
+        });
+      }
     }
   };
 
@@ -216,11 +218,20 @@ const Book = () => {
     }
   }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  console.log("booking", isMemberBookPending);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!data) {
+    return <NotFound />;
+  }
+
+  return (
     <S.ContentWrapper>
-      {isPending && <Loading />}
+      <MetaTag title="공연 예매" />
+      {isGuestBookingPending && isMemberBookPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
         posterImage={data?.posterImage}

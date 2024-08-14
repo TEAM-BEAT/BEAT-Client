@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./Performance.styled";
 
 import Spacing from "@components/commons/spacing/Spacing";
+import { useLogin, useModal } from "@hooks";
 import BannerImg from "../../../../assets/images/banner_basic.png";
 import PerformnaceCard from "./PerformnaceCard";
 
@@ -21,20 +22,25 @@ interface PerformanceComponentProps {
 
 const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps) => {
   const navigate = useNavigate();
+  const { isLogin } = useLogin();
+  const { openAlert } = useModal();
 
   const handleNavigate = () => {
-    navigate("/gig-register");
+    if (isLogin) {
+      navigate("/gig-register");
+    } else {
+      openAlert({
+        title: "로그인이 필요한 서비스입니다.",
+        okText: "확인",
+      });
+    }
   };
 
   const filteredData =
     genre === "ALL" ? performanceList : performanceList.filter((item) => item.genre === genre);
 
-  const sortData = filteredData
-    .filter((item) => item.dueDate! >= 0)
-    .sort((a, b) => a.dueDate! - b.dueDate!);
-
-  const data1 = sortData.slice(0, 4);
-  const data2 = sortData.slice(4);
+  const data1 = filteredData.slice(0, 4);
+  const data2 = filteredData.slice(4);
 
   return (
     <S.PerformanceWrapper>

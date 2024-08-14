@@ -1,24 +1,59 @@
+import prerender from "@prerenderer/rollup-plugin";
+import chromium from "@sparticuz/chromium-min";
 import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { generatePerformanceRoutes } from "./src/utils/generatePerformanceRoute";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    svgr({
-      svgrOptions: {
-        icon: true,
-        memo: true,
-      },
-    }),
-    tsconfigPaths(),
-  ],
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
-  },
-  optimizeDeps: {
-    include: ["react-lottie-player"],
-  },
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  const routes = await generatePerformanceRoutes(env.VITE_API_BASE_URL);
+
+  const executablePath =
+    env.VITE_CHROME_PATH ||
+    (await chromium.executablePath(
+      "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
+    ));
+
+  return {
+    plugins: [
+      react(),
+      prerender({
+        routes,
+        renderer: "@prerenderer/renderer-puppeteer",
+        rendererOptions: {
+          launchOptions: {
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            ignoreDefaultArgs: ["--disable-extensions"],
+            defaultViewport: chromium.defaultViewport,
+            executablePath,
+            ignoreHTTPSErrors: true,
+            headless: chromium.headless,
+          },
+          maxConcurrentRoutes: 1,
+          renderAfterTime: 500,
+          customPuppeteerModule: "puppeteer-core",
+        },
+        // Debugging
+        postProcess: (context) => {
+          console.log(`Prerendered: ${context.route}`);
+        },
+      }),
+      svgr({
+        svgrOptions: {
+          icon: true,
+          memo: true,
+        },
+      }),
+      tsconfigPaths(),
+    ],
+    resolve: {
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+    },
+    optimizeDeps: {
+      include: ["react-lottie-player"],
+    },
+  };
 });

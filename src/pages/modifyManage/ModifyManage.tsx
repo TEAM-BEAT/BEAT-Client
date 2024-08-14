@@ -1,25 +1,30 @@
-import { useUpdatePerformance } from "@apis/domains/performance/queries";
-import { usePerformanceDelete, usePerformanceEdit } from "@apis/domains/performances/queries";
+import {
+  usePerformanceDelete,
+  usePerformanceEdit,
+  useUpdatePerformance,
+} from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
-import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
-import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
-import InputBank from "@components/commons/bank/InputBank";
-import Button from "@components/commons/button/Button";
-import TextArea from "@components/commons/input/textArea/TextArea";
-import TextField from "@components/commons/input/textField/TextField";
-import Loading from "@components/commons/loading/Loading";
-import Spacing from "@components/commons/spacing/Spacing";
-import Stepper from "@components/commons/stepper/Stepper";
-import TimePicker from "@components/commons/timepicker/TimePicker";
+import {
+  BankBottomSheet,
+  Button,
+  InputAccountWrapper,
+  InputBank,
+  Loading,
+  Spacing,
+  Stepper,
+  TextArea,
+  TextField,
+  TimePicker,
+} from "@components/commons";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import useModal from "@hooks/useModal";
+import { useHeader, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useHeader } from "./../../hooks/useHeader";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
 import PosterThumbnail from "./components/PosterThumbnail";
@@ -31,9 +36,9 @@ import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
 
 const ModifyManage = () => {
-  const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
+  const [modifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
   const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
-  // gigInfo 초기화
+
   const { performanceId } = useParams();
   const navigate = useNavigate();
 
@@ -79,6 +84,7 @@ const ModifyManage = () => {
       setPerformanceContact(data.performanceContact);
       setTicketPrice(data.ticketPrice);
       setTotalScheduleCount(data.totalScheduleCount);
+      setIsExist(data.isBookerExist);
       setScheduleList(
         data.scheduleList.map((item) => ({
           scheduleId: item.scheduleId ?? -1,
@@ -117,7 +123,6 @@ const ModifyManage = () => {
 
   const { mutateAsync: updatePerformance } = useUpdatePerformance();
 
-  //여기서 공연 수정하기 PUT 요청 보내야함
   const handleComplete = async () => {
     const filteredCastList = castList.filter(
       (cast) => cast.castName || cast.castRole || cast.castPhoto
@@ -177,14 +182,6 @@ const ModifyManage = () => {
     setIsChecked(e.target.checked);
   };
 
-  useEffect(() => {
-    setIsExist(data?.isBookerExist);
-  }, [data?.isBookerExist]);
-
-  // useEffect(() => {
-  //   setBankInfo(bankName);
-  // }, [bankName]);
-
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
   useEffect(() => {
     if (isFree) {
@@ -208,7 +205,7 @@ const ModifyManage = () => {
   const { setHeader } = useHeader();
 
   const handleLeftBtn = () => {
-    if (ModifyManageStep === 1) {
+    if (modifyManageStep === 1) {
       openConfirm({
         title: "수정을 취소할까요?",
         subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
@@ -238,13 +235,20 @@ const ModifyManage = () => {
     setTicketPrice(numericValue);
   };
 
-  const { mutate, mutateAsync } = usePerformanceDelete();
+  const { mutate, mutateAsync: deletePerformance } = usePerformanceDelete();
 
-  const handleDeletePerformance = async (_performanceId: number, isExisttt: boolean) => {
-    //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
-    console.log("isExisttt", isExisttt);
+  const handleDeletePerformance = async (_performanceId: number) => {
+    await deletePerformance(Number(performanceId));
 
-    if (isExisttt) {
+    openAlert({
+      title: "공연이 삭제되었습니다.",
+      okText: "확인했어요",
+      okCallback: () => navigate("/gig-manage"),
+    });
+  };
+
+  const handleRightBtn = () => {
+    if (isBookerExist) {
       openAlert({
         title: "공연 삭제가 불가해요.",
         subTitle: "예매자가 1명 이상 있을 경우, 삭제할 수 없어요.",
@@ -252,51 +256,39 @@ const ModifyManage = () => {
         okCallback: closeAlert,
       });
     } else {
-      //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
-      mutateAsync(Number(performanceId));
-      navigate("/gig-manage");
+      openConfirm({
+        title: "공연을 삭제하시겠어요?",
+        subTitle: "삭제할 경우, 작성했던 내용을 되돌릴 수 없어요.",
+        okText: "삭제할게요",
+        okCallback: () => handleDeletePerformance(Number(performanceId)),
+        noText: "아니요",
+        noCallback: () => closeConfirm(),
+      });
     }
-  };
-
-  const handleRightBtn = () => {
-    openConfirm({
-      title: "공연을 삭제하시겠어요?",
-      subTitle: "삭제할 경우, 작성했던 내용을 되돌릴 수 없어요.",
-      okText: "삭제할게요",
-      okCallback: () => {
-        //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(Number(performanceId), isBookerExist as boolean); //예시로 박아둠
-      },
-      noText: "아니요",
-      noCallback: () => {
-        closeConfirm();
-      },
-    });
   };
 
   useEffect(() => {
     const pageTitle =
-      ModifyManageStep === 1
-        ? "공연 수정하기"
-        : ModifyManageStep === 2
-          ? "공연 수정하기"
-          : "미리보기";
+      modifyManageStep === 1 ? "공연 수정하기" : modifyManageStep === 2 ? "미리보기" : "";
+
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: pageTitle,
       subText: "삭제",
       leftOnClick: handleLeftBtn,
-      rightOnClick: handleRightBtn,
+      rightOnClick: () => handleRightBtn(),
     });
-  }, [setHeader, ModifyManageStep]);
+  }, [modifyManageStep, isBookerExist]);
+
   if (isLoading) {
     return <Loading />;
   }
 
   if (data) {
-    if (ModifyManageStep === 1) {
+    if (modifyManageStep === 1) {
       return (
         <>
+          <MetaTag title="공연 수정" />
           <S.ModifyManageContainer>
             <PosterThumbnail
               value={posterImage}
@@ -539,9 +531,10 @@ const ModifyManage = () => {
     //   );
     // }
 
-    if (ModifyManageStep === 2) {
+    if (modifyManageStep === 2) {
       return (
         <>
+          <MetaTag title="공연 수정" />
           <ShowInfo
             posterImage={posterImage as string}
             title={performanceTitle as string}

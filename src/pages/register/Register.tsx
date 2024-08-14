@@ -1,6 +1,6 @@
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
-import { usePostPerformance } from "@apis/domains/performance/queries";
+import { usePostPerformance } from "@apis/domains/performances/queries";
 import { IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
@@ -8,16 +8,16 @@ import InputBank from "@components/commons/bank/InputBank";
 import Button from "@components/commons/button/Button";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import MetaTag from "@components/commons/meta/MetaTag";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
 import TimePicker from "@components/commons/timepicker/TimePicker";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import useLogin from "@hooks/useLogin";
-import useModal from "@hooks/useModal";
+import { useLogin, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo from "@pages/gig/components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
-import { navigateAtom } from "@stores/navigate";
+import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
@@ -55,10 +55,12 @@ const Register = () => {
 
   const user = localStorage?.getItem("user");
   const [, setNavigateUrl] = useAtom(navigateAtom);
+
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
     requestKakaoLogin();
   };
+
   useEffect(() => {
     const userObj = JSON.parse(user);
 
@@ -181,6 +183,7 @@ const Register = () => {
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
       ];
+
       try {
         const res = await Promise.all(
           S3Urls.map(async (url, index) => {
@@ -319,6 +322,7 @@ const Register = () => {
   if (registerStep === 1) {
     return (
       <>
+        <MetaTag title="공연 등록" />
         <S.RegisterContainer>
           <PosterThumbnail
             value={posterImage}
@@ -535,18 +539,22 @@ const Register = () => {
 
   if (registerStep === 2) {
     return (
-      <RegisterMaker
-        castList={castList}
-        staffList={staffList}
-        handleRegisterStep={handleRegisterStep}
-        updateGigInfo={updateGigInfo}
-      />
+      <>
+        <MetaTag title="공연 등록" />
+        <RegisterMaker
+          castList={castList}
+          staffList={staffList}
+          handleRegisterStep={handleRegisterStep}
+          updateGigInfo={updateGigInfo}
+        />
+      </>
     );
   }
 
   if (registerStep === 3) {
     return (
       <>
+        <MetaTag title="공연 등록" />
         <S.PreviewBanner>예매자에게 보여질 화면 예시입니다. 확인해주세요.</S.PreviewBanner>
         <ShowInfo
           posterImage={posterImage}
