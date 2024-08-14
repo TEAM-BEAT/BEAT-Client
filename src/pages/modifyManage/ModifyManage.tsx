@@ -69,10 +69,9 @@ type ModifyState = {
 };
 
 type Action =
-  | { type: "SET_STEP"; payload: number }
   | { type: "SET_DATA"; payload: Partial<State> }
   | { type: "SET_FIELD"; field: keyof State; value: State[keyof State] }
-  | { type: "TOGGLE_FREE" };
+  | { type: "SET_SCHEDULE_COUNT"; payload: number };
 
 const initialState: State = {
   performanceTitle: "",
@@ -101,12 +100,10 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, ...action.payload };
     case "SET_FIELD":
       return { ...state, [action.field]: action.value };
+    case "SET_SCHEDULE_COUNT":
+      return { ...state, totalScheduleCount: action.payload };
     default:
       return state;
-    //   case "SET_STEP":
-    //   return { ...state, ModifyManageStep: action.payload };
-    // case "TOGGLE_FREE":
-    //   return { ...state, isFree: !state.isFree, ticketPrice: !state.isFree ? 0 : undefined };
   }
 };
 
@@ -199,12 +196,16 @@ const ModifyManage = () => {
     });
   }, [setHeader, modifyState.ModifyManageStep]);
 
-  const handleInputChange = (field: keyof State, value: string | number | boolean) => {
+  const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
   };
 
   const handleModifyManageStep = () => {
-    dispatch({ type: "SET_STEP", payload: modifyState.ModifyManageStep + 1 });
+    setModifyState((prev) => ({ ...prev, ModifyManageStep: prev.ModifyManageStep + 1 }));
+  };
+
+  const handleModifyState = (field: keyof ModifyState, value: ModifyState[keyof ModifyState]) => {
+    setModifyState((prev) => ({ ...prev, field: value }));
   };
 
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
@@ -335,13 +336,13 @@ const ModifyManage = () => {
   }
 
   if (data) {
-    if (ModifyManageStep === 1) {
+    if (modifyState.ModifyManageStep === 1) {
       return (
         <>
           <MetaTag title="공연 수정" />
           <S.ModifyManageContainer>
             <PosterThumbnail
-              value={posterImage}
+              value={dataState.posterImage}
               // onImageUpload={(url) => handleImageUpload(url, setGigInfo)}
               onImageUpload={() => console.log("")}
             />
@@ -349,8 +350,10 @@ const ModifyManage = () => {
             <GenreSelect
               title="공연 장르"
               genres={GENRE_LIST}
-              selectedGenre={genre as string}
-              onGenreSelect={(selectedGenre) => setGenre(selectedGenre)}
+              selectedGenre={dataState.genre as string}
+              onGenreSelect={(selectedGenre) =>
+                dispatch({ type: "SET_FIELD", field: "genre", value: selectedGenre })
+              }
               marginBottom={2.4}
             />
             <S.Divider />
@@ -359,8 +362,10 @@ const ModifyManage = () => {
                 isDisabled={false}
                 type="input"
                 name="performanceTitle"
-                value={performanceTitle}
-                onChange={(e) => setPerformanceTitle(e.target.value)}
+                value={dataState.performanceTitle}
+                onChange={(e) =>
+                  dispatch({ type: "SET_FIELD", field: "performanceTitle", value: e.target.value })
+                }
                 placeholder="등록될 공연의 이름을 입력해주세요."
                 maxLength={30}
                 cap={true}
@@ -372,8 +377,14 @@ const ModifyManage = () => {
                 isDisabled={false}
                 type="input"
                 name="performanceTeamName"
-                value={performanceTeamName}
-                onChange={(e) => setPerformanceTeamName(e.target.value)}
+                value={dataState.performanceTeamName}
+                onChange={(e) =>
+                  dispatch({
+                    type: "SET_FIELD",
+                    field: "performanceTeamName",
+                    value: e.target.value,
+                  })
+                }
                 placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
                 maxLength={10}
                 cap={true}
@@ -383,8 +394,14 @@ const ModifyManage = () => {
             <InputModifyManageBox isDisabled={false} title="공연 소개">
               <TextArea
                 name="performanceDescription"
-                value={performanceDescription}
-                onChange={(e) => setPerformanceDescription(e.target.value)}
+                value={dataState.performanceDescription}
+                onChange={(e) =>
+                  dispatch({
+                    type: "SET_FIELD",
+                    field: "performanceDescription",
+                    value: e.target.value,
+                  })
+                }
                 placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
                 maxLength={250}
               />
@@ -395,8 +412,14 @@ const ModifyManage = () => {
                 isDisabled={false}
                 type="input"
                 name="runningTime"
-                value={runningTime ?? ""}
-                onChange={(e) => setRunningTime(parseInt(e.target.value, 10))}
+                value={dataState.runningTime ?? ""}
+                onChange={(e) =>
+                  dispatch({
+                    type: "SET_FIELD",
+                    field: "runningTime",
+                    value: parseInt(e.target.value, 10),
+                  })
+                }
                 filter={numericFilter}
                 unit="time"
                 placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
@@ -406,15 +429,25 @@ const ModifyManage = () => {
             <StepperModifyManageBox title="회차 수" description="최대 3회차">
               <Stepper
                 max={3}
-                round={totalScheduleCount as number}
+                round={dataState.totalScheduleCount as number}
                 disabled={true}
-                onMinusClick={() => setTotalScheduleCount((prev) => prev - 1)}
-                onPlusClick={() => setTotalScheduleCount((prev) => prev + 1)}
+                onMinusClick={() =>
+                  dispatch({
+                    type: "SET_SCHEDULE_COUNT",
+                    payload: dataState.totalScheduleCount - 1,
+                  })
+                }
+                onPlusClick={() =>
+                  dispatch({
+                    type: "SET_SCHEDULE_COUNT",
+                    payload: dataState.totalScheduleCount + 1,
+                  })
+                }
               />
             </StepperModifyManageBox>
             <S.Divider />
             <TimePickerModifyManageBox title="회차별 시간대">
-              {scheduleList?.map((schedule, index) => (
+              {dataState.scheduleList?.map((schedule, index) => (
                 <div key={index}>
                   <S.InputDescription>{index + 1}회차</S.InputDescription>
                   <Spacing marginBottom={"1"} />
@@ -422,9 +455,13 @@ const ModifyManage = () => {
                     value={dayjs(schedule.performanceDate)}
                     disabled={true}
                     onChangeValue={(date) => {
-                      const updatedSchedules = [...scheduleList];
+                      const updatedSchedules = [...dataState.scheduleList];
                       updatedSchedules[index].performanceDate = date;
-                      setScheduleList(updatedSchedules);
+                      dispatch({
+                        type: "SET_FIELD",
+                        field: "scheduleList",
+                        value: updatedSchedules,
+                      });
                     }}
                   />
                 </div>
@@ -436,8 +473,8 @@ const ModifyManage = () => {
                 isDisabled={false}
                 type="input"
                 name="performanceVenue"
-                value={performanceVenue}
-                onChange={(e) => setPerformanceVenue(e.target.value)}
+                value={dataState.performanceVenue}
+                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
                 placeholder="ex:) 홍익아트홀 303호 소극장"
                 maxLength={15}
                 cap={true}
@@ -449,11 +486,11 @@ const ModifyManage = () => {
                 isDisabled={false}
                 type="input"
                 name="totalTicketCount"
-                value={scheduleList?.[0]?.totalTicketCount ?? ""}
+                value={dataState.scheduleList?.[0]?.totalTicketCount ?? ""}
                 onChange={(e) => {
-                  const updatedSchedules = [...scheduleList];
+                  const updatedSchedules = [...dataState.scheduleList];
                   updatedSchedules[0].totalTicketCount = parseInt(e.target.value, 10);
-                  setScheduleList(updatedSchedules);
+                  handleInputChange("scheduleList", updatedSchedules);
                 }}
                 placeholder="판매할 티켓의 매 수를 입력해주세요."
                 filter={numericFilter}
@@ -464,60 +501,64 @@ const ModifyManage = () => {
             <InputModifyManageBox isDisabled={false} title="유의사항">
               <TextArea
                 name="performanceAttentionNote"
-                value={performanceAttentionNote}
-                onChange={(e) => setPerformanceAttentionNote(e.target.value)}
+                value={dataState.performanceAttentionNote}
+                onChange={(e) => handleInputChange("performanceAttentionNote", e.target.value)}
                 placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
                 maxLength={250}
               />
             </InputModifyManageBox>
             <S.Divider />
             <InputModifyManageBox
-              isDisabled={isExist as boolean}
+              isDisabled={modifyState.isBookerExist as boolean}
               title="티켓 가격"
               description="*티켓 가격은 수정불가합니다."
-              isFree={isFree}
-              onFreeClick={() => setIsFree(!isFree)}
+              isFree={modifyState.isFree}
+              onFreeClick={() => handleModifyState("isBookerExist", !modifyState.isFree)}
             >
               <TextField
-                isDisabled={isExist}
+                isDisabled={modifyState.isBookerExist}
                 type="input"
                 name="ticketPrice"
-                value={ticketPrice !== undefined ? priceFilter(ticketPrice.toString()) : ""}
+                value={
+                  dataState.ticketPrice !== undefined
+                    ? priceFilter(dataState.ticketPrice.toString())
+                    : ""
+                }
                 onChange={handlePriceChange}
                 placeholder="가격을 입력해주세요."
                 filter={priceFilter}
-                disabled={isFree || isExist}
+                disabled={modifyState.isFree || modifyState.isBookerExist}
                 unit="amount"
               />
             </InputModifyManageBox>
             <S.Divider />
-            {!isFree && (
+            {!modifyState.isFree && (
               <>
                 <InputAccountWrapper>
                   <InputBank
-                    isDisabled={isExist as boolean}
-                    bankOpen={bankOpen}
-                    onClick={() => setBankOpen(true)}
+                    isDisabled={modifyState.isBookerExist as boolean}
+                    bankOpen={modifyState.bankOpen}
+                    onClick={() => handleModifyState("bankOpen", true)}
                   >
                     {/* {bankInfo as string} */}
-                    {bankName}
+                    {dataState.bankName}
                   </InputBank>
                   <TextField
-                    isDisabled={isExist}
+                    isDisabled={modifyState.isBookerExist}
                     name="accountNumber"
-                    value={accountNumber}
-                    onChange={(e) => setAccountNumber(e.target.value)}
+                    value={dataState.accountNumber}
+                    onChange={(e) => handleInputChange("accountNumber", e.target.value)}
                     filter={numericFilter}
                     placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
-                    disabled={isExist}
+                    disabled={modifyState.isBookerExist}
                   />
                   <TextField
-                    isDisabled={isExist}
+                    isDisabled={modifyState.isBookerExist}
                     name="accountHolder"
-                    value={accountHolder}
-                    onChange={(e) => setAccountHolder(e.target.value)}
+                    value={dataState.accountHolder}
+                    onChange={(e) => handleInputChange("accountHolder", e.target.value)}
                     placeholder="예금주명을 입력해주세요."
-                    disabled={isExist}
+                    disabled={modifyState.isBookerExist}
                   />
                 </InputAccountWrapper>
                 <S.Divider />
@@ -525,22 +566,22 @@ const ModifyManage = () => {
             )}
             <BankBottomSheet
               // value={bankInfo as string}
-              value={bankName}
+              value={dataState.bankName}
               onBankClick={(value) => {
-                setBankName(value);
-                setBankOpen(false);
+                handleInputChange("bankName", value);
+                handleModifyState("bankOpen", false);
               }}
-              isOpen={bankOpen}
-              onOutClick={() => setBankOpen(false)}
+              isOpen={modifyState.bankOpen}
+              onOutClick={() => handleModifyState("bankOpen", false)}
             />
             <InputModifyManageBox isDisabled={false} title="대표자 연락처">
               <TextField
                 isDisabled={false}
                 type="input"
                 name="performanceContact"
-                value={performanceContact}
+                value={dataState.performanceContact}
                 filter={phoneNumberFilter}
-                onChange={(e) => setPerformanceContact(e.target.value)}
+                onChange={(e) => handleInputChange("performanceContact", e.target.value)}
                 placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
               />
             </InputModifyManageBox>
@@ -551,16 +592,18 @@ const ModifyManage = () => {
               <S.CheckboxLabel>
                 <S.Checkbox
                   type="checkbox"
-                  checked={isChecked}
+                  checked={modifyState.isChecked}
                   onChange={handleCheckboxChange}
                 ></S.Checkbox>
                 한 명 이상의 예매자가 있을 경우, 공연 삭제가 불가해요.
-                {isChecked ? <IconChecked width={18} /> : <S.NonCheck />}
+                {modifyState.isChecked ? <IconChecked width={18} /> : <S.NonCheck />}
               </S.CheckboxLabel>
             </S.CheckboxContainer>
             <Button
               onClick={handleModifyManageStep}
-              disabled={!isAllFieldsFilled(data as DataProps, isFree) || !isChecked}
+              disabled={
+                !isAllFieldsFilled(data as DataProps, modifyState.isFree) || !modifyState.isChecked
+              }
             >
               다음
             </Button>
@@ -581,21 +624,21 @@ const ModifyManage = () => {
     //   );
     // }
 
-    if (ModifyManageStep === 2) {
+    if (modifyState.ModifyManageStep === 2) {
       return (
         <>
           <MetaTag title="공연 수정" />
           <ShowInfo
-            posterImage={posterImage as string}
-            title={performanceTitle as string}
-            price={ticketPrice as number}
-            venue={performanceVenue as string}
-            period={performancePeriod as string}
-            runningTime={runningTime as number}
-            genre={genre as "BAND" | "DANCE" | "PLAY" | "ETC"}
+            posterImage={dataState.posterImage as string}
+            title={dataState.performanceTitle as string}
+            price={dataState.ticketPrice as number}
+            venue={dataState.performanceVenue as string}
+            period={dataState.performancePeriod as string}
+            runningTime={dataState.runningTime as number}
+            genre={dataState.genre as "BAND" | "DANCE" | "PLAY" | "ETC"}
             // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
             scheduleList={
-              scheduleList?.map((schedule, index) => ({
+              dataState.scheduleList?.map((schedule, index) => ({
                 scheduleId: index + 1,
                 performanceDate: schedule.performanceDate?.toString() || "",
                 scheduleNumber: (index + 1).toString(),
@@ -603,22 +646,22 @@ const ModifyManage = () => {
             }
           />
           <Content
-            description={performanceDescription as string}
-            attentionNote={performanceAttentionNote as string}
-            contact={performanceContact as string}
-            teamName={performanceTeamName as string}
+            description={dataState.performanceDescription as string}
+            attentionNote={dataState.performanceAttentionNote as string}
+            contact={dataState.performanceContact as string}
+            teamName={dataState.performanceTeamName as string}
             castList={
-              castList?.[0].castId === -1
+              dataState.castList?.[0].castId === -1
                 ? []
-                : (castList?.map((cast, index) => ({
+                : (dataState.castList?.map((cast, index) => ({
                     ...cast,
                     castId: index + 1,
                   })) as Cast[])
             }
             staffList={
-              staffList?.[0].staffId === -1
+              dataState.staffList?.[0].staffId === -1
                 ? []
-                : (staffList?.map((cast, index) => ({
+                : (dataState.staffList?.map((cast, index) => ({
                     ...cast,
                     staffId: index + 1,
                   })) as Staff[])
