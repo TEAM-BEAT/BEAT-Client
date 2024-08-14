@@ -23,9 +23,10 @@ import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
-import { ChangeEvent, useEffect, useReducer } from "react";
+import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
@@ -34,14 +35,13 @@ import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
 import { GENRE_LIST } from "./constants/genreList";
 import * as S from "./ModifyManage.styled";
-import { Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
+import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
 
 // Reducer로 상태 관리 통합
 type State = {
-  ModifyManageStep: number;
   performanceTitle: string;
-  genre: string;
+  genre: SHOW_TYPE_KEY;
   runningTime: number | null;
   performanceDescription: string;
   performanceAttentionNote: string;
@@ -56,9 +56,13 @@ type State = {
   scheduleList: Schedule[];
   castList: Cast[];
   staffList: Staff[];
-  bankName: string;
-  isBookerExist: boolean | undefined;
+  bankName: BANK_TYPE;
   accountHolder: string;
+};
+
+type ModifyState = {
+  ModifyManageStep: number;
+  isBookerExist: boolean | undefined;
   isFree: boolean;
   isChecked: boolean;
   bankOpen: boolean;
@@ -71,9 +75,8 @@ type Action =
   | { type: "TOGGLE_FREE" };
 
 const initialState: State = {
-  ModifyManageStep: 1,
   performanceTitle: "",
-  genre: "",
+  genre: "ETC",
   runningTime: null,
   performanceDescription: "",
   performanceAttentionNote: "",
@@ -88,26 +91,22 @@ const initialState: State = {
   scheduleList: [],
   castList: [],
   staffList: [],
-  bankName: "",
-  isBookerExist: undefined,
+  bankName: "NONE",
   accountHolder: "",
-  isFree: false,
-  isChecked: true,
-  bankOpen: false,
 };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "SET_STEP":
-      return { ...state, ModifyManageStep: action.payload };
     case "SET_DATA":
       return { ...state, ...action.payload };
     case "SET_FIELD":
       return { ...state, [action.field]: action.value };
-    case "TOGGLE_FREE":
-      return { ...state, isFree: !state.isFree, ticketPrice: !state.isFree ? 0 : undefined };
     default:
       return state;
+    //   case "SET_STEP":
+    //   return { ...state, ModifyManageStep: action.payload };
+    // case "TOGGLE_FREE":
+    //   return { ...state, isFree: !state.isFree, ticketPrice: !state.isFree ? 0 : undefined };
   }
 };
 
@@ -122,7 +121,13 @@ const ModifyManage = () => {
   const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
 
   const [dataState, dispatch] = useReducer(reducer, initialState);
-  const []
+  const [modifyState, setModifyState] = useState<ModifyState>({
+    ModifyManageStep: 1,
+    isBookerExist: undefined,
+    isFree: false,
+    isChecked: true,
+    bankOpen: false,
+  });
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -166,19 +171,23 @@ const ModifyManage = () => {
               }))
             : [{ staffId: -1, staffName: "", staffRole: "", staffPhoto: "" }],
           bankName: data.bankName,
-          isBookerExist: data.isBookerExist,
           accountHolder: data.accountHolder,
-          isFree: data.ticketPrice === 0,
         },
       });
+
+      setModifyState((prevState) => ({
+        ...prevState,
+        isBookerExist: data.isBookerExist,
+        isFree: data.ticketPrice === 0,
+      }));
     }
   }, [data, isSuccess]);
 
   useEffect(() => {
     const pageTitle =
-      dataState.ModifyManageStep === 1
+      modifyState.ModifyManageStep === 1
         ? "공연 수정하기"
-        : dataState.ModifyManageStep === 2
+        : modifyState.ModifyManageStep === 2
           ? "공연 수정하기"
           : "미리보기";
     setHeader({
@@ -188,14 +197,14 @@ const ModifyManage = () => {
       leftOnClick: handleLeftBtn,
       rightOnClick: handleRightBtn,
     });
-  }, [setHeader, dataState.ModifyManageStep]);
+  }, [setHeader, modifyState.ModifyManageStep]);
 
   const handleInputChange = (field: keyof State, value: string | number | boolean) => {
     dispatch({ type: "SET_FIELD", field, value });
   };
 
   const handleModifyManageStep = () => {
-    dispatch({ type: "SET_STEP", payload: dataState.ModifyManageStep + 1 });
+    dispatch({ type: "SET_STEP", payload: modifyState.ModifyManageStep + 1 });
   };
 
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
@@ -216,18 +225,15 @@ const ModifyManage = () => {
     });
 
     try {
-      await updatePerformance({ performanceId: Number(performanceId), ...state } });
-
-      if (res?.status === 200) {
-        openAlert({
-          title: "공연 수정이 완료됐어요.",
-          subTitle: "변경된 사항(시간, 장소 등)은 예매자에게\n 개별적으로 반드시 연락해주세요.",
-          okText: "네, 알겠어요",
-          okCallback: () => {
-            navigate("/gig-manage");
-          },
-        });
-      }
+      await updatePerformance({ performanceId: Number(performanceId), ...dataState });
+      openAlert({
+        title: "공연 수정이 완료됐어요.",
+        subTitle: "변경된 사항(시간, 장소 등)은 예매자에게\n 개별적으로 반드시 연락해주세요.",
+        okText: "네, 알겠어요",
+        okCallback: () => {
+          navigate("/gig-manage");
+        },
+      });
     } catch (err) {
       openAlert({
         title: "공연 수정에 실패했습니다.",
@@ -240,35 +246,31 @@ const ModifyManage = () => {
 
   // 약관 동의
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(e.target.checked);
+    setModifyState((prevState) => ({ ...prevState, isChecked: !prevState.isChecked }));
   };
-
-  useEffect(() => {
-    setIsExist(data?.isBookerExist);
-  }, [data?.isBookerExist]);
-
-  // useEffect(() => {
-  //   setBankInfo(bankName);
-  // }, [bankName]);
-
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
   useEffect(() => {
-    if (isFree) {
-      setTicketPrice(0);
-      setAccountNumber("");
-      setBankName("");
+    if (modifyState.isFree) {
+      dispatch({
+        type: "SET_DATA",
+        payload: {
+          ticketPrice: 0,
+          accountNumber: "",
+          bankName: "NONE",
+        },
+      });
     }
-  }, [isFree]);
+  }, [modifyState.isFree]);
 
   // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
   useEffect(() => {
-    if (ticketPrice === 0) {
-      setIsFree(true);
+    if (dataState.ticketPrice === 0) {
+      setModifyState((prevState) => ({ ...prevState, isFree: true }));
     }
-  }, [ticketPrice]);
+  }, [dataState.ticketPrice]);
 
   const handleLeftBtn = () => {
-    if (ModifyManageStep === 1) {
+    if (modifyState.ModifyManageStep === 1) {
       openConfirm({
         title: "수정을 취소할까요?",
         subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
@@ -278,31 +280,28 @@ const ModifyManage = () => {
         },
         noText: "아니요",
         noCallback: () => {
-          setModifyManageStep(1);
+          setModifyState((prev) => ({ ...prev, ModifyManageStep: 1 }));
         },
       });
     } else {
-      setModifyManageStep((prev) => prev - 1);
+      setModifyState((prev) => ({ ...prev, ModifyManageStep: prev.ModifyManageStep - 1 }));
     }
   };
 
   const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     let numericValue = parseInt(value.replace(/,/g, ""), 10);
 
     if (isNaN(numericValue)) {
       numericValue = undefined;
     }
 
-    setTicketPrice(numericValue);
+    dispatch({ type: "SET_FIELD", field: "ticketPrice", value: numericValue });
   };
 
-  const handleDeletePerformance = async (_performanceId: number, isExisttt: boolean) => {
-    //사용자가 한명 이상 있으면 안된다는 문구 띄움 - 동훈이가 수정 시 공연 정보 조회 API (GET)에 COUNT나 bookingList를 넘겨줄 듯
-    console.log("isExisttt", isExisttt);
-
-    if (isExisttt) {
+  //공연 삭제 DELETE API 요청
+  const handleDeletePerformance = async (_performanceId: number, _isBookerExist: boolean) => {
+    if (_isBookerExist) {
       openAlert({
         title: "공연 삭제가 불가해요.",
         subTitle: "예매자가 1명 이상 있을 경우, 삭제할 수 없어요.",
@@ -310,20 +309,19 @@ const ModifyManage = () => {
         okCallback: closeAlert,
       });
     } else {
-      //공연 삭제하는 로직 - performanceId 하나로 DELETE 요청 보내고,
       mutateAsync(Number(performanceId));
       navigate("/gig-manage");
     }
   };
 
+  //공연 삭제 버튼
   const handleRightBtn = () => {
     openConfirm({
       title: "공연을 삭제하시겠어요?",
       subTitle: "삭제할 경우, 작성했던 내용을 되돌릴 수 없어요.",
       okText: "삭제할게요",
       okCallback: () => {
-        //공연 수정 DELETE API 요청 쏘는 로직 존재할 예정
-        handleDeletePerformance(Number(performanceId), isBookerExist as boolean); //예시로 박아둠
+        handleDeletePerformance(Number(performanceId), modifyState.isBookerExist as boolean);
       },
       noText: "아니요",
       noCallback: () => {
