@@ -12,7 +12,7 @@ export async function POST(req: Request, res) {
     console.log("performanceId is: ", performanceId);
 
     const chromePath =
-      process.env.VITE_CHROME_PATH ||
+      import.meta.env.VITE_CHROME_PATH ||
       (await chromium.executablePath(
         "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar"
       ));
