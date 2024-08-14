@@ -25,7 +25,7 @@ import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
@@ -121,6 +121,7 @@ const ModifyManage = () => {
   const { mutateAsync: updatePerformance } = useUpdatePerformance();
   const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
 
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
   // gigInfo 초기화
 
@@ -147,6 +148,7 @@ const ModifyManage = () => {
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [bankOpen, setBankOpen] = useState<boolean>(false);
 
+  //다음 커밋에서 isExist 관련 로직은 사라질 예정입니다. - isBookerExist와 역할이 같기 때문!
   const [isExist, setIsExist] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
