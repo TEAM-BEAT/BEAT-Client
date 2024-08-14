@@ -25,7 +25,7 @@ import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
-import { ChangeEvent, useEffect, useReducer, useState } from "react";
+import { ChangeEvent, useEffect, useReducer } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
@@ -34,7 +34,7 @@ import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
 import { GENRE_LIST } from "./constants/genreList";
 import * as S from "./ModifyManage.styled";
-import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
+import { Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
 
 // Reducer로 상태 관리 통합
@@ -42,7 +42,7 @@ type State = {
   ModifyManageStep: number;
   performanceTitle: string;
   genre: string;
-  runningTime: string | null;
+  runningTime: number | null;
   performanceDescription: string;
   performanceAttentionNote: string;
   accountNumber: string;
@@ -121,121 +121,102 @@ const ModifyManage = () => {
   const { mutateAsync: updatePerformance } = useUpdatePerformance();
   const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [ModifyManageStep, setModifyManageStep] = useState(1); // 등록 step 나누기
-  // gigInfo 초기화
-
-  const [performanceTitle, setPerformanceTitle] = useState<string>("");
-  const [genre, setGenre] = useState<"BAND" | "DANCE" | "PLAY" | "ETC" | string>("");
-  const [runningTime, setRunningTime] = useState<number | null>(null);
-  const [performanceDescription, setPerformanceDescription] = useState<string>("");
-  const [performanceAttentionNote, setPerformanceAttentionNote] = useState<string>("");
-  const [accountNumber, setAccountNumber] = useState<string>("");
-  const [posterImage, setPosterImage] = useState<string>("");
-  const [performanceTeamName, setPerformanceTeamName] = useState<string>("");
-  const [performanceVenue, setPerformanceVenue] = useState<string>("");
-  const [performancePeriod, setPerformancePeriod] = useState<string>("");
-  const [performanceContact, setPerformanceContact] = useState<string>("");
-  const [ticketPrice, setTicketPrice] = useState<number | undefined>(undefined);
-  const [totalScheduleCount, setTotalScheduleCount] = useState<number>(1);
-  const [scheduleList, setScheduleList] = useState<Schedule[]>([]);
-  const [castList, setCastList] = useState<Cast[]>([]);
-  const [staffList, setStaffList] = useState<Staff[]>([]);
-  const [bankName, setBankName] = useState<string>("");
-  const [isBookerExist, setIsBookerExist] = useState<boolean | undefined>(undefined);
-  const [accountHolder, setAccountHolder] = useState<string>("");
-  const [isFree, setIsFree] = useState<boolean>(false);
-  const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [bankOpen, setBankOpen] = useState<boolean>(false);
-
-  //다음 커밋에서 isExist 관련 로직은 사라질 예정입니다. - isBookerExist와 역할이 같기 때문!
-  const [isExist, setIsExist] = useState<boolean | undefined>(undefined);
+  const [dataState, dispatch] = useReducer(reducer, initialState);
+  const []
 
   useEffect(() => {
     if (data && isSuccess) {
-      setPerformanceTitle(data.performanceTitle);
-      setGenre(data.genre);
-      setRunningTime(data.runningTime);
-      setPerformanceDescription(data.performanceDescription);
-      setPerformanceAttentionNote(data.performanceAttentionNote);
-      setAccountNumber(data.accountNumber);
-      setPosterImage(data.posterImage);
-      setPerformanceTeamName(data.performanceTeamName);
-      setPerformanceVenue(data.performanceVenue);
-      setPerformancePeriod(data.performancePeriod);
-      setPerformanceContact(data.performanceContact);
-      setTicketPrice(data.ticketPrice);
-      setTotalScheduleCount(data.totalScheduleCount);
-      setScheduleList(
-        data.scheduleList.map((item) => ({
-          scheduleId: item.scheduleId ?? -1,
-          performanceDate: item.performanceDate ?? "",
-          totalTicketCount: item.totalTicketCount ?? 0,
-          dueDate: item.dueDate ?? 0,
-          scheduleNumber: item.scheduleNumber ?? "FIRST",
-        }))
-      );
-      setCastList(
-        data.castList && data.castList.length > 0
-          ? data.castList.map((item) => ({
-              castId: item.castId ?? -1,
-              castName: item.castName ?? "",
-              castRole: item.castRole ?? "",
-              castPhoto: item.castPhoto ?? "",
-            }))
-          : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }]
-      );
-      setStaffList(
-        data.staffList && data.staffList.length > 0
-          ? data.staffList.map((item) => ({
-              staffId: item.staffId ?? -1,
-              staffName: item.staffName ?? "",
-              staffRole: item.staffRole ?? "",
-              staffPhoto: item.staffPhoto ?? "",
-            }))
-          : [{ staffId: -1, staffName: "", staffRole: "", staffPhoto: "" }]
-      );
-      setBankName(data.bankName);
-      setIsBookerExist(data.isBookerExist);
-      setAccountHolder(data.accountHolder);
-      setIsFree(data.ticketPrice === 0);
+      dispatch({
+        type: "SET_DATA",
+        payload: {
+          performanceTitle: data.performanceTitle,
+          genre: data.genre,
+          runningTime: data.runningTime,
+          performanceDescription: data.performanceDescription,
+          performanceAttentionNote: data.performanceAttentionNote,
+          accountNumber: data.accountNumber,
+          posterImage: data.posterImage,
+          performanceTeamName: data.performanceTeamName,
+          performanceVenue: data.performanceVenue,
+          performancePeriod: data.performancePeriod,
+          performanceContact: data.performanceContact,
+          ticketPrice: data.ticketPrice,
+          totalScheduleCount: data.totalScheduleCount,
+          scheduleList: data.scheduleList.map((item) => ({
+            scheduleId: item.scheduleId ?? -1,
+            performanceDate: item.performanceDate ?? "",
+            totalTicketCount: item.totalTicketCount ?? 0,
+            dueDate: item.dueDate ?? 0,
+            scheduleNumber: item.scheduleNumber ?? "FIRST",
+          })),
+          castList: data.castList?.length
+            ? data.castList.map((item) => ({
+                castId: item.castId ?? -1,
+                castName: item.castName ?? "",
+                castRole: item.castRole ?? "",
+                castPhoto: item.castPhoto ?? "",
+              }))
+            : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }],
+          staffList: data.staffList?.length
+            ? data.staffList.map((item) => ({
+                staffId: item.staffId ?? -1,
+                staffName: item.staffName ?? "",
+                staffRole: item.staffRole ?? "",
+                staffPhoto: item.staffPhoto ?? "",
+              }))
+            : [{ staffId: -1, staffName: "", staffRole: "", staffPhoto: "" }],
+          bankName: data.bankName,
+          isBookerExist: data.isBookerExist,
+          accountHolder: data.accountHolder,
+          isFree: data.ticketPrice === 0,
+        },
+      });
     }
-  }, [data]);
+  }, [data, isSuccess]);
 
-  //여기서 공연 수정하기 PUT 요청 보내야함
+  useEffect(() => {
+    const pageTitle =
+      dataState.ModifyManageStep === 1
+        ? "공연 수정하기"
+        : dataState.ModifyManageStep === 2
+          ? "공연 수정하기"
+          : "미리보기";
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      title: pageTitle,
+      subText: "삭제",
+      leftOnClick: handleLeftBtn,
+      rightOnClick: handleRightBtn,
+    });
+  }, [setHeader, dataState.ModifyManageStep]);
+
+  const handleInputChange = (field: keyof State, value: string | number | boolean) => {
+    dispatch({ type: "SET_FIELD", field, value });
+  };
+
+  const handleModifyManageStep = () => {
+    dispatch({ type: "SET_STEP", payload: dataState.ModifyManageStep + 1 });
+  };
+
+  //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
-    const filteredCastList = castList.filter(
+    const filteredCastList = dataState.castList.filter(
       (cast) => cast.castName || cast.castRole || cast.castPhoto
     );
-    const filteredStaffList = staffList.filter(
+    const filteredStaffList = dataState.staffList.filter(
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
 
-    const formData = {
-      performanceId: Number(performanceId),
-      performanceTitle,
-      genre: genre as "BAND" | "DANCE" | "PLAY" | "ETC",
-      runningTime,
-      performanceDescription,
-      performanceAttentionNote,
-      accountNumber,
-      posterImage,
-      performanceTeamName,
-      performanceVenue,
-      performancePeriod,
-      performanceContact,
-      ticketPrice,
-      totalScheduleCount,
-      scheduleList,
-      castList: filteredCastList,
-      staffList: filteredStaffList,
-      bankName: (!!bankName ? bankName : "NONE") as BANK_TYPE,
-      isBookerExist,
-      accountHolder,
-    };
+    dispatch({
+      type: "SET_DATA",
+      payload: {
+        castList: filteredCastList,
+        staffList: filteredStaffList,
+      },
+    });
 
     try {
-      const res = await updatePerformance(formData);
+      await updatePerformance({ performanceId: Number(performanceId), ...state } });
 
       if (res?.status === 200) {
         openAlert({
@@ -285,10 +266,6 @@ const ModifyManage = () => {
       setIsFree(true);
     }
   }, [ticketPrice]);
-
-  const handleModifyManageStep = () => {
-    setModifyManageStep((prev) => prev + 1);
-  };
 
   const handleLeftBtn = () => {
     if (ModifyManageStep === 1) {
@@ -355,21 +332,6 @@ const ModifyManage = () => {
     });
   };
 
-  useEffect(() => {
-    const pageTitle =
-      ModifyManageStep === 1
-        ? "공연 수정하기"
-        : ModifyManageStep === 2
-          ? "공연 수정하기"
-          : "미리보기";
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
-      title: pageTitle,
-      subText: "삭제",
-      leftOnClick: handleLeftBtn,
-      rightOnClick: handleRightBtn,
-    });
-  }, [setHeader, ModifyManageStep]);
   if (isLoading) {
     return <Loading />;
   }
