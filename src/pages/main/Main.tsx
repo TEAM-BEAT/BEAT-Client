@@ -66,12 +66,12 @@ const Main = () => {
         <Loading />
       ) : (
         <S.MainWrapper>
-          <button style={{ color: "white" }} onClick={onClickHi}>
+          {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
           </button>
           <button style={{ color: "white" }} onClick={onClickHello}>
             헬로 테스트
-          </button>
+          </button> */}
           <MainNavigation />
           <Carousel promotionList={data?.promotionList ?? []} />
           <Chips handleGenre={handleGenre} />
