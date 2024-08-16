@@ -18,6 +18,7 @@ import {
   TimePicker,
 } from "@components/commons";
 
+import { deletePerformance } from "@apis/domains/performances/api";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
@@ -194,7 +195,7 @@ const ModifyManage = () => {
       leftOnClick: handleLeftBtn,
       rightOnClick: handleRightBtn,
     });
-  }, [setHeader, modifyState.ModifyManageStep]);
+  }, [setHeader, modifyState.ModifyManageStep, modifyState.isBookerExist]);
 
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
@@ -301,8 +302,18 @@ const ModifyManage = () => {
   };
 
   //공연 삭제 DELETE API 요청
-  const handleDeletePerformance = async (_performanceId: number, _isBookerExist: boolean) => {
-    if (_isBookerExist) {
+  const handleDeletePerformance = async (_performanceId: number) => {
+    await deletePerformance(_performanceId);
+    openAlert({
+      title: "공연이 삭제 되었습니다.",
+      okText: "확인했어요",
+      okCallback: () => navigate("/gig-manage"),
+    });
+  };
+
+  //공연 삭제 버튼
+  const handleRightBtn = () => {
+    if (modifyState.isBookerExist) {
       openAlert({
         title: "공연 삭제가 불가해요.",
         subTitle: "예매자가 1명 이상 있을 경우, 삭제할 수 없어요.",
@@ -310,25 +321,20 @@ const ModifyManage = () => {
         okCallback: closeAlert,
       });
     } else {
-      mutateAsync(Number(performanceId));
-      navigate("/gig-manage");
+      openConfirm({
+        title: "공연을 삭제하시겠어요?",
+        subTitle: "삭제할 경우, 작성했던 내용을 되돌릴 수 없어요.",
+        okText: "삭제할게요",
+        okCallback: async () => {
+          await handleDeletePerformance(Number(performanceId));
+          return;
+        },
+        noText: "아니요",
+        noCallback: () => {
+          closeConfirm();
+        },
+      });
     }
-  };
-
-  //공연 삭제 버튼
-  const handleRightBtn = () => {
-    openConfirm({
-      title: "공연을 삭제하시겠어요?",
-      subTitle: "삭제할 경우, 작성했던 내용을 되돌릴 수 없어요.",
-      okText: "삭제할게요",
-      okCallback: () => {
-        handleDeletePerformance(Number(performanceId), modifyState.isBookerExist as boolean);
-      },
-      noText: "아니요",
-      noCallback: () => {
-        closeConfirm();
-      },
-    });
   };
 
   if (isLoading) {
