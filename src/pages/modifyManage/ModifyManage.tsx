@@ -195,7 +195,7 @@ const ModifyManage = () => {
       leftOnClick: handleLeftBtn,
       rightOnClick: handleRightBtn,
     });
-  }, [setHeader, modifyState.ModifyManageStep, modifyState.isBookerExist]);
+  }, [modifyState.ModifyManageStep, modifyState.isBookerExist]);
 
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
