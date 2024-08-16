@@ -218,8 +218,6 @@ const Book = () => {
     }
   }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
 
-  console.log("booking", isMemberBookPending);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -314,7 +312,12 @@ const Book = () => {
           <Button variant="gray" size="medium" onClick={handleSheetClose}>
             다시 할게요
           </Button>
-          <Button variant="primary" size="medium" onClick={handleClickBookRequst}>
+          <Button
+            variant="primary"
+            size="medium"
+            disabled={isGuestBookingPending || isMemberBookPending}
+            onClick={handleClickBookRequst}
+          >
             예매할게요
           </Button>
         </OuterLayout>
