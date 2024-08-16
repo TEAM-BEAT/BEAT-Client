@@ -158,9 +158,12 @@ const Register = () => {
 
   const { data, refetch } = useGetPresignedUrl(params);
   const { mutate } = usePutS3Upload();
-  const { mutateAsync: postPerformance } = usePostPerformance();
+  const { mutateAsync: postPerformance, isPending } = usePostPerformance();
 
   const handleComplete = async () => {
+    if (isPending) {
+      return;
+    }
     const { data, isSuccess } = await refetch();
 
     let posterUrls;
@@ -586,7 +589,9 @@ const Register = () => {
           }))}
         />
         <S.FooterContainer>
-          <Button onClick={handleComplete}>완료하기</Button>
+          <Button onClick={handleComplete} disabled={isPending}>
+            완료하기
+          </Button>
         </S.FooterContainer>
       </>
     );
