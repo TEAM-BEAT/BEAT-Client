@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { TouchEventHandler, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Carousel.styled";
 
@@ -11,6 +11,9 @@ interface PromotionProps {
 interface PromotionComponentProps {
   promotionList: PromotionProps[];
 }
+
+let touchStartX: number;
+let touchEndX: number;
 
 const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const navigate = useNavigate();
@@ -79,9 +82,54 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     };
   }, [currIndex]);
 
+  const handleSwipe = (direction: number) => {
+    const newIndex = currIndex + direction;
+
+    if (newIndex === carouselList.length + 1) {
+      moveToNthSlide(1);
+    } else if (newIndex === 0) {
+      moveToNthSlide(carouselList.length);
+    }
+
+    setCurrIndex((prev) => prev + direction);
+    if (carouselRef.current !== null) {
+      carouselRef.current.style.transition = "all 0.5s ease-in-out";
+    }
+  };
+
+  const handleTouchStart: TouchEventHandler<HTMLDivElement> = (e) => {
+    touchStartX = e.touches[0].clientX;
+    console.log(e.touches[0].clientX, "start!");
+  };
+
+  const handleTouchMove: TouchEventHandler<HTMLDivElement> = (e) => {
+    const currTouchX = e.nativeEvent.changedTouches[0].clientX;
+
+    if (carouselRef.current !== null) {
+      carouselRef.current.style.transform = `translateX(calc(-${currIndex}00% - ${
+        (touchStartX - currTouchX) * 2 || 0
+      }px))`;
+    }
+  };
+
+  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    console.log(e.changedTouches[0].clientX, "end!");
+
+    if (touchStartX >= touchEndX) {
+      handleSwipe(1);
+    } else {
+      handleSwipe(-1);
+    }
+  };
+
   return (
     <S.CarouselWarpper>
-      <S.CarouselLayout>
+      <S.CarouselLayout
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <S.CarouselContainer ref={carouselRef}>
           {currList?.map((image, idx) => {
             const key = `${image}-${idx}`;
