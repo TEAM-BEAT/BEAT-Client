@@ -174,7 +174,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
                 <S.CarouselItem
                   key={key}
                   onClick={() => {
-                    isExternal[0]
+                    isExternal[idx - 1]
                       ? window.open(`${redirectUrl[idx - 1]}`)
                       : navigate(`/gig/${carouselId[idx - 1]}`);
                   }}
