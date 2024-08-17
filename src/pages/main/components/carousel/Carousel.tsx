@@ -6,6 +6,8 @@ interface PromotionProps {
   promotionId?: number;
   promotionPhoto?: string;
   performanceId?: number;
+  isExternal?: boolean;
+  redirectUrl?: string;
 }
 
 interface PromotionComponentProps {
@@ -22,16 +24,22 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const [currList, setCurrList] = useState<string[]>();
   const [carouselList, setCarouselList] = useState<string[]>([]);
   const [carouselId, setCarouselId] = useState<number[]>([]);
-  const [isSingleItem, setIsSingleItem] = useState(false); // 항목이 하나인지 여부를 저장하는 상태
+  const [isSingleItem, setIsSingleItem] = useState(false);
+  const [isExternal, setIsExternal] = useState<boolean[]>([]);
+  const [redirectUrl, setRedirectUrl] = useState<string[]>([]);
 
   const carouselRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
     const carouselItemList = promotionList.map((promotion) => promotion.performanceId || null);
+    const externalList = promotionList.map((promotion) => promotion.isExternal || null);
+    const redirectUrlList = promotionList.map((promotion) => promotion.redirectUrl || null);
 
     setCarouselId(carouselItemList);
     setCarouselList(carouselTempList);
+    setIsExternal(externalList);
+    setRedirectUrl(redirectUrlList);
 
     // 항목이 하나만 들어온 경우
     if (carouselTempList.length === 1) {
@@ -60,7 +68,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
 
       setCurrList(newList);
     } else if (isSingleItem) {
-      setCurrList(carouselList); // 항목이 하나일 경우, 슬라이드 없이 그대로 보여줌
+      setCurrList(carouselList);
     }
   }, [carouselList, isSingleItem]);
 
@@ -146,7 +154,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
         <S.CarouselLayout>
           <S.CarouselItem
             onClick={() => {
-              navigate(`${carouselId[0]}`);
+              isExternal[0] ? window.open(`${redirectUrl[0]}`) : navigate(`/gig/${carouselId[0]}`);
             }}
           >
             <img src={carouselList[0]} alt="carousel-img" />
@@ -166,7 +174,9 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
                 <S.CarouselItem
                   key={key}
                   onClick={() => {
-                    navigate(`/gig/${carouselId[idx - 1]}`);
+                    isExternal[0]
+                      ? window.open(`${redirectUrl[idx - 1]}`)
+                      : navigate(`/gig/${carouselId[idx - 1]}`);
                   }}
                 >
                   <img src={image} alt="carousel-img" />
