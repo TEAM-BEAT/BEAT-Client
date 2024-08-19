@@ -96,6 +96,7 @@ const Hamburger = () => {
                   <S.NavigateBtnText>내가 예매한 공연</S.NavigateBtnText>
                   <S.ArrowRightIcon />
                 </S.NavigateBtn>
+                <S.LogoutBtn>로그아웃</S.LogoutBtn>
               </S.NavigateBtnWrapper>
             </>
           ) : (

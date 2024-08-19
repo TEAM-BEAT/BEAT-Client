@@ -129,3 +129,28 @@ export const ArrowRightIcon = styled(IconArrowRight)`
 
   color: ${({ theme }) => theme.colors.white};
 `;
+
+export const LogoutBtn = styled.button`
+  position: absolute;
+  right: 9.1rem;
+  bottom: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+
+  color: ${({ theme }) => theme.colors.gray_100};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+
+  &::after {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 1.1rem;
+    width: 4.9rem;
+    height: 0.1rem;
+
+    background-color: ${({ theme }) => theme.colors.gray_100};
+
+    content: "";
+  }
+`;
