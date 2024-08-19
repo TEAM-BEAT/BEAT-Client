@@ -52,7 +52,7 @@ type State = {
   performanceVenue: string;
   performancePeriod: string;
   performanceContact: string;
-  ticketPrice: number | undefined;
+  ticketPrice: number | null;
   totalScheduleCount: number;
   scheduleList: Schedule[];
   castList: Cast[];
@@ -86,7 +86,7 @@ const initialState: State = {
   performanceVenue: "",
   performancePeriod: "",
   performanceContact: "",
-  ticketPrice: undefined,
+  ticketPrice: null,
   totalScheduleCount: 1,
   scheduleList: [],
   castList: [],
@@ -261,6 +261,8 @@ const ModifyManage = () => {
           bankName: "NONE",
         },
       });
+    } else {
+      dispatch({ type: "SET_FIELD", field: "ticketPrice", value: null });
     }
   }, [modifyState.isFree]);
 
@@ -529,7 +531,7 @@ const ModifyManage = () => {
                 type="input"
                 name="ticketPrice"
                 value={
-                  dataState.ticketPrice !== undefined
+                  dataState.ticketPrice !== null
                     ? priceFilter(dataState.ticketPrice.toString())
                     : ""
                 }
