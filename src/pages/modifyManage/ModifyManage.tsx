@@ -206,7 +206,7 @@ const ModifyManage = () => {
   };
 
   const handleModifyState = (field: keyof ModifyState, value: ModifyState[keyof ModifyState]) => {
-    setModifyState((prev) => ({ ...prev, field: value }));
+    setModifyState((prev) => ({ ...prev, [field]: value })); //브래킷 표기법 필수
   };
 
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
@@ -516,7 +516,7 @@ const ModifyManage = () => {
               title="티켓 가격"
               description="*티켓 가격은 수정불가합니다."
               isFree={modifyState.isFree}
-              onFreeClick={() => handleModifyState("isBookerExist", !modifyState.isFree)}
+              onFreeClick={() => handleModifyState("isFree", !modifyState.isFree)}
             >
               <TextField
                 isDisabled={modifyState.isBookerExist}
