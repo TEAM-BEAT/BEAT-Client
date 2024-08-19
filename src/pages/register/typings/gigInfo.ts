@@ -19,6 +19,11 @@ export interface Staff {
   staffPhoto: string;
 }
 
+export interface DetailImage {
+  id: number;
+  url: string;
+}
+
 export interface GigInfo {
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
@@ -29,6 +34,7 @@ export interface GigInfo {
   accountNumber: string;
   accountHolder: string;
   posterImage: string;
+  detailImages: DetailImage[];
   performanceTeamName: string;
   performanceVenue: string;
   performanceContact: string;

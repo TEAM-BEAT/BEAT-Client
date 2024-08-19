@@ -114,6 +114,25 @@ export const FileInputWrapper = styled.div`
 
   ${Generators.flexGenerator("row", "center", "start")}
   gap: 1.4rem;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const FilesInputWrapper = styled.div`
+  position: relative;
+
+  ${Generators.flexGenerator("row", "center", "start")}
+  gap: 1.4rem;
+  width: calc(100% + 2.4rem);
+  padding-right: 2.4rem;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const HiddenFileInput = styled.input`
@@ -122,6 +141,7 @@ export const HiddenFileInput = styled.input`
 
 export const CustomFileInput = styled.label<{ width?: number; height?: number }>`
   ${Generators.flexGenerator()}
+  flex-shrink: 0;
   width: ${({ width }) => (width ? width : 10.8)}rem;
   height: ${({ height }) => (height ? height : 15.4)}rem;
 

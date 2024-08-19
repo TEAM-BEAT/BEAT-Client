@@ -1,0 +1,110 @@
+import { ChangeEvent, useEffect, useState } from "react";
+import * as S from "../Register.styled";
+import { IconCamera } from "@assets/svgs";
+import Spacing from "@components/commons/spacing/Spacing";
+import useModal from "./../../../hooks/useModal";
+
+interface DetailImageProps {
+  value?: PreviewImageList[] | undefined;
+  onImagesUpload: (detailImage: PreviewImageList[]) => void;
+}
+
+type PreviewImageList = {
+  id: number;
+  url: string;
+};
+
+const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
+  const { openAlert } = useModal();
+  const [previewImgs, setPreviewImgs] = useState<PreviewImageList[] | null>(value || null);
+  const [inputKey, setInputKey] = useState<number>(Date.now());
+
+  useEffect(() => {
+    setPreviewImgs(value || null);
+  }, [value]);
+
+  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      // 최대 10장 업로드 안내
+      if (previewImgs.length + files.length > 10) {
+        openAlert({
+          title: "가능한 이미지 수를 초과했습니다.",
+          okText: "확인",
+        });
+        return;
+      }
+
+      // 파일 순서대로 처리하기 위해 비동기 작업
+      const processFile = (file: File) => {
+        return new Promise<PreviewImageList>((resolve) => {
+          const fileReader = new FileReader();
+          fileReader.onload = function (event) {
+            const imageUrl = event.target?.result as string;
+            resolve({
+              id: Date.now() + Math.floor(Math.random() * 1000), // ctrl 키로 동시에 이미지 선택해도 id 중복되지 않도록 랜덤 값 추가
+              url: imageUrl,
+            });
+          };
+          fileReader.readAsDataURL(file);
+        });
+      };
+
+      // 모든 파일 처리 완료 후 상태 업데이트
+      const processAllFiles = async () => {
+        const newPreviewImgs = await Promise.all(
+          Array.from(files).map((file) => processFile(file))
+        );
+        const updatedPreviewImgs = [...previewImgs, ...newPreviewImgs];
+        setPreviewImgs(updatedPreviewImgs);
+        onImagesUpload(updatedPreviewImgs);
+      };
+
+      processAllFiles();
+    }
+  };
+  const removeImage = (id: number) => {
+    setPreviewImgs((prev) => {
+      const updatedPreviewImgs = prev.filter((detail) => detail.id !== id);
+      onImagesUpload(updatedPreviewImgs); // 비동기적으로 반영되는 setState때문에 내부에 넣어야 필터링된 최신 이미지들을 바로 반영됨
+
+      return updatedPreviewImgs;
+    });
+    setInputKey(Date.now());
+  };
+
+  return (
+    <S.InputRegisterBox $marginBottom={2.8}>
+      <S.InputTitle>공연 상세 이미지</S.InputTitle>
+      <S.InputDescription>선택 사항입니다. ({previewImgs.length}/10)</S.InputDescription>
+      <Spacing marginBottom="1.4" />
+      <S.FilesInputWrapper>
+        <S.HiddenFileInput
+          key={inputKey}
+          type="file"
+          id="files"
+          onChange={uploadFile}
+          multiple
+          disabled={previewImgs.length >= 10}
+        />
+        <S.CustomFileInput htmlFor="files" width={15.7} height={21}>
+          <IconCamera width={"3.2rem"} />
+        </S.CustomFileInput>
+        {previewImgs &&
+          previewImgs.map((previewImg) => (
+            <S.PreviewImageWrapper width={15.7} height={21}>
+              <S.PreviewImage
+                src={previewImg.url}
+                alt={`Preview-${previewImg.id}`}
+                width={15.7}
+                height={21}
+              />
+              <S.RemoveImageButton onClick={() => removeImage(previewImg.id)} />
+            </S.PreviewImageWrapper>
+          ))}
+      </S.FilesInputWrapper>
+    </S.InputRegisterBox>
+  );
+};
+
+export default DetailImage;
