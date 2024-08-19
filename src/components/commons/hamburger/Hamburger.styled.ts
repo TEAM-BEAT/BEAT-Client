@@ -141,16 +141,5 @@ export const LogoutBtn = styled.button`
 
   color: ${({ theme }) => theme.colors.gray_100};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
-
-  &::after {
-    position: absolute;
-    bottom: 1.2rem;
-    left: 1.1rem;
-    width: 4.9rem;
-    height: 0.1rem;
-
-    background-color: ${({ theme }) => theme.colors.gray_100};
-
-    content: "";
-  }
+  text-decoration-line: underline;
 `;
