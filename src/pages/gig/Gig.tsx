@@ -26,12 +26,8 @@ const Gig = () => {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const nowDate = new Date();
-  const lastPerformanceDate = new Date(
-    data?.scheduleList[data?.scheduleList.length - 1]?.performanceDate
-  );
   // 현재 시간이 마지막 공연 시간보다 크면 예매 버튼 비활성화
-  const isBookDisabled = nowDate > lastPerformanceDate;
+  const isBookDisabled = data?.scheduleList[data?.scheduleList.length - 1]?.dueDate < 0;
 
   const handleBookClick = () => {
     if (isLogin) {
