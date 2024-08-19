@@ -611,7 +611,8 @@ const ModifyManage = () => {
             <Button
               onClick={handleModifyManageStep}
               disabled={
-                !isAllFieldsFilled(data as DataProps, modifyState.isFree) || !modifyState.isChecked
+                !isAllFieldsFilled(dataState as DataProps, modifyState.isFree) ||
+                !modifyState.isChecked
               }
             >
               다음
