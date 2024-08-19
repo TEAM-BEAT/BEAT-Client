@@ -218,16 +218,13 @@ const ModifyManage = () => {
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
 
-    dispatch({
-      type: "SET_DATA",
-      payload: {
+    try {
+      await updatePerformance({
+        performanceId: Number(performanceId),
+        ...dataState,
         castList: filteredCastList,
         staffList: filteredStaffList,
-      },
-    });
-
-    try {
-      await updatePerformance({ performanceId: Number(performanceId), ...dataState });
+      });
       openAlert({
         title: "공연 수정이 완료됐어요.",
         subTitle: "변경된 사항(시간, 장소 등)은 예매자에게\n 개별적으로 반드시 연락해주세요.",
@@ -629,7 +626,7 @@ const ModifyManage = () => {
     //     />
     //   );
     // }
-
+    console.log("castList: ", dataState.castList);
     if (modifyState.ModifyManageStep === 2) {
       return (
         <>
