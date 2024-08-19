@@ -300,7 +300,7 @@ const ModifyManage = () => {
     let numericValue = parseInt(value.replace(/,/g, ""), 10);
 
     if (isNaN(numericValue)) {
-      numericValue = undefined;
+      numericValue = null;
     }
 
     dispatch({ type: "SET_FIELD", field: "ticketPrice", value: numericValue });
