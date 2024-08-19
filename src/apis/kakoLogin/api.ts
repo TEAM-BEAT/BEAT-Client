@@ -10,6 +10,8 @@ export const postLogout = async (): Promise<SuccessResponseVoid | null> => {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> =
       await post("/users/sign-out");
 
+    console.log(response);
+
     return response.data.data;
   } catch (error) {
     console.error("error", error);

@@ -63,11 +63,7 @@ export default function TokenRefresher() {
             openAlert({ title: "토큰이 만료되어 자동으로 로그아웃 되었습니다." });
           }
         } else if (status === 400 || status === 404 || status === 409) {
-          console.log("hi3");
-          // window.alert(msg);
-          // console.log(msg)
         }
-        // console.error('Error response:', error);
         // 다른 모든 오류를 거부하고 처리
         return Promise.reject(error);
       }
