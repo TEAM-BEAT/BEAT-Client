@@ -219,12 +219,15 @@ const ModifyManage = () => {
     );
 
     try {
-      await updatePerformance({
+      const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
         castList: filteredCastList,
         staffList: filteredStaffList,
       });
+
+      console.log(res);
+
       openAlert({
         title: "공연 수정이 완료됐어요.",
         subTitle: "변경된 사항(시간, 장소 등)은 예매자에게\n 개별적으로 반드시 연락해주세요.",
@@ -263,8 +266,11 @@ const ModifyManage = () => {
 
   // 티켓 가격을 0으로 작성하면 자동으로 무료 공연 체크
   useEffect(() => {
+    console.log("현재 가격:", dataState.ticketPrice);
     if (dataState.ticketPrice === 0) {
       setModifyState((prevState) => ({ ...prevState, isFree: true }));
+    } else {
+      setModifyState((prevState) => ({ ...prevState, isFree: false }));
     }
   }, [dataState.ticketPrice]);
 
