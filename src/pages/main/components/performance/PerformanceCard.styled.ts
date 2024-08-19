@@ -12,9 +12,10 @@ export const PerformanceCardWrapper = styled.button`
 
 export const PerformanceImg = styled.img`
   position: relative;
-  width: 15.7rem;
-  height: 22.4rem;
-
+  width: calc(21rem * 3 / 4);
+  height: 21rem;
+  object-fit: cover;
+  object-position: center;
 
   background-color: black;
   border-radius: 0.6rem;

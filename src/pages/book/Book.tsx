@@ -7,6 +7,7 @@ import {
   useGetBookingPerformanceDetail,
   useGetScheduleAvailable,
 } from "@apis/domains/performances/queries";
+import { ErrorResponse } from "@apis/errorResponse";
 import { Button, Context, Loading, OuterLayout, ViewBottomSheet } from "@components/commons";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
@@ -33,6 +34,7 @@ const Book = () => {
       const lastPerformanceDate = new Date(
         data.scheduleList[data?.scheduleList.length - 1].performanceDate
       );
+
       if (nowDate > lastPerformanceDate) {
         openAlert({
           title: "종료된 공연입니다.",
@@ -78,8 +80,8 @@ const Book = () => {
     round
   );
 
-  const { mutateAsync, isPending } = useGuestBook();
-  const { mutateAsync: memberBook, isPending: isMemberRequestPending } = useMemberBook();
+  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook();
+  const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -137,7 +139,7 @@ const Book = () => {
   };
 
   const handleClickBookRequst = async () => {
-    if (isPending && isMemberRequestPending) {
+    if (isGuestBookingPending && isMemberBookPending) {
       return;
     }
 
@@ -155,31 +157,19 @@ const Book = () => {
         ...formData,
         ...bookerInfo,
         password: easyPassword.password,
-        isPaymentCompleted: data?.ticketPrice === 0,
+        isPaymentCompleted: false,
       } as GuestBookingRequest;
-
-      const res = await mutateAsync(formData);
-
-      // TODO: response로 변경하기 (API 수정 필요)
-      navigate("/book/complete", {
-        state: {
-          id: performanceId,
-          title: data?.performanceTitle,
-          bankName: data?.bankName,
-          accountHolder: data?.accountHolder,
-          accountNumber: data?.accountNumber,
-          totalPaymentAmount: res?.totalPaymentAmount,
-        },
-      });
     } else {
-      // 회원 예매요청
+      // 회원 예매 요청
       formData = {
         ...formData,
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as GuestBookingRequest;
+    }
 
-      const res = await memberBook(formData);
+    try {
+      const res = isLogin ? await memberBook(formData) : await guestBook(formData);
 
       navigate("/book/complete", {
         state: {
@@ -191,6 +181,13 @@ const Book = () => {
           totalPaymentAmount: res?.totalPaymentAmount,
         },
       });
+    } catch (error) {
+      const errorResponse = error.response?.data as ErrorResponse;
+      if (errorResponse.status === 409) {
+        openAlert({
+          title: "이미 매진된 공연입니다.",
+        });
+      }
     }
   };
 
@@ -232,7 +229,7 @@ const Book = () => {
   return (
     <S.ContentWrapper>
       <MetaTag title="공연 예매" />
-      {isPending && <Loading />}
+      {isGuestBookingPending && isMemberBookPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
         posterImage={data?.posterImage}
@@ -315,7 +312,12 @@ const Book = () => {
           <Button variant="gray" size="medium" onClick={handleSheetClose}>
             다시 할게요
           </Button>
-          <Button variant="primary" size="medium" onClick={handleClickBookRequst}>
+          <Button
+            variant="primary"
+            size="medium"
+            disabled={isGuestBookingPending || isMemberBookPending}
+            onClick={handleClickBookRequst}
+          >
             예매할게요
           </Button>
         </OuterLayout>

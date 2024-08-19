@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import * as S from "./Performance.Cardstyled";
+import * as S from "./PerformanceCard.styled";
 
 import Label from "@components/commons/label/Label";
 
