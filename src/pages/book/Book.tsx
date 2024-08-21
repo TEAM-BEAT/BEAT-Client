@@ -30,17 +30,14 @@ const Book = () => {
 
   useEffect(() => {
     if (data) {
-      const nowDate = new Date();
-      const lastPerformanceDate = new Date(
-        data.scheduleList[data?.scheduleList.length - 1].performanceDate
-      );
+      const isBookingAvailable = data?.scheduleList[data?.scheduleList.length - 1]?.dueDate >= 0;
 
-      if (nowDate > lastPerformanceDate) {
+      if (!isBookingAvailable) {
         openAlert({
           title: "종료된 공연입니다.",
           okText: "확인",
           okCallback: () => {
-            navigate("/main");
+            navigate(`/gig/${performanceId}`);
           },
         });
       }
