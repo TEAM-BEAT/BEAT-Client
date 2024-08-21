@@ -26,8 +26,8 @@ const Gig = () => {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  // 현재 시간이 마지막 공연 시간보다 크면 예매 버튼 비활성화
-  const isBookDisabled = data?.scheduleList[data?.scheduleList.length - 1]?.dueDate < 0;
+  // 공연 예매 가능 여부
+  const isBookingAvailable = data?.scheduleList.some((schedule) => schedule.isBooking);
 
   const handleBookClick = () => {
     if (isLogin) {
@@ -95,8 +95,8 @@ const Gig = () => {
         staffList={data?.staffList ?? []}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick} disabled={isBookDisabled}>
-          {isBookDisabled ? "종료된 공연은 예매할 수 없습니다." : "예매하기"}
+        <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
+          {isBookingAvailable ? "예매하기" : "종료된 공연은 예매할 수 없습니다."}
         </Button>
       </S.FooterContainer>
 
