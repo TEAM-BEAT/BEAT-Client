@@ -78,7 +78,7 @@ const Hamburger = () => {
   };
 
   const handleLogout = async () => {
-    postLogout();
+    await postLogout();
     localStorage.removeItem("user");
     location.reload();
   };
