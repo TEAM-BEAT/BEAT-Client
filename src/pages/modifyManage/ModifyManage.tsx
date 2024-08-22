@@ -359,9 +359,7 @@ const ModifyManage = () => {
               title="공연 장르"
               genres={GENRE_LIST}
               selectedGenre={dataState.genre as string}
-              onGenreSelect={(selectedGenre) =>
-                dispatch({ type: "SET_FIELD", field: "genre", value: selectedGenre })
-              }
+              onGenreSelect={(selectedGenre) => handleInputChange("genre", selectedGenre)}
               marginBottom={2.4}
             />
             <S.Divider />
@@ -371,9 +369,7 @@ const ModifyManage = () => {
                 type="input"
                 name="performanceTitle"
                 value={dataState.performanceTitle}
-                onChange={(e) =>
-                  dispatch({ type: "SET_FIELD", field: "performanceTitle", value: e.target.value })
-                }
+                onChange={(e) => handleInputChange("performanceTitle", e.target.value)}
                 placeholder="등록될 공연의 이름을 입력해주세요."
                 maxLength={30}
                 cap={true}
@@ -386,13 +382,7 @@ const ModifyManage = () => {
                 type="input"
                 name="performanceTeamName"
                 value={dataState.performanceTeamName}
-                onChange={(e) =>
-                  dispatch({
-                    type: "SET_FIELD",
-                    field: "performanceTeamName",
-                    value: e.target.value,
-                  })
-                }
+                onChange={(e) => handleInputChange("performanceTeamName", e.target.value)}
                 placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
                 maxLength={10}
                 cap={true}
@@ -403,13 +393,7 @@ const ModifyManage = () => {
               <TextArea
                 name="performanceDescription"
                 value={dataState.performanceDescription}
-                onChange={(e) =>
-                  dispatch({
-                    type: "SET_FIELD",
-                    field: "performanceDescription",
-                    value: e.target.value,
-                  })
-                }
+                onChange={(e) => handleInputChange("performanceDescription", e.target.value)}
                 placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
                 maxLength={250}
               />
@@ -421,13 +405,7 @@ const ModifyManage = () => {
                 type="input"
                 name="runningTime"
                 value={dataState.runningTime ?? ""}
-                onChange={(e) =>
-                  dispatch({
-                    type: "SET_FIELD",
-                    field: "runningTime",
-                    value: parseInt(e.target.value, 10),
-                  })
-                }
+                onChange={(e) => handleInputChange("runningTime", parseInt(e.target.value, 10))}
                 filter={numericFilter}
                 unit="time"
                 placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
@@ -465,11 +443,7 @@ const ModifyManage = () => {
                     onChangeValue={(date) => {
                       const updatedSchedules = [...dataState.scheduleList];
                       updatedSchedules[index].performanceDate = date;
-                      dispatch({
-                        type: "SET_FIELD",
-                        field: "scheduleList",
-                        value: updatedSchedules,
-                      });
+                      handleInputChange("scheduleList", updatedSchedules);
                     }}
                   />
                 </div>
@@ -632,7 +606,7 @@ const ModifyManage = () => {
     //     />
     //   );
     // }
-    console.log("castList: ", dataState.castList);
+
     if (modifyState.modifyManageStep === 2) {
       return (
         <>
