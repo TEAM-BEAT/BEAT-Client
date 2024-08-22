@@ -11,7 +11,7 @@ import { usePostLogout } from "@apis/kakoLogin/queries";
 
 const Hamburger = () => {
   const navigate = useNavigate();
-  const { openConfirm, closeConfirm } = useModal();
+  const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
 
   const { isOpen } = useAtomValue(hamburgerAtom);
   const [, setNavigateUrl] = useAtom(navigateAtom);
@@ -65,6 +65,10 @@ const Hamburger = () => {
     }
 
     const LogoutData = await mutateAsync();
+
+    if (LogoutData.status !== 200) {
+      throw new Error(`Logout failed with status code: ${LogoutData.status}`);
+    }
   };
 
   const handleLogoutBtn = () => {
@@ -84,7 +88,9 @@ const Hamburger = () => {
       localStorage.removeItem("user");
       location.reload();
     } catch (error) {
-      console.error("Logout failed", error);
+      openAlert({
+        title: "로그아웃에 실패하였습니다. \n다시 시도해 주세요.",
+      });
     }
   };
 
