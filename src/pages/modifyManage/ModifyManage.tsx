@@ -62,7 +62,7 @@ type State = {
 };
 
 type ModifyState = {
-  ModifyManageStep: number;
+  modifyManageStep: number;
   isBookerExist: boolean | undefined;
   isFree: boolean;
   isChecked: boolean;
@@ -120,7 +120,7 @@ const ModifyManage = () => {
 
   const [dataState, dispatch] = useReducer(reducer, initialState);
   const [modifyState, setModifyState] = useState<ModifyState>({
-    ModifyManageStep: 1,
+    modifyManageStep: 1,
     isBookerExist: undefined,
     isFree: false,
     isChecked: true,
@@ -183,9 +183,9 @@ const ModifyManage = () => {
 
   useEffect(() => {
     const pageTitle =
-      modifyState.ModifyManageStep === 1
+      modifyState.modifyManageStep === 1
         ? "공연 수정하기"
-        : modifyState.ModifyManageStep === 2
+        : modifyState.modifyManageStep === 2
           ? "공연 수정하기"
           : "미리보기";
     setHeader({
@@ -195,14 +195,14 @@ const ModifyManage = () => {
       leftOnClick: handleLeftBtn,
       rightOnClick: handleRightBtn,
     });
-  }, [modifyState.ModifyManageStep, modifyState.isBookerExist]);
+  }, [modifyState.modifyManageStep, modifyState.isBookerExist]);
 
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
   };
 
-  const handleModifyManageStep = () => {
-    setModifyState((prev) => ({ ...prev, ModifyManageStep: prev.ModifyManageStep + 1 }));
+  const handlemodifyManageStep = () => {
+    setModifyState((prev) => ({ ...prev, modifyManageStep: prev.modifyManageStep + 1 }));
   };
 
   const handleModifyState = (field: keyof ModifyState, value: ModifyState[keyof ModifyState]) => {
@@ -277,7 +277,7 @@ const ModifyManage = () => {
   }, [dataState.ticketPrice]);
 
   const handleLeftBtn = () => {
-    if (modifyState.ModifyManageStep === 1) {
+    if (modifyState.modifyManageStep === 1) {
       openConfirm({
         title: "수정을 취소할까요?",
         subTitle: "페이지를 나갈 경우, 내용이 저장되지 않아요.",
@@ -287,11 +287,11 @@ const ModifyManage = () => {
         },
         noText: "아니요",
         noCallback: () => {
-          setModifyState((prev) => ({ ...prev, ModifyManageStep: 1 }));
+          setModifyState((prev) => ({ ...prev, modifyManageStep: 1 }));
         },
       });
     } else {
-      setModifyState((prev) => ({ ...prev, ModifyManageStep: prev.ModifyManageStep - 1 }));
+      setModifyState((prev) => ({ ...prev, modifyManageStep: prev.modifyManageStep - 1 }));
     }
   };
 
@@ -347,7 +347,7 @@ const ModifyManage = () => {
   }
 
   if (data) {
-    if (modifyState.ModifyManageStep === 1) {
+    if (modifyState.modifyManageStep === 1) {
       return (
         <>
           <MetaTag title="공연 수정" />
@@ -611,7 +611,7 @@ const ModifyManage = () => {
               </S.CheckboxLabel>
             </S.CheckboxContainer>
             <Button
-              onClick={handleModifyManageStep}
+              onClick={handlemodifyManageStep}
               disabled={
                 !isAllFieldsFilled(dataState as DataProps, modifyState.isFree) ||
                 !modifyState.isChecked
@@ -624,19 +624,19 @@ const ModifyManage = () => {
       );
     }
 
-    // if (ModifyManageStep === 2) {
+    // if (modifyManageStep === 2) {
     //   return (
     //     <ModifyManageMaker
     //       castList={castList as Cast[]}
     //       staffList={staffList as Staff[]}
-    //       handleModifyManageStep={handleModifyManageStep}
+    //       handlemodifyManageStep={handlemodifyManageStep}
     //       // updateGigInfo={updateGigInfo}
     //       updateGigInfo={() => console.log("")}
     //     />
     //   );
     // }
     console.log("castList: ", dataState.castList);
-    if (modifyState.ModifyManageStep === 2) {
+    if (modifyState.modifyManageStep === 2) {
       return (
         <>
           <MetaTag title="공연 수정" />
