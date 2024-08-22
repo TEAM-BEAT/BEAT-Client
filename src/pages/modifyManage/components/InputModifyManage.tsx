@@ -23,7 +23,7 @@ const InputModifyManageBox = ({
   onFreeClick,
 }: InputModifyManageBoxProps) => {
   const handleOnFreeClick = (_isDisabled: boolean) => {
-    if (!isDisabled) {
+    if (!_isDisabled) {
       onFreeClick?.();
     }
   };
