@@ -75,7 +75,11 @@ const Hamburger = () => {
     openConfirm({
       title: "로그아웃 하시겠습니까?",
       okText: "네",
-      okCallback: () => handleLogout(),
+      okCallback: () => {
+        handleLogout().then(() => {
+          closeConfirm();
+        });
+      },
       noText: "아니요",
       noCallback: () => closeConfirm(),
     });
