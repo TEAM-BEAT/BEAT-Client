@@ -104,7 +104,7 @@ const reducer = (state: State, action: Action): State => {
     case "SET_SCHEDULE_COUNT":
       return { ...state, totalScheduleCount: action.payload };
     default:
-      return state;
+      throw new Error("Unknown action type! Please Check again");
   }
 };
 
