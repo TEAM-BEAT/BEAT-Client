@@ -30,11 +30,42 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
 
   const carouselRef = useRef<HTMLUListElement>(null);
 
+  const promotionListTest = [
+    {
+      isExternal: false,
+      performanceId: 56,
+      promotionId: 5,
+      promotionPhoto:
+        "https://beat-dev-bucket.s3.ap-northeast-2.amazonaws.com/poster/8a8efe39-83bf-47b6-b40d-256164928ce7-poster-1723813907142",
+      redirectUrl: null,
+    },
+    {
+      isExternal: true,
+      performanceId: 57,
+      promotionId: 6,
+      promotionPhoto:
+        "https://avatars.githubusercontent.com/u/58854041?s=400&u=fdb4a8dbf5b7ec8d7f327954a4ca97e064b560ee&v=4",
+      redirectUrl: "https://github.com/pepperdad",
+    },
+    {
+      isExternal: true,
+      performanceId: 58,
+      promotionId: 7,
+      promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
+      redirectUrl: "https://github.com/sinji2102",
+    },
+  ];
+
   useEffect(() => {
-    const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
-    const carouselItemList = promotionList.map((promotion) => promotion.performanceId || null);
-    const externalList = promotionList.map((promotion) => promotion.isExternal || null);
-    const redirectUrlList = promotionList.map((promotion) => promotion.redirectUrl || null);
+    // const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
+    // const carouselItemList = promotionList.map((promotion) => promotion.performanceId || null);
+    // const externalList = promotionList.map((promotion) => promotion.isExternal || null);
+    // const redirectUrlList = promotionList.map((promotion) => promotion.redirectUrl || null);
+
+    const carouselTempList = promotionListTest.map((promotion) => promotion.promotionPhoto || "");
+    const carouselItemList = promotionListTest.map((promotion) => promotion.performanceId || null);
+    const externalList = promotionListTest.map((promotion) => promotion.isExternal || null);
+    const redirectUrlList = promotionListTest.map((promotion) => promotion.redirectUrl || null);
 
     setCarouselId(carouselItemList);
     setCarouselList(carouselTempList);
@@ -42,11 +73,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     setRedirectUrl(redirectUrlList);
 
     // 항목이 하나만 들어온 경우
-    if (carouselTempList.length === 1) {
-      setIsSingleItem(true); // 항목이 하나인 경우 상태 변경
-    } else {
-      setIsSingleItem(false); // 여러 개일 경우 상태 리셋
-    }
+    setIsSingleItem(promotionList.length === 0);
   }, [promotionList]);
 
   // 인덱스 번호 변경
@@ -61,14 +88,14 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
 
   // 슬라이드 이동할 때 무한 + 어색하지 않도록 처음과 끝 반복
   useEffect(() => {
-    if (!isSingleItem && carouselList.length !== 0) {
+    if (isSingleItem) {
+      setCurrList(carouselList);
+    } else {
       const startData = carouselList[0];
       const endData = carouselList[carouselList.length - 1];
       const newList = [endData, ...carouselList, startData];
 
       setCurrList(newList);
-    } else if (isSingleItem) {
-      setCurrList(carouselList);
     }
   }, [carouselList, isSingleItem]);
 
