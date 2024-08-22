@@ -78,9 +78,14 @@ const Hamburger = () => {
   };
 
   const handleLogout = async () => {
-    await postLogout();
-    localStorage.removeItem("user");
-    location.reload();
+    try {
+      await postLogout();
+
+      localStorage.removeItem("user");
+      location.reload();
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   return (
