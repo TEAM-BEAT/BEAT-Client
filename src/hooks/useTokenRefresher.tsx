@@ -60,7 +60,7 @@ export default function TokenRefresher() {
             localStorage.clear();
             navigate("/main");
 
-            openAlert({ title: "토큰이 만료되어 \n자동으로 로그아웃 되었습니다." });
+            openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
           }
         } else if (status === 400 || status === 404 || status === 409) {
         }

@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { postLogout } from "./api";
 
 export const LOGOUT_QUERY_KEY = { LOGOUT: "logout" };

@@ -7,11 +7,11 @@ import { useAtom, useAtomValue } from "jotai";
 import { useHamburger, useLogin, useModal } from "@hooks";
 import { hamburgerAtom, navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
-import { usePostLogout } from "@apis/kakoLogin/queries";
+import { usePostLogout } from "@apis/kakaoLogin/queries";
 
 const Hamburger = () => {
   const navigate = useNavigate();
-  const { openConfirm, closeConfirm, openAlert, closeAlert } = useModal();
+  const { openConfirm, closeConfirm, openAlert } = useModal();
 
   const { isOpen } = useAtomValue(hamburgerAtom);
   const [, setNavigateUrl] = useAtom(navigateAtom);
