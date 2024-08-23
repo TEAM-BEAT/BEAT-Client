@@ -38,34 +38,8 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     redirectUrl: list.map((promotion) => promotion.redirectUrl || null),
   });
 
-  const promotionListTest = [
-    {
-      isExternal: false,
-      performanceId: 56,
-      promotionId: 5,
-      promotionPhoto:
-        "https://beat-dev-bucket.s3.ap-northeast-2.amazonaws.com/poster/8a8efe39-83bf-47b6-b40d-256164928ce7-poster-1723813907142",
-      redirectUrl: null,
-    },
-    {
-      isExternal: true,
-      performanceId: 57,
-      promotionId: 6,
-      promotionPhoto:
-        "https://avatars.githubusercontent.com/u/58854041?s=400&u=fdb4a8dbf5b7ec8d7f327954a4ca97e064b560ee&v=4",
-      redirectUrl: "https://github.com/pepperdad",
-    },
-    {
-      isExternal: true,
-      performanceId: 58,
-      promotionId: 7,
-      promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
-      redirectUrl: "https://github.com/sinji2102",
-    },
-  ];
-
   useEffect(() => {
-    const { photo, id, isExternal, redirectUrl } = createCarouselData(promotionListTest);
+    const { photo, id, isExternal, redirectUrl } = createCarouselData(promotionList);
 
     setPromotionImg(photo);
     setPromotionId(id);
