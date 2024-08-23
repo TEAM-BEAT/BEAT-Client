@@ -9,10 +9,10 @@ interface DetailImageProps {
   onImagesUpload: (detailImage: PreviewImageList[]) => void;
 }
 
-type PreviewImageList = {
+interface PreviewImageList {
   id: number;
   url: string;
-};
+}
 
 const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
   const { openAlert } = useModal();
