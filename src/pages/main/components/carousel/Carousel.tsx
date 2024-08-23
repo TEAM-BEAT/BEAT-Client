@@ -145,36 +145,6 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     }
   };
 
-  const handleTouchStart: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (!isSingleItem) {
-      touchStartX = e.touches[0].clientX;
-    }
-  };
-
-  const handleTouchMove: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (!isSingleItem) {
-      const currTouchX = e.nativeEvent.changedTouches[0].clientX;
-
-      if (carouselRef.current !== null) {
-        carouselRef.current.style.transform = `translateX(calc(-${currIndex}00% - ${
-          (touchStartX - currTouchX) * 2 || 0
-        }px))`;
-      }
-    }
-  };
-
-  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (!isSingleItem) {
-      touchEndX = e.changedTouches[0].clientX;
-
-      if (touchStartX >= touchEndX) {
-        handleSwipe(1);
-      } else {
-        handleSwipe(-1);
-      }
-    }
-  };
-
   return (
     <S.CarouselWarpper>
       {isSingleItem ? (
@@ -188,11 +158,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
           </S.CarouselItem>
         </S.CarouselLayout>
       ) : (
-        <S.CarouselLayout
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
+        <S.CarouselLayout>
           <S.CarouselContainer ref={carouselRef}>
             {currList?.map((image, idx) => {
               const key = `${image}-${idx}`;
