@@ -62,6 +62,7 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
       processAllFiles();
     }
   };
+
   const removeImage = (id: number) => {
     onImagesUpload(previewImgs.filter((detail) => detail.id !== id)); // 비동기적으로 반영되는 setState때문에 내부에 넣어야 필터링된 최신 이미지들을 바로 반영됨
 
