@@ -30,6 +30,13 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
 
   const carouselRef = useRef<HTMLUListElement>(null);
 
+  const createCarouselData = (list) => ({
+    photo: list.map((promotion) => promotion.promotionPhoto || ""),
+    id: list.map((promotion) => promotion.performanceId || null),
+    isExternal: list.map((promotion) => promotion.isExternal || null),
+    redirectUrl: list.map((promotion) => promotion.redirectUrl || null),
+  });
+
   const promotionListTest = [
     {
       isExternal: false,
@@ -57,22 +64,12 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
   ];
 
   useEffect(() => {
-    // const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
-    // const carouselItemList = promotionList.map((promotion) => promotion.performanceId || null);
-    // const externalList = promotionList.map((promotion) => promotion.isExternal || null);
-    // const redirectUrlList = promotionList.map((promotion) => promotion.redirectUrl || null);
+    const { photo, id, isExternal, redirectUrl } = createCarouselData(promotionListTest);
 
-    const carouselTempList = promotionListTest.map((promotion) => promotion.promotionPhoto || "");
-    const carouselItemList = promotionListTest.map((promotion) => promotion.performanceId || null);
-    const externalList = promotionListTest.map((promotion) => promotion.isExternal || null);
-    const redirectUrlList = promotionListTest.map((promotion) => promotion.redirectUrl || null);
-
-    setCarouselId(carouselItemList);
-    setCarouselList(carouselTempList);
-    setIsExternal(externalList);
-    setRedirectUrl(redirectUrlList);
-
-    // 항목이 하나만 들어온 경우
+    setCarouselList(photo);
+    setCarouselId(id);
+    setIsExternal(isExternal);
+    setRedirectUrl(redirectUrl);
     setIsSingleItem(promotionList.length === 0);
   }, [promotionList]);
 
