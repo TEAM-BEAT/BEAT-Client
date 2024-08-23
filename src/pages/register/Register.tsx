@@ -419,7 +419,7 @@ const Register = () => {
               name="performanceVenue"
               value={performanceVenue}
               onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="ex:) 홍익아트홀 303호 소극장"
+              placeholder="ex) 홍익아트홀 303호 소극장"
               maxLength={15}
               cap={true}
             />
