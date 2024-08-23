@@ -79,6 +79,7 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
           key={inputKey}
           type="file"
           id="files"
+          accept="image/*"
           onChange={uploadFile}
           multiple
           disabled={previewImgs.length >= 5}
