@@ -130,21 +130,6 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     }
   }, [currIndex, isSingleItem]);
 
-  const handleSwipe = (direction: number) => {
-    const newIndex = currIndex + direction;
-
-    if (newIndex === carouselList.length + 1) {
-      moveToNthSlide(1);
-    } else if (newIndex === 0) {
-      moveToNthSlide(carouselList.length);
-    }
-
-    setCurrIndex((prev) => prev + direction);
-    if (carouselRef.current !== null) {
-      carouselRef.current.style.transition = "all 0.5s ease-in-out";
-    }
-  };
-
   return (
     <S.CarouselWarpper>
       {isSingleItem ? (
