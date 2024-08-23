@@ -20,11 +20,12 @@ let touchEndX: number;
 const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const navigate = useNavigate();
 
+  // 현재 인덱스
   const [currIndex, setCurrIndex] = useState(1);
   const [currList, setCurrList] = useState<string[]>();
-  const [carouselList, setCarouselList] = useState<string[]>([]);
-  const [carouselId, setCarouselId] = useState<number[]>([]);
   const [isSingleItem, setIsSingleItem] = useState(false);
+  const [promotionImg, setPromotionImg] = useState<string[]>([]);
+  const [promotionId, setPromotionId] = useState<number[]>([]);
   const [isExternal, setIsExternal] = useState<boolean[]>([]);
   const [redirectUrl, setRedirectUrl] = useState<string[]>([]);
 
@@ -66,8 +67,8 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
   useEffect(() => {
     const { photo, id, isExternal, redirectUrl } = createCarouselData(promotionListTest);
 
-    setCarouselList(photo);
-    setCarouselId(id);
+    setPromotionImg(photo);
+    setPromotionId(id);
     setIsExternal(isExternal);
     setRedirectUrl(redirectUrl);
     setIsSingleItem(promotionList.length === 0);
@@ -86,15 +87,15 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
   // 슬라이드 이동할 때 무한 + 어색하지 않도록 처음과 끝 반복
   useEffect(() => {
     if (isSingleItem) {
-      setCurrList(carouselList);
+      setCurrList(promotionImg);
     } else {
-      const startData = carouselList[0];
-      const endData = carouselList[carouselList.length - 1];
-      const newList = [endData, ...carouselList, startData];
+      const startData = promotionImg[0];
+      const endData = promotionImg[promotionImg.length - 1];
+      const newList = [endData, ...promotionImg, startData];
 
       setCurrList(newList);
     }
-  }, [carouselList, isSingleItem]);
+  }, [promotionImg, isSingleItem]);
 
   // idx 변경되면 위치 이동
   useEffect(() => {
@@ -109,10 +110,10 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
       const time = setTimeout(() => {
         const newIndex = currIndex + 1;
 
-        if (newIndex === carouselList.length + 1) {
+        if (newIndex === promotionImg.length + 1) {
           moveToNthSlide(1);
         } else if (newIndex === 0) {
-          moveToNthSlide(carouselList.length);
+          moveToNthSlide(promotionImg.length);
         }
 
         setCurrIndex((prev) => prev + 1);
@@ -133,10 +134,10 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
         <S.CarouselLayout>
           <S.CarouselItem
             onClick={() => {
-              isExternal[0] ? window.open(`${redirectUrl[0]}`) : navigate(`/gig/${carouselId[0]}`);
+              isExternal[0] ? window.open(`${redirectUrl[0]}`) : navigate(`/gig/${promotionId[0]}`);
             }}
           >
-            <img src={carouselList[0]} alt="carousel-img" />
+            <img src={promotionImg[0]} alt="carousel-img" />
           </S.CarouselItem>
         </S.CarouselLayout>
       ) : (
@@ -151,7 +152,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
                   onClick={() => {
                     isExternal[idx - 1]
                       ? window.open(`${redirectUrl[idx - 1]}`)
-                      : navigate(`/gig/${carouselId[idx - 1]}`);
+                      : navigate(`/gig/${promotionId[idx - 1]}`);
                   }}
                 >
                   <img src={image} alt="carousel-img" />
@@ -161,7 +162,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
           </S.CarouselContainer>
           {!isSingleItem && (
             <S.IndicatorContainer>
-              {carouselList.map((_, idx) => (
+              {promotionImg.map((_, idx) => (
                 <S.Indicator key={idx} active={currIndex === idx + 1} />
               ))}
             </S.IndicatorContainer>
