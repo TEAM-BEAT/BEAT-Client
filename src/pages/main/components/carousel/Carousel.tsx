@@ -45,7 +45,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     setPromotionId(id);
     setIsExternal(isExternal);
     setRedirectUrl(redirectUrl);
-    setIsSingleItem(promotionList.length === 0);
+    setIsSingleItem(promotionList.length === 1);
   }, [promotionList]);
 
   // 인덱스 번호 변경
