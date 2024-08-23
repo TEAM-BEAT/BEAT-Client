@@ -26,8 +26,8 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      // 최대 10장 업로드 안내
-      if (previewImgs.length + files.length > 10) {
+      // 최대 5장 업로드 안내
+      if (previewImgs.length + files.length > 5) {
         openAlert({
           title: "가능한 이미지 수를 초과했습니다.",
           okText: "확인",
@@ -56,7 +56,6 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
           Array.from(files).map((file) => processFile(file))
         );
         const updatedPreviewImgs = [...previewImgs, ...newPreviewImgs];
-        setPreviewImgs(updatedPreviewImgs);
         onImagesUpload(updatedPreviewImgs);
       };
 
@@ -64,19 +63,15 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
     }
   };
   const removeImage = (id: number) => {
-    setPreviewImgs((prev) => {
-      const updatedPreviewImgs = prev.filter((detail) => detail.id !== id);
-      onImagesUpload(updatedPreviewImgs); // 비동기적으로 반영되는 setState때문에 내부에 넣어야 필터링된 최신 이미지들을 바로 반영됨
+    onImagesUpload(previewImgs.filter((detail) => detail.id !== id)); // 비동기적으로 반영되는 setState때문에 내부에 넣어야 필터링된 최신 이미지들을 바로 반영됨
 
-      return updatedPreviewImgs;
-    });
     setInputKey(Date.now());
   };
 
   return (
     <S.InputRegisterBox $marginBottom={2.8}>
       <S.InputTitle>공연 상세 이미지</S.InputTitle>
-      <S.InputDescription>선택 사항입니다. ({previewImgs.length}/10)</S.InputDescription>
+      <S.InputDescription>선택 사항입니다. (최대 5장)</S.InputDescription>
       <Spacing marginBottom="1.4" />
       <S.FilesInputWrapper>
         <S.HiddenFileInput
@@ -85,10 +80,13 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
           id="files"
           onChange={uploadFile}
           multiple
-          disabled={previewImgs.length >= 10}
+          disabled={previewImgs.length >= 5}
         />
         <S.CustomFileInput htmlFor="files" width={15.7} height={21}>
           <IconCamera width={"3.2rem"} />
+          <S.CustomFileInputCounter>
+            <S.CustomFileInputLength>{previewImgs.length}</S.CustomFileInputLength>/5
+          </S.CustomFileInputCounter>
         </S.CustomFileInput>
         {previewImgs &&
           previewImgs.map((previewImg) => (
