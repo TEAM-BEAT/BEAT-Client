@@ -31,8 +31,7 @@ async function fetchPerformanceIds(url: string) {
 
 // 사전 렌더링 경로 생성
 export async function generatePerformanceRoutes(url: string) {
-  // const staticRoutes = ["/", "/main"]; // 정적 경로
-  const staticRoutes: string[] = ["/main"]; // 정적 경로
+  const staticRoutes = ["/", "/main"]; // 정적 경로
   const dynamicRoutes = await fetchPerformanceIds(url); // 동적 경로 가져오기
 
   return staticRoutes.concat(dynamicRoutes);
