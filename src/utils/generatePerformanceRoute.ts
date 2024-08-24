@@ -41,5 +41,5 @@ export async function generatePerformanceRoutes(url: string) {
 
   const dynamicRoutes = await fetchPerformanceIds(url); // 동적 경로 가져오기
 
-  return staticRoutes.concat(dynamicRoutes);
+  return dynamicRoutes.concat(staticRoutes);
 }
