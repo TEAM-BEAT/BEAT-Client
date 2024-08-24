@@ -18,10 +18,10 @@ async function fetchPerformanceIds(url: string) {
 
     const performances = response.data.data.performanceList;
     // 현재 날짜 이후의 공연 ID만 필터링
+    const nowDate = new Date();
     const validIds = performances
       .filter((performance: PerformanceType) => {
         const performanceDate = new Date(performance.performancePeriod.slice(-10));
-        const nowDate = new Date();
 
         return performanceDate >= nowDate;
       })
