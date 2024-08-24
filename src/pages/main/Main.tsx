@@ -1,24 +1,83 @@
+import { useState } from "react";
+import * as S from "./Main.styled";
+
 import Loading from "@components/commons/loading/Loading";
 
-import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
-import NotFound from "@pages/notFound/NotFound";
+import { useGetAllScheduleList } from "@apis/domains/home/queries";
+import {
+  Carousel,
+  Chips,
+  Floating,
+  Footer,
+  MainNavigation,
+  Performance,
+} from "@pages/main/components";
+import { navigateAtom } from "@stores";
+import { useAtom } from "jotai";
 
 const Main = () => {
-  const { data, isLoading } = useGetPerformanceDetail(116);
+  const { data, isLoading } = useGetAllScheduleList();
+
+  const [genre, setGenre] = useState("ALL");
+  const [navigateUrl, setNavigateUrl] = useAtom(navigateAtom);
+
+  const handleGenre = (value: string) => {
+    setGenre(value);
+  };
+
+  const onClickHi = async () => {
+    const res = await fetch("/api/hi", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("testres is: ", res.json());
+
+    if (res.ok) {
+      console.log("testres successful");
+    } else {
+      console.error("testres failed");
+    }
+  };
+
+  const onClickHello = async () => {
+    const res = await fetch("/api/hello", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("testres is: ", res.json());
+
+    if (res.ok) {
+      console.log("testres successful");
+    } else {
+      console.error("testres failed");
+    }
+  };
 
   if (isLoading) {
-    return <Loading isLoading={isLoading} data={data} />;
-  }
-
-  if (!data) {
-    return <NotFound />;
+    return <Loading />;
   }
 
   return (
-    <div>
-      isLoading: {isLoading ? "true" : "false"}
-      {data?.posterImage}
-    </div>
+    <S.MainWrapper>
+      {/* <button style={{ color: "white" }} onClick={onClickHi}>
+            하이 테스트
+          </button>
+          <button style={{ color: "white" }} onClick={onClickHello}>
+            헬로 테스트
+          </button> */}
+      <MainNavigation />
+      <Carousel promotionList={data?.promotionList ?? []} />
+      <Chips handleGenre={handleGenre} />
+      <Floating />
+      <Performance genre={genre} performanceList={data?.performanceList ?? []} />
+      <Footer />
+    </S.MainWrapper>
   );
 };
 

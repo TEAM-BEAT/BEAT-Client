@@ -22,7 +22,7 @@ const Gig = () => {
   const { isLogin } = useLogin();
 
   const { performanceId } = useParams<{ performanceId: string }>();
-  const { data, isLoading } = useGetPerformanceDetail(116);
+  const { data, isLoading } = useGetPerformanceDetail(Number(performanceId));
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -63,7 +63,7 @@ const Gig = () => {
   }, [data]);
 
   if (isLoading) {
-    return <Loading isLoading={isLoading} />;
+    return <Loading />;
   }
 
   if (!data) {
@@ -72,7 +72,6 @@ const Gig = () => {
 
   return (
     <S.ContentWrapper>
-      isLoading: {isLoading ? "true" : "false"}
       <MetaTag
         title={data?.performanceTitle}
         ogTitle={data?.performanceTitle}
@@ -104,6 +103,7 @@ const Gig = () => {
           {isBookDisabled ? "종료된 공연은 예매할 수 없습니다." : "예매하기"}
         </Button>
       </S.FooterContainer>
+
       <ActionBottomSheet
         isOpen={isSheetOpen}
         onClickOutside={handleSheetClose}
