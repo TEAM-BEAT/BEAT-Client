@@ -60,10 +60,6 @@ const Main = () => {
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <S.MainWrapper>
       {/* <button style={{ color: "white" }} onClick={onClickHi}>
