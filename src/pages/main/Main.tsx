@@ -4,7 +4,6 @@ import * as S from "./Main.styled";
 import Loading from "@components/commons/loading/Loading";
 
 import { useGetAllScheduleList } from "@apis/domains/home/queries";
-import MetaTag from "@components/commons/meta/MetaTag";
 import {
   Carousel,
   Chips,
@@ -17,7 +16,6 @@ import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const Main = () => {
-  // 3. 훅 불러와서 사용
   const { data, isLoading } = useGetAllScheduleList();
 
   const [genre, setGenre] = useState("ALL");
@@ -67,14 +65,6 @@ const Main = () => {
 
   return (
     <S.MainWrapper>
-      <MetaTag
-        title={"titleTest"}
-        ogTitle={"ogTitleTest"}
-        description={"descriptionTest"}
-        image={"https://avatars.githubusercontent.com/u/58854041?v=4"}
-        keywords={"keywordsTest"}
-        url={`${import.meta.env.VITE_CLIENT_URL}/main`}
-      />
       {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
           </button>
