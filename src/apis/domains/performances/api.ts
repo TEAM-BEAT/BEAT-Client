@@ -47,7 +47,7 @@ export const deletePerformance = async (
     return response.data.data;
   } catch (error) {
     console.log("error", error);
-    return null;
+    throw error;
   }
 };
 

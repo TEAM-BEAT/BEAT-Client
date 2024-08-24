@@ -315,7 +315,7 @@ const ModifyManage = () => {
     } catch (err) {
       console.log(err);
       openAlert({
-        title: "에러러러러러",
+        title: "에러",
         okText: "확인했어요",
         okCallback: () => navigate("/gig-manage"),
       });
