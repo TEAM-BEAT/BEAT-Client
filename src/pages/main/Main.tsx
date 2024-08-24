@@ -7,14 +7,19 @@ const Main = () => {
   const { data, isLoading } = useGetPerformanceDetail(116);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isLoading={isLoading} />;
   }
 
   if (!data) {
     return <NotFound />;
   }
 
-  return <div>{data?.posterImage}</div>;
+  return (
+    <div>
+      isLoading: {isLoading}
+      {data?.posterImage}
+    </div>
+  );
 };
 
 export default Main;
