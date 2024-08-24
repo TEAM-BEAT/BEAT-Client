@@ -22,7 +22,7 @@ const Gig = () => {
   const { isLogin } = useLogin();
 
   const { performanceId } = useParams<{ performanceId: string }>();
-  const { data, isLoading } = useGetPerformanceDetail(Number(performanceId));
+  const { data, isLoading } = useGetPerformanceDetail(116);
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
