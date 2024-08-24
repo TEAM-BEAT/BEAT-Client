@@ -38,7 +38,6 @@ export default defineConfig(async ({ mode }) => {
         },
         // Debugging
         postProcess: (context) => {
-          console.log(context);
           console.log(`Prerendered: ${context.route}`);
         },
       }),
