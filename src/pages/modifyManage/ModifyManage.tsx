@@ -237,7 +237,7 @@ const ModifyManage = () => {
     } catch (err) {
       openAlert({
         title: "공연 수정에 실패했습니다.",
-        subTitle: "다시 시도해주세요.",
+        subTitle: `${err.response.message ? err.response.message : "다시 시도해주세요."}`,
         okText: "확인",
         okCallback: closeAlert,
       });
@@ -305,12 +305,21 @@ const ModifyManage = () => {
 
   //공연 삭제 DELETE API 요청
   const handleDeletePerformance = async (_performanceId: number) => {
-    await deletePerformance(_performanceId);
-    openAlert({
-      title: "공연이 삭제 되었습니다.",
-      okText: "확인했어요",
-      okCallback: () => navigate("/gig-manage"),
-    });
+    try {
+      await deletePerformance(_performanceId);
+      openAlert({
+        title: "공연이 삭제 되었습니다.",
+        okText: "확인했어요",
+        okCallback: () => navigate("/gig-manage"),
+      });
+    } catch (err) {
+      console.log(err);
+      openAlert({
+        title: "에러러러러러",
+        okText: "확인했어요",
+        okCallback: () => navigate("/gig-manage"),
+      });
+    }
   };
 
   //공연 삭제 버튼
