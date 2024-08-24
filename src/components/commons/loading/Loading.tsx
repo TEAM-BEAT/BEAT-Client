@@ -5,12 +5,14 @@ const LoadingAnimation = lazy(() => import("@components/commons/loading/LoadingA
 
 interface LoadingProps {
   isLoading?: boolean;
+  data?: any;
 }
 
-const Loading = ({ isLoading }: LoadingProps) => {
+const Loading = ({ isLoading, data }: LoadingProps) => {
   return (
     <S.Overlay>
       isLoading: {isLoading ? "true" : "false"}
+      data : {data}
       <S.LoadingWraper>
         <LoadingAnimation />
 

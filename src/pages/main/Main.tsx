@@ -7,7 +7,7 @@ const Main = () => {
   const { data, isLoading } = useGetPerformanceDetail(116);
 
   if (isLoading) {
-    return <Loading isLoading={isLoading} />;
+    return <Loading isLoading={isLoading} data={data} />;
   }
 
   if (!data) {
