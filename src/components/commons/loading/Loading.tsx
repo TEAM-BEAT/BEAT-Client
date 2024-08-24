@@ -3,10 +3,14 @@ import * as S from "./Loading.styled";
 
 const LoadingAnimation = lazy(() => import("@components/commons/loading/LoadingAnimation"));
 
-const Loading = ({ isLoading }) => {
+interface LoadingProps {
+  isLoading?: boolean;
+}
+
+const Loading = ({ isLoading }: LoadingProps) => {
   return (
     <S.Overlay>
-      isLoading: {isLoading}
+      isLoading: {isLoading ? "true" : "false"}
       <S.LoadingWraper>
         <LoadingAnimation />
 

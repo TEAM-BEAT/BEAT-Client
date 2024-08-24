@@ -72,7 +72,7 @@ const Gig = () => {
 
   return (
     <S.ContentWrapper>
-      isLoading: {isLoading}
+      isLoading: {isLoading ? "true" : "false"}
       <MetaTag
         title={data?.performanceTitle}
         ogTitle={data?.performanceTitle}

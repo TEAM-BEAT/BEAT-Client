@@ -16,7 +16,7 @@ const Main = () => {
 
   return (
     <div>
-      isLoading: {isLoading}
+      isLoading: {isLoading ? "true" : "false"}
       {data?.posterImage}
     </div>
   );
