@@ -665,7 +665,7 @@ const ModifyManage = () => {
                   })) as Cast[])
             }
             staffList={
-              dataState.staffModifyRequests?.[0].staffId === -1
+              dataState.staffModifyRequests?.[0]?.staffId === -1
                 ? []
                 : (dataState.staffModifyRequests?.map((cast, index) => ({
                     ...cast,
