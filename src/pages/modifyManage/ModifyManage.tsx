@@ -622,8 +622,8 @@ const ModifyManage = () => {
     if (modifyState.modifyManageStep === 2) {
       return (
         <ModifyManageMaker
-          castList={dataState.castModifyRequests as Cast[]}
-          staffList={dataState.staffModifyRequests as Staff[]}
+          castModifyRequests={dataState.castModifyRequests as Cast[]}
+          staffModifyRequests={dataState.staffModifyRequests as Staff[]}
           handleModifyManageStep={handlemodifyManageStep}
           updateGigInfo={updateGigInfo}
         />
