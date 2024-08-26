@@ -35,6 +35,7 @@ import PosterThumbnail from "./components/PosterThumbnail";
 import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
 import { GENRE_LIST } from "./constants/genreList";
+import ModifyManageMaker from "./ModifyMaker";
 import * as S from "./ModifyManage.styled";
 import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
@@ -195,6 +196,8 @@ const ModifyManage = () => {
       leftOnClick: handleLeftBtn,
       rightOnClick: handleRightBtn,
     });
+
+    console.log("현재 스텝:", modifyState.modifyManageStep);
   }, [modifyState.modifyManageStep, modifyState.isBookerExist]);
 
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
@@ -604,19 +607,19 @@ const ModifyManage = () => {
       );
     }
 
-    // if (modifyManageStep === 2) {
-    //   return (
-    //     <ModifyManageMaker
-    //       castList={castList as Cast[]}
-    //       staffList={staffList as Staff[]}
-    //       handlemodifyManageStep={handlemodifyManageStep}
-    //       // updateGigInfo={updateGigInfo}
-    //       updateGigInfo={() => console.log("")}
-    //     />
-    //   );
-    // }
-
     if (modifyState.modifyManageStep === 2) {
+      return (
+        <ModifyManageMaker
+          castList={dataState.castList as Cast[]}
+          staffList={dataState.staffList as Staff[]}
+          handleModifyManageStep={handlemodifyManageStep}
+          // updateGigInfo={updateGigInfo}
+          updateGigInfo={() => console.log("")}
+        />
+      );
+    }
+
+    if (modifyState.modifyManageStep === 3) {
       return (
         <>
           <MetaTag title="공연 수정" />

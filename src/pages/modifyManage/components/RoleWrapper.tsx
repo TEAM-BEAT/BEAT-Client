@@ -50,7 +50,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
         {previewImg ? (
           <S.PreviewImageWrapper width={13.6} height={15.8}>
             <S.PreviewImage src={previewImg} alt="Preview" width={13.6} height={15.8} />
-            {/*  <S.RemoveImageButton onClick={() => removeRole(id)} /> */}
+            <S.RemoveImageButton onClick={() => removeRole(id)} />
           </S.PreviewImageWrapper>
         ) : (
           <>
