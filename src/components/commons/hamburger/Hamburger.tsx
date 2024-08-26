@@ -64,7 +64,7 @@ const Hamburger = () => {
       return;
     }
 
-      await mutateAsync();
+    await mutateAsync();
   };
 
   const handleLogoutBtn = () => {
@@ -84,7 +84,6 @@ const Hamburger = () => {
   const handleLogout = async () => {
     try {
       await postLogout();
-
 
       localStorage.removeItem("user");
       location.reload();
