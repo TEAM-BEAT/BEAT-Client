@@ -61,6 +61,8 @@ type State = {
   castModifyRequests: Cast[];
   staffModifyRequests: Staff[];
   //performanceImageModifyRequests : 타입[]  -> 구현 예정..
+  //타입 하나 덜 있어서, 요청 자체가 500에러 뱉어냄.
+  //모든 곳에서 performanceImageModifyRequests 가 적용되도록 변경해야함
 };
 
 type ModifyState = {
