@@ -18,13 +18,13 @@ export const getMakerPerformance = async (): Promise<MakerPerformanceResponse | 
 };
 
 // 공연 수정 페이지 정보 조회 API (GET)
-type PerformanceEditResponse = components["schemas"]["PerformanceEditResponse"];
+type PerformanceModifyDetailResponse = components["schemas"]["PerformanceModifyDetailResponse"];
 
 export const getPerformanceEdit = async (
   performanceId: number
-): Promise<PerformanceEditResponse | null> => {
+): Promise<PerformanceModifyDetailResponse | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<PerformanceEditResponse>> = await get(
+    const response: AxiosResponse<ApiResponseType<PerformanceModifyDetailResponse>> = await get(
       `performances/${performanceId}`
     );
     return response.data.data;

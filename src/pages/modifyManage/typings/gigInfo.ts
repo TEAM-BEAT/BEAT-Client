@@ -7,7 +7,7 @@ export interface Schedule {
   performanceDate: Dayjs | null | string;
   totalTicketCount: number;
   dueDate?: number;
-  scheduleNumber?: string;
+  scheduleNumber: string;
 }
 
 export interface Cast {

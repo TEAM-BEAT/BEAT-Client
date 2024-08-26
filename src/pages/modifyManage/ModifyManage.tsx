@@ -147,23 +147,23 @@ const ModifyManage = () => {
           performanceContact: data.performanceContact,
           ticketPrice: data.ticketPrice,
           totalScheduleCount: data.totalScheduleCount,
-          scheduleModifyRequests: data.scheduleModifyRequests?.map((item) => ({
+          scheduleModifyRequests: data.scheduleList.map((item) => ({
             scheduleId: item.scheduleId ?? -1, //조회로 받아오니까 -1이 될 일이 없음.
             performanceDate: item.performanceDate ?? "",
             totalTicketCount: item.totalTicketCount ?? 0,
             dueDate: item.dueDate ?? 0,
             scheduleNumber: item.scheduleNumber ?? "FIRST",
           })),
-          castModifyRequests: data.castModifyRequests?.length
-            ? data.castModifyRequests.map((item) => ({
+          castModifyRequests: data.castList?.length
+            ? data.castList.map((item) => ({
                 castId: item.castId ?? -1,
                 castName: item.castName ?? "",
                 castRole: item.castRole ?? "",
                 castPhoto: item.castPhoto ?? "",
               }))
             : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }],
-          staffModifyRequests: data.staffModifyRequests?.length
-            ? data.staffModifyRequests.map((item) => ({
+          staffModifyRequests: data.staffList?.length
+            ? data.staffList.map((item) => ({
                 staffId: item.staffId ?? -1,
                 staffName: item.staffName ?? "",
                 staffRole: item.staffRole ?? "",
