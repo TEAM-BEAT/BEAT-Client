@@ -189,7 +189,6 @@ interface Schedule {
 
 // gigInfo 타입 정의 예제
 export interface PerformanceUpdateFormData {
-  accountHolder: string;
   performanceId: number;
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
@@ -198,16 +197,18 @@ export interface PerformanceUpdateFormData {
   performanceAttentionNote: string;
   bankName: BANK_TYPE;
   accountNumber: string;
+  accountHolder: string;
   posterImage: string;
   performanceTeamName: string;
   performanceVenue: string;
   performanceContact: string;
   performancePeriod: string;
-  ticketPrice?: number | null;
   totalScheduleCount: number;
-  scheduleList: Schedule[];
-  castList: Cast[];
-  staffList: Staff[];
+  ticketPrice?: number | null;
+  scheduleModifyRequests: Schedule[];
+  castModifyRequests: Cast[];
+  staffModifyRequests: Staff[];
+  //performanceImageModifyRequests : 는 나중에 ..
 }
 
 export const useUpdatePerformance = () => {

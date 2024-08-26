@@ -47,6 +47,8 @@ type State = {
   runningTime: number | null;
   performanceDescription: string;
   performanceAttentionNote: string;
+  bankName: BANK_TYPE;
+  accountHolder: string;
   accountNumber: string;
   posterImage: string;
   performanceTeamName: string;
@@ -55,11 +57,10 @@ type State = {
   performanceContact: string;
   ticketPrice: number | null;
   totalScheduleCount: number;
-  scheduleList: Schedule[];
-  castList: Cast[];
-  staffList: Staff[];
-  bankName: BANK_TYPE;
-  accountHolder: string;
+  scheduleModifyRequests: Schedule[];
+  castModifyRequests: Cast[];
+  staffModifyRequests: Staff[];
+  //performanceImageModifyRequests : 타입[]  -> 구현 예정..
 };
 
 type ModifyState = {
@@ -89,9 +90,9 @@ const initialState: State = {
   performanceContact: "",
   ticketPrice: null,
   totalScheduleCount: 1,
-  scheduleList: [],
-  castList: [],
-  staffList: [],
+  scheduleModifyRequests: [],
+  castModifyRequests: [],
+  staffModifyRequests: [],
   bankName: "NONE",
   accountHolder: "",
 };
@@ -146,23 +147,23 @@ const ModifyManage = () => {
           performanceContact: data.performanceContact,
           ticketPrice: data.ticketPrice,
           totalScheduleCount: data.totalScheduleCount,
-          scheduleList: data.scheduleList.map((item) => ({
-            scheduleId: item.scheduleId ?? -1,
+          scheduleModifyRequests: data.scheduleModifyRequests.map((item) => ({
+            scheduleId: item.scheduleId ?? -1, //조회로 받아오니까 -1이 될 일이 없음.
             performanceDate: item.performanceDate ?? "",
             totalTicketCount: item.totalTicketCount ?? 0,
             dueDate: item.dueDate ?? 0,
             scheduleNumber: item.scheduleNumber ?? "FIRST",
           })),
-          castList: data.castList?.length
-            ? data.castList.map((item) => ({
+          castModifyRequests: data.castModifyRequests?.length
+            ? data.castModifyRequests.map((item) => ({
                 castId: item.castId ?? -1,
                 castName: item.castName ?? "",
                 castRole: item.castRole ?? "",
                 castPhoto: item.castPhoto ?? "",
               }))
             : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }],
-          staffList: data.staffList?.length
-            ? data.staffList.map((item) => ({
+          staffModifyRequests: data.staffModifyRequests?.length
+            ? data.staffModifyRequests.map((item) => ({
                 staffId: item.staffId ?? -1,
                 staffName: item.staffName ?? "",
                 staffRole: item.staffRole ?? "",
@@ -212,12 +213,16 @@ const ModifyManage = () => {
     setModifyState((prev) => ({ ...prev, [field]: value })); //브래킷 표기법 필수
   };
 
+  const updateGigInfo = (newInfo: Partial<State>) => {
+    dispatch({ type: "SET_DATA", payload: { ...newInfo } });
+  };
+
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
-    const filteredCastList = dataState.castList.filter(
+    const filteredCastModifyRequests = dataState.castModifyRequests.filter(
       (cast) => cast.castName || cast.castRole || cast.castPhoto
     );
-    const filteredStaffList = dataState.staffList.filter(
+    const filteredstaffModifyRequests = dataState.staffModifyRequests.filter(
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
 
@@ -225,15 +230,15 @@ const ModifyManage = () => {
       console.log("수정하기 요청 보내기 직전 데이터:", {
         performanceId: Number(performanceId),
         ...dataState,
-        castList: filteredCastList,
-        staffList: filteredStaffList,
+        castModifyRequests: filteredCastModifyRequests,
+        staffModifyRequests: filteredstaffModifyRequests,
       });
 
       const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
-        castList: filteredCastList,
-        staffList: filteredStaffList,
+        castModifyRequests: filteredCastModifyRequests,
+        staffModifyRequests: filteredstaffModifyRequests,
       });
 
       openAlert({
@@ -452,7 +457,7 @@ const ModifyManage = () => {
             </StepperModifyManageBox>
             <S.Divider />
             <TimePickerModifyManageBox title="회차별 시간대">
-              {dataState.scheduleList?.map((schedule, index) => (
+              {dataState.scheduleModifyRequests?.map((schedule, index) => (
                 <div key={index}>
                   <S.InputDescription>{index + 1}회차</S.InputDescription>
                   <Spacing marginBottom={"1"} />
@@ -460,9 +465,9 @@ const ModifyManage = () => {
                     value={dayjs(schedule.performanceDate)}
                     disabled={true}
                     onChangeValue={(date) => {
-                      const updatedSchedules = [...dataState.scheduleList];
+                      const updatedSchedules = [...dataState.scheduleModifyRequests];
                       updatedSchedules[index].performanceDate = date;
-                      handleInputChange("scheduleList", updatedSchedules);
+                      handleInputChange("scheduleModifyRequests", updatedSchedules);
                     }}
                   />
                 </div>
@@ -487,11 +492,11 @@ const ModifyManage = () => {
                 isDisabled={false}
                 type="input"
                 name="totalTicketCount"
-                value={dataState.scheduleList?.[0]?.totalTicketCount ?? ""}
+                value={dataState.scheduleModifyRequests?.[0]?.totalTicketCount ?? ""}
                 onChange={(e) => {
-                  const updatedSchedules = [...dataState.scheduleList];
+                  const updatedSchedules = [...dataState.scheduleModifyRequests];
                   updatedSchedules[0].totalTicketCount = parseInt(e.target.value, 10);
-                  handleInputChange("scheduleList", updatedSchedules);
+                  handleInputChange("scheduleModifyRequests", updatedSchedules);
                 }}
                 placeholder="판매할 티켓의 매 수를 입력해주세요."
                 filter={numericFilter}
@@ -617,11 +622,10 @@ const ModifyManage = () => {
     if (modifyState.modifyManageStep === 2) {
       return (
         <ModifyManageMaker
-          castList={dataState.castList as Cast[]}
-          staffList={dataState.staffList as Staff[]}
+          castList={dataState.castModifyRequests as Cast[]}
+          staffList={dataState.staffModifyRequests as Staff[]}
           handleModifyManageStep={handlemodifyManageStep}
-          // updateGigInfo={updateGigInfo}
-          updateGigInfo={() => console.log("")}
+          updateGigInfo={updateGigInfo}
         />
       );
     }
@@ -640,7 +644,7 @@ const ModifyManage = () => {
             genre={dataState.genre as "BAND" | "DANCE" | "PLAY" | "ETC"}
             // 타임존 안맞아서 지금 날짜 안맞는데 로컬 타임존으로 보이게 설정하면 기간 잘 맞아요!
             scheduleList={
-              dataState.scheduleList?.map((schedule, index) => ({
+              dataState.scheduleModifyRequests?.map((schedule, index) => ({
                 scheduleId: index + 1,
                 performanceDate: schedule.performanceDate?.toString() || "",
                 scheduleNumber: (index + 1).toString(),
@@ -653,17 +657,17 @@ const ModifyManage = () => {
             contact={dataState.performanceContact as string}
             teamName={dataState.performanceTeamName as string}
             castList={
-              dataState.castList?.[0].castId === -1
+              dataState.castModifyRequests?.[0].castId === -1
                 ? []
-                : (dataState.castList?.map((cast, index) => ({
+                : (dataState.castModifyRequests?.map((cast, index) => ({
                     ...cast,
                     castId: index + 1,
                   })) as Cast[])
             }
             staffList={
-              dataState.staffList?.[0].staffId === -1
+              dataState.staffModifyRequests?.[0].staffId === -1
                 ? []
-                : (dataState.staffList?.map((cast, index) => ({
+                : (dataState.staffModifyRequests?.map((cast, index) => ({
                     ...cast,
                     staffId: index + 1,
                   })) as Staff[])

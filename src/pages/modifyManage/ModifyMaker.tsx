@@ -7,7 +7,9 @@ interface ModifyManageMakerProps {
   castList: Cast[];
   staffList: Staff[];
   handleModifyManageStep: () => void;
-  updateGigInfo: (newInfo: Partial<{ castList: Cast[]; staffList: Staff[] }>) => void;
+  updateGigInfo: (
+    newInfo: Partial<{ castModifyRequests: Cast[]; staffModifyRequests: Staff[] }>
+  ) => void;
 }
 
 const ModifyManageMaker = ({
@@ -54,7 +56,7 @@ const ModifyManageMaker = ({
     } else if (title === "스태프") {
       setStaffList(updatedList as Staff[]);
     }
-    updateGigInfo({ castList, staffList });
+    updateGigInfo({ castModifyRequests: castList, staffModifyRequests: staffList });
   };
 
   const handleList = () => {
@@ -66,7 +68,7 @@ const ModifyManageMaker = ({
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
 
-    updateGigInfo({ castList: filteredCastList, staffList: filteredStaffList });
+    updateGigInfo({ castModifyRequests: filteredCastList, staffModifyRequests: filteredStaffList });
     handleModifyManageStep();
   };
 

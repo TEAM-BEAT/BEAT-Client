@@ -129,12 +129,12 @@ export const postPerformance = async (formData): Promise<PerformanceResponse | n
   }
 };
 
-export type PerformanceUpdateResponse = components["schemas"]["PerformanceUpdateResponse"];
+export type PerformanceModifyResponse = components["schemas"]["PerformanceModifyResponse"];
 
 // 공연 수정 API (PUT)
 export const updatePerformance = async (
   formData
-): Promise<PerformanceUpdateResponse | null | any> => {
+): Promise<PerformanceModifyResponse | null | any> => {
   try {
     const response = await put("/performances", formData);
 

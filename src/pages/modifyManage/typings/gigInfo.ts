@@ -3,11 +3,11 @@ import { components } from "@typings/api/schema";
 import { Dayjs } from "dayjs";
 
 export interface Schedule {
-  scheduleId?: number;
+  scheduleId: number;
   performanceDate: Dayjs | null | string;
   totalTicketCount: number;
   dueDate?: number;
-  scheduleNumber: string;
+  scheduleNumber?: string;
 }
 
 export interface Cast {
@@ -45,9 +45,9 @@ export interface DataProps {
   ticketPrice: number;
   totalScheduleCount: number;
   isBookerExist: boolean;
-  scheduleList: Schedule[];
-  castList: Cast[];
-  staffList: Staff[];
+  scheduleModifyRequests: Schedule[];
+  castModifyRequests: Cast[];
+  staffModifyRequests: Staff[];
 }
 
 export interface GigInfo {
