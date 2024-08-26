@@ -77,7 +77,6 @@ export const getMemberBookingList = async () => {
     const response: AxiosResponse<ApiResponseType<MemberBookingRetrieveResponse>> = await get(
       "/bookings/member/retrieve"
     );
-
     return response.data.data;
   } catch (error) {
     console.error("error", error);

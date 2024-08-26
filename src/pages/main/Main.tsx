@@ -16,7 +16,6 @@ import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const Main = () => {
-  // 3. 훅 불러와서 사용
   const { data, isLoading } = useGetAllScheduleList();
 
   const [genre, setGenre] = useState("ALL");
@@ -60,27 +59,25 @@ const Main = () => {
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <S.MainWrapper>
-          {/* <button style={{ color: "white" }} onClick={onClickHi}>
+    <S.MainWrapper>
+      {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
           </button>
           <button style={{ color: "white" }} onClick={onClickHello}>
             헬로 테스트
           </button> */}
-          <MainNavigation />
-          <Carousel promotionList={data?.promotionList ?? []} />
-          <Chips handleGenre={handleGenre} />
-          <Floating />
-          <Performance genre={genre} performanceList={data?.performanceList ?? []} />
-          <Footer />
-        </S.MainWrapper>
-      )}
-    </>
+      <MainNavigation />
+      <Carousel promotionList={data?.promotionList ?? []} />
+      <Chips handleGenre={handleGenre} />
+      <Floating />
+      <Performance genre={genre} performanceList={data?.performanceList ?? []} />
+      <Footer />
+    </S.MainWrapper>
   );
 };
 
