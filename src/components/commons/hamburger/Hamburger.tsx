@@ -64,11 +64,7 @@ const Hamburger = () => {
       return;
     }
 
-    const LogoutData = await mutateAsync();
-
-    if (LogoutData.status !== 200) {
-      throw new Error(`Logout failed with status code: ${LogoutData.status}`);
-    }
+      await mutateAsync();
   };
 
   const handleLogoutBtn = () => {
@@ -88,6 +84,7 @@ const Hamburger = () => {
   const handleLogout = async () => {
     try {
       await postLogout();
+
 
       localStorage.removeItem("user");
       location.reload();

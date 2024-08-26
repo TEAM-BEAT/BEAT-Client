@@ -13,6 +13,6 @@ export const postLogout = async (): Promise<SuccessResponseVoid | null> => {
     return response.data.data;
   } catch (error) {
     console.error("error", error);
-    return null;
+    throw error;
   }
 };
