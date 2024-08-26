@@ -3,7 +3,7 @@ import { components } from "@typings/api/schema";
 import { Dayjs } from "dayjs";
 
 export interface Schedule {
-  scheduleId: number;
+  scheduleId?: number;
   performanceDate: Dayjs | null | string;
   totalTicketCount: number;
   dueDate?: number;
@@ -11,14 +11,14 @@ export interface Schedule {
 }
 
 export interface Cast {
-  castId: number;
+  castId?: number;
   castName: string;
   castRole: string;
   castPhoto: string;
 }
 
 export interface Staff {
-  staffId: number;
+  staffId?: number;
   staffName: string;
   staffRole: string;
   staffPhoto: string;

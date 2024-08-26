@@ -44,27 +44,29 @@ export const onMinusClick = (setGigInfo: Dispatch<SetStateAction<DataProps>>) =>
     return {
       ...prev,
       totalScheduleCount: newScheduleCount,
-      scheduleList: prev.scheduleList.slice(0, newScheduleCount),
-      performancePeriod: calculatePerformancePeriod(prev.scheduleList.slice(0, newScheduleCount)),
+      scheduleModifyRequests: prev.scheduleModifyRequests.slice(0, newScheduleCount),
+      performancePeriod: calculatePerformancePeriod(
+        prev.scheduleModifyRequests.slice(0, newScheduleCount)
+      ),
     };
   });
 };
 
 export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<DataProps>>) => {
   setGigInfo((prev) => {
-    const newScheduleList = [
-      ...prev.scheduleList,
+    const newscheduleModifyRequests = [
+      ...prev.scheduleModifyRequests,
       {
         performanceDate: null, // 공연 일시
         totalTicketCount: 0, // 총 티켓 수
-        scheduleNumber: getScheduleNumber(prev.scheduleList.length), // 회차 번호
+        scheduleNumber: getScheduleNumber(prev.scheduleModifyRequests.length), // 회차 번호
       },
     ];
     return {
       ...prev,
       totalScheduleCount: prev.totalScheduleCount + 1,
-      scheduleList: newScheduleList,
-      performancePeriod: calculatePerformancePeriod(newScheduleList),
+      scheduleModifyRequests: newscheduleModifyRequests,
+      performancePeriod: calculatePerformancePeriod(newscheduleModifyRequests),
     };
   });
 };
@@ -76,12 +78,12 @@ export const handleDateChange = (
   setGigInfo: Dispatch<SetStateAction<DataProps>>
 ) => {
   setGigInfo((prev) => {
-    const newScheduleList = [...prev.scheduleList];
-    newScheduleList[index].performanceDate = date;
+    const newscheduleModifyRequests = [...prev.scheduleModifyRequests];
+    newscheduleModifyRequests[index].performanceDate = date;
     return {
       ...prev,
-      scheduleList: newScheduleList,
-      performancePeriod: calculatePerformancePeriod(newScheduleList),
+      scheduleModifyRequests: newscheduleModifyRequests,
+      performancePeriod: calculatePerformancePeriod(newscheduleModifyRequests),
     };
   });
 };
@@ -100,7 +102,7 @@ export const handleTotalTicketCountChange = (
 
   setGigInfo((prev) => ({
     ...prev,
-    scheduleList: prev.scheduleList.map((schedule) => ({
+    scheduleModifyRequests: prev.scheduleModifyRequests.map((schedule) => ({
       ...schedule,
       totalTicketCount: ticketCount,
     })),
@@ -149,7 +151,7 @@ export const isAllFieldsFilled = (gigInfo: DataProps, isFree: boolean) => {
     ...(!isFree ? ["bankName", "accountNumber"] : []),
   ];
 
-  const scheduleFilled = gigInfo.scheduleList.every(
+  const scheduleFilled = gigInfo.scheduleModifyRequests.every(
     (schedule) => schedule.performanceDate && schedule.totalTicketCount && schedule.scheduleNumber
   );
 
@@ -164,9 +166,9 @@ export const isAllFieldsFilled = (gigInfo: DataProps, isFree: boolean) => {
 
 // performancePeriod 계산
 export const calculatePerformancePeriod = (
-  scheduleList: { performanceDate: Dayjs | null | string }[]
+  scheduleModifyRequests: { performanceDate: Dayjs | null | string }[]
 ) => {
-  const dates = scheduleList
+  const dates = scheduleModifyRequests
     //dayjs로
     .map((schedule) => dayjs(schedule.performanceDate))
     .filter((date): date is Dayjs => date !== null)
