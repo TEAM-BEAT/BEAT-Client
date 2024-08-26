@@ -222,6 +222,13 @@ const ModifyManage = () => {
     );
 
     try {
+      console.log("수정하기 요청 보내기 직전 데이터:", {
+        performanceId: Number(performanceId),
+        ...dataState,
+        castList: filteredCastList,
+        staffList: filteredStaffList,
+      });
+
       const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
