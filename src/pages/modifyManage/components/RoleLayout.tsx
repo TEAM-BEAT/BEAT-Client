@@ -6,7 +6,7 @@ import { Cast, Staff } from "../typings/gigInfo";
 import RoleWrapper from "./RoleWrapper";
 
 interface Role {
-  id: number;
+  makerId: number;
   makerName: string;
   makerRole: string;
   makerPhoto: string;
@@ -21,7 +21,7 @@ interface RoleLayoutProps {
 const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
   const [makerList, setMakerList] = useState<Role[]>(
     list.map((item, index) => ({
-      id: index, // ID 생성
+      makerId: "castId" in item ? item.castId : item.staffId, // 공연 수정 페이지 조회 시 가져온 ID로 설정
       makerName: "castName" in item ? item.castName : item.staffName,
       makerRole: "castRole" in item ? item.castRole : item.staffRole,
       makerPhoto: "castPhoto" in item ? item.castPhoto : item.staffPhoto,
