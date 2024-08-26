@@ -147,7 +147,7 @@ const ModifyManage = () => {
           performanceContact: data.performanceContact,
           ticketPrice: data.ticketPrice,
           totalScheduleCount: data.totalScheduleCount,
-          scheduleModifyRequests: data.scheduleModifyRequests.map((item) => ({
+          scheduleModifyRequests: data.scheduleModifyRequests?.map((item) => ({
             scheduleId: item.scheduleId ?? -1, //조회로 받아오니까 -1이 될 일이 없음.
             performanceDate: item.performanceDate ?? "",
             totalTicketCount: item.totalTicketCount ?? 0,
