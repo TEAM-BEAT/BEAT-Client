@@ -4,17 +4,20 @@ import * as S from "./Hamburger.styled";
 
 import { useAtom, useAtomValue } from "jotai";
 
-import { useHamburger, useLogin } from "@hooks";
+import { useHamburger, useLogin, useModal } from "@hooks";
 import { hamburgerAtom, navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
+import { usePostLogout } from "@apis/kakaoLogin/queries";
 
 const Hamburger = () => {
   const navigate = useNavigate();
+  const { openConfirm, closeConfirm, openAlert } = useModal();
 
   const { isOpen } = useAtomValue(hamburgerAtom);
   const [, setNavigateUrl] = useAtom(navigateAtom);
 
   const { isLogin, nickname } = useLogin();
+  const { mutateAsync, isPending } = usePostLogout();
 
   const { closeHamburger } = useHamburger();
   const outside = useRef<HTMLDivElement>(null);
@@ -56,6 +59,41 @@ const Hamburger = () => {
     closeHamburger();
   };
 
+  const postLogout = async () => {
+    if (isPending) {
+      return;
+    }
+
+    await mutateAsync();
+  };
+
+  const handleLogoutBtn = () => {
+    openConfirm({
+      title: "로그아웃 하시겠습니까?",
+      okText: "네",
+      okCallback: () => {
+        handleLogout().then(() => {
+          closeConfirm();
+        });
+      },
+      noText: "아니요",
+      noCallback: () => closeConfirm(),
+    });
+  };
+
+  const handleLogout = async () => {
+    try {
+      await postLogout();
+
+      localStorage.removeItem("user");
+      location.reload();
+    } catch (error) {
+      openAlert({
+        title: "로그아웃에 실패하였습니다. \n다시 시도해 주세요.",
+      });
+    }
+  };
+
   return (
     <>
       <S.Overlay $isOpen={isOpen} onClick={handlerOutside}>
@@ -78,7 +116,6 @@ const Hamburger = () => {
                 <S.NavigateBtn
                   onClick={() => {
                     navigate("/gig-manage");
-                    // window.location.assign("/gig-manage");
                     closeHamburger();
                   }}
                 >
@@ -88,14 +125,19 @@ const Hamburger = () => {
                 <S.NavigateBtn
                   onClick={() => {
                     navigate("/lookup");
-                    // const url = "/lookup";
-                    // window.location.assign(url);
                     closeHamburger();
                   }}
                 >
                   <S.NavigateBtnText>내가 예매한 공연</S.NavigateBtnText>
                   <S.ArrowRightIcon />
                 </S.NavigateBtn>
+                <S.LogoutBtn
+                  onClick={() => {
+                    handleLogoutBtn();
+                  }}
+                >
+                  로그아웃
+                </S.LogoutBtn>
               </S.NavigateBtnWrapper>
             </>
           ) : (
