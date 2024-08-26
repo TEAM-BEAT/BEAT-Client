@@ -58,10 +58,11 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
               type="file"
               id={`file-${id}`}
               onChange={uploadFile}
-              disabled={true}
+              disabled={false}
             />
             <S.CustomFileInput htmlFor={`file-${id}`} width={13.6} height={15.8}>
               <IconCamera width={"3.2rem"} />
+              <S.RemoveImageButton onClick={() => removeRole(id)} />
             </S.CustomFileInput>
           </>
         )}
@@ -76,7 +77,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
           filter={nameFilter}
           narrow={true}
           placeholder="이름"
-          disabled={true}
+          disabled={false}
         />
         <TextField
           type="input"
@@ -85,7 +86,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
           onChange={handleInputChange}
           narrow={true}
           placeholder="역할"
-          disabled={true}
+          disabled={false}
         />
       </S.TextInputWrpper>
     </S.RoleWrapper>
