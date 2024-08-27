@@ -143,7 +143,7 @@ const TicketHolderList = () => {
     setDetail((prop) => !prop);
   };
 
-  const count = data.totalScheduleCount; //api로 받아온 값 (동적 회차 수)
+  const count = data?.totalScheduleCount; //api로 받아온 값 (동적 회차 수)
 
   const filteredData = responseData?.filter((obj) => {
     const isScheduleMatched =

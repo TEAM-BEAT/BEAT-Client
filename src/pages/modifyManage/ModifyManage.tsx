@@ -199,8 +199,6 @@ const ModifyManage = () => {
       leftOnClick: handleLeftBtn,
       rightOnClick: handleRightBtn,
     });
-
-    console.log("현재 스텝:", modifyState.modifyManageStep);
   }, [modifyState.modifyManageStep, modifyState.isBookerExist]);
 
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
@@ -229,13 +227,6 @@ const ModifyManage = () => {
     );
 
     try {
-      console.log("수정하기 요청 보내기 직전 데이터:", {
-        performanceId: Number(performanceId),
-        ...dataState,
-        castModifyRequests: filteredCastModifyRequests,
-        staffModifyRequests: filteredstaffModifyRequests,
-      });
-
       const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
