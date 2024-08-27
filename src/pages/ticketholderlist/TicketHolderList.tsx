@@ -2,6 +2,7 @@ import { useTicketDelete, useTicketRetrive, useTicketUpdate } from "@apis/domain
 import { IconCheck } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Loading from "@components/commons/loading/Loading";
+import MetaTag from "@components/commons/meta/MetaTag";
 import Toast from "@components/commons/toast/Toast";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal, useToast } from "@hooks";
@@ -12,9 +13,8 @@ import Banner from "./components/banner/Banner";
 import ManagerCard from "./components/managercard/ManagerCard";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
-import { BookingListProps, RESPONSE_TICKETHOLDER } from "./constants/ticketholderlist";
+import { BookingListProps } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const TicketHolderList = () => {
   /*
@@ -143,7 +143,7 @@ const TicketHolderList = () => {
     setDetail((prop) => !prop);
   };
 
-  const count = RESPONSE_TICKETHOLDER.data.totalScheduleCount; //나중에 api로 받아와서 반영해야함. state로 바꿀 필요 있을까?
+  const count = data.totalScheduleCount; //api로 받아온 값 (동적 회차 수)
 
   const filteredData = responseData?.filter((obj) => {
     const isScheduleMatched =
