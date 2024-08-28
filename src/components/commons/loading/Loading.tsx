@@ -1,7 +1,5 @@
-import { lazy } from "react";
 import * as S from "./Loading.styled";
-
-const LoadingAnimation = lazy(() => import("@components/commons/loading/LoadingAnimation"));
+import LoadingAnimation from "./LoadingAnimation";
 
 const Loading = () => {
   return (
