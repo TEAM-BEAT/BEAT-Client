@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { DetailImage, GigInfo } from "../typings/gigInfo";
+import { PerformanceImage, GigInfo } from "../typings/gigInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 // Image 핸들링
@@ -16,12 +16,12 @@ export const handleImageUpload = (
 
 // Images 핸들링
 export const handleImagesUpload = (
-  detailImage: DetailImage[],
+  performanceImage: PerformanceImage[],
   setGigInfo: Dispatch<SetStateAction<GigInfo>>
 ) => {
   setGigInfo((prev) => ({
     ...prev,
-    detailImages: detailImage,
+    performanceImageList: performanceImage,
   }));
 };
 

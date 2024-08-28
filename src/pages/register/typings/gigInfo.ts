@@ -19,9 +19,9 @@ export interface Staff {
   staffPhoto: string;
 }
 
-export interface DetailImage {
+export interface PerformanceImage {
   id: number;
-  url: string;
+  performanceImage: string;
 }
 
 export interface GigInfo {
@@ -34,7 +34,7 @@ export interface GigInfo {
   accountNumber: string;
   accountHolder: string;
   posterImage: string;
-  detailImages: DetailImage[];
+  performanceImageList: PerformanceImage[];
   performanceTeamName: string;
   performanceVenue: string;
   performanceContact: string;

@@ -11,7 +11,7 @@ interface DetailImageProps {
 
 interface PreviewImageList {
   id: number;
-  url: string;
+  performanceImage: string;
 }
 
 const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
@@ -43,7 +43,7 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
             const imageUrl = event.target?.result as string;
             resolve({
               id: Date.now() + Math.floor(Math.random() * 1000), // ctrl 키로 동시에 이미지 선택해도 id 중복되지 않도록 랜덤 값 추가
-              url: imageUrl,
+              performanceImage: imageUrl,
             });
           };
           fileReader.readAsDataURL(file);
@@ -92,9 +92,9 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
         </S.CustomFileInput>
         {previewImgs &&
           previewImgs.map((previewImg) => (
-            <S.PreviewImageWrapper width={15.7} height={21}>
+            <S.PreviewImageWrapper key={previewImg.id} width={15.7} height={21}>
               <S.PreviewImage
-                src={previewImg.url}
+                src={previewImg.performanceImage}
                 alt={`Preview-${previewImg.id}`}
                 width={15.7}
                 height={21}
