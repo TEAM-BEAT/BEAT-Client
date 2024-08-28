@@ -40,6 +40,7 @@ import {
   handleChange,
   handleDateChange,
   handleGenreSelect,
+  handleImagesUpload,
   handleImageUpload,
   handleTotalTicketCountChange,
   isAllFieldsFilled,
@@ -47,6 +48,7 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
+import DetailImage from "./components/DetailImage";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -84,6 +86,7 @@ const Register = () => {
     accountNumber: "", // 계좌번호
     accountHolder: "", // 예금주
     posterImage: "", // 포스터 이미지 URL
+    performanceImageList: [], // 상세 이미지 URL
     performanceTeamName: "", // 공연 팀명
     performanceVenue: "", // 공연 장소
     performanceContact: "", // 대표자 연락처
@@ -123,6 +126,7 @@ const Register = () => {
     accountNumber,
     accountHolder,
     posterImage,
+    performanceImageList,
     performanceTeamName,
     performanceVenue,
     performancePeriod,
@@ -221,6 +225,9 @@ const Register = () => {
             };
           }),
           bankName: bankInfo ? bankInfo : "NONE",
+          performanceImageList: gigInfo.performanceImageList.map((image) => ({
+            performanceImage: image.performanceImage,
+          })),
         };
         try {
           await postPerformance(formData);
@@ -363,6 +370,11 @@ const Register = () => {
               cap={true}
             />
           </InputRegisterBox>
+          <S.Divider />
+          <DetailImage
+            value={performanceImageList}
+            onImagesUpload={(performanceImage) => handleImagesUpload(performanceImage, setGigInfo)}
+          />
           <S.Divider />
           <InputRegisterBox title="공연 소개">
             <TextArea
