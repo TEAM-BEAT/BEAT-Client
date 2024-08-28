@@ -11,12 +11,13 @@ export const CardWrapper = styled.article`
 export const CardImg = styled.div<{ imgsrc: string }>`
   position: relative;
   width: 10.8rem;
-  height: 15.4rem;
+  height: calc(10.8rem * 4 / 3);
 
   background-image: url(${({ imgsrc }) => imgsrc});
+  background-position: center;
 
   /* 아래의 한 줄 덕분에, 알맞게 이미지 조절 가능 */
-  background-size: 100% 100%;
+  background-size: cover;
   border-radius: 6px;
 `;
 
