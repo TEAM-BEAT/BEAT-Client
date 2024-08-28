@@ -285,6 +285,10 @@ const Register = () => {
     setRegisterStep((prev) => prev + 1);
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [registerStep]);
+
   const { setHeader } = useHeader();
 
   // 티켓 수량이 동일하게 적용
