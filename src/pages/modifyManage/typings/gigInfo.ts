@@ -24,6 +24,11 @@ export interface Staff {
   staffPhoto: string;
 }
 
+export interface PerformanceImageModifyRequest {
+  performanceImageId: number;
+  performanceImage: string;
+}
+
 export type BANK_TYPE = components["schemas"]["GuestBookingRetrieveResponse"]["bankName"];
 
 export interface DataProps {

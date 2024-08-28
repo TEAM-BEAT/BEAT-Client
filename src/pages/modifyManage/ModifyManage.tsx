@@ -37,7 +37,14 @@ import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
 import { GENRE_LIST } from "./constants/genreList";
 import ModifyManageMaker from "./ModifyMaker";
 import * as S from "./ModifyManage.styled";
-import { BANK_TYPE, Cast, DataProps, Schedule, Staff } from "./typings/gigInfo";
+import {
+  BANK_TYPE,
+  Cast,
+  DataProps,
+  PerformanceImageModifyRequest,
+  Schedule,
+  Staff,
+} from "./typings/gigInfo";
 import { isAllFieldsFilled } from "./utils/handleEvent";
 
 // Reducer로 상태 관리 통합
@@ -60,7 +67,7 @@ type State = {
   scheduleModifyRequests: Schedule[];
   castModifyRequests: Cast[];
   staffModifyRequests: Staff[];
-  //performanceImageModifyRequests : 타입[]  -> 구현 예정..
+  performanceImageModifyRequests: PerformanceImageModifyRequest[];
   //타입 하나 덜 있어서, 요청 자체가 500에러 뱉어냄.
   //모든 곳에서 performanceImageModifyRequests 가 적용되도록 변경해야함
 };
@@ -84,6 +91,8 @@ const initialState: State = {
   runningTime: null,
   performanceDescription: "",
   performanceAttentionNote: "",
+  bankName: "NONE",
+  accountHolder: "",
   accountNumber: "",
   posterImage: "",
   performanceTeamName: "",
@@ -95,8 +104,7 @@ const initialState: State = {
   scheduleModifyRequests: [],
   castModifyRequests: [],
   staffModifyRequests: [],
-  bankName: "NONE",
-  accountHolder: "",
+  performanceImageModifyRequests: [],
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -130,6 +138,8 @@ const ModifyManage = () => {
     isChecked: true,
     bankOpen: false,
   });
+
+  console.log(dataState);
 
   useEffect(() => {
     if (data && isSuccess) {
