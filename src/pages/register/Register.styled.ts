@@ -16,6 +16,7 @@ export const Divider = styled.div`
 `;
 
 export const FooterContainer = styled.div`
+  position: relative;
   padding: 2.4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
@@ -234,7 +235,7 @@ export const RoleAddBtn = styled.section`
   ${Generators.flexGenerator()}
   flex-shrink: 0;
   width: 13.6rem;
-  height: 26.6rem;
+  height: 24.4rem;
 
   background: ${({ theme }) => theme.colors.gray_900};
   border: 1px dashed ${({ theme }) => theme.colors.gray_700};
@@ -243,7 +244,7 @@ export const RoleAddBtn = styled.section`
 
 export const RoleWrapper = styled.div`
   ${Generators.flexGenerator("column", "center", "center")}
-  height: 26.6rem;
+  height: 24.4rem;
 `;
 
 export const FooterInfo = styled.div`
