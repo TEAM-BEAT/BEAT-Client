@@ -4,18 +4,14 @@
  */
 
 export interface paths {
-    "/api/tickets/{performanceId}": {
+    "/api/tickets": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 예매자 목록 조회 API
-         * @description 메이커가 자신의 공연에 대한 예매자 목록을 조회하는 GET API입니다.
-         */
-        get: operations["getTickets"];
+        get?: never;
         /**
          * 예매자 입금여부 수정 및 웹발신 API
          * @description 메이커가 자신의 공연에 대한 예매자의 입금여부 정보를 수정한 뒤 예매확정 웹발신을 보내는 PUT API입니다.
@@ -184,6 +180,26 @@ export interface paths {
          * @description refresh token으로 access token을 재발급하는 GET API입니다.
          */
         get: operations["refreshToken"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/tickets/{performanceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 예매자 목록 조회 API
+         * @description 메이커가 자신의 공연에 대한 예매자 목록을 조회하는 GET API입니다.
+         */
+        get: operations["getTickets"];
         put?: never;
         post?: never;
         delete?: never;
@@ -722,6 +738,7 @@ export interface components {
             /** @enum {string} */
             bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
             accountNumber?: string;
+            accountHolder?: string;
             /** Format: int32 */
             dueDate?: number;
             isPaymentCompleted?: boolean;
@@ -835,6 +852,8 @@ export interface components {
             performanceTitle?: string;
             posterImage?: string;
             performancePeriod?: string;
+            /** Format: int32 */
+            minDueDate?: number;
         };
         MakerPerformanceResponse: {
             /** Format: int64 */
@@ -873,6 +892,8 @@ export interface components {
             performanceTeamName?: string;
             castList?: components["schemas"]["PerformanceDetailCast"][];
             staffList?: components["schemas"]["PerformanceDetailStaff"][];
+            /** Format: int32 */
+            minDueDate?: number;
         };
         PerformanceDetailSchedule: {
             /** Format: int64 */
@@ -880,6 +901,9 @@ export interface components {
             /** Format: date-time */
             performanceDate?: string;
             scheduleNumber?: string;
+            /** Format: int32 */
+            dueDate?: number;
+            isBooking?: boolean;
         };
         PerformanceDetailStaff: {
             /** Format: int64 */
@@ -919,6 +943,8 @@ export interface components {
             /** Format: int32 */
             availableTicketCount?: number;
             isBooking?: boolean;
+            /** Format: int32 */
+            dueDate?: number;
         };
         SuccessResponseBookingPerformanceDetailResponse: {
             /** Format: int32 */
@@ -945,6 +971,8 @@ export interface components {
             promotionPhoto?: string;
             /** Format: int64 */
             performanceId?: number;
+            redirectUrl?: string;
+            isExternal?: boolean;
         };
         HomeResponse: {
             promotionList?: components["schemas"]["HomePromotionDetail"][];
@@ -978,6 +1006,7 @@ export interface components {
             /** @enum {string} */
             bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
             accountNumber?: string;
+            accountHolder?: string;
             /** Format: int32 */
             dueDate?: number;
             isPaymentCompleted?: boolean;
@@ -1007,41 +1036,13 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    getTickets: {
-        parameters: {
-            query: {
-                memberId: number;
-                scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
-                isPaymentCompleted?: boolean;
-            };
-            header?: never;
-            path: {
-                performanceId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
-                };
-            };
-        };
-    };
     updateTickets: {
         parameters: {
             query: {
                 memberId: number;
             };
             header?: never;
-            path: {
-                performanceId: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -1067,9 +1068,7 @@ export interface operations {
                 memberId: number;
             };
             header?: never;
-            path: {
-                performanceId: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -1303,6 +1302,32 @@ export interface operations {
             };
         };
     };
+    getTickets: {
+        parameters: {
+            query: {
+                memberId: number;
+                scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+                isPaymentCompleted?: boolean;
+            };
+            header?: never;
+            path: {
+                performanceId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+                };
+            };
+        };
+    };
     getTicketAvailability: {
         parameters: {
             query: {
@@ -1484,8 +1509,8 @@ export interface operations {
                 content: {
                     "*/*": {
                         [key: string]: {
-                            [key: string]: string | undefined;
-                        } | undefined;
+                            [key: string]: string;
+                        };
                     };
                 };
             };
