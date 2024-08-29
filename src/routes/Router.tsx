@@ -1,4 +1,5 @@
 import Layout from "@components/layout/Layout";
+import Intro from "@pages/intro/Intro";
 import KakaoAuth from "@pages/kakaoAuth/KakaoAuth";
 import Main from "@pages/main/Main";
 import NotFound from "@pages/notFound/NotFound";
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       </>
     ),
   },
+  { path: "/intro", element: <Intro /> },
   {
     path: "/",
     element: <Layout />,
