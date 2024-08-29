@@ -59,5 +59,5 @@ const DateText = styled.p`
 const ButtonWrapper = styled.article`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px 9px;
+  gap: 1rem 0.9rem;
 `;
