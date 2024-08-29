@@ -192,7 +192,6 @@ const Register = () => {
         return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
       };
       const S3Urls = extractUrls(data);
-      console.log("extractUrls", S3Urls);
 
       const files = [
         gigInfo.posterImage,
