@@ -142,6 +142,6 @@ export const updatePerformance = async (
   } catch (error) {
     console.error("error", error);
 
-    return null;
+    return error;
   }
 };

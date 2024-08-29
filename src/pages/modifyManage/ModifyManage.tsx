@@ -140,7 +140,7 @@ const ModifyManage = () => {
     bankOpen: false,
   });
 
-  console.log(dataState);
+  console.log("dataState:", dataState);
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -237,7 +237,15 @@ const ModifyManage = () => {
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
 
+    console.log("완료버튼 실행중");
     try {
+      console.log("수정 요청 보내는 형식:", {
+        performanceId: Number(performanceId),
+        ...dataState,
+        castModifyRequests: filteredCastModifyRequests,
+        staffModifyRequests: filteredstaffModifyRequests,
+      });
+
       const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
@@ -254,6 +262,7 @@ const ModifyManage = () => {
         },
       });
     } catch (err) {
+      console.error(err.message);
       openAlert({
         title: "공연 수정에 실패했습니다.",
         subTitle: `${err.response.message ? err.response.message : "다시 시도해주세요."}`,
@@ -667,7 +676,7 @@ const ModifyManage = () => {
             contact={dataState.performanceContact as string}
             teamName={dataState.performanceTeamName as string}
             castList={
-              dataState.castModifyRequests?.[0].castId === -1
+              dataState.castModifyRequests?.[0]?.castId === -1
                 ? []
                 : (dataState.castModifyRequests?.map((cast, index) => ({
                     ...cast,
