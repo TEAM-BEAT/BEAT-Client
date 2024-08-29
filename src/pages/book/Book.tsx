@@ -146,6 +146,8 @@ const Book = () => {
       scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
       purchaseTicketCount: round,
       totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
+      // TODO: 상수로 관리
+      bookingStatus: "CHECKING_PAYMENT",
     } as GuestBookingRequest;
 
     if (!isLogin) {
@@ -154,7 +156,6 @@ const Book = () => {
         ...formData,
         ...bookerInfo,
         password: easyPassword.password,
-        isPaymentCompleted: false,
       } as GuestBookingRequest;
     } else {
       // 회원 예매 요청
