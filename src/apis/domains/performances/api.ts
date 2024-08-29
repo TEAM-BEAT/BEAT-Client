@@ -47,7 +47,7 @@ export const deletePerformance = async (
     return response.data.data;
   } catch (error) {
     console.log("error", error);
-    throw error;
+    throw new Error(error);
   }
 };
 
@@ -141,7 +141,6 @@ export const updatePerformance = async (
     return response.data;
   } catch (error) {
     console.error("error", error);
-
-    return error;
+    throw error;
   }
 };

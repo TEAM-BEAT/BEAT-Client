@@ -262,7 +262,7 @@ const ModifyManage = () => {
         },
       });
     } catch (err) {
-      console.error(err.message);
+      console.log(err);
       openAlert({
         title: "공연 수정에 실패했습니다.",
         subTitle: `${err.response.message ? err.response.message : "다시 시도해주세요."}`,
