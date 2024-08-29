@@ -13,7 +13,6 @@ const LookupCard = ({
   scheduleNumber,
   performanceVenue,
   purchaseTicketCount,
-  isPaymentCompleted,
   bankName,
   bookerName,
   accountHolder,
