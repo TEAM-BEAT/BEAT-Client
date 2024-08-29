@@ -19,6 +19,7 @@ const LookupCard = ({
   accountHolder,
   accountNumber,
   dueDate,
+  bookingStatus,
   totalPaymentAmount,
 }: LookupProps) => {
   const navigate = useNavigate();
@@ -30,6 +31,13 @@ const LookupCard = ({
   };
 
   type ScheduleNumTypes = keyof typeof scheduleNum;
+
+  const bookingStatusText = {
+    CHECKING_PAYMENT: "입금 확인 예정",
+    BOOKING_CONFIRMED: "입금 완료",
+    BOOKING_CANCELLED: "예매 취소",
+  };
+  type bookingStatusTypes = keyof typeof bookingStatusText;
 
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
@@ -89,11 +97,14 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
           <S.DepositLayout>
-            {isPaymentCompleted ? (
+            {/* {isPaymentCompleted ? (
               <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
             ) : (
               <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
-            )}
+            )} */}
+            <S.CheckedDeposit>
+              {bookingStatusText[bookingStatus as bookingStatusTypes]}
+            </S.CheckedDeposit>
           </S.DepositLayout>
         </S.Context>
         {dueDate >= 0 && totalPaymentAmount > 0 ? (

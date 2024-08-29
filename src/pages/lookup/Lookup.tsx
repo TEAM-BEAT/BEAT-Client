@@ -33,6 +33,7 @@ interface LookupProps {
   accountNumber: string;
   accountHolder: string;
   dueDate: number;
+  bookingStatus: string;
   isPaymentCompleted: boolean;
   createdAt: string;
   posterImage: string;
@@ -49,6 +50,7 @@ const Lookup = () => {
 
   const handleSheetOpen = (bookingId: number) => {
     setSelectedBookingId(bookingId);
+    console.log(lookUpList);
   };
 
   const handleSheetClose = () => {
