@@ -30,7 +30,7 @@ const Book = () => {
 
   useEffect(() => {
     if (data) {
-      const isBookingAvailable = data?.scheduleList[data?.scheduleList.length - 1]?.dueDate >= 0;
+      const isBookingAvailable = data?.scheduleList[data?.scheduleList.length - 1]?.isBooking;
 
       if (!isBookingAvailable) {
         openAlert({
@@ -55,6 +55,10 @@ const Book = () => {
   }, []);
 
   const [selectedValue, setSelectedValue] = useState<number>();
+  const selectedSchedule = data?.scheduleList.find(
+    (schedule) => schedule.scheduleId === selectedValue
+  );
+
   const [round, setRound] = useState(1);
   const [bookerInfo, setBookerInfo] = useState({
     bookerName: "",
@@ -214,7 +218,6 @@ const Book = () => {
       setActiveButton(false);
     }
   }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -287,18 +290,8 @@ const Book = () => {
         <Context
           isDate={true}
           subTitle="날짜"
-          date={data
-            ?.scheduleList![
-              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
-                data?.scheduleList?.[0].scheduleId
-            ].performanceDate?.slice(0, 10)
-            .toString()}
-          time={data
-            ?.scheduleList![
-              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
-                data?.scheduleList?.[0].scheduleId
-            ].performanceDate?.slice(11, 16)
-            .toString()}
+          date={selectedSchedule?.performanceDate.slice(0, 10).toString() ?? ""}
+          time={selectedSchedule?.performanceDate.slice(11, 16).toString() ?? ""}
         />
         <Context
           subTitle="가격"
