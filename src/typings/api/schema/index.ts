@@ -18,14 +18,14 @@ export interface paths {
      */
     put: operations["updateTickets"];
     post?: never;
-    /**
-     * 예매자 삭제 API
-     * @description 메이커가 자신의 공연에 대한 예매자의 정보를 삭제하는 DELETE API입니다.
-     */
-    delete: operations["deleteTickets"];
+    delete?: never;
     options?: never;
     head?: never;
-    patch?: never;
+    /**
+     * 예매자 취소 API
+     * @description 메이커가 자신의 공연에 대한 1명 이상의 예매자의 정보를 취소 상태로 변경하는 PATCH API입니다.
+     */
+    patch: operations["cancelTickets"];
     trace?: never;
   };
   "/api/performances": {
@@ -383,7 +383,8 @@ export interface components {
       purchaseTicketCount?: number;
       /** Format: date-time */
       createdAt?: string;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       scheduleNumber?: string;
     };
     TicketUpdateRequest: {
@@ -400,14 +401,19 @@ export interface components {
       message?: string;
       data?: Record<string, never>;
     };
-    CastUpdateRequest: {
+    CastModifyRequest: {
       /** Format: int64 */
       castId?: number;
       castName?: string;
       castRole?: string;
       castPhoto?: string;
     };
-    PerformanceUpdateRequest: {
+    PerformanceImageModifyRequest: {
+      /** Format: int64 */
+      performanceImageId?: number;
+      performanceImage?: string;
+    };
+    PerformanceModifyRequest: {
       /** Format: int64 */
       performanceId?: number;
       performanceTitle?: string;
@@ -444,34 +450,41 @@ export interface components {
       performancePeriod?: string;
       /** Format: int32 */
       totalScheduleCount?: number;
-      scheduleList?: components["schemas"]["ScheduleUpdateRequest"][];
-      castList?: components["schemas"]["CastUpdateRequest"][];
-      staffList?: components["schemas"]["StaffUpdateRequest"][];
+      /** Format: int32 */
+      ticketPrice?: number;
+      scheduleModifyRequests?: components["schemas"]["ScheduleModifyRequest"][];
+      castModifyRequests?: components["schemas"]["CastModifyRequest"][];
+      staffModifyRequests?: components["schemas"]["StaffModifyRequest"][];
+      performanceImageModifyRequests?: components["schemas"]["PerformanceImageModifyRequest"][];
     };
-    ScheduleUpdateRequest: {
+    ScheduleModifyRequest: {
       /** Format: int64 */
       scheduleId?: number;
       /** Format: date-time */
       performanceDate?: string;
       /** Format: int32 */
       totalTicketCount?: number;
-      scheduleNumber?: string;
     };
-    StaffUpdateRequest: {
+    StaffModifyRequest: {
       /** Format: int64 */
       staffId?: number;
       staffName?: string;
       staffRole?: string;
       staffPhoto?: string;
     };
-    CastUpdateResponse: {
+    CastModifyResponse: {
       /** Format: int64 */
       castId?: number;
       castName?: string;
       castRole?: string;
       castPhoto?: string;
     };
-    PerformanceUpdateResponse: {
+    PerformanceImageModifyResponse: {
+      /** Format: int64 */
+      performanceImageId?: number;
+      performanceImage?: string;
+    };
+    PerformanceModifyResponse: {
       /** Format: int64 */
       userId?: number;
       /** Format: int64 */
@@ -512,11 +525,12 @@ export interface components {
       ticketPrice?: number;
       /** Format: int32 */
       totalScheduleCount?: number;
-      scheduleList?: components["schemas"]["ScheduleUpdateResponse"][];
-      castList?: components["schemas"]["CastUpdateResponse"][];
-      staffList?: components["schemas"]["StaffUpdateResponse"][];
+      scheduleModifyResponses?: components["schemas"]["ScheduleModifyResponse"][];
+      castModifyResponses?: components["schemas"]["CastModifyResponse"][];
+      staffModifyResponses?: components["schemas"]["StaffModifyResponse"][];
+      performanceImageModifyResponses?: components["schemas"]["PerformanceImageModifyResponse"][];
     };
-    ScheduleUpdateResponse: {
+    ScheduleModifyResponse: {
       /** Format: int64 */
       scheduleId?: number;
       /** Format: date-time */
@@ -528,18 +542,18 @@ export interface components {
       /** @enum {string} */
       scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
     };
-    StaffUpdateResponse: {
+    StaffModifyResponse: {
       /** Format: int64 */
       staffId?: number;
       staffName?: string;
       staffRole?: string;
       staffPhoto?: string;
     };
-    SuccessResponsePerformanceUpdateResponse: {
+    SuccessResponsePerformanceModifyResponse: {
       /** Format: int32 */
       status?: number;
       message?: string;
-      data?: components["schemas"]["PerformanceUpdateResponse"];
+      data?: components["schemas"]["PerformanceModifyResponse"];
     };
     MemberLoginRequest: {
       /** @enum {string} */
@@ -560,6 +574,9 @@ export interface components {
       castName?: string;
       castRole?: string;
       castPhoto?: string;
+    };
+    PerformanceImageRequest: {
+      performanceImage?: string;
     };
     PerformanceRequest: {
       performanceTitle?: string;
@@ -601,6 +618,7 @@ export interface components {
       scheduleList?: components["schemas"]["ScheduleRequest"][];
       castList?: components["schemas"]["CastRequest"][];
       staffList?: components["schemas"]["StaffRequest"][];
+      performanceImageList?: components["schemas"]["PerformanceImageRequest"][];
     };
     ScheduleRequest: {
       /** Format: date-time */
@@ -621,6 +639,11 @@ export interface components {
       castName?: string;
       castRole?: string;
       castPhoto?: string;
+    };
+    PerformanceImageResponse: {
+      /** Format: int64 */
+      imageId?: number;
+      imageUrl?: string;
     };
     PerformanceResponse: {
       /** Format: int64 */
@@ -666,6 +689,7 @@ export interface components {
       scheduleList?: components["schemas"]["ScheduleResponse"][];
       castList?: components["schemas"]["CastResponse"][];
       staffList?: components["schemas"]["StaffResponse"][];
+      performanceImageList?: components["schemas"]["PerformanceImageResponse"][];
     };
     ScheduleResponse: {
       /** Format: int64 */
@@ -701,7 +725,8 @@ export interface components {
       purchaseTicketCount?: number;
       bookerName?: string;
       bookerPhoneNumber?: string;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       /** Format: int32 */
       totalPaymentAmount?: number;
     };
@@ -718,7 +743,8 @@ export interface components {
       scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
       bookerName?: string;
       bookerPhoneNumber?: string;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       /** @enum {string} */
       bankName?:
         | "NH_NONGHYUP"
@@ -762,7 +788,8 @@ export interface components {
       password?: string;
       /** Format: int32 */
       totalPaymentAmount?: number;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
     };
     GuestBookingResponse: {
       /** Format: int64 */
@@ -777,7 +804,8 @@ export interface components {
       scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
       bookerName?: string;
       bookerPhoneNumber?: string;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       /** @enum {string} */
       bankName?:
         | "NH_NONGHYUP"
@@ -850,9 +878,11 @@ export interface components {
         | "SUHYEOP"
         | "NONE";
       accountNumber?: string;
+      accountHolder?: string;
       /** Format: int32 */
       dueDate?: number;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       /** Format: date-time */
       createdAt?: string;
       posterImage?: string;
@@ -864,6 +894,11 @@ export interface components {
       status?: number;
       message?: string;
       data?: components["schemas"]["GuestBookingRetrieveResponse"][];
+    };
+    TicketCancelRequest: {
+      /** Format: int64 */
+      performanceId?: number;
+      bookingList?: number[];
     };
     AccessTokenGetSuccess: {
       accessToken?: string;
@@ -891,7 +926,8 @@ export interface components {
       purchaseTicketCount?: number;
       /** Format: date-time */
       createdAt?: string;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       scheduleNumber?: string;
     };
     TicketRetrieveResponse: {
@@ -920,7 +956,7 @@ export interface components {
       requestedTicketCount?: number;
       isAvailable?: boolean;
     };
-    PerformanceEditResponse: {
+    PerformanceModifyDetailResponse: {
       /** Format: int64 */
       userId?: number;
       /** Format: int64 */
@@ -965,25 +1001,28 @@ export interface components {
       scheduleList?: components["schemas"]["ScheduleResponse"][];
       castList?: components["schemas"]["CastResponse"][];
       staffList?: components["schemas"]["StaffResponse"][];
+      performanceImageList?: components["schemas"]["PerformanceImageResponse"][];
     };
-    SuccessResponsePerformanceEditResponse: {
+    SuccessResponsePerformanceModifyDetailResponse: {
       /** Format: int32 */
       status?: number;
       message?: string;
-      data?: components["schemas"]["PerformanceEditResponse"];
+      data?: components["schemas"]["PerformanceModifyDetailResponse"];
     };
-    MakerPerformanceDetail: {
+    MakerPerformanceDetailResponse: {
       /** Format: int64 */
       performanceId?: number;
       genre?: string;
       performanceTitle?: string;
       posterImage?: string;
       performancePeriod?: string;
+      /** Format: int32 */
+      minDueDate?: number;
     };
     MakerPerformanceResponse: {
       /** Format: int64 */
       userId?: number;
-      performances?: components["schemas"]["MakerPerformanceDetail"][];
+      performances?: components["schemas"]["MakerPerformanceDetailResponse"][];
     };
     SuccessResponseMakerPerformanceResponse: {
       /** Format: int32 */
@@ -991,19 +1030,24 @@ export interface components {
       message?: string;
       data?: components["schemas"]["MakerPerformanceResponse"];
     };
-    PerformanceDetailCast: {
+    PerformanceDetailCastResponse: {
       /** Format: int64 */
       castId?: number;
       castName?: string;
       castRole?: string;
       castPhoto?: string;
     };
+    PerformanceDetailImageResponse: {
+      /** Format: int64 */
+      performanceImageId?: number;
+      performanceImage?: string;
+    };
     PerformanceDetailResponse: {
       /** Format: int64 */
       performanceId?: number;
       performanceTitle?: string;
       performancePeriod?: string;
-      scheduleList?: components["schemas"]["PerformanceDetailSchedule"][];
+      scheduleList?: components["schemas"]["PerformanceDetailScheduleResponse"][];
       /** Format: int32 */
       ticketPrice?: number;
       genre?: string;
@@ -1015,17 +1059,23 @@ export interface components {
       performanceAttentionNote?: string;
       performanceContact?: string;
       performanceTeamName?: string;
-      castList?: components["schemas"]["PerformanceDetailCast"][];
-      staffList?: components["schemas"]["PerformanceDetailStaff"][];
+      castList?: components["schemas"]["PerformanceDetailCastResponse"][];
+      staffList?: components["schemas"]["PerformanceDetailStaffResponse"][];
+      /** Format: int32 */
+      minDueDate?: number;
+      performanceImageList?: components["schemas"]["PerformanceDetailImageResponse"][];
     };
-    PerformanceDetailSchedule: {
+    PerformanceDetailScheduleResponse: {
       /** Format: int64 */
       scheduleId?: number;
       /** Format: date-time */
       performanceDate?: string;
       scheduleNumber?: string;
+      /** Format: int32 */
+      dueDate?: number;
+      isBooking?: boolean;
     };
-    PerformanceDetailStaff: {
+    PerformanceDetailStaffResponse: {
       /** Format: int64 */
       staffId?: number;
       staffName?: string;
@@ -1043,7 +1093,7 @@ export interface components {
       performanceId?: number;
       performanceTitle?: string;
       performancePeriod?: string;
-      scheduleList?: components["schemas"]["BookingPerformanceDetailSchedule"][];
+      scheduleList?: components["schemas"]["BookingPerformanceDetailScheduleResponse"][];
       /** Format: int32 */
       ticketPrice?: number;
       genre?: string;
@@ -1054,7 +1104,7 @@ export interface components {
       accountNumber?: string;
       accountHolder?: string;
     };
-    BookingPerformanceDetailSchedule: {
+    BookingPerformanceDetailScheduleResponse: {
       /** Format: int64 */
       scheduleId?: number;
       /** Format: date-time */
@@ -1063,6 +1113,8 @@ export interface components {
       /** Format: int32 */
       availableTicketCount?: number;
       isBooking?: boolean;
+      /** Format: int32 */
+      dueDate?: number;
     };
     SuccessResponseBookingPerformanceDetailResponse: {
       /** Format: int32 */
@@ -1089,6 +1141,8 @@ export interface components {
       promotionPhoto?: string;
       /** Format: int64 */
       performanceId?: number;
+      redirectUrl?: string;
+      isExternal?: boolean;
     };
     HomeResponse: {
       promotionList?: components["schemas"]["HomePromotionDetail"][];
@@ -1138,9 +1192,11 @@ export interface components {
         | "SUHYEOP"
         | "NONE";
       accountNumber?: string;
+      accountHolder?: string;
       /** Format: int32 */
       dueDate?: number;
-      isPaymentCompleted?: boolean;
+      /** @enum {string} */
+      bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       /** Format: date-time */
       createdAt?: string;
       posterImage?: string;
@@ -1153,11 +1209,6 @@ export interface components {
       message?: string;
       data?: components["schemas"]["MemberBookingRetrieveResponse"];
     };
-    TicketDeleteRequest: {
-      /** Format: int64 */
-      performanceId?: number;
-      bookingList?: number[];
-    };
   };
   responses: never;
   parameters: never;
@@ -1167,41 +1218,13 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  getTickets: {
-    parameters: {
-      query: {
-        memberId: number;
-        scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
-        isPaymentCompleted?: boolean;
-      };
-      header?: never;
-      path: {
-        performanceId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
-        };
-      };
-    };
-  };
   updateTickets: {
     parameters: {
       query: {
         memberId: number;
       };
       header?: never;
-      path: {
-        performanceId: number;
-      };
+      path?: never;
       cookie?: never;
     };
     requestBody: {
@@ -1221,20 +1244,18 @@ export interface operations {
       };
     };
   };
-  deleteTickets: {
+  cancelTickets: {
     parameters: {
       query: {
         memberId: number;
       };
       header?: never;
-      path: {
-        performanceId: number;
-      };
+      path?: never;
       cookie?: never;
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["TicketDeleteRequest"];
+        "application/json": components["schemas"]["TicketCancelRequest"];
       };
     };
     responses: {
@@ -1260,17 +1281,53 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["PerformanceUpdateRequest"];
+        "application/json": components["schemas"]["PerformanceModifyRequest"];
       };
     };
     responses: {
-      /** @description OK */
+      /** @description 공연 정보 수정 성공 */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "*/*": components["schemas"]["SuccessResponsePerformanceUpdateResponse"];
+          "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+        };
+      };
+      /** @description 잘못된 요청 - 회차 최대 개수 초과 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+        };
+      };
+      /** @description 권한 없음 - 해당 공연의 소유자가 아닙니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+        };
+      };
+      /** @description 존재하지 않는 회원 ID로 수정 요청을 보낼 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
         };
       };
     };
@@ -1463,6 +1520,32 @@ export interface operations {
       };
     };
   };
+  getTickets: {
+    parameters: {
+      query: {
+        memberId: number;
+        scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+        bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
+      };
+      header?: never;
+      path: {
+        performanceId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+        };
+      };
+    };
+  };
   getTicketAvailability: {
     parameters: {
       query: {
@@ -1506,7 +1589,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": components["schemas"]["SuccessResponsePerformanceEditResponse"];
+          "*/*": components["schemas"]["SuccessResponsePerformanceModifyDetailResponse"];
         };
       };
     };
@@ -1629,6 +1712,7 @@ export interface operations {
         posterImage: string;
         castImages?: string[];
         staffImages?: string[];
+        performanceImages?: string[];
       };
       header?: never;
       path?: never;
@@ -1643,11 +1727,9 @@ export interface operations {
         };
         content: {
           "*/*": {
-            [key: string]:
-              | {
-                  [key: string]: string | undefined;
-                }
-              | undefined;
+            [key: string]: {
+              [key: string]: string;
+            };
           };
         };
       };
