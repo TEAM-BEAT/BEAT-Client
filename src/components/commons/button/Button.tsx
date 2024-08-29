@@ -1,7 +1,13 @@
 import React, { ReactNode } from "react";
 import * as S from "./Button.styled";
 
-export type ButtonSizeTypes = "xlarge" | "large" | "medium" | "small" | "xsmall";
+export type ButtonSizeTypes =
+  | "xlarge"
+  | "large"
+  | "medium"
+  | "small"
+  | "xsmall"
+  | { width: string; height: string };
 export type ButtonVariantTypes = "primary" | "line" | "gray" | "blue";
 
 //React.ButtonHTMLAttributes는 버튼 속성에 집중하긴 했지만, 제네릭 타입이다.

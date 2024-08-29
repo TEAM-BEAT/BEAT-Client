@@ -13,7 +13,7 @@ const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
         <S.LookupCardLeft>
           <S.LookupImage src={item.posterImage} />
           <Label dueDate={item.dueDate} />
-          <Button variant="line" size="xsmall" onClick={handleBtn}>
+          <Button variant="line" size={{ width: "10.8rem", height: "3.6rem" }} onClick={handleBtn}>
             취소하기
           </Button>
         </S.LookupCardLeft>

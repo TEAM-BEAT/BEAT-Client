@@ -27,37 +27,51 @@ const height = {
 export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   ${Generators.flexGenerator("row", "center", "center")};
   ${({ $size }) => {
-    switch ($size) {
-      case "xlarge":
-        return css`
-          ${({ theme }) => theme.fonts["body1-normal-semi"]};
-        `;
-      case "large":
-        return css`
-          ${({ theme }) => theme.fonts["body2-normal-semi"]};
-        `;
-      case "medium":
-        return css`
-          ${({ theme }) => theme.fonts["body2-normal-semi"]};
-        `;
-      case "small":
-        return css`
-          ${({ theme }) => theme.fonts["body2-normal-semi"]};
-        `;
-      case "xsmall":
-        return css`
-          ${({ theme }) => theme.fonts["caption1-semi"]};
-        `;
+    if (typeof $size === "string") {
+      switch ($size) {
+        case "xlarge":
+          return css`
+            width: 32.7rem;
+            height: 5.6rem;
+            ${({ theme }) => theme.fonts["body1-normal-semi"]};
+          `;
+        case "large":
+          return css`
+            width: 27.9rem;
+            height: 4.6rem;
+            ${({ theme }) => theme.fonts["body2-normal-semi"]};
+          `;
+        case "medium":
+          return css`
+            width: 15.8rem;
+            height: 4.6rem;
+            ${({ theme }) => theme.fonts["body2-normal-semi"]};
+          `;
+        case "small":
+          return css`
+            width: 13.6rem;
+            height: 4.6rem;
+            ${({ theme }) => theme.fonts["body2-normal-semi"]};
+          `;
+        case "xsmall":
+          return css`
+            width: 10.3rem;
+            height: 3.6rem;
+            ${({ theme }) => theme.fonts["caption1-semi"]};
+          `;
+        default:
+          return css;
+      }
+    } else if (typeof $size === "object") {
+      return css`
+        width: ${$size.width};
+        height: ${$size.height};
+        ${({ theme }) => theme.fonts["caption1-semi"]};
+      `;
     }
-  }};
+  }}
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
-  ${({ $size }) =>
-    $size &&
-    css`
-      width: ${width[$size]};
-      height: ${height[$size]};
-    `};
 
   ${({ $variant, $isDisabled }) => {
     switch ($variant) {

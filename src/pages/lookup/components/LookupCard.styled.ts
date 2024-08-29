@@ -4,10 +4,10 @@ import { IconArrowRight } from "@assets/svgs";
 export const LookupCardWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  width: 21.4rem;
-  height: 19.8rem;
-  padding: 1.4rem 2rem;
+  gap: 1.2rem;
+  width: 21.2rem;
+  height: 18.8rem;
+  padding: 1rem 1.6rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 0.6rem;
@@ -38,7 +38,7 @@ export const TitleArrowRightIcon = styled(IconArrowRight)`
   height: 1.8rem;
 
   path {
-    fill: ${({ theme }) => theme.colors.gray_400};
+    fill: ${({ theme }) => theme.colors.gray_0};
   }
 `;
 
