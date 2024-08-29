@@ -7,7 +7,7 @@ export const LookupCardWrapper = styled.section`
   gap: 1.2rem;
   width: 21.2rem;
   height: 18.8rem;
-  padding: 1rem 1.6rem;
+  padding: 1.1rem 1.6rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 0.6rem;

@@ -59,8 +59,6 @@ export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
             height: 3.6rem;
             ${({ theme }) => theme.fonts["caption1-semi"]};
           `;
-        default:
-          return css;
       }
     } else if (typeof $size === "object") {
       return css`
