@@ -32,9 +32,9 @@ export interface PerformanceImageModifyRequest {
 export type BANK_TYPE = components["schemas"]["GuestBookingRetrieveResponse"]["bankName"];
 
 export interface DataProps {
-  userId: number;
+  userId?: number;
   accountHolder: string;
-  performanceId: number;
+  performanceId?: number;
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
   runningTime: number | null;
@@ -49,7 +49,7 @@ export interface DataProps {
   performancePeriod: string;
   ticketPrice: number;
   totalScheduleCount: number;
-  isBookerExist: boolean;
+  isBookerExist?: boolean;
   scheduleModifyRequests: Schedule[];
   castModifyRequests: Cast[];
   staffModifyRequests: Staff[];
