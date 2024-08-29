@@ -97,14 +97,9 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
           <S.DepositLayout>
-            {/* {isPaymentCompleted ? (
-              <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
-            ) : (
-              <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
-            )} */}
-            <S.CheckedDeposit>
+            <S.CheckingDeposit $status={bookingStatus}>
               {bookingStatusText[bookingStatus as bookingStatusTypes]}
-            </S.CheckedDeposit>
+            </S.CheckingDeposit>
           </S.DepositLayout>
         </S.Context>
         {dueDate >= 0 && totalPaymentAmount > 0 ? (
