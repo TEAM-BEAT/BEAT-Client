@@ -50,7 +50,6 @@ const Lookup = () => {
 
   const handleSheetOpen = (bookingId: number) => {
     setSelectedBookingId(bookingId);
-    console.log(lookUpList);
   };
 
   const handleSheetClose = () => {
