@@ -15,7 +15,7 @@ export const LookupCardWrapper = styled.section`
 
 export const LookupTitleWrapper = styled.button`
   display: flex;
-  width: 17.5rem;
+  width: 18rem;
 `;
 
 export const LookupTitle = styled.div`
