@@ -121,6 +121,20 @@ export const FileInputWrapper = styled.div`
   gap: 1.4rem;
 `;
 
+export const FilesInputWrapper = styled.div`
+  position: relative;
+
+  ${Generators.flexGenerator("row", "center", "start")}
+  gap: 1.4rem;
+  width: calc(100% + 2.4rem);
+  padding-right: 2.4rem;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const HiddenFileInput = styled.input`
   display: none;
 `;
@@ -133,6 +147,15 @@ export const CustomFileInput = styled.label<{ width?: number; height?: number }>
   background: ${({ theme }) => theme.colors.gray_800};
   cursor: pointer;
   border-radius: 6px;
+`;
+
+export const CustomFileInputCounter = styled.p`
+  color: ${({ theme }) => theme.colors.gray_500};
+  ${({ theme }) => theme.fonts["body1-normal-medi"]};
+`;
+
+export const CustomFileInputLength = styled.span`
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const PreviewImageWrapper = styled.article<{ width?: number; height?: number }>`

@@ -29,6 +29,7 @@ import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFi
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import DetailImage from "./components/DetailImage";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
 import PosterThumbnail from "./components/PosterThumbnail";
@@ -45,10 +46,10 @@ import {
   Schedule,
   Staff,
 } from "./typings/gigInfo";
-import { isAllFieldsFilled } from "./utils/handleEvent";
+import { handleImagesUpload, isAllFieldsFilled } from "./utils/handleEvent";
 
 // Reducer로 상태 관리 통합
-type State = {
+export type State = {
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
   runningTime: number | null;
@@ -416,6 +417,12 @@ const ModifyManage = () => {
               />
             </InputModifyManageBox>
             <S.Divider />
+            <DetailImage
+              value={dataState.performanceImageModifyRequests}
+              onImagesUpload={(performanceImage) =>
+                handleImagesUpload(performanceImage, updateGigInfo)
+              }
+            />
             <InputModifyManageBox isDisabled={false} title="공연 소개">
               <TextArea
                 name="performanceDescription"

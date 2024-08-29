@@ -1,9 +1,10 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { DataProps } from "../typings/gigInfo";
+import { State } from "../ModifyManage";
+import { DataProps, PerformanceImageModifyRequest } from "../typings/gigInfo";
 
-// Image 핸들링
+// Image 핸들링 - 아직 안 쓰는 중
 export const handleImageUpload = (
   imageUrl: string,
   setGigInfo: Dispatch<SetStateAction<DataProps>>
@@ -12,6 +13,16 @@ export const handleImageUpload = (
     ...prev,
     posterImage: imageUrl,
   }));
+};
+
+// Images 핸들링 - modify에 맞도록
+export const handleImagesUpload = (
+  performanceImage: PerformanceImageModifyRequest[],
+  setGigInfo: (newInfo: Partial<State>) => void
+) => {
+  setGigInfo({
+    performanceImageModifyRequests: performanceImage,
+  });
 };
 
 // Genre 핸들링

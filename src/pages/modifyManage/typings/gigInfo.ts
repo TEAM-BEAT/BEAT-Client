@@ -53,6 +53,7 @@ export interface DataProps {
   scheduleModifyRequests: Schedule[];
   castModifyRequests: Cast[];
   staffModifyRequests: Staff[];
+  performanceImageModifyRequests: PerformanceImageModifyRequest[];
 }
 
 export interface GigInfo {
