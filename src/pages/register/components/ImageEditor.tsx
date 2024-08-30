@@ -1,21 +1,30 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as S from "../ImageEditor.styled";
-import ReactCrop, { Crop, PixelCrop, centerCrop, makeAspectCrop } from "react-image-crop";
+import { Crop, PixelCrop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import Button from "@components/commons/button/Button";
 
 interface ImageEditorProps {
   file: string;
-  onCropped: (croppedImageUrl: string) => void; // 크롭된 이미지 URL을 전달할 콜백 함수
+  aspectRatio: number;
+  onCropped: (croppedImageUrl: string) => void;
 }
 
-const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
+const ImageEditor = ({ file, aspectRatio, onCropped }: ImageEditorProps) => {
   const [crop, setCrop] = useState<Crop>({
     unit: "%",
-    x: 25,
-    y: 25,
-    width: 50,
-    height: 50,
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+  });
+  const [imageSize, setImageSize] = useState<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
+  });
+  const [calculatedSize, setCalculatedSize] = useState<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
   });
   const [croppedImageUrl, setCroppedImageUrl] = useState<string | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
@@ -23,6 +32,9 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     // 이미지의 원래 너비와 높이 가져오기
     const { naturalWidth: width, naturalHeight: height } = e.currentTarget;
+    if (e.currentTarget) {
+      setImageSize({ width, height });
+    }
 
     // 이미지의 중앙에 크롭 영역 설정
     const centerCropped = centerCrop(
@@ -31,8 +43,9 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
         {
           unit: "%", // 크롭 단위
           width: 100, // 크롭 영역 너비
+          height: 100,
         },
-        3 / 4, // 가로/세로
+        width / height,
         width,
         height
       ),
@@ -42,6 +55,30 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
 
     setCrop(centerCropped); // 중앙에 설정된 크롭 영역을 상태에 반영
   };
+
+  useEffect(() => {
+    if (imageSize.width > 0 && imageSize.height > 0) {
+      // 렌더링된 이미지 크기 계산
+      const renderedWidth = 32;
+      const renderedHeight = (imageSize.height / imageSize.width) * renderedWidth;
+
+      // 100으로 초기화했던 크롭 영역의 최대 크기 계산
+      const maxWidth = (crop.width / 100) * renderedWidth;
+      const maxHeight = (crop.height / 100) * renderedHeight;
+
+      // 최적의 width, height 계산
+      let width, height;
+      if (maxWidth / aspectRatio > maxHeight) {
+        height = maxHeight;
+        width = height * aspectRatio;
+      } else {
+        width = maxWidth;
+        height = width / aspectRatio;
+      }
+
+      setCalculatedSize({ width, height });
+    }
+  }, [imageSize, crop]);
 
   // 이미지 크롭 업데이트
   const onCropChange = (crop: Crop, percentCrop: Crop) => {
@@ -119,8 +156,8 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
         crop={crop}
         onChange={onCropChange}
         onComplete={onCropComplete}
-        aspect={3 / 4} // Aspect ratio of the crop area
         ruleOfThirds={true} // 삼분법선
+        calculatedSize={calculatedSize}
       >
         <S.OriginImage src={file} alt="Original" onLoad={onImageLoad} ref={imageRef} />
       </S.CustomReactCrop>

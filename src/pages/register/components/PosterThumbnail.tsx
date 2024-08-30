@@ -75,7 +75,9 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
           )}
         </S.FileInputWrapper>
       </S.InputRegisterBox>
-      {openImageModal && <ImageEditor file={previewImg} onCropped={handleCroppedImage} />}
+      {openImageModal && (
+        <ImageEditor file={previewImg} aspectRatio={3 / 4} onCropped={handleCroppedImage} />
+      )}
     </>
   );
 };
