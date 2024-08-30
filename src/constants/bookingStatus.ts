@@ -5,3 +5,7 @@ export const bookingStatusText = {
 };
 
 export type bookingStatusTypes = keyof typeof bookingStatusText;
+
+export interface DefaultDepositProps {
+  $status;
+}

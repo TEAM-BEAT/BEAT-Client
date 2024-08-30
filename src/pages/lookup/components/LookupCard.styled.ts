@@ -1,9 +1,6 @@
 import styled, { css } from "styled-components";
 import { IconArrowRight } from "@assets/svgs";
-
-interface DefaultDepositPropTypes {
-  $status;
-}
+import { DefaultDepositProps } from "@constants/bookingStatus";
 
 export const LookupCardWrapper = styled.section`
   display: flex;
@@ -95,7 +92,7 @@ export const DepositLayout = styled.section`
   justify-content: center;
 `;
 
-export const CheckingDeposit = styled.div<DefaultDepositPropTypes>`
+export const CheckingDeposit = styled.div<DefaultDepositProps>`
   display: flex;
   ${({ $status }) => {
     switch ($status) {
