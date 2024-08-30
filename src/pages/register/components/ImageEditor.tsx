@@ -115,7 +115,7 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
 
   return (
     <S.ModalContainer>
-      <ReactCrop
+      <S.CustomReactCrop
         crop={crop}
         onChange={onCropChange}
         onComplete={onCropComplete}
@@ -123,7 +123,7 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
         ruleOfThirds={true} // 삼분법선
       >
         <S.OriginImage src={file} alt="Original" onLoad={onImageLoad} ref={imageRef} />
-      </ReactCrop>
+      </S.CustomReactCrop>
       <Button onClick={handleComplete}>완료하기</Button>
     </S.ModalContainer>
   );
