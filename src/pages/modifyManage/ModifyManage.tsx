@@ -570,7 +570,7 @@ const ModifyManage = () => {
                 value={dataState.performanceDescription}
                 onChange={(e) => handleInputChange("performanceDescription", e.target.value)}
                 placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-                maxLength={250}
+                maxLength={500}
               />
             </InputModifyManageBox>
             <S.Divider />
