@@ -1,6 +1,7 @@
 import { useModal } from "@hooks";
 import BankAccount from "@pages/test/modalTest/BankAccount";
 import { getBankNameKr } from "@utils/getBankName";
+import { bookingStatusText, bookingStatusTypes } from "@constants/bookingStatus";
 import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";
 import * as S from "./LookupCard.styled";
@@ -30,13 +31,6 @@ const LookupCard = ({
   };
 
   type ScheduleNumTypes = keyof typeof scheduleNum;
-
-  const bookingStatusText = {
-    CHECKING_PAYMENT: "입금 확인 예정",
-    BOOKING_CONFIRMED: "입금 완료",
-    BOOKING_CANCELLED: "예매 취소",
-  };
-  type bookingStatusTypes = keyof typeof bookingStatusText;
 
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
