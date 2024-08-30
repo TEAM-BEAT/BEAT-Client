@@ -26,40 +26,24 @@ const height = {
 
 export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   ${Generators.flexGenerator("row", "center", "center")};
-  ${({ $size }) => {
+  ${({ $size, theme }) => {
     if (typeof $size === "string") {
+      let font;
       switch ($size) {
         case "xlarge":
-          return css`
-            width: 32.7rem;
-            height: 5.6rem;
-            ${({ theme }) => theme.fonts["body1-normal-semi"]};
-          `;
-        case "large":
-          return css`
-            width: 27.9rem;
-            height: 4.6rem;
-            ${({ theme }) => theme.fonts["body2-normal-semi"]};
-          `;
-        case "medium":
-          return css`
-            width: 15.8rem;
-            height: 4.6rem;
-            ${({ theme }) => theme.fonts["body2-normal-semi"]};
-          `;
-        case "small":
-          return css`
-            width: 13.6rem;
-            height: 4.6rem;
-            ${({ theme }) => theme.fonts["body2-normal-semi"]};
-          `;
+          font = theme.fonts["body1-normal-semi"];
+          break;
         case "xsmall":
-          return css`
-            width: 10.3rem;
-            height: 3.6rem;
-            ${({ theme }) => theme.fonts["caption1-semi"]};
-          `;
+          font = theme.fonts["caption1-semi"];
+          break;
+        default:
+          font = theme.fonts["body2-normal-semi"];
       }
+      return css`
+        ${font};
+        width: ${width[$size]};
+        height: ${height[$size]};
+      `;
     } else if (typeof $size === "object") {
       return css`
         width: ${$size.width};
