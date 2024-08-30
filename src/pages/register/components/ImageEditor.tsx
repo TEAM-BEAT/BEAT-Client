@@ -109,6 +109,8 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
   const handleComplete = () => {
     if (croppedImageUrl) {
       onCropped(croppedImageUrl); // 크롭된 이미지 URL을 부모 컴포넌트로 전달
+    } else {
+      onCropped(file); // 크롭하지 않으면 원래 URL 전달
     }
   };
 
