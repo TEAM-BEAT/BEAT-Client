@@ -181,6 +181,11 @@ const Book = () => {
       });
     } catch (error) {
       const errorResponse = error.response?.data as ErrorResponse;
+      if (errorResponse.status === 500) {
+        openAlert({
+          title: "서버 내부 오류로 예매가 불가능합니다.",
+        });
+      }
       if (errorResponse.status === 409) {
         openAlert({
           title: "이미 매진된 공연입니다.",
