@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import * as S from "../ImageEditor.styled";
+import * as S from "./ImageEditor.styled";
 import { Crop, PixelCrop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import Button from "@components/commons/button/Button";

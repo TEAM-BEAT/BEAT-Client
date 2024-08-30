@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import * as S from "../Register.styled";
 import { IconCamera } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
-import ImageEditor from "./ImageEditor";
+import ImageEditor from "@components/commons/imageEditor/ImageEditor";
 
 interface PosterThumbnailProps {
   value?: string | undefined;
