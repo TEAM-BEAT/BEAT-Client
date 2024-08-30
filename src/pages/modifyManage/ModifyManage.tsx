@@ -193,6 +193,12 @@ const ModifyManage = () => {
             : [{ staffId: -1, staffName: "", staffRole: "", staffPhoto: "" }],
           bankName: data.bankName,
           accountHolder: data.accountHolder,
+          performanceImageModifyRequests: data.performanceImageList.length
+            ? data.performanceImageList.map((item) => ({
+                performanceImageId: item.imageId ?? -1,
+                performanceImage: item.imageUrl ?? "",
+              }))
+            : [{ performanceImageId: -1, performanceImage: "" }],
         },
       });
 
