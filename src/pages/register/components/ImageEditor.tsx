@@ -17,7 +17,6 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
     width: 50,
     height: 50,
   });
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
   const [croppedImageUrl, setCroppedImageUrl] = useState<string | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
 
