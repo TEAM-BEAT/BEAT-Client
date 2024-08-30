@@ -70,10 +70,15 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    // 캔버스 영역을 크롭한 이미지 크기 만큼 조절
-    canvas.width = crop.width;
-    canvas.height = crop.height;
+    // 캔버스 크기를 원본 해상도 기준으로 설정
+    const pixelRatio = window.devicePixelRatio; // 실제 픽셀 크기와 CSS 픽셀 크기 간의 비율
+    canvas.width = crop.width * scaleX * pixelRatio;
+    canvas.height = crop.height * scaleY * pixelRatio;
     const ctx = canvas.getContext("2d");
+
+    // 고해상도 이미지를 유지하기 위해 canvas에 스케일 적용
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    ctx.imageSmoothingQuality = "high";
 
     ctx.drawImage(
       // 원본 이미지 영역
@@ -85,8 +90,8 @@ const ImageEditor = ({ file, onCropped }: ImageEditorProps) => {
       // 캔버스 영역
       0, // 캔버스에서 이미지 시작 x 좌표
       0, // 캔버스에서 이미지 시작 y 좌표
-      crop.width, // 캔버스에서 이미지의 가로 길이
-      crop.height //  캔버스에서 이미지의 세로 길이
+      crop.width * scaleX, // 캔버스에서 이미지의 가로 길이
+      crop.height * scaleY //  캔버스에서 이미지의 세로 길이
     );
 
     return new Promise((resolve, reject) => {
