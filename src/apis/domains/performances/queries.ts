@@ -1,5 +1,10 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
-import { BANK_TYPE, Cast, Staff } from "@pages/modifyManage/typings/gigInfo";
+import {
+  BANK_TYPE,
+  Cast,
+  PerformanceImageModifyRequest,
+  Staff,
+} from "@pages/modifyManage/typings/gigInfo";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -208,7 +213,7 @@ export interface PerformanceUpdateFormData {
   scheduleModifyRequests: Schedule[];
   castModifyRequests: Cast[];
   staffModifyRequests: Staff[];
-  //performanceImageModifyRequests : 는 나중에 ..
+  performanceImageModifyRequests: PerformanceImageModifyRequest[];
 }
 
 export const useUpdatePerformance = () => {

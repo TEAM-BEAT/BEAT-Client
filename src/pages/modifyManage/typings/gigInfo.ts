@@ -25,7 +25,7 @@ export interface Staff {
 }
 
 export interface PerformanceImageModifyRequest {
-  performanceImageId: number;
+  performanceImageId?: number;
   performanceImage: string;
 }
 

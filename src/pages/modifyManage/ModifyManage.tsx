@@ -1,6 +1,7 @@
 import {
   usePerformanceDelete,
   usePerformanceEdit,
+  usePostPerformance,
   useUpdatePerformance,
 } from "@apis/domains/performances/queries";
 
@@ -18,6 +19,8 @@ import {
   TimePicker,
 } from "@components/commons";
 
+import { PresignedResponse } from "@apis/domains/files/api";
+import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
 import { deletePerformance } from "@apis/domains/performances/api";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
@@ -131,6 +134,11 @@ const ModifyManage = () => {
   const { mutateAsync: updatePerformance } = useUpdatePerformance();
   const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
 
+  //presignedUrl을 받아오기 위한 배열
+  const [castImages, setCastImages] = useState<string[]>([]);
+  const [staffImages, setStaffImages] = useState<string[]>([]);
+  const [performanceImages, setPerformanceImages] = useState<string[]>([]);
+
   const [dataState, dispatch] = useReducer(reducer, initialState);
   const [modifyState, setModifyState] = useState<ModifyState>({
     modifyManageStep: 1,
@@ -212,6 +220,26 @@ const ModifyManage = () => {
     });
   }, [modifyState.modifyManageStep, modifyState.isBookerExist]);
 
+  //presignedUrl을 받아오기 위한 리스트 세팅
+  useEffect(() => {
+    setCastImages(
+      dataState.castModifyRequests.map((_, index) => `cast-${index + 1}-${new Date().getTime()}`)
+    );
+    setStaffImages(
+      dataState.staffModifyRequests.map((_, index) => `staff-${index + 1}-${new Date().getTime()}`)
+    );
+    setPerformanceImages(
+      dataState.performanceImageModifyRequests.map(
+        (_: PerformanceImageModifyRequest, index: number) =>
+          `performance-${index + 1}-${new Date().getTime()}`
+      )
+    );
+  }, [
+    dataState.castModifyRequests.length,
+    dataState.staffModifyRequests.length,
+    dataState.performanceImageModifyRequests.length,
+  ]);
+
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
   };
@@ -228,8 +256,64 @@ const ModifyManage = () => {
     dispatch({ type: "SET_DATA", payload: { ...newInfo } });
   };
 
+  //presigned를 get하기 위한 form
+  const getPresignedParams = {
+    posterImage: `poster-${new Date().getTime()}`,
+    castImages,
+    staffImages,
+    performanceImages,
+  };
+
+  const { data: S3data, refetch } = useGetPresignedUrl(getPresignedParams);
+  const { mutate: putS3 } = usePutS3Upload();
+  const { mutateAsync: postPerformance, isPending } = usePostPerformance();
+
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
+    const { data, isSuccess } = await refetch();
+    let posterUrls: string[];
+    let castUrls: string[];
+    let staffUrls: string[];
+    let performanceUrls: string[];
+
+    if (isPending) {
+      return;
+    } else if (isSuccess) {
+      const extractUrls = (data: PresignedResponse) => {
+        posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
+        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
+
+        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
+      };
+
+      const S3Urls = extractUrls(data);
+
+      const files = [
+        dataState.posterImage,
+        ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
+        ...dataState.staffModifyRequests.map((staff) => staff.staffPhoto),
+        ...dataState.performanceImageModifyRequests.map((obj) => obj.performanceImage),
+      ];
+
+      try {
+        const res = await Promise.all(
+          S3Urls.map(async (url, index) => {
+            const file = files[index];
+
+            const response = await fetch(file);
+            const blob = await response.blob();
+            const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
+
+            return putS3({ url, file: newFile });
+          })
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     const filteredCastModifyRequests = dataState.castModifyRequests.filter(
       (cast) => cast.castName || cast.castRole || cast.castPhoto
     );
@@ -237,20 +321,61 @@ const ModifyManage = () => {
       (staff) => staff.staffName || staff.staffRole || staff.staffPhoto
     );
 
-    console.log("완료버튼 실행중");
     try {
       console.log("수정 요청 보내는 형식:", {
         performanceId: Number(performanceId),
         ...dataState,
-        castModifyRequests: filteredCastModifyRequests,
-        staffModifyRequests: filteredstaffModifyRequests,
+        posterImage: posterUrls[0],
+        castModifyRequests: dataState.castModifyRequests.map((cast, index) => ({
+          ...cast,
+          castPhoto: castUrls[index] || cast.castPhoto,
+        })),
+        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
+          ...staff,
+          staffPhoto: staffUrls[index] || staff.staffPhoto,
+        })),
+        scheduleModifyRequests: dataState.scheduleModifyRequests.map((schedule) => {
+          const date = dayjs(schedule.performanceDate).toDate();
+          const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
+          const dateOffset = new Date(date.getTime() - offset);
+          return {
+            ...schedule,
+            performanceDate: dateOffset.toISOString(),
+          };
+        }),
+        performanceImageModifyRequests: dataState.performanceImageModifyRequests.map(
+          (image, index) => ({
+            performanceImage: performanceUrls[index] || image.performanceImage,
+          })
+        ),
       });
 
       const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
-        castModifyRequests: filteredCastModifyRequests,
-        staffModifyRequests: filteredstaffModifyRequests,
+        posterImage: posterUrls[0],
+        castModifyRequests: dataState.castModifyRequests.map((cast, index) => ({
+          ...cast,
+          castPhoto: castUrls[index] || cast.castPhoto,
+        })),
+        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
+          ...staff,
+          staffPhoto: staffUrls[index] || staff.staffPhoto,
+        })),
+        scheduleModifyRequests: dataState.scheduleModifyRequests.map((schedule) => {
+          const date = dayjs(schedule.performanceDate).toDate();
+          const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
+          const dateOffset = new Date(date.getTime() - offset);
+          return {
+            ...schedule,
+            performanceDate: dateOffset.toISOString(),
+          };
+        }),
+        performanceImageModifyRequests: dataState.performanceImageModifyRequests.map(
+          (image, index) => ({
+            performanceImage: performanceUrls[index] || image.performanceImage,
+          })
+        ),
       });
 
       openAlert({
@@ -432,6 +557,7 @@ const ModifyManage = () => {
                 handleImagesUpload(performanceImage, updateGigInfo)
               }
             />
+            <S.Divider />
             <InputModifyManageBox isDisabled={false} title="공연 소개">
               <TextArea
                 name="performanceDescription"

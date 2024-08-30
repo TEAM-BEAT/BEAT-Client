@@ -10,7 +10,7 @@ interface DetailImageProps {
 }
 
 interface PreviewImageList {
-  performanceImageId: number;
+  performanceImageId?: number;
   performanceImage: string;
 }
 
