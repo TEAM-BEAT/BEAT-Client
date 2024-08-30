@@ -9,12 +9,14 @@ export interface PresignedResponse {
   poster: ImageInterface;
   cast: ImageInterface;
   staff: ImageInterface;
+  performance: ImageInterface;
 }
 
 export interface GetPresignedUrlParams {
   posterImage: string;
   castImages: string[];
   staffImages: string[];
+  performanceImages: string[];
 }
 
 export const getPresignedUrl = async (
@@ -25,6 +27,7 @@ export const getPresignedUrl = async (
       ...params,
       castImages: params.castImages.length === 0 ? [""] : params.castImages,
       staffImages: params.staffImages.length === 0 ? [""] : params.staffImages,
+      performImages: params.performanceImages.length === 0 ? [""] : params.performanceImages,
     };
 
     const response: AxiosResponse<PresignedResponse> = await get("/files/presigned-url", {
@@ -39,7 +42,8 @@ export const getPresignedUrl = async (
         const modifiedQueryString = searchParams
           .toString()
           .replace(/castImages=%5B%5D/g, "castImages")
-          .replace(/staffImages=%5B%5D/g, "staffImages");
+          .replace(/staffImages=%5B%5D/g, "staffImages")
+          .replace(/performanceImages=%5B%5D/g, "performanceImages");
         return modifiedQueryString;
       },
     });

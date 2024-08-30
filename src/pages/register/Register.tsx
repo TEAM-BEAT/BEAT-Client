@@ -146,18 +146,25 @@ const Register = () => {
 
   const [castImages, setCastImages] = useState<string[]>([]);
   const [staffImages, setStaffImages] = useState<string[]>([]);
+  const [performanceImages, setPerformanceImages] = useState<string[]>([]);
 
   useEffect(() => {
     setCastImages(gigInfo.castList.map((_, index) => `cast-${index + 1}-${new Date().getTime()}`));
     setStaffImages(
       gigInfo.staffList.map((_, index) => `staff-${index + 1}-${new Date().getTime()}`)
     );
-  }, [gigInfo.castList.length, gigInfo.staffList.length]);
+    setPerformanceImages(
+      gigInfo.performanceImageList.map(
+        (_, index) => `performance-${index + 1}-${new Date().getTime()}`
+      )
+    );
+  }, [gigInfo.castList.length, gigInfo.staffList.length, gigInfo.performanceImageList.length]);
 
   const params = {
     posterImage: `poster-${new Date().getTime()}`,
     castImages,
     staffImages,
+    performanceImages,
   };
 
   const { data, refetch } = useGetPresignedUrl(params);
@@ -173,22 +180,24 @@ const Register = () => {
     let posterUrls;
     let castUrls;
     let staffUrls;
+    let performanceUrls;
 
     if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
         castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
         staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls];
+        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
       };
-
       const S3Urls = extractUrls(data);
 
       const files = [
         gigInfo.posterImage,
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
+        ...gigInfo.performanceImageList.map((image) => image.performanceImage),
       ];
 
       try {
@@ -225,8 +234,8 @@ const Register = () => {
             };
           }),
           bankName: bankInfo ? bankInfo : "NONE",
-          performanceImageList: gigInfo.performanceImageList.map((image) => ({
-            performanceImage: image.performanceImage,
+          performanceImageList: gigInfo.performanceImageList.map((image, index) => ({
+            performanceImage: performanceUrls[index] || image.performanceImage,
           })),
         };
         try {
@@ -284,6 +293,10 @@ const Register = () => {
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [registerStep]);
 
   const { setHeader } = useHeader();
 
