@@ -1,108 +1,114 @@
-import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
+import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import { Dispatch, SetStateAction } from "react";
 import SelectIcon from "../selectIcon/SelectIcon";
 import * as S from "./ManagerCard.styled";
 
 const ManagerCard = ({
-  deleteFormData,
-  setDeleteFormData,
-  isDeleteMode,
+  patchFormData,
+  setPatchFormData,
+  isEditMode,
   bookingId,
   isPaid,
-  isDetail,
   setPaid,
   bookername,
   purchaseTicketeCount,
   scheduleNumber,
   bookerPhoneNumber,
   createAt,
+  alreadyBookingConfirmed,
 }: {
-  deleteFormData: DeleteFormDataProps;
-  setDeleteFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
-  isDeleteMode: boolean;
+  patchFormData: PatchFormDataProps;
+  setPatchFormData: Dispatch<SetStateAction<PatchFormDataProps>>;
+  isEditMode: boolean;
   bookingId?: number;
-  isPaid?: boolean;
-  isDetail: boolean;
+  isPaid?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
   setPaid: () => void;
   bookername?: string;
   purchaseTicketeCount?: number;
   scheduleNumber?: string;
   bookerPhoneNumber?: string;
   createAt?: string;
+  alreadyBookingConfirmed: boolean;
 }) => {
-  //체크박스를 누를 시에, 현재 카드의 bookingId를 인자로 받아 해당 bookingId를 delete 요청을 보낼 formData에 포함시킴.
-  //만약 체크해제를 할 경우 삭제할 목록에 포함되어 있던 해당 bookingId를 삭제하는 로직 구현
-  //사용하기 위해서는 한번 더 감싸야 함.
   const handleCheckBox = (managerBookingId: number) => {
-    setDeleteFormData((prevFormData) => {
+    //삭제할 데이터 form에 추가하는 로직
+    setPatchFormData((prevFormData) => {
       const isAlreadyChecked = prevFormData.bookingList.some(
         (_bookingId) => _bookingId === managerBookingId
       );
+
       const updateBookingList = isAlreadyChecked
         ? prevFormData.bookingList.filter((_bookingId) => _bookingId !== managerBookingId)
         : [...prevFormData.bookingList, managerBookingId];
       return { ...prevFormData, bookingList: updateBookingList };
     });
+
+    //입금 여부 변경될 거 추가하는 로직
+    setPaid();
   };
 
   const date = createAt?.split("T")[0];
-  const formattedDate = date?.replace(/-/g, ".");
-  const convertingNumber = (scheduleNumberrr: string) => {
-    switch (scheduleNumberrr) {
+  const formattedDate = date?.replace(/-/g, ". ");
+  const convertingNumber = (_scheduleNumber: string) => {
+    switch (_scheduleNumber) {
       case "FIRST":
         return 1;
-        break;
       case "SECOND":
         return 2;
-        break;
       case "THIRD":
         return 3;
-        break;
+      case "FOURTH":
+        return 4;
+      case "FIFTH":
+        return 5;
+      case "SIXTH":
+        return 6;
+      case "SEVENTH":
+        return 7;
+      case "EIGHTH":
+        return 8;
+      case "NINTH":
+        return 9;
+      case "TENTH":
+        return 10;
       default:
-        console.log("error");
+        throw new Error("없는 회차");
     }
   };
 
   return (
-    <S.ManagerCardWrapper $isDetail={isDetail}>
-      {isDeleteMode && (
+    <S.ManagerCardWrapper>
+      {isEditMode && (
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
-          isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
+          isChecked={patchFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
+          alreadyBookingConfirmed={alreadyBookingConfirmed}
         />
       )}
-      <S.ManagerCardLayout $isDeleteMode={isDeleteMode} $isDetail={isDetail}>
+      <S.ManagerCardLayout $isEditMode={isEditMode}>
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
-            <S.ManagerCardTextTitle>이름</S.ManagerCardTextTitle>
             <S.ManagerCardTextContent>{bookername}</S.ManagerCardTextContent>
+            <S.ManagerCardTextContent>{`(${bookerPhoneNumber})`}</S.ManagerCardTextContent>
           </S.ManagerCardTextBox>
           <S.ManagerCardTextBox>
-            <S.ManagerCardTextTitle>매수</S.ManagerCardTextTitle>
-            <S.ManagerCardTextContent>{`${purchaseTicketeCount}매`}</S.ManagerCardTextContent>
+            <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber as string)}회차`}</S.ManagerCardTextContent>
+            <S.ManagerCardTextContent>{`/ ${purchaseTicketeCount}매`}</S.ManagerCardTextContent>
           </S.ManagerCardTextBox>
-          {
-            <S.ManagerCardDetailBox $isDetail={isDetail}>
-              <S.ManagerCardTextBox>
-                <S.ManagerCardTextTitle>회차</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber as string)}회차`}</S.ManagerCardTextContent>
-              </S.ManagerCardTextBox>
-              <S.ManagerCardTextBox>
-                <S.ManagerCardTextTitle>연락처</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{bookerPhoneNumber}</S.ManagerCardTextContent>
-              </S.ManagerCardTextBox>
-              <S.ManagerCardTextBox>
-                <S.ManagerCardTextTitle>예매일</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{formattedDate}</S.ManagerCardTextContent>
-              </S.ManagerCardTextBox>
-            </S.ManagerCardDetailBox>
-          }
+          <S.ManagerCardTextBox>
+            <S.ManagerCardTextTitle>{formattedDate}</S.ManagerCardTextTitle>
+          </S.ManagerCardTextBox>
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
-      <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid as boolean}>
-        <S.ManagerCardRadioBox $isDeleteMode={isDeleteMode} onClick={setPaid}>
-          {isDeleteMode ? <></> : isPaid ? <S.SelectedIcon /> : <S.UnselectedIcon />}
-          <S.ManagerCardRadioText>{isPaid ? "입금 완료" : "미입금"}</S.ManagerCardRadioText>
+      <S.ManagerCardRadioLayout>
+        <S.ManagerCardRadioBox $isEditMode={isEditMode}>
+          <S.ManagerCardRadioText $isPaid={isPaid === "BOOKING_CONFIRMED"}>
+            {isPaid === "BOOKING_CONFIRMED"
+              ? "입금 완료"
+              : isPaid === "CHECKING_PAYMENT"
+                ? "미입금"
+                : "예매 취소"}
+          </S.ManagerCardRadioText>
         </S.ManagerCardRadioBox>
       </S.ManagerCardRadioLayout>
     </S.ManagerCardWrapper>

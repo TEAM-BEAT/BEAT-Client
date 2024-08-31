@@ -45,24 +45,25 @@ const unrevealAnimation = keyframes`
   }
 `;
 
-export const ManagerCardWrapper = styled.article<{ $isDetail: boolean }>`
+export const ManagerCardWrapper = styled.article`
   display: flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
   width: 32.6rem;
-  max-height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  height: 10rem;
   padding-left: 0.4rem;
 `;
 
-export const ManagerCardLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
+export const ManagerCardLayout = styled.div<{ $isEditMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 1.6rem;
   align-items: flex-start;
-  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
-  height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  width: ${({ $isEditMode }) => ($isEditMode ? "22.2rem" : "25.2rem")};
+  height: 10rem;
+  margin-right: 0.2rem;
   padding: 1.6rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
@@ -80,6 +81,8 @@ export const ManagerCardBox = styled.div`
   align-self: stretch;
 `;
 
+/*
+언제 사용할 지 모르니까 주석으로 남겨둠
 export const ManagerCardDetailBox = styled.div<{ $isDetail: boolean }>`
   display: flex;
   flex-direction: column;
@@ -94,13 +97,16 @@ export const ManagerCardDetailBox = styled.div<{ $isDetail: boolean }>`
   animation: ${({ $isDetail }) => ($isDetail ? revealAnimation : unrevealAnimation)} 0.7s ease;
 `;
 
-export const ManagerCardDetailLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
+
+export const ManagerCardDetailLayout = styled.div<{ $isDetail: boolean; $isEditMode: boolean }>`
+
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 1.6rem;
   align-items: flex-start;
-  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
+  width: ${({ $isEditMode }) => ($isEditMode ? "22.2rem" : "25.2rem")};
+
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
   padding: 1.6rem;
 
@@ -109,43 +115,41 @@ export const ManagerCardDetailLayout = styled.div<{ $isDetail: boolean; $isDelet
   border-right: 1px solid ${({ theme }) => theme.colors.black};
   border-radius: 6px;
 `;
+*/
 
 export const ManagerCardTextBox = styled.div`
   display: flex;
-  gap: 2.2rem;
+  gap: 0.6rem;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 `;
 
 export const ManagerCardTextTitle = styled.span`
-  width: 3.7rem;
-
   color: ${({ theme }) => theme.colors.gray_400};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
+  white-space: nowrap;
 `;
 
 export const ManagerCardTextContent = styled.span`
-  width: 17.3rem;
-
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
+  white-space: nowrap;
 `;
 
-export const ManagerCardRadioLayout = styled.div<{ $isDetail: boolean; $isPaid: boolean }>`
+export const ManagerCardRadioLayout = styled.div`
   display: flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
   width: 7.4rem;
-  height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
+  height: 10rem;
   padding: 1.5rem 1.5rem 1.5rem 1.6rem;
 
-  background-color: ${({ theme, $isPaid }) =>
-    $isPaid ? theme.colors.pink_600 : theme.colors.gray_800};
+  background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 6px;
 `;
 
-export const ManagerCardRadioBox = styled.div<{ $isDeleteMode: boolean }>`
+export const ManagerCardRadioBox = styled.div<{ $isEditMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -153,7 +157,7 @@ export const ManagerCardRadioBox = styled.div<{ $isDeleteMode: boolean }>`
   align-items: center;
   width: 4.3rem;
 
-  cursor: ${({ $isDeleteMode }) => ($isDeleteMode ? "default" : "pointer")};
+  cursor: ${({ $isEditMode }) => ($isEditMode ? "default" : "pointer")};
 `;
 
 export const SelectedIcon = styled(IconCheckboxSelectedOn)`
@@ -166,9 +170,9 @@ export const UnselectedIcon = styled(IconCheckboxUnselectedOn)`
   height: 1.8rem;
 `;
 
-export const ManagerCardRadioText = styled.span`
-  color: ${({ theme }) => theme.colors.white};
+export const ManagerCardRadioText = styled.span<{ $isPaid }>`
+  color: ${({ theme, $isPaid }) => ($isPaid ? theme.colors.pink_400 : theme.colors.gray_300)};
   text-align: center;
 
-  ${({ theme }) => theme.fonts["caption1-semi"]};
+  ${({ theme }) => theme.fonts["caption2-semi"]};
 `;

@@ -1,9 +1,9 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
+import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import {
-  deleteTicketDelete,
   getTicketReq,
   getTicketRetrieve,
+  patchTicketCancel,
   putTicketUpdate,
   TicketUpdateRequest,
 } from "./api";
@@ -37,12 +37,12 @@ export const useTicketUpdate = () => {
   });
 };
 
-// 예매자의 정보를 삭제하는 API (DELETE)를 위한 쿼리 작성
-export const useTicketDelete = () => {
+// 예매자를 취소하는 API (PATCH)를 위한 쿼리 작성
+export const useTicketPatch = () => {
   const queryClient = new QueryClient();
 
   return useMutation({
-    mutationFn: (formData: DeleteFormDataProps) => deleteTicketDelete(formData),
+    mutationFn: (formData: PatchFormDataProps) => patchTicketCancel(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
       queryClient.refetchQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });

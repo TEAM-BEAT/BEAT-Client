@@ -1,5 +1,10 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
-import { BANK_TYPE, Cast, Staff } from "@pages/modifyManage/typings/gigInfo";
+import {
+  BANK_TYPE,
+  Cast,
+  PerformanceImageModifyRequest,
+  Staff,
+} from "@pages/modifyManage/typings/gigInfo";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -189,7 +194,6 @@ interface Schedule {
 
 // gigInfo 타입 정의 예제
 export interface PerformanceUpdateFormData {
-  accountHolder: string;
   performanceId: number;
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
@@ -198,16 +202,18 @@ export interface PerformanceUpdateFormData {
   performanceAttentionNote: string;
   bankName: BANK_TYPE;
   accountNumber: string;
+  accountHolder: string;
   posterImage: string;
   performanceTeamName: string;
   performanceVenue: string;
   performanceContact: string;
   performancePeriod: string;
-  ticketPrice?: number | null;
   totalScheduleCount: number;
-  scheduleList: Schedule[];
-  castList: Cast[];
-  staffList: Staff[];
+  ticketPrice?: number | null;
+  scheduleModifyRequests: Schedule[];
+  castModifyRequests: Cast[];
+  staffModifyRequests: Staff[];
+  performanceImageModifyRequests: PerformanceImageModifyRequest[];
 }
 
 export const useUpdatePerformance = () => {

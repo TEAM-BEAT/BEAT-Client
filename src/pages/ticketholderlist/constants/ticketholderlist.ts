@@ -5,7 +5,7 @@ export interface BookingListProps {
   scheduleId?: number;
   purchaseTicketCount?: number;
   createdAt?: string;
-  isPaymentCompleted?: boolean;
+  bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
   scheduleNumber?: string;
 }
 

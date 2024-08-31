@@ -1,9 +1,9 @@
-import Spacing from "@components/commons/spacing/Spacing";
-import * as S from "../Register.styled";
-import TextField from "@components/commons/input/textField/TextField";
 import { IconCamera } from "@assets/svgs";
-import { ChangeEvent, useState } from "react";
+import TextField from "@components/commons/input/textField/TextField";
+import Spacing from "@components/commons/spacing/Spacing";
 import { nameFilter } from "@utils/useInputFilter";
+import { ChangeEvent, useState } from "react";
+import * as S from "../Register.styled";
 import ImageEditor from "@components/commons/imageEditor/ImageEditor";
 
 interface Role {
