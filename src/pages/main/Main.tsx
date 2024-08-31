@@ -59,17 +59,6 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `${import.meta.env.VITE_CLIENT_URL}/deployLoading.js`;
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script); // 컴포넌트 언마운트 시 스크립트 제거
-    };
-  }, []);
-
   if (isLoading) {
     return <Loading />;
   }
