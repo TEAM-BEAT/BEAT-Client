@@ -20,6 +20,7 @@ export const Title = styled.h1`
 
 export const Description = styled.pre`
   width: 32.7rem;
+
   ${({ theme }) => theme.fonts["body2-long"]};
   color: ${({ theme }) => theme.colors.white};
   white-space: pre-line;
@@ -57,12 +58,12 @@ export const Toggle = styled.span`
 `;
 
 export const Contact = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
   padding: 1.2rem 1.2rem 1.2rem 0;
   text-decoration-line: underline;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 
   color: ${({ theme }) => theme.colors.white};
 

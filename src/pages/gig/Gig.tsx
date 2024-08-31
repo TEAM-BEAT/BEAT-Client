@@ -62,7 +62,7 @@ const Gig = () => {
     return <Loading />;
   }
 
-  if (!data) {
+  if (!isLoading && !data) {
     return <NotFound />;
   }
 
@@ -88,6 +88,7 @@ const Gig = () => {
       />
       <Content
         description={data?.performanceDescription ?? ""}
+        performanceImageList={data?.performanceImageList ?? []}
         attentionNote={data?.performanceAttentionNote ?? ""}
         contact={data?.performanceContact ?? ""}
         teamName={data?.performanceTeamName ?? ""}
