@@ -6,7 +6,7 @@ import * as S from "./ManagerCard.styled";
 const ManagerCard = ({
   deleteFormData,
   setDeleteFormData,
-  isDeleteMode,
+  isEditMode,
   bookingId,
   isPaid,
   setPaid,
@@ -18,9 +18,9 @@ const ManagerCard = ({
 }: {
   deleteFormData: DeleteFormDataProps;
   setDeleteFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
-  isDeleteMode: boolean;
+  isEditMode: boolean;
   bookingId?: number;
-  isPaid?: boolean;
+  isPaid?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
   setPaid: () => void;
   bookername?: string;
   purchaseTicketeCount?: number;
@@ -28,19 +28,21 @@ const ManagerCard = ({
   bookerPhoneNumber?: string;
   createAt?: string;
 }) => {
-  //체크박스를 누를 시에, 현재 카드의 bookingId를 인자로 받아 해당 bookingId를 delete 요청을 보낼 formData에 포함시킴.
-  //만약 체크해제를 할 경우 삭제할 목록에 포함되어 있던 해당 bookingId를 삭제하는 로직 구현
-  //사용하기 위해서는 한번 더 감싸야 함.
   const handleCheckBox = (managerBookingId: number) => {
+    //삭제할 데이터 form에 추가하는 로직
     setDeleteFormData((prevFormData) => {
       const isAlreadyChecked = prevFormData.bookingList.some(
         (_bookingId) => _bookingId === managerBookingId
       );
+
       const updateBookingList = isAlreadyChecked
         ? prevFormData.bookingList.filter((_bookingId) => _bookingId !== managerBookingId)
         : [...prevFormData.bookingList, managerBookingId];
       return { ...prevFormData, bookingList: updateBookingList };
     });
+
+    //입금 여부 변경될 거 추가하는 로직
+    setPaid();
   };
 
   const date = createAt?.split("T")[0];
@@ -49,34 +51,24 @@ const ManagerCard = ({
     switch (_scheduleNumber) {
       case "FIRST":
         return 1;
-        break;
       case "SECOND":
         return 2;
-        break;
       case "THIRD":
         return 3;
-        break;
       case "FOURTH":
         return 4;
-        break;
       case "FIFTH":
         return 5;
-        break;
       case "SIXTH":
         return 6;
-        break;
       case "SEVENTH":
         return 7;
-        break;
       case "EIGHTH":
         return 8;
-        break;
       case "NINTH":
         return 9;
-        break;
       case "TENTH":
         return 10;
-        break;
       default:
         throw new Error("없는 회차");
     }
@@ -84,13 +76,13 @@ const ManagerCard = ({
 
   return (
     <S.ManagerCardWrapper>
-      {isDeleteMode && (
+      {isEditMode && (
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
           isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
         />
       )}
-      <S.ManagerCardLayout $isDeleteMode={isDeleteMode}>
+      <S.ManagerCardLayout $isEditMode={isEditMode}>
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
             <S.ManagerCardTextContent>{bookername}</S.ManagerCardTextContent>
@@ -106,9 +98,11 @@ const ManagerCard = ({
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
       <S.ManagerCardRadioLayout>
-        <S.ManagerCardRadioBox $isDeleteMode={isDeleteMode} onClick={setPaid}>
+        <S.ManagerCardRadioBox $isEditMode={isEditMode}>
           <S.ManagerCardRadioText $isPaid={isPaid}>
-            {isPaid ? "입금 완료" : "미입금"}
+            {isPaid === "BOOKING_CONFIRMED"
+              ? "입금 완료"
+              : isPaid === "CHECKING_PAYMENT" && "미입금"}
           </S.ManagerCardRadioText>
         </S.ManagerCardRadioBox>
       </S.ManagerCardRadioLayout>

@@ -5,9 +5,11 @@ interface DropdownProps {
   children: ReactNode;
   totalScheduleCount: number;
   schedule: number;
-  payment: boolean | undefined;
+  payment: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | undefined;
   setSchedule?: (param: number) => void;
-  setPayment?: (param: boolean | undefined) => void;
+  setPayment?: (
+    param: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | undefined
+  ) => void;
 }
 
 const NarrowDropDown = ({
@@ -68,13 +70,13 @@ const NarrowDropDown = ({
       };
 
       const handlePaymentFalse = () => {
-        setPayment?.(false);
+        setPayment?.("CHECKING_PAYMENT");
         setIsOneChoosed(true);
         setShowDropdown(false);
       };
 
       const handlePaymentTrue = () => {
-        setPayment?.(true);
+        setPayment?.("BOOKING_CONFIRMED");
         setIsOneChoosed(true);
         setShowDropdown(false);
       };
@@ -91,12 +93,16 @@ const NarrowDropDown = ({
 
       items.push(
         <S.DropdownContentButton key={"dropdown-1"} $isLast={false} onClick={handlePaymentFalse}>
-          <S.DropdownContentText $selected={payment === false}>미입금</S.DropdownContentText>
+          <S.DropdownContentText $selected={payment === "CHECKING_PAYMENT"}>
+            미입금
+          </S.DropdownContentText>
         </S.DropdownContentButton>
       );
       items.push(
         <S.DropdownContentButton key={"dropdown-2"} $isLast={true} onClick={handlePaymentTrue}>
-          <S.DropdownContentText $selected={payment === true}>입금완료</S.DropdownContentText>
+          <S.DropdownContentText $selected={payment === "BOOKING_CONFIRMED"}>
+            입금완료
+          </S.DropdownContentText>
         </S.DropdownContentButton>
       );
     }

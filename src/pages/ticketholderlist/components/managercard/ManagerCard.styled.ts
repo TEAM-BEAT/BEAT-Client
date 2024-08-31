@@ -55,13 +55,13 @@ export const ManagerCardWrapper = styled.article`
   padding-left: 0.4rem;
 `;
 
-export const ManagerCardLayout = styled.div<{ $isDeleteMode: boolean }>`
+export const ManagerCardLayout = styled.div<{ $isEditMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 1.6rem;
   align-items: flex-start;
-  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
+  width: ${({ $isEditMode }) => ($isEditMode ? "22.2rem" : "25.2rem")};
   height: 10rem;
   margin-right: 0.2rem;
   padding: 1.6rem;
@@ -98,13 +98,15 @@ export const ManagerCardDetailBox = styled.div<{ $isDetail: boolean }>`
 `;
 
 
-export const ManagerCardDetailLayout = styled.div<{ $isDetail: boolean; $isDeleteMode: boolean }>`
+export const ManagerCardDetailLayout = styled.div<{ $isDetail: boolean; $isEditMode: boolean }>`
+
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 1.6rem;
   align-items: flex-start;
-  width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
+  width: ${({ $isEditMode }) => ($isEditMode ? "22.2rem" : "25.2rem")};
+
   height: ${({ $isDetail }) => ($isDetail ? "14.6rem" : "7.4rem")};
   padding: 1.6rem;
 
@@ -147,7 +149,7 @@ export const ManagerCardRadioLayout = styled.div`
   border-radius: 6px;
 `;
 
-export const ManagerCardRadioBox = styled.div<{ $isDeleteMode: boolean }>`
+export const ManagerCardRadioBox = styled.div<{ $isEditMode: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -155,7 +157,7 @@ export const ManagerCardRadioBox = styled.div<{ $isDeleteMode: boolean }>`
   align-items: center;
   width: 4.3rem;
 
-  cursor: ${({ $isDeleteMode }) => ($isDeleteMode ? "default" : "pointer")};
+  cursor: ${({ $isEditMode }) => ($isEditMode ? "default" : "pointer")};
 `;
 
 export const SelectedIcon = styled(IconCheckboxSelectedOn)`

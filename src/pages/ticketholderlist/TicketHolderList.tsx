@@ -25,18 +25,19 @@ const TicketHolderList = () => {
 
   // 0, undefined 일 때는 전체 렌더링 (필터링을 위한 state들)
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
-  const [payment, setPayment] = useState<boolean | undefined>(undefined);
+  const [payment, setPayment] = useState<
+    "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | undefined
+  >(undefined);
 
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const { data, isLoading } = useTicketRetrive({ performanceId: Number(performanceId) });
-  const [responseData, setResponseData] = useState<BookingListProps[]>();
+  const [paymentData, setPaymentData] = useState<BookingListProps[]>();
   const { showToast, isToastVisible } = useToast();
 
   useEffect(() => {
-    setResponseData(data?.bookingList ?? []);
+    setPaymentData(data?.bookingList ?? []);
   }, [data]);
-  const [putFormData, setPutFormData] = useState();
 
   const { openConfirm, closeConfirm } = useModal();
   const { mutate, mutateAsync } = useTicketUpdate();
@@ -50,14 +51,17 @@ const TicketHolderList = () => {
       performanceId: Number(performanceId),
       performanceTitle: data?.performanceTitle,
       totalScheduleCount: data?.totalScheduleCount,
-      bookingList: responseData,
+      bookingList: paymentData,
     });
     closeConfirm();
     showToast();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
-  const handleFixSaveBtn = () => {
+  const handlePaymentFixBtn = () => {
     openConfirm({
-      title: "입급 상태를 저장하시겠어요?",
+      title: "선택한 게스트를 입금 처리하겠습니까?",
       subTitle: "입금 완료로 변경된 예매자에게\n 입금 확인 완료 웹발신이 발송돼요.",
       okText: "저장할게요",
       noText: "아니요",
@@ -72,7 +76,6 @@ const TicketHolderList = () => {
   });
 
   const handleBookerDeleteAxiosFunc = async () => {
-    //나중에 DELETE api 요청 작성할 예정
     await deleteMutateAsync(deleteFormData);
 
     console.log("삭제요청 보냄");
@@ -111,7 +114,7 @@ const TicketHolderList = () => {
   const { setHeader } = useHeader();
 
   const handleCloseButton = () => {
-    setIsDeleteMode(false);
+    setIsEditMode(false);
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 관리",
@@ -122,7 +125,7 @@ const TicketHolderList = () => {
   };
 
   const handleEditButton = () => {
-    setIsDeleteMode(true);
+    setIsEditMode(true);
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 편집",
@@ -146,7 +149,7 @@ const TicketHolderList = () => {
 
   //최대 10회차로 렌더링 될 수 있도록 변경 필요
   //schedule ===0 -> 전체 회차, payment === undefined -> 전체 입금 여부
-  const filteredData = responseData?.filter((obj) => {
+  const filteredData = paymentData?.filter((obj) => {
     const isScheduleMatched =
       schedule === 0 ||
       (obj.scheduleNumber === "FIRST" && schedule === 1) ||
@@ -159,7 +162,7 @@ const TicketHolderList = () => {
       (obj.scheduleNumber === "EIGHTH" && schedule === 8) ||
       (obj.scheduleNumber === "NINTH" && schedule === 9) ||
       (obj.scheduleNumber === "TENTH" && schedule === 10);
-    const isPaymentMatched = payment === undefined || payment === obj.isPaymentCompleted;
+    const isPaymentMatched = payment === undefined || payment === obj.bookingStatus;
 
     return isScheduleMatched && isPaymentMatched;
   });
@@ -172,14 +175,12 @@ const TicketHolderList = () => {
     setReservedCount(totalCount);
   }, [filteredData]);
 
-  //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
-  const handlePaymentToggle = (isDeleteModeee: boolean, bookingId?: number) => {
-    if (!isDeleteModeee) {
-      setResponseData((arr) =>
+  const handlePaymentToggle = (_isEditMode: boolean, bookingId?: number) => {
+    //Edit(편집) 모드 일때만 바뀌도록
+    if (_isEditMode) {
+      setPaymentData((arr) =>
         arr?.map((item) =>
-          item.bookingId === bookingId
-            ? { ...item, isPaymentCompleted: !item.isPaymentCompleted }
-            : item
+          item.bookingId === bookingId ? { ...item, bookingStatus: item.bookingStatus } : item
         )
       );
     }
@@ -226,10 +227,10 @@ const TicketHolderList = () => {
                   key={`managerCard-${index}`}
                   deleteFormData={deleteFormData}
                   setDeleteFormData={setDeleteFormData}
-                  isDeleteMode={isDeleteMode}
+                  isEditMode={isEditMode}
                   bookingId={obj.bookingId}
-                  isPaid={obj.isPaymentCompleted}
-                  setPaid={() => handlePaymentToggle(isDeleteMode, obj.bookingId)}
+                  isPaid={obj.bookingStatus}
+                  setPaid={() => handlePaymentToggle(isEditMode, obj.bookingId)}
                   bookername={obj.bookerName}
                   purchaseTicketeCount={obj.purchaseTicketCount}
                   scheduleNumber={obj.scheduleNumber}
@@ -238,14 +239,14 @@ const TicketHolderList = () => {
                 />
               ))}
 
-              {isDeleteMode ? (
+              {isEditMode ? (
                 <S.FooterButtonWrapper>
                   <S.FooterButtonText>저장 후, 입금 상태 재변경은 불가능합니다.</S.FooterButtonText>
                   <S.TwoButtonWrapper>
                     <Button size={"medium"} variant={"gray"} onClick={handleDeleteBtn}>
                       예매자 삭제하기
                     </Button>
-                    <Button size={"medium"} onClick={() => console.log("입금처리 로직 구현 예정")}>
+                    <Button size={"medium"} onClick={handlePaymentFixBtn}>
                       입금 처리하기
                     </Button>
                   </S.TwoButtonWrapper>
