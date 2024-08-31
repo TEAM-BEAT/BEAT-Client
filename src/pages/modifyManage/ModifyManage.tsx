@@ -826,6 +826,7 @@ const ModifyManage = () => {
                     staffId: index + 1,
                   })) as Staff[])
             }
+            performanceImageList={dataState.performanceImageModifyRequests}
           />
           <S.FooterContainer>
             <Button onClick={handleComplete}>완료하기</Button>
