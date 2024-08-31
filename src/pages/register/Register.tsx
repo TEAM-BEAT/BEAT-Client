@@ -421,9 +421,9 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
-          <StepperRegisterBox title="회차 수" description="최대 3회차">
+          <StepperRegisterBox title="회차 수" description="최대 10회차">
             <Stepper
-              max={3}
+              max={10}
               round={totalScheduleCount}
               onMinusClick={() => onMinusClick(setGigInfo)}
               onPlusClick={() => onPlusClick(setGigInfo)}
