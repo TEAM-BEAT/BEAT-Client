@@ -61,7 +61,7 @@ const Main = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `${import.meta.env.VITE_CLIENT_URL}/deployLoading.ts`;
+    script.src = `${import.meta.env.VITE_CLIENT_URL}/deployLoading.js`;
     script.async = true;
     document.body.appendChild(script);
 
