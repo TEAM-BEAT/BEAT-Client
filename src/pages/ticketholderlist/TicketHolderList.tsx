@@ -101,8 +101,8 @@ const TicketHolderList = () => {
 
   const handleBookerPatchAxiosFunc = async () => {
     await patchMutateAsync(patchFormData);
+    window.location.reload();
 
-    console.log("패치요청 보냄");
     closeConfirm();
 
     //window.location.reload();
