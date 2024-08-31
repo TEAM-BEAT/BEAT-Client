@@ -15,6 +15,7 @@ const ManagerCard = ({
   scheduleNumber,
   bookerPhoneNumber,
   createAt,
+  alreadyBookingConfirmed,
 }: {
   deleteFormData: DeleteFormDataProps;
   setDeleteFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
@@ -27,6 +28,7 @@ const ManagerCard = ({
   scheduleNumber?: string;
   bookerPhoneNumber?: string;
   createAt?: string;
+  alreadyBookingConfirmed: boolean;
 }) => {
   const handleCheckBox = (managerBookingId: number) => {
     //삭제할 데이터 form에 추가하는 로직
@@ -80,6 +82,7 @@ const ManagerCard = ({
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
           isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
+          alreadyBookingConfirmed={alreadyBookingConfirmed}
         />
       )}
       <S.ManagerCardLayout $isEditMode={isEditMode}>

@@ -33,10 +33,23 @@ const TicketHolderList = () => {
 
   const { data, isLoading } = useTicketRetrive({ performanceId: Number(performanceId) });
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
+  const [alreadyPayments, setAlreadyPayments] = useState<Record<number, boolean>>({});
   const { showToast, isToastVisible } = useToast();
 
   useEffect(() => {
     setPaymentData(data?.bookingList ?? []);
+
+    if (data?.bookingList) {
+      const immutableAlreadyPayments = data.bookingList.reduce(
+        (acc, item) => {
+          acc[item.bookingId] = item.bookingStatus === "BOOKING_CONFIRMED";
+          return acc;
+        },
+        {} as Record<number, boolean>
+      );
+
+      setAlreadyPayments(immutableAlreadyPayments);
+    }
   }, [data]);
 
   const { openConfirm, closeConfirm } = useModal();
@@ -180,7 +193,16 @@ const TicketHolderList = () => {
     if (_isEditMode) {
       setPaymentData((arr) =>
         arr?.map((item) =>
-          item.bookingId === bookingId ? { ...item, bookingStatus: item.bookingStatus } : item
+          item.bookingId === bookingId
+            ? {
+                ...item,
+                //예매 확정(입금 완료) <-> 입금 확인 중(미입금) 변경되도록
+                bookingStatus:
+                  item.bookingStatus === "BOOKING_CONFIRMED"
+                    ? "CHECKING_PAYMENT"
+                    : "BOOKING_CONFIRMED",
+              }
+            : item
         )
       );
     }
@@ -236,6 +258,7 @@ const TicketHolderList = () => {
                   scheduleNumber={obj.scheduleNumber}
                   bookerPhoneNumber={obj.bookerPhoneNumber}
                   createAt={obj.createdAt}
+                  alreadyBookingConfirmed={alreadyPayments[obj.bookingId]}
                 />
               ))}
 
