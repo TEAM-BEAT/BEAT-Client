@@ -43,6 +43,7 @@ export const CloseIcon = styled(ButtonDelete24)`
 
 export const ModalContent = styled.img`
   max-width: 37rem;
+  max-height: 100%;
 `;
 
 export const Title = styled.h1`
