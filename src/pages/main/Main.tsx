@@ -68,7 +68,7 @@ const Main = () => {
     };
 
     removeElement();
-  }, []);
+  }, [isLoading]);
 
   if (isLoading) {
     return <Loading />;
