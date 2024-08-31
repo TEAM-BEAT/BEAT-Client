@@ -20,8 +20,14 @@ export type StaffListType = {
   staffPhoto?: string;
 };
 
+export interface PerformanceImageList {
+  performanceImageId?: number;
+  performanceImage?: string;
+}
+
 interface ContentProps {
   description: string;
+  performanceImageList: PerformanceImageList[];
   attentionNote: string;
   contact: string;
   teamName: string;
@@ -31,6 +37,7 @@ interface ContentProps {
 
 const Content = ({
   description,
+  performanceImageList,
   attentionNote,
   contact,
   teamName,
@@ -50,6 +57,7 @@ const Content = ({
         {activeTab === TAB_TYPE.PERFORMANCE && (
           <PerformanceIntroduce
             description={description}
+            performanceImageList={performanceImageList}
             attentionNote={attentionNote}
             contact={contact}
           />

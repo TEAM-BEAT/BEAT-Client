@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { IconArrowRight } from "@assets/svgs";
+import { DefaultDepositProps } from "@constants/bookingStatus";
 
 export const LookupCardWrapper = styled.section`
   display: flex;
@@ -91,18 +92,26 @@ export const DepositLayout = styled.section`
   justify-content: center;
 `;
 
-export const CheckingDeposit = styled.div`
+export const CheckingDeposit = styled.div<DefaultDepositProps>`
   display: flex;
+  ${({ $status }) => {
+    switch ($status) {
+      case "CHECKING_PAYMENT":
+        return css`
+          color: ${({ theme }) => theme.colors.yellow_400};
+        `;
+      case "BOOKING_CONFIRMED":
+        return css`
+          color: ${({ theme }) => theme.colors.green};
+        `;
+      case "BOOKING_CANCELLED":
+        return css`
+          color: ${({ theme }) => theme.colors.red};
+        `;
+    }
+  }}
 
   ${({ theme }) => theme.fonts["caption2-medi"]};
-  color: ${({ theme }) => theme.colors.red};
-`;
-
-export const CheckedDeposit = styled.div`
-  display: flex;
-
-  ${({ theme }) => theme.fonts["caption2-medi"]};
-  color: ${({ theme }) => theme.colors.green};
 `;
 
 export const AccountLayout = styled.button`

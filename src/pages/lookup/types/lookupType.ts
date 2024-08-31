@@ -15,7 +15,7 @@ export interface LookupProps {
   accountNumber: string;
   accountHolder: string;
   dueDate: number;
-  isPaymentCompleted: boolean;
+  bookingStatus: string;
   createdAt: string;
   posterImage: string;
   totalPaymentAmount: number;
