@@ -128,6 +128,13 @@ const TicketHolderList = () => {
 
   const handleCloseButton = () => {
     setIsEditMode(false);
+
+    //원 상태도 되돌림 (입금 여부 수정, 삭제용 체크)
+    setPaymentData(data?.bookingList ?? []);
+    setDeleteFormData({
+      performanceId: Number(performanceId),
+      bookingList: [],
+    });
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 관리",

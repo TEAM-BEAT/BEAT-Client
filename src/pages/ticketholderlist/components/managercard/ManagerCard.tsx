@@ -102,10 +102,8 @@ const ManagerCard = ({
       </S.ManagerCardLayout>
       <S.ManagerCardRadioLayout>
         <S.ManagerCardRadioBox $isEditMode={isEditMode}>
-          <S.ManagerCardRadioText $isPaid={isPaid}>
-            {isPaid === "BOOKING_CONFIRMED"
-              ? "입금 완료"
-              : isPaid === "CHECKING_PAYMENT" && "미입금"}
+          <S.ManagerCardRadioText $isPaid={isPaid === "BOOKING_CONFIRMED"}>
+            {isPaid === "BOOKING_CONFIRMED" ? "입금 완료" : "미입금"}
           </S.ManagerCardRadioText>
         </S.ManagerCardRadioBox>
       </S.ManagerCardRadioLayout>
