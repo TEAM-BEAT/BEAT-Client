@@ -59,6 +59,17 @@ const Main = () => {
     }
   };
 
+  useEffect(() => {
+    const removeElement = () => {
+      const element = document.querySelector(".deploy-loading");
+      if (element) {
+        element.remove();
+      }
+    };
+
+    removeElement();
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -71,10 +82,8 @@ const Main = () => {
           width: "100vw", // 100% 너비
           height: "100vh", // 100% 높이
           zIndex: 1000, // z-index 값
-          position: "fixed", // 화면에 고정
           top: 0, // 상단 고정
           left: 0, // 좌측 고정
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // 반투명 배경
           display: "flex", // 플렉스 박스 사용
           justifyContent: "center", // 가로 중앙 정렬
           alignItems: "center", // 세로 중앙 정렬
