@@ -238,18 +238,17 @@ const Register = () => {
             performanceImage: performanceUrls[index] || image.performanceImage,
           })),
         };
+        console.log(formData);
         try {
           await postPerformance(formData);
         } catch (err) {
-          if (err.response && err.response.status === 401) {
-            openAlert({
-              title: "로그인 세션이 만료되었습니다.\n 다시 로그인 후 시도해주세요.",
-            });
-          } else {
-            openAlert({
-              title: "공연 등록을 실패했습니다.\n 다시 시도해주세요.",
-            });
-          }
+          console.error("공연 등록 오류:", err);
+          const errorMessage =
+            err?.response?.status === 401
+              ? "로그인 세션이 만료되었습니다.\n 다시 로그인 후 시도해주세요."
+              : "공연 등록을 실패했습니다.\n 다시 시도해주세요.";
+
+          openAlert({ title: errorMessage });
         }
       } catch (err) {
         console.error("파일 업로드 중 오류 발생:", err);
