@@ -5248,6 +5248,7 @@ __metadata:
     react-components: "npm:^0.5.1"
     react-dom: "npm:^18.3.1"
     react-helmet-async: "npm:^2.0.5"
+    react-image-crop: "npm:^11.0.6"
     react-lottie-player: "npm:^2.0.0"
     react-router-dom: "npm:^6.24.0"
     shelljs: "npm:^0.8.5"
@@ -11238,6 +11239,15 @@ __metadata:
   peerDependencies:
     react: ^16.6.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/f390ea8bf13c2681850e5f8eb5b73d8613f407c245a5fd23e9db9b2cc14a3700dd1ce992d3966632886d1d613083294c2aeee009193f49dfa7d145d9f13ea2b0
+  languageName: node
+  linkType: hard
+
+"react-image-crop@npm:^11.0.6":
+  version: 11.0.6
+  resolution: "react-image-crop@npm:11.0.6"
+  peerDependencies:
+    react: ">=16.13.1"
+  checksum: 10c0/8b3bfbfdb34938e16f224090194ad42a72a6265d01980c2525cfdaf1afee0b711e6f457caa854938ef8c68940f15a8f32cad1c2e6440dd75625611f867b385d7
   languageName: node
   linkType: hard
 
