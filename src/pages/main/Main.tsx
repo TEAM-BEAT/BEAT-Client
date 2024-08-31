@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Main.styled";
 
 import Loading from "@components/commons/loading/Loading";
@@ -59,25 +59,39 @@ const Main = () => {
     }
   };
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `${import.meta.env.VITE_CLIENT_URL}/deployLoading.ts`;
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script); // 컴포넌트 언마운트 시 스크립트 제거
+    };
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <S.MainWrapper>
-      {/* <button style={{ color: "white" }} onClick={onClickHi}>
+    <>
+      <div className="deploy-loading" />
+      <S.MainWrapper>
+        {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
           </button>
           <button style={{ color: "white" }} onClick={onClickHello}>
             헬로 테스트
           </button> */}
-      <MainNavigation />
-      <Carousel promotionList={data?.promotionList ?? []} />
-      <Chips handleGenre={handleGenre} />
-      <Floating />
-      <Performance genre={genre} performanceList={data?.performanceList ?? []} />
-      <Footer />
-    </S.MainWrapper>
+        <MainNavigation />
+        <Carousel promotionList={data?.promotionList ?? []} />
+        <Chips handleGenre={handleGenre} />
+        <Floating />
+        <Performance genre={genre} performanceList={data?.performanceList ?? []} />
+        <Footer />
+      </S.MainWrapper>
+    </>
   );
 };
 
