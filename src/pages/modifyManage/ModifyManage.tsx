@@ -32,9 +32,9 @@ import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFi
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import DetailImage from "./components/DetailImage";
 import GenreSelect from "./components/GenreSelect";
 import InputModifyManageBox from "./components/InputModifyManage";
+import ModifyDetailImage from "./components/ModifyDetailImage";
 import PosterThumbnail from "./components/PosterThumbnail";
 import StepperModifyManageBox from "./components/StepperModifyManageBox";
 import TimePickerModifyManageBox from "./components/TimePickerModifyManageBox";
@@ -421,7 +421,8 @@ const ModifyManage = () => {
         },
       });
     } else {
-      dispatch({ type: "SET_FIELD", field: "ticketPrice", value: null });
+      //캐싱될 경우 값이 제대로 안옴 -> 주석 처리 하니 해결 (todo: 리팩토링)
+      //dispatch({ type: "SET_FIELD", field: "ticketPrice", value: dataState.ticketPrice });
     }
   }, [modifyState.isFree]);
 
@@ -559,7 +560,7 @@ const ModifyManage = () => {
               />
             </InputModifyManageBox>
             <S.Divider />
-            <DetailImage
+            <ModifyDetailImage
               value={dataState.performanceImageModifyRequests}
               onImagesUpload={(performanceImage) =>
                 handleImagesUpload(performanceImage, updateGigInfo)

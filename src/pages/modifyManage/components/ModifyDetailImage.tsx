@@ -1,8 +1,8 @@
 import { IconCamera } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
 import { ChangeEvent, useEffect, useState } from "react";
+import useModal from "../../../hooks/useModal";
 import * as S from "../ModifyManage.styled";
-import useModal from "./../../../hooks/useModal";
 
 interface DetailImageProps {
   value?: PreviewImageList[] | undefined;
@@ -14,7 +14,7 @@ interface PreviewImageList {
   performanceImage: string;
 }
 
-const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
+const ModifyDetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
   const { openAlert } = useModal();
   const [previewImgs, setPreviewImgs] = useState<PreviewImageList[] | null>(value || null);
   const [inputKey, setInputKey] = useState<number>(Date.now());
@@ -107,4 +107,4 @@ const DetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
   );
 };
 
-export default DetailImage;
+export default ModifyDetailImage;
