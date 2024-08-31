@@ -89,7 +89,7 @@ const RegisterMaker = ({
       </S.RegisterContainer>
       <S.FooterContainer>
         <S.FooterDivider />
-        <S.FooterInfo>공연진 상세정보는 선택사항이며, 이후 수정불가합니다.</S.FooterInfo>
+        <S.FooterInfo>공연진 상세정보는 선택사항입니다.</S.FooterInfo>
         <Button onClick={handleList} disabled={isButtonDisabled}>
           다음
         </Button>
