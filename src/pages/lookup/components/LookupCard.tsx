@@ -1,6 +1,7 @@
 import { useModal } from "@hooks";
 import BankAccount from "@pages/test/modalTest/BankAccount";
 import { getBankNameKr } from "@utils/getBankName";
+import { bookingStatusText, bookingStatusTypes } from "@constants/bookingStatus";
 import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";
 import * as S from "./LookupCard.styled";
@@ -13,12 +14,12 @@ const LookupCard = ({
   scheduleNumber,
   performanceVenue,
   purchaseTicketCount,
-  isPaymentCompleted,
   bankName,
   bookerName,
   accountHolder,
   accountNumber,
   dueDate,
+  bookingStatus,
   totalPaymentAmount,
 }: LookupProps) => {
   const navigate = useNavigate();
@@ -89,14 +90,12 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
           <S.DepositLayout>
-            {isPaymentCompleted ? (
-              <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
-            ) : (
-              <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
-            )}
+            <S.CheckingDeposit $status={bookingStatus}>
+              {bookingStatusText[bookingStatus as bookingStatusTypes]}
+            </S.CheckingDeposit>
           </S.DepositLayout>
         </S.Context>
-        {dueDate >= 0 && totalPaymentAmount > 0 ? (
+        {dueDate >= 0 && totalPaymentAmount > 0 && bookingStatus === "CHECKING_PAYMENT" ? (
           <S.AccountLayout onClick={() => handleModal(getBankNameKr(bankName), accountNumber)}>
             <S.Account>계좌번호</S.Account>
           </S.AccountLayout>
