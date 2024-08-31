@@ -308,7 +308,7 @@ const TicketHolderList = () => {
                       예매자 정보를 CSV 파일로 저장할 수 있어요.
                     </S.FooterButtonText>
                     <S.MarginBottom $value="2.4rem">
-                      <Button onClick={() => console.log("csv 추출 로직 구현 예정")}>
+                      <Button onClick={() => alert("csv 추출 기능 구현 예정")}>
                         예매자 목록 다운받기
                       </Button>
                     </S.MarginBottom>
