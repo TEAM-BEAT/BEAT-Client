@@ -16,6 +16,8 @@ import eximg from "./constants/silkagel.png";
 import { BookingListProps } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
+type PaymentType = "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
+
 const TicketHolderList = () => {
   const { performanceId } = useParams();
   const [reservedCount, setReservedCount] = useState(0);
@@ -25,15 +27,14 @@ const TicketHolderList = () => {
 
   // 0, undefined 일 때는 전체 렌더링 (필터링을 위한 state들)
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
-  const [payment, setPayment] = useState<
-    "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | undefined
-  >(undefined);
+  const [payment, setPayment] = useState<PaymentType | undefined>(undefined);
 
   const [isEditMode, setIsEditMode] = useState(false);
 
   const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
   const [alreadyPayments, setAlreadyPayments] = useState<Record<number, boolean>>({});
+  const [initBookingStatuses, setInitBookingStatuses] = useState<Record<number, PaymentType>>({});
   const { showToast, isToastVisible } = useToast();
 
   useEffect(() => {
@@ -49,7 +50,16 @@ const TicketHolderList = () => {
         {} as Record<number, boolean>
       );
 
+      const immutableBookingStatuses = data.bookingList.reduce(
+        (acc, item) => {
+          acc[item.bookingId] = item.bookingStatus;
+          return acc;
+        },
+        {} as Record<number, PaymentType>
+      );
+
       setAlreadyPayments(immutableAlreadyPayments);
+      setInitBookingStatuses(immutableBookingStatuses);
     }
   }, [data]);
 
@@ -189,7 +199,7 @@ const TicketHolderList = () => {
 
     const isPaymentMatched =
       obj.bookingStatus !== "BOOKING_CANCELLED" &&
-      (payment === undefined || payment === obj.bookingStatus);
+      (payment === undefined || payment === initBookingStatuses[obj.bookingId]);
 
     return isScheduleMatched && isPaymentMatched;
   });
@@ -267,7 +277,7 @@ const TicketHolderList = () => {
                   setPatchFormData={setPatchFormData}
                   isEditMode={isEditMode}
                   bookingId={obj.bookingId}
-                  isPaid={obj.bookingStatus}
+                  isPaid={alreadyPayments[obj.bookingId] ? "BOOKING_CONFIRMED" : "CHECKING_PAYMENT"}
                   setPaid={() => handlePaymentToggle(isEditMode, obj.bookingId)}
                   bookername={obj.bookerName}
                   purchaseTicketeCount={obj.purchaseTicketCount}
