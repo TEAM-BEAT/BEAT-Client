@@ -56,8 +56,29 @@ const ManagerCard = ({
       case "THIRD":
         return 3;
         break;
+      case "FOURTH":
+        return 4;
+        break;
+      case "FIFTH":
+        return 5;
+        break;
+      case "SIXTH":
+        return 6;
+        break;
+      case "SEVENTH":
+        return 7;
+        break;
+      case "EIGHTH":
+        return 8;
+        break;
+      case "NINTH":
+        return 9;
+        break;
+      case "TENTH":
+        return 10;
+        break;
       default:
-        console.log("error");
+        throw new Error("없는 회차");
     }
   };
 
