@@ -38,5 +38,5 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["src", "global.d.ts", "api", "public/deployLoading.ts"]
+  "include": ["src", "global.d.ts", "api", "public/deployLoading.js"]
 }

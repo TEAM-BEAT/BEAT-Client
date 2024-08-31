@@ -28,11 +28,7 @@ function addInlineStyle() {
 }
 
 // 2. 특정 CSS 파일이 로드되면 요소를 숨기거나 제거하는 함수
-function hideOrRemoveElementOnCssLoad(
-  selector: string,
-  cssFileUrl: string,
-  shouldRemove: boolean = false
-) {
+function hideOrRemoveElementOnCssLoad(selector, cssFileUrl, shouldRemove = false) {
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = cssFileUrl;
