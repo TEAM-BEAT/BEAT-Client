@@ -9,7 +9,7 @@ export const LookupLayout = styled.section`
 // layout + contextBox => 얘를 map 돌리기
 export const LookupContainer = styled.section`
   display: flex;
-  gap: 0.8rem;
+  gap: 0.7rem;
   width: auto;
   padding: 0.8rem 2.4rem;
 `;
@@ -22,8 +22,10 @@ export const LookupCardLeft = styled.section`
 `;
 
 export const LookupImage = styled.img`
-  width: 10.5rem;
-  height: 15.4rem;
+  width: 10.8rem;
+  height: 14.4rem;
+  object-fit: cover;
+  object-position: center;
 
   border-radius: 0.6rem;
 `;

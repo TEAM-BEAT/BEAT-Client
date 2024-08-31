@@ -20,33 +20,32 @@ let touchEndX: number;
 const Carousel = ({ promotionList }: PromotionComponentProps) => {
   const navigate = useNavigate();
 
+  // 현재 인덱스
   const [currIndex, setCurrIndex] = useState(1);
   const [currList, setCurrList] = useState<string[]>();
-  const [carouselList, setCarouselList] = useState<string[]>([]);
-  const [carouselId, setCarouselId] = useState<number[]>([]);
   const [isSingleItem, setIsSingleItem] = useState(false);
+  const [promotionImg, setPromotionImg] = useState<string[]>([]);
+  const [promotionId, setPromotionId] = useState<number[]>([]);
   const [isExternal, setIsExternal] = useState<boolean[]>([]);
   const [redirectUrl, setRedirectUrl] = useState<string[]>([]);
 
   const carouselRef = useRef<HTMLUListElement>(null);
 
+  const createCarouselData = (list) => ({
+    photo: list.map((promotion) => promotion.promotionPhoto || ""),
+    id: list.map((promotion) => promotion.performanceId || null),
+    isExternal: list.map((promotion) => promotion.isExternal || null),
+    redirectUrl: list.map((promotion) => promotion.redirectUrl || null),
+  });
+
   useEffect(() => {
-    const carouselTempList = promotionList.map((promotion) => promotion.promotionPhoto || "");
-    const carouselItemList = promotionList.map((promotion) => promotion.performanceId || null);
-    const externalList = promotionList.map((promotion) => promotion.isExternal || null);
-    const redirectUrlList = promotionList.map((promotion) => promotion.redirectUrl || null);
+    const { photo, id, isExternal, redirectUrl } = createCarouselData(promotionList);
 
-    setCarouselId(carouselItemList);
-    setCarouselList(carouselTempList);
-    setIsExternal(externalList);
-    setRedirectUrl(redirectUrlList);
-
-    // 항목이 하나만 들어온 경우
-    if (carouselTempList.length === 1) {
-      setIsSingleItem(true); // 항목이 하나인 경우 상태 변경
-    } else {
-      setIsSingleItem(false); // 여러 개일 경우 상태 리셋
-    }
+    setPromotionImg(photo);
+    setPromotionId(id);
+    setIsExternal(isExternal);
+    setRedirectUrl(redirectUrl);
+    setIsSingleItem(promotionList.length === 1);
   }, [promotionList]);
 
   // 인덱스 번호 변경
@@ -61,16 +60,16 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
 
   // 슬라이드 이동할 때 무한 + 어색하지 않도록 처음과 끝 반복
   useEffect(() => {
-    if (!isSingleItem && carouselList.length !== 0) {
-      const startData = carouselList[0];
-      const endData = carouselList[carouselList.length - 1];
-      const newList = [endData, ...carouselList, startData];
+    if (isSingleItem) {
+      setCurrList(promotionImg);
+    } else {
+      const startData = promotionImg[0];
+      const endData = promotionImg[promotionImg.length - 1];
+      const newList = [endData, ...promotionImg, startData];
 
       setCurrList(newList);
-    } else if (isSingleItem) {
-      setCurrList(carouselList);
     }
-  }, [carouselList, isSingleItem]);
+  }, [promotionImg, isSingleItem]);
 
   // idx 변경되면 위치 이동
   useEffect(() => {
@@ -85,10 +84,10 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
       const time = setTimeout(() => {
         const newIndex = currIndex + 1;
 
-        if (newIndex === carouselList.length + 1) {
+        if (newIndex === promotionImg.length + 1) {
           moveToNthSlide(1);
         } else if (newIndex === 0) {
-          moveToNthSlide(carouselList.length);
+          moveToNthSlide(promotionImg.length);
         }
 
         setCurrIndex((prev) => prev + 1);
@@ -103,69 +102,20 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     }
   }, [currIndex, isSingleItem]);
 
-  const handleSwipe = (direction: number) => {
-    const newIndex = currIndex + direction;
-
-    if (newIndex === carouselList.length + 1) {
-      moveToNthSlide(1);
-    } else if (newIndex === 0) {
-      moveToNthSlide(carouselList.length);
-    }
-
-    setCurrIndex((prev) => prev + direction);
-    if (carouselRef.current !== null) {
-      carouselRef.current.style.transition = "all 0.5s ease-in-out";
-    }
-  };
-
-  const handleTouchStart: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (!isSingleItem) {
-      touchStartX = e.touches[0].clientX;
-    }
-  };
-
-  const handleTouchMove: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (!isSingleItem) {
-      const currTouchX = e.nativeEvent.changedTouches[0].clientX;
-
-      if (carouselRef.current !== null) {
-        carouselRef.current.style.transform = `translateX(calc(-${currIndex}00% - ${
-          (touchStartX - currTouchX) * 2 || 0
-        }px))`;
-      }
-    }
-  };
-
-  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (!isSingleItem) {
-      touchEndX = e.changedTouches[0].clientX;
-
-      if (touchStartX >= touchEndX) {
-        handleSwipe(1);
-      } else {
-        handleSwipe(-1);
-      }
-    }
-  };
-
   return (
     <S.CarouselWarpper>
       {isSingleItem ? (
         <S.CarouselLayout>
           <S.CarouselItem
             onClick={() => {
-              isExternal[0] ? window.open(`${redirectUrl[0]}`) : navigate(`/gig/${carouselId[0]}`);
+              isExternal[0] ? window.open(`${redirectUrl[0]}`) : navigate(`/gig/${promotionId[0]}`);
             }}
           >
-            <img src={carouselList[0]} alt="carousel-img" />
+            <img src={promotionImg[0]} alt="carousel-img" />
           </S.CarouselItem>
         </S.CarouselLayout>
       ) : (
-        <S.CarouselLayout
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
+        <S.CarouselLayout>
           <S.CarouselContainer ref={carouselRef}>
             {currList?.map((image, idx) => {
               const key = `${image}-${idx}`;
@@ -176,7 +126,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
                   onClick={() => {
                     isExternal[idx - 1]
                       ? window.open(`${redirectUrl[idx - 1]}`)
-                      : navigate(`/gig/${carouselId[idx - 1]}`);
+                      : navigate(`/gig/${promotionId[idx - 1]}`);
                   }}
                 >
                   <img src={image} alt="carousel-img" />
@@ -186,7 +136,7 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
           </S.CarouselContainer>
           {!isSingleItem && (
             <S.IndicatorContainer>
-              {carouselList.map((_, idx) => (
+              {promotionImg.map((_, idx) => (
                 <S.Indicator key={idx} active={currIndex === idx + 1} />
               ))}
             </S.IndicatorContainer>

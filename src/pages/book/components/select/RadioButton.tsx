@@ -1,32 +1,22 @@
+import styled, { css } from "styled-components";
 import * as S from "./RadioButton.styled";
 
 interface RadioButtonProps {
   label: string;
   value: number;
   checked: boolean;
-  isSoldOut: boolean;
+  isDisabled: boolean;
   onChange: (value: number) => void;
 }
 
-const RadioButton = ({ label, value, checked, isSoldOut, onChange }: RadioButtonProps) => {
-  const [date, time] = label.split("T");
-  return (
-    <S.Label checked={checked} $isSoldOut={isSoldOut}>
-      <div>
-        <S.Text>{date}</S.Text>
-        <S.DateTimeDivider />
-        <S.Text>{time.slice(0, 5)}</S.Text>
-      </div>
+const RadioButton = ({ label, value, checked, isDisabled, onChange }: RadioButtonProps) => {
+  const [, time] = label.split("T");
+  const variant = checked ? "selected" : isDisabled ? "disabled" : "initial";
 
-      {isSoldOut ? (
-        <S.SoldOutText>매진</S.SoldOutText>
-      ) : (
-        <>
-          <S.Input type="radio" value={value} checked={checked} onChange={() => onChange(value)} />
-          <S.CustomRadio checked={checked} />
-        </>
-      )}
-    </S.Label>
+  return (
+    <S.ButtonBox disabled={isDisabled} $variant={variant} onClick={() => onChange(value)}>
+      <span>{time.slice(0, 5)}</span>
+    </S.ButtonBox>
   );
 };
 
