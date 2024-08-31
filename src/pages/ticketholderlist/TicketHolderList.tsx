@@ -31,7 +31,7 @@ const TicketHolderList = () => {
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const { data, isLoading } = useTicketRetrive({ performanceId: Number(performanceId) });
+  const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
   const [alreadyPayments, setAlreadyPayments] = useState<Record<number, boolean>>({});
   const { showToast, isToastVisible } = useToast();
@@ -94,7 +94,8 @@ const TicketHolderList = () => {
 
     console.log("패치요청 보냄");
     closeConfirm();
-    window.location.reload();
+
+    //window.location.reload();
   };
 
   const handleDeleteBtn = () => {
@@ -131,11 +132,13 @@ const TicketHolderList = () => {
     setIsEditMode(false);
 
     //원 상태도 되돌림 (입금 여부 수정, 삭제용 체크)
-    setPaymentData(data?.bookingList ?? []);
+    setPaymentData(data?.bookingList);
     setPatchFormData({
       performanceId: Number(performanceId),
       bookingList: [],
     });
+
+    refetch();
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 관리",
@@ -299,7 +302,7 @@ const TicketHolderList = () => {
                       </Button>
                     </S.MarginBottom>
                   </S.FooterButtonWrapper>
-                  <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={17}>
+                  <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={37}>
                     예매 확정 WEB 발신 문자가 전송되었습니다.
                   </Toast>
                 </>
