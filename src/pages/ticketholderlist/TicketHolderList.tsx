@@ -17,16 +17,10 @@ import { BookingListProps } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
 const TicketHolderList = () => {
-  /*
-    중요 : navigate 할 때 파라미터로 넘겨 받아야 함. (애초에 이 주소에 올 때!)
-    그래서 넘겨 받은 파라미터를 상태 관리를 해줄 예정. 아래는 performanceId 가 같이 왔다고 가정
-    useLocation 으로 받아온다. - useParams를 사용해서 받아와야 할 듯
-   */
-  //    아직, 앞전의 화면()에서 performanceId를 넘기는 로직을 구성해두지 않음
   const { performanceId } = useParams();
-  //const [performanceId, setPerformanceId] = useState(1); //예시니까 1이라고 가정~
   const [reservedCount, setReservedCount] = useState(0);
-  //이거 판매 완료되었는지 여부에 따라서 렌더링하는거 다르게 할지 물어보기, 색깔도 어떻게 할 지 물어보기
+
+  //판매 완료 여부에 따라 배너 렌더링 달라질 지 고민
   const [isOutdated, setIsOutdated] = useState(false);
   const [detail, setDetail] = useState(false);
 
@@ -73,7 +67,6 @@ const TicketHolderList = () => {
     });
   };
 
-  //(추후 삭제 요청을 보내기 위한 formData - 타입 정의가 필요할 수도..?
   const [deleteFormData, setDeleteFormData] = useState<DeleteFormDataProps>({
     performanceId: Number(performanceId),
     bookingList: [],
@@ -145,28 +138,26 @@ const TicketHolderList = () => {
 
   const count = data?.totalScheduleCount; //api로 받아온 값 (동적 회차 수)
 
+  //최대 10회차로 렌더링 될 수 있도록 변경 필요
+  //schedule ===0 -> 전체 회차, payment === undefined -> 전체 입금 여부
   const filteredData = responseData?.filter((obj) => {
     const isScheduleMatched =
       schedule === 0 ||
       (obj.scheduleNumber === "FIRST" && schedule === 1) ||
       (obj.scheduleNumber === "SECOND" && schedule === 2) ||
       (obj.scheduleNumber === "THIRD" && schedule === 3);
-    const isPaymentMatched = payment === undefined || obj.isPaymentCompleted === payment;
+    const isPaymentMatched = payment === undefined || payment === obj.isPaymentCompleted;
 
     return isScheduleMatched && isPaymentMatched;
   });
 
-  //도영이가 axios 사용하면 useEffect 필요없다고 했는데, 나중에 리팩토링 할 수도 있음.
   useEffect(() => {
     const totalCount = filteredData?.reduce(
       (totalSum, obj) => (obj.purchaseTicketCount as number) + totalSum,
       0
     ) as number;
     setReservedCount(totalCount);
-    //그리고 여기서 바로 다시 axios 요청 쏘는 로직 구성해두기
   }, [filteredData]);
-  //이해하기 어려울 것 같아 주석 남깁니다. 모든 회차, 입금 상태 2가지 필터를 사용하여 원하는 결과만 가져오는 형식입니다.
-  //schedule ===0 일 경우는 전체 회차, payment === undefined 일 경우는 전체 입금 여부(입금했든 안했든 렌더링)을 의미합니다.
 
   //상위 컴포넌트에서 받아온 set함수와 bookingId를 이용하여 현재 오브젝트(state)의 payment 상태를 바꾸도록 한다.
   const handlePaymentToggle = (isDeleteModeee: boolean, bookingId?: number) => {
