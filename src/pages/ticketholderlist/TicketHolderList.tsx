@@ -138,17 +138,18 @@ const TicketHolderList = () => {
 
   const { setHeader } = useHeader();
 
-  const handleCloseButton = () => {
+  const handleCloseButton = async () => {
     setIsEditMode(false);
 
     //원 상태도 되돌림 (입금 여부 수정, 삭제용 체크)
+    //Todo : 새로고침 후 편집 -> 닫기 반복 클릭하면 에러 발생
+    refetch();
     setPaymentData(data?.bookingList);
     setPatchFormData({
       performanceId: Number(performanceId),
       bookingList: [],
     });
 
-    refetch();
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 관리",
