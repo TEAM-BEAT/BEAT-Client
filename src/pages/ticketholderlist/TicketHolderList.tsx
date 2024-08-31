@@ -37,6 +37,7 @@ const TicketHolderList = () => {
   const { showToast, isToastVisible } = useToast();
 
   useEffect(() => {
+    console.log("data:", data);
     setPaymentData(data?.bookingList ?? []);
 
     if (data?.bookingList) {
@@ -182,7 +183,10 @@ const TicketHolderList = () => {
       (obj.scheduleNumber === "EIGHTH" && schedule === 8) ||
       (obj.scheduleNumber === "NINTH" && schedule === 9) ||
       (obj.scheduleNumber === "TENTH" && schedule === 10);
-    const isPaymentMatched = payment === undefined || payment === obj.bookingStatus;
+
+    const isPaymentMatched =
+      obj.bookingStatus !== "BOOKING_CANCELLED" &&
+      (payment === undefined || payment === obj.bookingStatus);
 
     return isScheduleMatched && isPaymentMatched;
   });
@@ -193,6 +197,8 @@ const TicketHolderList = () => {
       0
     ) as number;
     setReservedCount(totalCount);
+
+    console.log(filteredData);
   }, [filteredData]);
 
   const handlePaymentToggle = (_isEditMode: boolean, bookingId?: number) => {
