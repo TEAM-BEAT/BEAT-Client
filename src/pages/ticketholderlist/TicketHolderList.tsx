@@ -22,7 +22,6 @@ const TicketHolderList = () => {
 
   //판매 완료 여부에 따라 배너 렌더링 달라질 지 고민
   const [isOutdated, setIsOutdated] = useState(false);
-  const [detail, setDetail] = useState(false);
 
   // 0, undefined 일 때는 전체 렌더링 (필터링을 위한 state들)
   const [schedule, setSchedule] = useState(0); //1,2,3 에 따라 필터링
@@ -132,10 +131,6 @@ const TicketHolderList = () => {
     });
   }, [setHeader]);
 
-  const handleToggleButton = () => {
-    setDetail((prop) => !prop);
-  };
-
   const count = data?.totalScheduleCount; //api로 받아온 값 (동적 회차 수)
 
   //최대 10회차로 렌더링 될 수 있도록 변경 필요
@@ -207,16 +202,6 @@ const TicketHolderList = () => {
                     입금 상태
                   </NarrowDropDown>
                 </S.LayoutFilterBox>
-                <S.ToggleWrapper>
-                  {detail ? (
-                    <S.ToggleText>자세히</S.ToggleText>
-                  ) : (
-                    <S.ToggleText>자세히</S.ToggleText>
-                  )}
-                  <S.ToggleButton $detail={detail} onClick={handleToggleButton}>
-                    <S.Circle $detail={detail} />
-                  </S.ToggleButton>
-                </S.ToggleWrapper>
               </S.LayoutHeaderBox>
               {filteredData?.map((obj, index) => (
                 <ManagerCard
@@ -226,7 +211,6 @@ const TicketHolderList = () => {
                   isDeleteMode={isDeleteMode}
                   bookingId={obj.bookingId}
                   isPaid={obj.isPaymentCompleted}
-                  isDetail={detail}
                   setPaid={() => handlePaymentToggle(isDeleteMode, obj.bookingId)}
                   bookername={obj.bookerName}
                   purchaseTicketeCount={obj.purchaseTicketCount}

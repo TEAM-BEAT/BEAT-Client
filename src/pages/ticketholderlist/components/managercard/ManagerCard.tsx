@@ -9,7 +9,6 @@ const ManagerCard = ({
   isDeleteMode,
   bookingId,
   isPaid,
-  isDetail,
   setPaid,
   bookername,
   purchaseTicketeCount,
@@ -22,7 +21,6 @@ const ManagerCard = ({
   isDeleteMode: boolean;
   bookingId?: number;
   isPaid?: boolean;
-  isDetail: boolean;
   setPaid: () => void;
   bookername?: string;
   purchaseTicketeCount?: number;
@@ -46,9 +44,9 @@ const ManagerCard = ({
   };
 
   const date = createAt?.split("T")[0];
-  const formattedDate = date?.replace(/-/g, ".");
-  const convertingNumber = (scheduleNumberrr: string) => {
-    switch (scheduleNumberrr) {
+  const formattedDate = date?.replace(/-/g, ". ");
+  const convertingNumber = (_scheduleNumber: string) => {
+    switch (_scheduleNumber) {
       case "FIRST":
         return 1;
         break;
@@ -64,45 +62,33 @@ const ManagerCard = ({
   };
 
   return (
-    <S.ManagerCardWrapper $isDetail={isDetail}>
+    <S.ManagerCardWrapper>
       {isDeleteMode && (
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
           isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
         />
       )}
-      <S.ManagerCardLayout $isDeleteMode={isDeleteMode} $isDetail={isDetail}>
+      <S.ManagerCardLayout $isDeleteMode={isDeleteMode}>
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
-            <S.ManagerCardTextTitle>이름</S.ManagerCardTextTitle>
             <S.ManagerCardTextContent>{bookername}</S.ManagerCardTextContent>
+            <S.ManagerCardTextContent>{`(${bookerPhoneNumber})`}</S.ManagerCardTextContent>
           </S.ManagerCardTextBox>
           <S.ManagerCardTextBox>
-            <S.ManagerCardTextTitle>매수</S.ManagerCardTextTitle>
-            <S.ManagerCardTextContent>{`${purchaseTicketeCount}매`}</S.ManagerCardTextContent>
+            <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber as string)}회차`}</S.ManagerCardTextContent>
+            <S.ManagerCardTextContent>{`/ ${purchaseTicketeCount}매`}</S.ManagerCardTextContent>
           </S.ManagerCardTextBox>
-          {
-            <S.ManagerCardDetailBox $isDetail={isDetail}>
-              <S.ManagerCardTextBox>
-                <S.ManagerCardTextTitle>회차</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{`${convertingNumber(scheduleNumber as string)}회차`}</S.ManagerCardTextContent>
-              </S.ManagerCardTextBox>
-              <S.ManagerCardTextBox>
-                <S.ManagerCardTextTitle>연락처</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{bookerPhoneNumber}</S.ManagerCardTextContent>
-              </S.ManagerCardTextBox>
-              <S.ManagerCardTextBox>
-                <S.ManagerCardTextTitle>예매일</S.ManagerCardTextTitle>
-                <S.ManagerCardTextContent>{formattedDate}</S.ManagerCardTextContent>
-              </S.ManagerCardTextBox>
-            </S.ManagerCardDetailBox>
-          }
+          <S.ManagerCardTextBox>
+            <S.ManagerCardTextTitle>{formattedDate}</S.ManagerCardTextTitle>
+          </S.ManagerCardTextBox>
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
-      <S.ManagerCardRadioLayout $isDetail={isDetail} $isPaid={isPaid as boolean}>
+      <S.ManagerCardRadioLayout>
         <S.ManagerCardRadioBox $isDeleteMode={isDeleteMode} onClick={setPaid}>
-          {isDeleteMode ? <></> : isPaid ? <S.SelectedIcon /> : <S.UnselectedIcon />}
-          <S.ManagerCardRadioText>{isPaid ? "입금 완료" : "미입금"}</S.ManagerCardRadioText>
+          <S.ManagerCardRadioText $isPaid={isPaid}>
+            {isPaid ? "입금 완료" : "미입금"}
+          </S.ManagerCardRadioText>
         </S.ManagerCardRadioBox>
       </S.ManagerCardRadioLayout>
     </S.ManagerCardWrapper>
