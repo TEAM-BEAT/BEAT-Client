@@ -195,7 +195,18 @@ export const calculatePerformancePeriod = (scheduleList: { performanceDate: Dayj
 };
 
 // scheduleNumber 생성
-const scheduleNumbers = ["FIRST", "SECOND", "THIRD"];
+const scheduleNumbers = [
+  "FIRST",
+  "SECOND",
+  "THIRD",
+  "FOURTH",
+  "FIFTH",
+  "SIXTH",
+  "SEVENTH",
+  "EIGHTH",
+  "NINTH",
+  "TENTH",
+];
 
 export const getScheduleNumber = (index: number): string => {
   return scheduleNumbers[index] || `SCHEDULE_${index + 1}`;
