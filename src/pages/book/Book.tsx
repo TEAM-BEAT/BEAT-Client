@@ -150,6 +150,8 @@ const Book = () => {
       scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
       purchaseTicketCount: round,
       totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
+      // TODO: 상수로 관리
+      bookingStatus: "CHECKING_PAYMENT",
     } as GuestBookingRequest;
 
     if (!isLogin) {
@@ -158,7 +160,6 @@ const Book = () => {
         ...formData,
         ...bookerInfo,
         password: easyPassword.password,
-        isPaymentCompleted: false,
       } as GuestBookingRequest;
     } else {
       // 회원 예매 요청
@@ -184,6 +185,11 @@ const Book = () => {
       });
     } catch (error) {
       const errorResponse = error.response?.data as ErrorResponse;
+      if (errorResponse.status === 500) {
+        openAlert({
+          title: "서버 내부 오류로 예매가 불가능합니다.",
+        });
+      }
       if (errorResponse.status === 409) {
         openAlert({
           title: "이미 매진된 공연입니다.",
