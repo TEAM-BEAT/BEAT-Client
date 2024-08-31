@@ -7,7 +7,7 @@ export const PeopleCardContainer = styled.article`
 
 export const PeopleCardPhoto = styled.img`
   width: 15.7rem;
-  height: calc(15.7rem * 4 / 3);
+  height: 15.7rem;
   margin-bottom: 0.7rem;
   object-fit: cover;
   object-position: center;
