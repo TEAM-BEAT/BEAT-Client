@@ -9,7 +9,7 @@ export const PerformanceWrapper = styled.section`
 export const PerformanceLayout = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem 1.3rem;
+  gap: 3.2rem 1.3rem;
 `;
 
 export const BannerWrapper = styled.button`
