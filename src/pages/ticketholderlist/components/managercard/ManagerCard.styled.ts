@@ -63,6 +63,7 @@ export const ManagerCardLayout = styled.div<{ $isDeleteMode: boolean }>`
   align-items: flex-start;
   width: ${({ $isDeleteMode }) => ($isDeleteMode ? "22.2rem" : "25.2rem")};
   height: 10rem;
+  margin-right: 0.2rem;
   padding: 1.6rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};

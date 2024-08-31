@@ -110,24 +110,35 @@ const TicketHolderList = () => {
 
   const { setHeader } = useHeader();
 
-  const handleRightButton = () => {
+  const handleCloseButton = () => {
+    setIsDeleteMode(false);
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      title: "예매자 관리",
+      subText: "편집",
+      leftOnClick: handleLeftButton,
+      rightOnClick: handleEditButton,
+    });
+  };
+
+  const handleEditButton = () => {
     setIsDeleteMode(true);
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE,
-      title: "내가 등록한 공연",
-      leftOnClick: () => {
-        window.location.reload();
-      },
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      title: "예매자 편집",
+      subText: "닫기",
+      leftOnClick: handleLeftButton,
+      rightOnClick: handleCloseButton,
     });
   };
 
   useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
-      title: "내가 등록한 공연",
-      subText: "삭제",
+      title: "예매자 관리",
+      subText: "편집",
       leftOnClick: handleLeftButton,
-      rightOnClick: handleRightButton,
+      rightOnClick: handleEditButton,
     });
   }, [setHeader]);
 
@@ -222,15 +233,27 @@ const TicketHolderList = () => {
 
               {isDeleteMode ? (
                 <S.FooterButtonWrapper>
-                  <Button onClick={handleDeleteBtn}>삭제</Button>
+                  <S.FooterButtonText>저장 후, 입금 상태 재변경은 불가능합니다.</S.FooterButtonText>
+                  <S.TwoButtonWrapper>
+                    <Button size={"medium"} variant={"gray"} onClick={handleDeleteBtn}>
+                      예매자 삭제하기
+                    </Button>
+                    <Button size={"medium"} onClick={() => console.log("입금처리 로직 구현 예정")}>
+                      입금 처리하기
+                    </Button>
+                  </S.TwoButtonWrapper>
                 </S.FooterButtonWrapper>
               ) : (
                 <>
-                  <S.FooterButtonWrapper $isPaymentFixButton={true}>
+                  <S.FooterButtonWrapper>
                     <S.FooterButtonText>
-                      저장 후, 입금 상태 재변경은 불가능합니다.
+                      예매자 정보를 CSV 파일로 저장할 수 있어요.
                     </S.FooterButtonText>
-                    <Button onClick={handleFixSaveBtn}>변경내용 저장하기</Button>
+                    <S.MarginBottom $value="2.4rem">
+                      <Button onClick={() => console.log("csv 추출 로직 구현 예정")}>
+                        예매자 목록 다운받기
+                      </Button>
+                    </S.MarginBottom>
                   </S.FooterButtonWrapper>
                   <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={17}>
                     예매 확정 WEB 발신 문자가 전송되었습니다.
