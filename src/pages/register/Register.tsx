@@ -602,6 +602,7 @@ const Register = () => {
         <Content
           description={performanceDescription}
           attentionNote={performanceAttentionNote}
+          performanceImageList={performanceImageList}
           contact={performanceContact}
           teamName={performanceTeamName}
           castList={castList.map((cast, index) => ({
