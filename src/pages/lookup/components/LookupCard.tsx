@@ -41,14 +41,12 @@ const LookupCard = ({
 
   const handleModal = (bank: string, number: string) => {
     openModal({
-      // 가격은 내일 API 명세서 보고 맞추기
       children: (
         <BankAccount
           bankName={bank}
           number={number}
           accountName={accountHolder}
           accountNumber={accountNumber}
-          // api 추가되면 수정하기
           price={totalPaymentAmount}
         />
       ),
@@ -57,12 +55,10 @@ const LookupCard = ({
 
   return (
     <S.LookupCardWrapper>
-      {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! -> API 수정되면 반영하기*/}
       <S.LookupTitleWrapper type="button" onClick={() => navigate(`/gig/${performanceId}`)}>
         <S.LookupTitle>{performanceTitle}</S.LookupTitle>
         <S.TitleArrowRightIcon />
       </S.LookupTitleWrapper>
-      <S.BoxDivider />
       <S.ContextLayout>
         <S.Context>
           <S.SubTitle>예매일</S.SubTitle>

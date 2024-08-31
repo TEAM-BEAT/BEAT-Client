@@ -60,6 +60,8 @@ export const PerformancePeriod = styled.div`
 `;
 
 export const PerformancePrice = styled.div`
+  margin-top: 0.4rem;
+
   color: ${({ theme }) => theme.colors.white};
 
   ${({ theme }) => theme.fonts["body2-normal-semi"]};
