@@ -151,7 +151,14 @@ const TicketHolderList = () => {
       schedule === 0 ||
       (obj.scheduleNumber === "FIRST" && schedule === 1) ||
       (obj.scheduleNumber === "SECOND" && schedule === 2) ||
-      (obj.scheduleNumber === "THIRD" && schedule === 3);
+      (obj.scheduleNumber === "THIRD" && schedule === 3) ||
+      (obj.scheduleNumber === "FOURTH" && schedule === 4) ||
+      (obj.scheduleNumber === "FIFTH" && schedule === 5) ||
+      (obj.scheduleNumber === "SIXTH" && schedule === 6) ||
+      (obj.scheduleNumber === "SEVENTH" && schedule === 7) ||
+      (obj.scheduleNumber === "EIGHTH" && schedule === 8) ||
+      (obj.scheduleNumber === "NINTH" && schedule === 9) ||
+      (obj.scheduleNumber === "TENTH" && schedule === 10);
     const isPaymentMatched = payment === undefined || payment === obj.isPaymentCompleted;
 
     return isScheduleMatched && isPaymentMatched;
