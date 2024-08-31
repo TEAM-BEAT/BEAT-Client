@@ -207,6 +207,8 @@ const ModifyManage = () => {
         isBookerExist: data.isBookerExist,
         isFree: data.ticketPrice === 0,
       }));
+
+      console.log(data.isBookerExist);
     }
   }, [data]);
 

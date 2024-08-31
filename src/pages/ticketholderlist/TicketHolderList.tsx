@@ -1,4 +1,4 @@
-import { useTicketDelete, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
+import { useTicketPatch, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
 import { IconCheck } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Loading from "@components/commons/loading/Loading";
@@ -6,7 +6,7 @@ import MetaTag from "@components/commons/meta/MetaTag";
 import Toast from "@components/commons/toast/Toast";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal, useToast } from "@hooks";
-import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
+import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Banner from "./components/banner/Banner";
@@ -55,7 +55,7 @@ const TicketHolderList = () => {
 
   const { openConfirm, closeConfirm } = useModal();
   const { mutate, mutateAsync } = useTicketUpdate();
-  const { mutate: deleteMutate, mutateAsync: deleteMutateAsync, isPending } = useTicketDelete();
+  const { mutate: patchMutate, mutateAsync: patchMutateAsync, isPending } = useTicketPatch();
   const handlePaymentFixAxiosFunc = () => {
     if (isPending) {
       return;
@@ -84,15 +84,15 @@ const TicketHolderList = () => {
     });
   };
 
-  const [deleteFormData, setDeleteFormData] = useState<DeleteFormDataProps>({
+  const [patchFormData, setPatchFormData] = useState<PatchFormDataProps>({
     performanceId: Number(performanceId),
     bookingList: [],
   });
 
-  const handleBookerDeleteAxiosFunc = async () => {
-    await deleteMutateAsync(deleteFormData);
+  const handleBookerPatchAxiosFunc = async () => {
+    await patchMutateAsync(patchFormData);
 
-    console.log("삭제요청 보냄");
+    console.log("패치요청 보냄");
     closeConfirm();
     window.location.reload();
   };
@@ -103,7 +103,7 @@ const TicketHolderList = () => {
       subTitle: "삭제된 게스트는 복구되지 않아요.",
       okText: "삭제할게요",
       noText: "아니요",
-      okCallback: handleBookerDeleteAxiosFunc,
+      okCallback: handleBookerPatchAxiosFunc,
       noCallback: closeConfirm,
     });
   };
@@ -132,7 +132,7 @@ const TicketHolderList = () => {
 
     //원 상태도 되돌림 (입금 여부 수정, 삭제용 체크)
     setPaymentData(data?.bookingList ?? []);
-    setDeleteFormData({
+    setPatchFormData({
       performanceId: Number(performanceId),
       bookingList: [],
     });
@@ -260,8 +260,8 @@ const TicketHolderList = () => {
               {filteredData?.map((obj, index) => (
                 <ManagerCard
                   key={`managerCard-${index}`}
-                  deleteFormData={deleteFormData}
-                  setDeleteFormData={setDeleteFormData}
+                  patchFormData={patchFormData}
+                  setPatchFormData={setPatchFormData}
                   isEditMode={isEditMode}
                   bookingId={obj.bookingId}
                   isPaid={obj.bookingStatus}

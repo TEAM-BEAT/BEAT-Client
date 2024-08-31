@@ -1,11 +1,11 @@
-import { DeleteFormDataProps } from "@typings/deleteBookerFormatProps";
+import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import { Dispatch, SetStateAction } from "react";
 import SelectIcon from "../selectIcon/SelectIcon";
 import * as S from "./ManagerCard.styled";
 
 const ManagerCard = ({
-  deleteFormData,
-  setDeleteFormData,
+  patchFormData,
+  setPatchFormData,
   isEditMode,
   bookingId,
   isPaid,
@@ -17,8 +17,8 @@ const ManagerCard = ({
   createAt,
   alreadyBookingConfirmed,
 }: {
-  deleteFormData: DeleteFormDataProps;
-  setDeleteFormData: Dispatch<SetStateAction<DeleteFormDataProps>>;
+  patchFormData: PatchFormDataProps;
+  setPatchFormData: Dispatch<SetStateAction<PatchFormDataProps>>;
   isEditMode: boolean;
   bookingId?: number;
   isPaid?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
@@ -32,7 +32,7 @@ const ManagerCard = ({
 }) => {
   const handleCheckBox = (managerBookingId: number) => {
     //삭제할 데이터 form에 추가하는 로직
-    setDeleteFormData((prevFormData) => {
+    setPatchFormData((prevFormData) => {
       const isAlreadyChecked = prevFormData.bookingList.some(
         (_bookingId) => _bookingId === managerBookingId
       );
@@ -81,7 +81,7 @@ const ManagerCard = ({
       {isEditMode && (
         <SelectIcon
           onClick={() => handleCheckBox(bookingId as number)}
-          isChecked={deleteFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
+          isChecked={patchFormData.bookingList.some((_bookingId) => _bookingId === bookingId)}
           alreadyBookingConfirmed={alreadyBookingConfirmed}
         />
       )}
