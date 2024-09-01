@@ -6,7 +6,7 @@ import { ChangeEvent, useState } from "react";
 import * as S from "../ModifyManage.styled";
 
 interface Role {
-  id: number;
+  makerId: number;
   makerName: string;
   makerRole: string;
   makerPhoto: string;
