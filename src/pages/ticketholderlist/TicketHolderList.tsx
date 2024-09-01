@@ -8,15 +8,47 @@ import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal, useToast } from "@hooks";
 import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import Banner from "./components/banner/Banner";
-import ManagerCard from "./components/managercard/ManagerCard";
+import ManagerCard, { convertingNumber } from "./components/managercard/ManagerCard";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
 type PaymentType = "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
+interface CSVDataType {
+  createdAt: string;
+  scheduleNumber: string;
+  bookerName: string;
+  purchaseTicketCount: string;
+  bookerPhoneNumber: string;
+  bookingStatus: string;
+}
+
+const convertingBookingStatus = (_bookingStatus: PaymentType): string => {
+  switch (_bookingStatus) {
+    case "CHECKING_PAYMENT":
+      return "미입금";
+    case "BOOKING_CONFIRMED":
+      return "입금 완료";
+    case "BOOKING_CANCELLED":
+      return "취소된 예매자";
+    default:
+      throw new Error("알 수 없는 타입입니다.");
+  }
+};
+const headers = [
+  { label: "예매일시", key: "createdAt" },
+  { label: "회차", key: "scheduleNumber" },
+  { label: "예매자 이름", key: "bookerName" },
+  { label: "매수", key: "purchaseTicketCount" },
+  { label: "연락처", key: "bookerPhoneNumber" },
+  { label: "예매상태", key: "bookingStatus" },
+];
+
+const CSVDataArr: CSVDataType[] = [];
 
 const TicketHolderList = () => {
   const { performanceId } = useParams();
@@ -38,7 +70,6 @@ const TicketHolderList = () => {
   const { showToast, isToastVisible } = useToast();
 
   useEffect(() => {
-    console.log("data:", data);
     setPaymentData(data?.bookingList ?? []);
 
     if (data?.bookingList) {
@@ -60,6 +91,23 @@ const TicketHolderList = () => {
 
       setAlreadyPayments(immutableAlreadyPayments);
       setInitBookingStatuses(immutableBookingStatuses);
+
+      //전체 데이터를 기반으로 csv 추출 데이터 구축
+      data.bookingList.map((item) => {
+        const date = item.createdAt.split("T")[0];
+        const time = item.createdAt.split("T")[1].slice(0, 5);
+        const formattedDate = date?.replace(/-/g, ".");
+        const formattedCreateTime = `${formattedDate} ${time}`;
+
+        CSVDataArr.push({
+          createdAt: formattedCreateTime,
+          scheduleNumber: `${convertingNumber(item.scheduleNumber)}회차`,
+          bookerName: item.bookerName,
+          purchaseTicketCount: `${item.purchaseTicketCount}매`,
+          bookerPhoneNumber: item.bookerPhoneNumber,
+          bookingStatus: convertingBookingStatus(item.bookingStatus),
+        });
+      });
     }
   }, [data]);
 
@@ -206,6 +254,7 @@ const TicketHolderList = () => {
   });
 
   useEffect(() => {
+    //총 매수 계산
     const totalCount = filteredData?.reduce(
       (totalSum, obj) => (obj.purchaseTicketCount as number) + totalSum,
       0
@@ -308,8 +357,10 @@ const TicketHolderList = () => {
                       예매자 정보를 CSV 파일로 저장할 수 있어요.
                     </S.FooterButtonText>
                     <S.MarginBottom $value="2.4rem">
-                      <Button onClick={() => alert("csv 추출 기능 구현 예정")}>
-                        예매자 목록 다운받기
+                      <Button>
+                        <CSVLink data={CSVDataArr} headers={headers} filename="예매자 목록.csv">
+                          예매자 목록 다운받기
+                        </CSVLink>
                       </Button>
                     </S.MarginBottom>
                   </S.FooterButtonWrapper>

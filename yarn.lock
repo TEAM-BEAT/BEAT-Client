@@ -3898,6 +3898,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-csv@npm:^1.1.10":
+  version: 1.1.10
+  resolution: "@types/react-csv@npm:1.1.10"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/58d300aacccc70c67d2df538726983b4483f3b446db67687baa0026bd4d562cbb956a47eab49516bbe22b9bf8e9b92d1e28f608361a77b2ffa36825bd9c72295
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^18.3.0":
   version: 18.3.0
   resolution: "@types/react-dom@npm:18.3.0"
@@ -5212,6 +5221,7 @@ __metadata:
     "@types/prettier-linter-helpers": "npm:^1"
     "@types/qs": "npm:^6"
     "@types/react": "npm:^18.3.3"
+    "@types/react-csv": "npm:^1.1.10"
     "@types/react-dom": "npm:^18.3.0"
     "@types/shelljs": "npm:^0"
     "@typescript-eslint/eslint-plugin": "npm:^7.16.0"
@@ -5246,6 +5256,7 @@ __metadata:
     puppeteer-core: "npm:^22.15.0"
     react: "npm:^18.3.1"
     react-components: "npm:^0.5.1"
+    react-csv: "npm:^2.2.2"
     react-dom: "npm:^18.3.1"
     react-helmet-async: "npm:^2.0.5"
     react-image-crop: "npm:^11.0.6"
@@ -11166,6 +11177,13 @@ __metadata:
   peerDependencies:
     react: ^16.3.0 || ^17.0.1 || ^18.0.0
   checksum: 10c0/5b4eb23eef564695f6db1d25b294ed31d5fa21ff4092c6a38e641f85cd10e3e0b50014366e3ac0f7cf772e73faaecd14614e5b11a5531336fa769dda8068ab59
+  languageName: node
+  linkType: hard
+
+"react-csv@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "react-csv@npm:2.2.2"
+  checksum: 10c0/287e7ba2085a32a0e65d7a19b9e063e43f06f75ab6ebc18bb52b518007a1d6ec5f5ce33fc7c4e290e3ea41cfb251657b6e62aadadc8d7ffcef7e53d43bf3eb69
   languageName: node
   linkType: hard
 
