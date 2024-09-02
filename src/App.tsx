@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Alert from "@components/commons/modal/Alert";
 import Confirm from "@components/commons/modal/Confirm";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -22,6 +23,15 @@ const darkTheme = createTheme({
 
 function App() {
   const queryClient = new QueryClient();
+
+  function setScreenSize() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+
+  useEffect(() => {
+    setScreenSize();
+  });
 
   return (
     <HelmetProvider>
