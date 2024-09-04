@@ -58,6 +58,9 @@ const Gig = () => {
     }
   }, [data]);
 
+  console.log("isLoading", isLoading);
+  console.log("data", data);
+
   if (isLoading) {
     return <Loading />;
   }
