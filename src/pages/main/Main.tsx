@@ -59,16 +59,16 @@ const Main = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const removeElement = () => {
-  //     const element = document.querySelector(".deploy-loading");
-  //     if (element) {
-  //       element.remove();
-  //     }
-  //   };
+  useEffect(() => {
+    const removeElement = () => {
+      const element = document.querySelector(".deploy-loading");
+      if (element) {
+        element.remove();
+      }
+    };
 
-  //   removeElement();
-  // }, [isLoading]);
+    removeElement();
+  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -76,7 +76,7 @@ const Main = () => {
 
   return (
     <>
-      {/* <div
+      <div
         className="deploy-loading"
         style={{
           width: "100vw", // 100% 너비
@@ -84,13 +84,9 @@ const Main = () => {
           zIndex: 1000, // z-index 값
           top: 0, // 상단 고정
           left: 0, // 좌측 고정
-          display: "flex", // 플렉스 박스 사용
-          justifyContent: "center", // 가로 중앙 정렬
-          alignItems: "center", // 세로 중앙 정렬
-          color: "white", // 텍스트 색상
-          fontSize: "24px", // 텍스트 크기
+          backgroundColor: "green",
         }}
-      /> */}
+      />
       <S.MainWrapper>
         {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
