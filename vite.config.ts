@@ -33,7 +33,8 @@ export default defineConfig(async ({ mode }) => {
             headless: chromium.headless,
           },
           maxConcurrentRoutes: 1,
-          renderAfterTime: 500,
+          renderAfterTime: 5000,
+          renderAfterElementExists: "[data-testid='main-content']",
           customPuppeteerModule: "puppeteer-core",
         },
         // Debugging

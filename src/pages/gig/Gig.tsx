@@ -58,16 +58,13 @@ const Gig = () => {
     }
   }, [data]);
 
-  // console.log("isLoading", isLoading);
-  // console.log("data", data);
-
   if (isLoading) {
     return <Loading />;
   }
 
-  // if (!isLoading && !data) {
-  //   return <NotFound />;
-  // }
+  if (!isLoading && !data) {
+    return <NotFound />;
+  }
 
   return (
     <S.ContentWrapper>
