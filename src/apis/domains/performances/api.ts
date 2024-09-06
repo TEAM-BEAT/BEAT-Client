@@ -57,11 +57,17 @@ export type PerformanceDetailResponse = components["schemas"]["PerformanceDetail
 export const getPerformanceDetail = async (
   performanceId: number
 ): Promise<PerformanceDetailResponse | null> => {
-  const response: AxiosResponse<ApiResponseType<PerformanceDetailResponse>> = await get(
-    `/performances/detail/${performanceId}`
-  );
+  try {
+    const response: AxiosResponse<ApiResponseType<PerformanceDetailResponse>> = await get(
+      `/performances/detail/${performanceId}`
+    );
 
-  return response.data.data;
+    return response.data.data;
+  } catch (error) {
+    console.error("error", error);
+
+    throw new Error(error);
+  }
 };
 
 type BookingPerformanceDetailResponse = components["schemas"]["BookingPerformanceDetailResponse"];

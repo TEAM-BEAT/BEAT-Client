@@ -59,7 +59,23 @@ const Gig = () => {
   }, [data]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <>
+        {!data && (
+          <div
+            className="deploy-loading"
+            style={{
+              width: "100vw", // 100% 너비
+              height: "100vh", // 100% 높이
+              zIndex: 1000, // z-index 값
+              top: 0, // 상단 고정
+              left: 0, // 좌측 고정
+            }}
+          />
+        )}
+        <Loading />
+      </>
+    );
   }
 
   if (isError) {
