@@ -65,7 +65,7 @@ const Main = () => {
 
   return (
     <>
-      {data === null && (
+      {data === null ? (
         <div
           className="deploy-loading"
           style={{
@@ -76,21 +76,22 @@ const Main = () => {
             left: 0, // 좌측 고정
           }}
         />
-      )}
-      <S.MainWrapper>
-        {/* <button style={{ color: "white" }} onClick={onClickHi}>
+      ) : (
+        <S.MainWrapper>
+          {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
           </button>
           <button style={{ color: "white" }} onClick={onClickHello}>
             헬로 테스트
           </button> */}
-        <MainNavigation />
-        <Carousel promotionList={data?.promotionList ?? []} />
-        <Chips handleGenre={handleGenre} />
-        <Floating />
-        <Performance genre={genre} performanceList={data?.performanceList ?? []} />
-        <Footer />
-      </S.MainWrapper>
+          <MainNavigation />
+          <Carousel promotionList={data?.promotionList ?? []} />
+          <Chips handleGenre={handleGenre} />
+          <Floating />
+          <Performance genre={genre} performanceList={data?.performanceList ?? []} />
+          <Footer />
+        </S.MainWrapper>
+      )}
     </>
   );
 };
