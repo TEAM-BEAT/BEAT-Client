@@ -5,6 +5,7 @@ import { defineConfig, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { generatePerformanceRoutes } from "./src/utils/generatePerformanceRoute";
+import axios from "axios";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
@@ -37,8 +38,31 @@ export default defineConfig(async ({ mode }) => {
           customPuppeteerModule: "puppeteer-core",
         },
         // Debugging
-        postProcess: (context) => {
+        postProcess: async (context) => {
           console.log(`Prerendered: ${context.route}`);
+
+          if (context.route.includes("/gig")) {
+            const response = await axios.get(
+              `https://api.sinjibabo.shop/api/performances/detail/${context.route.slice(context.route.lastIndexOf("/") + 1)}`
+            );
+
+            const performanceData = response.data.data;
+
+            context.html = `
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta property="og:title" content="${performanceData.performanceTitle || "BEAT"}" />
+                <meta property="og:image" content="${performanceData.posterImage || "https://www.sinjibabo.shop/og_img.png"}" />
+                <meta name="keywords" content="공연, 밴드, 뮤지컬, 비트, beat" />
+                <meta property="og:description" content="${performanceData.performanceDescription || "심장이 뛰는 곳, BEAT에서 만나보세요."}" />
+                <meta property="og:url" content="https://www.sinjibabo.shop/gig/${performanceData.performanceId}" />
+              </head>
+              <body>
+              </body>
+            </html>
+          `;
+          }
         },
       }),
       svgr({
