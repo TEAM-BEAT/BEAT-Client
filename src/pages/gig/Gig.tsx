@@ -56,21 +56,30 @@ const Gig = () => {
         },
       });
     }
-  }, [data]);
 
-  // console.log("isLoading", isLoading);
-  // console.log("data", data);
+    if (!isLoading && !data) {
+      navigate("/404");
+    }
+  }, [data]);
 
   if (isLoading) {
     return <Loading />;
   }
 
-  // if (!isLoading && !data) {
-  //   return <NotFound />;
-  // }
-
   return (
     <S.ContentWrapper>
+      {data === null && (
+        <div
+          className="deploy-loading"
+          style={{
+            width: "100vw", // 100% 너비
+            height: "100vh", // 100% 높이
+            zIndex: 1000, // z-index 값
+            top: 0, // 상단 고정
+            left: 0, // 좌측 고정
+          }}
+        />
+      )}
       <MetaTag
         title={data?.performanceTitle}
         ogTitle={data?.performanceTitle}

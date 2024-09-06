@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as S from "./Main.styled";
 
 import Loading from "@components/commons/loading/Loading";
@@ -59,38 +59,24 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    const removeElement = () => {
-      const element = document.querySelector(".deploy-loading");
-      if (element) {
-        element.remove();
-      }
-    };
-
-    removeElement();
-
-    return () => {
-      removeElement();
-    };
-  }, [isLoading]);
-
   if (isLoading) {
     return <Loading />;
   }
 
   return (
     <>
-      <div
-        className="deploy-loading"
-        style={{
-          width: "100vw", // 100% 너비
-          height: "100vh", // 100% 높이
-          zIndex: 1000, // z-index 값
-          top: 0, // 상단 고정
-          left: 0, // 좌측 고정
-          backgroundColor: "green",
-        }}
-      />
+      {data === null && (
+        <div
+          className="deploy-loading"
+          style={{
+            width: "100vw", // 100% 너비
+            height: "100vh", // 100% 높이
+            zIndex: 1000, // z-index 값
+            top: 0, // 상단 고정
+            left: 0, // 좌측 고정
+          }}
+        />
+      )}
       <S.MainWrapper>
         {/* <button style={{ color: "white" }} onClick={onClickHi}>
             하이 테스트
