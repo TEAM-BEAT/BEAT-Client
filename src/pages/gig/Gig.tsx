@@ -22,7 +22,7 @@ const Gig = () => {
   const { isLogin } = useLogin();
 
   const { performanceId } = useParams<{ performanceId: string }>();
-  const { data, isLoading } = useGetPerformanceDetail(Number(performanceId));
+  const { data, isLoading, isError } = useGetPerformanceDetail(Number(performanceId));
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -56,14 +56,14 @@ const Gig = () => {
         },
       });
     }
-
-    if (!isLoading && !data) {
-      navigate("/404");
-    }
   }, [data]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (isError) {
+    return <NotFound />;
   }
 
   return (
