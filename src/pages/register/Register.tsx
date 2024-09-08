@@ -40,6 +40,7 @@ import {
   handleChange,
   handleDateChange,
   handleGenreSelect,
+  handleImagesUpload,
   handleImageUpload,
   handleTotalTicketCountChange,
   isAllFieldsFilled,
@@ -47,6 +48,7 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
+import DetailImage from "./components/DetailImage";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -84,6 +86,7 @@ const Register = () => {
     accountNumber: "", // 계좌번호
     accountHolder: "", // 예금주
     posterImage: "", // 포스터 이미지 URL
+    performanceImageList: [], // 상세 이미지 URL
     performanceTeamName: "", // 공연 팀명
     performanceVenue: "", // 공연 장소
     performanceContact: "", // 대표자 연락처
@@ -123,6 +126,7 @@ const Register = () => {
     accountNumber,
     accountHolder,
     posterImage,
+    performanceImageList,
     performanceTeamName,
     performanceVenue,
     performancePeriod,
@@ -142,18 +146,25 @@ const Register = () => {
 
   const [castImages, setCastImages] = useState<string[]>([]);
   const [staffImages, setStaffImages] = useState<string[]>([]);
+  const [performanceImages, setPerformanceImages] = useState<string[]>([]);
 
   useEffect(() => {
     setCastImages(gigInfo.castList.map((_, index) => `cast-${index + 1}-${new Date().getTime()}`));
     setStaffImages(
       gigInfo.staffList.map((_, index) => `staff-${index + 1}-${new Date().getTime()}`)
     );
-  }, [gigInfo.castList.length, gigInfo.staffList.length]);
+    setPerformanceImages(
+      gigInfo.performanceImageList.map(
+        (_, index) => `performance-${index + 1}-${new Date().getTime()}`
+      )
+    );
+  }, [gigInfo.castList.length, gigInfo.staffList.length, gigInfo.performanceImageList.length]);
 
   const params = {
     posterImage: `poster-${new Date().getTime()}`,
     castImages,
     staffImages,
+    performanceImages,
   };
 
   const { data, refetch } = useGetPresignedUrl(params);
@@ -169,22 +180,24 @@ const Register = () => {
     let posterUrls;
     let castUrls;
     let staffUrls;
+    let performanceUrls;
 
     if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
         castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
         staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls];
+        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
       };
-
       const S3Urls = extractUrls(data);
 
       const files = [
         gigInfo.posterImage,
         ...gigInfo.castList.map((cast) => cast.castPhoto),
         ...gigInfo.staffList.map((staff) => staff.staffPhoto),
+        ...gigInfo.performanceImageList.map((image) => image.performanceImage),
       ];
 
       try {
@@ -221,11 +234,21 @@ const Register = () => {
             };
           }),
           bankName: bankInfo ? bankInfo : "NONE",
+          performanceImageList: gigInfo.performanceImageList.map((image, index) => ({
+            performanceImage: performanceUrls[index] || image.performanceImage,
+          })),
         };
+        console.log(formData);
         try {
           await postPerformance(formData);
         } catch (err) {
-          console.error("공연 등록 중 오류 발생:", err);
+          console.error("공연 등록 오류:", err);
+          const errorMessage =
+            err?.response?.status === 401
+              ? "로그인 세션이 만료되었습니다.\n 다시 로그인 후 시도해주세요."
+              : "공연 등록을 실패했습니다.\n 다시 시도해주세요.";
+
+          openAlert({ title: errorMessage });
         }
       } catch (err) {
         console.error("파일 업로드 중 오류 발생:", err);
@@ -277,6 +300,10 @@ const Register = () => {
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [registerStep]);
 
   const { setHeader } = useHeader();
 
@@ -347,7 +374,7 @@ const Register = () => {
               value={performanceTitle}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="등록될 공연의 이름을 입력해주세요."
-              maxLength={10}
+              maxLength={18}
               cap={true}
             />
           </InputRegisterBox>
@@ -364,13 +391,18 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
+          <DetailImage
+            value={performanceImageList}
+            onImagesUpload={(performanceImage) => handleImagesUpload(performanceImage, setGigInfo)}
+          />
+          <S.Divider />
           <InputRegisterBox title="공연 소개">
             <TextArea
               name="performanceDescription"
               value={performanceDescription}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-              maxLength={250}
+              maxLength={500}
             />
           </InputRegisterBox>
           <S.Divider />
@@ -388,9 +420,9 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
-          <StepperRegisterBox title="회차 수" description="최대 3회차">
+          <StepperRegisterBox title="회차 수" description="최대 10회차">
             <Stepper
-              max={3}
+              max={10}
               round={totalScheduleCount}
               onMinusClick={() => onMinusClick(setGigInfo)}
               onPlusClick={() => onPlusClick(setGigInfo)}
@@ -419,7 +451,7 @@ const Register = () => {
               name="performanceVenue"
               value={performanceVenue}
               onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="ex:) 홍익아트홀 303호 소극장"
+              placeholder="ex) 홍익아트홀 303호 소극장"
               maxLength={15}
               cap={true}
             />
@@ -447,7 +479,7 @@ const Register = () => {
               value={performanceAttentionNote}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-              maxLength={250}
+              maxLength={500}
             />
           </InputRegisterBox>
           <S.Divider />
@@ -577,6 +609,7 @@ const Register = () => {
         <Content
           description={performanceDescription}
           attentionNote={performanceAttentionNote}
+          performanceImageList={performanceImageList}
           contact={performanceContact}
           teamName={performanceTeamName}
           castList={castList.map((cast, index) => ({

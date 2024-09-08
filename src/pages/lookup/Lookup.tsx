@@ -33,6 +33,7 @@ interface LookupProps {
   accountNumber: string;
   accountHolder: string;
   dueDate: number;
+  bookingStatus: string;
   isPaymentCompleted: boolean;
   createdAt: string;
   posterImage: string;

@@ -3,7 +3,7 @@ interface BookingListObjProps {
   bookingId: number;
 }
 
-export interface DeleteFormDataProps {
+export interface PatchFormDataProps {
   performanceId: number;
   bookingList: number[];
 }

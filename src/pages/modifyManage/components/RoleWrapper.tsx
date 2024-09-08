@@ -6,11 +6,12 @@ import { ChangeEvent, useState } from "react";
 import * as S from "../ModifyManage.styled";
 
 interface Role {
-  id: number;
+  makerId: number;
   makerName: string;
   makerRole: string;
   makerPhoto: string;
 }
+
 interface RoleWrapperProps {
   id: number;
   role: Role;
@@ -50,7 +51,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
         {previewImg ? (
           <S.PreviewImageWrapper width={13.6} height={15.8}>
             <S.PreviewImage src={previewImg} alt="Preview" width={13.6} height={15.8} />
-            {/*  <S.RemoveImageButton onClick={() => removeRole(id)} /> */}
+            <S.RemoveImageButton onClick={() => removeRole(id)} />
           </S.PreviewImageWrapper>
         ) : (
           <>
@@ -58,10 +59,11 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
               type="file"
               id={`file-${id}`}
               onChange={uploadFile}
-              disabled={true}
+              disabled={false}
             />
             <S.CustomFileInput htmlFor={`file-${id}`} width={13.6} height={15.8}>
               <IconCamera width={"3.2rem"} />
+              <S.RemoveImageButton onClick={() => removeRole(id)} />
             </S.CustomFileInput>
           </>
         )}
@@ -76,7 +78,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
           filter={nameFilter}
           narrow={true}
           placeholder="이름"
-          disabled={true}
+          disabled={false}
         />
         <TextField
           type="input"
@@ -85,7 +87,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
           onChange={handleInputChange}
           narrow={true}
           placeholder="역할"
-          disabled={true}
+          disabled={false}
         />
       </S.TextInputWrpper>
     </S.RoleWrapper>

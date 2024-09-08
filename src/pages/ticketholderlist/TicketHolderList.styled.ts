@@ -1,5 +1,5 @@
 import { IconToggleOff, IconToggleOn } from "@assets/svgs";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const BodyWrapper = styled.div`
   display: flex;
@@ -84,33 +84,38 @@ export const ToggleOffIcon = styled(IconToggleOff)<{ $width: string; $height: st
 `;
 
 export const FooterButtonText = styled.span`
-  padding: 2.4rem 0;
+  margin-top: 2.4rem;
 
   color: ${({ theme }) => theme.colors.gray_200};
   text-align: center;
   ${({ theme }) => theme.fonts["body2-normal-semi"]};
 `;
 
-export const FooterButtonWrapper = styled.div<{ $isPaymentFixButton?: boolean }>`
+export const FooterButtonWrapper = styled.div`
   position: fixed;
   bottom: 0;
   left: 50%;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  gap: 2.4rem;
   align-items: center;
   width: 37.4rem;
-  height: ${({ $isPaymentFixButton }) => ($isPaymentFixButton ? "13.7rem" : "10.4rem")};
-  ${({ $isPaymentFixButton }) =>
-    $isPaymentFixButton
-      ? css`
-          border-top: 1px solid #3e3e3e;
-        `
-      : css`
-          justify-content: center;
-          padding: 2.4rem;
-        `};
+  min-height: 13.8rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
   transform: translate(-50%, 0);
+  border-top: 1px solid #3e3e3e;
+`;
+
+export const MarginBottom = styled.div<{ $value: string }>`
+  margin-bottom: ${({ $value }) => $value};
+`;
+
+export const TwoButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1.1rem;
+  align-items: flex-start;
+  justify-content: center;
 `;

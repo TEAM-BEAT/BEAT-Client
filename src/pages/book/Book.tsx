@@ -30,17 +30,14 @@ const Book = () => {
 
   useEffect(() => {
     if (data) {
-      const nowDate = new Date();
-      const lastPerformanceDate = new Date(
-        data.scheduleList[data?.scheduleList.length - 1].performanceDate
-      );
+      const isBookingAvailable = data?.scheduleList[data?.scheduleList.length - 1]?.isBooking;
 
-      if (nowDate > lastPerformanceDate) {
+      if (!isBookingAvailable) {
         openAlert({
           title: "종료된 공연입니다.",
           okText: "확인",
           okCallback: () => {
-            navigate("/main");
+            navigate(`/gig/${performanceId}`);
           },
         });
       }
@@ -58,6 +55,10 @@ const Book = () => {
   }, []);
 
   const [selectedValue, setSelectedValue] = useState<number>();
+  const selectedSchedule = data?.scheduleList.find(
+    (schedule) => schedule.scheduleId === selectedValue
+  );
+
   const [round, setRound] = useState(1);
   const [bookerInfo, setBookerInfo] = useState({
     bookerName: "",
@@ -149,6 +150,8 @@ const Book = () => {
       scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
       purchaseTicketCount: round,
       totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
+      // TODO: 상수로 관리
+      bookingStatus: "CHECKING_PAYMENT",
     } as GuestBookingRequest;
 
     if (!isLogin) {
@@ -157,7 +160,6 @@ const Book = () => {
         ...formData,
         ...bookerInfo,
         password: easyPassword.password,
-        isPaymentCompleted: false,
       } as GuestBookingRequest;
     } else {
       // 회원 예매 요청
@@ -183,6 +185,11 @@ const Book = () => {
       });
     } catch (error) {
       const errorResponse = error.response?.data as ErrorResponse;
+      if (errorResponse.status === 500) {
+        openAlert({
+          title: "서버 내부 오류로 예매가 불가능합니다.",
+        });
+      }
       if (errorResponse.status === 409) {
         openAlert({
           title: "이미 매진된 공연입니다.",
@@ -217,7 +224,6 @@ const Book = () => {
       setActiveButton(false);
     }
   }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -290,18 +296,8 @@ const Book = () => {
         <Context
           isDate={true}
           subTitle="날짜"
-          date={data
-            ?.scheduleList![
-              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
-                data?.scheduleList?.[0].scheduleId
-            ].performanceDate?.slice(0, 10)
-            .toString()}
-          time={data
-            ?.scheduleList![
-              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
-                data?.scheduleList?.[0].scheduleId
-            ].performanceDate?.slice(11, 16)
-            .toString()}
+          date={selectedSchedule?.performanceDate.slice(0, 10).toString() ?? ""}
+          time={selectedSchedule?.performanceDate.slice(11, 16).toString() ?? ""}
         />
         <Context
           subTitle="가격"

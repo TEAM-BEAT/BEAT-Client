@@ -26,38 +26,34 @@ const height = {
 
 export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   ${Generators.flexGenerator("row", "center", "center")};
-  ${({ $size }) => {
-    switch ($size) {
-      case "xlarge":
-        return css`
-          ${({ theme }) => theme.fonts["body1-normal-semi"]};
-        `;
-      case "large":
-        return css`
-          ${({ theme }) => theme.fonts["body2-normal-semi"]};
-        `;
-      case "medium":
-        return css`
-          ${({ theme }) => theme.fonts["body2-normal-semi"]};
-        `;
-      case "small":
-        return css`
-          ${({ theme }) => theme.fonts["body2-normal-semi"]};
-        `;
-      case "xsmall":
-        return css`
-          ${({ theme }) => theme.fonts["caption1-semi"]};
-        `;
+  ${({ $size, theme }) => {
+    if (typeof $size === "string") {
+      let font;
+      switch ($size) {
+        case "xlarge":
+          font = theme.fonts["body1-normal-semi"];
+          break;
+        case "xsmall":
+          font = theme.fonts["caption1-semi"];
+          break;
+        default:
+          font = theme.fonts["body2-normal-semi"];
+      }
+      return css`
+        ${font};
+        width: ${width[$size]};
+        height: ${height[$size]};
+      `;
+    } else if (typeof $size === "object") {
+      return css`
+        width: ${$size.width};
+        height: ${$size.height};
+        ${({ theme }) => theme.fonts["caption1-semi"]};
+      `;
     }
-  }};
+  }}
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
-  ${({ $size }) =>
-    $size &&
-    css`
-      width: ${width[$size]};
-      height: ${height[$size]};
-    `};
 
   ${({ $variant, $isDisabled }) => {
     switch ($variant) {

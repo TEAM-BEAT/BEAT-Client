@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as S from "./Main.styled";
 
 import Loading from "@components/commons/loading/Loading";
@@ -16,7 +16,6 @@ import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
 
 const Main = () => {
-  // 3. 훅 불러와서 사용
   const { data, isLoading } = useGetAllScheduleList();
 
   const [genre, setGenre] = useState("ALL");
@@ -60,10 +59,23 @@ const Main = () => {
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      {isLoading ? (
-        <Loading />
+      {data === null ? (
+        <div
+          className="deploy-loading"
+          style={{
+            width: "100vw", // 100% 너비
+            height: "100vh", // 100% 높이
+            zIndex: 1000, // z-index 값
+            top: 0, // 상단 고정
+            left: 0, // 좌측 고정
+          }}
+        />
       ) : (
         <S.MainWrapper>
           {/* <button style={{ color: "white" }} onClick={onClickHi}>

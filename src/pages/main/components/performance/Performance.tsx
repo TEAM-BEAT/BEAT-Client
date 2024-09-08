@@ -49,7 +49,7 @@ const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps)
           <PerformnaceCard key={item.performanceId} {...item} />
         ))}
       </S.PerformanceLayout>
-      <Spacing marginBottom="1.5" />
+      <Spacing marginBottom="3.2" />
       {genre === "ALL" ? (
         <S.BannerWrapper onClick={handleNavigate}>
           <S.Banner $image={BannerImg} />

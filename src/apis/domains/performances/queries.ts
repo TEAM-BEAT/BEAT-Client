@@ -1,5 +1,10 @@
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
-import { BANK_TYPE, Cast, Staff } from "@pages/modifyManage/typings/gigInfo";
+import {
+  BANK_TYPE,
+  Cast,
+  PerformanceImageModifyRequest,
+  Staff,
+} from "@pages/modifyManage/typings/gigInfo";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -66,6 +71,7 @@ export const useGetPerformanceDetail = (performanceId: number) => {
 
     staleTime: 0,
     gcTime: 1000 * 60 * 60 * 24,
+    retry: 1,
   });
 };
 
@@ -151,31 +157,31 @@ export const usePostPerformance = () => {
         exact: true,
       });
 
-      if (isPerformanceResponse(res) && res.status === 201) {
-        // 프리렌더 작업 수행
-        const prerenderResponse = await fetch(`${import.meta.env.VITE_CLIENT_URL}/api/prerender`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ performanceId: res.data.performanceId }),
-        });
+      // if (isPerformanceResponse(res) && res.status === 201) {
+      //   // 프리렌더 작업 수행
+      //   const prerenderResponse = await fetch(`${import.meta.env.VITE_CLIENT_URL}/api/prerender`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({ performanceId: res.data.performanceId }),
+      //   });
 
-        console.log("prerenderResponse is: ", prerenderResponse);
+      //   console.log("prerenderResponse is: ", prerenderResponse);
 
-        if (prerenderResponse.ok) {
-          console.log("Prerender successful");
-        } else {
-          console.error("Prerender failed");
-        }
+      //   if (prerenderResponse.ok) {
+      //     console.log("Prerender successful");
+      //   } else {
+      //     console.error("Prerender failed");
+      //   }
 
-        // 등록 완료 페이지로 이동
-        navigate("/register-complete", {
-          state: { performanceId: res.data.performanceId },
-        });
-      } else {
-        console.error("Performance creation failed:", res);
-      }
+      //   // 등록 완료 페이지로 이동
+      //   navigate("/register-complete", {
+      //     state: { performanceId: res.data.performanceId },
+      //   });
+      // } else {
+      //   console.error("Performance creation failed:", res);
+      // }
     },
   });
 };
@@ -189,7 +195,6 @@ interface Schedule {
 
 // gigInfo 타입 정의 예제
 export interface PerformanceUpdateFormData {
-  accountHolder: string;
   performanceId: number;
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
@@ -198,16 +203,18 @@ export interface PerformanceUpdateFormData {
   performanceAttentionNote: string;
   bankName: BANK_TYPE;
   accountNumber: string;
+  accountHolder: string;
   posterImage: string;
   performanceTeamName: string;
   performanceVenue: string;
   performanceContact: string;
   performancePeriod: string;
-  ticketPrice?: number | null;
   totalScheduleCount: number;
-  scheduleList: Schedule[];
-  castList: Cast[];
-  staffList: Staff[];
+  ticketPrice?: number | null;
+  scheduleModifyRequests: Schedule[];
+  castModifyRequests: Cast[];
+  staffModifyRequests: Staff[];
+  performanceImageModifyRequests: PerformanceImageModifyRequest[];
 }
 
 export const useUpdatePerformance = () => {

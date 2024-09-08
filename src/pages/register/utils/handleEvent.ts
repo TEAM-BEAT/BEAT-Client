@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { GigInfo } from "../typings/gigInfo";
+import { PerformanceImage, GigInfo } from "../typings/gigInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 
 // Image 핸들링
@@ -11,6 +11,17 @@ export const handleImageUpload = (
   setGigInfo((prev) => ({
     ...prev,
     posterImage: imageUrl,
+  }));
+};
+
+// Images 핸들링
+export const handleImagesUpload = (
+  performanceImage: PerformanceImage[],
+  setGigInfo: Dispatch<SetStateAction<GigInfo>>
+) => {
+  setGigInfo((prev) => ({
+    ...prev,
+    performanceImageList: performanceImage,
   }));
 };
 
@@ -184,7 +195,18 @@ export const calculatePerformancePeriod = (scheduleList: { performanceDate: Dayj
 };
 
 // scheduleNumber 생성
-const scheduleNumbers = ["FIRST", "SECOND", "THIRD"];
+const scheduleNumbers = [
+  "FIRST",
+  "SECOND",
+  "THIRD",
+  "FOURTH",
+  "FIFTH",
+  "SIXTH",
+  "SEVENTH",
+  "EIGHTH",
+  "NINTH",
+  "TENTH",
+];
 
 export const getScheduleNumber = (index: number): string => {
   return scheduleNumbers[index] || `SCHEDULE_${index + 1}`;

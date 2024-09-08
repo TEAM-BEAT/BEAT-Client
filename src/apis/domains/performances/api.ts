@@ -18,13 +18,13 @@ export const getMakerPerformance = async (): Promise<MakerPerformanceResponse | 
 };
 
 // 공연 수정 페이지 정보 조회 API (GET)
-type PerformanceEditResponse = components["schemas"]["PerformanceEditResponse"];
+type PerformanceModifyDetailResponse = components["schemas"]["PerformanceModifyDetailResponse"];
 
 export const getPerformanceEdit = async (
   performanceId: number
-): Promise<PerformanceEditResponse | null> => {
+): Promise<PerformanceModifyDetailResponse | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<PerformanceEditResponse>> = await get(
+    const response: AxiosResponse<ApiResponseType<PerformanceModifyDetailResponse>> = await get(
       `performances/${performanceId}`
     );
     return response.data.data;
@@ -47,7 +47,7 @@ export const deletePerformance = async (
     return response.data.data;
   } catch (error) {
     console.log("error", error);
-    return null;
+    throw new Error(error);
   }
 };
 
@@ -65,7 +65,8 @@ export const getPerformanceDetail = async (
     return response.data.data;
   } catch (error) {
     console.error("error", error);
-    return null;
+
+    throw new Error(error);
   }
 };
 
@@ -129,19 +130,18 @@ export const postPerformance = async (formData): Promise<PerformanceResponse | n
   }
 };
 
-export type PerformanceUpdateResponse = components["schemas"]["PerformanceUpdateResponse"];
+export type PerformanceModifyResponse = components["schemas"]["PerformanceModifyResponse"];
 
 // 공연 수정 API (PUT)
 export const updatePerformance = async (
   formData
-): Promise<PerformanceUpdateResponse | null | any> => {
+): Promise<PerformanceModifyResponse | null | any> => {
   try {
     const response = await put("/performances", formData);
 
     return response.data;
   } catch (error) {
     console.error("error", error);
-
-    return null;
+    throw error;
   }
 };

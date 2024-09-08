@@ -11,25 +11,30 @@ export interface Schedule {
 }
 
 export interface Cast {
-  castId: number;
+  castId?: number;
   castName: string;
   castRole: string;
   castPhoto: string;
 }
 
 export interface Staff {
-  staffId: number;
+  staffId?: number;
   staffName: string;
   staffRole: string;
   staffPhoto: string;
 }
 
+export interface PerformanceImageModifyRequest {
+  performanceImageId?: number;
+  performanceImage: string;
+}
+
 export type BANK_TYPE = components["schemas"]["GuestBookingRetrieveResponse"]["bankName"];
 
 export interface DataProps {
-  userId: number;
+  userId?: number;
   accountHolder: string;
-  performanceId: number;
+  performanceId?: number;
   performanceTitle: string;
   genre: SHOW_TYPE_KEY;
   runningTime: number | null;
@@ -44,10 +49,11 @@ export interface DataProps {
   performancePeriod: string;
   ticketPrice: number;
   totalScheduleCount: number;
-  isBookerExist: boolean;
-  scheduleList: Schedule[];
-  castList: Cast[];
-  staffList: Staff[];
+  isBookerExist?: boolean;
+  scheduleModifyRequests: Schedule[];
+  castModifyRequests: Cast[];
+  staffModifyRequests: Staff[];
+  performanceImageModifyRequests: PerformanceImageModifyRequest[];
 }
 
 export interface GigInfo {

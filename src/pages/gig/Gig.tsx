@@ -22,16 +22,12 @@ const Gig = () => {
   const { isLogin } = useLogin();
 
   const { performanceId } = useParams<{ performanceId: string }>();
-  const { data, isLoading } = useGetPerformanceDetail(Number(performanceId));
+  const { data, isLoading, isError } = useGetPerformanceDetail(Number(performanceId));
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const nowDate = new Date();
-  const lastPerformanceDate = new Date(
-    data?.scheduleList[data?.scheduleList.length - 1]?.performanceDate
-  );
-  // 현재 시간이 마지막 공연 시간보다 크면 예매 버튼 비활성화
-  const isBookDisabled = nowDate > lastPerformanceDate;
+  // 공연 예매 가능 여부
+  const isBookingAvailable = data?.scheduleList.some((schedule) => schedule.isBooking);
 
   const handleBookClick = () => {
     if (isLogin) {
@@ -63,15 +59,43 @@ const Gig = () => {
   }, [data]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <>
+        {!data && (
+          <div
+            className="deploy-loading"
+            style={{
+              width: "100vw", // 100% 너비
+              height: "100vh", // 100% 높이
+              zIndex: 1000, // z-index 값
+              top: 0, // 상단 고정
+              left: 0, // 좌측 고정
+            }}
+          />
+        )}
+        <Loading />
+      </>
+    );
   }
 
-  if (!data) {
+  if (isError) {
     return <NotFound />;
   }
 
   return (
     <S.ContentWrapper>
+      {data === null && (
+        <div
+          className="deploy-loading"
+          style={{
+            width: "100vw", // 100% 너비
+            height: "100vh", // 100% 높이
+            zIndex: 1000, // z-index 값
+            top: 0, // 상단 고정
+            left: 0, // 좌측 고정
+          }}
+        />
+      )}
       <MetaTag
         title={data?.performanceTitle}
         ogTitle={data?.performanceTitle}
@@ -92,6 +116,7 @@ const Gig = () => {
       />
       <Content
         description={data?.performanceDescription ?? ""}
+        performanceImageList={data?.performanceImageList ?? []}
         attentionNote={data?.performanceAttentionNote ?? ""}
         contact={data?.performanceContact ?? ""}
         teamName={data?.performanceTeamName ?? ""}
@@ -99,8 +124,8 @@ const Gig = () => {
         staffList={data?.staffList ?? []}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick} disabled={isBookDisabled}>
-          {isBookDisabled ? "종료된 공연은 예매할 수 없습니다." : "예매하기"}
+        <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
+          {isBookingAvailable ? "예매하기" : "종료된 공연은 예매할 수 없습니다."}
         </Button>
       </S.FooterContainer>
 

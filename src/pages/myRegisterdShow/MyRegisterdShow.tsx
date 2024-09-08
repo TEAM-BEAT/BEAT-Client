@@ -29,7 +29,7 @@ const MyRegisterdShow = () => {
   }, [setHeader]);
 
   //추후 API에서 받아온 걸로 set할 예정
-  type MakerPerformanceDetail = components["schemas"]["MakerPerformanceDetail"];
+  type MakerPerformanceDetail = components["schemas"]["MakerPerformanceDetailResponse"];
   const { data, isLoading } = useMakerPerformance();
   const [showList, setShowList] = useState<MakerPerformanceDetail[] | undefined>(
     data?.performances

@@ -6,6 +6,8 @@ export interface ScheduleListTypes {
   performanceDate?: string;
   availableTicketCount?: number;
   scheduleNumber?: string;
+  dueDate?: number;
+  isBooking?: boolean;
 }
 
 export interface SelectProps {

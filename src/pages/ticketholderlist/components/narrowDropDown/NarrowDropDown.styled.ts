@@ -14,8 +14,8 @@ export const DropdownButton = styled.button<{ $isChoosed: boolean }>`
   height: 4rem;
   padding: 0.8rem 0.8rem 0.8rem 1.2rem;
 
-  border: 1px solid
-    ${({ theme, $isChoosed }) => ($isChoosed ? theme.colors.gray_0 : theme.colors.gray_700)};
+  /* border: 1px solid
+    ${({ theme, $isChoosed }) => ($isChoosed ? theme.colors.gray_0 : theme.colors.gray_700)}; */
   border-radius: 0.4rem;
 `;
 
