@@ -65,6 +65,13 @@ const global = createGlobalStyle`
         background-color: ${({ theme }) => theme.colors.gray_900}; 
     }
 
+    @media (width >= 1440px) {
+        body {
+            width: 1440px;
+
+            background-color: ${({ theme }) => theme.colors.black}; 
+        }
+    }
 
 `;
 
