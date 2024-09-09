@@ -13,7 +13,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const OriginImage = styled.img`
-  width: 32rem;
+  max-width: 32rem;
 `;
 
 export const CustomReactCrop = styled(ReactCrop)<{
@@ -21,6 +21,8 @@ export const CustomReactCrop = styled(ReactCrop)<{
   calculatedSize: { width: number; height: number };
 }>`
   position: relative;
+  max-width: 32rem;
+  max-height: 80vh;
 
   .ReactCrop__drag-handle {
     width: 1rem;
@@ -36,7 +38,9 @@ export const CustomReactCrop = styled(ReactCrop)<{
     left: 50%;
     box-sizing: border-box;
     width: ${({ calculatedSize }) => calculatedSize.width}rem;
+    max-width: 100%;
     height: ${({ calculatedSize }) => calculatedSize.height}rem;
+    max-height: 80%;
 
     transform: translate(-50%, -50%);
     border: 0.2rem solid ${({ theme }) => theme.colors.white};

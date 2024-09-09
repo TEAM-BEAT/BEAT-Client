@@ -60,7 +60,7 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
             key={inputKey}
             type="file"
             id="file"
-            accept="images/*"
+            accept="image/png, image/jpg, image/jpeg, image/svg"
             onChange={uploadFile}
           />
           <S.CustomFileInput htmlFor="file">
