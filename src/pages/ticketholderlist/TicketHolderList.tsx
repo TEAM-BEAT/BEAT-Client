@@ -196,7 +196,7 @@ const TicketHolderList = () => {
     //원 상태도 되돌림 (입금 여부 수정, 삭제용 체크)
     //Todo : 새로고침 후 편집 -> 닫기 반복 클릭하면 에러 발생
     refetch();
-    setPaymentData(data?.bookingList);
+    setPaymentData(data?.bookingList ?? []);
     setPatchFormData({
       performanceId: Number(performanceId),
       bookingList: [],
