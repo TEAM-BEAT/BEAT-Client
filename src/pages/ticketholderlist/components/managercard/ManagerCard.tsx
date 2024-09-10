@@ -88,7 +88,12 @@ const ManagerCard = ({
       )}
       <S.ManagerCardLayout
         $isEditMode={isEditMode}
-        onClick={() => handleCheckBox(bookingId as number)}
+        onClick={() => {
+          if (alreadyBookingConfirmed) {
+            return;
+          }
+          isEditMode && handleCheckBox(bookingId as number);
+        }}
       >
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
