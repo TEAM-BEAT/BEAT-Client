@@ -63,6 +63,13 @@ export default function TokenRefresher() {
             openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
           }
         } else if (status === 400 || status === 404 || status === 409) {
+        } else if (status === 500) {
+          // role 변경으로 임시로 500 에러시 토큰 제거
+          localStorage.clear();
+          openAlert({
+            title: "토큰이 만료되었습니다. \n다시 로그인 해주세요.",
+            okCallback: () => window.location.reload(),
+          });
         }
         // 다른 모든 오류를 거부하고 처리
         return Promise.reject(error);
