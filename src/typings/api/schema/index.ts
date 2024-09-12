@@ -335,11 +335,8 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /**
-     * presigned-url API
-     * @description S3에 업로드 할 수 있는 유효한 url을 주는 GET API입니다.
-     */
-    get: operations["getPresignedUrls"];
+    /** 공연 이미지 업로드 presigned url 발급 */
+    get: operations["generateAllPresignedUrls"];
     put?: never;
     post?: never;
     delete?: never;
@@ -360,6 +357,63 @@ export interface paths {
      * @description 회원이 예매를 조회하는 GET API입니다.
      */
     get: operations["getMemberBookings"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/users": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** 유저 정보 조회 */
+    get: operations["readAllUsers"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/carousel/presigned-url": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 캐러셀 이미지 프리사인드 URL 생성
+     * @description 관리자가 캐러셀 이미지의 프리사인드 URL을 생성합니다.
+     */
+    get: operations["createAllCarouselPresignedUrls"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/banner/presigned-url": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 배너 이미지 프리사인드 URL 생성
+     * @description 관리자가 배너 이미지의 프리사인드 URL을 생성합니다.
+     */
+    get: operations["createBannerPresignedUrl"];
     put?: never;
     post?: never;
     delete?: never;
@@ -540,7 +594,17 @@ export interface components {
       /** Format: int32 */
       dueDate?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
     };
     StaffModifyResponse: {
       /** Format: int64 */
@@ -563,6 +627,7 @@ export interface components {
       accessToken?: string;
       refreshToken?: string;
       nickname?: string;
+      role?: string;
     };
     SuccessResponseLoginSuccessResponse: {
       /** Format: int32 */
@@ -626,7 +691,17 @@ export interface components {
       /** Format: int32 */
       totalTicketCount?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
     };
     StaffRequest: {
       staffName?: string;
@@ -701,7 +776,17 @@ export interface components {
       /** Format: int32 */
       dueDate?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
     };
     StaffResponse: {
       /** Format: int64 */
@@ -720,7 +805,17 @@ export interface components {
       /** Format: int64 */
       scheduleId?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
       /** Format: int32 */
       purchaseTicketCount?: number;
       bookerName?: string;
@@ -740,7 +835,17 @@ export interface components {
       /** Format: int32 */
       purchaseTicketCount?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
       bookerName?: string;
       bookerPhoneNumber?: string;
       /** @enum {string} */
@@ -781,7 +886,17 @@ export interface components {
       /** Format: int32 */
       purchaseTicketCount?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
       bookerName?: string;
       bookerPhoneNumber?: string;
       birthDate?: string;
@@ -801,7 +916,17 @@ export interface components {
       /** Format: int32 */
       purchaseTicketCount?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
       bookerName?: string;
       bookerPhoneNumber?: string;
       /** @enum {string} */
@@ -856,7 +981,17 @@ export interface components {
       /** Format: int32 */
       purchaseTicketCount?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
       bookerName?: string;
       performanceContact?: string;
       /** @enum {string} */
@@ -1154,6 +1289,17 @@ export interface components {
       message?: string;
       data?: components["schemas"]["HomeResponse"];
     };
+    ErrorResponse: {
+      /** Format: int32 */
+      status?: number;
+      message?: string;
+    };
+    SuccessResponse: {
+      /** Format: int32 */
+      status?: number;
+      message?: string;
+      data?: Record<string, never>;
+    };
     MemberBookingRetrieveResponse: {
       /** Format: int64 */
       userId?: number;
@@ -1170,7 +1316,17 @@ export interface components {
       /** Format: int32 */
       purchaseTicketCount?: number;
       /** @enum {string} */
-      scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+      scheduleNumber?:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
       bookerName?: string;
       performanceContact?: string;
       /** @enum {string} */
@@ -1203,11 +1359,11 @@ export interface components {
       /** Format: int32 */
       totalPaymentAmount?: number;
     };
-    SuccessResponseMemberBookingRetrieveResponse: {
+    SuccessResponseListMemberBookingRetrieveResponse: {
       /** Format: int32 */
       status?: number;
       message?: string;
-      data?: components["schemas"]["MemberBookingRetrieveResponse"];
+      data?: components["schemas"]["MemberBookingRetrieveResponse"][];
     };
   };
   responses: never;
@@ -1524,7 +1680,17 @@ export interface operations {
     parameters: {
       query: {
         memberId: number;
-        scheduleNumber?: "FIRST" | "SECOND" | "THIRD";
+        scheduleNumber?:
+          | "FIRST"
+          | "SECOND"
+          | "THIRD"
+          | "FOURTH"
+          | "FIFTH"
+          | "SIXTH"
+          | "SEVENTH"
+          | "EIGHTH"
+          | "NINTH"
+          | "TENTH";
         bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       };
       header?: never;
@@ -1706,7 +1872,7 @@ export interface operations {
       };
     };
   };
-  getPresignedUrls: {
+  generateAllPresignedUrls: {
     parameters: {
       query: {
         posterImage: string;
@@ -1720,17 +1886,22 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description OK */
+      /** @description 공연 이미지를 업로드할 PreSigned url이 발행되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "*/*": {
-            [key: string]: {
-              [key: string]: string;
-            };
-          };
+          "*/*": components["schemas"]["SuccessResponse"];
+        };
+      };
+      /** @description S3 PreSigned url을 받아오기에 실패했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -1752,7 +1923,102 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": components["schemas"]["SuccessResponseMemberBookingRetrieveResponse"];
+          "*/*": components["schemas"]["SuccessResponseListMemberBookingRetrieveResponse"];
+        };
+      };
+    };
+  };
+  readAllUsers: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 관리자 권한으로 모든 유저 조회에 성공하였습니다. */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponse"];
+        };
+      };
+      /** @description 회원이 없습니다 */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  createAllCarouselPresignedUrls: {
+    parameters: {
+      query: {
+        memberId: number;
+        carouselImages: string[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 프리사인드 URL 생성에 성공하였습니다. */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponse"];
+        };
+      };
+      /** @description 회원이 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  createBannerPresignedUrl: {
+    parameters: {
+      query: {
+        memberId: number;
+        bannerImage: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 프리사인드 URL 생성에 성공하였습니다. */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SuccessResponse"];
+        };
+      };
+      /** @description 회원이 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
         };
       };
     };
