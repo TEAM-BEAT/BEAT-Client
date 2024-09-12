@@ -8,11 +8,14 @@ export default function TokenRefresher() {
   const navigate = useNavigate();
   const { openAlert } = useModal();
 
-  if (JSON.parse(localStorage.getItem("user"))?.role === null) {
-    // 기존에 존재하던 유저 role 유무로 임시로 토큰 제거 후 리로드
-    localStorage.clear();
-    window.location.reload();
-    return;
+  const user = localStorage.getItem("user");
+  if (user) {
+    if (!JSON.parse(user)?.role) {
+      // 기존에 존재하던 유저 role 유무로 임시로 토큰 제거 후 리로드
+      localStorage.clear();
+      window.location.reload();
+      return;
+    }
   }
 
   useEffect(() => {
