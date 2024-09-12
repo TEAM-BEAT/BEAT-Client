@@ -65,7 +65,8 @@ export const getPerformanceDetail = async (
     return response.data.data;
   } catch (error) {
     console.error("error", error);
-    return null;
+
+    throw new Error(error);
   }
 };
 

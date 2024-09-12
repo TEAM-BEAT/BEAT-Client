@@ -71,6 +71,7 @@ export const useGetPerformanceDetail = (performanceId: number) => {
 
     staleTime: 0,
     gcTime: 1000 * 60 * 60 * 24,
+    retry: 1,
   });
 };
 

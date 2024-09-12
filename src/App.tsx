@@ -35,7 +35,7 @@ function App() {
 
   return (
     <HelmetProvider>
-      <MetaTag title="BEAT" />
+      {/* <MetaTag title="BEAT" /> */}
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={darkTheme}>
           <ThemeProvider theme={theme}>
