@@ -238,7 +238,6 @@ const Register = () => {
             performanceImage: performanceUrls[index] || image.performanceImage,
           })),
         };
-        console.log(formData);
         try {
           await postPerformance(formData);
         } catch (err) {
