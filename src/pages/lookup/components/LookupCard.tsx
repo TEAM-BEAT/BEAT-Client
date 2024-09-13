@@ -4,6 +4,7 @@ import { getBankNameKr } from "@utils/getBankName";
 import { bookingStatusText, bookingStatusTypes } from "@constants/bookingStatus";
 import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";
+import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./LookupCard.styled";
 
 const LookupCard = ({
@@ -80,7 +81,7 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>관람회차</S.SubTitle>
           <S.Text>
-            {scheduleNum[scheduleNumber as ScheduleNumTypes]} {purchaseTicketCount}매
+            {convertingNumber(scheduleNumber)}회차 {purchaseTicketCount}매
           </S.Text>
         </S.Context>
         <S.Context>
