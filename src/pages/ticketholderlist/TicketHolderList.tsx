@@ -48,9 +48,9 @@ const headers = [
   { label: "예매상태", key: "bookingStatus" },
 ];
 
-const CSVDataArr: CSVDataType[] = [];
-
 const TicketHolderList = () => {
+  const [CSVDataArr, setCSVDataArr] = useState<CSVDataType[]>([]);
+
   const { performanceId } = useParams();
   const [reservedCount, setReservedCount] = useState(0);
 
@@ -93,13 +93,15 @@ const TicketHolderList = () => {
       setInitBookingStatuses(immutableBookingStatuses);
 
       //전체 데이터를 기반으로 csv 추출 데이터 구축
+      const tempCSVDataArr: CSVDataType[] = [];
+
       data.bookingList.map((item) => {
         const date = item.createdAt.split("T")[0];
         const time = item.createdAt.split("T")[1].slice(0, 5);
         const formattedDate = date?.replace(/-/g, ".");
         const formattedCreateTime = `${formattedDate} ${time}`;
 
-        CSVDataArr.push({
+        tempCSVDataArr.push({
           createdAt: formattedCreateTime,
           scheduleNumber: `${convertingNumber(item.scheduleNumber)}회차`,
           bookerName: item.bookerName,
@@ -107,6 +109,8 @@ const TicketHolderList = () => {
           bookerPhoneNumber: item.bookerPhoneNumber,
           bookingStatus: convertingBookingStatus(item.bookingStatus),
         });
+
+        setCSVDataArr(tempCSVDataArr);
       });
     }
   }, [data]);
