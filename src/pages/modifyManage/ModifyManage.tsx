@@ -148,8 +148,6 @@ const ModifyManage = () => {
     bankOpen: false,
   });
 
-  console.log("dataState:", dataState);
-
   useEffect(() => {
     if (data && isSuccess) {
       dispatch({

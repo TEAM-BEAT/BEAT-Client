@@ -265,8 +265,6 @@ const TicketHolderList = () => {
       0
     ) as number;
     setReservedCount(totalCount);
-
-    console.log(filteredData);
   }, [filteredData]);
 
   const handlePaymentToggle = (_isEditMode: boolean, bookingId?: number) => {
