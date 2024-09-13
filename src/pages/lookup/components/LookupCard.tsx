@@ -25,14 +25,6 @@ const LookupCard = ({
 }: LookupProps) => {
   const navigate = useNavigate();
 
-  const scheduleNum = {
-    FIRST: "1회차",
-    SECOND: "2회차",
-    THIRD: "3회차",
-  };
-
-  type ScheduleNumTypes = keyof typeof scheduleNum;
-
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
 
