@@ -8,6 +8,16 @@ export default function TokenRefresher() {
   const navigate = useNavigate();
   const { openAlert } = useModal();
 
+  const user = localStorage.getItem("user");
+  if (user) {
+    if (!JSON.parse(user)?.role) {
+      // 기존에 존재하던 유저 role 유무로 임시로 토큰 제거 후 리로드
+      localStorage.clear();
+      window.location.reload();
+      return;
+    }
+  }
+
   useEffect(() => {
     const interceptor = instance.interceptors.response.use(
       // 성공적인 응답 처리
@@ -64,11 +74,8 @@ export default function TokenRefresher() {
           }
         } else if (status === 400 || status === 404 || status === 409) {
         } else if (status === 500) {
-          // role 변경으로 임시로 500 에러시 토큰 제거
-          localStorage.clear();
           openAlert({
-            title: "토큰이 만료되었습니다. \n다시 로그인 해주세요.",
-            okCallback: () => window.location.reload(),
+            title: "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
           });
         }
         // 다른 모든 오류를 거부하고 처리
