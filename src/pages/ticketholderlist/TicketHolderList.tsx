@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import Banner from "./components/banner/Banner";
-import ManagerCard, { convertingNumber } from "./components/managercard/ManagerCard";
+import ManagerCard from "./components/managercard/ManagerCard";
+import { convertingNumber } from "@constants/convertingNumber";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps } from "./constants/ticketholderlist";
@@ -264,8 +265,6 @@ const TicketHolderList = () => {
       0
     ) as number;
     setReservedCount(totalCount);
-
-    console.log(filteredData);
   }, [filteredData]);
 
   const handlePaymentToggle = (_isEditMode: boolean, bookingId?: number) => {
