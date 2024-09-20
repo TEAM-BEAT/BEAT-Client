@@ -25,6 +25,7 @@ export { default as IconFooterLogo } from "./IconFooterLogo";
 export { default as IconHanna } from "./IconHanna";
 export { default as IconIbk } from "./IconIbk";
 export { default as IconIm } from "./IconIm";
+export { default as IconImg } from "./IconImg";
 export { default as IconKabank } from "./IconKabank";
 export { default as IconKb } from "./IconKb";
 export { default as IconLargeBand } from "./IconLargeBand";
