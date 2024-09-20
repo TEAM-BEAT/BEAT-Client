@@ -1,5 +1,6 @@
 import * as S from "./AdminBanner.styled";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
+import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
 
 const AdminBanner = () => {
   return (
@@ -11,8 +12,10 @@ const AdminBanner = () => {
           <S.ImgIcon />
         </S.ImgBanner>
         <S.BannerInputWarpper>
-        <AdminButton variant="line">이미지 변경</AdminButton>
-      </S.BannerInputWarpper>
+          <AdminButton variant="line">이미지 변경</AdminButton>
+          {/* TODO : 공통 인풋 버튼 생성하기 */}
+          <LinkButton></LinkButton>
+        </S.BannerInputWarpper>
       </S.CardBanner>
     </S.AdminBannerWrapper>
   );

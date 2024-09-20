@@ -15,6 +15,7 @@ export const Notification = styled.div`
 
 export const CardBanner = styled.section`
   display: flex;
+  flex-direction: column;
   gap: 1.6rem;
   margin-top: 3.2rem;
 `;
