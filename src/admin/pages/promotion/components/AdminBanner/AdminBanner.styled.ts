@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IconTextfiedlDelete, IconImg } from "@assets/svgs";
 
-export const AdminBannerWrapper = styled.section`
+export const AdminBannerWrapper = styled.button`
   display: flex;
   flex-direction: column;
 `;
@@ -15,6 +15,7 @@ export const Notification = styled.div`
 
 export const CardBanner = styled.section`
   display: flex;
+  gap: 1.6rem;
   margin-top: 3.2rem;
 `;
 
@@ -33,6 +34,7 @@ export const DeleteIcon = styled(IconTextfiedlDelete)`
   position: absolute;
   top: 0.8rem;
   right: 0.8rem;
+  z-index: 2;
   width: 3rem;
   height: 3rem;
 `;
@@ -42,4 +44,9 @@ export const ImgIcon = styled(IconImg)`
   width: 4rem;
   height: 4rem;
   margin: 3.5rem 17.5rem;
+`;
+
+export const BannerInputWarpper = styled.section`
+  display: flex;
+  gap: 1.1rem;
 `;

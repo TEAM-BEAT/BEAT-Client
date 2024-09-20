@@ -4,6 +4,7 @@ import Tab from "@admin/compontets/commons/tab/tab/Tab";
 import AdminCarousel from "./components/AdminCarousel/AdminCarousel";
 import AdminBanner from "./components/AdminBanner/AdminBanner";
 import { Button } from "@components/commons";
+import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 
 const Promotion = () => {
   const [tab, setTab] = useState("carousel");
@@ -25,7 +26,7 @@ const Promotion = () => {
         </S.TabContainer>
 
         {/* state 따라서 GET 보내기....!! */}
-        <Button size="medium">저장하기</Button>
+        <AdminButton variant="primary">저장하기</AdminButton>
       </S.Selector>
       <S.PromotionContent>
         {tab === "carousel" ? <AdminCarousel /> : <AdminBanner />}
