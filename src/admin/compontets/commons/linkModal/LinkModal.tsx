@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as S from "./LinkModal.styled";
 import AdminButton from "../adminButton/AdminButton";
 
-const LinkModal = ({ handleLinkModal, redirectUrl, isExternal }) => {
+const LinkModal = ({ updateLink, handleLinkModal, redirectUrl, isExternal }) => {
   const [checked, setChecked] = useState(isExternal);
   const [link, setLink] = useState(redirectUrl);
 
@@ -53,7 +53,15 @@ const LinkModal = ({ handleLinkModal, redirectUrl, isExternal }) => {
             링크 확인
           </AdminButton>
         </S.InputContainer>
-        <S.SaveBtn>저장하기</S.SaveBtn>
+        <S.SaveBtn
+          onClick={() => {
+            updateLink(link);
+            // TODO : 현재 저장하기 버튼 눌러서 저장하면 리렌더링 다시 안 됨
+            handleLinkModal();
+          }}
+        >
+          저장하기
+        </S.SaveBtn>
       </S.LinkModalWrapper>
     </S.Overlay>
   );

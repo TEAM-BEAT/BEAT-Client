@@ -54,7 +54,8 @@ interface PromotionProps {
 const AdminCarousel = () => {
   const [carouselList, setCarouselList] = useState<PromotionProps[]>();
   const [openLinkModal, setOpenLinkModal] = useState(false);
-  const [LinkIdx, setLinkIdx] = useState(null);
+  const [linkIdx, setLinkIdx] = useState(null);
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     setCarouselList(promotionListTest);
@@ -79,18 +80,34 @@ const AdminCarousel = () => {
     setCarouselList(updatedCarouselList);
   };
 
-  const handleLinkModal = (value: number | null) => {
+  const handleLinkModal = (value?: number | null) => {
     setOpenLinkModal(!openLinkModal);
-    setLinkIdx(value);
+
+    if (value) {
+      setLinkIdx(value);
+    }
   };
+
+  const updateLink = (value) => {
+    setLink(value);
+  };
+
+  useEffect(() => {
+    const updatedList = carouselList;
+    if (linkIdx) {
+      updatedList[linkIdx].redirectUrl = link;
+      setCarouselList(updatedList);
+    }
+  }, [link]);
 
   return (
     <S.AdminCarouselWrapper>
       {openLinkModal && (
         <LinkModal
+          updateLink={updateLink}
           handleLinkModal={handleLinkModal}
-          redirectUrl={carouselList[LinkIdx].redirectUrl}
-          isExternal={carouselList[LinkIdx].isExternal}
+          redirectUrl={carouselList[linkIdx].redirectUrl}
+          isExternal={carouselList[linkIdx].isExternal}
         />
       )}
       <S.Notification>
