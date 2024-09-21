@@ -745,7 +745,7 @@ const ModifyManage = () => {
                 filter={phoneNumberFilter}
                 onChange={(e) => handleInputChange("performanceContact", e.target.value)}
                 placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
-                inputMode="numeric"
+                inputMode="tel"
               />
             </InputModifyManageBox>
           </S.ModifyManageContainer>

@@ -33,7 +33,7 @@ const BookerInfo = ({ isNonMember, bookerInfo, onChangeBookerInfo }: BookerInfoP
         filter={phoneNumberFilter}
         placeholder="휴대폰 번호 (‘-’ 없이 입력)"
         maxLength={13}
-        inputMode="numeric"
+        inputMode="tel"
       />
       {isNonMember && (
         <TextField

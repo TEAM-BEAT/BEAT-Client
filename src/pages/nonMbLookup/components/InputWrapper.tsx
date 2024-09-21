@@ -115,7 +115,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
           placeholder="휴대폰 번호 '-' 없이 입력"
           filter={phoneNumberFilter}
           maxLength={13}
-          inputMode="numeric"
+          inputMode="tel"
         />
         <TextField
           type={pwdStatus ? "input" : "password"}

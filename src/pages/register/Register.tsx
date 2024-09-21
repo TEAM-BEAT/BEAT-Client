@@ -547,6 +547,7 @@ const Register = () => {
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
               maxLength={13}
+              inputMode="tel"
             />
           </InputRegisterBox>
         </S.RegisterContainer>
