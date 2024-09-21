@@ -4,12 +4,16 @@ import { Spacing } from "@components/commons";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
 
-const CardCarousel = ({ carouselImg, redirectUrl }) => {
+const CardCarousel = ({ index, carouselImg, redirectUrl, deleteCarousel }) => {
   return (
     <S.CardCarouselWrapper>
       <S.SwitchIcon />
       <S.CarouselImg>
-        <S.DeleteIcon />
+        <S.DeleteIcon
+          onClick={() => {
+            deleteCarousel(index);
+          }}
+        />
         <img src={carouselImg} alt="carousel-img" />
       </S.CarouselImg>
       <AdminButton variant="line">이미지 변경</AdminButton>
