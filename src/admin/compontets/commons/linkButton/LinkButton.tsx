@@ -6,10 +6,10 @@ export interface LinkButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const LinkButton = ({ children }: LinkButtonProps) => {
+const LinkButton = ({ onClick, children }: LinkButtonProps) => {
   const isLink = React.Children.count(children) > 0;
   return (
-    <S.LinkButtonWrapper $isLink={isLink}>
+    <S.LinkButtonWrapper onClick={onClick} $isLink={isLink}>
       {!isLink ? "링크 연결하기" : children}
     </S.LinkButtonWrapper>
   );

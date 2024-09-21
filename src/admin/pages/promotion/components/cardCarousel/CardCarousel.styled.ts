@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IconTextfiedlDelete, Switch } from "@assets/svgs";
+import { IconImg, IconTextfiedlDelete, Switch } from "@assets/svgs";
 
 export const CardCarouselWrapper = styled.section`
   display: flex;
@@ -33,4 +33,19 @@ export const DeleteIcon = styled(IconTextfiedlDelete)`
   z-index: 2;
   width: 3rem;
   height: 3rem;
+`;
+
+export const EmptyImg = styled.div`
+  width: 19rem;
+  height: 24.3rem;
+
+  background-color: ${({ theme }) => theme.colors.gray_800};
+  border-radius: 0.4rem;
+`;
+
+export const ImgIcon = styled(IconImg)`
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  margin: 10.2rem 7.5rem;
 `;

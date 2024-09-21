@@ -1,6 +1,7 @@
 import * as S from "./AdminCarousel.styled";
 import CardCarousel from "../cardCarousel/CardCarousel";
 import { useEffect, useState } from "react";
+import LinkModal from "@admin/compontets/commons/linkModal/LinkModal";
 
 const promotionListTest = [
   {
@@ -52,6 +53,8 @@ interface PromotionProps {
 
 const AdminCarousel = () => {
   const [carouselList, setCarouselList] = useState<PromotionProps[]>();
+  const [openLinkModal, setOpenLinkModal] = useState(false);
+  const [LinkIdx, setLinkIdx] = useState(null);
 
   useEffect(() => {
     setCarouselList(promotionListTest);
@@ -76,8 +79,20 @@ const AdminCarousel = () => {
     setCarouselList(updatedCarouselList);
   };
 
+  const handleLinkModal = (value: number | null) => {
+    setOpenLinkModal(!openLinkModal);
+    setLinkIdx(value);
+  };
+
   return (
     <S.AdminCarouselWrapper>
+      {openLinkModal && (
+        <LinkModal
+          handleLinkModal={handleLinkModal}
+          redirectUrl={carouselList[LinkIdx].redirectUrl}
+          isExternal={carouselList[LinkIdx].isExternal}
+        />
+      )}
       <S.Notification>
         *캐러셀은 왼쪽부터 순서대로 노출되며, 최대 7개 등록 가능합니다.
       </S.Notification>
@@ -89,6 +104,7 @@ const AdminCarousel = () => {
               carouselImg={item.promotionPhoto}
               redirectUrl={item.redirectUrl}
               deleteCarousel={deleteCarousel}
+              handleLinkModal={handleLinkModal}
             />
           );
         })}

@@ -47,7 +47,7 @@ export const AdminButton = styled.button<{ $variant: string }>`
           height: 6.4rem;
           padding: 1.3rem 1.4rem;
 
-          color: ${({ theme }) => theme.colors.pink_400};
+          color: ${({ theme }) => theme.colors.gray_300};
 
           ${({ theme }) => theme.fonts["body2-normal-medi"]};
           background-color: ${({ theme }) => theme.colors.gray_800};
