@@ -105,6 +105,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
           placeholder="생년월일 앞 6자리"
           filter={numericFilter}
           maxLength={6}
+          inputMode="numeric"
         />
         <TextField
           type="input"
@@ -114,6 +115,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
           placeholder="휴대폰 번호 '-' 없이 입력"
           filter={phoneNumberFilter}
           maxLength={13}
+          inputMode="numeric"
         />
         <TextField
           type={pwdStatus ? "input" : "password"}
@@ -123,6 +125,7 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
           placeholder="비밀번호(숫자 4자리)"
           filter={numericFilter}
           maxLength={4}
+          inputMode="numeric"
         />
       </S.InputWrapperLayout>
     </>

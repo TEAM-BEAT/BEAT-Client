@@ -33,6 +33,7 @@ const BookerInfo = ({ isNonMember, bookerInfo, onChangeBookerInfo }: BookerInfoP
         filter={phoneNumberFilter}
         placeholder="휴대폰 번호 (‘-’ 없이 입력)"
         maxLength={13}
+        inputMode="numeric"
       />
       {isNonMember && (
         <TextField
@@ -43,6 +44,7 @@ const BookerInfo = ({ isNonMember, bookerInfo, onChangeBookerInfo }: BookerInfoP
           filter={numericFilter}
           maxLength={6}
           placeholder="생년월일 6자리"
+          inputMode="numeric"
         />
       )}
     </S.Wrapper>
