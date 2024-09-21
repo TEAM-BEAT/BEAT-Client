@@ -25,6 +25,27 @@ const promotionListTest = [
     promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
     redirectUrl: "https://github.com/sinji2102",
   },
+  {
+    isExternal: true,
+    performanceId: 58,
+    promotionId: 7,
+    promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
+    redirectUrl: "https://github.com/sinji2102",
+  },
+  {
+    isExternal: true,
+    performanceId: 58,
+    promotionId: 7,
+    promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
+    redirectUrl: "https://github.com/sinji2102",
+  },
+  {
+    isExternal: true,
+    performanceId: 58,
+    promotionId: 7,
+    promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
+    redirectUrl: "https://github.com/sinji2102",
+  },
 ];
 
 const AdminCarousel = () => {
@@ -37,6 +58,12 @@ const AdminCarousel = () => {
         {promotionListTest.map((item) => {
           return <CardCarousel carouselImg={item.promotionPhoto} redirectUrl={item.redirectUrl} />;
         })}
+        {promotionListTest.length <= 6 && (
+          <S.AddCarouselContainer>
+            <S.AddIcon />
+            <S.AddText>추가하기</S.AddText>
+          </S.AddCarouselContainer>
+        )}
       </S.CarouselContainer>
     </S.AdminCarouselWrapper>
   );

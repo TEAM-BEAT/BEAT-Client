@@ -1,8 +1,8 @@
 import { useState } from "react";
 import * as S from "./Promotion.styled";
 import Tab from "@admin/compontets/commons/tab/Tab";
-import AdminCarousel from "./components/AdminCarousel/AdminCarousel";
-import AdminBanner from "./components/AdminBanner/AdminBanner";
+import AdminCarousel from "./components/adminCarousel/AdminCarousel";
+import AdminBanner from "./components/adminBanner/AdminBanner";
 import { Button } from "@components/commons";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 
