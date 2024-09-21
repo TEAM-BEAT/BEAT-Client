@@ -8,7 +8,11 @@ export interface LinkButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 
 const LinkButton = ({ children }: LinkButtonProps) => {
   const isLink = React.Children.count(children) > 0;
-  return <S.LinkButtonWrapper $isLink={isLink}>{!isLink && "링크 연결하기"}</S.LinkButtonWrapper>;
+  return (
+    <S.LinkButtonWrapper $isLink={isLink}>
+      {!isLink ? "링크 연결하기" : children}
+    </S.LinkButtonWrapper>
+  );
 };
 
 export default LinkButton;

@@ -59,4 +59,5 @@ export { default as IconXButton } from "./IconXButton";
 export { default as IcOutlinePlace } from "./IcOutlinePlace";
 export { default as NotFoundAsset } from "./NotFoundAsset";
 export { default as Subtract } from "./Subtract";
+export { default as Switch } from "./Switch";
 export { default as Union } from "./Union";
