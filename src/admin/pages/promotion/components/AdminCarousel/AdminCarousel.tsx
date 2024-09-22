@@ -2,6 +2,7 @@ import * as S from "./AdminCarousel.styled";
 import CardCarousel from "../cardCarousel/CardCarousel";
 import { useEffect, useState } from "react";
 import LinkModal from "@admin/compontets/commons/linkModal/LinkModal";
+import { useGetAllScheduleList } from "@apis/domains/home/queries";
 
 const promotionListTest = [
   {
@@ -52,15 +53,18 @@ interface PromotionProps {
 }
 
 const AdminCarousel = () => {
+  const { data } = useGetAllScheduleList();
+
   const [carouselList, setCarouselList] = useState<PromotionProps[]>();
   const [openLinkModal, setOpenLinkModal] = useState(false);
-  const [linkIdx, setLinkIdx] = useState(null);
+  const [linkIdx, setLinkIdx] = useState(null); // 변경하고자 하는 캐러셀 인덱스
   const [link, setLink] = useState("");
   const [external, setExternal] = useState();
 
   useEffect(() => {
-    setCarouselList(promotionListTest);
-  }, []);
+    // setCarouselList(promotionListTest);
+    setCarouselList(data?.promotionList);
+  }, [data]);
 
   const addCarousel = () => {
     const newCarousel = {
@@ -97,6 +101,8 @@ const AdminCarousel = () => {
     setExternal(value);
   };
 
+  // TODO : 사진 수정 추가하기
+  // 링크 수정
   useEffect(() => {
     if (linkIdx !== null && linkIdx !== undefined) {
       const updatedList = carouselList.map((item, index) => {
@@ -141,6 +147,7 @@ const AdminCarousel = () => {
         {carouselList?.map((item, idx) => {
           return (
             <CardCarousel
+              key={`${item.promotionId}-idx`}
               index={idx}
               carouselImg={item.promotionPhoto}
               redirectUrl={item.redirectUrl}
