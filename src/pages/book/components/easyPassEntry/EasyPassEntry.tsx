@@ -21,6 +21,7 @@ const EasyPassEntry = ({ password, passwordCheck, onChangeEasyPassword }: EasyPa
         filter={numericFilter}
         maxLength={4}
         placeholder="숫자 4자리"
+        inputMode="numeric"
       />
       <TextField
         name="passwordCheck"
@@ -30,6 +31,7 @@ const EasyPassEntry = ({ password, passwordCheck, onChangeEasyPassword }: EasyPa
         filter={numericFilter}
         maxLength={4}
         placeholder="한 번 더 입력"
+        inputMode="numeric"
       />
     </S.Wrapper>
   );

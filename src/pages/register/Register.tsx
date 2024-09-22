@@ -416,6 +416,7 @@ const Register = () => {
               filter={numericFilter}
               unit="time"
               placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
+              inputMode="numeric"
             />
           </InputRegisterBox>
           <S.Divider />
@@ -469,6 +470,7 @@ const Register = () => {
               placeholder="판매할 티켓의 매 수를 입력해주세요."
               filter={numericFilter}
               unit="ticket"
+              inputMode="numeric"
             />
           </InputRegisterBox>
           <S.Divider />
@@ -517,6 +519,7 @@ const Register = () => {
                   onChange={(e) => handleChange(e, setGigInfo)}
                   filter={numericFilter}
                   placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
+                  inputMode="numeric"
                 />
                 <TextField
                   name="accountHolder"
@@ -544,6 +547,7 @@ const Register = () => {
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
               maxLength={13}
+              inputMode="tel"
             />
           </InputRegisterBox>
         </S.RegisterContainer>

@@ -585,6 +585,7 @@ const ModifyManage = () => {
                 filter={numericFilter}
                 unit="time"
                 placeholder="공연의 러닝 타임을 분 단위로 입력해주세요."
+                inputMode="numeric"
               />
             </InputModifyManageBox>
             <S.Divider />
@@ -653,6 +654,7 @@ const ModifyManage = () => {
                 placeholder="판매할 티켓의 매 수를 입력해주세요."
                 filter={numericFilter}
                 unit="ticket"
+                inputMode="numeric"
               />
             </InputModifyManageBox>
             <S.Divider />
@@ -687,6 +689,7 @@ const ModifyManage = () => {
                 filter={priceFilter}
                 disabled={modifyState.isFree || modifyState.isBookerExist}
                 unit="amount"
+                inputMode="numeric"
               />
             </InputModifyManageBox>
             <S.Divider />
@@ -709,6 +712,7 @@ const ModifyManage = () => {
                     filter={numericFilter}
                     placeholder="입금 받으실 계좌번호를 (-)제외 숫자만 입력해주세요."
                     disabled={modifyState.isBookerExist}
+                    inputMode="numeric"
                   />
                   <TextField
                     isDisabled={modifyState.isBookerExist}
@@ -741,6 +745,7 @@ const ModifyManage = () => {
                 filter={phoneNumberFilter}
                 onChange={(e) => handleInputChange("performanceContact", e.target.value)}
                 placeholder="문의 가능한 대표 번호를 숫자만 입력해주세요."
+                inputMode="tel"
               />
             </InputModifyManageBox>
           </S.ModifyManageContainer>
