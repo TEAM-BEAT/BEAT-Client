@@ -102,6 +102,7 @@
     "globals": "^15.6.0",
     "husky": "^8.0.0",
     "lint-staged": "^15.2.7",
+    "openapi-typescript": "^7.4.1",
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.3.2",
     "prettier-linter-helpers": "^1.0.0",
