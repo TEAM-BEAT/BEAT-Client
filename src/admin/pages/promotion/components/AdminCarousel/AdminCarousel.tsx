@@ -14,7 +14,7 @@ const promotionListTest = [
   },
   {
     isExternal: true,
-    performanceId: 57,
+    performanceId: null,
     promotionId: 2,
     promotionPhoto:
       "https://avatars.githubusercontent.com/u/58854041?s=400&u=fdb4a8dbf5b7ec8d7f327954a4ca97e064b560ee&v=4",
@@ -106,8 +106,9 @@ const AdminCarousel = () => {
         <LinkModal
           updateLink={updateLink}
           handleLinkModal={handleLinkModal}
-          redirectUrl={carouselList[linkIdx].redirectUrl}
-          isExternal={carouselList[linkIdx].isExternal}
+          redirectUrl={carouselList[linkIdx]?.redirectUrl}
+          isExternal={carouselList[linkIdx]?.isExternal}
+          performanceId={carouselList[linkIdx]?.performanceId}
         />
       )}
       <S.Notification>

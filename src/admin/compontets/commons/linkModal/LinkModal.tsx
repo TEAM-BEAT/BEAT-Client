@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import * as S from "./LinkModal.styled";
 import AdminButton from "../adminButton/AdminButton";
 
-const LinkModal = ({ updateLink, handleLinkModal, redirectUrl, isExternal }) => {
+const LinkModal = ({ updateLink, handleLinkModal, redirectUrl, isExternal, performanceId }) => {
   const [checked, setChecked] = useState(isExternal);
-  const [link, setLink] = useState(redirectUrl);
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     setChecked(isExternal);
-    setLink(redirectUrl || "");
+    if (isExternal) {
+      setLink(redirectUrl || "");
+    } else {
+      setLink(`${import.meta.env.VITE_CLIENT_URL}/gig/${performanceId}`);
+    }
   }, [isExternal, redirectUrl]);
 
   const handleChecked = () => {

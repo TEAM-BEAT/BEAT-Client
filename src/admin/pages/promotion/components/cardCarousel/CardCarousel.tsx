@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useRef } from "react";
 import * as S from "./CardCarousel.styled";
 import { Spacing } from "@components/commons";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
 
 const CardCarousel = ({ index, carouselImg, redirectUrl, deleteCarousel, handleLinkModal }) => {
+  const ref = useRef<HTMLInputElement>(null);
+
+  const fileHandler = () => {
+    if (ref.current) {
+      ref.current!.click();
+    }
+  };
   return (
     <S.CardCarouselWrapper>
       <S.SwitchIcon />
@@ -22,7 +29,15 @@ const CardCarousel = ({ index, carouselImg, redirectUrl, deleteCarousel, handleL
           </S.EmptyImg>
         )}
       </S.CarouselImg>
-      <AdminButton variant="line">{carouselImg ? "이미지 변경" : "이미지 등록"}</AdminButton>
+      <AdminButton variant="line" onClick={fileHandler}>
+        <input
+          type="file"
+          ref={ref}
+          accept="image/png, image/jpg, image/jpeg, image/svg"
+          style={{ display: "none" }}
+        />
+        {carouselImg ? "이미지 변경" : "이미지 등록"}
+      </AdminButton>
       <Spacing marginBottom="0.8" />
       <LinkButton
         onClick={() => {
