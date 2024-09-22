@@ -5,20 +5,20 @@ import LinkModal from "@admin/compontets/commons/linkModal/LinkModal";
 
 const promotionListTest = [
   {
-    isExternal: false,
-    performanceId: 56,
-    promotionId: 1,
-    promotionPhoto:
-      "https://beat-dev-bucket.s3.ap-northeast-2.amazonaws.com/poster/8a8efe39-83bf-47b6-b40d-256164928ce7-poster-1723813907142",
-    redirectUrl: null,
-  },
-  {
     isExternal: true,
     performanceId: null,
     promotionId: 2,
     promotionPhoto:
       "https://avatars.githubusercontent.com/u/58854041?s=400&u=fdb4a8dbf5b7ec8d7f327954a4ca97e064b560ee&v=4",
     redirectUrl: "https://github.com/pepperdad",
+  },
+  {
+    isExternal: false,
+    performanceId: 56,
+    promotionId: 1,
+    promotionPhoto:
+      "https://beat-dev-bucket.s3.ap-northeast-2.amazonaws.com/poster/8a8efe39-83bf-47b6-b40d-256164928ce7-poster-1723813907142",
+    redirectUrl: null,
   },
   {
     isExternal: true,
@@ -56,6 +56,7 @@ const AdminCarousel = () => {
   const [openLinkModal, setOpenLinkModal] = useState(false);
   const [linkIdx, setLinkIdx] = useState(null);
   const [link, setLink] = useState("");
+  const [external, setExternal] = useState();
 
   useEffect(() => {
     setCarouselList(promotionListTest);
@@ -83,7 +84,7 @@ const AdminCarousel = () => {
   const handleLinkModal = (value?: number | null) => {
     setOpenLinkModal(!openLinkModal);
 
-    if (value) {
+    if (value !== null && value !== undefined) {
       setLinkIdx(value);
     }
   };
@@ -92,19 +93,41 @@ const AdminCarousel = () => {
     setLink(value);
   };
 
+  const updateExternal = (value) => {
+    setExternal(value);
+  };
+
   useEffect(() => {
-    const updatedList = carouselList;
-    if (linkIdx) {
-      updatedList[linkIdx].redirectUrl = link;
+    if (linkIdx !== null && linkIdx !== undefined) {
+      const updatedList = carouselList.map((item, index) => {
+        // 외부, 내부 링크 구분해서 저장
+        if (index === linkIdx && external) {
+          return {
+            ...item,
+            redirectUrl: link,
+            isExternal: external,
+            performanceId: null,
+          };
+        } else if (index === linkIdx && !external) {
+          return {
+            ...item,
+            redirectUrl: null,
+            isExternal: external,
+            performanceId: +link.split("/", 5)[4],
+          };
+        }
+        return item;
+      });
       setCarouselList(updatedList);
     }
-  }, [link]);
+  }, [link, external]);
 
   return (
     <S.AdminCarouselWrapper>
       {openLinkModal && (
         <LinkModal
           updateLink={updateLink}
+          updateExternal={updateExternal}
           handleLinkModal={handleLinkModal}
           redirectUrl={carouselList[linkIdx]?.redirectUrl}
           isExternal={carouselList[linkIdx]?.isExternal}
@@ -121,6 +144,7 @@ const AdminCarousel = () => {
               index={idx}
               carouselImg={item.promotionPhoto}
               redirectUrl={item.redirectUrl}
+              performanceId={item.performanceId}
               deleteCarousel={deleteCarousel}
               handleLinkModal={handleLinkModal}
             />

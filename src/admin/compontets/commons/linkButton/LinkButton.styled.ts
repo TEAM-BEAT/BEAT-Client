@@ -9,6 +9,7 @@ export const LinkButtonWrapper = styled.button<{ $isLink: boolean }>`
   overflow: hidden;
 
   color: ${({ theme, $isLink }) => ($isLink ? theme.colors.white : theme.colors.gray_500)};
+  white-space: nowrap;
   text-overflow: ellipsis;
 
   background-color: ${({ theme }) => theme.colors.gray_900};

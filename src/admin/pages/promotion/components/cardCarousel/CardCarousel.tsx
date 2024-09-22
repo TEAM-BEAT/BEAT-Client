@@ -4,7 +4,14 @@ import { Spacing } from "@components/commons";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
 
-const CardCarousel = ({ index, carouselImg, redirectUrl, deleteCarousel, handleLinkModal }) => {
+const CardCarousel = ({
+  index,
+  carouselImg,
+  redirectUrl,
+  performanceId,
+  deleteCarousel,
+  handleLinkModal,
+}) => {
   const ref = useRef<HTMLInputElement>(null);
   const [postImg, setPostImg] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState(carouselImg);
@@ -66,7 +73,9 @@ const CardCarousel = ({ index, carouselImg, redirectUrl, deleteCarousel, handleL
           handleLinkModal(index);
         }}
       >
-        {redirectUrl}
+        {redirectUrl
+          ? redirectUrl
+          : performanceId && `${import.meta.env.VITE_CLIENT_URL}/gig/${performanceId}`}
       </LinkButton>
       <Spacing marginBottom="4.8" />
     </S.CardCarouselWrapper>

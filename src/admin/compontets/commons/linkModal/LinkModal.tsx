@@ -2,16 +2,23 @@ import { useEffect, useState } from "react";
 import * as S from "./LinkModal.styled";
 import AdminButton from "../adminButton/AdminButton";
 
-const LinkModal = ({ updateLink, handleLinkModal, redirectUrl, isExternal, performanceId }) => {
+const LinkModal = ({
+  updateLink,
+  updateExternal,
+  handleLinkModal,
+  redirectUrl,
+  isExternal,
+  performanceId,
+}) => {
   const [checked, setChecked] = useState(isExternal);
   const [link, setLink] = useState("");
 
   useEffect(() => {
     setChecked(isExternal);
-    if (isExternal) {
+    if (redirectUrl) {
       setLink(redirectUrl || "");
     } else {
-      setLink(`${import.meta.env.VITE_CLIENT_URL}/gig/${performanceId}`);
+      setLink(`${import.meta.env.VITE_CLIENT_URL}/gig/${performanceId}` || "");
     }
   }, [isExternal, redirectUrl]);
 
@@ -60,8 +67,8 @@ const LinkModal = ({ updateLink, handleLinkModal, redirectUrl, isExternal, perfo
         <S.SaveBtn
           onClick={() => {
             updateLink(link);
-            // TODO : 현재 저장하기 버튼 눌러서 저장하면 리렌더링 다시 안 됨
-            handleLinkModal();
+            updateExternal(checked);
+            handleLinkModal(null);
           }}
         >
           저장하기
