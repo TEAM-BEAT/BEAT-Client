@@ -65,16 +65,6 @@ const global = createGlobalStyle`
         background-color: ${({ theme }) => theme.colors.gray_900}; 
     }
     
-    /* 데스크탑뷰 세팅 */
-
-    @media (width >= 1440px) {
-        body {
-            width: 100%;
-            max-width: 1440px; 
-
-            background-color: ${({ theme }) => theme.colors.black}; 
-        }
-    }
 `;
 
 export default global;

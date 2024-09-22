@@ -1,9 +1,9 @@
 import { useState } from "react";
 import * as S from "./Promotion.styled";
 import Tab from "@admin/compontets/commons/tab/Tab";
-import AdminCarousel from "@admin/pages/promotion/components/adminCarousel/AdminCarousel";
-import AdminBanner from "@admin/pages/promotion/components/adminBanner/AdminBanner";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
+import AdminCarousel from "./components/AdminCarousel/AdminCarousel";
+import AdminBanner from "./components/AdminBanner/AdminBanner";
 
 const Promotion = () => {
   const [tab, setTab] = useState("carousel");
