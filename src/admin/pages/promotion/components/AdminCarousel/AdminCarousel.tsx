@@ -4,46 +4,6 @@ import { useEffect, useState } from "react";
 import LinkModal from "@admin/compontets/commons/linkModal/LinkModal";
 import { useGetAllScheduleList } from "@apis/domains/home/queries";
 
-const promotionListTest = [
-  {
-    isExternal: true,
-    performanceId: null,
-    promotionId: 2,
-    promotionPhoto:
-      "https://avatars.githubusercontent.com/u/58854041?s=400&u=fdb4a8dbf5b7ec8d7f327954a4ca97e064b560ee&v=4",
-    redirectUrl: "https://github.com/pepperdad",
-  },
-  {
-    isExternal: false,
-    performanceId: 56,
-    promotionId: 1,
-    promotionPhoto:
-      "https://beat-dev-bucket.s3.ap-northeast-2.amazonaws.com/poster/8a8efe39-83bf-47b6-b40d-256164928ce7-poster-1723813907142",
-    redirectUrl: null,
-  },
-  {
-    isExternal: true,
-    performanceId: 58,
-    promotionId: 3,
-    promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
-    redirectUrl: "https://github.com/sinji2102",
-  },
-  {
-    isExternal: true,
-    performanceId: 58,
-    promotionId: 4,
-    promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
-    redirectUrl: "https://github.com/sinji2102",
-  },
-  {
-    isExternal: true,
-    performanceId: 58,
-    promotionId: 5,
-    promotionPhoto: "https://avatars.githubusercontent.com/u/66528589?v=4",
-    redirectUrl: "https://github.com/sinji2102",
-  },
-];
-
 interface PromotionProps {
   promotionId?: number;
   promotionPhoto?: string;
@@ -52,7 +12,7 @@ interface PromotionProps {
   redirectUrl?: string;
 }
 
-const AdminCarousel = () => {
+const AdminCarousel = ({ saveCarouselData }) => {
   const { data } = useGetAllScheduleList();
 
   const [carouselList, setCarouselList] = useState<PromotionProps[]>();
@@ -60,9 +20,9 @@ const AdminCarousel = () => {
   const [linkIdx, setLinkIdx] = useState(null); // 변경하고자 하는 캐러셀 인덱스
   const [link, setLink] = useState("");
   const [external, setExternal] = useState();
+  const [img, setImg] = useState();
 
   useEffect(() => {
-    // setCarouselList(promotionListTest);
     setCarouselList(data?.promotionList);
   }, [data]);
 
@@ -101,7 +61,10 @@ const AdminCarousel = () => {
     setExternal(value);
   };
 
-  // TODO : 사진 수정 추가하기
+  const updateImg = (value) => {
+    setImg(value);
+  };
+
   // 링크 수정
   useEffect(() => {
     if (linkIdx !== null && linkIdx !== undefined) {
@@ -113,6 +76,7 @@ const AdminCarousel = () => {
             redirectUrl: link,
             isExternal: external,
             performanceId: null,
+            promotionPhoto: img,
           };
         } else if (index === linkIdx && !external) {
           return {
@@ -120,13 +84,17 @@ const AdminCarousel = () => {
             redirectUrl: null,
             isExternal: external,
             performanceId: +link.split("/", 5)[4],
+            promotionPhoto: img,
           };
         }
         return item;
       });
       setCarouselList(updatedList);
+      saveCarouselData(carouselList);
     }
-  }, [link, external]);
+
+    console.log(carouselList);
+  }, [link, external, img]);
 
   return (
     <S.AdminCarouselWrapper>
@@ -154,6 +122,7 @@ const AdminCarousel = () => {
               performanceId={item.performanceId}
               deleteCarousel={deleteCarousel}
               handleLinkModal={handleLinkModal}
+              updateImg={updateImg}
             />
           );
         })}

@@ -4,6 +4,16 @@ import { Spacing } from "@components/commons";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
 
+interface CardCarouselProps {
+  index: SVGAnimatedNumberList;
+  carouselImg: string;
+  redirectUrl: string;
+  performanceId: number;
+  deleteCarousel: (idx: number) => void;
+  handleLinkModal: (value: number | null) => void;
+  updateImg: (value: string) => void;
+}
+
 const CardCarousel = ({
   index,
   carouselImg,
@@ -11,7 +21,8 @@ const CardCarousel = ({
   performanceId,
   deleteCarousel,
   handleLinkModal,
-}) => {
+  updateImg,
+}: CardCarouselProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [postImg, setPostImg] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState(carouselImg);
@@ -34,9 +45,12 @@ const CardCarousel = ({
         const newImageUrl = event.target?.result as string;
         setPostImg(file);
         setImgUrl(newImageUrl);
+        updateImg(newImageUrl);
       };
 
       fileReader.readAsDataURL(file);
+
+      // console.log(imgUrl);
     }
   };
 
