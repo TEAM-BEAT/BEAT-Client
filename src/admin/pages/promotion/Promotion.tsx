@@ -8,6 +8,9 @@ import { useGetCarouselPresignedUrl } from "@apis/domains/files/queries";
 import { usePutS3Upload } from "@apis/domains/files/queries";
 import { CarouselPresignedResponse } from "@apis/domains/files/api";
 
+// api 연결할 때 generate, modify 구분하기!
+// 처음에 carousel 받아오고 저장해둔 후 비교해서 type 추가
+
 const Promotion = () => {
   const [tab, setTab] = useState("carousel");
 
@@ -21,14 +24,19 @@ const Promotion = () => {
 
   const saveCarouselData = (value) => {
     setCarouselData(value);
+
+    const tempPresigned = carouselData?.map((item, index) => {
+      if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
+        return `carousel-${index + 1}-${new Date().getTime()}`;
+      }
+    });
+
+    setCarouselImages(tempPresigned);
+    // 여기까진 잘 들어옴
+    console.log(tempPresigned);
   };
 
-  // 캐러셀 데이터 map 돌려서 presigned 아닌 링크 찾아서 배열로 저장 + 저장한 배열 리스트 생성
-  // 저장한 배열 presigned로 변경
-  // 받아오면 presigned로 받아온 배열 map 돌려서 presigned로 링크 수정
-  // PUT 보내기
-
-  const params = carouselImage;
+  const params = { carouselImages: carouselImage };
 
   const { data, refetch } = useGetCarouselPresignedUrl(params);
   const { mutate } = usePutS3Upload();
@@ -36,21 +44,6 @@ const Promotion = () => {
   // 캐러셀  저장
   const handleCarouselSave = async () => {
     // 캐러셀 데이터 map 돌려서 presigned 아닌 링크 찾아서 배열로 저장 + 저장한 배열 리스트 생성
-    const tempPresigned = carouselData?.map((item, index) => {
-      if (item.promotionPhoto.indexOf("amazonaws") === -1) {
-        const tempIdxList = [...imgIndexList];
-        tempIdxList.push(index);
-        setImgIndexList(tempIdxList);
-
-        return item.promotionPhoto;
-      }
-      // imgIndexList 초기화
-      setImgIndexList([]);
-    });
-
-    setCarouselImages(tempPresigned);
-    // 여기까진 잘 들어옴
-    console.log(tempPresigned);
 
     const { data, isSuccess } = await refetch();
 
@@ -58,18 +51,32 @@ const Promotion = () => {
 
     if (isSuccess) {
       console.log(data);
+      console.log(data.data.carouselPresignedUrls);
       const extractUrls = (data: CarouselPresignedResponse) => {
-        carouselUrls = Object.values(data.carouselPresignedUrls).map((url) => url.split("?")[0]);
+        carouselUrls = Object.values(data.data.carouselPresignedUrls).map(
+          (url) => url.split("?")[0]
+        );
 
         return carouselUrls;
       };
 
       const S3Urls = extractUrls(data);
 
+      const files = [...carouselData.map((item) => item.promotionPhoto)];
+
+      const tempIndexList = carouselData?.map((item, index) => {
+        if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
+          return index;
+        }
+      });
+
+      console.log(tempIndexList);
+      setImgIndexList(tempIndexList);
+
       try {
         const res = await Promise.all(
           S3Urls.map(async (url, index) => {
-            const file = carouselUrls[index];
+            const file = files[index];
 
             const response = await fetch(file);
             const blob = await response.blob();
@@ -81,17 +88,19 @@ const Promotion = () => {
 
         // 이미지 presigned로 수정
         const tempCarouselData = carouselData?.map((item, index) => {
-          if (index === imgIndexList[0]) {
+          if (tempIndexList.includes(index)) {
             const carouselIdx = imgIndexList[0];
-            const updatedIndexList = imgIndexList.slice(1);
+            const updatedIndexList = imgIndexList.splice(0, 1);
             setImgIndexList(updatedIndexList);
 
-            return { ...item, promotionPhoto: carouselUrls[carouselIdx] };
+            return { ...item, promotionPhoto: S3Urls[carouselIdx] };
           }
-          return item; // 반드시 반환해야 함 (map 함수의 결과를 반환하기 위해)
+          return item;
         });
 
-        console.log(carouselData);
+        setCarouselData(tempCarouselData);
+
+        console.log(tempCarouselData);
       } catch (err) {
         console.error("파일 업로드 중 오류 발생:", err);
       }
