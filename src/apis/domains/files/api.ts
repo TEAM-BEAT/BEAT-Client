@@ -115,7 +115,7 @@ export const getCarouselPresignedUrl = async (
       }
     );
 
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("error", error);
     return null;

@@ -16,7 +16,6 @@ const Promotion = () => {
 
   const [carouselData, setCarouselData] = useState([]);
   const [carouselImage, setCarouselImages] = useState<string[]>([]); // presigned 보낼 state
-  const [imgIndexList, setImgIndexList] = useState<number[]>([]); // presigned 위치 저장
 
   const handleTab = (value) => {
     setTab(value);
@@ -51,27 +50,18 @@ const Promotion = () => {
 
     if (isSuccess) {
       console.log(data);
-      console.log(data.data.carouselPresignedUrls);
+      console.log(data.carouselPresignedUrls);
       const extractUrls = (data: CarouselPresignedResponse) => {
-        carouselUrls = Object.values(data.data.carouselPresignedUrls).map(
-          (url) => url.split("?")[0]
-        );
+        carouselUrls = Object.values(data.carouselPresignedUrls).map((url) => url.split("?")[0]);
 
         return carouselUrls;
       };
 
       const S3Urls = extractUrls(data);
 
+      console.log(S3Urls);
+
       const files = [...carouselData.map((item) => item.promotionPhoto)];
-
-      const tempIndexList = carouselData?.map((item, index) => {
-        if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
-          return index;
-        }
-      });
-
-      console.log(tempIndexList);
-      setImgIndexList(tempIndexList);
 
       try {
         const res = await Promise.all(
@@ -88,12 +78,11 @@ const Promotion = () => {
 
         // 이미지 presigned로 수정
         const tempCarouselData = carouselData?.map((item, index) => {
-          if (tempIndexList.includes(index)) {
-            const carouselIdx = imgIndexList[0];
-            const updatedIndexList = imgIndexList.splice(0, 1);
-            setImgIndexList(updatedIndexList);
+          let idxCnt = 0;
 
-            return { ...item, promotionPhoto: S3Urls[carouselIdx] };
+          if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
+            idxCnt += 1;
+            return { ...item, promotionPhoto: S3Urls[idxCnt - 1] };
           }
           return item;
         });

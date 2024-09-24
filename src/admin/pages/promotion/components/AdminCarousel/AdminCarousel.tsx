@@ -90,10 +90,9 @@ const AdminCarousel = ({ saveCarouselData }) => {
         return item;
       });
       setCarouselList(updatedList);
-      saveCarouselData(carouselList);
+      saveCarouselData(updatedList);
+      console.log(updatedList);
     }
-
-    console.log(carouselList);
   }, [link, external, img]);
 
   return (
