@@ -96,7 +96,20 @@ const AdminCarousel = ({ saveCarouselData }) => {
     }
   }, [link, external, img]);
 
-  const handleDragEnd = () => {};
+  const handleDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const currentCarousel = [...carouselList];
+    const draggingItemIndex = result.source.index;
+    const afterDragItemIndex = result.destination.index;
+    const removeTag = currentCarousel.splice(draggingItemIndex, 1);
+
+    currentCarousel.splice(afterDragItemIndex, 0, removeTag[0]);
+
+    setCarouselList(currentCarousel);
+  };
 
   return (
     <S.AdminCarouselWrapper>
