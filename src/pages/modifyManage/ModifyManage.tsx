@@ -30,7 +30,7 @@ import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GenreSelect from "./components/GenreSelect";
@@ -524,6 +524,14 @@ const ModifyManage = () => {
     }
   };
 
+  const isExpired = (performanceDate: Dayjs | null | string): boolean => {
+    const currentDate = new Date();
+    const performance = new Date(performanceDate as string);
+
+    // 현재 날짜가 performanceDate 이후인지 확인
+    return currentDate > performance;
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -630,21 +638,23 @@ const ModifyManage = () => {
             </StepperModifyManageBox>
             <S.Divider />
             <TimePickerModifyManageBox title="회차별 시간대">
-              {dataState.scheduleModifyRequests?.map((schedule, index) => (
-                <div key={index}>
-                  <S.InputDescription>{index + 1}회차</S.InputDescription>
-                  <Spacing marginBottom={"1"} />
-                  <TimePicker
-                    value={dayjs(schedule.performanceDate)}
-                    disabled={true}
-                    onChangeValue={(date) => {
-                      const updatedSchedules = [...dataState.scheduleModifyRequests];
-                      updatedSchedules[index].performanceDate = date;
-                      handleInputChange("scheduleModifyRequests", updatedSchedules);
-                    }}
-                  />
-                </div>
-              ))}
+              {dataState.scheduleModifyRequests?.map((schedule, index) => {
+                return (
+                  <div key={index}>
+                    <S.InputDescription>{index + 1}회차</S.InputDescription>
+                    <Spacing marginBottom={"1"} />
+                    <TimePicker
+                      value={dayjs(schedule.performanceDate)}
+                      disabled={isExpired(schedule.performanceDate)}
+                      onChangeValue={(date) => {
+                        const updatedSchedules = [...dataState.scheduleModifyRequests];
+                        updatedSchedules[index].performanceDate = date;
+                        handleInputChange("scheduleModifyRequests", updatedSchedules);
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </TimePickerModifyManageBox>
             <S.Divider />
             <InputModifyManageBox isDisabled={false} title="공연 장소">
