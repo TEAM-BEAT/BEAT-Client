@@ -151,6 +151,18 @@ const ModifyManage = () => {
     initScheduleListCount: 1,
   });
 
+  //const { mutate: scheduleMutate, mutateAsync: hi } = useGetScheduleAvailable(3, 10);
+  //회차 수 변경 시, 회차별 시간대도 반영
+  useEffect(() => {
+    //array-like
+    const updatedScheduleList = Array.from({ length: dataState.totalScheduleCount }, (_, index) => {
+      const existingSchedule = dataState.scheduleModifyRequests[index];
+      const totalTicketCount = dataState.scheduleModifyRequests[0]?.totalTicketCount || null;
+      return { ...existingSchedule, totalTicketCount };
+    });
+    dispatch({ type: "SET_FIELD", field: "scheduleModifyRequests", value: updatedScheduleList });
+  }, [dataState.totalScheduleCount]);
+
   useEffect(() => {
     if (data && isSuccess) {
       dispatch({
@@ -210,9 +222,14 @@ const ModifyManage = () => {
         initScheduleListCount: data.totalScheduleCount,
       }));
 
-      console.log(data.isBookerExist);
+      //console.log(data.isBookerExist);
     }
   }, [data]);
+  useEffect(() => {
+    console.log("현재 받아온 데이터:", data);
+    console.log("현재 dataState: ", dataState);
+    console.log(dataState.scheduleModifyRequests);
+  }, [dataState, data]);
 
   useEffect(() => {
     const pageTitle =
@@ -249,19 +266,6 @@ const ModifyManage = () => {
     dataState.staffModifyRequests.length,
     dataState.performanceImageModifyRequests.length,
   ]);
-
-  //const { mutate: scheduleMutate, mutateAsync: hi } = useGetScheduleAvailable(3, 10);
-  //회차 수 변경 시, 회차별 시간대도 반영
-  useEffect(() => {
-    //array-like
-    const updatedScheduleList = Array.from({ length: dataState.totalScheduleCount }, (_, index) => {
-      const existingSchedule = dataState.scheduleModifyRequests[index];
-      const totalTicketCount = dataState.scheduleModifyRequests[0]?.totalTicketCount || null;
-      return { ...existingSchedule, totalTicketCount };
-    });
-    dispatch({ type: "SET_FIELD", field: "scheduleModifyRequests", value: updatedScheduleList });
-  }, [dataState.totalScheduleCount]);
-
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
   };
@@ -639,6 +643,8 @@ const ModifyManage = () => {
             <S.Divider />
             <TimePickerModifyManageBox title="회차별 시간대">
               {dataState.scheduleModifyRequests?.map((schedule, index) => {
+                console.log(schedule.performanceDate);
+
                 return (
                   <div key={index}>
                     <S.InputDescription>{index + 1}회차</S.InputDescription>
