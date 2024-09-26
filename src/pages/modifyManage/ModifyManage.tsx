@@ -1,4 +1,5 @@
 import {
+  useGetScheduleAvailable,
   usePerformanceDelete,
   usePerformanceEdit,
   usePostPerformance,
@@ -82,6 +83,7 @@ type ModifyState = {
   isFree: boolean;
   isChecked: boolean;
   bankOpen: boolean;
+  initScheduleListCount: number;
 };
 
 type Action =
@@ -146,6 +148,7 @@ const ModifyManage = () => {
     isFree: false,
     isChecked: true,
     bankOpen: false,
+    initScheduleListCount: 1,
   });
 
   useEffect(() => {
@@ -204,6 +207,7 @@ const ModifyManage = () => {
         ...prevState,
         isBookerExist: data.isBookerExist,
         isFree: data.ticketPrice === 0,
+        initScheduleListCount: data.totalScheduleCount,
       }));
 
       console.log(data.isBookerExist);
@@ -246,6 +250,7 @@ const ModifyManage = () => {
     dataState.performanceImageModifyRequests.length,
   ]);
 
+  //const { mutate: scheduleMutate, mutateAsync: hi } = useGetScheduleAvailable(3, 10);
   //회차 수 변경 시, 회차별 시간대도 반영
   useEffect(() => {
     //array-like
@@ -605,12 +610,16 @@ const ModifyManage = () => {
                 max={10}
                 round={dataState.totalScheduleCount as number}
                 disabled={false}
-                onMinusClick={() =>
+                onMinusClick={() => {
+                  //처음 가져온 데이터의 길이랑 같다면 마이너스는 아무 동작 x
+                  if (modifyState.initScheduleListCount === dataState.totalScheduleCount) {
+                    return;
+                  }
                   dispatch({
                     type: "SET_SCHEDULE_COUNT",
                     payload: dataState.totalScheduleCount - 1,
-                  })
-                }
+                  });
+                }}
                 onPlusClick={() =>
                   dispatch({
                     type: "SET_SCHEDULE_COUNT",
