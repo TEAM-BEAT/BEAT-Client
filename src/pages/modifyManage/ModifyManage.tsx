@@ -691,7 +691,7 @@ const ModifyManage = () => {
             <InputModifyManageBox
               isDisabled={modifyState.isBookerExist as boolean}
               title="티켓 가격"
-              description="*티켓 가격은 수정불가합니다."
+              description="*예매자 존재 시, 티켓 가격은 수정불가합니다."
               isFree={modifyState.isFree}
               onFreeClick={() => handleModifyState("isFree", !modifyState.isFree)}
             >
