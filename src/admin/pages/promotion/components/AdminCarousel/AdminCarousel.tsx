@@ -1,4 +1,5 @@
 import * as S from "./AdminCarousel.styled";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import CardCarousel from "../cardCarousel/CardCarousel";
 import { useEffect, useState } from "react";
 import LinkModal from "@admin/compontets/commons/linkModal/LinkModal";
@@ -95,6 +96,8 @@ const AdminCarousel = ({ saveCarouselData }) => {
     }
   }, [link, external, img]);
 
+  const handleDragEnd = () => {};
+
   return (
     <S.AdminCarouselWrapper>
       {openLinkModal && (
@@ -110,32 +113,57 @@ const AdminCarousel = ({ saveCarouselData }) => {
       <S.Notification>
         *캐러셀은 왼쪽부터 순서대로 노출되며, 최대 7개 등록 가능합니다.
       </S.Notification>
-      <S.CarouselContainer>
-        {carouselList?.map((item, idx) => {
-          return (
-            <CardCarousel
-              key={`${item.promotionId}-idx`}
-              index={idx}
-              carouselImg={item.promotionPhoto}
-              redirectUrl={item.redirectUrl}
-              performanceId={item.performanceId}
-              deleteCarousel={deleteCarousel}
-              handleLinkModal={handleLinkModal}
-              updateImg={updateImg}
-            />
-          );
-        })}
-        {carouselList?.length <= 6 && (
-          <S.AddCarouselContainer
-            onClick={() => {
-              addCarousel();
-            }}
-          >
-            <S.AddIcon />
-            <S.AddText>추가하기</S.AddText>
-          </S.AddCarouselContainer>
-        )}
-      </S.CarouselContainer>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="carouselCards" direction="horizontal">
+          {(provided) => (
+            <div className="carouselCards" {...provided.droppableProps} ref={provided.innerRef}>
+              <S.CarouselContainer>
+                {carouselList?.map((item, idx) => {
+                  return (
+                    <Draggable
+                      draggableId={`carousel-${item.promotionId}`}
+                      index={idx}
+                      key={`carousel-${item.promotionId}`}
+                    >
+                      {(provided, snapshot) => {
+                        return (
+                          <div
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <CardCarousel
+                              key={`${item.promotionId}-idx`}
+                              index={idx}
+                              carouselImg={item.promotionPhoto}
+                              redirectUrl={item.redirectUrl}
+                              performanceId={item.performanceId}
+                              deleteCarousel={deleteCarousel}
+                              handleLinkModal={handleLinkModal}
+                              updateImg={updateImg}
+                            />
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  );
+                })}
+                {carouselList?.length <= 6 && (
+                  <S.AddCarouselContainer
+                    onClick={() => {
+                      addCarousel();
+                    }}
+                  >
+                    <S.AddIcon />
+                    <S.AddText>추가하기</S.AddText>
+                  </S.AddCarouselContainer>
+                )}
+              </S.CarouselContainer>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </S.AdminCarouselWrapper>
   );
 };

@@ -49,8 +49,6 @@ const CardCarousel = ({
       };
 
       fileReader.readAsDataURL(file);
-
-      // console.log(imgUrl);
     }
   };
 

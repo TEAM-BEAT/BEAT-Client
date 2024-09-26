@@ -50,9 +50,11 @@ const Promotion = () => {
 
     if (isSuccess) {
       console.log(data);
-      console.log(data.carouselPresignedUrls);
+      console.log(data.data.carouselPresignedUrls);
       const extractUrls = (data: CarouselPresignedResponse) => {
-        carouselUrls = Object.values(data.carouselPresignedUrls).map((url) => url.split("?")[0]);
+        carouselUrls = Object.values(data.data.carouselPresignedUrls).map(
+          (url) => url.split("?")[0]
+        );
 
         return carouselUrls;
       };
