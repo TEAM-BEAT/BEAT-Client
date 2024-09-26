@@ -59,8 +59,8 @@ const ImageEditor = ({ file, aspectRatio, onCropped }: ImageEditorProps) => {
   useEffect(() => {
     if (imageSize.width > 0 && imageSize.height > 0) {
       // 렌더링된 이미지 크기 계산
-      const renderedWidth = 32;
-      const renderedHeight = (imageSize.height / imageSize.width) * renderedWidth;
+      const renderedWidth = imageRef.current.clientWidth / 10;
+      const renderedHeight = imageRef.current.clientHeight / 10;
 
       // 100으로 초기화했던 크롭 영역의 최대 크기 계산
       const maxWidth = (crop.width / 100) * renderedWidth;
