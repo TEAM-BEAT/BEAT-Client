@@ -246,6 +246,17 @@ const ModifyManage = () => {
     dataState.performanceImageModifyRequests.length,
   ]);
 
+  //회차 수 변경 시, 회차별 시간대도 반영
+  useEffect(() => {
+    //array-like
+    const updatedScheduleList = Array.from({ length: dataState.totalScheduleCount }, (_, index) => {
+      const existingSchedule = dataState.scheduleModifyRequests[index];
+      const totalTicketCount = dataState.scheduleModifyRequests[0]?.totalTicketCount || null;
+      return { ...existingSchedule, totalTicketCount };
+    });
+    dispatch({ type: "SET_FIELD", field: "scheduleModifyRequests", value: updatedScheduleList });
+  }, [dataState.totalScheduleCount]);
+
   const handleInputChange = (field: keyof State, value: State[keyof State]) => {
     dispatch({ type: "SET_FIELD", field, value });
   };
@@ -589,11 +600,11 @@ const ModifyManage = () => {
               />
             </InputModifyManageBox>
             <S.Divider />
-            <StepperModifyManageBox title="회차 수" description="최대 3회차">
+            <StepperModifyManageBox title="회차 수" description="최대 10회차">
               <Stepper
-                max={3}
+                max={10}
                 round={dataState.totalScheduleCount as number}
-                disabled={true}
+                disabled={false}
                 onMinusClick={() =>
                   dispatch({
                     type: "SET_SCHEDULE_COUNT",
