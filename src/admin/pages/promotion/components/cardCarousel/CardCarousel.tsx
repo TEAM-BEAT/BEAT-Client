@@ -12,6 +12,7 @@ interface CardCarouselProps {
   deleteCarousel: (idx: number) => void;
   handleLinkModal: (value: number | null) => void;
   updateImg: (value: string) => void;
+  isDragging: boolean;
 }
 
 const CardCarousel = ({
@@ -22,6 +23,7 @@ const CardCarousel = ({
   deleteCarousel,
   handleLinkModal,
   updateImg,
+  isDragging,
 }: CardCarouselProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const [postImg, setPostImg] = useState<File | null>(null);
@@ -53,7 +55,7 @@ const CardCarousel = ({
   };
 
   return (
-    <S.CardCarouselWrapper>
+    <S.CardCarouselWrapper $isDragging={isDragging}>
       <S.SwitchIcon />
       <S.CarouselImg>
         <S.DeleteIcon

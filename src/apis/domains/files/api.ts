@@ -97,7 +97,7 @@ export const getCarouselPresignedUrl = async (
           : params.carouselImages || [""],
     };
     const response: AxiosResponse<CarouselPresignedResponse> = await get(
-      "/admin/carousel/presigned-url",
+      "/admin/carousels/presigned-url",
       {
         params: paramsWithEmptyArrays,
         paramsSerializer: (params) => {

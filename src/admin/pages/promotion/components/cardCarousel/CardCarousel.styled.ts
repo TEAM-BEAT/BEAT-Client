@@ -1,11 +1,16 @@
 import styled from "styled-components";
 import { IconImg, IconTextfiedlDelete, Switch } from "@assets/svgs";
 
-export const CardCarouselWrapper = styled.section`
+export const CardCarouselWrapper = styled.section<{ $isDragging: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 19rem;
+  width: ${({ $isDragging }) => ($isDragging ? "21rem" : "19rem")};
+  height: ${({ $isDragging }) => ($isDragging ? "41.5rem" : "")};
+  padding: ${({ $isDragging }) => ($isDragging ? "1rem" : "")};
+
+  background-color: ${({ theme, $isDragging }) => ($isDragging ? theme.colors.gray_900 : null)};
+  border-radius: ${({ $isDragging }) => ($isDragging ? "0.8rem" : "")};
 `;
 
 export const SwitchIcon = styled(Switch)`

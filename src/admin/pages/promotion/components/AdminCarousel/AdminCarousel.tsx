@@ -82,7 +82,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
         } else if (index === linkIdx && !external) {
           return {
             ...item,
-            redirectUrl: null,
+            redirectUrl: link,
             isExternal: external,
             performanceId: +link.split("/", 5)[4],
             promotionPhoto: img,
@@ -96,6 +96,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
     }
   }, [link, external, img]);
 
+  // 캐러셀 이동
   const handleDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -154,6 +155,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
                               deleteCarousel={deleteCarousel}
                               handleLinkModal={handleLinkModal}
                               updateImg={updateImg}
+                              isDragging={snapshot.isDragging}
                             />
                           </div>
                         );
