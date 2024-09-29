@@ -55,7 +55,7 @@ const Promotion = () => {
       console.log(data.data.carouselPresignedUrls);
       const extractUrls = (data: CarouselPresignedResponse) => {
         carouselUrls = Object.values(data.data.carouselPresignedUrls).map(
-          (url) => url.split("?")[0]
+          (url) => (url as string).split("?")[0]
         );
 
         return carouselUrls;
@@ -65,7 +65,9 @@ const Promotion = () => {
 
       console.log(S3Urls);
 
-      const files = [...carouselData.map((item) => item.promotionPhoto)];
+      const files = carouselData
+        .filter((item) => item.promotionPhoto && item.promotionPhoto.includes("blob"))
+        .map((item) => item.promotionPhoto);
 
       try {
         const res = await Promise.all(
@@ -80,9 +82,11 @@ const Promotion = () => {
           })
         );
 
+        let idxCnt = 0;
+
         // 이미지 presigned로 수정
-        const tempCarouselData = carouselData?.map((item, index) => {
-          let idxCnt = 0;
+        const tempCarouselData = carouselData?.map((item) => {
+          console.log(idxCnt, S3Urls[idxCnt - 1]);
 
           if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
             idxCnt += 1;

@@ -120,6 +120,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
 
     currentCarousel.splice(afterDragItemIndex, 0, removeTag[0]);
 
+    saveCarouselData(currentCarousel);
     setCarouselList(currentCarousel);
   };
 
