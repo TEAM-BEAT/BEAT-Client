@@ -11,7 +11,7 @@ interface CardCarouselProps {
   performanceId: number;
   deleteCarousel: (idx: number) => void;
   handleLinkModal: (value: number | null) => void;
-  updateImg: (value: string) => void;
+  updateImg: (value: string, index: number | null) => void;
   isDragging: boolean;
 }
 
@@ -47,7 +47,9 @@ const CardCarousel = ({
         const newImageUrl = event.target?.result as string;
         setPostImg(file);
         setImgUrl(newImageUrl);
-        updateImg(newImageUrl);
+
+        const imgUrl = URL.createObjectURL(file);
+        updateImg(imgUrl, index);
       };
 
       fileReader.readAsDataURL(file);

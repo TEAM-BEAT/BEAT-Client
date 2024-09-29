@@ -7,8 +7,8 @@ export const CAROUSEL_QUERY_KEY = {
 };
 
 interface Carousels {
-  external: boolean;
   type: string;
+  promotionId: number;
   carouselNumber: string;
   newImageUrl: string;
   isExternal: boolean;

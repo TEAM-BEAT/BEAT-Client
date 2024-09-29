@@ -22,6 +22,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
   const [link, setLink] = useState("");
   const [external, setExternal] = useState();
   const [img, setImg] = useState();
+  const [imgIdx, setImgIdx] = useState(null);
 
   useEffect(() => {
     setCarouselList(data?.promotionList);
@@ -62,29 +63,38 @@ const AdminCarousel = ({ saveCarouselData }) => {
     setExternal(value);
   };
 
-  const updateImg = (value) => {
+  const updateImg = (value, index) => {
     setImg(value);
+    setImgIdx(index);
   };
 
-  // 링크 수정
   useEffect(() => {
+    console.log("useEffect called with", { link, external, img });
+    // 링크 수정
     if (linkIdx !== null && linkIdx !== undefined) {
       const updatedList = carouselList.map((item, index) => {
-        // 외부, 내부 링크 구분해서 저장
-        if (index === linkIdx && external) {
+        if (index === linkIdx) {
           return {
             ...item,
             redirectUrl: link,
             isExternal: external,
-            performanceId: null,
-            promotionPhoto: img,
+            performanceId: !external ? +link.split("/", 5)[4] : null,
           };
-        } else if (index === linkIdx && !external) {
+        }
+        return item;
+      });
+      setCarouselList(updatedList);
+      saveCarouselData(updatedList);
+      console.log(updatedList);
+      setLinkIdx(null);
+    }
+
+    // 사진 수정
+    if (imgIdx !== null && imgIdx !== undefined) {
+      const updatedList = carouselList.map((item, index) => {
+        if (index === imgIdx) {
           return {
             ...item,
-            redirectUrl: link,
-            isExternal: external,
-            performanceId: +link.split("/", 5)[4],
             promotionPhoto: img,
           };
         }
@@ -93,6 +103,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
       setCarouselList(updatedList);
       saveCarouselData(updatedList);
       console.log(updatedList);
+      setImgIdx(null);
     }
   }, [link, external, img]);
 

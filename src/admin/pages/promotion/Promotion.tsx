@@ -30,9 +30,11 @@ const Promotion = () => {
       }
     });
 
-    setCarouselImages(tempPresigned);
+    const filtered = tempPresigned.filter((element) => element !== undefined);
+
+    setCarouselImages(filtered);
     // 여기까진 잘 들어옴
-    console.log(tempPresigned);
+    console.log(filtered);
   };
 
   const params = { carouselImages: carouselImage };
