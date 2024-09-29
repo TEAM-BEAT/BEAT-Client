@@ -5,7 +5,7 @@ import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
 
 interface CardCarouselProps {
-  index: SVGAnimatedNumberList;
+  index: number;
   carouselImg: string;
   redirectUrl: string;
   performanceId: number;

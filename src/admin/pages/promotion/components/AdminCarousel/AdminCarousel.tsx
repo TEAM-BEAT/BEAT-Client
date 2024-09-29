@@ -13,7 +13,7 @@ interface PromotionProps {
   redirectUrl?: string;
 }
 
-const AdminCarousel = ({ saveCarouselData }) => {
+const AdminCarousel = ({ saveCarouselData, saveCarouselNum }) => {
   const { data } = useGetAllScheduleList();
 
   const [carouselList, setCarouselList] = useState<PromotionProps[]>();
@@ -26,6 +26,11 @@ const AdminCarousel = ({ saveCarouselData }) => {
 
   useEffect(() => {
     setCarouselList(data?.promotionList);
+    saveCarouselNum([
+      data?.promotionList.map((item) => {
+        return item.promotionId;
+      }),
+    ]);
   }, [data]);
 
   const addCarousel = () => {
@@ -45,6 +50,7 @@ const AdminCarousel = ({ saveCarouselData }) => {
   const deleteCarousel = (idx: number) => {
     const updatedCarouselList = carouselList.filter((_, index) => index !== idx);
     setCarouselList(updatedCarouselList);
+    saveCarouselData(updatedCarouselList);
   };
 
   const handleLinkModal = (value?: number | null) => {
@@ -69,7 +75,6 @@ const AdminCarousel = ({ saveCarouselData }) => {
   };
 
   useEffect(() => {
-    console.log("useEffect called with", { link, external, img });
     // 링크 수정
     if (linkIdx !== null && linkIdx !== undefined) {
       const updatedList = carouselList.map((item, index) => {
@@ -85,7 +90,6 @@ const AdminCarousel = ({ saveCarouselData }) => {
       });
       setCarouselList(updatedList);
       saveCarouselData(updatedList);
-      console.log(updatedList);
       setLinkIdx(null);
     }
 
@@ -102,7 +106,6 @@ const AdminCarousel = ({ saveCarouselData }) => {
       });
       setCarouselList(updatedList);
       saveCarouselData(updatedList);
-      console.log(updatedList);
       setImgIdx(null);
     }
   }, [link, external, img]);
