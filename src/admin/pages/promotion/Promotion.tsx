@@ -47,19 +47,13 @@ const Promotion = () => {
 
   // 캐러셀  저장
   const handleCarouselSave = async () => {
-    // 캐러셀 데이터 map 돌려서 presigned 아닌 링크 찾아서 배열로 저장 + 저장한 배열 리스트 생성
-
     const { data, isSuccess } = await refetch();
-
-    let carouselUrls;
 
     if (isSuccess) {
       const extractUrls = (data: CarouselPresignedResponse) => {
-        carouselUrls = Object.values(data.data.carouselPresignedUrls).map(
+        return Object.values(data.data.carouselPresignedUrls).map(
           (url) => (url as string).split("?")[0]
         );
-
-        return carouselUrls;
       };
 
       const S3Urls = extractUrls(data);
@@ -69,7 +63,7 @@ const Promotion = () => {
         .map((item) => item.promotionPhoto);
 
       try {
-        const res = await Promise.all(
+        await Promise.all(
           S3Urls.map(async (url, index) => {
             const file = files[index];
 
@@ -83,8 +77,7 @@ const Promotion = () => {
 
         let idxCnt = 0;
 
-        // 이미지 presigned로 수정
-        const tempCarouselData = carouselData?.map((item) => {
+        const tempCarouselData = carouselData.map((item) => {
           if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
             idxCnt += 1;
             return { ...item, promotionPhoto: S3Urls[idxCnt - 1] };
@@ -92,52 +85,49 @@ const Promotion = () => {
           return item;
         });
 
-        setCarouselData(tempCarouselData);
-      } catch (err) {
-        console.error("파일 업로드 중 오류 발생:", err);
-      }
+        const carouselNum = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN"];
 
-      const carouselNum = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN"];
-      const formData = {
-        carousels: carouselData.map((item, index) => {
-          const { promotionPhoto, ...rest } = item;
-          return {
-            ...rest,
-            type: initPromoNum.indexOf(item.promotionId) === -1 ? "generate" : "modify",
-            carouselNumber: carouselNum[index],
-            newImageUrl: item.promotionPhoto,
-          };
-        }),
-      };
+        const formData = {
+          carousels: tempCarouselData.map((item, index) => {
+            const { promotionPhoto, promotionId, ...rest } = item;
 
-      try {
+            const carouselItem = {
+              ...rest,
+              type: initPromoNum.indexOf(item.promotionId) === -1 ? "generate" : "modify",
+              carouselNumber: carouselNum[index],
+              newImageUrl: item.promotionPhoto,
+            };
+
+            // promotionId가 initPromoNum에 없을 때 (새로 생성되었을 때)만 추가
+            if (initPromoNum.indexOf(item.promotionId) === -1) {
+              return carouselItem;
+            }
+            return { ...carouselItem, promotionId: item.promotionId };
+          }),
+        };
+
         const allValid = formData.carousels.every(
           (item) => item.newImageUrl !== null && item.redirectUrl !== null
         );
 
-        if (allValid) {
-          await updateCarousel(formData); // 모든 항목이 유효하면 한 번에 요청
+        if (allValid && formData.carousels.length !== 0) {
+          const res = await updateCarousel(formData);
+          console.log(res);
+          await console.log(formData);
         } else {
           formData.carousels.forEach((item) => {
-            if (item.newImageUrl === null && item.redirectUrl === null) {
+            if (!item.newImageUrl && !item.redirectUrl) {
               openAlert({ title: "정보가 없는 캐러셀은 삭제해 주세요." });
-            } else if (item.newImageUrl === null) {
+            } else if (!item.newImageUrl) {
               openAlert({ title: "모든 이미지를 삽입해 주세요." });
-            } else if (item.redirectUrl === null) {
+            } else if (!item.redirectUrl) {
               openAlert({ title: "모든 링크를 삽입해 주세요." });
             }
           });
         }
       } catch (err) {
-        console.error("캐러셀 수정 오류:", err);
-        const errorMessage =
-          err?.response?.status === 401
-            ? "로그인 세션이 만료되었습니다.\n 다시 로그인 후 시도해주세요."
-            : err?.response?.status === 404
-              ? "공연이 존재하지 않습니다. 공연 url을 확인해 주세요."
-              : "캐러셀 수정을 실패했습니다.\n 다시 시도해주세요.";
-
-        openAlert({ title: errorMessage });
+        console.error("Error during file upload or carousel update:", err);
+        openAlert({ title: "캐러셀 수정 혹은 이미지 저장을 실패했습니다.\n 다시 시도해주세요." });
       }
     }
   };

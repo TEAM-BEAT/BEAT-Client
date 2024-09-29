@@ -26,7 +26,13 @@ const AdminCarousel = ({ saveCarouselData, saveCarouselNum }) => {
 
   useEffect(() => {
     setCarouselList(data?.promotionList);
-    saveCarouselNum([
+    saveCarouselNum(
+      data?.promotionList.map((item) => {
+        return item.promotionId;
+      })
+    );
+
+    console.log(data?.promotionList, [
       data?.promotionList.map((item) => {
         return item.promotionId;
       }),
