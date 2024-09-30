@@ -118,16 +118,10 @@ export const getScheduleAvailable = async (
 export type PerformanceResponse = components["schemas"]["PerformanceResponse"];
 
 // 공연 등록 API (POST)
-export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
-  try {
-    const response = await post("/performances", formData);
+export const postPerformance = async (formData): Promise<PerformanceResponse> => {
+  const response = await post("/performances", formData);
 
-    return response.data;
-  } catch (error) {
-    console.error("error", error);
-
-    return null;
-  }
+  return response.data;
 };
 
 export type PerformanceModifyResponse = components["schemas"]["PerformanceModifyResponse"];
