@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { IconFooterLogo, IconProfile } from "@assets/svgs";
 
 export const AdminHeaderWrapper = styled.section`
-display: flex;
+  display: flex;
   gap: 123.4rem;
   align-items: flex-start;
   justify-content: center;
@@ -11,9 +11,8 @@ display: flex;
   padding: 1.4rem 4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
-
   border-bottom: 0.1rem solid;
-  border-color: ${({ theme }) => theme.colors.gray_700};
+  border-bottom-color: ${({ theme }) => theme.colors.gray_700};
 `;
 
 export const LogoIcon = styled(IconFooterLogo)`

@@ -4,6 +4,7 @@ import Intro from "@pages/intro/Intro";
 import KakaoAuth from "@pages/kakaoAuth/KakaoAuth";
 import Main from "@pages/main/Main";
 import NotFound from "@pages/notFound/NotFound";
+import AdminNotFound from "@admin/pages/adminNotFound/AdminNotFound";
 import OnBoarding from "@pages/onBoarding/OnBoarding";
 import { GIG_ROUTES, LOOKUP_ROUTES, MANAGE_ROUTES, REGISTER_ROUTES, TEST_ROUTES } from "@routes";
 import { createBrowserRouter } from "react-router-dom";
@@ -48,6 +49,15 @@ const router = createBrowserRouter([
       </>
     ),
     children: [{ path: "", element: <Admin /> }, ...ADMIN_ROUTES],
+  },
+  {
+    path: "/admin/notfound",
+    element: (
+      <>
+        <DesktopGlobalStyle />
+        <AdminNotFound />
+      </>
+    ),
   },
   ...TEST_ROUTES,
 ]);
