@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./AdminNotFound.styled";
 import AdminHeader from "@admin/compontets/adminHeader/AdminHeader";
@@ -13,15 +12,6 @@ const AdminNotFound = () => {
 
   const [, setNavigateUrl] = useAtom(navigateAtom);
   const user = localStorage?.getItem("user");
-  const role = localStorage?.getItem("ROLE_ADMIN");
-
-  useEffect(() => {
-    const userObj = JSON.parse(role);
-
-    if (userObj !== null) {
-      navigate(-1);
-    }
-  }, []);
 
   const handleKakaoLogin = (url: string) => {
     setNavigateUrl(url);
