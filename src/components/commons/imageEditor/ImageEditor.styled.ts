@@ -38,9 +38,7 @@ export const CustomReactCrop = styled(ReactCrop)<{
     left: 50%;
     box-sizing: border-box;
     width: ${({ calculatedSize }) => calculatedSize.width}rem;
-    max-width: 100%;
     height: ${({ calculatedSize }) => calculatedSize.height}rem;
-    max-height: 80%;
 
     transform: translate(-50%, -50%);
     border: 0.2rem solid ${({ theme }) => theme.colors.white};
