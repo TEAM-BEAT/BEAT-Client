@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import Banner from "./components/banner/Banner";
-import ManagerCard, { convertingNumber } from "./components/managercard/ManagerCard";
+import ManagerCard from "./components/managercard/ManagerCard";
+import { convertingNumber } from "@constants/convertingNumber";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps } from "./constants/ticketholderlist";
@@ -48,9 +49,9 @@ const headers = [
   { label: "예매상태", key: "bookingStatus" },
 ];
 
-const CSVDataArr: CSVDataType[] = [];
-
 const TicketHolderList = () => {
+  const [CSVDataArr, setCSVDataArr] = useState<CSVDataType[]>([]);
+
   const { performanceId } = useParams();
   const [reservedCount, setReservedCount] = useState(0);
 
@@ -93,13 +94,15 @@ const TicketHolderList = () => {
       setInitBookingStatuses(immutableBookingStatuses);
 
       //전체 데이터를 기반으로 csv 추출 데이터 구축
+      const tempCSVDataArr: CSVDataType[] = [];
+
       data.bookingList.map((item) => {
         const date = item.createdAt.split("T")[0];
         const time = item.createdAt.split("T")[1].slice(0, 5);
         const formattedDate = date?.replace(/-/g, ".");
         const formattedCreateTime = `${formattedDate} ${time}`;
 
-        CSVDataArr.push({
+        tempCSVDataArr.push({
           createdAt: formattedCreateTime,
           scheduleNumber: `${convertingNumber(item.scheduleNumber)}회차`,
           bookerName: item.bookerName,
@@ -107,6 +110,8 @@ const TicketHolderList = () => {
           bookerPhoneNumber: item.bookerPhoneNumber,
           bookingStatus: convertingBookingStatus(item.bookingStatus),
         });
+
+        setCSVDataArr(tempCSVDataArr);
       });
     }
   }, [data]);
@@ -190,9 +195,9 @@ const TicketHolderList = () => {
     setIsEditMode(false);
 
     //원 상태도 되돌림 (입금 여부 수정, 삭제용 체크)
-    //Todo : 새로고침 후 편집 -> 닫기 반복 클릭하면 에러 발생
-    refetch();
-    setPaymentData(data?.bookingList);
+    //Todo : 새로고침 후 편집 -> 닫기 반복 클릭하면 에러 발생(빈 배열로 설정되던 에러 + 이상한 렌더링) -> 해결
+    const refetchData = await refetch();
+    setPaymentData(refetchData?.data?.bookingList ?? []);
     setPatchFormData({
       performanceId: Number(performanceId),
       bookingList: [],
@@ -260,8 +265,6 @@ const TicketHolderList = () => {
       0
     ) as number;
     setReservedCount(totalCount);
-
-    console.log(filteredData);
   }, [filteredData]);
 
   const handlePaymentToggle = (_isEditMode: boolean, bookingId?: number) => {

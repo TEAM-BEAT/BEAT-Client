@@ -1,5 +1,6 @@
 import Button from "@components/commons/button/Button";
 import Label from "@components/commons/label/Label";
+import { useModal } from "@hooks";
 import { SHOW_TYPE, SHOW_TYPE_KEY, ShowTypes } from "@pages/gig/constants";
 import { useNavigate } from "react-router-dom";
 import { RegisteredObjProps } from "../../constants/myRegisterShow";
@@ -14,9 +15,18 @@ const RegisteredCard = ({
   posterImage,
 }: RegisteredObjProps) => {
   const navigate = useNavigate();
+  const { openAlert, closeAlert } = useModal();
   //공연 수정하기 뷰 연결하고 나면 url 변경해야할 수도 있음
   // 또한, 파라미터를 넘겨서 조회할 수 있도록 url에 파라미터를 추가해야할 수 있음.
   const handleModifiyBtn = () => {
+    if (dueDate < 0) {
+      openAlert({
+        title: "종료된 공연은 수정하실 수 없습니다.",
+        okText: "확인",
+        okCallback: closeAlert,
+      });
+      return;
+    }
     navigate(`/gig-modify-manage/${param}`);
   };
 

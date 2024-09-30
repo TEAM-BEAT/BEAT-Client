@@ -4,6 +4,7 @@ import { getBankNameKr } from "@utils/getBankName";
 import { bookingStatusText, bookingStatusTypes } from "@constants/bookingStatus";
 import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";
+import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./LookupCard.styled";
 
 const LookupCard = ({
@@ -23,14 +24,6 @@ const LookupCard = ({
   totalPaymentAmount,
 }: LookupProps) => {
   const navigate = useNavigate();
-
-  const scheduleNum = {
-    FIRST: "1회차",
-    SECOND: "2회차",
-    THIRD: "3회차",
-  };
-
-  type ScheduleNumTypes = keyof typeof scheduleNum;
 
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
@@ -80,7 +73,7 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>관람회차</S.SubTitle>
           <S.Text>
-            {scheduleNum[scheduleNumber as ScheduleNumTypes]} {purchaseTicketCount}매
+            {convertingNumber(scheduleNumber)}회차 {purchaseTicketCount}매
           </S.Text>
         </S.Context>
         <S.Context>

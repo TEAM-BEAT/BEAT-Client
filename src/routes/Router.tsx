@@ -9,16 +9,16 @@ import OnBoarding from "@pages/onBoarding/OnBoarding";
 import { GIG_ROUTES, LOOKUP_ROUTES, MANAGE_ROUTES, REGISTER_ROUTES, TEST_ROUTES } from "@routes";
 import { createBrowserRouter } from "react-router-dom";
 import ADMIN_ROUTES from "./AdminRoutes";
-import Promotion from "@admin/pages/promotion/Promotion";
 import Admin from "@admin/pages/admin/Admin";
 import DesktopGlobalStyle from "@styles/desktop";
+import TokenRefresher from "src/hooks/useTokenRefresher";
 
 const router = createBrowserRouter([
   {
     path: "/main",
     element: (
       <>
-        {/* <TokenRefresher /> */}
+        <TokenRefresher />
         <Main />
       </>
     ),

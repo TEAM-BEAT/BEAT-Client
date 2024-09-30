@@ -86,7 +86,15 @@ const ManagerCard = ({
           alreadyBookingConfirmed={alreadyBookingConfirmed}
         />
       )}
-      <S.ManagerCardLayout $isEditMode={isEditMode}>
+      <S.ManagerCardLayout
+        $isEditMode={isEditMode}
+        onClick={() => {
+          if (alreadyBookingConfirmed) {
+            return;
+          }
+          isEditMode && handleCheckBox(bookingId as number);
+        }}
+      >
         <S.ManagerCardBox>
           <S.ManagerCardTextBox>
             <S.ManagerCardTextContent>{bookername}</S.ManagerCardTextContent>
@@ -101,6 +109,7 @@ const ManagerCard = ({
           </S.ManagerCardTextBox>
         </S.ManagerCardBox>
       </S.ManagerCardLayout>
+
       <S.ManagerCardRadioLayout>
         <S.ManagerCardRadioBox $isEditMode={isEditMode}>
           <S.ManagerCardRadioText $isPaid={isPaid === "BOOKING_CONFIRMED"}>

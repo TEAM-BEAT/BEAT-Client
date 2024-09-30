@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as S from "./Promotion.styled";
 import Tab from "@admin/compontets/commons/tab/Tab";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";

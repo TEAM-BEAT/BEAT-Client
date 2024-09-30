@@ -12,6 +12,14 @@ export interface PresignedResponse {
   performance: ImageInterface;
 }
 
+export interface PresignedAllResponse {
+  status: number;
+  message: string;
+  data: {
+    performanceMakerPresignedUrls: PresignedResponse;
+  };
+}
+
 export interface GetPresignedUrlParams {
   posterImage: string;
   castImages: string[];
@@ -30,7 +38,7 @@ export const getPresignedUrl = async (
       performImages: params.performanceImages.length === 0 ? [""] : params.performanceImages,
     };
 
-    const response: AxiosResponse<PresignedResponse> = await get("/files/presigned-url", {
+    const response: AxiosResponse<PresignedAllResponse> = await get("/files/presigned-url", {
       params: paramsWithEmptyArrays,
       paramsSerializer: (params) => {
         const searchParams = new URLSearchParams();
@@ -48,7 +56,7 @@ export const getPresignedUrl = async (
       },
     });
 
-    return response.data;
+    return response.data.data.performanceMakerPresignedUrls;
   } catch (error) {
     console.error("error", error);
     return null;
