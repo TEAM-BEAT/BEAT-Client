@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 function AdminHeader() {
   const navigate = useNavigate();
-  const role = localStorage?.getItem("ROLE_ADMIN");
+  const userData = localStorage?.getItem("user");
 
   useEffect(() => {
-    const userObj = JSON.parse(role);
+    const userObj = JSON.parse(userData);
 
-    if (userObj === null) {
+    if (userObj.role !== "ROLE_ADMIN") {
       navigate("/admin/notfound");
     }
   }, []);
