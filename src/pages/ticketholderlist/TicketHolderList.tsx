@@ -110,9 +110,12 @@ const TicketHolderList = () => {
           bookerPhoneNumber: item.bookerPhoneNumber,
           bookingStatus: convertingBookingStatus(item.bookingStatus),
         });
-
-        setCSVDataArr(tempCSVDataArr);
       });
+
+      tempCSVDataArr.sort(
+        (obj1, obj2) => new Date(obj1.createdAt).getTime() - new Date(obj2.createdAt).getTime()
+      );
+      setCSVDataArr(tempCSVDataArr);
     }
   }, [data]);
 
