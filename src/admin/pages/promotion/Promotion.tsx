@@ -110,10 +110,14 @@ const Promotion = () => {
           (item) => item.newImageUrl !== null && item.redirectUrl !== null
         );
 
+        console.log(formData);
+
         if (allValid && formData.carousels.length !== 0) {
           const res = await updateCarousel(formData);
           console.log(res);
           await console.log(formData);
+          // TODO : 머지 전 alert 추가하기
+          // await location.reload();
         } else {
           formData.carousels.forEach((item) => {
             if (!item.newImageUrl && !item.redirectUrl) {
