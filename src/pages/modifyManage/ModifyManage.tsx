@@ -221,15 +221,8 @@ const ModifyManage = () => {
         isFree: data.ticketPrice === 0,
         initScheduleListCount: data.totalScheduleCount,
       }));
-
-      //console.log(data.isBookerExist);
     }
   }, [data]);
-  useEffect(() => {
-    console.log("현재 받아온 데이터:", data);
-    console.log("현재 dataState: ", dataState);
-    console.log(dataState.scheduleModifyRequests);
-  }, [dataState, data]);
 
   useEffect(() => {
     const pageTitle =
@@ -335,9 +328,7 @@ const ModifyManage = () => {
             return putS3({ url, file: newFile });
           })
         );
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
 
     const filteredCastModifyRequests = dataState.castModifyRequests.filter(
@@ -348,34 +339,6 @@ const ModifyManage = () => {
     );
 
     try {
-      console.log("수정 요청 보내는 형식:", {
-        performanceId: Number(performanceId),
-        ...dataState,
-        posterImage: posterUrls[0],
-        castModifyRequests: dataState.castModifyRequests.map((cast, index) => ({
-          ...cast,
-          castPhoto: castUrls[index] || cast.castPhoto,
-        })),
-        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
-          ...staff,
-          staffPhoto: staffUrls[index] || staff.staffPhoto,
-        })),
-        scheduleModifyRequests: dataState.scheduleModifyRequests.map((schedule) => {
-          const date = dayjs(schedule.performanceDate).toDate();
-          const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
-          const dateOffset = new Date(date.getTime() - offset);
-          return {
-            ...schedule,
-            performanceDate: dateOffset.toISOString(),
-          };
-        }),
-        performanceImageModifyRequests: dataState.performanceImageModifyRequests.map(
-          (image, index) => ({
-            performanceImage: performanceUrls[index] || image.performanceImage,
-          })
-        ),
-      });
-
       const res = await updatePerformance({
         performanceId: Number(performanceId),
         ...dataState,
@@ -413,7 +376,6 @@ const ModifyManage = () => {
         },
       });
     } catch (err) {
-      console.log(err);
       openAlert({
         title: "공연 수정에 실패했습니다.",
         subTitle: `${err.response.message ? err.response.message : "다시 시도해주세요."}`,
@@ -493,7 +455,6 @@ const ModifyManage = () => {
         okCallback: () => navigate("/gig-manage"),
       });
     } catch (err) {
-      console.log(err);
       openAlert({
         title: "에러",
         okText: "확인했어요",
@@ -643,8 +604,6 @@ const ModifyManage = () => {
             <S.Divider />
             <TimePickerModifyManageBox title="회차별 시간대">
               {dataState.scheduleModifyRequests?.map((schedule, index) => {
-                console.log(schedule.performanceDate);
-
                 return (
                   <div key={index}>
                     <S.InputDescription>{index + 1}회차</S.InputDescription>
