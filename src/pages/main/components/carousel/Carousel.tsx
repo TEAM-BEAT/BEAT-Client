@@ -108,7 +108,11 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
         <S.CarouselLayout>
           <S.CarouselItem
             onClick={() => {
-              isExternal[0] ? window.open(`${redirectUrl[0]}`) : navigate(`/gig/${promotionId[0]}`);
+              isExternal[0]
+                ? redirectUrl[0].startsWith("http://") || redirectUrl[0].startsWith("https://")
+                  ? window.open(`${redirectUrl[0]}`)
+                  : window.open(`https://${redirectUrl[0]}`)
+                : window.open(`/gig/${promotionId[0]}`);
             }}
           >
             <img src={promotionImg[0]} alt="carousel-img" />
@@ -125,8 +129,11 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
                   key={key}
                   onClick={() => {
                     isExternal[idx - 1]
-                      ? window.open(`${redirectUrl[idx - 1]}`)
-                      : navigate(`/gig/${promotionId[idx - 1]}`);
+                      ? redirectUrl[idx - 1].startsWith("http://") ||
+                        redirectUrl[idx - 1].startsWith("https://")
+                        ? window.open(`${redirectUrl[idx - 1]}`)
+                        : window.open(`https://${redirectUrl[idx - 1]}`)
+                      : window.open(`/gig/${promotionId[idx - 1]}`);
                   }}
                 >
                   <img src={image} alt="carousel-img" />

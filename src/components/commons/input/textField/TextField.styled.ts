@@ -23,7 +23,6 @@ export const TextFieldInput = styled.input<{ $narrow: boolean | undefined; $isDi
   border-radius: 0.6rem;
 
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
-
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray_600};
   }

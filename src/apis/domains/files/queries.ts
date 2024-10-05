@@ -3,6 +3,9 @@ import {
   getPresignedUrl,
   GetPresignedUrlParams,
   PresignedResponse,
+  CarouselPresignedResponse,
+  getCarouselPresignedUrl,
+  GetCarouselPresignedUrlParams,
   PutImageUploadParams,
   putS3ImageUpload,
 } from "./api";
@@ -15,6 +18,14 @@ export const useGetPresignedUrl = (params: GetPresignedUrlParams) => {
   return useQuery<PresignedResponse>({
     queryKey: [QUERY_KEY.PRESIGNED_URL],
     queryFn: () => getPresignedUrl(params),
+    enabled: false,
+  });
+};
+
+export const useGetCarouselPresignedUrl = (params: GetCarouselPresignedUrlParams) => {
+  return useQuery<CarouselPresignedResponse>({
+    queryKey: [QUERY_KEY.PRESIGNED_URL],
+    queryFn: () => getCarouselPresignedUrl(params),
     enabled: false,
   });
 };
