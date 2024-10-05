@@ -86,7 +86,9 @@ export const putS3ImageUpload = async ({ url, file }: PutImageUploadParams) => {
 // carousel
 
 export interface CarouselPresignedResponse {
-  carouselPresignedUrls: ImageInterface;
+  data: {
+    carouselPresignedUrls: ImageInterface;
+  };
 }
 
 export interface GetCarouselPresignedUrlParams {

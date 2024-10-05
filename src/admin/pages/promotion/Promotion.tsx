@@ -116,8 +116,13 @@ const Promotion = () => {
           const res = await updateCarousel(formData);
           console.log(res);
           await console.log(formData);
-          // TODO : 머지 전 alert 추가하기
-          // await location.reload();
+
+          await openAlert({
+            title: "캐러셀 수정이 완료되었습니다.",
+            okCallback: () => {
+              location.reload();
+            },
+          });
         } else {
           formData.carousels.forEach((item) => {
             if (!item.newImageUrl && !item.redirectUrl) {
