@@ -1,6 +1,6 @@
 import * as S from "./AdminCarousel.styled";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import CardCarousel from "../cardCarousel/CardCarousel";
+import CardCarousel from "@admin/pages/promotion/components/cardCarousel/CardCarousel";
 import { useEffect, useState } from "react";
 import LinkModal from "@admin/compontets/commons/linkModal/LinkModal";
 import { useGetAllScheduleList } from "@apis/domains/home/queries";
