@@ -9,7 +9,7 @@ function AdminHeader() {
   useEffect(() => {
     const userObj = JSON.parse(userData);
 
-    if (userObj.role !== "ROLE_ADMIN") {
+    if (userObj === null || userObj.role !== "ROLE_ADMIN") {
       navigate("/admin/notfound");
     }
   }, []);
