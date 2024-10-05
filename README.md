@@ -59,32 +59,29 @@
     </tr>
 </table>
 
+</br>
+
 <h2> 🛠 기술스택 </h2>
 
-```
-- React + TypeScript
-- yarn berry
-- styled-component
-- prettier, ESlint, StyleLint
-- jotai
-- React-query
-- Storybook
-- SonarCloud
-```
+   <div align="center">
 
-<img src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=white"/> 
-<img src="https://img.shields.io/badge/Typescript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white"/> 
-<img src="https://img.shields.io/badge/yarn berry-2C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white"/> 
-<img src="https://img.shields.io/badge/styledcomponents-DB7093.svg?style=for-the-badge&logo=styledcomponents&logoColor=white"/>
-<img src="https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=white"/>
-<img src="https://img.shields.io/badge/eslint-4B32C3.svg?style=for-the-badge&logo=eslint&logoColor=white"/>
-<img src="https://img.shields.io/badge/stylelint-263238.svg?style=for-the-badge&logo=stylelint&logoColor=white"/>
-<img src="https://img.shields.io/badge/jotai-000000.svg?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4&logoColor=white"/>
-<img src="https://img.shields.io/badge/reactquery-FF4154.svg?style=for-the-badge&logo=reactquery&logoColor=white"/>
-<img src="https://img.shields.io/badge/storybook-FF4785.svg?style=for-the-badge&logo=storybook&logoColor=white"/>
-<img src="https://img.shields.io/badge/sonarcloud-F3702A.svg?style=for-the-badge&logo=sonarcloud&logoColor=white"/>
+| 역할                 | 종류                                                                                                                                                                                                                                                                                                                            |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Library              | ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black)                                                                                                                                                                                                                              |
+| Programming Language | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)                                                                                                                                                                                                               |
+| Styling              | ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)                                                                                                                                                                                         |
+| Data Fetching        | ![React-Query](https://img.shields.io/badge/reactquery-FF4154.svg?style=for-the-badge&logo=reactquery&logoColor=white)  |  
+| State Management     | ![Jotai](https://img.shields.io/badge/jotai-000000.svg?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4&logoColor=white)  |                                                                                                                                                                                 
+| Formatting           | ![ESLint](https://img.shields.io/badge/eslint-4B32C3.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=white) ![StyleLint](https://img.shields.io/badge/stylelint-E0EFEF?style=for-the-badge&logo=stylelint&logoColor=000) |
+| Documentation        | ![StoryBook](https://img.shields.io/badge/storybook-FF4785.svg?style=for-the-badge&logo=storybook&logoColor=white)   |
+| Code Quality         | ![SonarCloud](https://img.shields.io/badge/sonarcloud-F3702A.svg?style=for-the-badge&logo=sonarcloud&logoColor=white)   |
+| Package Manager      | ![Yarn Berry](https://img.shields.io/badge/yarnberry-2C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)   |
+| Version Control      | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)                                                                                                                |
+| Deployment           | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)                                                                                                                                                                                                                           |
 
-<br/>
+</div>
+
+</br>
 
 <h2> 📄 컨벤션 및 브랜치 전략 </h2>
 <h3>Git Branch</h3>
