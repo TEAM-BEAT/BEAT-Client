@@ -127,7 +127,7 @@ export const FilesInputWrapper = styled.div`
   gap: 1.4rem;
   width: calc(100% + 2.4rem);
   padding-right: 2.4rem;
-  overflow: scroll hidden;
+  overflow-x: scroll;
 
   &::-webkit-scrollbar {
     display: none;
