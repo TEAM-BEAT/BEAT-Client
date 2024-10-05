@@ -123,8 +123,6 @@ export const FileInputWrapper = styled.div`
 `;
 
 export const FilesInputWrapper = styled.div`
-  position: relative;
-
   ${Generators.flexGenerator("row", "center", "start")}
   gap: 1.4rem;
   width: calc(100% + 2.4rem);

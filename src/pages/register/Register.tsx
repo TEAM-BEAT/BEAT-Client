@@ -486,7 +486,7 @@ const Register = () => {
           <S.Divider />
           <InputRegisterBox
             title="티켓 가격"
-            description="*티켓 가격은 수정불가합니다."
+            description="*예매자 존재 시, 티켓 가격은 수정불가합니다."
             isFree={isFree}
             onFreeClick={() => onFreeClick(setIsFree)}
           >
