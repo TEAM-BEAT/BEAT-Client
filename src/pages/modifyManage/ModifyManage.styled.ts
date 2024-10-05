@@ -125,10 +125,13 @@ export const FilesInputWrapper = styled.div`
   position: relative;
 
   ${Generators.flexGenerator("row", "center", "start")}
+  flex-wrap: nowrap;
   gap: 1.4rem;
   width: calc(100% + 2.4rem);
   padding-right: 2.4rem;
-  overflow-x: scroll;
+  overflow: scroll hidden;
+
+  white-space: nowrap;
 
   &::-webkit-scrollbar {
     display: none;
