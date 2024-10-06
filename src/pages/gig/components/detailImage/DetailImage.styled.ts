@@ -23,9 +23,10 @@ export const Image = styled.img`
 
 export const ShowMoreButton = styled.button`
   display: flex;
-  justify-content: space-between;
+  gap: 0.8rem;
+  justify-content: center;
   margin-top: 0.8rem;
-  padding: 1.6rem 9.1rem;
+  padding: 1.6rem 0;
 
   color: ${({ theme }) => theme.colors.white};
   ${({ theme }) => theme.fonts["body1-normal-semi"]};
