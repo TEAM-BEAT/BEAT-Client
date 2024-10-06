@@ -358,10 +358,16 @@ const ModifyManage = () => {
         performanceId: Number(performanceId),
         ...dataState,
         posterImage: posterUrls[0],
-        castModifyRequests: dataState.castModifyRequests.map((cast, index) => ({
-          ...cast,
-          castPhoto: castUrls[index] || cast.castPhoto,
-        })),
+        castModifyRequests: dataState.castModifyRequests.map((cast, index) => {
+          const modifiedCast = {
+            ...cast,
+            castPhoto: castUrls[index] || cast.castPhoto,
+          };
+          if (modifiedCast.castId === -1) {
+            delete modifiedCast.castId; // castId가 -1인 경우 castId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)
+          }
+          return modifiedCast;
+        }),
         staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
           ...staff,
           staffPhoto: staffUrls[index] || staff.staffPhoto,
