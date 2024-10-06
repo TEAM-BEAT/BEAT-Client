@@ -500,6 +500,7 @@ const Register = () => {
               placeholder="가격을 입력해주세요."
               disabled={isFree}
               unit="amount"
+              inputMode="numeric"
             />
           </InputRegisterBox>
           <S.Divider />
