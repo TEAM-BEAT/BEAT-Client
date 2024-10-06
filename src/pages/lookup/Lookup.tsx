@@ -65,11 +65,7 @@ const Lookup = () => {
   useEffect(() => {
     if (state) {
       setLookUpList(state as LookupProps[]);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!state) {
+    } else {
       refetch().then((refetchedData) => {
         setLookUpList(refetchedData.data as LookupProps[]);
       });
