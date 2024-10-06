@@ -804,6 +804,8 @@ const ModifyManage = () => {
     }
 
     if (modifyState.modifyManageStep === 3) {
+      console.log(dataState.staffModifyRequests);
+      console.log(dataState.castModifyRequests);
       return (
         <>
           <MetaTag title="공연 수정" />
@@ -836,16 +838,14 @@ const ModifyManage = () => {
                 ? []
                 : (dataState.castModifyRequests?.map((cast, index) => ({
                     ...cast,
-                    castId: index + 1,
+                    //castId: index + 1,
                   })) as Cast[])
             }
             staffList={
-              dataState.staffModifyRequests?.[0]?.staffId === -1
-                ? []
-                : (dataState.staffModifyRequests?.map((cast, index) => ({
-                    ...cast,
-                    staffId: index + 1,
-                  })) as Staff[])
+              dataState.staffModifyRequests?.map((cast, index) => ({
+                ...cast,
+                //staffId: index + 1,
+              })) as Staff[]
             }
             performanceImageList={dataState.performanceImageModifyRequests}
           />
