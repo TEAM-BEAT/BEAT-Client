@@ -44,7 +44,7 @@ const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
   const [lookUpList, setLookUpList] = useState<LookupProps[]>([]);
-  const { data, isLoading } = useGetMemberBookingList();
+  const { isLoading, refetch } = useGetMemberBookingList();
 
   const navigate = useNavigate();
 
@@ -69,10 +69,12 @@ const Lookup = () => {
   }, []);
 
   useEffect(() => {
-    if (!state && data) {
-      setLookUpList(data as LookupProps[]);
+    if (!state) {
+      refetch().then((refetchedData) => {
+        setLookUpList(refetchedData.data as LookupProps[]);
+      });
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     setHeader({
