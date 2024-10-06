@@ -52,6 +52,19 @@ import {
 } from "./typings/gigInfo";
 import { handleImagesUpload, isAllFieldsFilled } from "./utils/handleEvent";
 
+const SCHEDULE_NUMBER = {
+  1: "FIRST",
+  2: "SECOND",
+  3: "THIRD",
+  4: "FOURTH",
+  5: "FIFTH",
+  6: "SIXTH",
+  7: "SEVENTH",
+  8: "EIGHTH",
+  9: "NINTH",
+  10: "TENTH",
+};
+
 // Reducer로 상태 관리 통합
 export type State = {
   performanceTitle: string;
@@ -158,7 +171,9 @@ const ModifyManage = () => {
     const updatedScheduleList = Array.from({ length: dataState.totalScheduleCount }, (_, index) => {
       const existingSchedule = dataState.scheduleModifyRequests[index];
       const totalTicketCount = dataState.scheduleModifyRequests[0]?.totalTicketCount || null;
-      return { ...existingSchedule, totalTicketCount };
+
+      const scheduleNumber = SCHEDULE_NUMBER[index + 1];
+      return { ...existingSchedule, totalTicketCount, scheduleNumber };
     });
     dispatch({ type: "SET_FIELD", field: "scheduleModifyRequests", value: updatedScheduleList });
   }, [dataState.totalScheduleCount]);
