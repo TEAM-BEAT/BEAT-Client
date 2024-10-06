@@ -358,10 +358,16 @@ const ModifyManage = () => {
         performanceId: Number(performanceId),
         ...dataState,
         posterImage: posterUrls[0],
-        castModifyRequests: dataState.castModifyRequests.map((cast, index) => ({
-          ...cast,
-          castPhoto: castUrls[index] || cast.castPhoto,
-        })),
+        castModifyRequests: dataState.castModifyRequests.map((cast, index) => {
+          const modifiedCast = {
+            ...cast,
+            castPhoto: castUrls[index] || cast.castPhoto,
+          };
+          if (modifiedCast.castId === -1) {
+            delete modifiedCast.castId; // castId가 -1인 경우 castId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)
+          }
+          return modifiedCast;
+        }),
         staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
           ...staff,
           staffPhoto: staffUrls[index] || staff.staffPhoto,
@@ -798,6 +804,8 @@ const ModifyManage = () => {
     }
 
     if (modifyState.modifyManageStep === 3) {
+      console.log(dataState.staffModifyRequests);
+      console.log(dataState.castModifyRequests);
       return (
         <>
           <MetaTag title="공연 수정" />
@@ -830,16 +838,14 @@ const ModifyManage = () => {
                 ? []
                 : (dataState.castModifyRequests?.map((cast, index) => ({
                     ...cast,
-                    castId: index + 1,
+                    //castId: index + 1,
                   })) as Cast[])
             }
             staffList={
-              dataState.staffModifyRequests?.[0]?.staffId === -1
-                ? []
-                : (dataState.staffModifyRequests?.map((cast, index) => ({
-                    ...cast,
-                    staffId: index + 1,
-                  })) as Staff[])
+              dataState.staffModifyRequests?.map((cast, index) => ({
+                ...cast,
+                //staffId: index + 1,
+              })) as Staff[]
             }
             performanceImageList={dataState.performanceImageModifyRequests}
           />
