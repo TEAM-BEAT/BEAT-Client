@@ -36,6 +36,7 @@ const RegisteredCard = ({
 
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
 
+  //맨 마지막 공연일을 기준으로 dueDate 계산하는 함수
   const calculateDueDate = (dateString: string): number => {
     //문자열이 ~ 를 포함하는지 확인 (즉, 단일 문자인지 아닌지 확인)
     const endDateString = dateString.includes("~")
