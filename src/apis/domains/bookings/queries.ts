@@ -58,6 +58,7 @@ export const useGetMemberBookingList = () => {
 
     staleTime: 0,
     gcTime: 1000 * 60 * 60 * 24,
+    enabled: false,
   });
 };
 
