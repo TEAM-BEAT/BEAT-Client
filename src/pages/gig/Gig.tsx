@@ -125,7 +125,7 @@ const Gig = () => {
       />
       <S.FooterContainer>
         <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
-          {isBookingAvailable ? "예매하기" : "종료된 공연은 예매할 수 없습니다."}
+          {isBookingAvailable ? "예매하기" : "마감된 공연입니다."}
         </Button>
       </S.FooterContainer>
 
