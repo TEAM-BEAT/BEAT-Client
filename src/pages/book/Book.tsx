@@ -30,11 +30,13 @@ const Book = () => {
 
   useEffect(() => {
     if (data) {
-      const isBookingAvailable = data?.scheduleList[data?.scheduleList.length - 1]?.isBooking;
+      const isAllBookingUnavailable = data?.scheduleList?.every(
+        (schedule) => schedule.isBooking === false
+      );
 
-      if (!isBookingAvailable) {
+      if (isAllBookingUnavailable) {
         openAlert({
-          title: "종료된 공연입니다.",
+          title: "예매가 마감되었습니다.",
           okText: "확인",
           okCallback: () => {
             navigate(`/gig/${performanceId}`);
