@@ -181,6 +181,16 @@ const TicketHolderList = () => {
     navigate("/gig-manage");
   };
 
+  const handleResetEditMode = () => {
+    setHeader({
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      title: "예매자 관리",
+      subText: "편집",
+      leftOnClick: handleNavigateBack,
+      rightOnClick: handleEditButton,
+    });
+  };
+
   const handleLeftButton = () => {
     openConfirm({
       title: "화면을 나갈까요?",
@@ -188,7 +198,7 @@ const TicketHolderList = () => {
       okText: "계속할게요",
       noText: "나갈게요",
       okCallback: closeConfirm,
-      noCallback: handleNavigateBack,
+      noCallback: handleResetEditMode,
     });
   };
 
@@ -218,11 +228,10 @@ const TicketHolderList = () => {
   const handleEditButton = () => {
     setIsEditMode(true);
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      headerStyle: NAVIGATION_STATE.TITLE_SUB_TEXT,
       title: "예매자 편집",
       subText: "닫기",
-      leftOnClick: handleLeftButton,
-      rightOnClick: handleCloseButton,
+      rightOnClick: handleLeftButton,
     });
   };
 
@@ -231,7 +240,7 @@ const TicketHolderList = () => {
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 관리",
       subText: "편집",
-      leftOnClick: handleLeftButton,
+      leftOnClick: handleNavigateBack,
       rightOnClick: handleEditButton,
     });
   }, [setHeader]);
