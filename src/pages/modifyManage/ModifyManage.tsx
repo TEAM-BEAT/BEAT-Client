@@ -210,7 +210,7 @@ const ModifyManage = () => {
                 castRole: item.castRole ?? "",
                 castPhoto: item.castPhoto ?? "",
               }))
-            : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }],
+            : [],
           staffModifyRequests: data.staffList?.length
             ? data.staffList.map((item) => ({
                 staffId: item.staffId ?? -1,
@@ -218,7 +218,7 @@ const ModifyManage = () => {
                 staffRole: item.staffRole ?? "",
                 staffPhoto: item.staffPhoto ?? "",
               }))
-            : [{ staffId: -1, staffName: "", staffRole: "", staffPhoto: "" }],
+            : [],
           bankName: data.bankName,
           accountHolder: data.accountHolder,
           performanceImageModifyRequests: data.performanceImageList?.length
@@ -807,6 +807,8 @@ const ModifyManage = () => {
     }
 
     if (modifyState.modifyManageStep === 2) {
+      console.log(dataState.castModifyRequests);
+      console.log(dataState.staffModifyRequests);
       return (
         <ModifyManageMaker
           castModifyRequests={dataState.castModifyRequests as Cast[]}
