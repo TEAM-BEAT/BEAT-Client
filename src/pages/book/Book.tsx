@@ -147,9 +147,8 @@ const Book = () => {
     }
 
     let formData = {
-      scheduleId:
-        data?.scheduleList![selectedValue! - data?.scheduleList?.[0].scheduleId].scheduleId,
-      scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
+      scheduleId: selectedSchedule.scheduleId,
+      scheduleNumber: selectedSchedule.scheduleNumber,
       purchaseTicketCount: round,
       totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
       // TODO: 상수로 관리
