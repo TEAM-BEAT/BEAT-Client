@@ -78,8 +78,6 @@ const ModifyManageMaker = ({
     handleModifyManageStep();
   };
 
-  console.log(castModifyRequests);
-  console.log(staffModifyRequests);
   return (
     <>
       <S.ModifyManageContainer>

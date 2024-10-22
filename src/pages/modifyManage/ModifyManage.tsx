@@ -807,8 +807,6 @@ const ModifyManage = () => {
     }
 
     if (modifyState.modifyManageStep === 2) {
-      console.log(dataState.castModifyRequests);
-      console.log(dataState.staffModifyRequests);
       return (
         <ModifyManageMaker
           castModifyRequests={dataState.castModifyRequests as Cast[]}
