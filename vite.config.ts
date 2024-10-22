@@ -48,6 +48,12 @@ export default defineConfig(async ({ mode }) => {
 
             const performanceData = response.data.data;
 
+            context.html = context.html
+              .replace(/<meta property="og:title".*?>/i, "")
+              .replace(/<meta property="og:image".*?>/i, "")
+              .replace(/<meta property="og:description".*?>/i, "")
+              .replace(/<meta property="og:url".*?>/i, "");
+
             context.html = context.html.replace(
               /<\/head>/i,
               `
