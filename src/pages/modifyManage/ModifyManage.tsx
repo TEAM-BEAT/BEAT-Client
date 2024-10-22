@@ -818,8 +818,6 @@ const ModifyManage = () => {
     }
 
     if (modifyState.modifyManageStep === 3) {
-      console.log(dataState.castModifyRequests);
-      console.log(dataState.staffModifyRequests);
       return (
         <>
           <MetaTag title="공연 수정" />

@@ -21,7 +21,6 @@ interface RoleWrapperProps {
 }
 
 const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) => {
-  console.log("role:", role);
   const { makerName, makerRole, makerPhoto } = role;
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(makerPhoto || null);
@@ -57,7 +56,6 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
   };
 
   //문제 가능성(원인)2 -> 처음 들어올 때는 항상 -1이고, x버튼 눌렀다가 +누르고 추가하면 newDate로 추가됨.
-  //그리고 저 presigned url 바뀌는 것도 뭔가 연관성이 있어보이기도.. (곧바로 추가하면 이미지 없어지고, 아니면 이미지 보존)
   return (
     <>
       <S.RoleWrapper>
