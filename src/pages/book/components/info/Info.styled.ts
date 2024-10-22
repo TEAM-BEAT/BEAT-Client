@@ -16,6 +16,7 @@ export const InfoPoster = styled.img`
   width: 9.5rem;
   height: 12.8rem;
   margin-right: 1.4rem;
+  object-fit: cover;
 
   border-radius: 4px;
 `;
