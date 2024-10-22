@@ -373,7 +373,11 @@ const TicketHolderList = () => {
                     </S.FooterButtonText>
                     <S.MarginBottom $value="2.4rem">
                       <Button>
-                        <CSVLink data={CSVDataArr} headers={headers} filename="예매자 목록.csv">
+                        <CSVLink
+                          data={CSVDataArr}
+                          headers={headers}
+                          filename={`${data.performanceTitle}_예매자 목록.csv`}
+                        >
                           예매자 목록 다운받기
                         </CSVLink>
                       </Button>
