@@ -305,6 +305,7 @@ const ModifyManage = () => {
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
     const { data, isSuccess } = await refetch();
+    //presignedUrl로 받아온 데이터들을 저장할 변수
     let posterUrls: string[];
     let castUrls: string[];
     let staffUrls: string[];
@@ -314,6 +315,7 @@ const ModifyManage = () => {
       return;
     } else if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
+        //앞부분(유효한 부분)만 떼어내서 저장(뒷 부분은 사진이 뜨는 url이 아님)
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
         castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
         staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
@@ -322,8 +324,10 @@ const ModifyManage = () => {
         return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
       };
 
+      //배열 형태로 추출된 모든 presignedUrls
       const S3Urls = extractUrls(data);
 
+      //기존에 갖고 있던 이미지들의 주소들 -> files
       const files = [
         dataState.posterImage,
         ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
@@ -336,10 +340,14 @@ const ModifyManage = () => {
           S3Urls.map(async (url, index) => {
             const file = files[index];
 
+            //여기 왜 fetch하는거지? 그냥 받아오면 안되는건가? -> blob 메서드를 사용하려면 response 타입이 필요하기 때문
             const response = await fetch(file);
+
+            //blob타입으로 변환 과정
             const blob = await response.blob();
             const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
 
+            //새롭게 받은 url에 해당 파일 저장
             return putS3({ url, file: newFile });
           })
         );
