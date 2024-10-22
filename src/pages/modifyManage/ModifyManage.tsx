@@ -368,10 +368,16 @@ const ModifyManage = () => {
           }
           return modifiedCast;
         }),
-        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
-          ...staff,
-          staffPhoto: staffUrls[index] || staff.staffPhoto,
-        })),
+        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => {
+          const modifiedStaff = {
+            ...staff,
+            staffPhoto: staffUrls[index] || staff.staffPhoto,
+          };
+          if (modifiedStaff.staffId === -1) {
+            delete modifiedStaff.staffId; // staffId가 -1인 경우 staffId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)
+          }
+          return modifiedStaff;
+        }),
         scheduleModifyRequests: dataState.scheduleModifyRequests.map((schedule) => {
           const date = dayjs(schedule.performanceDate).toDate();
           const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
