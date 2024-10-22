@@ -96,6 +96,14 @@ const Gig = () => {
           }}
         />
       )}
+      <MetaTag
+        title={data?.performanceTitle}
+        ogTitle={data?.performanceTitle}
+        description={`${data?.performanceTitle} - 심장이 뛰는 곳, BEAT에서 만나보세요.`}
+        image={data?.posterImage}
+        keywords={data?.performanceTitle}
+        url={`${import.meta.env.VITE_CLIENT_URL}/gig/${performanceId}`}
+      />
       <ShowInfo
         posterImage={data?.posterImage ?? ""}
         genre={data?.genre as SHOW_TYPE_KEY}
