@@ -121,12 +121,30 @@ export const FileInputWrapper = styled.div`
   gap: 1.4rem;
 `;
 
+export const FilesInputWrapper = styled.div`
+  position: relative;
+
+  ${Generators.flexGenerator("row", "center", "start")}
+  flex-wrap: nowrap;
+  gap: 1.4rem;
+  width: calc(100% + 2.4rem);
+  padding-right: 2.4rem;
+  overflow: scroll hidden;
+
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const HiddenFileInput = styled.input`
   display: none;
 `;
 
 export const CustomFileInput = styled.label<{ width?: number; height?: number }>`
   ${Generators.flexGenerator()}
+  flex-shrink: 0;
   width: ${({ width }) => (width ? width : 10.8)}rem;
   height: ${({ height }) => (height ? height : 15.4)}rem;
 
@@ -135,8 +153,18 @@ export const CustomFileInput = styled.label<{ width?: number; height?: number }>
   border-radius: 6px;
 `;
 
+export const CustomFileInputCounter = styled.p`
+  color: ${({ theme }) => theme.colors.gray_500};
+  ${({ theme }) => theme.fonts["body1-normal-medi"]};
+`;
+
+export const CustomFileInputLength = styled.span`
+  color: ${({ theme }) => theme.colors.white};
+`;
+
 export const PreviewImageWrapper = styled.article<{ width?: number; height?: number }>`
   position: relative;
+  flex-shrink: 0;
   width: ${({ width }) => (width ? width : 10.8)}rem;
   height: ${({ height }) => (height ? height : 15.4)}rem;
 `;

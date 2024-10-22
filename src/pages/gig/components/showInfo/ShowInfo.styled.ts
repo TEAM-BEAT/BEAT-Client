@@ -1,3 +1,4 @@
+import { ButtonDelete24 } from "@assets/svgs";
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
 
@@ -5,14 +6,44 @@ export const ShowInfoWrapper = styled.section`
   ${Generators.flexGenerator("column", "center", "flex-start")};
 `;
 
-export const Poster = styled.img<{ $imgsrc: string }>`
+export const Poster = styled.img`
   width: 14.7rem;
   height: 19.8rem;
   margin: 1.2rem 0;
+  object-fit: cover;
+  object-position: center;
 
-  background-image: url(${({ $imgsrc }) => $imgsrc});
-  background-size: 100% 100%;
+  cursor: pointer;
   border-radius: 4px;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  ${Generators.flexGenerator("column")};
+
+  background-color: rgb(15 15 15 / 70%);
+`;
+
+export const CloseBtn = styled.section`
+  position: absolute;
+  top: 1.6rem;
+  width: 37rem;
+
+  ${Generators.flexGenerator("row", "center", "end")};
+  cursor: pointer;
+`;
+
+export const CloseIcon = styled(ButtonDelete24)`
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-right: 1.3rem;
+`;
+
+export const ModalContent = styled.img`
+  max-width: 37rem;
+  max-height: 100%;
 `;
 
 export const Title = styled.h1`

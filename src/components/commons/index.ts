@@ -14,7 +14,7 @@ export { default as ContextBox } from "./contextBox/ContextBox.tsx";
 export { default as Hamburger } from "./hamburger/Hamburger.tsx";
 export { default as TextArea } from "./input/textArea/TextArea.tsx";
 export { default as TextField } from "./input/textField/TextField.tsx";
-export { default as Labal } from "./label/Labal.tsx";
+export { default as Label } from "./label/Label.tsx";
 export { default as Loading } from "./loading/Loading.tsx";
 export { default as Alert } from "./modal/Alert.tsx";
 export { default as ModalTextBox } from "./modal/components/ModalTextBox.tsx";

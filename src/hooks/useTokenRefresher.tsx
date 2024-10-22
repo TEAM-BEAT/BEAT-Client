@@ -8,6 +8,16 @@ export default function TokenRefresher() {
   const navigate = useNavigate();
   const { openAlert } = useModal();
 
+  const user = localStorage.getItem("user");
+  if (user) {
+    if (!JSON.parse(user)?.role) {
+      // 기존에 존재하던 유저 role 유무로 임시로 토큰 제거 후 리로드
+      localStorage.clear();
+      window.location.reload();
+      return;
+    }
+  }
+
   useEffect(() => {
     const interceptor = instance.interceptors.response.use(
       // 성공적인 응답 처리
@@ -60,14 +70,14 @@ export default function TokenRefresher() {
             localStorage.clear();
             navigate("/main");
 
-            openAlert({ title: "토큰이 만료되어 자동으로 로그아웃 되었습니다." });
+            openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
           }
         } else if (status === 400 || status === 404 || status === 409) {
-          console.log("hi3");
-          // window.alert(msg);
-          // console.log(msg)
+        } else if (status === 500) {
+          openAlert({
+            title: "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
+          });
         }
-        // console.error('Error response:', error);
         // 다른 모든 오류를 거부하고 처리
         return Promise.reject(error);
       }

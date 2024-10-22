@@ -33,6 +33,7 @@ const TextField = ({
   filter,
   cap,
   isDisabled,
+  inputMode,
   ...rest
 }: TextFieldProps) => {
   const label = unit === "time" ? "분" : unit === "ticket" ? "매" : "원";
@@ -124,6 +125,7 @@ const TextField = ({
           placeholder={placeholder}
           $narrow={narrow}
           type={isPasswordVisible ? "text" : "password"} // 비밀번호 보이기 여부를 위해 타입에 조건을 걸음
+          inputMode={inputMode}
           {...rest}
         />
         {!narrow && !unit && value && type !== "password" && !isDisabled && (

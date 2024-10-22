@@ -9,12 +9,22 @@ export interface PresignedResponse {
   poster: ImageInterface;
   cast: ImageInterface;
   staff: ImageInterface;
+  performance: ImageInterface;
+}
+
+export interface PresignedAllResponse {
+  status: number;
+  message: string;
+  data: {
+    performanceMakerPresignedUrls: PresignedResponse;
+  };
 }
 
 export interface GetPresignedUrlParams {
   posterImage: string;
   castImages: string[];
   staffImages: string[];
+  performanceImages: string[];
 }
 
 export const getPresignedUrl = async (
@@ -25,9 +35,10 @@ export const getPresignedUrl = async (
       ...params,
       castImages: params.castImages.length === 0 ? [""] : params.castImages,
       staffImages: params.staffImages.length === 0 ? [""] : params.staffImages,
+      performImages: params.performanceImages.length === 0 ? [""] : params.performanceImages,
     };
 
-    const response: AxiosResponse<PresignedResponse> = await get("/files/presigned-url", {
+    const response: AxiosResponse<PresignedAllResponse> = await get("/files/presigned-url", {
       params: paramsWithEmptyArrays,
       paramsSerializer: (params) => {
         const searchParams = new URLSearchParams();
@@ -39,12 +50,13 @@ export const getPresignedUrl = async (
         const modifiedQueryString = searchParams
           .toString()
           .replace(/castImages=%5B%5D/g, "castImages")
-          .replace(/staffImages=%5B%5D/g, "staffImages");
+          .replace(/staffImages=%5B%5D/g, "staffImages")
+          .replace(/performanceImages=%5B%5D/g, "performanceImages");
         return modifiedQueryString;
       },
     });
 
-    return response.data;
+    return response.data.data.performanceMakerPresignedUrls;
   } catch (error) {
     console.error("error", error);
     return null;
@@ -69,4 +81,53 @@ export const putS3ImageUpload = async ({ url, file }: PutImageUploadParams) => {
     console.error(err);
   }
   return null;
+};
+
+// carousel
+
+export interface CarouselPresignedResponse {
+  data: {
+    carouselPresignedUrls: ImageInterface;
+  };
+}
+
+export interface GetCarouselPresignedUrlParams {
+  carouselImages: string[];
+}
+
+export const getCarouselPresignedUrl = async (
+  params: GetCarouselPresignedUrlParams
+): Promise<CarouselPresignedResponse | null> => {
+  try {
+    const paramsWithEmptyArrays = {
+      ...params,
+      carouselImages:
+        Array.isArray(params.carouselImages) && params.carouselImages.length === 0
+          ? [""]
+          : params.carouselImages || [""],
+    };
+    const response: AxiosResponse<CarouselPresignedResponse> = await get(
+      "/admin/carousels/presigned-url",
+      {
+        params: paramsWithEmptyArrays,
+        paramsSerializer: (params) => {
+          const searchParams = new URLSearchParams();
+
+          for (const [k, v] of Object.entries(params)) {
+            searchParams.set(k, v);
+          }
+
+          const modifiedQueryString = searchParams
+            .toString()
+            .replace(/carouselImages=%5B%5D/g, "carouselImages");
+          return modifiedQueryString;
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
 };

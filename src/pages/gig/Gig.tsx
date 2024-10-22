@@ -1,8 +1,10 @@
 import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
 import { ActionBottomSheet, Button, Loading } from "@components/commons";
 import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useLogin } from "@hooks";
+import NotFound from "@pages/notFound/NotFound";
 import { navigateAtom } from "@stores";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useAtom } from "jotai";
@@ -12,7 +14,6 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const Gig = () => {
   const navigate = useNavigate();
@@ -21,16 +22,18 @@ const Gig = () => {
   const { isLogin } = useLogin();
 
   const { performanceId } = useParams<{ performanceId: string }>();
-  const { data, isLoading } = useGetPerformanceDetail(Number(performanceId));
+  const { data, isLoading, isError } = useGetPerformanceDetail(Number(performanceId));
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  // 공연 예매 가능 여부
+  const isBookingAvailable = data?.scheduleList.some((schedule) => schedule.isBooking);
 
   const handleBookClick = () => {
     if (isLogin) {
       navigate(`/book/${performanceId}`);
       return;
     }
-
     setIsSheetOpen(true);
   };
 
@@ -44,21 +47,55 @@ const Gig = () => {
   };
 
   useEffect(() => {
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE,
-      title: data?.performanceTitle,
-      leftOnClick: () => {
-        navigate("/main");
-      },
-    });
+    if (data) {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE,
+        title: data?.performanceTitle,
+        leftOnClick: () => {
+          navigate("/main");
+        },
+      });
+    }
   }, [data]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <>
+        {!data && (
+          <div
+            className="deploy-loading"
+            style={{
+              width: "100vw", // 100% 너비
+              height: "100vh", // 100% 높이
+              zIndex: 1000, // z-index 값
+              top: 0, // 상단 고정
+              left: 0, // 좌측 고정
+            }}
+          />
+        )}
+        <Loading />
+      </>
+    );
+  }
+
+  if (isError) {
+    return <NotFound />;
   }
 
   return (
     <S.ContentWrapper>
+      {data === null && (
+        <div
+          className="deploy-loading"
+          style={{
+            width: "100vw", // 100% 너비
+            height: "100vh", // 100% 높이
+            zIndex: 1000, // z-index 값
+            top: 0, // 상단 고정
+            left: 0, // 좌측 고정
+          }}
+        />
+      )}
       <MetaTag
         title={data?.performanceTitle}
         ogTitle={data?.performanceTitle}
@@ -79,6 +116,7 @@ const Gig = () => {
       />
       <Content
         description={data?.performanceDescription ?? ""}
+        performanceImageList={data?.performanceImageList ?? []}
         attentionNote={data?.performanceAttentionNote ?? ""}
         contact={data?.performanceContact ?? ""}
         teamName={data?.performanceTeamName ?? ""}
@@ -86,7 +124,9 @@ const Gig = () => {
         staffList={data?.staffList ?? []}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick}>예매하기</Button>
+        <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
+          {isBookingAvailable ? "예매하기" : "마감된 공연입니다."}
+        </Button>
       </S.FooterContainer>
 
       <ActionBottomSheet

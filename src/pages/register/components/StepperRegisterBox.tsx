@@ -24,7 +24,7 @@ const StepperRegisterBox = ({
         </S.InputTitleWrapper>
         {children}
       </S.StepperRegisterBox>
-      <S.InputDescription $warning={true}>*회차는 수정불가합니다.</S.InputDescription>
+      <S.InputDescription $warning={true}>*기존 회차는 삭제가 불가능합니다.</S.InputDescription>
     </S.InputRegisterBox>
   );
 };

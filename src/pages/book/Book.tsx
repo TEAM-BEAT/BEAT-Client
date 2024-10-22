@@ -7,14 +7,16 @@ import {
   useGetBookingPerformanceDetail,
   useGetScheduleAvailable,
 } from "@apis/domains/performances/queries";
+import { ErrorResponse } from "@apis/errorResponse";
 import { Button, Context, Loading, OuterLayout, ViewBottomSheet } from "@components/commons";
+import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useLogin, useModal } from "@hooks";
 import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@pages/book/components";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
 import { getScheduleNumberById } from "./utils";
-import MetaTag from "@components/commons/meta/MetaTag";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -27,6 +29,24 @@ const Book = () => {
   const { setHeader } = useHeader();
 
   useEffect(() => {
+    if (data) {
+      const isAllBookingUnavailable = data?.scheduleList?.every(
+        (schedule) => schedule.isBooking === false
+      );
+
+      if (isAllBookingUnavailable) {
+        openAlert({
+          title: "예매가 마감되었습니다.",
+          okText: "확인",
+          okCallback: () => {
+            navigate(`/gig/${performanceId}`);
+          },
+        });
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매하기",
@@ -37,6 +57,10 @@ const Book = () => {
   }, []);
 
   const [selectedValue, setSelectedValue] = useState<number>();
+  const selectedSchedule = data?.scheduleList.find(
+    (schedule) => schedule.scheduleId === selectedValue
+  );
+
   const [round, setRound] = useState(1);
   const [bookerInfo, setBookerInfo] = useState({
     bookerName: "",
@@ -59,8 +83,8 @@ const Book = () => {
     round
   );
 
-  const { mutateAsync, isPending } = useGuestBook();
-  const { mutateAsync: memberBook, isPending: isMemberRequestPending } = useMemberBook();
+  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook();
+  const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -118,16 +142,17 @@ const Book = () => {
   };
 
   const handleClickBookRequst = async () => {
-    if (isPending && isMemberRequestPending) {
+    if (isGuestBookingPending && isMemberBookPending) {
       return;
     }
 
     let formData = {
-      scheduleId:
-        data?.scheduleList![selectedValue! - data?.scheduleList?.[0].scheduleId].scheduleId,
-      scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
+      scheduleId: selectedSchedule.scheduleId,
+      scheduleNumber: selectedSchedule.scheduleNumber,
       purchaseTicketCount: round,
       totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
+      // TODO: 상수로 관리
+      bookingStatus: "CHECKING_PAYMENT",
     } as GuestBookingRequest;
 
     if (!isLogin) {
@@ -136,35 +161,18 @@ const Book = () => {
         ...formData,
         ...bookerInfo,
         password: easyPassword.password,
-        isPaymentCompleted: data?.ticketPrice === 0,
       } as GuestBookingRequest;
-
-      const res = await mutateAsync(formData);
-
-      // TODO: response로 변경하기 (API 수정 필요)
-      navigate("/book/complete", {
-        state: {
-          id: performanceId,
-          title: data?.performanceTitle,
-          bankName: data?.bankName,
-          accountHolder: data?.accountHolder,
-          accountNumber: data?.accountNumber,
-          totalPaymentAmount: res?.totalPaymentAmount,
-        },
-      });
     } else {
-      // 회원 예매요청
+      // 회원 예매 요청
       formData = {
         ...formData,
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
       } as GuestBookingRequest;
+    }
 
-      console.log(formData);
-
-      const res = await memberBook(formData);
-
-      console.log(res);
+    try {
+      const res = isLogin ? await memberBook(formData) : await guestBook(formData);
 
       navigate("/book/complete", {
         state: {
@@ -176,6 +184,18 @@ const Book = () => {
           totalPaymentAmount: res?.totalPaymentAmount,
         },
       });
+    } catch (error) {
+      const errorResponse = error.response?.data as ErrorResponse;
+      if (errorResponse.status === 500) {
+        openAlert({
+          title: "서버 내부 오류로 예매가 불가능합니다.",
+        });
+      }
+      if (errorResponse.status === 409) {
+        openAlert({
+          title: "이미 매진된 공연입니다.",
+        });
+      }
     }
   };
 
@@ -205,13 +225,18 @@ const Book = () => {
       setActiveButton(false);
     }
   }, [isLogin, selectedValue, bookerInfo, easyPassword, isTermChecked]);
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  if (!data) {
+    return <NotFound />;
+  }
+
+  return (
     <S.ContentWrapper>
       <MetaTag title="공연 예매" />
-      {isPending && <Loading />}
+      {isGuestBookingPending && isMemberBookPending && <Loading />}
       <Info
         genre={data?.genre as SHOW_TYPE_KEY}
         posterImage={data?.posterImage}
@@ -272,18 +297,8 @@ const Book = () => {
         <Context
           isDate={true}
           subTitle="날짜"
-          date={data
-            ?.scheduleList![
-              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
-                data?.scheduleList?.[0].scheduleId
-            ].performanceDate?.slice(0, 10)
-            .toString()}
-          time={data
-            ?.scheduleList![
-              (selectedValue ?? data?.scheduleList?.[0].scheduleId) -
-                data?.scheduleList?.[0].scheduleId
-            ].performanceDate?.slice(11, 16)
-            .toString()}
+          date={selectedSchedule?.performanceDate.slice(0, 10).toString() ?? ""}
+          time={selectedSchedule?.performanceDate.slice(11, 16).toString() ?? ""}
         />
         <Context
           subTitle="가격"
@@ -294,7 +309,12 @@ const Book = () => {
           <Button variant="gray" size="medium" onClick={handleSheetClose}>
             다시 할게요
           </Button>
-          <Button variant="primary" size="medium" onClick={handleClickBookRequst}>
+          <Button
+            variant="primary"
+            size="medium"
+            disabled={isGuestBookingPending || isMemberBookPending}
+            onClick={handleClickBookRequst}
+          >
             예매할게요
           </Button>
         </OuterLayout>

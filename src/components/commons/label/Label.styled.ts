@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Subtract } from "@assets/svgs";
+import styled from "styled-components";
 
 export const LabelWrapper = styled.section`
   position: absolute;

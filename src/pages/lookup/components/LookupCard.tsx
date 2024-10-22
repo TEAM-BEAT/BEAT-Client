@@ -1,8 +1,10 @@
 import { useModal } from "@hooks";
 import BankAccount from "@pages/test/modalTest/BankAccount";
 import { getBankNameKr } from "@utils/getBankName";
+import { bookingStatusText, bookingStatusTypes } from "@constants/bookingStatus";
 import { useNavigate } from "react-router-dom";
 import { LookupProps } from "../types/lookupType";
+import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./LookupCard.styled";
 
 const LookupCard = ({
@@ -13,23 +15,15 @@ const LookupCard = ({
   scheduleNumber,
   performanceVenue,
   purchaseTicketCount,
-  isPaymentCompleted,
   bankName,
   bookerName,
   accountHolder,
   accountNumber,
   dueDate,
+  bookingStatus,
   totalPaymentAmount,
 }: LookupProps) => {
   const navigate = useNavigate();
-
-  const scheduleNum = {
-    FIRST: "1회차",
-    SECOND: "2회차",
-    THIRD: "3회차",
-  };
-
-  type ScheduleNumTypes = keyof typeof scheduleNum;
 
   const createdAtString = createdAt.slice(0, 10);
   const createDataArray = createdAtString.split("-");
@@ -41,14 +35,12 @@ const LookupCard = ({
 
   const handleModal = (bank: string, number: string) => {
     openModal({
-      // 가격은 내일 API 명세서 보고 맞추기
       children: (
         <BankAccount
           bankName={bank}
           number={number}
           accountName={accountHolder}
           accountNumber={accountNumber}
-          // api 추가되면 수정하기
           price={totalPaymentAmount}
         />
       ),
@@ -57,12 +49,10 @@ const LookupCard = ({
 
   return (
     <S.LookupCardWrapper>
-      {/* 제목 선택하면 해당 공연으로 넘어갈 수 있도록!! -> API 수정되면 반영하기*/}
       <S.LookupTitleWrapper type="button" onClick={() => navigate(`/gig/${performanceId}`)}>
         <S.LookupTitle>{performanceTitle}</S.LookupTitle>
         <S.TitleArrowRightIcon />
       </S.LookupTitleWrapper>
-      <S.BoxDivider />
       <S.ContextLayout>
         <S.Context>
           <S.SubTitle>예매일</S.SubTitle>
@@ -83,7 +73,7 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>관람회차</S.SubTitle>
           <S.Text>
-            {scheduleNum[scheduleNumber as ScheduleNumTypes]} {purchaseTicketCount}매
+            {convertingNumber(scheduleNumber)}회차 {purchaseTicketCount}매
           </S.Text>
         </S.Context>
         <S.Context>
@@ -93,14 +83,12 @@ const LookupCard = ({
         <S.Context>
           <S.SubTitle>입금상태</S.SubTitle>
           <S.DepositLayout>
-            {isPaymentCompleted ? (
-              <S.CheckedDeposit>입금 완료</S.CheckedDeposit>
-            ) : (
-              <S.CheckingDeposit>입금 확인 중</S.CheckingDeposit>
-            )}
+            <S.CheckingDeposit $status={bookingStatus}>
+              {bookingStatusText[bookingStatus as bookingStatusTypes]}
+            </S.CheckingDeposit>
           </S.DepositLayout>
         </S.Context>
-        {dueDate >= 0 && totalPaymentAmount > 0 ? (
+        {dueDate >= 0 && totalPaymentAmount > 0 && bookingStatus === "CHECKING_PAYMENT" ? (
           <S.AccountLayout onClick={() => handleModal(getBankNameKr(bankName), accountNumber)}>
             <S.Account>계좌번호</S.Account>
           </S.AccountLayout>

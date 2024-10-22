@@ -35,8 +35,9 @@
       "@stores": ["src/stores"],
       "@styles/*": ["src/styles/*"],
       "@typings/*": ["src/typings/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@admin/*": ["src/admin/*"]
     }
   },
-  "include": ["src", "global.d.ts"]
+  "include": ["src", "global.d.ts", "api", "public/deployLoading.js"]
 }

@@ -6,6 +6,7 @@ import { formatDate } from "@pages/gig/utils";
 import IconText from "../iconText/IconText";
 import ShowType from "../showType/ShowType";
 import * as S from "./ShowInfo.styled";
+import { useState } from "react";
 
 export type SchelduleListType = {
   scheduleId?: number;
@@ -34,11 +35,27 @@ const ShowInfo = ({
   runningTime,
   scheduleList,
 }: ShowInfoProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const getShowTypeText = (key: SHOW_TYPE_KEY): ShowTypes => SHOW_TYPE[key];
 
   return (
     <S.ShowInfoWrapper>
-      <S.Poster $imgsrc={posterImage} />
+      <S.Poster src={posterImage} onClick={openModal} />
+      {isModalOpen && (
+        <S.ModalOverlay>
+          <S.CloseBtn onClick={closeModal}>
+            <S.CloseIcon />
+          </S.CloseBtn>
+          <S.ModalContent
+            src={posterImage}
+            alt={title}
+            onClick={(e) => e.stopPropagation()}
+          ></S.ModalContent>
+        </S.ModalOverlay>
+      )}
       <ShowType type={getShowTypeText(genre)} />
       <S.Title>{title}</S.Title>
       <div>

@@ -1,8 +1,8 @@
 import * as S from "./LookupWrapper.styled";
 
 import Button from "@components/commons/button/Button";
+import Label from "@components/commons/label/Label";
 import LookupCard from "./LookupCard";
-import Labal from "@components/commons/label/Labal";
 
 import { LookupProps } from "../types/lookupType";
 
@@ -12,10 +12,20 @@ const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
       <S.LookupContainer>
         <S.LookupCardLeft>
           <S.LookupImage src={item.posterImage} />
-          <Labal dueDate={item.dueDate} />
-          <Button variant="line" size="xsmall" onClick={handleBtn}>
-            취소하기
-          </Button>
+          <Label dueDate={item.dueDate} />
+          {item.dueDate < 0 || item.bookingStatus === "BOOKING_CANCELLED" ? (
+            <Button variant="line" disabled={true} size={{ width: "10.8rem", height: "3.6rem" }}>
+              취소하기
+            </Button>
+          ) : (
+            <Button
+              variant="line"
+              size={{ width: "10.8rem", height: "3.6rem" }}
+              onClick={handleBtn}
+            >
+              취소하기
+            </Button>
+          )}
         </S.LookupCardLeft>
         <LookupCard {...item}></LookupCard>
       </S.LookupContainer>

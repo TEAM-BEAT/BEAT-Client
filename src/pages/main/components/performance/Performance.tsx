@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./Performance.styled";
 
 import Spacing from "@components/commons/spacing/Spacing";
+import { useLogin, useModal } from "@hooks";
 import BannerImg from "../../../../assets/images/banner_basic.png";
 import PerformnaceCard from "./PerformnaceCard";
 
@@ -21,9 +22,18 @@ interface PerformanceComponentProps {
 
 const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps) => {
   const navigate = useNavigate();
+  const { isLogin } = useLogin();
+  const { openAlert } = useModal();
 
   const handleNavigate = () => {
-    navigate("/gig-register");
+    if (isLogin) {
+      navigate("/gig-register");
+    } else {
+      openAlert({
+        title: "로그인이 필요한 서비스입니다.",
+        okText: "확인",
+      });
+    }
   };
 
   const filteredData =
@@ -39,7 +49,7 @@ const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps)
           <PerformnaceCard key={item.performanceId} {...item} />
         ))}
       </S.PerformanceLayout>
-      <Spacing marginBottom="1.5" />
+      <Spacing marginBottom="3.2" />
       {genre === "ALL" ? (
         <S.BannerWrapper onClick={handleNavigate}>
           <S.Banner $image={BannerImg} />

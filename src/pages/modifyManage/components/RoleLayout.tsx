@@ -6,10 +6,11 @@ import { Cast, Staff } from "../typings/gigInfo";
 import RoleWrapper from "./RoleWrapper";
 
 interface Role {
-  id: number;
+  makerId: number;
   makerName: string;
   makerRole: string;
   makerPhoto: string;
+  isNew?: boolean;
 }
 
 interface RoleLayoutProps {
@@ -19,9 +20,10 @@ interface RoleLayoutProps {
 }
 
 const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
+  //결국 맨 상위 castModifyRequests나 staffModifyRequests 로 초기화
   const [makerList, setMakerList] = useState<Role[]>(
     list.map((item, index) => ({
-      id: index, // ID 생성
+      makerId: "castId" in item ? item.castId : item.staffId, // 공연 수정 페이지 조회 시 가져온 ID로 설정
       makerName: "castName" in item ? item.castName : item.staffName,
       makerRole: "castRole" in item ? item.castRole : item.staffRole,
       makerPhoto: "castPhoto" in item ? item.castPhoto : item.staffPhoto,
@@ -32,39 +34,54 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
     setMakerList((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        makerId: Date.now(),
         makerName: "",
         makerRole: "",
         makerPhoto: "",
+        isNew: true, //새롭게 추가되었음을 표시
       },
     ]);
   };
 
   const handleremoveRole = (id: number) => {
-    setMakerList((prev) => prev.filter((role) => role.id !== id));
+    setMakerList((prev) => prev.filter((role) => role.makerId !== id));
   };
 
   const handleUpdateRole = (id: number, name: string, value: string) => {
     setMakerList((prev) =>
-      prev.map((role) => (role.id === id ? { ...role, [name]: value } : role))
+      prev.map((role) => (role.makerId === id ? { ...role, [name]: value } : role))
     );
   };
 
   useEffect(() => {
     const newMakerList = makerList.map((role) => {
       if (title === "출연진") {
-        return {
-          castName: role.makerName,
-          castRole: role.makerRole,
-          castPhoto: role.makerPhoto,
-        };
+        return role.isNew
+          ? {
+              castName: role.makerName,
+              castRole: role.makerRole,
+              castPhoto: role.makerPhoto,
+            }
+          : {
+              castId: role.makerId, //기존 id 유지
+              castName: role.makerName,
+              castRole: role.makerRole,
+              castPhoto: role.makerPhoto,
+            };
       }
       if (title === "스태프") {
-        return {
-          staffName: role.makerName,
-          staffRole: role.makerRole,
-          staffPhoto: role.makerPhoto,
-        };
+        return role.isNew
+          ? {
+              staffName: role.makerName,
+              staffRole: role.makerRole,
+              staffPhoto: role.makerPhoto,
+            }
+          : {
+              staffId: role.makerId, //기존 id 유지
+              staffName: role.makerName,
+              staffRole: role.makerRole,
+              staffPhoto: role.makerPhoto,
+            };
       }
     });
     updateList(newMakerList);
@@ -77,8 +94,8 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
       <S.RoleListWrapper>
         {makerList.map((role) => (
           <RoleWrapper
-            key={role.id}
-            id={role.id}
+            key={role.makerId}
+            id={role.makerId}
             role={role}
             removeRole={handleremoveRole}
             onUpdateRole={handleUpdateRole}

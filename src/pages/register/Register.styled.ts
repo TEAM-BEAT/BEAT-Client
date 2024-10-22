@@ -16,6 +16,7 @@ export const Divider = styled.div`
 `;
 
 export const FooterContainer = styled.div`
+  position: relative;
   padding: 2.4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
@@ -113,7 +114,32 @@ export const FileInputWrapper = styled.div`
   position: relative;
 
   ${Generators.flexGenerator("row", "center", "start")}
+  flex-wrap: nowrap;
   gap: 1.4rem;
+  overflow: scroll hidden;
+
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const FilesInputWrapper = styled.div`
+  position: relative;
+
+  ${Generators.flexGenerator("row", "center", "start")}
+  flex-wrap: nowrap;
+  gap: 1.4rem;
+  width: calc(100% + 2.4rem);
+  padding-right: 2.4rem;
+  overflow: scroll hidden;
+
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const HiddenFileInput = styled.input`
@@ -121,24 +147,33 @@ export const HiddenFileInput = styled.input`
 `;
 
 export const CustomFileInput = styled.label<{ width?: number; height?: number }>`
-  ${Generators.flexGenerator()}
+  ${Generators.flexGenerator("column", "center", "center")}
+
+  flex-shrink: 0;
   width: ${({ width }) => (width ? width : 10.8)}rem;
-  height: ${({ height }) => (height ? height : 15.4)}rem;
+  height: ${({ height }) => (height ? height : 14.4)}rem;
 
   background: ${({ theme }) => theme.colors.gray_800};
   cursor: pointer;
   border-radius: 6px;
 `;
 
+export const CustomFileInputCounter = styled.p`
+  color: ${({ theme }) => theme.colors.gray_500};
+  ${({ theme }) => theme.fonts["body1-normal-medi"]};
+`;
+export const CustomFileInputLength = styled.span`
+  color: ${({ theme }) => theme.colors.white};
+`;
 export const PreviewImageWrapper = styled.article<{ width?: number; height?: number }>`
   position: relative;
   width: ${({ width }) => (width ? width : 10.8)}rem;
-  height: ${({ height }) => (height ? height : 15.4)}rem;
+  height: ${({ height }) => (height ? height : 14.4)}rem;
 `;
 
 export const PreviewImage = styled.img<{ width?: number; height?: number }>`
   width: ${({ width }) => (width ? width : 10.8)}rem;
-  height: ${({ height }) => (height ? height : 15.4)}rem;
+  height: ${({ height }) => (height ? height : 14.4)}rem;
   object-fit: cover;
 
   border-radius: 10px;
@@ -206,7 +241,7 @@ export const RoleAddBtn = styled.section`
   ${Generators.flexGenerator()}
   flex-shrink: 0;
   width: 13.6rem;
-  height: 26.6rem;
+  height: 24.4rem;
 
   background: ${({ theme }) => theme.colors.gray_900};
   border: 1px dashed ${({ theme }) => theme.colors.gray_700};
@@ -215,7 +250,7 @@ export const RoleAddBtn = styled.section`
 
 export const RoleWrapper = styled.div`
   ${Generators.flexGenerator("column", "center", "center")}
-  height: 26.6rem;
+  height: 24.4rem;
 `;
 
 export const FooterInfo = styled.div`

@@ -16,13 +16,16 @@ async function fetchPerformanceIds(url: string) {
   try {
     const response = await axios.get(`${url}/main`);
 
-    // 응답 데이터에서 performanceId 추출
     const performances = response.data.data.performanceList;
-    const validIds = performances.map(
-      (performance: PerformanceType) => `/gig/${performance.performanceId}`
-    );
+    // 현재 날짜 이후의 공연 ID만 필터링
+    const nowDate = new Date();
+    const validIds = performances
+      .filter((performance: PerformanceType) => {
+        const performanceDate = new Date(performance.performancePeriod.slice(-10));
 
-    console.log("validIds:", validIds);
+        return performanceDate >= nowDate;
+      })
+      .map((performance: PerformanceType) => `/gig/${performance.performanceId}`);
 
     return validIds;
   } catch (error) {
@@ -33,7 +36,8 @@ async function fetchPerformanceIds(url: string) {
 
 // 사전 렌더링 경로 생성
 export async function generatePerformanceRoutes(url: string) {
-  const staticRoutes = ["/", "/main"]; // 정적 경로
+  const staticRoutes = ["/gig/7", "/main"]; // 정적 경로
+
   const dynamicRoutes = await fetchPerformanceIds(url); // 동적 경로 가져오기
 
   return staticRoutes.concat(dynamicRoutes);

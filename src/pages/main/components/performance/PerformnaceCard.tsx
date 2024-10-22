@@ -1,7 +1,7 @@
-import * as S from "./Performance.Cardstyled";
 import { useNavigate } from "react-router-dom";
+import * as S from "./PerformanceCard.styled";
 
-import Labal from "@components/commons/label/Labal";
+import Label from "@components/commons/label/Label";
 
 const PerformnaceCard = ({ ...item }) => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const PerformnaceCard = ({ ...item }) => {
     >
       <S.PerformanceImg src={item.posterImage} />
 
-      <Labal dueDate={item.dueDate} />
+      <Label dueDate={item.dueDate} />
       <S.PerformanceTitleWrapper>
         <S.PerformanceTitle>{item.performanceTitle}</S.PerformanceTitle>
         <S.PerformancePeriod>{item.performancePeriod}</S.PerformancePeriod>
