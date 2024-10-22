@@ -810,6 +810,8 @@ const ModifyManage = () => {
     }
 
     if (modifyState.modifyManageStep === 3) {
+      console.log(dataState.castModifyRequests);
+      console.log(dataState.staffModifyRequests);
       return (
         <>
           <MetaTag title="공연 수정" />
@@ -838,12 +840,10 @@ const ModifyManage = () => {
             contact={dataState.performanceContact as string}
             teamName={dataState.performanceTeamName as string}
             castList={
-              dataState.castModifyRequests?.[0]?.castId === -1
-                ? []
-                : (dataState.castModifyRequests?.map((cast, index) => ({
-                    ...cast,
-                    //castId: index + 1,
-                  })) as Cast[])
+              dataState.castModifyRequests?.map((cast, index) => ({
+                ...cast,
+                //castId: index + 1,
+              })) as Cast[]
             }
             staffList={
               dataState.staffModifyRequests?.map((cast, index) => ({

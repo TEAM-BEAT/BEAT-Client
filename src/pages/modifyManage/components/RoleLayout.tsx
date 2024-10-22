@@ -56,6 +56,7 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
   useEffect(() => {
     const newMakerList = makerList.map((role) => {
       if (title === "출연진") {
+        console.log("출연진:", role.isNew);
         return role.isNew
           ? {
               castName: role.makerName,
@@ -70,6 +71,7 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
             };
       }
       if (title === "스태프") {
+        console.log("스태프:", role.isNew);
         return role.isNew
           ? {
               staffName: role.makerName,
