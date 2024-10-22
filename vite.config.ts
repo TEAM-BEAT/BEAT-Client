@@ -55,7 +55,7 @@ export default defineConfig(async ({ mode }) => {
                 <meta property="og:image" content="${performanceData.posterImage || "https://www.sinjibabo.shop/og_img.png"}" />
                 <meta name="keywords" content="공연, 밴드, 뮤지컬, 비트, beat" />
                 <meta property="og:description" content="${performanceData.performanceDescription || "심장이 뛰는 곳, BEAT에서 만나보세요."}" />
-                <meta property="og:url" content="https://www.sinjibabo.shop/gig/${performanceData.performanceId}" />
+                <meta property="og:url" content="${env.VITE_CLIENT_URL}/gig/${performanceData.performanceId}" />
               </head>`
             );
           }
