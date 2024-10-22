@@ -30,6 +30,8 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
     }))
   );
 
+  //처음 딱 들어갔을 때 대기하고 있는 스태프, 캐스트에서는 isNew가 undefined임
+  //그리고 여전히 makerId : -1로 있음 (동일하게) -> 그래서 처음에 staff 추가누르면 엉뚱하게 사진은 cast에 추가되는 현상 발생
   const handelAddRole = () => {
     setMakerList((prev) => [
       ...prev,
