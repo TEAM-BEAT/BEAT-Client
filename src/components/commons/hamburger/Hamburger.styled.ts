@@ -4,6 +4,7 @@ import styled, { css, keyframes } from "styled-components";
 interface HamburgerWrapperProps {
   $isOpen: boolean;
   width: number;
+  height: number;
 }
 
 const hamburgerAnimation = keyframes`
@@ -29,7 +30,7 @@ export const HamburgerWrapper = styled.section<HamburgerWrapperProps>`
   flex-direction: column;
   gap: 1.6rem;
   width: 25.6rem;
-  height: calc(var(--dvh, 1dvh) * 100);
+  height: ${({ height }) => `${height}px`};
 
   background-color: ${({ theme }) => theme.colors.gray_900};
   transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
