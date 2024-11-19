@@ -29,7 +29,7 @@ export const HamburgerWrapper = styled.section<HamburgerWrapperProps>`
   flex-direction: column;
   gap: 1.6rem;
   width: 25.6rem;
-  height: calc(var(--vh, 1vh) * 100);
+  height: calc(var(--dvh, 1dvh) * 100);
 
   background-color: ${({ theme }) => theme.colors.gray_900};
   transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
