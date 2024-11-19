@@ -53,6 +53,7 @@
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-image-crop": "^11.0.6",
+    "react-kakao-maps-sdk": "^1.1.27",
     "react-lottie-player": "^2.0.0",
     "react-router-dom": "^6.24.0",
     "shelljs": "^0.8.5",
