@@ -15,6 +15,7 @@ import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
 
+//todo: 공연 보는 페이지, 수정 페이지에서도 변경 사항 반영해두기
 const Gig = () => {
   const navigate = useNavigate();
   const [, setNavigateUrl] = useAtom(navigateAtom);
