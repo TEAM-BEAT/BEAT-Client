@@ -8,8 +8,9 @@ import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./TicketHolderList.styled";
-import { BottomSheet, Button } from "@components/commons";
+import { BottomSheet, Button, Spacing } from "@components/commons";
 import Title from "@pages/ticketholderlist/components/title/Title";
+import SearchBar from "./components/searchBar/SearchBar";
 
 const data = {
   performanceTitle: "비트밴드 정기공연",
@@ -104,19 +105,7 @@ const TicketHolderList = () => {
   // const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
   const { isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
 
-  // const buttonText = (status) => {
-  //   switch (status) {
-  //     case "PAYMENT":
-  //       return "입금 처리하기";
-  //     case "REFUND":
-  //       return "환불 처리하기";
-  //     case "DELETE":
-  //       return "예매자 삭제하기";
-  //     default:
-  //       return "예매자 관리하기";
-  //   }
-  // };
-
+  // 상태에 따라 버튼 텍스트 변경
   useEffect(() => {
     switch (status) {
       case "PAYMENT":
@@ -195,11 +184,13 @@ const TicketHolderList = () => {
               totalSolidCount={data?.totalPerformanceSoldTicketCount}
               totalCount={data?.totalPerformanceTicketCount}
             />
+            <Spacing marginBottom={"2.6"} />
+            <SearchBar />
+            <Spacing marginBottom={"1.6"} />
+            <S.FooterButtonWrapper>
+              <Button>{buttonText}</Button>
+            </S.FooterButtonWrapper>
           </S.TicketHolderListWrpper>
-          <S.FooterButtonWrapper>
-            {/* TODO : 상태에 따라 텍스트 다르게 */}
-            <Button>{buttonText}</Button>
-          </S.FooterButtonWrapper>
         </>
       )}
     </>

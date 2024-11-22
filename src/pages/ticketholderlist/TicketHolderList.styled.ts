@@ -11,5 +11,5 @@ export const FooterButtonWrapper = styled.div`
   bottom: 0;
   z-index: 1;
   min-height: 10.4rem;
-  padding: 2.4rem;
+  padding-top: 2.4rem;
 `;
