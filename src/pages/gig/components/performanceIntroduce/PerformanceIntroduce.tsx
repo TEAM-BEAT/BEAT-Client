@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PerformanceImageList } from "../content/Content";
 import Contact from "./Contact";
 import * as S from "./PerformanceIntroduce.styled";
@@ -6,6 +6,8 @@ import DetailImage from "../detailImage/DetailImage";
 import { Toast } from "@components/commons";
 import { useToast } from "@hooks";
 import { IconCheck } from "@assets/svgs";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
+import beat_map_marker from "../../../../../public/svgs/beat_map_marker.svg";
 
 interface PerformanceIntroduceProps {
   description: string;
@@ -19,6 +21,11 @@ interface PerformanceIntroduceProps {
   longtitude: string;
 }
 
+type Position = {
+  lat: number;
+  lng: number;
+};
+
 const PerformanceIntroduce = ({
   description,
   performanceImageList,
@@ -30,14 +37,21 @@ const PerformanceIntroduce = ({
   latitude,
   longtitude,
 }: PerformanceIntroduceProps) => {
+  const { kakao } = window;
   const { showToast, isToastVisible } = useToast();
+  const [markerPosition, setMarkerPosition] = useState<Position>({ lat: 0, lng: 0 });
+  const [map, setMap] = useState<typeof kakao.maps.Map | null>(null);
+  const fullAddress = `${roadAddressName} ${placeDetailAddress}`;
+
+  useEffect(() => {
+    setMarkerPosition({ lat: Number(latitude), lng: Number(longtitude) });
+  }, []);
+
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
 
     showToast();
   };
-
-  const fullAddress = `${roadAddressName} ${placeDetailAddress}`;
 
   return (
     <>
@@ -60,6 +74,25 @@ const PerformanceIntroduce = ({
               <S.Copy onClick={() => handleCopyClipBoard(fullAddress || "")}>복사</S.Copy>
             </S.SubTitleWithDesc>
           </S.MapDescBox>
+          <S.KakaoMap>
+            <Map
+              center={markerPosition}
+              style={{ width: "32.7rem", height: "18rem", borderRadius: "6px" }}
+              level={3}
+              onCreate={setMap}
+            >
+              <MapMarker
+                position={markerPosition}
+                image={{
+                  src: beat_map_marker,
+                  size: {
+                    width: 30,
+                    height: 30,
+                  },
+                }}
+              ></MapMarker>
+            </Map>
+          </S.KakaoMap>
         </S.MapInfo>
         <S.Divider />
         <S.Container>

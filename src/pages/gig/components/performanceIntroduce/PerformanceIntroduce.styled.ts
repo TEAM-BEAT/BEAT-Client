@@ -36,11 +36,11 @@ export const MapDescBox = styled.div`
 
 export const SubTitleWithDesc = styled.div`
   position: relative;
-  width: 100%;
   display: flex;
   gap: 1.2rem;
   align-items: flex-start;
   align-self: stretch;
+  width: 100%;
   max-width: 32.7rem;
 `;
 
@@ -64,11 +64,21 @@ export const Copy = styled.p`
   display: flex;
   align-items: center;
   padding: 0.8rem;
-  
 
   color: ${({ theme }) => theme.colors.pink_200};
+
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
-  cursor:pointer;
+  cursor: pointer;
+`;
+
+export const KakaoMap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32.7rem;
+  height: 18rem;
+  border-radius: 6px;
+
 `;
 
 export const Description = styled.pre`
