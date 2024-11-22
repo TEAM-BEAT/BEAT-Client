@@ -34,33 +34,33 @@ const KakaoMap = () => {
     }
     const ps = new kakao.maps.services.Places();
 
-    // ps.keywordSearch("홍익대학교 제2기숙사", (data, status, _pagination) => {
-    //   if (status === kakao.maps.services.Status.OK) {
-    //     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-    //     // LatLngBounds 객체에 좌표를 추가합니다
-    //     const bounds = new kakao.maps.LatLngBounds();
-    //     console.log("bounds:", bounds);
-    //     const markers = [];
+    ps.keywordSearch("홍익대학교 제2기숙사", (data, status, _pagination) => {
+      if (status === kakao.maps.services.Status.OK) {
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        const bounds = new kakao.maps.LatLngBounds();
+        console.log("bounds:", bounds);
+        const markers = [];
 
-    //     for (var i = 0; i < data.length; i++) {
-    //       console.log(data[i]);
-    //       // @ts-ignore
-    //       markers.push({
-    //         position: {
-    //           lat: data[i].y,
-    //           lng: data[i].x,
-    //         },
-    //         content: data[i].place_name,
-    //       });
-    //       // @ts-ignore
-    //       bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-    //     }
-    //     setMarkers(markers);
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i]);
+          // @ts-ignore
+          markers.push({
+            position: {
+              lat: data[i].y,
+              lng: data[i].x,
+            },
+            content: data[i].place_name,
+          });
+          // @ts-ignore
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }
+        setMarkers(markers);
 
-    //     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    //     map.setBounds(bounds);
-    //   }
-    // });
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setBounds(bounds);
+      }
+    });
 
     //테스트로, 처음 위치 직접 지정
     setLocation({ lat: 37.5494796485918, lng: 126.924854360345 });
