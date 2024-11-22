@@ -2,8 +2,20 @@ import { IconTextfiedlDelete } from "@assets/svgs";
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
 
+export const Deemed = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5; /* 모달보다 낮고 다른 요소 위 */
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgb(0 0 0 / 30%);
+`;
+
 export const TextFieldLayout = styled.section<{ $narrow: boolean | undefined }>`
   position: relative;
+  z-index: 6;
   width: ${({ $narrow }) => ($narrow ? "13.6rem" : "32.7rem")};
 `;
 
@@ -11,7 +23,11 @@ export const TextFieldWrapper = styled.article`
   ${Generators.flexGenerator("row", "center", "center")}
 `;
 
-export const TextFieldInput = styled.input<{ $narrow: boolean | undefined; $isDisabled?: boolean }>`
+export const TextFieldInput = styled.input<{
+  $narrow: boolean | undefined;
+  $isDisabled?: boolean;
+  $isWarn?: boolean;
+}>`
   width: 100%;
   height: ${({ $narrow }) => ($narrow ? "4.2rem" : "4.8rem")};
   padding: 0 1.6rem;
@@ -19,7 +35,7 @@ export const TextFieldInput = styled.input<{ $narrow: boolean | undefined; $isDi
   color: ${({ theme, $isDisabled }) => ($isDisabled ? theme.colors.gray_600 : theme.colors.gray_0)};
 
   background: ${({ theme }) => theme.colors.gray_800};
-  border: 1px solid transparent;
+  border: 1px solid ${({ theme, $isWarn }) => ($isWarn ? theme.colors.red : "transparent")};
   border-radius: 0.6rem;
 
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
@@ -80,7 +96,7 @@ export const SearchDropDownWrapper = styled.div`
   gap: 1rem;
   align-items: center;
   width: 32.7rem;
-  max-height: 22.8rem;
+  max-height: 27.8rem;
   padding: 1.4rem 2rem;
   overflow: hidden scroll;
 
@@ -115,7 +131,12 @@ export const DropDownItem = styled.div`
   width: 29.9rem;
   padding: 0.6rem;
 
+  cursor: pointer;
   border-radius: 0.4rem;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.gray_700};
+  }
 `;
 
 export const RoadName = styled.p`
@@ -139,4 +160,37 @@ export const Divider = styled.div`
   height: 0.1rem;
 
   background-color: #3e3e3e;
+`;
+
+export const DescriptionBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+  width: 32.7rem;
+  height: 17.2rem;
+  margin-top: 1.6rem;
+
+  background: ${({ theme }) => theme.colors.gray_800};
+  border-radius: 6px;
+`;
+
+export const NoSearchP = styled.p`
+  color: ${({ theme }) => theme.colors.gray_400};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
+`;
+
+export const NoSearchB = styled.p`
+  color: ${({ theme }) => theme.colors.gray_300};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+  text-align: center;
+`;
+
+export const WarningText = styled.p`
+  margin-top: 0.8rem;
+
+  color: ${({ theme }) => theme.colors.red};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
 `;

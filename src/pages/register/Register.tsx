@@ -118,8 +118,8 @@ const Register = () => {
     //placeName: "",
     roadAddressName: "",
     placeDetailAddress: "",
-    latitude: 123.1111,
-    longtitude: 12.1234,
+    latitude: "123.1111",
+    longtitude: "12.1234",
   });
 
   // 구조 분해 할당

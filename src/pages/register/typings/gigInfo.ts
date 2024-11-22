@@ -47,6 +47,6 @@ export interface GigInfo {
   //placeName: string;
   roadAddressName: string;
   placeDetailAddress: string;
-  latitude: number;
-  longtitude: number;
+  latitude: string;
+  longtitude: string;
 }

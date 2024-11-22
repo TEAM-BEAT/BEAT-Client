@@ -27,7 +27,6 @@ const KakaoMap = () => {
   ]);
   const [map, setMap] = useState<typeof kakao.maps.Map | null>(null);
   const [location, setLocation] = useState<Position>({ lat: 37.566826, lng: 126.9786567 });
-  console.log("why");
 
   useEffect(() => {
     if (!map) {

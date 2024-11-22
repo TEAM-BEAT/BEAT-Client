@@ -3962,6 +3962,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4":
+  version: 4.17.13
+  resolution: "@types/lodash@npm:4.17.13"
+  checksum: 10c0/c3d0b7efe7933ac0369b99f2f7bff9240d960680fdb74b41ed4bd1b3ca60cca1e31fe4046d9abbde778f941a41bc2a75eb629abf8659fa6c27b66efbbb0802a9
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:^4.14.167":
   version: 4.17.7
   resolution: "@types/lodash@npm:4.17.7"
@@ -5366,6 +5373,7 @@ __metadata:
     "@storybook/test": "npm:^8.1.11"
     "@tanstack/react-query": "npm:^5.51.1"
     "@tanstack/react-query-devtools": "npm:^5.51.1"
+    "@types/lodash": "npm:^4"
     "@types/prettier-linter-helpers": "npm:^1"
     "@types/qs": "npm:^6"
     "@types/react": "npm:^18.3.3"
@@ -5395,6 +5403,7 @@ __metadata:
     husky: "npm:^8.0.0"
     jotai: "npm:^2.8.4"
     lint-staged: "npm:^15.2.7"
+    lodash: "npm:^4.17.21"
     lottie-react: "npm:^2.4.0"
     openapi-typescript: "npm:^7.4.1"
     postcss: "npm:^8.4.38"
