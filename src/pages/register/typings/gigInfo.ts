@@ -44,4 +44,9 @@ export interface GigInfo {
   scheduleList: Schedule[];
   castList: Cast[];
   staffList: Staff[];
+  //placeName: string;
+  roadAddressName: string;
+  placeDetailAddress: string;
+  latitude: number;
+  longtitude: number;
 }

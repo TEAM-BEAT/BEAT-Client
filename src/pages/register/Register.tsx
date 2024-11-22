@@ -49,6 +49,7 @@ import {
   onPlusClick,
 } from "./utils/handleEvent";
 import DetailImage from "./components/DetailImage";
+import MapInput from "@components/commons/mapInput/MapInput";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -114,6 +115,11 @@ const Register = () => {
       // staffPhoto: "", // 스태프 사진 URL
       // },
     ],
+    //placeName: "",
+    roadAddressName: "",
+    placeDetailAddress: "",
+    latitude: 123.1111,
+    longtitude: 12.1234,
   });
 
   // 구조 분해 할당
@@ -136,6 +142,8 @@ const Register = () => {
     scheduleList,
     castList,
     staffList,
+    roadAddressName,
+    placeDetailAddress,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -390,6 +398,34 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
+          <InputRegisterBox title="공연장 이름">
+            <TextField
+              type="input"
+              name="performanceVenue"
+              value={performanceVenue}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="ex) 홍익아트홀 303호 소극장"
+              cap={true}
+            />
+          </InputRegisterBox>
+          <S.Divider />
+          <InputRegisterBox title="공연장 주소">
+            <MapInput
+              name="roadAddressName"
+              value={roadAddressName}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="지번, 도로명, 건물명으로 검색해주세요."
+              cap={true}
+            />
+            <Spacing marginBottom="1.4" />
+            <TextField
+              name="placeDetailAddress"
+              value={placeDetailAddress}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="건물명, 층 수 등의 상세주소를 입력해주세요."
+            />
+          </InputRegisterBox>
+          <S.Divider />
           <DetailImage
             value={performanceImageList}
             onImagesUpload={(performanceImage) => handleImagesUpload(performanceImage, setGigInfo)}
@@ -444,18 +480,6 @@ const Register = () => {
               </div>
             ))}
           </TimePickerRegisterBox>
-          <S.Divider />
-          <InputRegisterBox title="공연 장소">
-            <TextField
-              type="input"
-              name="performanceVenue"
-              value={performanceVenue}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="ex) 홍익아트홀 303호 소극장"
-              maxLength={15}
-              cap={true}
-            />
-          </InputRegisterBox>
           <S.Divider />
           <InputRegisterBox title="회차별 티켓 판매수">
             <TextField

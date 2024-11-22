@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import banner_basic from "@assets/images/banner_basic.png";
-import icon_toss_svg from "../../../public/svgs/icon_toss.svg";
+// import banner_basic from "@assets/images/banner_basic.png";
+// import icon_toss_svg from "../../../public/svgs/icon_toss.svg";
 
 type Position = {
   lat: number;
@@ -27,6 +27,7 @@ const KakaoMap = () => {
   ]);
   const [map, setMap] = useState<typeof kakao.maps.Map | null>(null);
   const [location, setLocation] = useState<Position>({ lat: 37.566826, lng: 126.9786567 });
+  console.log("why");
 
   useEffect(() => {
     if (!map) {
@@ -86,13 +87,13 @@ const KakaoMap = () => {
             key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             position={marker.position}
             onClick={() => setInfo(marker)}
-            image={{
-              src: icon_toss_svg,
-              size: {
-                width: 30,
-                height: 30,
-              },
-            }}
+            // image={{
+            //   src: icon_toss_svg,
+            //   size: {
+            //     width: 30,
+            //     height: 30,
+            //   },
+            // }}
           >
             {info && info.content === marker.content && (
               <div style={{ color: "#000" }}>{marker.content}</div>
