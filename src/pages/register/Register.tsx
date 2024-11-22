@@ -659,6 +659,11 @@ const Register = () => {
             ...cast,
             staffId: index + 1,
           }))}
+          performanceVenue={performanceVenue}
+          roadAddressName={roadAddressName}
+          placeDetailAddress={placeDetailAddress}
+          latitude={latitude}
+          longtitude={longtitude}
         />
         <S.FooterContainer>
           <Button onClick={handleComplete} disabled={isPending}>

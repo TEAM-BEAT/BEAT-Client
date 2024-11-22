@@ -18,6 +18,59 @@ export const Title = styled.h1`
   color: ${({ theme }) => theme.colors.gray_400};
 `;
 
+export const MapInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: flex-start;
+  width: 32.7rem;
+`;
+
+export const MapDescBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: flex-start;
+  align-self: stretch;
+`;
+
+export const SubTitleWithDesc = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  align-self: stretch;
+  max-width: 32.7rem;
+`;
+
+export const SubTitle = styled.p`
+  color: ${({ theme }) => theme.colors.gray_400};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+`;
+
+export const Desc = styled.p`
+  max-width: 24.5rem;
+  max-height: 4.4rem;
+
+  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts["body2-long"]};
+`;
+
+export const Copy = styled.p`
+  position: absolute;
+  top: 0.4rem;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+  
+
+  color: ${({ theme }) => theme.colors.pink_200};
+  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+  cursor:pointer;
+`;
+
 export const Description = styled.pre`
   width: 32.7rem;
 
