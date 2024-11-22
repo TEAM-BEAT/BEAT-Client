@@ -118,8 +118,8 @@ const Register = () => {
     //placeName: "",
     roadAddressName: "",
     placeDetailAddress: "",
-    latitude: "123.1111",
-    longtitude: "12.1234",
+    latitude: "",
+    longtitude: "",
   });
 
   // 구조 분해 할당
@@ -144,6 +144,8 @@ const Register = () => {
     staffList,
     roadAddressName,
     placeDetailAddress,
+    latitude,
+    longtitude,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -308,6 +310,14 @@ const Register = () => {
     setRegisterStep((prev) => prev + 1);
   };
 
+  const setLatitudeLongitude = (latitude: string, longtitude: string) => {
+    setGigInfo((prev) => ({
+      ...prev,
+      latitude,
+      longtitude,
+    }));
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [registerStep]);
@@ -414,6 +424,7 @@ const Register = () => {
               name="roadAddressName"
               value={roadAddressName}
               onChange={(e) => handleChange(e, setGigInfo)}
+              setLatitudeLongitude={setLatitudeLongitude}
               placeholder="지번, 도로명, 건물명으로 검색해주세요."
               cap={true}
             />

@@ -162,6 +162,10 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
     "performancePeriod",
     "ticketPrice",
     "totalScheduleCount",
+    "roadAddressName",
+    "placeDetailAddress",
+    "latitude",
+    "longtitude",
     ...(!isFree ? ["bankName", "accountNumber", "accountHolder"] : []),
   ];
 

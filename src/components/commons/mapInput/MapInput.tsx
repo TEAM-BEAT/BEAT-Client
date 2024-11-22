@@ -13,6 +13,7 @@ import _ from "lodash";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setLatitudeLongitude: (latitude: string, longtitude: string) => void;
   maxLength?: number;
   placeholder: string;
   narrow?: boolean;
@@ -41,6 +42,7 @@ const MapInput = ({
   name,
   value = "",
   onChange,
+  setLatitudeLongitude,
   maxLength,
   placeholder,
   narrow,
@@ -183,6 +185,7 @@ const MapInput = ({
                     setInputValue(place.road_address_name || place.address_name);
                     setIsDropDownOpen(false);
                     setIsWarn(false);
+                    setLatitudeLongitude(place.y, place.x); //lat이 y값
                   }}
                 >
                   <S.RoadName>{place.road_address_name}</S.RoadName>
