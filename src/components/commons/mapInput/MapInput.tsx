@@ -89,6 +89,7 @@ const MapInput = ({
     setIsDropDownOpen(false);
     if (prevValueRef.current === inputValue) {
       setIsWarn(true);
+      setLatitudeLongitude("", "");
     }
   };
 
