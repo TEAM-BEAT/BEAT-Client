@@ -8,7 +8,7 @@ import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./TicketHolderList.styled";
-import { Button } from "@components/commons";
+import { BottomSheet, Button } from "@components/commons";
 import Title from "@pages/ticketholderlist/components/title/Title";
 
 const data = {
@@ -93,12 +93,46 @@ const headers = [
 const TicketHolderList = () => {
   const [paymentData, setPaymentData] = useState();
 
+  // DEFAULT, PAYMENT, REFUND, DELETE
+  const [status, setStatus] = useState("DEFAULT");
+  const [buttonText, setButtonText] = useState("예매자 관리하기");
+
   const [CSVDataArr, setCSVDataArr] = useState<CSVDataType[]>([]);
 
   const { performanceId } = useParams();
 
   // const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
   const { isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
+
+  // const buttonText = (status) => {
+  //   switch (status) {
+  //     case "PAYMENT":
+  //       return "입금 처리하기";
+  //     case "REFUND":
+  //       return "환불 처리하기";
+  //     case "DELETE":
+  //       return "예매자 삭제하기";
+  //     default:
+  //       return "예매자 관리하기";
+  //   }
+  // };
+
+  useEffect(() => {
+    switch (status) {
+      case "PAYMENT":
+        setButtonText("입금 처리하기");
+        break;
+      case "REFUND":
+        setButtonText("환불 처리하기");
+        break;
+      case "DELETE":
+        setButtonText("예매자 삭제하기");
+        break;
+      default:
+        setButtonText("예매자 관리하기");
+        break;
+    }
+  }, [status]);
 
   useEffect(() => {
     if (data?.bookingList) {
@@ -161,11 +195,11 @@ const TicketHolderList = () => {
               totalSolidCount={data?.totalPerformanceSoldTicketCount}
               totalCount={data?.totalPerformanceTicketCount}
             />
-            <S.FooterButtonWrapper>
-              {/* TODO : 상태에 따라 텍스트 다르게 */}
-              <Button>예매자 관리하기</Button>
-            </S.FooterButtonWrapper>
           </S.TicketHolderListWrpper>
+          <S.FooterButtonWrapper>
+            {/* TODO : 상태에 따라 텍스트 다르게 */}
+            <Button>{buttonText}</Button>
+          </S.FooterButtonWrapper>
         </>
       )}
     </>
