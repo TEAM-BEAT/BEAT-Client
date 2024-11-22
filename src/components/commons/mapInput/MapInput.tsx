@@ -186,6 +186,15 @@ const MapInput = ({
                     setInputValue(place.road_address_name || place.address_name);
                     setIsDropDownOpen(false);
                     setIsWarn(false);
+                    // 추가: onChange 호출로 부모 상태 갱신
+                    const newEvent = {
+                      target: {
+                        name,
+                        value: place.road_address_name || place.address_name,
+                      },
+                    } as React.ChangeEvent<HTMLInputElement>;
+                    onChange(newEvent);
+
                     setLatitudeLongitude(place.y, place.x); //lat이 y값
                   }}
                 >
