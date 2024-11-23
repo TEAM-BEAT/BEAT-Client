@@ -123,6 +123,11 @@ const Gig = () => {
         teamName={data?.performanceTeamName ?? ""}
         castList={data?.castList ?? []}
         staffList={data?.staffList ?? []}
+        performanceVenue={data?.performanceVenue ?? ""}
+        roadAddressName={data?.roadAddressName ?? ""}
+        placeDetailAddress={data?.placeDetailAddress ?? ""}
+        latitude={data?.latitude ?? ""}
+        longtitude={data?.longtitude ?? ""}
       />
       <S.FooterContainer>
         <Button onClick={handleBookClick} disabled={!isBookingAvailable}>

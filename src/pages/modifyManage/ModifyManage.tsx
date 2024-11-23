@@ -88,6 +88,11 @@ export type State = {
   performanceImageModifyRequests: PerformanceImageModifyRequest[];
   //타입 하나 덜 있어서, 요청 자체가 500에러 뱉어냄.
   //모든 곳에서 performanceImageModifyRequests 가 적용되도록 변경해야함
+  //placeName: "",
+  roadAddressName: string;
+  placeDetailAddress: string;
+  latitude: string;
+  longtitude: string;
 };
 
 type ModifyState = {
@@ -124,6 +129,10 @@ const initialState: State = {
   castModifyRequests: [],
   staffModifyRequests: [],
   performanceImageModifyRequests: [],
+  roadAddressName: "",
+  placeDetailAddress: "",
+  latitude: "",
+  longtitude: "",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -227,6 +236,10 @@ const ModifyManage = () => {
                 performanceImage: item.imageUrl ?? "",
               }))
             : [{ performanceImageId: -1, performanceImage: "" }],
+          roadAddressName: data.roadAddressName,
+          placeDetailAddress: data.placeDetailAddress,
+          latitude: data.latitude,
+          longtitude: data.longtitude,
         },
       });
 
@@ -858,6 +871,11 @@ const ModifyManage = () => {
               })) as Staff[]
             }
             performanceImageList={dataState.performanceImageModifyRequests}
+            performanceVenue={dataState.performanceVenue}
+            roadAddressName={dataState.roadAddressName}
+            placeDetailAddress={dataState.placeDetailAddress}
+            latitude={dataState.latitude}
+            longtitude={dataState.longtitude}
           />
           <S.FooterContainer>
             <Button onClick={handleComplete}>완료하기</Button>
