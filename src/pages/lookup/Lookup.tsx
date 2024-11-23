@@ -3,13 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
-
-import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
-import PhoneNumber from "@components/commons/bottomSheet/actionsBottomSheet/phoneNumber/PhoneNumber";
-import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-
-import Button from "@components/commons/button/Button";
-
 import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
