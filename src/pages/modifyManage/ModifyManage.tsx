@@ -51,6 +51,7 @@ import {
   Staff,
 } from "./typings/gigInfo";
 import { handleImagesUpload, isAllFieldsFilled } from "./utils/handleEvent";
+import MapInput from "@components/commons/mapInput/MapInput";
 
 const SCHEDULE_NUMBER = {
   1: "FIRST",
@@ -437,6 +438,12 @@ const ModifyManage = () => {
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setModifyState((prevState) => ({ ...prevState, isChecked: !prevState.isChecked }));
   };
+
+  const setLatitudeLongitude = (latitude: string, longtitude: string) => {
+    handleInputChange("latitude", latitude);
+    handleInputChange("longtitude", longtitude);
+  };
+
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
   useEffect(() => {
     if (modifyState.isFree) {
@@ -595,6 +602,35 @@ const ModifyManage = () => {
               />
             </InputModifyManageBox>
             <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연장 이름">
+              <TextField
+                type="input"
+                name="performanceVenue"
+                value={dataState.performanceVenue}
+                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
+                placeholder="ex) 홍익아트홀 303호 소극장"
+                cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연장 주소">
+              <MapInput
+                name="roadAddressName"
+                value={dataState.roadAddressName}
+                onChange={(e) => handleInputChange("roadAddressName", e.target.value)}
+                setLatitudeLongitude={setLatitudeLongitude}
+                placeholder="지번, 도로명, 건물명으로 검색해주세요."
+                cap={true}
+              />
+              <Spacing marginBottom="1.4" />
+              <TextField
+                name="placeDetailAddress"
+                value={dataState.placeDetailAddress}
+                onChange={(e) => handleInputChange("placeDetailAddress", e.target.value)}
+                placeholder="건물명, 층 수 등의 상세주소를 입력해주세요."
+              />
+            </InputModifyManageBox>
+            <S.Divider />
             <ModifyDetailImage
               value={dataState.performanceImageModifyRequests}
               onImagesUpload={(performanceImage) =>
@@ -669,19 +705,6 @@ const ModifyManage = () => {
                 );
               })}
             </TimePickerModifyManageBox>
-            <S.Divider />
-            <InputModifyManageBox isDisabled={false} title="공연 장소">
-              <TextField
-                isDisabled={false}
-                type="input"
-                name="performanceVenue"
-                value={dataState.performanceVenue}
-                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
-                placeholder="ex:) 홍익아트홀 303호 소극장"
-                maxLength={15}
-                cap={true}
-              />
-            </InputModifyManageBox>
             <S.Divider />
             <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
               <TextField
