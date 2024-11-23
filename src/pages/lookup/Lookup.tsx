@@ -48,8 +48,14 @@ const Lookup = () => {
 
   const navigate = useNavigate();
 
-  const handleSheetOpen = (bookingId: number) => {
-    setSelectedBookingId(bookingId);
+  const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
+    if (totalPaymentAmount === 0) {
+      setSelectedBookingId(bookingId);
+    }
+    const bookingDetails = lookUpList.find((item) => item.bookingId === bookingId);
+    if (bookingDetails) {
+      navigate("/cancel", { state: bookingDetails });
+    }
   };
 
   const handleSheetClose = () => {
@@ -91,7 +97,10 @@ const Lookup = () => {
             <>
               {lookUpList.map((item) => (
                 <React.Fragment key={item.bookingId}>
-                  <LookupWrapper {...item} handleBtn={() => handleSheetOpen(item.bookingId)} />
+                  <LookupWrapper
+                    {...item}
+                    handleBtn={() => handleCancel(item.bookingId, item.totalPaymentAmount)}
+                  />
                   <ActionBottomSheet
                     isOpen={selectedBookingId === item.bookingId}
                     onClickOutside={handleSheetClose}

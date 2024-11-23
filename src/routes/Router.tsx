@@ -12,6 +12,7 @@ import ADMIN_ROUTES from "./AdminRoutes";
 import Admin from "@admin/pages/admin/Admin";
 import DesktopGlobalStyle from "@styles/desktop";
 import TokenRefresher from "src/hooks/useTokenRefresher";
+import Cancel from "@pages/cancel/Cancel";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       ...LOOKUP_ROUTES,
       ...MANAGE_ROUTES,
       ...REGISTER_ROUTES,
+      { path: "cancel", element: <Cancel /> },
       { path: "*", element: <NotFound /> },
     ],
   },
