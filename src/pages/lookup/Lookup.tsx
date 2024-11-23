@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
-import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
+import { useCancelBook, useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
+import { AxiosError } from "axios";
+import { useCancelBooking } from "src/hooks/useCancelBooking";
 
 interface LookupProps {
   userId: number;
@@ -36,7 +38,7 @@ interface LookupProps {
 const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
-  const { openConfirm, closeConfirm } = useModal();
+  const { confirmCancelAction } = useCancelBooking();
   const [lookUpList, setLookUpList] = useState<LookupProps[]>([]);
   const { isLoading, refetch } = useGetMemberBookingList();
 
@@ -45,14 +47,7 @@ const Lookup = () => {
   const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
     if (totalPaymentAmount === 0) {
       setSelectedBookingId(bookingId);
-      openConfirm({
-        title: "예매를 정말 취소하시겠어요?",
-        subTitle: "취소한 예매내역은 복구할 수 없어요.",
-        okText: "취소할게요",
-        okCallback: () => {},
-        noText: "아니요",
-        noCallback: closeConfirm,
-      });
+      confirmCancelAction({ bookingId: bookingId });
       return;
     }
     const bookingDetails = lookUpList.find((item) => item.bookingId === bookingId);

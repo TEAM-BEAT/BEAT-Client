@@ -1,8 +1,10 @@
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  BookingCancelRequest,
   getMemberBookingList,
   GuestBookingRequest,
   MemberBookingRequest,
+  patchCancelBook,
   postGuestBook,
   postGuestBookingList,
   postGuestBookingReq,
@@ -70,6 +72,25 @@ export const useMemberBook = () => {
     mutationFn: (formData: MemberBookingRequest) => postMemberBook(formData),
 
     onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING] });
+      queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST] });
+      queryClient.refetchQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING], exact: true });
+      queryClient.refetchQueries({
+        queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST],
+        exact: true,
+      });
+    },
+  });
+};
+
+// 예매 취소
+export const useCancelBook = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (formData: BookingCancelRequest) => patchCancelBook(formData),
+
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING] });
       queryClient.invalidateQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST] });
       queryClient.refetchQueries({ queryKey: [BOOKING_QUERY_KEY.BOOKING], exact: true });

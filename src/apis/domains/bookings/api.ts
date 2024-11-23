@@ -98,3 +98,17 @@ export const postMemberBook = async (
 
   return response.data.data;
 };
+
+// 예매 취소 (일단 임의로 스키마  이름 지음)
+export type BookingCancelRequest = components["schemas"]["BookingCancelRequest"];
+export type BookingCancelResponse = components["schemas"]["BookingCancelResponse"];
+
+export const patchCancelBook = async (
+  formData: BookingCancelRequest
+): Promise<BookingCancelResponse> => {
+  const response: AxiosResponse<ApiResponseType<BookingCancelRequest>> = await post(
+    "/bookings/cancel",
+    formData
+  );
+  return response.data.data;
+};

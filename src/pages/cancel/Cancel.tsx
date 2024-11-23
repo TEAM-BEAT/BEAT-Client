@@ -14,10 +14,12 @@ import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./Cancel.styled";
 import RadioButton from "./../cancel/components/select/RadioButton";
 import { handleChange, handleBankClick, isFormValid } from "./utils";
+import { useCancelBooking } from "../../hooks/useCancelBooking";
 
 const Cancel = () => {
   const { setHeader } = useHeader();
-  const { openAlert, openConfirm, closeConfirm } = useModal();
+  const { openAlert } = useModal();
+  const { confirmCancelAction } = useCancelBooking();
   const navigate = useNavigate();
   const [isDeposit, setIsDeposit] = useState<boolean | null>(null);
   const [bankOpen, setBankOpen] = useState(false);
@@ -56,15 +58,17 @@ const Cancel = () => {
     }
   }, [state, openAlert, navigate]);
 
-  const handleCancelClick = () => {
-    openConfirm({
-      title: "예매를 정말 취소하시겠어요?",
-      subTitle: "취소한 예매내역은 복구할 수 없어요.",
-      okText: "취소할게요",
-      okCallback: () => {},
-      noText: "아니요",
-      noCallback: closeConfirm,
-    });
+  const handleCancelClick = (isDeposit) => {
+    const requestData = {
+      bookingId: state.bookingId,
+      ...(isDeposit && {
+        bankName: bankName,
+        accountNumber: accountNumber,
+        accountHolder: accountHolder,
+      }),
+    };
+
+    confirmCancelAction(requestData);
   };
 
   if (!state) {
@@ -149,7 +153,7 @@ const Cancel = () => {
       />
       <S.ButtonWrapper>
         <Button
-          onClick={handleCancelClick}
+          onClick={() => handleCancelClick(isDeposit)}
           disabled={!isFormValid(isDeposit, bankName, accountNumber, accountHolder)}
         >
           취소하기
