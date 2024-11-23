@@ -3,13 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
-import { useCancelBook, useGetMemberBookingList } from "@apis/domains/bookings/queries";
+import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader, useModal } from "@hooks";
-import { AxiosError } from "axios";
+import { useHeader } from "@hooks";
 import { useCancelBooking } from "src/hooks/useCancelBooking";
+import { Toast } from "@components/commons";
+import { IconCheck } from "@assets/svgs";
+import { ToastMessage } from "./../../components/commons/toast/Toast.styled";
 
 interface LookupProps {
   userId: number;
@@ -38,7 +40,7 @@ interface LookupProps {
 const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
-  const { confirmCancelAction } = useCancelBooking();
+  const { confirmCancelAction, toastMessage } = useCancelBooking();
   const [lookUpList, setLookUpList] = useState<LookupProps[]>([]);
   const { isLoading, refetch } = useGetMemberBookingList();
 
@@ -63,7 +65,7 @@ const Lookup = () => {
   };
 
   useEffect(() => {
-    if (state) {
+    if (state && !("toastMessage" in state)) {
       setLookUpList(state as LookupProps[]);
     } else {
       refetch().then((refetchedData) => {
@@ -71,6 +73,16 @@ const Lookup = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (state && state.toastMessage) {
+      const timer = setTimeout(() => {
+        navigate("/lookup", { state: { ...state, toastMessage: null }, replace: true });
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [state, navigate]);
 
   useEffect(() => {
     setHeader({
@@ -100,6 +112,11 @@ const Lookup = () => {
             </>
           ) : (
             <NonExistent />
+          )}
+          {(toastMessage || state?.toastMessage) && (
+            <Toast icon={<IconCheck />} isVisible={true} toastBottom={32}>
+              메이커에게 환불을 요청했어요.
+            </Toast>
           )}
         </S.LookupWrapper>
       )}

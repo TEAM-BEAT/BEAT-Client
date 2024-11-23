@@ -5,9 +5,10 @@ import {
   InputBank,
   Spacing,
   TextField,
+  Toast,
 } from "@components/commons";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader, useModal } from "@hooks";
+import { useHeader, useModal, useToast } from "@hooks";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
@@ -15,6 +16,7 @@ import * as S from "./Cancel.styled";
 import RadioButton from "./../cancel/components/select/RadioButton";
 import { handleChange, handleBankClick, isFormValid } from "./utils";
 import { useCancelBooking } from "../../hooks/useCancelBooking";
+import { IconCheck } from "@assets/svgs";
 
 const Cancel = () => {
   const { setHeader } = useHeader();

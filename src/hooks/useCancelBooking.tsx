@@ -1,6 +1,10 @@
 import { AxiosError } from "axios";
 import { useCancelBook } from "@apis/domains/bookings/queries";
-import { useModal } from "@hooks";
+import { useModal, useToast } from "@hooks";
+import { Toast } from "@components/commons";
+import { IconCheck } from "@assets/svgs";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface CancelRequestProps {
   bookingId: number;
@@ -12,9 +16,22 @@ interface CancelRequestProps {
 export const useCancelBooking = () => {
   const { openAlert, openConfirm, closeConfirm } = useModal();
   const { mutate } = useCancelBook();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const currentPage = location.pathname.split("/").pop();
 
   const handleCancelRequest = (requestData: CancelRequestProps) => {
     mutate(requestData, {
+      onSuccess: () => {
+        if (currentPage !== "lookup") {
+          navigate("/lookup", { state: { toastMessage: "메이커에게 환불을 요청했어요." } });
+        } else {
+          setToastMessage("메이커에게 환불을 요청했어요.");
+          setTimeout(() => setToastMessage(null), 2000);
+        }
+      },
       onError: (error: AxiosError<{ message: string }>) => {
         const errorMessage = error.response?.data?.message || "예매 취소 중 오류가 발생했습니다.";
         openAlert({
@@ -39,5 +56,5 @@ export const useCancelBooking = () => {
     });
   };
 
-  return { confirmCancelAction };
+  return { confirmCancelAction, toastMessage, setToastMessage };
 };

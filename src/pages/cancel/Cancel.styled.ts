@@ -98,3 +98,7 @@ export const ButtonWrapper = styled.div`
   position: absolute;
   bottom: 2.4rem;
 `;
+
+export const ToastBox = styled.div`
+  ${Generators.flexGenerator()}
+`;
