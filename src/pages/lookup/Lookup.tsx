@@ -11,7 +11,6 @@ import { useHeader } from "@hooks";
 import { useCancelBooking } from "src/hooks/useCancelBooking";
 import { Toast } from "@components/commons";
 import { IconCheck } from "@assets/svgs";
-import { ToastMessage } from "./../../components/commons/toast/Toast.styled";
 
 interface LookupProps {
   userId: number;
@@ -41,8 +40,8 @@ const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
   const { confirmCancelAction, toastMessage } = useCancelBooking();
-  const [lookUpList, setLookUpList] = useState<LookupProps[]>([]);
-  const { isLoading, refetch } = useGetMemberBookingList();
+  const [lookUpList, setLookUpList] = useState<LookupProps[] | null>(null);
+  const { data, isLoading, refetch } = useGetMemberBookingList();
 
   const navigate = useNavigate();
 
@@ -67,6 +66,8 @@ const Lookup = () => {
   useEffect(() => {
     if (state && !("toastMessage" in state)) {
       setLookUpList(state as LookupProps[]);
+    } else if (data) {
+      setLookUpList(data as LookupProps[]);
     } else {
       refetch().then((refetchedData) => {
         setLookUpList(refetchedData.data as LookupProps[]);
@@ -94,12 +95,12 @@ const Lookup = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || lookUpList === null ? (
         <Loading />
       ) : (
         <S.LookupWrapper>
           <MetaTag title="내가 예매한 공연" />
-          {lookUpList.length ? (
+          {lookUpList.length > 0 ? (
             <>
               {lookUpList.map((item) => (
                 <React.Fragment key={item.bookingId}>

@@ -56,9 +56,7 @@ export const useGetMemberBookingList = () => {
   return useQuery({
     queryKey: [BOOKING_QUERY_KEY.BOOKING_LIST],
     queryFn: () => getMemberBookingList(),
-    // staleTime: 1000 * 60 * 60,
-
-    staleTime: 0,
+    staleTime: 1000 * 60 * 30,
     gcTime: 1000 * 60 * 60 * 24,
     enabled: false,
   });
