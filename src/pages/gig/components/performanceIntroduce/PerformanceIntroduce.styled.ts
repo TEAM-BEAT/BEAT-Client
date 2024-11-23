@@ -50,6 +50,7 @@ export const SubTitle = styled.p`
 `;
 
 export const Desc = styled.p`
+  width: 100%;
   max-width: 24.5rem;
   max-height: 4.4rem;
 
@@ -63,7 +64,8 @@ export const Copy = styled.p`
   right: 0;
   display: flex;
   align-items: center;
-  padding: 0.8rem;
+
+  /* padding: 0.8rem; */
 
   color: ${({ theme }) => theme.colors.pink_200};
 
