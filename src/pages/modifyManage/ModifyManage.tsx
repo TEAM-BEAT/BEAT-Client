@@ -1,3 +1,5 @@
+//todo: 서버 작업 완료시, API schema 재생성 및 ERROR 없애기 (Gig.tsx, ModifyManage.tsx)
+//todo 보완 설명 - 확인해야하는 API 총 4개
 import {
   useGetScheduleAvailable,
   usePerformanceDelete,
