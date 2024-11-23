@@ -14,7 +14,7 @@ import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader } from "@hooks";
+import { useHeader, useModal } from "@hooks";
 
 interface LookupProps {
   userId: number;
@@ -43,6 +43,7 @@ interface LookupProps {
 const Lookup = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
+  const { openConfirm, closeConfirm } = useModal();
   const [lookUpList, setLookUpList] = useState<LookupProps[]>([]);
   const { isLoading, refetch } = useGetMemberBookingList();
 
@@ -51,6 +52,15 @@ const Lookup = () => {
   const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
     if (totalPaymentAmount === 0) {
       setSelectedBookingId(bookingId);
+      openConfirm({
+        title: "예매를 정말 취소하시겠어요?",
+        subTitle: "취소한 예매내역은 복구할 수 없어요.",
+        okText: "취소할게요",
+        okCallback: () => {},
+        noText: "아니요",
+        noCallback: closeConfirm,
+      });
+      return;
     }
     const bookingDetails = lookUpList.find((item) => item.bookingId === bookingId);
     if (bookingDetails) {
@@ -101,19 +111,6 @@ const Lookup = () => {
                     {...item}
                     handleBtn={() => handleCancel(item.bookingId, item.totalPaymentAmount)}
                   />
-                  <ActionBottomSheet
-                    isOpen={selectedBookingId === item.bookingId}
-                    onClickOutside={handleSheetClose}
-                    title="대표자에게 연락하여 취소를 요청해 주세요"
-                    subTitle="대표자 연락처"
-                    alignItems="center"
-                    padding="2rem 2rem 2.4rem 2rem"
-                  >
-                    <PhoneNumber phone={item.performanceContact} />
-                    <OuterLayout margin="1.6rem 0 0 0">
-                      <Button onClick={handleSheetClose}>확인했어요</Button>
-                    </OuterLayout>
-                  </ActionBottomSheet>
                 </React.Fragment>
               ))}
             </>
