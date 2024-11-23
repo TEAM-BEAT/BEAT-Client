@@ -44,6 +44,7 @@ export const PerformBox = styled.div`
     height: 2rem;
   }
 
+  th,
   td {
     color: ${({ theme }) => theme.colors.gray_200};
     text-align: left;
@@ -51,7 +52,7 @@ export const PerformBox = styled.div`
     ${({ theme }) => theme.fonts["body2-normal-medi"]};
   }
 
-  td:first-child {
+  th {
     width: 4rem;
 
     color: ${({ theme }) => theme.colors.gray_400};

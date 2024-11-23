@@ -16,7 +16,6 @@ import * as S from "./Cancel.styled";
 import RadioButton from "./../cancel/components/select/RadioButton";
 import { handleChange, handleBankClick, isFormValid } from "./utils";
 import { useCancelBooking } from "../../hooks/useCancelBooking";
-import { IconCheck } from "@assets/svgs";
 
 const Cancel = () => {
   const { setHeader } = useHeader();
@@ -84,13 +83,13 @@ const Cancel = () => {
           <p>{state.performanceTitle}</p>
           <table>
             <tr>
-              <td>관람일</td>
+              <th scope="row">관람일</th>
               <td>
                 {performanceDateArray[0]}년 {performanceDateArray[1]}월 {performanceDataDate[0]}일
               </td>
             </tr>
             <tr>
-              <td>회차</td>
+              <th scope="row">회차</th>
               <td>{convertingNumber(state.scheduleNumber)}회차</td>
             </tr>
           </table>
