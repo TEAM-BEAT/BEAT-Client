@@ -61,10 +61,6 @@ const Lookup = () => {
     }
   };
 
-  const handleSheetClose = () => {
-    setSelectedBookingId(null);
-  };
-
   const { setHeader } = useHeader();
 
   const handleLeftBtn = () => {
