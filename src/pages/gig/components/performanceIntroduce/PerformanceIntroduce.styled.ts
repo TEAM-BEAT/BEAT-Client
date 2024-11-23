@@ -72,13 +72,14 @@ export const Copy = styled.p`
 `;
 
 export const KakaoMap = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32.7rem;
   height: 18rem;
-  border-radius: 6px;
 
+  border-radius: 6px;
 `;
 
 export const Description = styled.pre`

@@ -1,4 +1,5 @@
 export { default as BannerBasic } from "./BannerBasic";
+export { default as BeatMapMarker } from "./BeatMapMarker";
 export { default as BtnFloating } from "./BtnFloating";
 export { default as BtnModalDelete } from "./BtnModalDelete";
 export { default as ButtonDelete24 } from "./ButtonDelete24";
@@ -60,6 +61,7 @@ export { default as IconXButton } from "./IconXButton";
 export { default as IcDelete } from "./IcDelete";
 export { default as IcHamburgar } from "./IcHamburgar";
 export { default as IcOutlinePlace } from "./IcOutlinePlace";
+export { default as KakaoMapArrow } from "./KakaoMapArrow";
 export { default as NotFoundAsset } from "./NotFoundAsset";
 export { default as Subtract } from "./Subtract";
 export { default as Switch } from "./Switch";

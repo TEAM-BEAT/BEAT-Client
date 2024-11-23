@@ -5,7 +5,7 @@ import * as S from "./PerformanceIntroduce.styled";
 import DetailImage from "../detailImage/DetailImage";
 import { Toast } from "@components/commons";
 import { useToast } from "@hooks";
-import { IconCheck } from "@assets/svgs";
+import { IconCheck, KakaoMapArrow } from "@assets/svgs";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import beat_map_marker from "../../../../../public/svgs/beat_map_marker.svg";
 
@@ -53,6 +53,18 @@ const PerformanceIntroduce = ({
     showToast();
   };
 
+  const handleLinkToKakaoMap = () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const url = `https://map.kakao.com/link/map/${performanceVenue},${latitude},${longtitude}`;
+    const scheme = `kakaomap://look?p=${latitude},${longtitude}`;
+
+    if (isMobile) {
+      window.location.href = scheme;
+    } else {
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <>
       <S.Wrapper>
@@ -92,6 +104,18 @@ const PerformanceIntroduce = ({
                 }}
               ></MapMarker>
             </Map>
+            <KakaoMapArrow
+              width={"18px"}
+              height={"18px"}
+              style={{
+                position: "absolute",
+                top: "1.7rem",
+                right: "2rem",
+                zIndex: "3",
+                cursor: "pointer",
+              }}
+              onClick={handleLinkToKakaoMap}
+            />
           </S.KakaoMap>
         </S.MapInfo>
         <S.Divider />
