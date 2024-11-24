@@ -30,10 +30,3 @@ export const BottomSheetLayout = styled.section<{ $paddingTop?: string }>`
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 2rem 2rem 0 0;
 `;
-
-export const Title = styled.h1`
-  margin-bottom: 2.8rem;
-
-  color: ${({ theme }) => theme.colors.white};
-  ${({ theme }) => theme.fonts.heading4};
-`;
