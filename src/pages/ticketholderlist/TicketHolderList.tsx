@@ -226,7 +226,7 @@ const TicketHolderList = () => {
               totalCount={data?.totalPerformanceTicketCount}
             />
             <Spacing marginBottom={"2.6"} />
-            <SearchBar handleFilter={handleFilter} />
+            <SearchBar handleFilter={handleFilter} status={status} />
             <Spacing marginBottom={"1.6"} />
             <S.FooterButtonWrapper>
               <Button onClick={handleButtonClick}>{buttonText}</Button>
