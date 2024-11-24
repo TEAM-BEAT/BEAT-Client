@@ -14,6 +14,7 @@ const Title = ({ title, teamName, totalSolidCount, totalCount }: BookingInfoProp
       <S.PerformanceTitleWrapper>
         <S.PerformanceTitle>{title}</S.PerformanceTitle>
         <S.TicketCountWrapper>
+          {/* TODO : 필터링 받아올 때마다 값 다르게 설정 */}
           <S.PurchaseTicketCount>{totalSolidCount}</S.PurchaseTicketCount>
           <S.TotalTicketCount>/{totalCount}매</S.TotalTicketCount>
         </S.TicketCountWrapper>

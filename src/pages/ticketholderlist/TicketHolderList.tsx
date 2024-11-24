@@ -12,6 +12,8 @@ import { BottomSheet, Button, Spacing } from "@components/commons";
 import Title from "@pages/ticketholderlist/components/title/Title";
 import SearchBar from "./components/searchBar/SearchBar";
 import MenuBottomsheet from "./components/MenuBottomSheet/MenuBottomsheet";
+import FilterBottomSheet from "./components/FilterBottomSheet/FilterBottomSheet";
+import { BookingListProps } from "./types/BookingListType";
 
 const data = {
   performanceTitle: "비트밴드 정기공연",
@@ -93,7 +95,7 @@ const headers = [
 ];
 
 const TicketHolderList = () => {
-  const [paymentData, setPaymentData] = useState();
+  const [paymentData, setPaymentData] = useState<BookingListProps[]>();
 
   // DEFAULT, PAYMENT, REFUND, DELETE
   const [status, setStatus] = useState("DEFAULT");
@@ -112,14 +114,17 @@ const TicketHolderList = () => {
   const actions = {
     PAYMENT: {
       text: "입금 처리하기",
+      // TODO : 예매 확정 팝업
       action: console.log("입금 처리"),
     },
     REFUND: {
       text: "환불 처리하기",
+      // TODO : 환불 처리 팝업
       action: () => console.log("환불"),
     },
     DELETE: {
       text: "예매자 삭제하기",
+      // TODO : 예매자 삭제 팝업
       action: () => console.log("예매자 삭제"),
     },
     DEFAULT: {
@@ -142,12 +147,24 @@ const TicketHolderList = () => {
     setOpenMenu(false);
   };
 
-  // 메뉴 바텀시트 관리
-  const handleMenuClose = () => {
+  // 바텀시트 닫기
+  const closeBottomSheet = () => {
     setOpenMenu(false);
+    setOpenFilter(false);
+  };
+
+  // 필터 바텀시트
+  const handleFilter = () => {
+    if (!openFilter) {
+      setOpenFilter(true);
+    } else {
+      setOpenFilter(false);
+    }
   };
 
   useEffect(() => {
+    setPaymentData(data?.bookingList ?? []);
+
     if (data?.bookingList) {
       //전체 데이터를 기반으로 csv 추출 데이터 구축
       const tempCSVDataArr: CSVDataType[] = [];
@@ -186,8 +203,8 @@ const TicketHolderList = () => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
       title: "예매자 관리",
-      // TODO : 사이즈 안 맞는 거 공통컴포넌트 수정하기
-      subText: "CSV 다운",
+      // TODO : 공통컴포넌트에 svg 들어갈 수 있도록 수정하기
+      subText: "CSV",
       leftOnClick: handleNavigateBack,
       // TODO : rightOnClick CSV 다운로드로 변경
       // rightOnClick: ,
@@ -209,17 +226,18 @@ const TicketHolderList = () => {
               totalCount={data?.totalPerformanceTicketCount}
             />
             <Spacing marginBottom={"2.6"} />
-            <SearchBar />
+            <SearchBar handleFilter={handleFilter} />
             <Spacing marginBottom={"1.6"} />
             <S.FooterButtonWrapper>
               <Button onClick={handleButtonClick}>{buttonText}</Button>
             </S.FooterButtonWrapper>
+            <MenuBottomsheet
+              isOpen={openMenu}
+              onClickOutside={closeBottomSheet}
+              handleStatus={handleStatus}
+            />
+            <FilterBottomSheet isOpen={openFilter} onClickOutside={handleFilter} />
           </S.TicketHolderListWrpper>
-          <MenuBottomsheet
-            isOpen={openMenu}
-            onClickOutside={handleMenuClose}
-            handleStatus={handleStatus}
-          />
         </>
       )}
     </>

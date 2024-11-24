@@ -18,30 +18,9 @@ const MenuBottomsheet = ({
   handleStatus,
   ...rest
 }: MenuBottomSheetProps) => {
-  const childrenArray = Children.toArray(children);
-
-  const contextChildren = childrenArray.filter(
-    (child) => isValidElement(child) && child.type !== OuterLayout
-  );
-
-  const remainingChildren = childrenArray.filter(
-    (child) => !isValidElement(child) || child.type === OuterLayout
-  );
-
   const handleWrapperClick = () => {
     onClickOutside();
   };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
 
   return (
     <S.MenuBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>

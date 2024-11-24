@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const TicketHolderListWrpper = styled.section`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0.8rem 2.4rem 2.6rem;
 `;
 
