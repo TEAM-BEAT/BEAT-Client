@@ -236,7 +236,11 @@ const TicketHolderList = () => {
               onClickOutside={closeBottomSheet}
               handleStatus={handleStatus}
             />
-            <FilterBottomSheet isOpen={openFilter} onClickOutside={handleFilter} />
+            <FilterBottomSheet
+              isOpen={openFilter}
+              totalScheduleCount={data.totalScheduleCount}
+              onClickOutside={handleFilter}
+            />
           </S.TicketHolderListWrpper>
         </>
       )}

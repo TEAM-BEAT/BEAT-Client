@@ -47,11 +47,20 @@ export const RefreshIcon = styled(IcRefresh)`
   height: 2.1rem;
 `;
 
+export const BoxDivider = styled.div`
+  display: flex;
+  width: 32.7rem;
+  margin: 2rem 0;
+
+  color: ${({ theme }) => theme.colors.gray_700};
+
+  border-top: 0.1rem solid;
+`;
+
 export const CheckBoxContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  margin-bottom: 3.2rem;
 `;
 
 export const CheckBoxRow = styled.section`
@@ -83,5 +92,5 @@ export const UnSelectIcon = styled(IconCheckboxUnselectedOn)`
 
 export const CheckBoxText = styled.div`
   color: ${({ theme }) => theme.colors.gray_200};
-  ${({ theme }) => theme.fonts["body1-normal-semi"]};
+  ${({ theme }) => theme.fonts["body1-normal-medi"]};
 `;
