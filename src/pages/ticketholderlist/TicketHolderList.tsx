@@ -11,6 +11,7 @@ import * as S from "./TicketHolderList.styled";
 import { BottomSheet, Button, Spacing } from "@components/commons";
 import Title from "@pages/ticketholderlist/components/title/Title";
 import SearchBar from "./components/searchBar/SearchBar";
+import MenuBottomsheet from "./components/MenuBottomSheet/MenuBottomsheet";
 
 const data = {
   performanceTitle: "비트밴드 정기공연",
@@ -98,6 +99,9 @@ const TicketHolderList = () => {
   const [status, setStatus] = useState("DEFAULT");
   const [buttonText, setButtonText] = useState("예매자 관리하기");
 
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
+
   const [CSVDataArr, setCSVDataArr] = useState<CSVDataType[]>([]);
 
   const { performanceId } = useParams();
@@ -122,6 +126,10 @@ const TicketHolderList = () => {
         break;
     }
   }, [status]);
+
+  const handleMenuClose = () => {
+    setOpenMenu(false);
+  };
 
   useEffect(() => {
     if (data?.bookingList) {
@@ -190,6 +198,7 @@ const TicketHolderList = () => {
             <S.FooterButtonWrapper>
               <Button>{buttonText}</Button>
             </S.FooterButtonWrapper>
+            <MenuBottomsheet isOpen={true} onClickOutside={handleMenuClose} />
           </S.TicketHolderListWrpper>
         </>
       )}
