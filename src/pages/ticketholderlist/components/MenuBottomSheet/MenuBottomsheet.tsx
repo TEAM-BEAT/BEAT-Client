@@ -8,9 +8,16 @@ interface MenuBottomSheetProps {
   isOpen: boolean;
   children?: ReactNode;
   onClickOutside: () => void;
+  handleStatus: (status: string) => void;
 }
 
-const MenuBottomsheet = ({ isOpen, onClickOutside, children, ...rest }: MenuBottomSheetProps) => {
+const MenuBottomsheet = ({
+  isOpen,
+  onClickOutside,
+  children,
+  handleStatus,
+  ...rest
+}: MenuBottomSheetProps) => {
   const childrenArray = Children.toArray(children);
 
   const contextChildren = childrenArray.filter(
@@ -36,22 +43,18 @@ const MenuBottomsheet = ({ isOpen, onClickOutside, children, ...rest }: MenuBott
     };
   }, [isOpen]);
 
-  const handleStatus = (status: string) => {
-    // TODO : 페이지에서 setStaus 넘겨서 여기서 받아주기
-  };
-
   return (
-    <S.MenuBottomSheetWrapper>
+    <S.MenuBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>
       <BottomSheet isOpen={isOpen} paddingTop="2.4rem">
-        <Button onClick={handleStatus("PAYMENT")} size="xlarge" variant="gray">
+        <Button onClick={() => handleStatus("PAYMENT")} size="xlarge" variant="gray">
           입금 처리하기
         </Button>
         <Spacing marginBottom="1.2" />
-        <Button onClick={handleStatus("REFUND")} size="xlarge" variant="gray">
+        <Button onClick={() => handleStatus("REFUND")} size="xlarge" variant="gray">
           환불 처리하기
         </Button>
         <Spacing marginBottom="1.2" />
-        <Button onClick={handleStatus("DELETE")} size="xlarge" variant="gray">
+        <Button onClick={() => handleStatus("DELETE")} size="xlarge" variant="gray">
           예매자 삭제하기
         </Button>
       </BottomSheet>

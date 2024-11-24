@@ -109,24 +109,40 @@ const TicketHolderList = () => {
   // const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
   const { isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
 
-  // 상태에 따라 버튼 텍스트 변경
+  const actions = {
+    PAYMENT: {
+      text: "입금 처리하기",
+      action: console.log("입금 처리"),
+    },
+    REFUND: {
+      text: "환불 처리하기",
+      action: () => console.log("환불"),
+    },
+    DELETE: {
+      text: "예매자 삭제하기",
+      action: () => console.log("예매자 삭제"),
+    },
+    DEFAULT: {
+      text: "예매자 관리하기",
+      action: () => setOpenMenu(true),
+    },
+  };
+
+  // 상태 변경 시 버튼 텍스트 설정
   useEffect(() => {
-    switch (status) {
-      case "PAYMENT":
-        setButtonText("입금 처리하기");
-        break;
-      case "REFUND":
-        setButtonText("환불 처리하기");
-        break;
-      case "DELETE":
-        setButtonText("예매자 삭제하기");
-        break;
-      default:
-        setButtonText("예매자 관리하기");
-        break;
-    }
+    setButtonText(actions[status]?.text || "예매자 관리하기");
   }, [status]);
 
+  const handleButtonClick = () => {
+    actions[status]?.action?.();
+  };
+
+  const handleStatus = (status: string) => {
+    setStatus(status);
+    setOpenMenu(false);
+  };
+
+  // 메뉴 바텀시트 관리
   const handleMenuClose = () => {
     setOpenMenu(false);
   };
@@ -196,10 +212,14 @@ const TicketHolderList = () => {
             <SearchBar />
             <Spacing marginBottom={"1.6"} />
             <S.FooterButtonWrapper>
-              <Button>{buttonText}</Button>
+              <Button onClick={handleButtonClick}>{buttonText}</Button>
             </S.FooterButtonWrapper>
-            <MenuBottomsheet isOpen={true} onClickOutside={handleMenuClose} />
           </S.TicketHolderListWrpper>
+          <MenuBottomsheet
+            isOpen={openMenu}
+            onClickOutside={handleMenuClose}
+            handleStatus={handleStatus}
+          />
         </>
       )}
     </>
