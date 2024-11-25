@@ -124,6 +124,7 @@ const FilterBottomSheet = ({
           </S.CheckBoxRow>
         </S.CheckBoxContainer>
         <Spacing marginBottom="3.2" />
+        {/* TODO : 선택된 내역 없을 때 버튼 비활성화 하기 */}
         <Button onClick={handleCilckBtn}>적용하기</Button>
       </BottomSheet>
     </S.FilterBottomSheetWrapper>

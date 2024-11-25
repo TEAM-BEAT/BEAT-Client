@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BtnFilter } from "@assets/svgs";
 
 export const SearchBarWrapper = styled.section`
   display: flex;
@@ -21,8 +22,7 @@ export const SearchBar = styled.input`
   border-radius: 4rem;
 `;
 
-// 찌그러지는 거 수정하기
-export const FilterBtn = styled.button`
+export const FilterBtn = styled(BtnFilter)`
   width: 4.8rem;
   height: 4.8rem;
   margin-left: 1.2rem;

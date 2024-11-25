@@ -14,8 +14,9 @@ import SearchBar from "./components/searchBar/SearchBar";
 import MenuBottomsheet from "./components/MenuBottomSheet/MenuBottomsheet";
 import FilterBottomSheet from "./components/FilterBottomSheet/FilterBottomSheet";
 import { BookingListProps } from "@pages/ticketholderlist/types/bookingListType";
-import { ManageCard } from "./components/magageCard";
+import { ManageCard } from "./components/manageCard";
 import { getBankNameKr } from "@utils/getBankName";
+import SelectedChips from "./components/selectedChips/SelectedChips";
 
 const data = {
   performanceTitle: "비트밴드 정기공연",
@@ -284,6 +285,7 @@ const TicketHolderList = () => {
               />
               <Spacing marginBottom={"2.6"} />
               <SearchBar handleFilter={handleFilter} status={status} />
+              <SelectedChips />
               <Spacing marginBottom={"1.6"} />
             </S.TitleSticky>
 

@@ -6,6 +6,7 @@ interface SearchBarProps {
   handleFilter: () => void;
 }
 
+// TODO: 필터 적용되었을 때 아웃라인 색상 적용 -> 기능 붙일 때 같이 하기
 const SearchBar = ({ handleFilter, status }: SearchBarProps) => {
   return (
     <S.SearchBarWrapper>

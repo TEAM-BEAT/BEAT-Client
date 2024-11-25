@@ -57,12 +57,29 @@ export const TextContainer = styled.section`
   gap: 0.4rem;
 `;
 
-export const InfoText = styled.div`
+export const InfoText = styled.div<{ $status: string }>`
   ${({ theme }) => theme.fonts["body2-normal-medi"]};
   color: ${({ theme }) => theme.colors.white};
+
+  ${({ $status }) => {
+    if ($status === "취소 완료") {
+      return css`
+        color: ${({ theme }) => theme.colors.gray_400};
+        text-decoration: line-through;
+      `;
+    }
+  }}
 `;
 
-export const DateText = styled.div`
+export const DateText = styled.div<{ $status: string }>`
   ${({ theme }) => theme.fonts["caption1-medi"]};
-  color: ${({ theme }) => theme.colors.gray_400};
+  color: ${({ theme }) => theme.colors.gray_500};
+
+  ${({ $status }) => {
+    if ($status === "취소 완료") {
+      return css`
+        color: ${({ theme }) => theme.colors.gray_600};
+      `;
+    }
+  }}
 `;

@@ -6,8 +6,14 @@ export const TitleWrapper = styled.section`
 `;
 
 export const PerformanceTeamName = styled.div`
+  display: inline;
+  width: 32.7rem;
+  overflow: hidden;
+
   ${({ theme }) => theme.fonts["caption1-semi"]};
   color: ${({ theme }) => theme.colors.gray_400};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const PerformanceTitleWrapper = styled.section`
@@ -16,13 +22,15 @@ export const PerformanceTitleWrapper = styled.section`
   width: 32.8rem;
 `;
 
-// TODO : 말줄임표 작업
 export const PerformanceTitle = styled.div`
-  display: flex;
+  display: inline;
   width: 25.8rem;
+  overflow: hidden;
 
   ${({ theme }) => theme.fonts.heading2};
   color: ${({ theme }) => theme.colors.white};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const TicketCountWrapper = styled.section`

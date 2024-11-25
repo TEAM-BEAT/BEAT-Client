@@ -23,13 +23,13 @@ export default function ManageCardContainer({
     <S.ManageCardWrapper>
       <S.InfoBox>
         <S.TextContainer>
-          <S.InfoText>
+          <S.InfoText $status={status}>
             {name} ({phoneNumber})
           </S.InfoText>
-          <S.InfoText>
+          <S.InfoText $status={status}>
             {scheduleId}회차 / {ticketCount}매
           </S.InfoText>
-          <S.DateText>{date}</S.DateText>
+          <S.DateText $status={status}>{date}</S.DateText>
         </S.TextContainer>
       </S.InfoBox>
       <S.StatusBox $status={status}>{status}</S.StatusBox>
