@@ -27,7 +27,7 @@ export const ManageCardContainer = styled.section`
 `;
 
 export const FooterButtonWrapper = styled.div`
-  position: sticky;
+  position: fixed;
   bottom: 0;
   z-index: 1;
   display: flex;

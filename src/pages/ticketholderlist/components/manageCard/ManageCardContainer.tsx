@@ -6,7 +6,7 @@ interface ManagerCardContainerProps {
   name: string;
   phoneNumber: string;
   ticketCount: number;
-  scheduleId: number;
+  scheduleNumber: number;
   date: string;
   status: string;
 }
@@ -15,7 +15,7 @@ export default function ManageCardContainer({
   name,
   phoneNumber,
   ticketCount,
-  scheduleId,
+  scheduleNumber,
   date,
   status,
 }: ManagerCardContainerProps) {
@@ -27,7 +27,7 @@ export default function ManageCardContainer({
             {name} ({phoneNumber})
           </S.InfoText>
           <S.InfoText $status={status}>
-            {scheduleId}회차 / {ticketCount}매
+            {scheduleNumber}회차 / {ticketCount}매
           </S.InfoText>
           <S.DateText $status={status}>{date}</S.DateText>
         </S.TextContainer>

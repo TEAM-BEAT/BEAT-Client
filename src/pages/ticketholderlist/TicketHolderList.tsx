@@ -165,8 +165,7 @@ const TicketHolderList = () => {
 
   const { performanceId } = useParams();
 
-  // const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
-  const { isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
+  const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
 
   const actions = {
     PAYMENT: {
@@ -303,7 +302,7 @@ const TicketHolderList = () => {
                         name={item.bookerName}
                         phoneNumber={item.bookerPhoneNumber}
                         ticketCount={item.purchaseTicketCount}
-                        scheduleId={item.scheduleId}
+                        scheduleNumber={convertingNumber(item.scheduleNumber)}
                         date={formattedDate}
                         status={bookingStatus}
                       />
