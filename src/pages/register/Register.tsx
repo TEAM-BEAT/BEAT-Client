@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
+import DetailImage from "./components/DetailImage";
 import GenreSelect from "./components/GenreSelect";
 import InputRegisterBox from "./components/InputRegisterBox";
 import PosterThumbnail from "./components/PosterThumbnail";
@@ -48,7 +49,6 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
-import DetailImage from "./components/DetailImage";
 
 const Register = () => {
   const { isLogin } = useLogin();
