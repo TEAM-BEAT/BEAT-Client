@@ -73,6 +73,8 @@ const MapInput = ({
               temp.push(data[i]);
             }
             setPlaces(temp);
+          } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+            setPlaces(data);
           }
         });
       }
