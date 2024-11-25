@@ -77,6 +77,8 @@ const MapInput = ({
             setPlaces(data);
           }
         });
+      } else {
+        setPlaces([]);
       }
     }, 200),
     []
@@ -167,47 +169,46 @@ const MapInput = ({
         {maxLength && cap && (
           <S.TextCap>{`${splitGraphemes(value as string).length}/${maxLength}`}</S.TextCap>
         )}
-        {!inputValue && isDropDownOpen && (
-          <S.DescriptionBox>
-            <S.NoSearchP>검색결과가 없어요. 아래와 같이 검색해보세요.</S.NoSearchP>
-            <S.NoSearchB>
-              {"• 도로명 + 건물번호 (판교역로 166)"}
-              <br />
-              {"• 동/읍/면/리 + 번지 (백현동 532)"}
-              <br />
-              {"• 건물명, 아파트명 (분당 주공)"}
-            </S.NoSearchB>
-          </S.DescriptionBox>
-        )}
-        {inputValue && isDropDownOpen && (
-          <S.SearchDropDownWrapper>
-            {places.map((place, idx) => (
-              <React.Fragment key={`search-place-${idx}`}>
-                <S.DropDownItem
-                  onClick={() => {
-                    setInputValue(place.road_address_name || place.address_name);
-                    setIsDropDownOpen(false);
-                    setIsWarn(false);
-                    // 추가: onChange 호출로 부모 상태 갱신
-                    const newEvent = {
-                      target: {
-                        name,
-                        value: place.road_address_name || place.address_name,
-                      },
-                    } as React.ChangeEvent<HTMLInputElement>;
-                    onChange(newEvent);
-
-                    setLatitudeLongitude(place.y, place.x); //lat이 y값
-                  }}
-                >
-                  <S.RoadName>{place.road_address_name}</S.RoadName>
-                  <S.PostName>{place.address_name}</S.PostName>
-                </S.DropDownItem>
-                {idx !== places.length - 1 && <S.Divider />}
-              </React.Fragment>
-            ))}
-          </S.SearchDropDownWrapper>
-        )}
+        {isDropDownOpen &&
+          (places.length > 0 ? (
+            <S.SearchDropDownWrapper>
+              {places.map((place, idx) => (
+                <React.Fragment key={`search-place-${idx}`}>
+                  <S.DropDownItem
+                    onClick={() => {
+                      setInputValue(place.road_address_name || place.address_name);
+                      setIsDropDownOpen(false);
+                      setIsWarn(false);
+                      // 추가: onChange 호출로 부모 상태 갱신
+                      const newEvent = {
+                        target: {
+                          name,
+                          value: place.road_address_name || place.address_name,
+                        },
+                      } as React.ChangeEvent<HTMLInputElement>;
+                      onChange(newEvent);
+                      setLatitudeLongitude(place.y, place.x); //lat이 y값
+                    }}
+                  >
+                    <S.RoadName>{place.road_address_name}</S.RoadName>
+                    <S.PostName>{place.address_name}</S.PostName>
+                  </S.DropDownItem>
+                  {idx !== places.length - 1 && <S.Divider />}
+                </React.Fragment>
+              ))}
+            </S.SearchDropDownWrapper>
+          ) : (
+            <S.DescriptionBox>
+              <S.NoSearchP>검색결과가 없어요. 아래와 같이 검색해보세요.</S.NoSearchP>
+              <S.NoSearchB>
+                {"• 도로명 + 건물번호 (판교역로 166)"}
+                <br />
+                {"• 동/읍/면/리 + 번지 (백현동 532)"}
+                <br />
+                {"• 건물명, 아파트명 (분당 주공)"}
+              </S.NoSearchB>
+            </S.DescriptionBox>
+          ))}
       </S.TextFieldLayout>
     </>
   );
