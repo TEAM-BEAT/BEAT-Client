@@ -239,6 +239,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * 티켓 구매 가능 여부 조회 API
+         * @description 티켓 구매 가능 여부를 확인하는 GET API입니다.
+         */
         get: operations["getTicketAvailability"];
         put?: never;
         post?: never;
@@ -340,8 +344,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 전체공연목록, 홍보목록 조회 API
-         * @description 홈화면에서 전체공연목록, 홍보목록을 조회하는 GET API입니다.
+         * 전체 공연 및 홍보 목록 조회
+         * @description 홈 화면에서 전체 공연 목록 및 홍보 목록을 조회하는 GET API
          */
         get: operations["getHomePerformanceList"];
         put?: never;
@@ -479,11 +483,16 @@ export interface components {
             totalScheduleCount?: number;
             bookingList?: components["schemas"]["TicketUpdateDetail"][];
         };
-        SuccessResponseVoid: {
+        SuccessResponse: {
             /** Format: int32 */
             status?: number;
             message?: string;
             data?: Record<string, never>;
+        };
+        ErrorResponse: {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
         };
         CastModifyRequest: {
             /** Format: int64 */
@@ -540,74 +549,7 @@ export interface components {
             staffRole?: string;
             staffPhoto?: string;
         };
-        CastModifyResponse: {
-            /** Format: int64 */
-            castId?: number;
-            castName?: string;
-            castRole?: string;
-            castPhoto?: string;
-        };
-        PerformanceImageModifyResponse: {
-            /** Format: int64 */
-            performanceImageId?: number;
-            performanceImage?: string;
-        };
-        PerformanceModifyResponse: {
-            /** Format: int64 */
-            userId?: number;
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            /** @enum {string} */
-            genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
-            /** Format: int32 */
-            runningTime?: number;
-            performanceDescription?: string;
-            performanceAttentionNote?: string;
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            accountHolder?: string;
-            posterImage?: string;
-            performanceTeamName?: string;
-            performanceVenue?: string;
-            performanceContact?: string;
-            performancePeriod?: string;
-            /** Format: int32 */
-            ticketPrice?: number;
-            /** Format: int32 */
-            totalScheduleCount?: number;
-            scheduleModifyResponses?: components["schemas"]["ScheduleModifyResponse"][];
-            castModifyResponses?: components["schemas"]["CastModifyResponse"][];
-            staffModifyResponses?: components["schemas"]["StaffModifyResponse"][];
-            performanceImageModifyResponses?: components["schemas"]["PerformanceImageModifyResponse"][];
-        };
-        ScheduleModifyResponse: {
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: date-time */
-            performanceDate?: string;
-            /** Format: int32 */
-            totalTicketCount?: number;
-            /** Format: int32 */
-            dueDate?: number;
-            /** @enum {string} */
-            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-        };
-        StaffModifyResponse: {
-            /** Format: int64 */
-            staffId?: number;
-            staffName?: string;
-            staffRole?: string;
-            staffPhoto?: string;
-        };
-        SuccessResponsePerformanceModifyResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["PerformanceModifyResponse"];
-        };
-        CarouselProcessRequest: {
+        CarouselHandleRequest: {
             carousels?: (components["schemas"]["PromotionGenerateRequest"] | components["schemas"]["PromotionModifyRequest"])[];
         };
         PromotionGenerateRequest: {
@@ -638,32 +580,9 @@ export interface components {
             /** Format: int64 */
             performanceId?: number;
         });
-        ErrorResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-        };
-        SuccessResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: Record<string, never>;
-        };
         MemberLoginRequest: {
             /** @enum {string} */
             socialType: "KAKAO";
-        };
-        LoginSuccessResponse: {
-            accessToken?: string;
-            refreshToken?: string;
-            nickname?: string;
-            role?: string;
-        };
-        SuccessResponseLoginSuccessResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["LoginSuccessResponse"];
         };
         CastRequest: {
             castName?: string;
@@ -712,73 +631,6 @@ export interface components {
             staffRole?: string;
             staffPhoto?: string;
         };
-        CastResponse: {
-            /** Format: int64 */
-            castId?: number;
-            castName?: string;
-            castRole?: string;
-            castPhoto?: string;
-        };
-        PerformanceImageResponse: {
-            /** Format: int64 */
-            imageId?: number;
-            imageUrl?: string;
-        };
-        PerformanceResponse: {
-            /** Format: int64 */
-            userId?: number;
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            /** @enum {string} */
-            genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
-            /** Format: int32 */
-            runningTime?: number;
-            performanceDescription?: string;
-            performanceAttentionNote?: string;
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            accountHolder?: string;
-            posterImage?: string;
-            performanceTeamName?: string;
-            performanceVenue?: string;
-            performanceContact?: string;
-            performancePeriod?: string;
-            /** Format: int32 */
-            ticketPrice?: number;
-            /** Format: int32 */
-            totalScheduleCount?: number;
-            scheduleList?: components["schemas"]["ScheduleResponse"][];
-            castList?: components["schemas"]["CastResponse"][];
-            staffList?: components["schemas"]["StaffResponse"][];
-            performanceImageList?: components["schemas"]["PerformanceImageResponse"][];
-        };
-        ScheduleResponse: {
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: date-time */
-            performanceDate?: string;
-            /** Format: int32 */
-            totalTicketCount?: number;
-            /** Format: int32 */
-            dueDate?: number;
-            /** @enum {string} */
-            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-        };
-        StaffResponse: {
-            /** Format: int64 */
-            staffId?: number;
-            staffName?: string;
-            staffRole?: string;
-            staffPhoto?: string;
-        };
-        SuccessResponsePerformanceResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["PerformanceResponse"];
-        };
         MemberBookingRequest: {
             /** Format: int64 */
             scheduleId?: number;
@@ -792,35 +644,6 @@ export interface components {
             bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
             /** Format: int32 */
             totalPaymentAmount?: number;
-        };
-        MemberBookingResponse: {
-            /** Format: int64 */
-            bookingId?: number;
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: int64 */
-            userId?: number;
-            /** Format: int32 */
-            purchaseTicketCount?: number;
-            /** @enum {string} */
-            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-            bookerName?: string;
-            bookerPhoneNumber?: string;
-            /** @enum {string} */
-            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            /** Format: int32 */
-            totalPaymentAmount?: number;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        SuccessResponseMemberBookingResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["MemberBookingResponse"];
         };
         GuestBookingRequest: {
             /** Format: int64 */
@@ -838,359 +661,16 @@ export interface components {
             /** @enum {string} */
             bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
         };
-        GuestBookingResponse: {
-            /** Format: int64 */
-            bookingId?: number;
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: int64 */
-            userId?: number;
-            /** Format: int32 */
-            purchaseTicketCount?: number;
-            /** @enum {string} */
-            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-            bookerName?: string;
-            bookerPhoneNumber?: string;
-            /** @enum {string} */
-            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            /** Format: int32 */
-            totalPaymentAmount?: number;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        SuccessResponseGuestBookingResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["GuestBookingResponse"];
-        };
         GuestBookingRetrieveRequest: {
             bookerName?: string;
             birthDate?: string;
             bookerPhoneNumber?: string;
             password?: string;
         };
-        GuestBookingRetrieveResponse: {
-            /** Format: int64 */
-            bookingId?: number;
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            /** Format: date-time */
-            performanceDate?: string;
-            performanceVenue?: string;
-            /** Format: int32 */
-            purchaseTicketCount?: number;
-            /** @enum {string} */
-            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-            bookerName?: string;
-            performanceContact?: string;
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            accountHolder?: string;
-            /** Format: int32 */
-            dueDate?: number;
-            /** @enum {string} */
-            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
-            /** Format: date-time */
-            createdAt?: string;
-            posterImage?: string;
-            /** Format: int32 */
-            totalPaymentAmount?: number;
-        };
-        SuccessResponseListGuestBookingRetrieveResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["GuestBookingRetrieveResponse"][];
-        };
         TicketCancelRequest: {
             /** Format: int64 */
             performanceId?: number;
             bookingList?: number[];
-        };
-        AccessTokenGetSuccess: {
-            accessToken?: string;
-        };
-        SuccessResponseAccessTokenGetSuccess: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["AccessTokenGetSuccess"];
-        };
-        SuccessResponseTicketRetrieveResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["TicketRetrieveResponse"];
-        };
-        TicketDetail: {
-            /** Format: int64 */
-            bookingId?: number;
-            bookerName?: string;
-            bookerPhoneNumber?: string;
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: int32 */
-            purchaseTicketCount?: number;
-            /** Format: date-time */
-            createdAt?: string;
-            /** @enum {string} */
-            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
-            scheduleNumber?: string;
-        };
-        TicketRetrieveResponse: {
-            performanceTitle?: string;
-            /** Format: int32 */
-            totalScheduleCount?: number;
-            bookingList?: components["schemas"]["TicketDetail"][];
-        };
-        SuccessResponseTicketAvailabilityResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["TicketAvailabilityResponse"];
-        };
-        TicketAvailabilityResponse: {
-            /** Format: int64 */
-            scheduleId?: number;
-            scheduleNumber?: string;
-            /** Format: int32 */
-            totalTicketCount?: number;
-            /** Format: int32 */
-            soldTicketCount?: number;
-            /** Format: int32 */
-            availableTicketCount?: number;
-            /** Format: int32 */
-            requestedTicketCount?: number;
-            isAvailable?: boolean;
-        };
-        PerformanceModifyDetailResponse: {
-            /** Format: int64 */
-            userId?: number;
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            /** @enum {string} */
-            genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
-            /** Format: int32 */
-            runningTime?: number;
-            performanceDescription?: string;
-            performanceAttentionNote?: string;
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            accountHolder?: string;
-            posterImage?: string;
-            performanceTeamName?: string;
-            performanceVenue?: string;
-            performanceContact?: string;
-            performancePeriod?: string;
-            /** Format: int32 */
-            ticketPrice?: number;
-            /** Format: int32 */
-            totalScheduleCount?: number;
-            isBookerExist?: boolean;
-            scheduleList?: components["schemas"]["ScheduleResponse"][];
-            castList?: components["schemas"]["CastResponse"][];
-            staffList?: components["schemas"]["StaffResponse"][];
-            performanceImageList?: components["schemas"]["PerformanceImageResponse"][];
-        };
-        SuccessResponsePerformanceModifyDetailResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["PerformanceModifyDetailResponse"];
-        };
-        MakerPerformanceDetailResponse: {
-            /** Format: int64 */
-            performanceId?: number;
-            genre?: string;
-            performanceTitle?: string;
-            posterImage?: string;
-            performancePeriod?: string;
-            /** Format: int32 */
-            minDueDate?: number;
-        };
-        MakerPerformanceResponse: {
-            /** Format: int64 */
-            userId?: number;
-            performances?: components["schemas"]["MakerPerformanceDetailResponse"][];
-        };
-        SuccessResponseMakerPerformanceResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["MakerPerformanceResponse"];
-        };
-        PerformanceDetailCastResponse: {
-            /** Format: int64 */
-            castId?: number;
-            castName?: string;
-            castRole?: string;
-            castPhoto?: string;
-        };
-        PerformanceDetailImageResponse: {
-            /** Format: int64 */
-            performanceImageId?: number;
-            performanceImage?: string;
-        };
-        PerformanceDetailResponse: {
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            performancePeriod?: string;
-            scheduleList?: components["schemas"]["PerformanceDetailScheduleResponse"][];
-            /** Format: int32 */
-            ticketPrice?: number;
-            genre?: string;
-            posterImage?: string;
-            /** Format: int32 */
-            runningTime?: number;
-            performanceVenue?: string;
-            performanceDescription?: string;
-            performanceAttentionNote?: string;
-            performanceContact?: string;
-            performanceTeamName?: string;
-            castList?: components["schemas"]["PerformanceDetailCastResponse"][];
-            staffList?: components["schemas"]["PerformanceDetailStaffResponse"][];
-            /** Format: int32 */
-            minDueDate?: number;
-            performanceImageList?: components["schemas"]["PerformanceDetailImageResponse"][];
-        };
-        PerformanceDetailScheduleResponse: {
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: date-time */
-            performanceDate?: string;
-            scheduleNumber?: string;
-            /** Format: int32 */
-            dueDate?: number;
-            isBooking?: boolean;
-        };
-        PerformanceDetailStaffResponse: {
-            /** Format: int64 */
-            staffId?: number;
-            staffName?: string;
-            staffRole?: string;
-            staffPhoto?: string;
-        };
-        SuccessResponsePerformanceDetailResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["PerformanceDetailResponse"];
-        };
-        BookingPerformanceDetailResponse: {
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            performancePeriod?: string;
-            scheduleList?: components["schemas"]["BookingPerformanceDetailScheduleResponse"][];
-            /** Format: int32 */
-            ticketPrice?: number;
-            genre?: string;
-            posterImage?: string;
-            performanceVenue?: string;
-            performanceTeamName?: string;
-            bankName?: string;
-            accountNumber?: string;
-            accountHolder?: string;
-        };
-        BookingPerformanceDetailScheduleResponse: {
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: date-time */
-            performanceDate?: string;
-            scheduleNumber?: string;
-            /** Format: int32 */
-            availableTicketCount?: number;
-            isBooking?: boolean;
-            /** Format: int32 */
-            dueDate?: number;
-        };
-        SuccessResponseBookingPerformanceDetailResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["BookingPerformanceDetailResponse"];
-        };
-        HomePerformanceDetail: {
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            performancePeriod?: string;
-            /** Format: int32 */
-            ticketPrice?: number;
-            /** Format: int32 */
-            dueDate?: number;
-            genre?: string;
-            posterImage?: string;
-            performanceVenue?: string;
-        };
-        HomePromotionDetail: {
-            /** Format: int64 */
-            promotionId?: number;
-            promotionPhoto?: string;
-            /** Format: int64 */
-            performanceId?: number;
-            redirectUrl?: string;
-            isExternal?: boolean;
-        };
-        HomeResponse: {
-            promotionList?: components["schemas"]["HomePromotionDetail"][];
-            performanceList?: components["schemas"]["HomePerformanceDetail"][];
-        };
-        SuccessResponseHomeResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["HomeResponse"];
-        };
-        MemberBookingRetrieveResponse: {
-            /** Format: int64 */
-            userId?: number;
-            /** Format: int64 */
-            bookingId?: number;
-            /** Format: int64 */
-            scheduleId?: number;
-            /** Format: int64 */
-            performanceId?: number;
-            performanceTitle?: string;
-            /** Format: date-time */
-            performanceDate?: string;
-            performanceVenue?: string;
-            /** Format: int32 */
-            purchaseTicketCount?: number;
-            /** @enum {string} */
-            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-            bookerName?: string;
-            performanceContact?: string;
-            /** @enum {string} */
-            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
-            accountNumber?: string;
-            accountHolder?: string;
-            /** Format: int32 */
-            dueDate?: number;
-            /** @enum {string} */
-            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
-            /** Format: date-time */
-            createdAt?: string;
-            posterImage?: string;
-            /** Format: int32 */
-            totalPaymentAmount?: number;
-        };
-        SuccessResponseListMemberBookingRetrieveResponse: {
-            /** Format: int32 */
-            status?: number;
-            message?: string;
-            data?: components["schemas"]["MemberBookingRetrieveResponse"][];
         };
     };
     responses: never;
@@ -1214,13 +694,31 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description 예매자 입금여부 수정 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 이미 결제가 완료된 티켓의 상태는 변경할 수 없습니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 회차 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1238,13 +736,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description 예매자 취소 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 회차 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1268,43 +775,34 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
                 };
             };
-            /** @description 잘못된 요청 - 회차 최대 개수 초과 */
+            /** @description 티켓 가격은 음수일 수 없습니다. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description 권한 없음 - 해당 공연의 소유자가 아닙니다. */
+            /** @description 해당 공연의 소유자가 아닙니다. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description 존재하지 않는 회원 ID로 수정 요청을 보낼 수 없습니다. */
+            /** @description 공연 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1322,13 +820,31 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description 공연이 성공적으로 생성되었습니다. */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 필수 데이터가 누락되었습니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 공연 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1371,7 +887,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CarouselProcessRequest"];
+                "application/json": components["schemas"]["CarouselHandleRequest"];
             };
         };
         responses: {
@@ -1410,13 +926,31 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description 로그인 또는 회원가입 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseLoginSuccessResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 로그인 요청이 유효하지 않습니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 회원 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1430,13 +964,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 로그아웃 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 회원 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1454,13 +997,31 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description 회원 예매가 성공적으로 완료되었습니다. */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseMemberBookingResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 필수 데이터가 누락되었습니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 회차 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1478,13 +1039,31 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description 비회원 예매가 성공적으로 완료되었습니다. */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseGuestBookingResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 필수 데이터가 누락되었습니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 회차 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1502,13 +1081,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description 비회원 예매 조회가 성공적으로 완료되었습니다. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseListGuestBookingRetrieveResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1544,13 +1132,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description access token 재발급 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseAccessTokenGetSuccess"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 유효하지 않은 토큰입니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1569,13 +1166,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 예매자 목록 조회 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1593,13 +1199,40 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 티켓 수량 조회가 성공적으로 완료되었습니다. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseTicketAvailabilityResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 잘못된 데이터 형식입니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 회차 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 요청한 티켓 수량이 잔여 티켓 수를 초과했습니다. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1615,13 +1248,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 공연 수정 페이지 정보 조회 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyDetailResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 공연 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1637,13 +1279,31 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 공연 삭제 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 공연의 소유자가 아니거나 예매자가 있어 삭제할 수 없습니다. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 공연 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1657,13 +1317,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 회원이 등록한 공연 목록 조회 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseMakerPerformanceResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 회원 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1679,13 +1348,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 공연 상세정보 조회 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceDetailResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 공연 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1701,13 +1379,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 예매하기 관련 공연 정보 조회 성공 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseBookingPerformanceDetailResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 공연 정보를 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1715,7 +1402,7 @@ export interface operations {
     getHomePerformanceList: {
         parameters: {
             query?: {
-                genre?: string;
+                genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
             };
             header?: never;
             path?: never;
@@ -1723,13 +1410,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 홈 화면 공연 목록 조회가 성공적으로 완료되었습니다. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseHomeResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
                 };
             };
         };
@@ -1777,13 +1464,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 회원 예매 조회가 성공적으로 완료되었습니다. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseListMemberBookingRetrieveResponse"];
+                    "*/*": components["schemas"]["SuccessResponse"];
+                };
+            };
+            /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
         };
