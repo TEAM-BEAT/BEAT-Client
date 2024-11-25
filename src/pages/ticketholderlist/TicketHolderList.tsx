@@ -13,13 +13,15 @@ import Title from "@pages/ticketholderlist/components/title/Title";
 import SearchBar from "./components/searchBar/SearchBar";
 import MenuBottomsheet from "./components/MenuBottomSheet/MenuBottomsheet";
 import FilterBottomSheet from "./components/FilterBottomSheet/FilterBottomSheet";
-import { BookingListProps } from "./types/BookingListType";
+import { BookingListProps } from "@pages/ticketholderlist/types/bookingListType";
+import { ManageCard } from "./components/magageCard";
+import { getBankNameKr } from "@utils/getBankName";
 
 const data = {
   performanceTitle: "비트밴드 정기공연",
   performanceTeamName: "비트밴드",
   isBooking: true,
-  totalScheduleCount: 2,
+  totalScheduleCount: 3,
   totalPerformanceTicketCount: 100,
   totalPerformanceSoldTicketCount: 50,
   bookingList: [
@@ -50,10 +52,64 @@ const data = {
       accountNumber: "",
       accountHolder: "",
     },
+    {
+      bookingId: 1,
+      bookerName: "황혜린",
+      bookerPhoneNumber: "010-1234-5678",
+      scheduleId: 2,
+      purchaseTicketCount: 3,
+      createdAt: "2024-07-07T12:34:56.789Z",
+      bookingStatus: "REFUND_REQUIRED",
+      scheduleNumber: "SECOND",
+      bankName: "NH_NONGHYUP",
+      accountNumber: "123-12-1234-123",
+      accountHolder: "전희주",
+    },
+    {
+      bookingId: 2,
+      bookerName: "이동훈",
+      bookerPhoneNumber: "010-1234-0000",
+      scheduleId: 1,
+      purchaseTicketCount: 2,
+      createdAt: "2024-07-08T12:34:56.789Z",
+      bookingStatus: "CHECKING_PAYMENT",
+      scheduleNumber: "FIRST",
+      // 예매 확정된 상태이므로 환불계좌 정보 없음
+      bankName: "",
+      accountNumber: "",
+      accountHolder: "",
+    },
+    {
+      bookingId: 1,
+      bookerName: "황혜린",
+      bookerPhoneNumber: "010-1234-5678",
+      scheduleId: 2,
+      purchaseTicketCount: 3,
+      createdAt: "2024-07-07T12:34:56.789Z",
+      bookingStatus: "REFUND_REQUIRED",
+      scheduleNumber: "SECOND",
+      bankName: "NH_NONGHYUP",
+      accountNumber: "123-12-1234-123",
+      accountHolder: "전희주",
+    },
+    {
+      bookingId: 2,
+      bookerName: "이동훈",
+      bookerPhoneNumber: "010-1234-0000",
+      scheduleId: 1,
+      purchaseTicketCount: 2,
+      createdAt: "2024-07-08T12:34:56.789Z",
+      bookingStatus: "BOOKING_CANCELLED",
+      scheduleNumber: "FIRST",
+      // 예매 확정된 상태이므로 환불계좌 정보 없음
+      bankName: "",
+      accountNumber: "",
+      accountHolder: "",
+    },
   ],
 };
 
-type PaymentType =
+export type PaymentType =
   | "CHECKING_PAYMENT"
   | "BOOKING_CONFIRMED"
   | "BOOKING_CANCELLED"
@@ -70,7 +126,7 @@ interface CSVDataType {
 
 // 관리자 페이지에서만 사용해서 공통 type으로 안 뺌
 // TODO : TicketHolderList 내 type으로 빼기
-const convertingBookingStatus = (_bookingStatus: PaymentType): string => {
+export const convertingBookingStatus = (_bookingStatus: PaymentType): string => {
   switch (_bookingStatus) {
     case "CHECKING_PAYMENT":
       return "미입금";
@@ -219,15 +275,49 @@ const TicketHolderList = () => {
       ) : (
         <>
           <S.TicketHolderListWrpper>
-            <Title
-              title={data?.performanceTitle}
-              teamName={data?.performanceTeamName}
-              totalSolidCount={data?.totalPerformanceSoldTicketCount}
-              totalCount={data?.totalPerformanceTicketCount}
-            />
-            <Spacing marginBottom={"2.6"} />
-            <SearchBar handleFilter={handleFilter} status={status} />
-            <Spacing marginBottom={"1.6"} />
+            <S.TitleSticky>
+              <Title
+                title={data?.performanceTitle}
+                teamName={data?.performanceTeamName}
+                totalSolidCount={data?.totalPerformanceSoldTicketCount}
+                totalCount={data?.totalPerformanceTicketCount}
+              />
+              <Spacing marginBottom={"2.6"} />
+              <SearchBar handleFilter={handleFilter} status={status} />
+              <Spacing marginBottom={"1.6"} />
+            </S.TitleSticky>
+
+            <S.ManageCardList>
+              {paymentData.map((item, idx) => {
+                const date = item.createdAt.split("T")[0];
+                const formattedDate = `${date.replace(/-/g, ". ")}`;
+                const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);
+
+                return (
+                  <ManageCard key={idx}>
+                    <S.ManageCardContainer>
+                      {status !== "DEFAULT" && <ManageCard.ManageCheckBox />}
+                      <ManageCard.ManageCardContainer
+                        name={item.bookerName}
+                        phoneNumber={item.bookerPhoneNumber}
+                        ticketCount={item.purchaseTicketCount}
+                        scheduleId={item.scheduleId}
+                        date={formattedDate}
+                        status={bookingStatus}
+                      />
+                    </S.ManageCardContainer>
+                    {status === "REFUND" && (
+                      <ManageCard.ManageAccount
+                        bankName={getBankNameKr(item.bankName)}
+                        accountNumber={item.accountNumber}
+                        accountHolder={item.accountHolder}
+                      />
+                    )}
+                  </ManageCard>
+                );
+              })}
+            </S.ManageCardList>
+
             <S.FooterButtonWrapper>
               <Button onClick={handleButtonClick}>{buttonText}</Button>
             </S.FooterButtonWrapper>

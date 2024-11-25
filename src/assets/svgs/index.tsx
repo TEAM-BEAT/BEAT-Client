@@ -1,4 +1,5 @@
 export { default as BannerBasic } from "./BannerBasic";
+export { default as BtnFilter } from "./BtnFilter";
 export { default as BtnFloating } from "./BtnFloating";
 export { default as BtnModalDelete } from "./BtnModalDelete";
 export { default as ButtonDelete24 } from "./ButtonDelete24";
