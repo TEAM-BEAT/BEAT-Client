@@ -11,7 +11,6 @@ import TextField from "@components/commons/input/textField/TextField";
 import MetaTag from "@components/commons/meta/MetaTag";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
-import TimePicker from "@components/commons/timepicker/TimePicker";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useLogin, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
@@ -25,6 +24,7 @@ import { useAtom } from "jotai";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
+import DateTimePicker from "./components/DateTimePicker";
 import DetailImage from "./components/DetailImage";
 import GenreSelect from "./components/GenreSelect";
 import InputRegisterBox from "./components/InputRegisterBox";
@@ -39,7 +39,7 @@ import {
   handleBankClick,
   handleBankOpen,
   handleChange,
-  handleDateChange,
+  handleDateTimeChange,
   handleGenreSelect,
   handleImagesUpload,
   handleImageUpload,
@@ -434,12 +434,9 @@ const Register = () => {
               <div key={index}>
                 <S.InputDescription>{index + 1}회차</S.InputDescription>
                 <Spacing marginBottom={"1"} />
-                <TimePicker
+                <DateTimePicker
                   value={schedule.performanceDate}
-                  onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
-                  minDate={
-                    index > 0 ? scheduleList[index - 1].performanceDate || undefined : undefined
-                  }
+                  onChangeDateTime={(date) => handleDateTimeChange(index, date, setGigInfo)}
                 />
               </div>
             ))}

@@ -1,5 +1,4 @@
 import {
-  useGetScheduleAvailable,
   usePerformanceDelete,
   usePerformanceEdit,
   usePostPerformance,
@@ -17,7 +16,6 @@ import {
   Stepper,
   TextArea,
   TextField,
-  TimePicker,
 } from "@components/commons";
 
 import { PresignedResponse } from "@apis/domains/files/api";
@@ -29,6 +27,7 @@ import { useHeader, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import DateTimePicker from "@pages/register/components/DateTimePicker";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
@@ -175,6 +174,7 @@ const ModifyManage = () => {
       const scheduleNumber = SCHEDULE_NUMBER[index + 1];
       return { ...existingSchedule, totalTicketCount, scheduleNumber };
     });
+
     dispatch({ type: "SET_FIELD", field: "scheduleModifyRequests", value: updatedScheduleList });
   }, [dataState.totalScheduleCount]);
 
@@ -643,12 +643,12 @@ const ModifyManage = () => {
                   <div key={index}>
                     <S.InputDescription>{index + 1}회차</S.InputDescription>
                     <Spacing marginBottom={"1"} />
-                    <TimePicker
-                      value={dayjs(schedule.performanceDate)}
-                      disabled={isExpired(schedule.performanceDate)}
-                      onChangeValue={(date) => {
+                    <DateTimePicker
+                      value={schedule.performanceDate ? dayjs(schedule.performanceDate) : null}
+                      onChangeDateTime={(date) => {
                         const updatedSchedules = [...dataState.scheduleModifyRequests];
                         updatedSchedules[index].performanceDate = date;
+
                         handleInputChange("scheduleModifyRequests", updatedSchedules);
                       }}
                     />
