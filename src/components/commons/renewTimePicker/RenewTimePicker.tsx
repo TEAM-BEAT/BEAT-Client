@@ -35,17 +35,15 @@ const RenewTimePicker = ({
         </S.ButtonGroup>
 
         <S.TimeGrid>
-          {hours.map((hour, i) => {
-            return (
-              <S.GridButton
-                key={hour}
-                $isActive={selectedHour === hour}
-                onClick={() => onChangeTime("hour", hour)}
-              >
-                {hour}
-              </S.GridButton>
-            );
-          })}
+          {hours.map((hour, i) => (
+            <S.GridButton
+              key={`hour-${i}`}
+              $isActive={selectedHour === hour}
+              onClick={() => onChangeTime("hour", hour)}
+            >
+              {hour}
+            </S.GridButton>
+          ))}
         </S.TimeGrid>
 
         <Spacing marginBottom="2.4" />
