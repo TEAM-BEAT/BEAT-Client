@@ -49,9 +49,9 @@ const RenewTimePicker = ({
         <Spacing marginBottom="2.4" />
 
         <S.TimeGrid>
-          {minutes.map((min) => (
+          {minutes.map((min, i) => (
             <S.GridButton
-              key={min}
+              key={`min-${i}`}
               $isActive={selectedMinute === min}
               onClick={() => onChangeTime("minute", min)}
             >
