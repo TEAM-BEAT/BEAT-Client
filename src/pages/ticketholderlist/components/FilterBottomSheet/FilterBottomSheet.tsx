@@ -24,18 +24,13 @@ const FilterBottomSheet = ({
     onClickOutside();
   };
 
-  const splitArray = (arrayLength: number): number[][] => {
+  const scheduleNumberArray = (arrayLength: number): number[] => {
     const array = Array.from({ length: arrayLength }, (_, idx) => idx + 1);
-    const result: number[][] = [];
 
-    for (let i = 0; i < array.length; i += 2) {
-      result.push(array.slice(i, i + 2));
-    }
-
-    return result;
+    return array;
   };
 
-  const scheduleArray = splitArray(totalScheduleCount);
+  const scheduleArray = scheduleNumberArray(totalScheduleCount);
 
   // 선택된 회차 확인
   const handleScheduleCheck = (schedule: number) => {
@@ -71,24 +66,16 @@ const FilterBottomSheet = ({
         </S.TitleWrapper>
 
         <S.CheckBoxContainer>
-          {scheduleArray.map((row, rowIndex) => (
-            <S.CheckBoxRow key={rowIndex}>
-              {row.map((scheduleNumber) => (
-                <S.CheckBoxLabel key={scheduleNumber}>
-                  <S.CheckBox
-                    type="checkbox"
-                    checked={checkedScheduleList.includes(scheduleNumber)}
-                    onChange={() => handleScheduleCheck(scheduleNumber)}
-                  />
-                  {checkedScheduleList.includes(scheduleNumber) ? (
-                    <S.SelectIcon />
-                  ) : (
-                    <S.UnSelectIcon />
-                  )}
-                  <S.CheckBoxText>{scheduleNumber}회차</S.CheckBoxText>
-                </S.CheckBoxLabel>
-              ))}
-            </S.CheckBoxRow>
+          {scheduleArray.map((scheduleNumber) => (
+            <S.CheckBoxLabel key={scheduleNumber}>
+              <S.CheckBox
+                type="checkbox"
+                checked={checkedScheduleList.includes(scheduleNumber)}
+                onChange={() => handleScheduleCheck(scheduleNumber)}
+              />
+              {checkedScheduleList.includes(scheduleNumber) ? <S.SelectIcon /> : <S.UnSelectIcon />}
+              <S.CheckBoxText>{scheduleNumber}회차</S.CheckBoxText>
+            </S.CheckBoxLabel>
           ))}
         </S.CheckBoxContainer>
 
@@ -96,32 +83,17 @@ const FilterBottomSheet = ({
 
         <S.TitleWrapper>입금 상태</S.TitleWrapper>
         <S.CheckBoxContainer>
-          <S.CheckBoxRow>
-            {bookingStatusList.slice(0, 2).map((status, idx) => (
-              <S.CheckBoxLabel key={idx}>
-                <S.CheckBox
-                  type="checkbox"
-                  checked={checkedStatusList.includes(status)}
-                  onChange={() => handleStatusCheck(status)}
-                />
-                {checkedStatusList.includes(status) ? <S.SelectIcon /> : <S.UnSelectIcon />}
-                <S.CheckBoxText>{status}</S.CheckBoxText>
-              </S.CheckBoxLabel>
-            ))}
-          </S.CheckBoxRow>
-          <S.CheckBoxRow>
-            {bookingStatusList.slice(2, 4).map((status, idx) => (
-              <S.CheckBoxLabel key={idx}>
-                <S.CheckBox
-                  type="checkbox"
-                  checked={checkedStatusList.includes(status)}
-                  onChange={() => handleStatusCheck(status)}
-                />
-                {checkedStatusList.includes(status) ? <S.SelectIcon /> : <S.UnSelectIcon />}
-                <S.CheckBoxText>{status}</S.CheckBoxText>
-              </S.CheckBoxLabel>
-            ))}
-          </S.CheckBoxRow>
+          {bookingStatusList.map((status) => (
+            <S.CheckBoxLabel key={status}>
+              <S.CheckBox
+                type="checkbox"
+                checked={checkedStatusList.includes(status)}
+                onChange={() => handleStatusCheck(status)}
+              />
+              {checkedStatusList.includes(status) ? <S.SelectIcon /> : <S.UnSelectIcon />}
+              <S.CheckBoxText>{status}</S.CheckBoxText>
+            </S.CheckBoxLabel>
+          ))}
         </S.CheckBoxContainer>
         <Spacing marginBottom="3.2" />
         {/* TODO : 선택된 내역 없을 때 버튼 비활성화 하기 */}

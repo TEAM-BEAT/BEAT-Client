@@ -58,14 +58,9 @@ export const BoxDivider = styled.div`
 `;
 
 export const CheckBoxContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-`;
-
-export const CheckBoxRow = styled.section`
-  display: flex;
-  gap: 8.1rem;
+  display: grid;
+  grid-gap: 1.4rem 8.1rem;
+  grid-template-columns: repeat(2, 9rem);
 `;
 
 export const CheckBoxLabel = styled.label`
