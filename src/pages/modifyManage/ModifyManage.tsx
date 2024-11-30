@@ -237,7 +237,7 @@ const ModifyManage = () => {
                 performanceImageId: item.imageId ?? -1,
                 performanceImage: item.imageUrl ?? "",
               }))
-            : [{ performanceImageId: -1, performanceImage: "" }],
+            : [],
           roadAddressName: data.roadAddressName,
           placeDetailAddress: data.placeDetailAddress,
           latitude: data.latitude,
