@@ -47,9 +47,6 @@ const PerformanceIntroduce = ({
     setMarkerPosition({ lat: Number(latitude), lng: Number(longitude) });
   }, []);
 
-  console.log(latitude);
-  console.log(longitude);
-
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
 
