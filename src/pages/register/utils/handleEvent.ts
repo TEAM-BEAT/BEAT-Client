@@ -165,7 +165,7 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
     "roadAddressName",
     "placeDetailAddress",
     "latitude",
-    "longtitude",
+    "longitude",
     ...(!isFree ? ["bankName", "accountNumber", "accountHolder"] : []),
   ];
 

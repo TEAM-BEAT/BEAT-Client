@@ -119,7 +119,7 @@ const Register = () => {
     roadAddressName: "",
     placeDetailAddress: "",
     latitude: "",
-    longtitude: "",
+    longitude: "",
   });
 
   // 구조 분해 할당
@@ -145,7 +145,7 @@ const Register = () => {
     roadAddressName,
     placeDetailAddress,
     latitude,
-    longtitude,
+    longitude,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -310,11 +310,11 @@ const Register = () => {
     setRegisterStep((prev) => prev + 1);
   };
 
-  const setLatitudeLongitude = (latitude: string, longtitude: string) => {
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
     setGigInfo((prev) => ({
       ...prev,
       latitude,
-      longtitude,
+      longitude,
     }));
   };
 
@@ -660,7 +660,7 @@ const Register = () => {
           roadAddressName={roadAddressName}
           placeDetailAddress={placeDetailAddress}
           latitude={latitude}
-          longtitude={longtitude}
+          longitude={longitude}
         />
         <S.FooterContainer>
           <Button onClick={handleComplete} disabled={isPending}>

@@ -94,7 +94,7 @@ export type State = {
   roadAddressName: string;
   placeDetailAddress: string;
   latitude: string;
-  longtitude: string;
+  longitude: string;
 };
 
 type ModifyState = {
@@ -134,7 +134,7 @@ const initialState: State = {
   roadAddressName: "",
   placeDetailAddress: "",
   latitude: "",
-  longtitude: "",
+  longitude: "",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -242,7 +242,7 @@ const ModifyManage = () => {
           roadAddressName: data.roadAddressName,
           placeDetailAddress: data.placeDetailAddress,
           latitude: data.latitude,
-          longtitude: data.longtitude,
+          longitude: data.longitude,
         },
       });
 
@@ -441,9 +441,9 @@ const ModifyManage = () => {
     setModifyState((prevState) => ({ ...prevState, isChecked: !prevState.isChecked }));
   };
 
-  const setLatitudeLongitude = (latitude: string, longtitude: string) => {
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
     handleInputChange("latitude", latitude);
-    handleInputChange("longtitude", longtitude);
+    handleInputChange("longitude", longitude);
   };
 
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
@@ -900,7 +900,7 @@ const ModifyManage = () => {
             roadAddressName={dataState.roadAddressName}
             placeDetailAddress={dataState.placeDetailAddress}
             latitude={dataState.latitude}
-            longtitude={dataState.longtitude}
+            longitude={dataState.longitude}
           />
           <S.FooterContainer>
             <Button onClick={handleComplete}>완료하기</Button>

@@ -13,7 +13,7 @@ import _ from "lodash";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setLatitudeLongitude: (latitude: string, longtitude: string) => void;
+  setLatitudeLongitude: (latitude: string, longitude: string) => void;
   maxLength?: number;
   placeholder: string;
   narrow?: boolean;
