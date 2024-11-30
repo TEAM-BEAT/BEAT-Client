@@ -18,7 +18,7 @@ interface PerformanceIntroduceProps {
   roadAddressName: string;
   placeDetailAddress: string;
   latitude: string;
-  longitude: string;
+  longtitude: string;
 }
 
 type Position = {
@@ -35,7 +35,7 @@ const PerformanceIntroduce = ({
   roadAddressName,
   placeDetailAddress,
   latitude,
-  longitude,
+  longtitude,
 }: PerformanceIntroduceProps) => {
   const { kakao } = window;
   const { showToast, isToastVisible } = useToast();
@@ -44,8 +44,11 @@ const PerformanceIntroduce = ({
   const fullAddress = `${roadAddressName} ${placeDetailAddress}`;
 
   useEffect(() => {
-    setMarkerPosition({ lat: Number(latitude), lng: Number(longitude) });
+    setMarkerPosition({ lat: Number(latitude), lng: Number(longtitude) });
   }, []);
+
+  console.log("latitude", latitude);
+  console.log("longtitude", longtitude);
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -55,8 +58,8 @@ const PerformanceIntroduce = ({
 
   const handleLinkToKakaoMap = () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const url = `https://map.kakao.com/link/map/${performanceVenue},${latitude},${longitude}`;
-    const scheme = `kakaomap://look?p=${latitude},${longitude}`;
+    const url = `https://map.kakao.com/link/map/${performanceVenue},${latitude},${longtitude}`;
+    const scheme = `kakaomap://look?p=${latitude},${longtitude}`;
 
     if (isMobile) {
       window.location.href = scheme;

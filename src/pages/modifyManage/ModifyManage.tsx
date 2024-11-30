@@ -1,7 +1,6 @@
 //todo: 서버 작업 완료시, API schema 재생성 및 ERROR 없애기 (Gig.tsx, ModifyManage.tsx)
 //todo 보완 설명 - 확인해야하는 API 총 4개
 import {
-  useGetScheduleAvailable,
   usePerformanceDelete,
   usePerformanceEdit,
   usePostPerformance,
@@ -25,6 +24,7 @@ import {
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
 import { deletePerformance } from "@apis/domains/performances/api";
+import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
@@ -53,7 +53,6 @@ import {
   Staff,
 } from "./typings/gigInfo";
 import { handleImagesUpload, isAllFieldsFilled } from "./utils/handleEvent";
-import MapInput from "@components/commons/mapInput/MapInput";
 
 const SCHEDULE_NUMBER = {
   1: "FIRST",
