@@ -127,7 +127,7 @@ const Gig = () => {
         roadAddressName={data?.roadAddressName ?? ""}
         placeDetailAddress={data?.placeDetailAddress ?? ""}
         latitude={data?.latitude ?? ""}
-        longtitude={data?.longtitude ?? ""}
+        longitude={data?.longitude ?? ""}
       />
       <S.FooterContainer>
         <Button onClick={handleBookClick} disabled={!isBookingAvailable}>

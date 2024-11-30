@@ -8,6 +8,7 @@ import InputBank from "@components/commons/bank/InputBank";
 import Button from "@components/commons/button/Button";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
@@ -25,6 +26,7 @@ import { useAtom } from "jotai";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
+import DetailImage from "./components/DetailImage";
 import GenreSelect from "./components/GenreSelect";
 import InputRegisterBox from "./components/InputRegisterBox";
 import PosterThumbnail from "./components/PosterThumbnail";
@@ -48,8 +50,6 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
-import DetailImage from "./components/DetailImage";
-import MapInput from "@components/commons/mapInput/MapInput";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -119,7 +119,7 @@ const Register = () => {
     roadAddressName: "",
     placeDetailAddress: "",
     latitude: "",
-    longtitude: "",
+    longitude: "",
   });
 
   // 구조 분해 할당
@@ -145,7 +145,7 @@ const Register = () => {
     roadAddressName,
     placeDetailAddress,
     latitude,
-    longtitude,
+    longitude,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -310,11 +310,11 @@ const Register = () => {
     setRegisterStep((prev) => prev + 1);
   };
 
-  const setLatitudeLongitude = (latitude: string, longtitude: string) => {
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
     setGigInfo((prev) => ({
       ...prev,
       latitude,
-      longtitude,
+      longitude,
     }));
   };
 
@@ -663,7 +663,7 @@ const Register = () => {
           roadAddressName={roadAddressName}
           placeDetailAddress={placeDetailAddress}
           latitude={latitude}
-          longtitude={longtitude}
+          longitude={longitude}
         />
         <S.FooterContainer>
           <Button onClick={handleComplete} disabled={isPending}>

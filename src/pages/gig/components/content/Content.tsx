@@ -37,7 +37,7 @@ interface ContentProps {
   roadAddressName: string;
   placeDetailAddress: string;
   latitude: string;
-  longtitude: string;
+  longitude: string;
 }
 
 const Content = ({
@@ -52,7 +52,7 @@ const Content = ({
   roadAddressName,
   placeDetailAddress,
   latitude,
-  longtitude,
+  longitude,
 }: ContentProps) => {
   const [activeTab, setActiveTab] = useState<TabType>(TAB_TYPE.PERFORMANCE);
 
@@ -74,7 +74,7 @@ const Content = ({
             roadAddressName={roadAddressName}
             placeDetailAddress={placeDetailAddress}
             latitude={latitude}
-            longtitude={longtitude}
+            longitude={longitude}
           />
         )}
 

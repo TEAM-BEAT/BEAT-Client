@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { PerformanceImageList } from "../content/Content";
-import Contact from "./Contact";
-import * as S from "./PerformanceIntroduce.styled";
-import DetailImage from "../detailImage/DetailImage";
+import { IconCheck, KakaoMapArrow } from "@assets/svgs";
 import { Toast } from "@components/commons";
 import { useToast } from "@hooks";
-import { IconCheck, KakaoMapArrow } from "@assets/svgs";
+import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import beat_map_marker from "../../../../../public/svgs/beat_map_marker.svg";
+import { PerformanceImageList } from "../content/Content";
+import DetailImage from "../detailImage/DetailImage";
+import Contact from "./Contact";
+import * as S from "./PerformanceIntroduce.styled";
 
 interface PerformanceIntroduceProps {
   description: string;
@@ -18,7 +18,7 @@ interface PerformanceIntroduceProps {
   roadAddressName: string;
   placeDetailAddress: string;
   latitude: string;
-  longtitude: string;
+  longitude: string;
 }
 
 type Position = {
@@ -35,7 +35,7 @@ const PerformanceIntroduce = ({
   roadAddressName,
   placeDetailAddress,
   latitude,
-  longtitude,
+  longitude,
 }: PerformanceIntroduceProps) => {
   const { kakao } = window;
   const { showToast, isToastVisible } = useToast();
@@ -44,8 +44,11 @@ const PerformanceIntroduce = ({
   const fullAddress = `${roadAddressName} ${placeDetailAddress}`;
 
   useEffect(() => {
-    setMarkerPosition({ lat: Number(latitude), lng: Number(longtitude) });
+    setMarkerPosition({ lat: Number(latitude), lng: Number(longitude) });
   }, []);
+
+  console.log(latitude);
+  console.log(longitude);
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -55,8 +58,8 @@ const PerformanceIntroduce = ({
 
   const handleLinkToKakaoMap = () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const url = `https://map.kakao.com/link/map/${performanceVenue},${latitude},${longtitude}`;
-    const scheme = `kakaomap://look?p=${latitude},${longtitude}`;
+    const url = `https://map.kakao.com/link/map/${performanceVenue},${latitude},${longitude}`;
+    const scheme = `kakaomap://look?p=${latitude},${longitude}`;
 
     if (isMobile) {
       window.location.href = scheme;
