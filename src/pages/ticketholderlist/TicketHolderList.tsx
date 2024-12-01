@@ -125,6 +125,11 @@ interface CSVDataType {
   bookingStatus: string;
 }
 
+export interface FilterListType {
+  scheduleNumber: number[];
+  bookingStatus: string[];
+}
+
 // 관리자 페이지에서만 사용해서 공통 type으로 안 뺌
 // TODO : TicketHolderList 내 type으로 빼기
 export const convertingBookingStatus = (_bookingStatus: PaymentType): string => {
@@ -157,6 +162,11 @@ const TicketHolderList = () => {
   // DEFAULT, PAYMENT, REFUND, DELETE
   const [status, setStatus] = useState("DEFAULT");
   const [buttonText, setButtonText] = useState("예매자 관리하기");
+
+  const [filterList, setFilterList] = useState<FilterListType>({
+    scheduleNumber: [],
+    bookingStatus: [],
+  });
 
   const [openFilter, setOpenFilter] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -210,12 +220,20 @@ const TicketHolderList = () => {
   };
 
   // 필터 바텀시트
-  const handleFilter = () => {
+  const handleFilterSheet = () => {
     if (!openFilter) {
       setOpenFilter(true);
     } else {
       setOpenFilter(false);
     }
+  };
+
+  const handleFilter = (scheduleNumber: number[], bookingStatus: string[]) => {
+    setFilterList({
+      scheduleNumber,
+      bookingStatus,
+    });
+    console.log(scheduleNumber, bookingStatus);
   };
 
   useEffect(() => {
@@ -283,8 +301,13 @@ const TicketHolderList = () => {
                 totalCount={data?.totalPerformanceTicketCount}
               />
               <Spacing marginBottom={"2.6"} />
-              <SearchBar handleFilter={handleFilter} status={status} />
-              <SelectedChips />
+              <SearchBar handleFilterSheet={handleFilterSheet} status={status} />
+              <SelectedChips
+                filterList={filterList}
+                handleFilter={(scheduleNumber, bookingStatus) =>
+                  handleFilter(scheduleNumber, bookingStatus)
+                }
+              />
               <Spacing marginBottom={"1.6"} />
             </S.TitleSticky>
 
@@ -330,7 +353,11 @@ const TicketHolderList = () => {
             <FilterBottomSheet
               isOpen={openFilter}
               totalScheduleCount={data.totalScheduleCount}
-              onClickOutside={handleFilter}
+              onClickOutside={handleFilterSheet}
+              filterList={filterList}
+              handleFilter={(scheduleNumber, bookingStatus) =>
+                handleFilter(scheduleNumber, bookingStatus)
+              }
             />
           </S.TicketHolderListWrpper>
         </>

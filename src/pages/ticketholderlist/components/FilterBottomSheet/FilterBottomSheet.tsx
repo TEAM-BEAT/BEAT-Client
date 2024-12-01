@@ -1,24 +1,39 @@
-import React, { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import * as S from "./FilterBottomSheet.styled";
 import { BottomSheet, Button, Spacing } from "@components/commons";
+import {
+  convertingBookingStatus,
+  FilterListType,
+  PaymentType,
+} from "@pages/ticketholderlist/TicketHolderList";
 
 interface FilterBottomSheetProps {
   isOpen: boolean;
   totalScheduleCount: number;
   children?: ReactNode;
   onClickOutside?: () => void;
+  filterList: FilterListType[];
+  handleFilter: (scheduleNumber: number[], bookingStatus: string[]) => void;
 }
 
-const bookingStatusList = ["미입금", "입금 완료", "환불 요청", "취소 완료"];
+const bookingStatusList = [
+  "CHECKING_PAYMENT",
+  "BOOKING_CONFIRMED",
+  "REFUND_REQUIRED",
+  "BOOKING_CANCELLED",
+];
 
 const FilterBottomSheet = ({
   isOpen,
   onClickOutside,
   totalScheduleCount,
-  children,
+  handleFilter,
+  filterList,
 }: FilterBottomSheetProps) => {
-  const [checkedStatusList, setCheckedStatusList] = useState<string[]>([]);
-  const [checkedScheduleList, setCheckedScheduleList] = useState<number[]>([]);
+  const [checkedStatusList, setCheckedStatusList] = useState<string[]>(filterList.bookingStatus);
+  const [checkedScheduleList, setCheckedScheduleList] = useState<number[]>(
+    filterList.scheduleNumber
+  );
 
   const handleWrapperClick = () => {
     onClickOutside();
@@ -31,6 +46,14 @@ const FilterBottomSheet = ({
   };
 
   const scheduleArray = scheduleNumberArray(totalScheduleCount);
+
+  useEffect(() => {
+    const newScheduleNumbers = filterList.scheduleNumber.map((item) => item);
+    const newBookingStatuses = filterList.bookingStatus.map((item) => item);
+
+    setCheckedScheduleList(newScheduleNumbers);
+    setCheckedStatusList(newBookingStatuses);
+  }, [filterList]);
 
   // 선택된 회차 확인
   const handleScheduleCheck = (schedule: number) => {
@@ -48,6 +71,8 @@ const FilterBottomSheet = ({
 
   const handleCilckBtn = () => {
     onClickOutside();
+
+    handleFilter(checkedScheduleList, checkedStatusList);
   };
 
   const handleClickRefresh = () => {
@@ -91,7 +116,7 @@ const FilterBottomSheet = ({
                 onChange={() => handleStatusCheck(status)}
               />
               {checkedStatusList.includes(status) ? <S.SelectIcon /> : <S.UnSelectIcon />}
-              <S.CheckBoxText>{status}</S.CheckBoxText>
+              <S.CheckBoxText>{convertingBookingStatus(status as PaymentType)}</S.CheckBoxText>
             </S.CheckBoxLabel>
           ))}
         </S.CheckBoxContainer>
