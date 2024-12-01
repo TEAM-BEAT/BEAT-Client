@@ -1,11 +1,8 @@
 import { useState, ReactNode, useEffect } from "react";
 import * as S from "./FilterBottomSheet.styled";
 import { BottomSheet, Button, Spacing } from "@components/commons";
-import {
-  convertingBookingStatus,
-  FilterListType,
-  PaymentType,
-} from "@pages/ticketholderlist/TicketHolderList";
+import { FilterListType, PaymentType } from "@pages/ticketholderlist/TicketHolderList";
+import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 
 interface FilterBottomSheetProps {
   isOpen: boolean;

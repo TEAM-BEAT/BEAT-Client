@@ -3,6 +3,7 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import { AxiosResponse } from "axios";
+import { convertingScheduleNumber } from "@constants/convertingScheduleNumber";
 
 // 예매자 목록 조회 API (GET)
 export interface getTicketReq {
@@ -15,11 +16,18 @@ export interface getTicketReq {
 type TicketRetrieveResponse = components["schemas"]["TicketRetrieveResponse"];
 
 export const getTicketRetrieve = async (
-  formData: getTicketReq
+  formData: getTicketReq,
+  filterList
 ): Promise<TicketRetrieveResponse | null> => {
   try {
+    const params = new URLSearchParams();
+    filterList.scheduleNumber.map((item) =>
+      params.append("scheduleNumber", convertingScheduleNumber(item))
+    );
+    filterList.bookingStatus.map((item) => params.append("bookingStatus", item));
+
     const response: AxiosResponse<ApiResponseType<TicketRetrieveResponse>> = await get(
-      `tickets/${formData.performanceId}`
+      `tickets/${formData.performanceId}?${params.toString()}`
     );
 
     return response.data.data;

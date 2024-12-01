@@ -1,4 +1,3 @@
-import { convertingBookingStatus } from "@pages/ticketholderlist/TicketHolderList";
 import * as S from "./ManageCardContainer.styled";
 import { PaymentType } from "@pages/ticketholderlist/TicketHolderList";
 

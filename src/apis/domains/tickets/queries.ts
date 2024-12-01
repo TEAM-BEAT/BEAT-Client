@@ -15,10 +15,10 @@ const QUERY_KEY = {
   LIST: "list",
 };
 
-export const useTicketRetrive = (formData: getTicketReq) => {
+export const useTicketRetrive = (formData: getTicketReq, filterList) => {
   return useQuery({
     queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST],
-    queryFn: () => getTicketRetrieve(formData),
+    queryFn: () => getTicketRetrieve(formData, filterList),
     // staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
   });

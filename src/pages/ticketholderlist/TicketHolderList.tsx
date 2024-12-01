@@ -17,6 +17,7 @@ import { BookingListProps } from "@pages/ticketholderlist/types/bookingListType"
 import { ManageCard } from "./components/manageCard";
 import { getBankNameKr } from "@utils/getBankName";
 import SelectedChips from "./components/selectedChips/SelectedChips";
+import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 
 const data = {
   performanceTitle: "비트밴드 정기공연",
@@ -130,23 +131,6 @@ export interface FilterListType {
   bookingStatus: string[];
 }
 
-// 관리자 페이지에서만 사용해서 공통 type으로 안 뺌
-// TODO : TicketHolderList 내 type으로 빼기
-export const convertingBookingStatus = (_bookingStatus: PaymentType): string => {
-  switch (_bookingStatus) {
-    case "CHECKING_PAYMENT":
-      return "미입금";
-    case "BOOKING_CONFIRMED":
-      return "입금 완료";
-    case "BOOKING_CANCELLED":
-      return "취소 완료";
-    case "REFUND_REQUIRED":
-      return "환불 요청";
-    default:
-      throw new Error("알 수 없는 상태입니다.");
-  }
-};
-
 const headers = [
   { label: "예매일시", key: "createdAt" },
   { label: "회차", key: "scheduleNumber" },
@@ -175,7 +159,10 @@ const TicketHolderList = () => {
 
   const { performanceId } = useParams();
 
-  const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
+  const { data, isLoading, refetch } = useTicketRetrive(
+    { performanceId: Number(performanceId) },
+    filterList
+  );
 
   const actions = {
     PAYMENT: {
@@ -228,13 +215,22 @@ const TicketHolderList = () => {
     }
   };
 
-  const handleFilter = (scheduleNumber: number[], bookingStatus: string[]) => {
+  const handleFilter = async (scheduleNumber: number[], bookingStatus: string[]) => {
     setFilterList({
       scheduleNumber,
       bookingStatus,
     });
-    console.log(scheduleNumber, bookingStatus);
   };
+
+  // 필터 변경될 때마다 GET API 요청
+  useEffect(() => {
+    const fetchData = async () => {
+      const refetchData = await refetch();
+      setPaymentData(refetchData?.data?.bookingList ?? []);
+    };
+
+    fetchData();
+  }, [filterList]);
 
   useEffect(() => {
     setPaymentData(data?.bookingList ?? []);
@@ -264,7 +260,7 @@ const TicketHolderList = () => {
       );
       setCSVDataArr(tempCSVDataArr);
     }
-  }, [data]);
+  }, [data, paymentData]);
 
   const navigate = useNavigate();
 
