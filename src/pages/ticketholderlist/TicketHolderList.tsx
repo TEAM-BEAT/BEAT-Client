@@ -19,103 +19,11 @@ import { getBankNameKr } from "@utils/getBankName";
 import SelectedChips from "./components/selectedChips/SelectedChips";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 
-const data = {
-  performanceTitle: "비트밴드 정기공연",
-  performanceTeamName: "비트밴드",
-  isBooking: true,
-  totalScheduleCount: 3,
-  totalPerformanceTicketCount: 100,
-  totalPerformanceSoldTicketCount: 50,
-  bookingList: [
-    {
-      bookingId: 1,
-      bookerName: "황혜린",
-      bookerPhoneNumber: "010-1234-5678",
-      scheduleId: 2,
-      purchaseTicketCount: 3,
-      createdAt: "2024-07-07T12:34:56.789Z",
-      bookingStatus: "REFUND_REQUIRED",
-      scheduleNumber: "SECOND",
-      bankName: "NH_NONGHYUP",
-      accountNumber: "123-12-1234-123",
-      accountHolder: "전희주",
-    },
-    {
-      bookingId: 2,
-      bookerName: "이동훈",
-      bookerPhoneNumber: "010-1234-0000",
-      scheduleId: 1,
-      purchaseTicketCount: 2,
-      createdAt: "2024-07-08T12:34:56.789Z",
-      bookingStatus: "BOOKING_CONFIRMED",
-      scheduleNumber: "FIRST",
-      // 예매 확정된 상태이므로 환불계좌 정보 없음
-      bankName: "",
-      accountNumber: "",
-      accountHolder: "",
-    },
-    {
-      bookingId: 1,
-      bookerName: "황혜린",
-      bookerPhoneNumber: "010-1234-5678",
-      scheduleId: 2,
-      purchaseTicketCount: 3,
-      createdAt: "2024-07-07T12:34:56.789Z",
-      bookingStatus: "REFUND_REQUIRED",
-      scheduleNumber: "SECOND",
-      bankName: "NH_NONGHYUP",
-      accountNumber: "123-12-1234-123",
-      accountHolder: "전희주",
-    },
-    {
-      bookingId: 2,
-      bookerName: "이동훈",
-      bookerPhoneNumber: "010-1234-0000",
-      scheduleId: 1,
-      purchaseTicketCount: 2,
-      createdAt: "2024-07-08T12:34:56.789Z",
-      bookingStatus: "CHECKING_PAYMENT",
-      scheduleNumber: "FIRST",
-      // 예매 확정된 상태이므로 환불계좌 정보 없음
-      bankName: "",
-      accountNumber: "",
-      accountHolder: "",
-    },
-    {
-      bookingId: 1,
-      bookerName: "황혜린",
-      bookerPhoneNumber: "010-1234-5678",
-      scheduleId: 2,
-      purchaseTicketCount: 3,
-      createdAt: "2024-07-07T12:34:56.789Z",
-      bookingStatus: "REFUND_REQUIRED",
-      scheduleNumber: "SECOND",
-      bankName: "NH_NONGHYUP",
-      accountNumber: "123-12-1234-123",
-      accountHolder: "전희주",
-    },
-    {
-      bookingId: 2,
-      bookerName: "이동훈",
-      bookerPhoneNumber: "010-1234-0000",
-      scheduleId: 1,
-      purchaseTicketCount: 2,
-      createdAt: "2024-07-08T12:34:56.789Z",
-      bookingStatus: "BOOKING_CANCELLED",
-      scheduleNumber: "FIRST",
-      // 예매 확정된 상태이므로 환불계좌 정보 없음
-      bankName: "",
-      accountNumber: "",
-      accountHolder: "",
-    },
-  ],
-};
-
 export type PaymentType =
   | "CHECKING_PAYMENT"
   | "BOOKING_CONFIRMED"
   | "BOOKING_CANCELLED"
-  | "REFUND_REQUIRED";
+  | "REFUND_REQUESTED";
 
 interface CSVDataType {
   createdAt: string;
@@ -198,6 +106,24 @@ const TicketHolderList = () => {
   const handleStatus = (status: string) => {
     setStatus(status);
     setOpenMenu(false);
+
+    switch (status) {
+      case "PAYMENT":
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: ["CHECKING_PAYMENT"],
+        });
+      case "REFUND":
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: ["REFUND_REQUESTED"],
+        });
+      case "DELETE":
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: ["CHECKING_PAYMENT", "BOOKING_CONFIRMED", "REFUND_REQUESTED"],
+        });
+    }
   };
 
   // 바텀시트 닫기
@@ -230,7 +156,7 @@ const TicketHolderList = () => {
     };
 
     fetchData();
-  }, [filterList]);
+  }, [filterList, status]);
 
   useEffect(() => {
     setPaymentData(data?.bookingList ?? []);
@@ -265,7 +191,11 @@ const TicketHolderList = () => {
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
-    navigate("/gig-manage");
+    if (status === "DEFAULT") {
+      navigate("/gig-manage");
+    } else {
+      setStatus("DEFAULT");
+    }
   };
 
   const { setHeader } = useHeader();
@@ -298,12 +228,15 @@ const TicketHolderList = () => {
               />
               <Spacing marginBottom={"2.6"} />
               <SearchBar handleFilterSheet={handleFilterSheet} status={status} />
-              <SelectedChips
-                filterList={filterList}
-                handleFilter={(scheduleNumber, bookingStatus) =>
-                  handleFilter(scheduleNumber, bookingStatus)
-                }
-              />
+              {status === "DEFAULT" && (
+                <SelectedChips
+                  filterList={filterList}
+                  handleFilter={(scheduleNumber, bookingStatus) =>
+                    handleFilter(scheduleNumber, bookingStatus)
+                  }
+                />
+              )}
+
               <Spacing marginBottom={"1.6"} />
             </S.TitleSticky>
 
