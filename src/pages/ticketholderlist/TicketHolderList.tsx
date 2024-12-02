@@ -1,6 +1,7 @@
 import { useTicketPatch, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
+import Toast from "@components/commons/toast/Toast";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal, useToast } from "@hooks";
 import { useEffect, useState } from "react";
@@ -71,14 +72,61 @@ const TicketHolderList = () => {
     { performanceId: Number(performanceId) },
     filterList
   );
+  const { showToast, isToastVisible } = useToast();
+  const { openConfirm, closeConfirm } = useModal();
 
-  // 체크된 리스트 확인
   const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
 
+  // 체크된 리스트 확인
   const handleBookingIdCheck = (bookingId: number) => {
     setCheckedBookingId((prev) =>
       prev.includes(bookingId) ? prev.filter((id) => id !== bookingId) : [...prev, bookingId]
     );
+  };
+
+  const {
+    mutate: updateMutate,
+    mutateAsync: updateMutateAsync,
+    isPending: updateIsPending,
+  } = useTicketUpdate();
+
+  const handlePaymentFixAxiosFunc = () => {
+    if (updateIsPending) {
+      return;
+    }
+    // 예매 완료 PUT API 요청
+    // paymentData에 accountHolder, accountNumber, bankName 제거
+    const filteredPaymentData = paymentData.map(
+      ({ bankName, accountNumber, accountHolder, ...rest }) => ({
+        ...rest,
+        bookingStatus: checkedBookingId.includes(rest.bookingId)
+          ? "BOOKING_CONFIRMED"
+          : rest.bookingStatus,
+      })
+    );
+
+    updateMutate({
+      performanceId: Number(performanceId),
+      performanceTitle: data?.performanceTitle,
+      totalScheduleCount: data?.totalScheduleCount,
+      bookingList: filteredPaymentData,
+    });
+    closeConfirm();
+    showToast();
+    setTimeout(() => {
+      // window.location.reload();
+    }, 1000);
+  };
+
+  const handlePaymentFixBtn = () => {
+    openConfirm({
+      title: "입금 처리시 예매확정 문자가 발송돼요.",
+      subTitle: "예매자에게 입금이 확인되었음을 알려드릴게요!",
+      okText: "입금 처리하기",
+      noText: "아니요",
+      okCallback: handlePaymentFixAxiosFunc,
+      noCallback: closeConfirm,
+    });
   };
 
   const actions = {
@@ -86,6 +134,7 @@ const TicketHolderList = () => {
       text: "입금 처리하기",
       // TODO : 예매 확정 팝업
       action: () => {
+        handlePaymentFixBtn();
         setStatus("DEFAULT"), setFilterList({ scheduleNumber: [], bookingStatus: [] });
       },
     },

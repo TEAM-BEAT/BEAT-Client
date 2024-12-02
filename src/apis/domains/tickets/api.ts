@@ -57,7 +57,7 @@ export const putTicketUpdate = async (
 ): Promise<SuccessResponseVoid | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets",
+      "tickets/update",
       formData
     );
 
