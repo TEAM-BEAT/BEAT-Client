@@ -132,10 +132,6 @@ const TicketHolderList = () => {
       noText: "아니요",
       okCallback: () => {
         handlePaymentFixAxiosFunc();
-        // 혹시 테스트 과정에서 로그 확인을 위해 새로고침을 지운다면 아래 주석 해제
-        // setStatus("DEFAULT");
-        // setFilterList({ scheduleNumber: [], bookingStatus: [] });
-        // setCheckedBookingId([]);
       },
       noCallback: closeConfirm,
     });
@@ -156,10 +152,6 @@ const TicketHolderList = () => {
       noText: "아니요",
       okCallback: () => {
         handlePaymentRefundAxiosFunc();
-        // 혹시 테스트 과정에서 로그 확인을 위해 새로고침을 지운다면 아래 주석 해제
-        // setStatus("DEFAULT");
-        // setFilterList({ scheduleNumber: [], bookingStatus: [] });
-        // setCheckedBookingId([]);
       },
       noCallback: closeConfirm,
     });
@@ -200,10 +192,6 @@ const TicketHolderList = () => {
       noText: "아니요",
       okCallback: () => {
         handlePaymentDeleteAxiosFunc();
-        // 혹시 테스트 과정에서 로그 확인을 위해 새로고침을 지운다면 아래 주석 해제
-        // setStatus("DEFAULT");
-        // setFilterList({ scheduleNumber: [], bookingStatus: [] });
-        // setCheckedBookingId([]);
       },
       noCallback: closeConfirm,
     });
@@ -415,7 +403,7 @@ const TicketHolderList = () => {
             </S.TitleSticky>
 
             <S.ManageCardList>
-              {paymentData.map((item) => {
+              {paymentData?.map((item) => {
                 const date = item.createdAt.split("T")[0];
                 const formattedDate = `${date.replace(/-/g, ". ")}`;
                 const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);

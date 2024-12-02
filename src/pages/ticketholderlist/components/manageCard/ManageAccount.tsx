@@ -1,7 +1,4 @@
 import * as S from "./ManageAccount.styled";
-import { IconCheck } from "@assets/svgs";
-import Toast from "@components/commons/toast/Toast";
-import { useToast } from "@hooks";
 
 interface ManageAccountProps {
   bankName: string;

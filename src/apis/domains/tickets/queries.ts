@@ -1,5 +1,4 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import {
   getTicketReq,
   getTicketRetrieve,
@@ -22,7 +21,6 @@ export const useTicketRetrive = (formData: getTicketReq, filterList) => {
   return useQuery({
     queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST],
     queryFn: () => getTicketRetrieve(formData, filterList),
-    // staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
