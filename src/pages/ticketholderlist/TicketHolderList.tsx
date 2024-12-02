@@ -7,9 +7,8 @@ import {
 } from "@apis/domains/tickets/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
-import Toast from "@components/commons/toast/Toast";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader, useModal, useToast } from "@hooks";
+import { useHeader, useModal } from "@hooks";
 import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,6 +24,9 @@ import { ManageCard } from "./components/manageCard";
 import { getBankNameKr } from "@utils/getBankName";
 import SelectedChips from "./components/selectedChips/SelectedChips";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
+import { IconCheck } from "@assets/svgs";
+import Toast from "@components/commons/toast/Toast";
+import { useToast } from "@hooks";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -78,11 +80,10 @@ const TicketHolderList = () => {
     { performanceId: Number(performanceId) },
     filterList
   );
-  const { showToast, isToastVisible } = useToast();
   const { openConfirm, closeConfirm } = useModal();
 
   const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
-
+  const { showToast, isToastVisible } = useToast();
   // 체크된 리스트 확인
   const handleBookingIdCheck = (bookingId: number) => {
     setCheckedBookingId((prev) =>
@@ -118,7 +119,6 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
-    showToast();
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -180,7 +180,6 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
-    showToast();
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -225,7 +224,6 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
-    showToast();
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -381,6 +379,12 @@ const TicketHolderList = () => {
     });
   }, [setHeader]);
 
+  const handleCopyClipBoard = (text: string) => {
+    navigator.clipboard.writeText(text);
+
+    showToast();
+  };
+
   return (
     <>
       <MetaTag title="예매자 확인 및 상태변경" />
@@ -440,6 +444,7 @@ const TicketHolderList = () => {
                         bankName={getBankNameKr(item.bankName)}
                         accountNumber={item.accountNumber}
                         accountHolder={item.accountHolder}
+                        handleCopyClipBoard={handleCopyClipBoard}
                       />
                     )}
                   </ManageCard>
@@ -464,6 +469,9 @@ const TicketHolderList = () => {
                 handleFilter(scheduleNumber, bookingStatus)
               }
             />
+            <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+              클립보드에 복사되었습니다!
+            </Toast>
           </S.TicketHolderListWrpper>
         </>
       )}
