@@ -356,6 +356,21 @@ const ModifyManage = () => {
           S3Urls.map(async (url, index) => {
             const file = files[index];
 
+            // s3에 이미지가 있는 경우
+            if (file.startsWith("http")) {
+              if (index < posterUrls.length) {
+                posterUrls[index] = file;
+              } else if (index < posterUrls.length + castUrls.length) {
+                castUrls[index - posterUrls.length] = file;
+              } else if (index < posterUrls.length + castUrls.length + staffUrls.length) {
+                staffUrls[index - posterUrls.length - castUrls.length] = file;
+              } else {
+                performanceUrls[index - posterUrls.length - castUrls.length - staffUrls.length] =
+                  file;
+              }
+              return;
+            }
+
             //여기 왜 fetch하는거지? 그냥 받아오면 안되는건가? -> blob 메서드를 사용하려면 response 타입이 필요하기 때문
             const response = await fetch(file);
 
