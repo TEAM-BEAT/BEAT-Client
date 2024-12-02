@@ -72,21 +72,36 @@ const TicketHolderList = () => {
     filterList
   );
 
+  // 체크된 리스트 확인
+  const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
+
+  const handleBookingIdCheck = (bookingId: number) => {
+    setCheckedBookingId((prev) =>
+      prev.includes(bookingId) ? prev.filter((id) => id !== bookingId) : [...prev, bookingId]
+    );
+  };
+
   const actions = {
     PAYMENT: {
       text: "입금 처리하기",
       // TODO : 예매 확정 팝업
-      action: console.log("입금 처리"),
+      action: () => {
+        setStatus("DEFAULT"), setFilterList({ scheduleNumber: [], bookingStatus: [] });
+      },
     },
     REFUND: {
       text: "환불 처리하기",
       // TODO : 환불 처리 팝업
-      action: () => console.log("환불"),
+      action: () => {
+        setStatus("DEFAULT"), setFilterList({ scheduleNumber: [], bookingStatus: [] });
+      },
     },
     DELETE: {
       text: "예매자 삭제하기",
       // TODO : 예매자 삭제 팝업
-      action: () => console.log("예매자 삭제"),
+      action: () => {
+        setStatus("DEFAULT"), setFilterList({ scheduleNumber: [], bookingStatus: [] });
+      },
     },
     DEFAULT: {
       text: "예매자 관리하기",
@@ -106,23 +121,31 @@ const TicketHolderList = () => {
   const handleStatus = (status: string) => {
     setStatus(status);
     setOpenMenu(false);
-
     switch (status) {
       case "PAYMENT":
         setFilterList({
           scheduleNumber: [],
           bookingStatus: ["CHECKING_PAYMENT"],
         });
+        break;
       case "REFUND":
         setFilterList({
           scheduleNumber: [],
           bookingStatus: ["REFUND_REQUESTED"],
         });
+        break;
       case "DELETE":
         setFilterList({
           scheduleNumber: [],
           bookingStatus: ["CHECKING_PAYMENT", "BOOKING_CONFIRMED", "REFUND_REQUESTED"],
         });
+        break;
+      default:
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: [],
+        });
+        break;
     }
   };
 
@@ -207,7 +230,7 @@ const TicketHolderList = () => {
       subText: "CSV",
       leftOnClick: handleNavigateBack,
       // TODO : rightOnClick CSV 다운로드로 변경
-      // rightOnClick: ,
+      // rightOnClick:,
     });
   }, [setHeader]);
 
@@ -241,15 +264,21 @@ const TicketHolderList = () => {
             </S.TitleSticky>
 
             <S.ManageCardList>
-              {paymentData.map((item, idx) => {
+              {paymentData.map((item) => {
                 const date = item.createdAt.split("T")[0];
                 const formattedDate = `${date.replace(/-/g, ". ")}`;
                 const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);
 
                 return (
-                  <ManageCard key={idx}>
+                  <ManageCard key={item.bookingId}>
                     <S.ManageCardContainer>
-                      {status !== "DEFAULT" && <ManageCard.ManageCheckBox />}
+                      {status !== "DEFAULT" && (
+                        <ManageCard.ManageCheckBox
+                          bookingId={item.bookingId}
+                          checkedBookingId={checkedBookingId}
+                          handleBookingIdCheck={handleBookingIdCheck}
+                        />
+                      )}
                       <ManageCard.ManageCardContainer
                         name={item.bookerName}
                         phoneNumber={item.bookerPhoneNumber}

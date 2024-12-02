@@ -16,7 +16,7 @@ interface FilterBottomSheetProps {
 const bookingStatusList = [
   "CHECKING_PAYMENT",
   "BOOKING_CONFIRMED",
-  "REFUND_REQUIRED",
+  "REFUND_REQUESTED",
   "BOOKING_CANCELLED",
 ];
 

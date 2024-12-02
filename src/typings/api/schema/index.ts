@@ -259,6 +259,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * 헬스 체크 조회 API
+         * @description 서버 상태를 확인하기 위한 헬스 체크 API로, 정상적으로 동작할 경우 'OK' 문자열을 반환합니다.
+         */
         get: operations["healthcheck"];
         put?: never;
         post?: never;
@@ -584,7 +588,7 @@ export interface components {
             status?: number;
             message?: string;
         };
-        "com.beat.global.common.dto.SuccessResponse": {
+        "com.beat.global.common.dto.SuccessResponseJava.lang.Void": {
             /** Format: int32 */
             status?: number;
             message?: string;
@@ -667,6 +671,77 @@ export interface components {
             staffRole?: string;
             staffPhoto?: string;
         };
+        "com.beat.domain.performance.application.dto.modify.PerformanceModifyResponse": {
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            /** @enum {string} */
+            genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+            /** Format: int32 */
+            runningTime?: number;
+            performanceDescription?: string;
+            performanceAttentionNote?: string;
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            accountHolder?: string;
+            posterImage?: string;
+            performanceTeamName?: string;
+            performanceVenue?: string;
+            roadAddressName?: string;
+            placeDetailAddress?: string;
+            latitude?: string;
+            longitude?: string;
+            performanceContact?: string;
+            performancePeriod?: string;
+            /** Format: int32 */
+            ticketPrice?: number;
+            /** Format: int32 */
+            totalScheduleCount?: number;
+            scheduleModifyResponses?: components["schemas"]["com.beat.domain.performance.application.dto.modify.schedule.ScheduleModifyResponse"][];
+            castModifyResponses?: components["schemas"]["com.beat.domain.performance.application.dto.modify.cast.CastModifyResponse"][];
+            staffModifyResponses?: components["schemas"]["com.beat.domain.performance.application.dto.modify.staff.StaffModifyResponse"][];
+            performanceImageModifyResponses?: components["schemas"]["com.beat.domain.performance.application.dto.modify.performanceImage.PerformanceImageModifyResponse"][];
+        };
+        "com.beat.domain.performance.application.dto.modify.cast.CastModifyResponse": {
+            /** Format: int64 */
+            castId?: number;
+            castName?: string;
+            castRole?: string;
+            castPhoto?: string;
+        };
+        "com.beat.domain.performance.application.dto.modify.performanceImage.PerformanceImageModifyResponse": {
+            /** Format: int64 */
+            performanceImageId?: number;
+            performanceImage?: string;
+        };
+        "com.beat.domain.performance.application.dto.modify.schedule.ScheduleModifyResponse": {
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: date-time */
+            performanceDate?: string;
+            /** Format: int32 */
+            totalTicketCount?: number;
+            /** Format: int32 */
+            dueDate?: number;
+            /** @enum {string} */
+            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
+        };
+        "com.beat.domain.performance.application.dto.modify.staff.StaffModifyResponse": {
+            /** Format: int64 */
+            staffId?: number;
+            staffName?: string;
+            staffRole?: string;
+            staffPhoto?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.modify.PerformanceModifyResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.modify.PerformanceModifyResponse"];
+        };
         "com.beat.admin.application.dto.request.CarouselHandleRequest": {
             carousels?: (components["schemas"]["com.beat.admin.application.dto.request.CarouselHandleRequest$PromotionGenerateRequest"] | components["schemas"]["com.beat.admin.application.dto.request.CarouselHandleRequest$PromotionModifyRequest"])[];
         };
@@ -698,9 +773,38 @@ export interface components {
             external?: boolean;
             type: string;
         };
+        "com.beat.admin.application.dto.response.CarouselHandleAllResponse": {
+            modifiedPromotions?: components["schemas"]["com.beat.admin.application.dto.response.CarouselHandleAllResponse$PromotionResponse"][];
+        };
+        "com.beat.admin.application.dto.response.CarouselHandleAllResponse$PromotionResponse": {
+            /** Format: int64 */
+            promotionId?: number;
+            newImageUrl?: string;
+            isExternal?: boolean;
+            redirectUrl?: string;
+            carouselNumber?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.admin.application.dto.response.CarouselHandleAllResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.admin.application.dto.response.CarouselHandleAllResponse"];
+        };
         "com.beat.global.auth.client.dto.MemberLoginRequest": {
             /** @enum {string} */
             socialType: "KAKAO";
+        };
+        "com.beat.domain.member.dto.LoginSuccessResponse": {
+            accessToken?: string;
+            refreshToken?: string;
+            nickname?: string;
+            role?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.member.dto.LoginSuccessResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.member.dto.LoginSuccessResponse"];
         };
         "com.beat.domain.performance.application.dto.create.CastRequest": {
             castName?: string;
@@ -753,6 +857,77 @@ export interface components {
             staffRole?: string;
             staffPhoto?: string;
         };
+        "com.beat.domain.performance.application.dto.create.CastResponse": {
+            /** Format: int64 */
+            castId?: number;
+            castName?: string;
+            castRole?: string;
+            castPhoto?: string;
+        };
+        "com.beat.domain.performance.application.dto.create.PerformanceImageResponse": {
+            /** Format: int64 */
+            imageId?: number;
+            imageUrl?: string;
+        };
+        "com.beat.domain.performance.application.dto.create.PerformanceResponse": {
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            /** @enum {string} */
+            genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+            /** Format: int32 */
+            runningTime?: number;
+            performanceDescription?: string;
+            performanceAttentionNote?: string;
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            accountHolder?: string;
+            posterImage?: string;
+            performanceTeamName?: string;
+            performanceVenue?: string;
+            roadAddressName?: string;
+            placeDetailAddress?: string;
+            latitude?: string;
+            longitude?: string;
+            performanceContact?: string;
+            performancePeriod?: string;
+            /** Format: int32 */
+            ticketPrice?: number;
+            /** Format: int32 */
+            totalScheduleCount?: number;
+            scheduleList?: components["schemas"]["com.beat.domain.performance.application.dto.create.ScheduleResponse"][];
+            castList?: components["schemas"]["com.beat.domain.performance.application.dto.create.CastResponse"][];
+            staffList?: components["schemas"]["com.beat.domain.performance.application.dto.create.StaffResponse"][];
+            performanceImageList?: components["schemas"]["com.beat.domain.performance.application.dto.create.PerformanceImageResponse"][];
+        };
+        "com.beat.domain.performance.application.dto.create.ScheduleResponse": {
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: date-time */
+            performanceDate?: string;
+            /** Format: int32 */
+            totalTicketCount?: number;
+            /** Format: int32 */
+            dueDate?: number;
+            /** @enum {string} */
+            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
+        };
+        "com.beat.domain.performance.application.dto.create.StaffResponse": {
+            /** Format: int64 */
+            staffId?: number;
+            staffName?: string;
+            staffRole?: string;
+            staffPhoto?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.create.PerformanceResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.create.PerformanceResponse"];
+        };
         "com.beat.domain.booking.application.dto.MemberBookingRequest": {
             /** Format: int64 */
             scheduleId?: number;
@@ -766,6 +941,35 @@ export interface components {
             bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
             /** Format: int32 */
             totalPaymentAmount?: number;
+        };
+        "com.beat.domain.booking.application.dto.MemberBookingResponse": {
+            /** Format: int64 */
+            bookingId?: number;
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int32 */
+            purchaseTicketCount?: number;
+            /** @enum {string} */
+            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
+            bookerName?: string;
+            bookerPhoneNumber?: string;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            /** Format: int32 */
+            totalPaymentAmount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.MemberBookingResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.MemberBookingResponse"];
         };
         "com.beat.domain.booking.application.dto.GuestBookingRequest": {
             /** Format: int64 */
@@ -783,11 +987,77 @@ export interface components {
             /** @enum {string} */
             bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
         };
+        "com.beat.domain.booking.application.dto.GuestBookingResponse": {
+            /** Format: int64 */
+            bookingId?: number;
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int32 */
+            purchaseTicketCount?: number;
+            /** @enum {string} */
+            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
+            bookerName?: string;
+            bookerPhoneNumber?: string;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            /** Format: int32 */
+            totalPaymentAmount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.GuestBookingResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.GuestBookingResponse"];
+        };
         "com.beat.domain.booking.application.dto.GuestBookingRetrieveRequest": {
             bookerName?: string;
             birthDate?: string;
             bookerPhoneNumber?: string;
             password?: string;
+        };
+        "com.beat.domain.booking.application.dto.GuestBookingRetrieveResponse": {
+            /** Format: int64 */
+            bookingId?: number;
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            /** Format: date-time */
+            performanceDate?: string;
+            performanceVenue?: string;
+            /** Format: int32 */
+            purchaseTicketCount?: number;
+            /** @enum {string} */
+            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
+            bookerName?: string;
+            performanceContact?: string;
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            accountHolder?: string;
+            /** Format: int32 */
+            dueDate?: number;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+            /** Format: date-time */
+            createdAt?: string;
+            posterImage?: string;
+            /** Format: int32 */
+            totalPaymentAmount?: number;
+        };
+        "com.beat.global.common.dto.SuccessResponseJava.util.ListCom.beat.domain.booking.application.dto.GuestBookingRetrieveResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.GuestBookingRetrieveResponse"][];
         };
         "com.beat.domain.booking.application.dto.BookingRefundRequest": {
             /** Format: int64 */
@@ -797,9 +1067,399 @@ export interface components {
             accountNumber?: string;
             accountHolder?: string;
         };
+        "com.beat.domain.booking.application.dto.BookingRefundResponse": {
+            /** Format: int64 */
+            bookingId?: number;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            accountHolder?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.BookingRefundResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.BookingRefundResponse"];
+        };
         "com.beat.domain.booking.application.dto.BookingCancelRequest": {
             /** Format: int64 */
             bookingId?: number;
+        };
+        "com.beat.domain.booking.application.dto.BookingCancelResponse": {
+            /** Format: int64 */
+            bookingId?: number;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.BookingCancelResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.BookingCancelResponse"];
+        };
+        "com.beat.domain.member.dto.AccessTokenGetSuccess": {
+            accessToken?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.member.dto.AccessTokenGetSuccess": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.member.dto.AccessTokenGetSuccess"];
+        };
+        "com.beat.domain.booking.application.dto.TicketDetail": {
+            /** Format: int64 */
+            bookingId?: number;
+            bookerName?: string;
+            bookerPhoneNumber?: string;
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: int32 */
+            purchaseTicketCount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+            scheduleNumber?: string;
+            bankName?: string;
+            accountNumber?: string;
+            accountHolder?: string;
+        };
+        "com.beat.domain.booking.application.dto.TicketRetrieveResponse": {
+            performanceTitle?: string;
+            performanceTeamName?: string;
+            /** Format: int32 */
+            totalScheduleCount?: number;
+            /** Format: int32 */
+            totalPerformanceTicketCount?: number;
+            /** Format: int32 */
+            totalPerformanceSoldTicketCount?: number;
+            bookingList?: components["schemas"]["com.beat.domain.booking.application.dto.TicketDetail"][];
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.TicketRetrieveResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.TicketRetrieveResponse"];
+        };
+        "com.beat.domain.schedule.application.dto.TicketAvailabilityResponse": {
+            /** Format: int64 */
+            scheduleId?: number;
+            scheduleNumber?: string;
+            /** Format: int32 */
+            totalTicketCount?: number;
+            /** Format: int32 */
+            soldTicketCount?: number;
+            /** Format: int32 */
+            availableTicketCount?: number;
+            /** Format: int32 */
+            requestedTicketCount?: number;
+            isAvailable?: boolean;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.schedule.application.dto.TicketAvailabilityResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.schedule.application.dto.TicketAvailabilityResponse"];
+        };
+        "com.beat.domain.performance.application.dto.modify.PerformanceModifyDetailResponse": {
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            /** @enum {string} */
+            genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
+            /** Format: int32 */
+            runningTime?: number;
+            performanceDescription?: string;
+            performanceAttentionNote?: string;
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            accountHolder?: string;
+            posterImage?: string;
+            performanceTeamName?: string;
+            performanceVenue?: string;
+            roadAddressName?: string;
+            placeDetailAddress?: string;
+            latitude?: string;
+            longitude?: string;
+            performanceContact?: string;
+            performancePeriod?: string;
+            /** Format: int32 */
+            ticketPrice?: number;
+            /** Format: int32 */
+            totalScheduleCount?: number;
+            isBookerExist?: boolean;
+            scheduleList?: components["schemas"]["com.beat.domain.performance.application.dto.create.ScheduleResponse"][];
+            castList?: components["schemas"]["com.beat.domain.performance.application.dto.create.CastResponse"][];
+            staffList?: components["schemas"]["com.beat.domain.performance.application.dto.create.StaffResponse"][];
+            performanceImageList?: components["schemas"]["com.beat.domain.performance.application.dto.create.PerformanceImageResponse"][];
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.modify.PerformanceModifyDetailResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.modify.PerformanceModifyDetailResponse"];
+        };
+        "com.beat.domain.performance.application.dto.makerPerformance.MakerPerformanceDetailResponse": {
+            /** Format: int64 */
+            performanceId?: number;
+            genre?: string;
+            performanceTitle?: string;
+            posterImage?: string;
+            performancePeriod?: string;
+            /** Format: int32 */
+            minDueDate?: number;
+        };
+        "com.beat.domain.performance.application.dto.makerPerformance.MakerPerformanceResponse": {
+            /** Format: int64 */
+            userId?: number;
+            performances?: components["schemas"]["com.beat.domain.performance.application.dto.makerPerformance.MakerPerformanceDetailResponse"][];
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.makerPerformance.MakerPerformanceResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.makerPerformance.MakerPerformanceResponse"];
+        };
+        "com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailCastResponse": {
+            /** Format: int64 */
+            castId?: number;
+            castName?: string;
+            castRole?: string;
+            castPhoto?: string;
+        };
+        "com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailImageResponse": {
+            /** Format: int64 */
+            performanceImageId?: number;
+            performanceImage?: string;
+        };
+        "com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailResponse": {
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            performancePeriod?: string;
+            scheduleList?: components["schemas"]["com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailScheduleResponse"][];
+            /** Format: int32 */
+            ticketPrice?: number;
+            genre?: string;
+            posterImage?: string;
+            /** Format: int32 */
+            runningTime?: number;
+            performanceVenue?: string;
+            roadAddressName?: string;
+            placeDetailAddress?: string;
+            latitude?: string;
+            longitude?: string;
+            performanceDescription?: string;
+            performanceAttentionNote?: string;
+            performanceContact?: string;
+            performanceTeamName?: string;
+            castList?: components["schemas"]["com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailCastResponse"][];
+            staffList?: components["schemas"]["com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailStaffResponse"][];
+            /** Format: int32 */
+            minDueDate?: number;
+            performanceImageList?: components["schemas"]["com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailImageResponse"][];
+        };
+        "com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailScheduleResponse": {
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: date-time */
+            performanceDate?: string;
+            scheduleNumber?: string;
+            /** Format: int32 */
+            dueDate?: number;
+            isBooking?: boolean;
+        };
+        "com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailStaffResponse": {
+            /** Format: int64 */
+            staffId?: number;
+            staffName?: string;
+            staffRole?: string;
+            staffPhoto?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailResponse"];
+        };
+        "com.beat.domain.performance.application.dto.bookingPerformanceDetail.BookingPerformanceDetailResponse": {
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            performancePeriod?: string;
+            scheduleList?: components["schemas"]["com.beat.domain.performance.application.dto.bookingPerformanceDetail.BookingPerformanceDetailScheduleResponse"][];
+            /** Format: int32 */
+            ticketPrice?: number;
+            genre?: string;
+            posterImage?: string;
+            performanceVenue?: string;
+            performanceTeamName?: string;
+            bankName?: string;
+            accountNumber?: string;
+            accountHolder?: string;
+        };
+        "com.beat.domain.performance.application.dto.bookingPerformanceDetail.BookingPerformanceDetailScheduleResponse": {
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: date-time */
+            performanceDate?: string;
+            scheduleNumber?: string;
+            /** Format: int32 */
+            availableTicketCount?: number;
+            isBooking?: boolean;
+            /** Format: int32 */
+            dueDate?: number;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.bookingPerformanceDetail.BookingPerformanceDetailResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.bookingPerformanceDetail.BookingPerformanceDetailResponse"];
+        };
+        "com.beat.domain.performance.application.dto.home.HomeFindAllResponse": {
+            promotionList?: components["schemas"]["com.beat.domain.performance.application.dto.home.HomePromotionDetail"][];
+            performanceList?: components["schemas"]["com.beat.domain.performance.application.dto.home.HomePerformanceDetail"][];
+        };
+        "com.beat.domain.performance.application.dto.home.HomePerformanceDetail": {
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            performancePeriod?: string;
+            /** Format: int32 */
+            ticketPrice?: number;
+            /** Format: int32 */
+            dueDate?: number;
+            genre?: string;
+            posterImage?: string;
+            performanceVenue?: string;
+        };
+        "com.beat.domain.performance.application.dto.home.HomePromotionDetail": {
+            /** Format: int64 */
+            promotionId?: number;
+            promotionPhoto?: string;
+            /** Format: int64 */
+            performanceId?: number;
+            redirectUrl?: string;
+            isExternal?: boolean;
+            /** @enum {string} */
+            carouselNumber?: "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN";
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.home.HomeFindAllResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.performance.application.dto.home.HomeFindAllResponse"];
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.global.external.s3.application.dto.PerformanceMakerPresignedUrlFindAllResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.global.external.s3.application.dto.PerformanceMakerPresignedUrlFindAllResponse"];
+        };
+        "com.beat.global.external.s3.application.dto.PerformanceMakerPresignedUrlFindAllResponse": {
+            performanceMakerPresignedUrls?: {
+                [key: string]: {
+                    [key: string]: string;
+                };
+            };
+        };
+        "com.beat.domain.booking.application.dto.MemberBookingRetrieveResponse": {
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int64 */
+            bookingId?: number;
+            /** Format: int64 */
+            scheduleId?: number;
+            /** Format: int64 */
+            performanceId?: number;
+            performanceTitle?: string;
+            /** Format: date-time */
+            performanceDate?: string;
+            performanceVenue?: string;
+            /** Format: int32 */
+            purchaseTicketCount?: number;
+            /** @enum {string} */
+            scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
+            bookerName?: string;
+            performanceContact?: string;
+            /** @enum {string} */
+            bankName?: "NH_NONGHYUP" | "KAKAOBANK" | "KB_KOOKMIN" | "TOSSBANK" | "SHINHAN" | "WOORI" | "IBK_GIUP" | "HANA" | "SAEMAUL" | "BUSAN" | "IMBANK_DAEGU" | "SINHYEOP" | "WOOCHAEGUK" | "SCJEIL" | "SUHYEOP" | "NONE";
+            accountNumber?: string;
+            accountHolder?: string;
+            /** Format: int32 */
+            dueDate?: number;
+            /** @enum {string} */
+            bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+            /** Format: date-time */
+            createdAt?: string;
+            posterImage?: string;
+            /** Format: int32 */
+            totalPaymentAmount?: number;
+        };
+        "com.beat.global.common.dto.SuccessResponseJava.util.ListCom.beat.domain.booking.application.dto.MemberBookingRetrieveResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.domain.booking.application.dto.MemberBookingRetrieveResponse"][];
+        };
+        "com.beat.admin.application.dto.response.UserFindAllResponse": {
+            users?: components["schemas"]["com.beat.admin.application.dto.response.UserFindAllResponse$UserFindResponse"][];
+        };
+        "com.beat.admin.application.dto.response.UserFindAllResponse$UserFindResponse": {
+            /** Format: int64 */
+            id?: number;
+            role?: string;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.admin.application.dto.response.UserFindAllResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.admin.application.dto.response.UserFindAllResponse"];
+        };
+        "com.beat.admin.application.dto.response.CarouselFindAllResponse": {
+            carousels?: components["schemas"]["com.beat.admin.application.dto.response.CarouselFindAllResponse$CarouselFindResponse"][];
+        };
+        "com.beat.admin.application.dto.response.CarouselFindAllResponse$CarouselFindResponse": {
+            /** Format: int64 */
+            promotionId?: number;
+            /** @enum {string} */
+            carouselNumber?: "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN";
+            newImageUrl?: string;
+            isExternal?: boolean;
+            redirectUrl?: string;
+            /** Format: int64 */
+            performanceId?: number;
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.admin.application.dto.response.CarouselFindAllResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.admin.application.dto.response.CarouselFindAllResponse"];
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.global.external.s3.application.dto.CarouselPresignedUrlFindAllResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.global.external.s3.application.dto.CarouselPresignedUrlFindAllResponse"];
+        };
+        "com.beat.global.external.s3.application.dto.CarouselPresignedUrlFindAllResponse": {
+            carouselPresignedUrls?: {
+                [key: string]: string;
+            };
+        };
+        "com.beat.global.common.dto.SuccessResponseCom.beat.global.external.s3.application.dto.BannerPresignedUrlFindResponse": {
+            /** Format: int32 */
+            status?: number;
+            message?: string;
+            data?: components["schemas"]["com.beat.global.external.s3.application.dto.BannerPresignedUrlFindResponse"];
+        };
+        "com.beat.global.external.s3.application.dto.BannerPresignedUrlFindResponse": {
+            bannerPresignedUrl?: string;
         };
     };
     responses: never;
@@ -829,7 +1489,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.lang.Void"];
                 };
             };
             /** @description 이미 결제가 완료된 티켓의 상태는 변경할 수 없습니다. */
@@ -841,7 +1501,7 @@ export interface operations {
                     "*/*": components["schemas"]["com.beat.global.common.dto.ErrorResponse"];
                 };
             };
-            /** @description 회차 정보를 찾을 수 없습니다. */
+            /** @description 공연 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -871,7 +1531,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.lang.Void"];
                 };
             };
             /** @description 해당 예매 내역을 찾을 수 없습니다. */
@@ -904,7 +1564,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.lang.Void"];
                 };
             };
             /** @description 해당 예매 내역을 찾을 수 없습니다. */
@@ -937,10 +1597,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.modify.PerformanceModifyResponse"];
                 };
             };
-            /** @description 티켓 가격은 음수일 수 없습니다. */
+            /** @description 예매자가 존재하여 가격을 수정할 수 없습니다. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -988,7 +1648,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.create.PerformanceResponse"];
                 };
             };
             /** @description 필수 데이터가 누락되었습니다. */
@@ -1026,7 +1686,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.admin.application.dto.response.CarouselFindAllResponse"];
                 };
             };
             /** @description 회원이 없습니다. */
@@ -1059,7 +1719,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.admin.application.dto.response.CarouselHandleAllResponse"];
                 };
             };
             /** @description 해당 공연 정보를 찾을 수 없습니다. */
@@ -1094,7 +1754,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.member.dto.LoginSuccessResponse"];
                 };
             };
             /** @description 로그인 요청이 유효하지 않습니다. */
@@ -1132,7 +1792,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.lang.Void"];
                 };
             };
             /** @description 회원 정보를 찾을 수 없습니다. */
@@ -1165,10 +1825,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.MemberBookingResponse"];
                 };
             };
-            /** @description 잘못된 요청 형식입니다. */
+            /** @description 필수 데이터가 누락되었습니다. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1207,7 +1867,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.GuestBookingResponse"];
                 };
             };
             /** @description 필수 데이터가 누락되었습니다. */
@@ -1219,7 +1879,7 @@ export interface operations {
                     "*/*": components["schemas"]["com.beat.global.common.dto.ErrorResponse"];
                 };
             };
-            /** @description 회차 정보를 찾을 수 없습니다. */
+            /** @description 공연 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1249,7 +1909,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.util.ListCom.beat.domain.booking.application.dto.GuestBookingRetrieveResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1282,7 +1942,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.BookingRefundResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1315,7 +1975,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.BookingCancelResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1338,7 +1998,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description 서버가 정상적으로 동작 중입니다. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1366,7 +2026,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.member.dto.AccessTokenGetSuccess"];
                 };
             };
             /** @description 유효하지 않은 토큰입니다. */
@@ -1400,10 +2060,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.TicketRetrieveResponse"];
                 };
             };
-            /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
+            /** @description 공연 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1435,10 +2095,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.booking.application.dto.TicketRetrieveResponse"];
                 };
             };
-            /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
+            /** @description 공연 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1468,7 +2128,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.schedule.application.dto.TicketAvailabilityResponse"];
                 };
             };
             /** @description 잘못된 데이터 형식입니다. */
@@ -1517,7 +2177,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.modify.PerformanceModifyDetailResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -1548,7 +2208,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.lang.Void"];
                 };
             };
             /** @description 공연의 소유자가 아니거나 예매자가 있어 삭제할 수 없습니다. */
@@ -1586,7 +2246,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.makerPerformance.MakerPerformanceResponse"];
                 };
             };
             /** @description 회원 정보를 찾을 수 없습니다. */
@@ -1617,7 +2277,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.performanceDetail.PerformanceDetailResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -1648,7 +2308,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.bookingPerformanceDetail.BookingPerformanceDetailResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -1679,7 +2339,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.domain.performance.application.dto.home.HomeFindAllResponse"];
                 };
             };
         };
@@ -1704,7 +2364,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.global.external.s3.application.dto.PerformanceMakerPresignedUrlFindAllResponse"];
                 };
             };
             /** @description S3 PreSigned url을 받아오기에 실패했습니다. */
@@ -1733,7 +2393,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseJava.util.ListCom.beat.domain.booking.application.dto.MemberBookingRetrieveResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1762,7 +2422,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.admin.application.dto.response.UserFindAllResponse"];
                 };
             };
             /** @description 회원이 없습니다 */
@@ -1793,7 +2453,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.global.external.s3.application.dto.CarouselPresignedUrlFindAllResponse"];
                 };
             };
             /** @description 회원이 없습니다. */
@@ -1824,7 +2484,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponse"];
+                    "*/*": components["schemas"]["com.beat.global.common.dto.SuccessResponseCom.beat.global.external.s3.application.dto.BannerPresignedUrlFindResponse"];
                 };
             };
             /** @description 회원이 없습니다. */
