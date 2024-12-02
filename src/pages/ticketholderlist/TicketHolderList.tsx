@@ -318,7 +318,8 @@ const TicketHolderList = () => {
       setPaymentData(refetchSearchData?.data?.bookingList ?? []);
     };
 
-    searchWord ? fetchSearchData() : fetchData();
+    // TODO : 서버에서 검색어 2글자 이상으로 넘겨줬는데, 기-디에 화면에 어떻게 표현할지 물어보기
+    searchWord.length >= 2 ? fetchSearchData() : fetchData();
   }, [filterList, status, debouncedQuery]);
 
   useEffect(() => {
@@ -462,7 +463,7 @@ const TicketHolderList = () => {
             />
             <FilterBottomSheet
               isOpen={openFilter}
-              totalScheduleCount={data.totalScheduleCount}
+              totalScheduleCount={data?.totalScheduleCount}
               onClickOutside={handleFilterSheet}
               filterList={filterList}
               handleFilter={(scheduleNumber, bookingStatus) =>
