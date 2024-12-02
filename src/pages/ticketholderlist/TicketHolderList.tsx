@@ -28,6 +28,7 @@ import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 import { IconCheck } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
 import { useToast } from "@hooks";
+import NonExistent from "./components/nonExistent/NonExistent.";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -414,44 +415,47 @@ const TicketHolderList = () => {
 
               <Spacing marginBottom={"1.6"} />
             </S.TitleSticky>
+            {paymentData?.length ? (
+              <S.ManageCardList>
+                {paymentData?.map((item) => {
+                  const date = item.createdAt.split("T")[0];
+                  const formattedDate = `${date.replace(/-/g, ". ")}`;
+                  const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);
 
-            <S.ManageCardList>
-              {paymentData?.map((item) => {
-                const date = item.createdAt.split("T")[0];
-                const formattedDate = `${date.replace(/-/g, ". ")}`;
-                const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);
-
-                return (
-                  <ManageCard key={item.bookingId}>
-                    <S.ManageCardContainer>
-                      {status !== "DEFAULT" && (
-                        <ManageCard.ManageCheckBox
-                          bookingId={item.bookingId}
-                          checkedBookingId={checkedBookingId}
-                          handleBookingIdCheck={handleBookingIdCheck}
+                  return (
+                    <ManageCard key={item.bookingId}>
+                      <S.ManageCardContainer>
+                        {status !== "DEFAULT" && (
+                          <ManageCard.ManageCheckBox
+                            bookingId={item.bookingId}
+                            checkedBookingId={checkedBookingId}
+                            handleBookingIdCheck={handleBookingIdCheck}
+                          />
+                        )}
+                        <ManageCard.ManageCardContainer
+                          name={item.bookerName}
+                          phoneNumber={item.bookerPhoneNumber}
+                          ticketCount={item.purchaseTicketCount}
+                          scheduleNumber={convertingNumber(item.scheduleNumber)}
+                          date={formattedDate}
+                          status={bookingStatus}
+                        />
+                      </S.ManageCardContainer>
+                      {status === "REFUND" && (
+                        <ManageCard.ManageAccount
+                          bankName={getBankNameKr(item.bankName)}
+                          accountNumber={item.accountNumber}
+                          accountHolder={item.accountHolder}
+                          handleCopyClipBoard={handleCopyClipBoard}
                         />
                       )}
-                      <ManageCard.ManageCardContainer
-                        name={item.bookerName}
-                        phoneNumber={item.bookerPhoneNumber}
-                        ticketCount={item.purchaseTicketCount}
-                        scheduleNumber={convertingNumber(item.scheduleNumber)}
-                        date={formattedDate}
-                        status={bookingStatus}
-                      />
-                    </S.ManageCardContainer>
-                    {status === "REFUND" && (
-                      <ManageCard.ManageAccount
-                        bankName={getBankNameKr(item.bankName)}
-                        accountNumber={item.accountNumber}
-                        accountHolder={item.accountHolder}
-                        handleCopyClipBoard={handleCopyClipBoard}
-                      />
-                    )}
-                  </ManageCard>
-                );
-              })}
-            </S.ManageCardList>
+                    </ManageCard>
+                  );
+                })}
+              </S.ManageCardList>
+            ) : (
+              <NonExistent status={status} />
+            )}
 
             <S.FooterButtonWrapper>
               <Button onClick={handleButtonClick}>{buttonText}</Button>
