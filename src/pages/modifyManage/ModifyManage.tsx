@@ -1,3 +1,5 @@
+//todo: 서버 작업 완료시, API schema 재생성 및 ERROR 없애기 (Gig.tsx, ModifyManage.tsx)
+//todo 보완 설명 - 확인해야하는 API 총 4개
 import {
   usePerformanceDelete,
   usePerformanceEdit,
@@ -21,6 +23,7 @@ import {
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
 import { deletePerformance } from "@apis/domains/performances/api";
+import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
@@ -87,6 +90,11 @@ export type State = {
   performanceImageModifyRequests: PerformanceImageModifyRequest[];
   //타입 하나 덜 있어서, 요청 자체가 500에러 뱉어냄.
   //모든 곳에서 performanceImageModifyRequests 가 적용되도록 변경해야함
+  //placeName: "",
+  roadAddressName: string;
+  placeDetailAddress: string;
+  latitude: string;
+  longitude: string;
 };
 
 type ModifyState = {
@@ -123,6 +131,10 @@ const initialState: State = {
   castModifyRequests: [],
   staffModifyRequests: [],
   performanceImageModifyRequests: [],
+  roadAddressName: "",
+  placeDetailAddress: "",
+  latitude: "",
+  longitude: "",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -226,7 +238,11 @@ const ModifyManage = () => {
                 performanceImageId: item.imageId ?? -1,
                 performanceImage: item.imageUrl ?? "",
               }))
-            : [{ performanceImageId: -1, performanceImage: "" }],
+            : [],
+          roadAddressName: data.roadAddressName,
+          placeDetailAddress: data.placeDetailAddress,
+          latitude: data.latitude,
+          longitude: data.longitude,
         },
       });
 
@@ -340,6 +356,21 @@ const ModifyManage = () => {
           S3Urls.map(async (url, index) => {
             const file = files[index];
 
+            // s3에 이미지가 있는 경우
+            if (file.startsWith("http")) {
+              if (index < posterUrls.length) {
+                posterUrls[index] = file;
+              } else if (index < posterUrls.length + castUrls.length) {
+                castUrls[index - posterUrls.length] = file;
+              } else if (index < posterUrls.length + castUrls.length + staffUrls.length) {
+                staffUrls[index - posterUrls.length - castUrls.length] = file;
+              } else {
+                performanceUrls[index - posterUrls.length - castUrls.length - staffUrls.length] =
+                  file;
+              }
+              return;
+            }
+
             //여기 왜 fetch하는거지? 그냥 받아오면 안되는건가? -> blob 메서드를 사용하려면 response 타입이 필요하기 때문
             const response = await fetch(file);
 
@@ -424,6 +455,12 @@ const ModifyManage = () => {
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setModifyState((prevState) => ({ ...prevState, isChecked: !prevState.isChecked }));
   };
+
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
+    handleInputChange("latitude", latitude);
+    handleInputChange("longitude", longitude);
+  };
+
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
   useEffect(() => {
     if (modifyState.isFree) {
@@ -582,6 +619,35 @@ const ModifyManage = () => {
               />
             </InputModifyManageBox>
             <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연장 이름">
+              <TextField
+                type="input"
+                name="performanceVenue"
+                value={dataState.performanceVenue}
+                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
+                placeholder="ex) 홍익아트홀 303호 소극장"
+                cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연장 주소">
+              <MapInput
+                name="roadAddressName"
+                value={dataState.roadAddressName}
+                onChange={(e) => handleInputChange("roadAddressName", e.target.value)}
+                setLatitudeLongitude={setLatitudeLongitude}
+                placeholder="지번, 도로명, 건물명으로 검색해주세요."
+                cap={true}
+              />
+              <Spacing marginBottom="1.4" />
+              <TextField
+                name="placeDetailAddress"
+                value={dataState.placeDetailAddress}
+                onChange={(e) => handleInputChange("placeDetailAddress", e.target.value)}
+                placeholder="건물명, 층 수 등의 상세주소를 입력해주세요."
+              />
+            </InputModifyManageBox>
+            <S.Divider />
             <ModifyDetailImage
               value={dataState.performanceImageModifyRequests}
               onImagesUpload={(performanceImage) =>
@@ -656,19 +722,6 @@ const ModifyManage = () => {
                 );
               })}
             </TimePickerModifyManageBox>
-            <S.Divider />
-            <InputModifyManageBox isDisabled={false} title="공연 장소">
-              <TextField
-                isDisabled={false}
-                type="input"
-                name="performanceVenue"
-                value={dataState.performanceVenue}
-                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
-                placeholder="ex:) 홍익아트홀 303호 소극장"
-                maxLength={15}
-                cap={true}
-              />
-            </InputModifyManageBox>
             <S.Divider />
             <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
               <TextField
@@ -858,6 +911,11 @@ const ModifyManage = () => {
               })) as Staff[]
             }
             performanceImageList={dataState.performanceImageModifyRequests}
+            performanceVenue={dataState.performanceVenue}
+            roadAddressName={dataState.roadAddressName}
+            placeDetailAddress={dataState.placeDetailAddress}
+            latitude={dataState.latitude}
+            longitude={dataState.longitude}
           />
           <S.FooterContainer>
             <Button onClick={handleComplete}>완료하기</Button>

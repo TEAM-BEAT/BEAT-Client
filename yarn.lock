@@ -1568,6 +1568,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.22.15":
+  version: 7.26.0
+  resolution: "@babel/runtime@npm:7.26.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/12c01357e0345f89f4f7e8c0e81921f2a3e3e101f06e8eaa18a382b517376520cd2fa8c237726eb094dab25532855df28a7baaf1c26342b52782f6936b07c287
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.24.7, @babel/template@npm:^7.25.0":
   version: 7.25.0
   resolution: "@babel/template@npm:7.25.0"
@@ -3953,6 +3962,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4":
+  version: 4.17.13
+  resolution: "@types/lodash@npm:4.17.13"
+  checksum: 10c0/c3d0b7efe7933ac0369b99f2f7bff9240d960680fdb74b41ed4bd1b3ca60cca1e31fe4046d9abbde778f941a41bc2a75eb629abf8659fa6c27b66efbbb0802a9
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:^4.14.167":
   version: 4.17.7
   resolution: "@types/lodash@npm:4.17.7"
@@ -5364,6 +5380,7 @@ __metadata:
     "@storybook/test": "npm:^8.1.11"
     "@tanstack/react-query": "npm:^5.51.1"
     "@tanstack/react-query-devtools": "npm:^5.51.1"
+    "@types/lodash": "npm:^4"
     "@types/prettier-linter-helpers": "npm:^1"
     "@types/qs": "npm:^6"
     "@types/react": "npm:^18.3.3"
@@ -5393,6 +5410,7 @@ __metadata:
     husky: "npm:^8.0.0"
     jotai: "npm:^2.8.4"
     lint-staged: "npm:^15.2.7"
+    lodash: "npm:^4.17.21"
     lottie-react: "npm:^2.4.0"
     openapi-typescript: "npm:^7.4.1"
     postcss: "npm:^8.4.38"
@@ -5410,6 +5428,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-helmet-async: "npm:^2.0.5"
     react-image-crop: "npm:^11.0.6"
+    react-kakao-maps-sdk: "npm:^1.1.27"
     react-lottie-player: "npm:^2.0.0"
     react-router-dom: "npm:^6.24.0"
     react-time-picker: "npm:^7.0.0"
@@ -9354,6 +9373,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"kakao.maps.d.ts@npm:^0.1.39":
+  version: 0.1.40
+  resolution: "kakao.maps.d.ts@npm:0.1.40"
+  checksum: 10c0/16eef0d9846311921ae3c5c020a8769ab8d1f894b2a6f1aef869a83648462982c2891bc8ea174665345290483bf73feb6ae264273cee38a40a1adbb17aa6862f
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0, keyv@npm:^4.5.4":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -11285,6 +11311,19 @@ __metadata:
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
   checksum: 10c0/f2f1e60010c683479e74c63f96b09fb41603527cd131a9959e2aee1e5a8b0caf270b365e5ca77d4a6b18aae659b60a86150bb3979073528877029b35aecd2072
+  languageName: node
+  linkType: hard
+
+"react-kakao-maps-sdk@npm:^1.1.27":
+  version: 1.1.27
+  resolution: "react-kakao-maps-sdk@npm:1.1.27"
+  dependencies:
+    "@babel/runtime": "npm:^7.22.15"
+    kakao.maps.d.ts: "npm:^0.1.39"
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+    react-dom: ^16.8 || ^17 || ^18
+  checksum: 10c0/1cc0dd855f1b8c0ba3d089ada352ecab8569d5a6cd9344baebc3161cf64d0670ff633a422636289e549b42da6b38997ddb7a4d3ddf6b616f93f9b2e96e04eae1
   languageName: node
   linkType: hard
 

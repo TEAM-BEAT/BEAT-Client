@@ -8,6 +8,7 @@ import InputBank from "@components/commons/bank/InputBank";
 import Button from "@components/commons/button/Button";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
@@ -114,6 +115,11 @@ const Register = () => {
       // staffPhoto: "", // 스태프 사진 URL
       // },
     ],
+    //placeName: "",
+    roadAddressName: "",
+    placeDetailAddress: "",
+    latitude: "",
+    longitude: "",
   });
 
   // 구조 분해 할당
@@ -136,6 +142,10 @@ const Register = () => {
     scheduleList,
     castList,
     staffList,
+    roadAddressName,
+    placeDetailAddress,
+    latitude,
+    longitude,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -300,6 +310,14 @@ const Register = () => {
     setRegisterStep((prev) => prev + 1);
   };
 
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
+    setGigInfo((prev) => ({
+      ...prev,
+      latitude,
+      longitude,
+    }));
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [registerStep]);
@@ -390,6 +408,35 @@ const Register = () => {
             />
           </InputRegisterBox>
           <S.Divider />
+          <InputRegisterBox title="공연장 이름">
+            <TextField
+              type="input"
+              name="performanceVenue"
+              value={performanceVenue}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="ex) 홍익아트홀 303호 소극장"
+              cap={true}
+            />
+          </InputRegisterBox>
+          <S.Divider />
+          <InputRegisterBox title="공연장 주소">
+            <MapInput
+              name="roadAddressName"
+              value={roadAddressName}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              setLatitudeLongitude={setLatitudeLongitude}
+              placeholder="지번, 도로명, 건물명으로 검색해주세요."
+              cap={true}
+            />
+            <Spacing marginBottom="1.4" />
+            <TextField
+              name="placeDetailAddress"
+              value={placeDetailAddress}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="건물명, 층 수 등의 상세주소를 입력해주세요."
+            />
+          </InputRegisterBox>
+          <S.Divider />
           <DetailImage
             value={performanceImageList}
             onImagesUpload={(performanceImage) => handleImagesUpload(performanceImage, setGigInfo)}
@@ -441,18 +488,6 @@ const Register = () => {
               </div>
             ))}
           </TimePickerRegisterBox>
-          <S.Divider />
-          <InputRegisterBox title="공연 장소">
-            <TextField
-              type="input"
-              name="performanceVenue"
-              value={performanceVenue}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="ex) 홍익아트홀 303호 소극장"
-              maxLength={15}
-              cap={true}
-            />
-          </InputRegisterBox>
           <S.Divider />
           <InputRegisterBox title="회차별 티켓 판매수">
             <TextField
@@ -621,6 +656,11 @@ const Register = () => {
             ...cast,
             staffId: index + 1,
           }))}
+          performanceVenue={performanceVenue}
+          roadAddressName={roadAddressName}
+          placeDetailAddress={placeDetailAddress}
+          latitude={latitude}
+          longitude={longitude}
         />
         <S.FooterContainer>
           <Button onClick={handleComplete} disabled={isPending}>
