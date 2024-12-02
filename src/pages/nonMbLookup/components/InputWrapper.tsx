@@ -18,8 +18,6 @@ interface InputProps {
 const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps) => {
   const navigate = useNavigate();
 
-  const { mutateAsync, isPending } = usePostGuestBookingList();
-
   const [nonMemberInfo, setNonMemberInfo] = useState({
     bookerName: "",
     birth: "",
@@ -57,6 +55,12 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
     }
   }, [bookerName, birth, number, password]);
 
+  const { mutateAsync, isPending } = usePostGuestBookingList(
+    nonMemberInfo.bookerName,
+    nonMemberInfo.number,
+    nonMemberInfo.password
+  );
+  
   const postUserData = async (postData: postGuestBookingReq) => {
     if (isPending) {
       return;
@@ -68,7 +72,14 @@ const InputWrapper = ({ btnOn, btnOff, isReadyRequest, dataStatus }: InputProps)
       dataStatus(404);
     } else {
       dataStatus(200);
-      navigate("/lookup", { state: bookingData });
+      navigate("/lookup", {
+        state: {
+          bookingData,
+          bookerName: nonMemberInfo.bookerName,
+          number: nonMemberInfo.number,
+          password: nonMemberInfo.password,
+        },
+      });
     }
   };
 

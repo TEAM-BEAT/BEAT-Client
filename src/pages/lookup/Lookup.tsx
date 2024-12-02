@@ -42,18 +42,17 @@ const Lookup = () => {
   const { confirmCancelAction, toastMessage } = useCancelBooking();
   const [lookUpList, setLookUpList] = useState<LookupProps[] | null>(null);
   const { data, isLoading, refetch } = useGetMemberBookingList();
-
   const navigate = useNavigate();
 
   const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
     if (totalPaymentAmount === 0) {
       setSelectedBookingId(bookingId);
-      confirmCancelAction({ bookingId: bookingId });
+      confirmCancelAction({ bookingId: bookingId }, state.bookerName, state.number, state.password);
       return;
     }
     const bookingDetails = lookUpList.find((item) => item.bookingId === bookingId);
     if (bookingDetails) {
-      navigate("/cancel", { state: bookingDetails });
+      navigate("/cancel", { state: { ...state, bookingDetails } });
     }
   };
 
@@ -65,7 +64,7 @@ const Lookup = () => {
 
   useEffect(() => {
     if (state && !("toastMessage" in state)) {
-      setLookUpList(state as LookupProps[]);
+      setLookUpList(state.bookingData as LookupProps[]);
     } else if (data) {
       setLookUpList(data as LookupProps[]);
     } else {

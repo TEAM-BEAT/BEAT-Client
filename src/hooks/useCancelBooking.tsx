@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { useCancelBook } from "@apis/domains/bookings/queries";
+import { useCancelBook, useRefundBook } from "@apis/domains/bookings/queries";
 import { useModal, useToast } from "@hooks";
 import { Toast } from "@components/commons";
 import { IconCheck } from "@assets/svgs";
@@ -15,18 +15,30 @@ interface CancelRequestProps {
 
 export const useCancelBooking = () => {
   const { openAlert, openConfirm, closeConfirm } = useModal();
-  const { mutate } = useCancelBook();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const currentPage = location.pathname.split("/").pop();
 
-  const handleCancelRequest = (requestData: CancelRequestProps) => {
-    mutate(requestData, {
+  const handleCancelRequest = (
+    requestData: CancelRequestProps,
+    name?: string,
+    phone?: string,
+    password?: string
+  ) => {
+    const cancelMutation = useCancelBook(name, phone, password);
+    const refundMutation = useRefundBook(name, phone, password);
+
+    const mutation =
+      requestData.bankName || requestData.accountNumber || requestData.accountHolder
+        ? refundMutation
+        : cancelMutation;
+
+    mutation.mutate(requestData, {
       onSuccess: () => {
-        if (currentPage !== "lookup") {
-          navigate("/lookup", { state: { toastMessage: "메이커에게 환불을 요청했어요." } });
+        if (mutation === cancelMutation) {
+          navigate("/lookup", { state: { toastMessage: "예매를 취소했습니다." } });
         } else {
           setToastMessage("메이커에게 환불을 요청했어요.");
           setTimeout(() => setToastMessage(null), 2000);
@@ -43,13 +55,18 @@ export const useCancelBooking = () => {
     });
   };
 
-  const confirmCancelAction = (requestData: CancelRequestProps) => {
+  const confirmCancelAction = (
+    requestData: CancelRequestProps,
+    name?: string,
+    phone?: string,
+    password?: string
+  ) => {
     openConfirm({
       title: "예매를 정말 취소하시겠어요?",
       subTitle: "취소한 예매내역은 복구할 수 없어요.",
       okText: "취소할게요",
       okCallback: () => {
-        handleCancelRequest(requestData);
+        handleCancelRequest(requestData, name, phone, password);
       },
       noText: "아니요",
       noCallback: closeConfirm,

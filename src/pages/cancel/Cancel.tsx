@@ -69,7 +69,7 @@ const Cancel = () => {
       }),
     };
 
-    confirmCancelAction(requestData);
+    confirmCancelAction(requestData, state.bookerName, state.number, state.password);
   };
 
   if (!state) {
