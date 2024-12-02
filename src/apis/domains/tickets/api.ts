@@ -37,6 +37,30 @@ export const getTicketRetrieve = async (
   }
 };
 
+export const getTicketRetrieveSearch = async (
+  formData: getTicketReq,
+  searchWord,
+  filterList
+): Promise<TicketRetrieveResponse | null> => {
+  try {
+    const params = new URLSearchParams();
+    params.append("searchWord", searchWord);
+    filterList.scheduleNumber.map((item) =>
+      params.append("scheduleNumber", convertingScheduleNumber(item))
+    );
+    filterList.bookingStatus.map((item) => params.append("bookingStatus", item));
+
+    const response: AxiosResponse<ApiResponseType<TicketRetrieveResponse>> = await get(
+      `tickets/search/${formData.performanceId}?${params.toString()}`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
 type SuccessResponseVoid = components["schemas"]["SuccessResponseVoid"];
 
 // 예매자 입급 여부 수정 API (PUT)

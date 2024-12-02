@@ -2,6 +2,7 @@ import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   getTicketReq,
   getTicketRetrieve,
+  getTicketRetrieveSearch,
   putTicketDelete,
   putTicketRefund,
   putTicketUpdate,
@@ -21,6 +22,16 @@ export const useTicketRetrive = (formData: getTicketReq, filterList) => {
   return useQuery({
     queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST],
     queryFn: () => getTicketRetrieve(formData, filterList),
+    gcTime: 1000 * 60 * 60 * 24,
+  });
+};
+
+// 예매자 목록 검색 API (GET)를 위한 쿼리 작성
+
+export const useTicketRetriveSearch = (formData: getTicketReq, searchWord, filterList) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST],
+    queryFn: () => getTicketRetrieveSearch(formData, searchWord, filterList),
     gcTime: 1000 * 60 * 60 * 24,
   });
 };

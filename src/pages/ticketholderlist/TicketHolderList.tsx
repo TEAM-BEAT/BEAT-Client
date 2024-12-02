@@ -1,14 +1,15 @@
 import {
   useTicketDelete,
-  useTicketPatch,
   useTicketRefund,
   useTicketRetrive,
+  useTicketRetriveSearch,
   useTicketUpdate,
 } from "@apis/domains/tickets/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
+import useDebounce from "src/hooks/useDebounce";
 import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
@@ -68,6 +69,7 @@ const TicketHolderList = () => {
     scheduleNumber: [],
     bookingStatus: [],
   });
+  const [searchWord, setSearchWord] = useState("");
 
   const [openFilter, setOpenFilter] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -78,6 +80,11 @@ const TicketHolderList = () => {
 
   const { data, isLoading, refetch } = useTicketRetrive(
     { performanceId: Number(performanceId) },
+    filterList
+  );
+  const { data: searchData, refetch: searchRefetch } = useTicketRetriveSearch(
+    { performanceId: Number(performanceId) },
+    searchWord,
     filterList
   );
   const { openConfirm, closeConfirm } = useModal();
@@ -91,11 +98,7 @@ const TicketHolderList = () => {
     );
   };
 
-  const {
-    mutate: updateMutate,
-    mutateAsync: updateMutateAsync,
-    isPending: updateIsPending,
-  } = useTicketUpdate();
+  const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
 
   const handlePaymentFixAxiosFunc = () => {
     if (updateIsPending) {
@@ -138,11 +141,7 @@ const TicketHolderList = () => {
   };
 
   // 환불 요청
-  const {
-    mutate: refundMutate,
-    mutateAsync: refundMutateAsync,
-    isPending: refundIsPending,
-  } = useTicketRefund();
+  const { mutate: refundMutate, isPending: refundIsPending } = useTicketRefund();
 
   const handlePaymentRefundBtn = () => {
     openConfirm({
@@ -178,11 +177,7 @@ const TicketHolderList = () => {
   };
 
   // 취소 요청
-  const {
-    mutate: deleteMutate,
-    mutateAsync: deleteMutateAsync,
-    isPending: deleteIsPending,
-  } = useTicketDelete();
+  const { mutate: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
     openConfirm({
@@ -304,15 +299,27 @@ const TicketHolderList = () => {
     });
   };
 
+  const debouncedQuery = useDebounce(searchWord, 500);
+
+  const handleInputChange = (event) => {
+    setSearchWord(event.target.value);
+  };
+
   // 필터 변경될 때마다 GET API 요청
+  // 검색될 때마다 GET API 요청
   useEffect(() => {
     const fetchData = async () => {
       const refetchData = await refetch();
       setPaymentData(refetchData?.data?.bookingList ?? []);
     };
 
-    fetchData();
-  }, [filterList, status]);
+    const fetchSearchData = async () => {
+      const refetchSearchData = await searchRefetch();
+      setPaymentData(refetchSearchData?.data?.bookingList ?? []);
+    };
+
+    searchWord ? fetchSearchData() : fetchData();
+  }, [filterList, status, debouncedQuery]);
 
   useEffect(() => {
     setPaymentData(data?.bookingList ?? []);
@@ -389,7 +396,12 @@ const TicketHolderList = () => {
                 totalCount={data?.totalPerformanceTicketCount}
               />
               <Spacing marginBottom={"2.6"} />
-              <SearchBar handleFilterSheet={handleFilterSheet} status={status} />
+              <SearchBar
+                handleFilterSheet={handleFilterSheet}
+                handleInputChange={handleInputChange}
+                searchWord={searchWord}
+                status={status}
+              />
               {status === "DEFAULT" && (
                 <SelectedChips
                   filterList={filterList}
