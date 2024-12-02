@@ -4,6 +4,7 @@ import Button from "@components/commons/button/Button";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import Toast from "@components/commons/toast/Toast";
+import { convertingNumber } from "@constants/convertingNumber";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal, useToast } from "@hooks";
 import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
@@ -12,13 +13,17 @@ import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import Banner from "./components/banner/Banner";
 import ManagerCard from "./components/managercard/ManagerCard";
-import { convertingNumber } from "@constants/convertingNumber";
 import NarrowDropDown from "./components/narrowDropDown/NarrowDropDown";
 import eximg from "./constants/silkagel.png";
 import { BookingListProps } from "./constants/ticketholderlist";
 import * as S from "./TicketHolderList.styled";
 
-type PaymentType = "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
+type PaymentType =
+  | "CHECKING_PAYMENT"
+  | "BOOKING_CONFIRMED"
+  | "BOOKING_CANCELLED"
+  | "REFUND_REQUESTED"
+  | "BOOKING_DELETED";
 interface CSVDataType {
   createdAt: string;
   scheduleNumber: string;
