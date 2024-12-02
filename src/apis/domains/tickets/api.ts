@@ -81,3 +81,23 @@ export const putTicketRefund = async (
     return null;
   }
 };
+
+// 예매자 삭제 (PUT)
+
+export type TicketDeleteRequest = components["schemas"]["TicketDeleteRequest"];
+
+export const putTicketDelete = async (
+  formData: TicketDeleteRequest
+): Promise<SuccessResponseVoid | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
+      "tickets/delete",
+      formData
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};

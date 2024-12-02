@@ -1,4 +1,5 @@
 import {
+  useTicketDelete,
   useTicketPatch,
   useTicketRefund,
   useTicketRetrive,
@@ -141,7 +142,6 @@ const TicketHolderList = () => {
   };
 
   // 환불 요청
-
   const {
     mutate: refundMutate,
     mutateAsync: refundMutateAsync,
@@ -186,6 +186,51 @@ const TicketHolderList = () => {
     }, 1000);
   };
 
+  // 취소 요청
+  const {
+    mutate: deleteMutate,
+    mutateAsync: deleteMutateAsync,
+    isPending: deleteIsPending,
+  } = useTicketDelete();
+
+  const handlePaymentDeleteBtn = () => {
+    openConfirm({
+      title: "예매자를 삭제하시겠어요?",
+      subTitle: "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.",
+      okText: "삭제하기",
+      noText: "아니요",
+      okCallback: () => {
+        handlePaymentDeleteAxiosFunc();
+        // 혹시 테스트 과정에서 로그 확인을 위해 새로고침을 지운다면 아래 주석 해제
+        // setStatus("DEFAULT");
+        // setFilterList({ scheduleNumber: [], bookingStatus: [] });
+        // setCheckedBookingId([]);
+      },
+      noCallback: closeConfirm,
+    });
+  };
+
+  const handlePaymentDeleteAxiosFunc = () => {
+    if (deleteIsPending) {
+      return;
+    }
+    // 취소 요청 PUT API 요청
+    // bookingId만 전달
+    const filteredPaymentData = paymentData.map(({ bookingId }) => ({
+      bookingId: checkedBookingId.includes(bookingId) && bookingId,
+    }));
+
+    deleteMutate({
+      performanceId: Number(performanceId),
+      bookingList: filteredPaymentData,
+    });
+    closeConfirm();
+    showToast();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
   const actions = {
     PAYMENT: {
       text: "입금 처리하기",
@@ -195,16 +240,14 @@ const TicketHolderList = () => {
     },
     REFUND: {
       text: "환불 처리하기",
-      // TODO : 환불 처리 팝업
       action: () => {
         handlePaymentRefundBtn();
       },
     },
     DELETE: {
       text: "예매자 삭제하기",
-      // TODO : 예매자 삭제 팝업
       action: () => {
-        setStatus("DEFAULT"), setFilterList({ scheduleNumber: [], bookingStatus: [] });
+        handlePaymentDeleteBtn();
       },
     },
     DEFAULT: {
