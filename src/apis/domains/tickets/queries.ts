@@ -3,8 +3,9 @@ import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import {
   getTicketReq,
   getTicketRetrieve,
-  patchTicketCancel,
+  putTicketRefund,
   putTicketUpdate,
+  TicketRefundRequest,
   TicketUpdateRequest,
 } from "./api";
 
@@ -37,12 +38,12 @@ export const useTicketUpdate = () => {
   });
 };
 
-// 예매자를 취소하는 API (PATCH)를 위한 쿼리 작성
-export const useTicketPatch = () => {
+// 예매자 환불 여부 수정 API (PUT)를 위한 쿼리 작성
+export const useTicketRefund = () => {
   const queryClient = new QueryClient();
 
   return useMutation({
-    mutationFn: (formData: PatchFormDataProps) => patchTicketCancel(formData),
+    mutationFn: (formData: TicketRefundRequest) => putTicketRefund(formData),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
       queryClient.refetchQueries({ queryKey: [QUERY_KEY.LIST, BOOKING_QUERY_KEY.BOOKING_LIST] });
