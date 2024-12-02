@@ -3,7 +3,7 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosResponse } from "axios";
 
-type HomeResponse = components["schemas"]["HomeResponse"];
+type HomeResponse = components["schemas"]["HomeFindAllResponse"];
 
 // 1. API 요청 함수 작성 및 타입 추가
 export const getAllScheduleList = async (): Promise<HomeResponse | null> => {

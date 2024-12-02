@@ -1,7 +1,7 @@
+import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import { Dayjs } from "dayjs";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { PerformanceImage, GigInfo } from "../typings/gigInfo";
-import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import { GigInfo, PerformanceImage } from "../typings/gigInfo";
 
 // Image 핸들링
 export const handleImageUpload = (
@@ -91,7 +91,7 @@ export const onPlusClick = (setGigInfo: Dispatch<SetStateAction<GigInfo>>) => {
 };
 
 // TimePicker 핸들링
-export const handleDateChange = (
+export const handleDateTimeChange = (
   index: number,
   date: Dayjs | null,
   setGigInfo: Dispatch<SetStateAction<GigInfo>>
@@ -162,6 +162,10 @@ export const isAllFieldsFilled = (gigInfo: GigInfo, isFree: boolean) => {
     "performancePeriod",
     "ticketPrice",
     "totalScheduleCount",
+    "roadAddressName",
+    "placeDetailAddress",
+    "latitude",
+    "longitude",
     ...(!isFree ? ["bankName", "accountNumber", "accountHolder"] : []),
   ];
 
