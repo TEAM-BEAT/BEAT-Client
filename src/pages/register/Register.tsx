@@ -448,7 +448,7 @@ const Register = () => {
               value={performanceDescription}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-              maxLength={500}
+              maxLength={1500}
             />
           </InputRegisterBox>
           <S.Divider />
@@ -512,7 +512,7 @@ const Register = () => {
               value={performanceAttentionNote}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-              maxLength={500}
+              maxLength={1500}
             />
           </InputRegisterBox>
           <S.Divider />
