@@ -10,7 +10,7 @@ import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
 import useDebounce from "src/hooks/useDebounce";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
@@ -302,7 +302,7 @@ const TicketHolderList = () => {
 
   const debouncedQuery = useDebounce(searchWord, 500);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(event.target.value);
   };
 
@@ -356,10 +356,10 @@ const TicketHolderList = () => {
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
-    if (status === "DEFAULT") {
-      navigate("/gig-manage");
-    } else {
+    if (status !== "DEFAULT") {
       setStatus("DEFAULT");
+    } else {
+      navigate("/gig-manage");
     }
   };
 

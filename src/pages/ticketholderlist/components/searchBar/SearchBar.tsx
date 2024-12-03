@@ -5,7 +5,7 @@ interface SearchBarProps {
   status: string;
   searchWord: string;
   handleFilterSheet: () => void;
-  handleInputChange: () => void;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 // TODO: 필터 적용되었을 때 아웃라인 색상 적용 -> 기능 붙일 때 같이 하기

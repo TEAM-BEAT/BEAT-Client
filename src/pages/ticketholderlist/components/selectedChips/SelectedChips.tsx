@@ -1,10 +1,9 @@
-import React from "react";
 import * as S from "./SelectedChips.styled";
 import { FilterListType, PaymentType } from "@pages/ticketholderlist/TicketHolderList";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 
 interface SelectedChipsProps {
-  filterList: FilterListType[];
+  filterList: FilterListType;
   handleFilter: (scheduleNumber: number[], bookingStatus: string[]) => void;
 }
 

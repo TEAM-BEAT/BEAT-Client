@@ -9,7 +9,7 @@ interface FilterBottomSheetProps {
   totalScheduleCount: number;
   children?: ReactNode;
   onClickOutside?: () => void;
-  filterList: FilterListType[];
+  filterList: FilterListType;
   handleFilter: (scheduleNumber: number[], bookingStatus: string[]) => void;
 }
 

@@ -1,4 +1,4 @@
-import React, { Children, ReactNode } from "react";
+import { ReactNode } from "react";
 import * as S from "./ManageCardMain.styled";
 
 export interface ManageCardMainProps {

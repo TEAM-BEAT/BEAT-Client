@@ -1,5 +1,4 @@
 import * as S from "./ManageCardContainer.styled";
-import { PaymentType } from "@pages/ticketholderlist/TicketHolderList";
 
 interface ManagerCardContainerProps {
   name: string;
