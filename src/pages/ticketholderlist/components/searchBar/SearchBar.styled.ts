@@ -22,13 +22,13 @@ export const SearchBar = styled.input`
   border-radius: 4rem;
 `;
 
-export const FilterBtn = styled(BtnFilter)`
+export const FilterBtn = styled(BtnFilter)<{ $isFilter: boolean }>`
   width: 4.8rem;
   height: 4.8rem;
   margin-left: 1.2rem;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
-  border: 0.1rem solid;
-  border-color: ${({ theme }) => theme.colors.gray_700};
+  border: 0.1rem solid
+    ${({ theme, $isFilter }) => ($isFilter ? theme.colors.white : theme.colors.gray_700)};
   border-radius: 50%;
 `;

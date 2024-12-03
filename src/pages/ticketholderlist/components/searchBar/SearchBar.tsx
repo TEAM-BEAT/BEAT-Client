@@ -6,6 +6,7 @@ interface SearchBarProps {
   searchWord: string;
   handleFilterSheet: () => void;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isFilter: boolean;
 }
 
 // TODO: 필터 적용되었을 때 아웃라인 색상 적용 -> 기능 붙일 때 같이 하기
@@ -14,6 +15,7 @@ const SearchBar = ({
   status,
   handleInputChange,
   searchWord,
+  isFilter,
 }: SearchBarProps) => {
   return (
     <S.SearchBarWrapper>
@@ -23,7 +25,7 @@ const SearchBar = ({
         value={searchWord}
         onChange={handleInputChange}
       ></S.SearchBar>
-      {status === "DEFAULT" && <S.FilterBtn onClick={handleFilterSheet} />}
+      {status === "DEFAULT" && <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />}
     </S.SearchBarWrapper>
   );
 };

@@ -403,6 +403,9 @@ const TicketHolderList = () => {
                 handleInputChange={handleInputChange}
                 searchWord={searchWord}
                 status={status}
+                isFilter={
+                  filterList.scheduleNumber.length > 0 || filterList.bookingStatus.length > 0
+                }
               />
               {status === "DEFAULT" && (
                 <SelectedChips
