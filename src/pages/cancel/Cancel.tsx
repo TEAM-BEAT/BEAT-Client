@@ -20,7 +20,8 @@ import { useCancelBooking } from "../../hooks/useCancelBooking";
 const Cancel = () => {
   const { setHeader } = useHeader();
   const { openAlert } = useModal();
-  const { confirmCancelAction } = useCancelBooking();
+  const { state } = useLocation();
+  const { confirmCancelAction } = useCancelBooking(state.bookerName, state.number, state.password);
   const navigate = useNavigate();
   const [isDeposit, setIsDeposit] = useState<boolean | null>(null);
   const [bankOpen, setBankOpen] = useState(false);
@@ -28,8 +29,7 @@ const Cancel = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
 
-  const { state } = useLocation();
-  const performanceDateArray = state.performanceDate.split("-");
+  const performanceDateArray = state.bookingDetails.performanceDate.split("-");
   const performanceDataDate = performanceDateArray[2].split("T");
 
   const handleLeftBtn = () => {
@@ -61,7 +61,7 @@ const Cancel = () => {
 
   const handleCancelClick = (isDeposit) => {
     const requestData = {
-      bookingId: state.bookingId,
+      bookingId: state.bookingDetails.bookingId,
       ...(isDeposit && {
         bankName: bankName,
         accountNumber: accountNumber,
@@ -69,7 +69,7 @@ const Cancel = () => {
       }),
     };
 
-    confirmCancelAction(requestData, state.bookerName, state.number, state.password);
+    confirmCancelAction(requestData);
   };
 
   if (!state) {
@@ -80,7 +80,7 @@ const Cancel = () => {
     <S.CancelLayout>
       <S.PerformWrapper>
         <S.PerformBox>
-          <p>{state.performanceTitle}</p>
+          <p>{state.bookingDetails.performanceTitle}</p>
           <table>
             <tr>
               <th scope="row">관람일</th>
@@ -90,14 +90,14 @@ const Cancel = () => {
             </tr>
             <tr>
               <th scope="row">회차</th>
-              <td>{convertingNumber(state.scheduleNumber)}회차</td>
+              <td>{convertingNumber(state.bookingDetails.scheduleNumber)}회차</td>
             </tr>
           </table>
         </S.PerformBox>
         <S.PriceBox>
-          <p>{state.totalPaymentAmount.toLocaleString()}원</p>
+          <p>{state.bookingDetails.totalPaymentAmount.toLocaleString()}원</p>
           <S.Divider />
-          <p>{state.purchaseTicketCount}매</p>
+          <p>{state.bookingDetails.purchaseTicketCount}매</p>
         </S.PriceBox>
       </S.PerformWrapper>
       <Spacing marginBottom="3.2" />

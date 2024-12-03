@@ -3,7 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
-import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
+import {
+  useGetMemberBookingList,
+  useLazyPostGuestBookingList,
+} from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
@@ -11,6 +14,7 @@ import { useHeader } from "@hooks";
 import { useCancelBooking } from "src/hooks/useCancelBooking";
 import { Toast } from "@components/commons";
 import { IconCheck } from "@assets/svgs";
+import { ToastMessage } from "./../../components/commons/toast/Toast.styled";
 
 interface LookupProps {
   userId: number;
@@ -37,45 +41,45 @@ interface LookupProps {
 }
 
 const Lookup = () => {
-  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
-  const { confirmCancelAction, toastMessage } = useCancelBooking();
-  const [lookUpList, setLookUpList] = useState<LookupProps[] | null>(null);
-  const { data, isLoading, refetch } = useGetMemberBookingList();
   const navigate = useNavigate();
+
+  const { confirmCancelAction, toastMessage } = useCancelBooking(
+    state?.bookerName,
+    state?.number,
+    state?.password
+  );
+
+  const { data: memberData, isLoading: isMemberLoading } = useGetMemberBookingList(); // 회원 예매 조회
+  const { getCachedBookingList, fetchBookingList } = useLazyPostGuestBookingList();
+  const cachedData = getCachedBookingList(state?.bookerName, state?.number, state?.password); // 비회원 예매 조회
 
   const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
     if (totalPaymentAmount === 0) {
-      setSelectedBookingId(bookingId);
-      confirmCancelAction({ bookingId: bookingId }, state.bookerName, state.number, state.password);
+      confirmCancelAction({ bookingId });
       return;
     }
-    const bookingDetails = lookUpList.find((item) => item.bookingId === bookingId);
+
+    const bookingDetails = (memberData ?? cachedData)?.find((item) => item.bookingId === bookingId);
     if (bookingDetails) {
       navigate("/cancel", { state: { ...state, bookingDetails } });
     }
   };
 
-  const { setHeader } = useHeader();
-
-  const handleLeftBtn = () => {
-    navigate("/main");
-  };
-
   useEffect(() => {
-    if (state && !("toastMessage" in state)) {
-      setLookUpList(state.bookingData as LookupProps[]);
-    } else if (data) {
-      setLookUpList(data as LookupProps[]);
-    } else {
-      refetch().then((refetchedData) => {
-        setLookUpList(refetchedData.data as LookupProps[]);
+    if (state?.bookerName && state?.number && state?.password && !cachedData) {
+      // 비회원 데이터가 캐시에 없을 경우 새로 가져옴
+      fetchBookingList({
+        name: state.bookerName,
+        phone: state.number,
+        password: state.password,
+        birth: state.birth || "",
       });
     }
-  }, []);
+  }, [state, cachedData, fetchBookingList]);
 
   useEffect(() => {
-    if (state && state.toastMessage) {
+    if (state?.toastMessage) {
       const timer = setTimeout(() => {
         navigate("/lookup", { state: { ...state, toastMessage: null }, replace: true });
       }, 2000);
@@ -84,38 +88,37 @@ const Lookup = () => {
     }
   }, [state, navigate]);
 
+  const { setHeader } = useHeader();
   useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE,
       title: "내가 예매한 공연",
-      leftOnClick: handleLeftBtn,
+      leftOnClick: () => navigate("/main"),
     });
   }, [setHeader]);
 
   return (
     <>
-      {isLoading || lookUpList === null ? (
+      {isMemberLoading || (!cachedData && !memberData) ? (
         <Loading />
       ) : (
         <S.LookupWrapper>
           <MetaTag title="내가 예매한 공연" />
-          {lookUpList.length > 0 ? (
-            <>
-              {lookUpList.map((item) => (
-                <React.Fragment key={item.bookingId}>
-                  <LookupWrapper
-                    {...item}
-                    handleBtn={() => handleCancel(item.bookingId, item.totalPaymentAmount)}
-                  />
-                </React.Fragment>
-              ))}
-            </>
+          {(memberData ?? cachedData)?.length > 0 ? (
+            (memberData ?? cachedData).map((item) => (
+              <React.Fragment key={item.bookingId}>
+                <LookupWrapper
+                  {...item}
+                  handleBtn={() => handleCancel(item.bookingId, item.totalPaymentAmount)}
+                />
+              </React.Fragment>
+            ))
           ) : (
             <NonExistent />
           )}
           {(toastMessage || state?.toastMessage) && (
             <Toast icon={<IconCheck />} isVisible={true} toastBottom={32}>
-              메이커에게 환불을 요청했어요.
+              {toastMessage ?? state?.toastMessage}
             </Toast>
           )}
         </S.LookupWrapper>

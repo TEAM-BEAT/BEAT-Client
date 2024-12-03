@@ -17,7 +17,9 @@ export const BOOKING_QUERY_KEY = {
   MEMBER_BOOKING_LIST: (userId: number) => ["memberBookingList", userId],
   GUEST_BOOKING_LIST: (name: string, phone: string, password: string) => [
     "guestBookingList",
-    { name, phone, password },
+    name,
+    phone,
+    password,
   ],
 };
 
@@ -39,42 +41,59 @@ export const useGuestBook = (name: string, phone: string, password: string) => {
 };
 
 // 비회원 예매 목록 조회
-export const usePostGuestBookingList = (name: string, phone: string, password: string) => {
+export const useLazyPostGuestBookingList = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (formData: postGuestBookingReq) => postGuestBookingList(formData),
-    onSuccess: (res) => {
-      console.log(
-        "Invalidate Query Key:",
-        BOOKING_QUERY_KEY.GUEST_BOOKING_LIST(name, phone, password)
-      );
-      queryClient.invalidateQueries({
-        queryKey: BOOKING_QUERY_KEY.GUEST_BOOKING_LIST(name, phone, password),
-      });
-      queryClient.refetchQueries({
-        queryKey: BOOKING_QUERY_KEY.GUEST_BOOKING_LIST(name, phone, password),
-        exact: true,
-      });
-    },
-  });
+  // 쿼리키에 캐싱
+  const fetchBookingList = async ({
+    name,
+    phone,
+    password,
+    birth,
+  }: {
+    name: string;
+    phone: string;
+    password: string;
+    birth: string;
+  }) => {
+    return await queryClient.fetchQuery({
+      queryKey: BOOKING_QUERY_KEY.GUEST_BOOKING_LIST(name, phone, password),
+      queryFn: () =>
+        postGuestBookingList({
+          bookerName: name,
+          bookerPhoneNumber: phone,
+          password,
+          birthDate: birth,
+        }),
+      staleTime: 1000 * 60 * 10,
+    });
+  };
+
+  // 캐시된 데이터 조회
+  const getCachedBookingList = (name: string, phone: string, password: string) => {
+    return queryClient.getQueryData(BOOKING_QUERY_KEY.GUEST_BOOKING_LIST(name, phone, password));
+  };
+
+  return { fetchBookingList, getCachedBookingList };
 };
 
 // 회원 예매 조회
 export const useGetMemberBookingList = () => {
-  const userId = Number(localStorage.getItem("user"));
+  const userId = JSON.parse(localStorage.getItem("user"))?.accessToken;
+  if (!userId) {
+    return { data: null, isLoading: false };
+  }
   return useQuery({
     queryKey: BOOKING_QUERY_KEY.MEMBER_BOOKING_LIST(userId),
     queryFn: () => getMemberBookingList(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
-    enabled: false,
   });
 };
 
 // 회원 예매
 export const useMemberBook = () => {
-  const userId = Number(localStorage.getItem("user"));
+  const userId = JSON.parse(localStorage.getItem("user"))?.accessToken;
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -107,13 +126,9 @@ export const useCancelBook = (name?: string, phone?: string, password?: string) 
           exact: true,
         });
       } else {
-        const userId = Number(localStorage.getItem("user"));
+        const userId = JSON.parse(localStorage.getItem("user"))?.accessToken;
 
         queryClient.invalidateQueries({ queryKey: BOOKING_QUERY_KEY.MEMBER_BOOKING_LIST(userId) });
-        queryClient.refetchQueries({
-          queryKey: BOOKING_QUERY_KEY.MEMBER_BOOKING_LIST(userId),
-          exact: true,
-        });
       }
     },
   });
@@ -136,13 +151,9 @@ export const useRefundBook = (name?: string, phone?: string, password?: string) 
           exact: true,
         });
       } else {
-        const userId = Number(localStorage.getItem("user"));
+        const userId = JSON.parse(localStorage.getItem("user"))?.accessToken;
 
         queryClient.invalidateQueries({ queryKey: BOOKING_QUERY_KEY.MEMBER_BOOKING_LIST(userId) });
-        queryClient.refetchQueries({
-          queryKey: BOOKING_QUERY_KEY.MEMBER_BOOKING_LIST(userId),
-          exact: true,
-        });
       }
     },
   });

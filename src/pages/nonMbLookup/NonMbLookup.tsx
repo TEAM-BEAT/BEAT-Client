@@ -8,78 +8,89 @@ import InputWrapper from "./components/InputWrapper";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { useHeader, useModal } from "@hooks";
+import { useLazyPostGuestBookingList } from "@apis/domains/bookings/queries";
 
 const NonMbLookup = () => {
   const navigate = useNavigate();
-
   const { openAlert } = useModal();
   const { setHeader } = useHeader();
+  const { fetchBookingList } = useLazyPostGuestBookingList();
 
-  // 하단 내역 확인 버튼 활성화/비활성화 상태
+  const [formData, setFormData] = useState({
+    bookerName: "",
+    birth: "",
+    number: "",
+    password: "",
+  });
   const [btnActive, setBtnActive] = useState(false);
-  // 하단 내역 확인 버튼 클릭 시 true
-  const [isReadyRequest, setIsReadyRequest] = useState(false);
-  // API 연결 후 들어오는 상태
-  const [dataState, setDataState] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
 
-  const handleBtnOn = () => {
-    setBtnActive(true);
+  // 입력 값 변경 핸들러
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleBtnOff = () => {
-    setBtnActive(false);
-  };
-
-  const handleBtnState = () => {
-    setIsReadyRequest(true);
-  };
-
-  const handleData = (status: number) => {
-    setDataState(status);
-  };
-
-  const handleAlert = () => {
-    openAlert({
-      title: "일치하는 정보가 없습니다. \n 확인 후 다시 조회해 주세요",
-      okCallback: () => {
-        setIsReadyRequest(false);
-        setDataState(0);
-      },
-    });
-  };
-
-  const handleLeftBtn = () => {
-    navigate("/main");
-  };
-
+  // 버튼 상태 활성화/비활성화
   useEffect(() => {
-    if (dataState === 404) {
-      handleAlert();
+    const { bookerName, birth, number, password } = formData;
+    if (bookerName && birth.length === 6 && number.length === 13 && password.length === 4) {
+      setBtnActive(true);
     } else {
-      // API 붙이면 오류 맞춰서 처리하기
-      // console.log("오류 처리");
+      setBtnActive(false);
     }
-  }, [dataState]);
+  }, [formData]);
+
+  // 버튼 클릭 시 요청 실행
+  const handleBtnClick = async () => {
+    const { bookerName, birth, number, password } = formData;
+
+    try {
+      setIsFetching(true);
+
+      const bookingData = await fetchBookingList({
+        name: bookerName,
+        phone: number,
+        password,
+        birth,
+      });
+
+      if (bookingData) {
+        navigate("/lookup", {
+          state: {
+            bookerName,
+            number,
+            password,
+            birth,
+          },
+        });
+      } else {
+        openAlert({
+          title: "일치하는 정보가 없습니다. \n 확인 후 다시 조회해 주세요",
+        });
+      }
+    } catch (error) {
+      openAlert({
+        title: "오류가 발생했습니다. 다시 시도해 주세요.",
+      });
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
   useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE,
       title: "비회원 예매 조회",
-      leftOnClick: handleLeftBtn,
+      leftOnClick: () => navigate("/main"),
     });
-  }, [setHeader]);
+  }, [setHeader, navigate]);
 
   return (
     <S.NonMbLookupWrapper>
       <MetaTag title="비회원 예매 조회" />
-      <InputWrapper
-        btnOn={handleBtnOn}
-        btnOff={handleBtnOff}
-        isReadyRequest={isReadyRequest}
-        dataStatus={handleData}
-      />
+      <InputWrapper formData={formData} onInputChange={handleInputChange} />
       <S.BtnLayout>
-        <Button variant="primary" size="xlarge" disabled={!btnActive} onClick={handleBtnState}>
+        <Button variant="primary" size="xlarge" disabled={!btnActive} onClick={handleBtnClick}>
           예매내역 확인하기
         </Button>
       </S.BtnLayout>

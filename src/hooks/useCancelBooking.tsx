@@ -1,8 +1,6 @@
 import { AxiosError } from "axios";
 import { useCancelBook, useRefundBook } from "@apis/domains/bookings/queries";
-import { useModal, useToast } from "@hooks";
-import { Toast } from "@components/commons";
-import { IconCheck } from "@assets/svgs";
+import { useModal } from "@hooks";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -13,7 +11,7 @@ interface CancelRequestProps {
   accountHolder?: string;
 }
 
-export const useCancelBooking = () => {
+export const useCancelBooking = (name?: string, phone?: string, password?: string) => {
   const { openAlert, openConfirm, closeConfirm } = useModal();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const location = useLocation();
@@ -21,30 +19,37 @@ export const useCancelBooking = () => {
 
   const currentPage = location.pathname.split("/").pop();
 
+  const cancelMutation = useCancelBook(name, phone, password);
+  const refundMutation = useRefundBook(name, phone, password);
+
   const handleCancelRequest = (
     requestData: CancelRequestProps,
     name?: string,
     phone?: string,
     password?: string
   ) => {
-    const cancelMutation = useCancelBook(name, phone, password);
-    const refundMutation = useRefundBook(name, phone, password);
-
     const mutation =
       requestData.bankName || requestData.accountNumber || requestData.accountHolder
         ? refundMutation
         : cancelMutation;
 
+    const toastMessage =
+      requestData.bankName || requestData.accountNumber || requestData.accountHolder
+        ? "메이커에게 환불을 요청했어요."
+        : "예매 취소가 완료됐어요.";
+
     mutation.mutate(requestData, {
       onSuccess: () => {
-        if (mutation === cancelMutation) {
-          navigate("/lookup", { state: { toastMessage: "예매를 취소했습니다." } });
+        const { bookingDetails, ...restState } = location.state || {};
+        if (currentPage !== "lookup") {
+          navigate("/lookup", { state: { ...restState, toastMessage } });
         } else {
-          setToastMessage("메이커에게 환불을 요청했어요.");
+          setToastMessage(toastMessage);
           setTimeout(() => setToastMessage(null), 2000);
         }
       },
       onError: (error: AxiosError<{ message: string }>) => {
+        console.error("error", error);
         const errorMessage = error.response?.data?.message || "예매 취소 중 오류가 발생했습니다.";
         openAlert({
           title: "예매 취소 실패",
@@ -55,12 +60,7 @@ export const useCancelBooking = () => {
     });
   };
 
-  const confirmCancelAction = (
-    requestData: CancelRequestProps,
-    name?: string,
-    phone?: string,
-    password?: string
-  ) => {
+  const confirmCancelAction = (requestData: CancelRequestProps) => {
     openConfirm({
       title: "예매를 정말 취소하시겠어요?",
       subTitle: "취소한 예매내역은 복구할 수 없어요.",

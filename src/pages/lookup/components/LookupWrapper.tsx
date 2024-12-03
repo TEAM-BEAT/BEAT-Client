@@ -10,7 +10,7 @@ const LookupWrapper = ({ handleBtn, ...item }: LookupProps) => {
   const isDisabled =
     item.dueDate < 0 ||
     item.bookingStatus === "BOOKING_CANCELLED" ||
-    item.bookingStatus === "취소신청";
+    item.bookingStatus === "REFUND_REQUESTED";
 
   return (
     <S.LookupLayout>
