@@ -22,9 +22,9 @@ export const getTicketRetrieve = async (
   try {
     const params = new URLSearchParams();
     filterList.scheduleNumber.map((item) =>
-      params.append("scheduleNumber", convertingScheduleNumber(item))
+      params.append("scheduleNumbers", convertingScheduleNumber(item))
     );
-    filterList.bookingStatus.map((item) => params.append("bookingStatus", item));
+    filterList.bookingStatus.map((item) => params.append("bookingStatuses", item));
 
     const response: AxiosResponse<ApiResponseType<TicketRetrieveResponse>> = await get(
       `tickets/${formData.performanceId}?${params.toString()}`
@@ -46,9 +46,9 @@ export const getTicketRetrieveSearch = async (
     const params = new URLSearchParams();
     params.append("searchWord", searchWord);
     filterList.scheduleNumber.map((item) =>
-      params.append("scheduleNumber", convertingScheduleNumber(item))
+      params.append("scheduleNumbers", convertingScheduleNumber(item))
     );
-    filterList.bookingStatus.map((item) => params.append("bookingStatus", item));
+    filterList.bookingStatus.map((item) => params.append("bookingStatuses", item));
 
     const response: AxiosResponse<ApiResponseType<TicketRetrieveResponse>> = await get(
       `tickets/search/${formData.performanceId}?${params.toString()}`
