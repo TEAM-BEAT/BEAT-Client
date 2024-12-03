@@ -16,7 +16,6 @@ import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@page
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
-import { getScheduleNumberById } from "./utils";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -89,6 +88,13 @@ const Book = () => {
     easyPassword.password
   );
   const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
+
+  useEffect(() => {
+    if (data?.scheduleList?.length === 1) {
+      const singleSchedule = data.scheduleList[0];
+      setSelectedValue(singleSchedule.scheduleId);
+    }
+  }, [data?.scheduleList]);
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);

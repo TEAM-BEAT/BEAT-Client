@@ -33,6 +33,11 @@ interface ContentProps {
   teamName: string;
   castList: CastListType[];
   staffList: StaffListType[];
+  performanceVenue: string;
+  roadAddressName: string;
+  placeDetailAddress: string;
+  latitude: string;
+  longitude: string;
 }
 
 const Content = ({
@@ -43,6 +48,11 @@ const Content = ({
   teamName,
   castList,
   staffList,
+  performanceVenue,
+  roadAddressName,
+  placeDetailAddress,
+  latitude,
+  longitude,
 }: ContentProps) => {
   const [activeTab, setActiveTab] = useState<TabType>(TAB_TYPE.PERFORMANCE);
 
@@ -60,6 +70,11 @@ const Content = ({
             performanceImageList={performanceImageList}
             attentionNote={attentionNote}
             contact={contact}
+            performanceVenue={performanceVenue}
+            roadAddressName={roadAddressName}
+            placeDetailAddress={placeDetailAddress}
+            latitude={latitude}
+            longitude={longitude}
           />
         )}
 

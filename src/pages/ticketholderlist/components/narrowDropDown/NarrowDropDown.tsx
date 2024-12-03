@@ -5,10 +5,22 @@ interface DropdownProps {
   children: ReactNode;
   totalScheduleCount: number;
   schedule: number;
-  payment: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | undefined;
+  payment:
+    | "CHECKING_PAYMENT"
+    | "BOOKING_CONFIRMED"
+    | "BOOKING_CANCELLED"
+    | "REFUND_REQUESTED"
+    | "BOOKING_DELETED"
+    | undefined;
   setSchedule?: (param: number) => void;
   setPayment?: (
-    param: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | undefined
+    param:
+      | "CHECKING_PAYMENT"
+      | "BOOKING_CONFIRMED"
+      | "BOOKING_CANCELLED"
+      | "REFUND_REQUESTED"
+      | "BOOKING_DELETED"
+      | undefined
   ) => void;
 }
 

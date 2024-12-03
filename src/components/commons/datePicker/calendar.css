@@ -1,0 +1,120 @@
+.custom-calendar {
+  background-color: #2a2a2a;
+  border: none;
+}
+
+/* navigation 관련 */
+.custom-calendar .react-calendar__navigation {
+  height: 24px;
+  margin-bottom: 14px;
+
+  .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: Pretendard, sans-serif;
+    line-height: 20px;
+  }
+
+  /* label 클릭 할 수 없도록 */
+  .react-calendar__navigation__label {
+    pointer-events: none;
+  }
+}
+
+.custom-calendar .react-calendar__navigation__prev-button,
+.custom-calendar .react-calendar__navigation__next-button {
+  padding-bottom: 2px;
+
+  color: #fff;
+
+  transform: scale(1.1);
+}
+
+.custom-calendar .react-calendar__navigation__prev2-button,
+.custom-calendar .react-calendar__navigation__next2-button {
+  visibility: hidden;
+}
+
+.custom-calendar .react-calendar__navigation__prev-button:hover,
+.custom-calendar .react-calendar__navigation__next-button:hover,
+.custom-calendar .react-calendar__navigation__prev-button:focus,
+.custom-calendar .react-calendar__navigation__next-button:focus {
+  color: #fff;
+
+  background-color: #2a2a2a !important;
+}
+
+/* month-view 관련 */
+.custom-calendar .react-calendar__month-view__weekdays {
+  display: grid !important;
+  grid-template-columns: repeat(7, 32px);
+  justify-content: center;
+  margin-bottom: 8px;
+
+  color: #939393;
+  column-gap: 10.5px;
+
+  /* text */
+  abbr {
+    font-weight: 500;
+    font-size: 12px;
+    text-decoration: none;
+  }
+}
+
+.custom-calendar .react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 32px);
+  gap: 4px 10.5px;
+}
+
+.custom-calendar .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+
+  color: #fff;
+  font-size: 14px;
+
+  background: #444;
+  background-color: transparent;
+  border-radius: 4px;
+
+  :hover {
+    background-color: transparent;
+  }
+}
+
+.custom-calendar .react-calendar__tile--now:hover {
+  color: #fff;
+
+  background-color: #3e3e3e;
+}
+
+.custom-calendar .react-calendar__tile--active {
+  abbr {
+    color: black !important;
+
+    background: #fff !important;
+  }
+  background: #fff !important;
+
+  :hover {
+    background-color: transparent !important;
+  }
+}
+
+.custom-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  color: #626262;
+}
+
+/* 지난 날짜 색상 */
+.past-date {
+  color: #939393 !important;
+
+  cursor: not-allowed;
+
+  pointer-events: none;
+}

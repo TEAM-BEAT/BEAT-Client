@@ -22,9 +22,10 @@ export const BottomSheetWrapper = styled.section<{ $isOpen: boolean }>`
   animation: ${({ $isOpen }) => ($isOpen ? bottomSheetUp : bottomSheetDown)} 250ms ease-in-out;
 `;
 
-export const BottomSheetLayout = styled.section`
+export const BottomSheetLayout = styled.section<{ $paddingTop?: string }>`
   width: 37.5rem;
-  padding: 3.6rem 2.4rem 2.8rem;
+  padding: ${({ $paddingTop }) =>
+    $paddingTop ? `${$paddingTop} 2.4rem 2.8rem` : "3.6rem 2.4rem 2.8rem"};
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border-radius: 2rem 2rem 0 0;
