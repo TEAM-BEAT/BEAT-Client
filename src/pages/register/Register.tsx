@@ -195,18 +195,23 @@ const Register = () => {
     if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
-        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
+        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
         performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
+        return [
+          ...posterUrls,
+          ...castUrls.filter((url) => url !== null),
+          ...staffUrls.filter((url) => url !== null),
+          ...performanceUrls,
+        ];
       };
       const S3Urls = extractUrls(data);
 
       const files = [
         gigInfo.posterImage,
-        ...gigInfo.castList.map((cast) => cast.castPhoto),
-        ...gigInfo.staffList.map((staff) => staff.staffPhoto),
+        ...gigInfo.castList.map((cast) => cast.castPhoto).filter((photo) => photo !== ""),
+        ...gigInfo.staffList.map((staff) => staff.staffPhoto).filter((photo) => photo !== ""),
         ...gigInfo.performanceImageList.map((image) => image.performanceImage),
       ];
 
@@ -228,11 +233,11 @@ const Register = () => {
           posterImage: posterUrls[0],
           castList: gigInfo.castList.map((cast, index) => ({
             ...cast,
-            castPhoto: castUrls[index] || cast.castPhoto,
+            castPhoto: cast.castPhoto === "" ? "" : castUrls[index] || cast.castPhoto,
           })),
           staffList: gigInfo.staffList.map((staff, index) => ({
             ...staff,
-            staffPhoto: staffUrls[index] || staff.staffPhoto,
+            staffPhoto: staff.staffPhoto === "" ? "" : staffUrls[index] || staff.staffPhoto,
           })),
           scheduleList: gigInfo.scheduleList.map((schedule) => {
             const date = dayjs(schedule.performanceDate).toDate();

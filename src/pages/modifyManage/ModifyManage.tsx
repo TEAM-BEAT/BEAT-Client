@@ -333,11 +333,16 @@ const ModifyManage = () => {
       const extractUrls = (data: PresignedResponse) => {
         //앞부분(유효한 부분)만 떼어내서 저장(뒷 부분은 사진이 뜨는 url이 아님)
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
-        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
+        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
         performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
+        return [
+          ...posterUrls,
+          ...castUrls.filter((url) => url !== null),
+          ...staffUrls.filter((url) => url !== null),
+          ...performanceUrls,
+        ];
       };
 
       //배열 형태로 추출된 모든 presignedUrls
@@ -346,8 +351,12 @@ const ModifyManage = () => {
       //기존에 갖고 있던 이미지들의 주소들 -> files
       const files = [
         dataState.posterImage,
-        ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
-        ...dataState.staffModifyRequests.map((staff) => staff.staffPhoto),
+        ...dataState.castModifyRequests
+          .map((cast) => cast.castPhoto)
+          .filter((photo) => photo !== ""),
+        ...dataState.staffModifyRequests
+          .map((staff) => staff.staffPhoto)
+          .filter((photo) => photo !== ""),
         ...dataState.performanceImageModifyRequests.map((obj) => obj.performanceImage),
       ];
 
@@ -400,7 +409,7 @@ const ModifyManage = () => {
         castModifyRequests: dataState.castModifyRequests.map((cast, index) => {
           const modifiedCast = {
             ...cast,
-            castPhoto: castUrls[index] || cast.castPhoto,
+            castPhoto: cast.castPhoto === "" ? "" : castUrls[index] || cast.castPhoto,
           };
           if (modifiedCast.castId === -1) {
             delete modifiedCast.castId; // castId가 -1인 경우 castId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)
@@ -410,7 +419,7 @@ const ModifyManage = () => {
         staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => {
           const modifiedStaff = {
             ...staff,
-            staffPhoto: staffUrls[index] || staff.staffPhoto,
+            staffPhoto: staff.staffPhoto === "" ? "" : staffUrls[index] || staff.staffPhoto,
           };
           if (modifiedStaff.staffId === -1) {
             delete modifiedStaff.staffId; // staffId가 -1인 경우 staffId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)

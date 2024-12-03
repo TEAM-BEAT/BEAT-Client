@@ -25,11 +25,11 @@ const ModifyManageMaker = ({
 
   useEffect(() => {
     const allCastFieldsFilled = castModifyRequests.every(
-      (cast) => cast.castName && cast.castRole && cast.castPhoto
+      (cast) => cast.castName && cast.castRole 
     );
 
     const allStaffFieldsFilled = staffModifyRequests.every(
-      (staff) => staff.staffName && staff.staffRole && staff.staffPhoto
+      (staff) => staff.staffName && staff.staffRole
     );
 
     setIsButtonDisabled(
