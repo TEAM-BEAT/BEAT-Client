@@ -62,7 +62,7 @@ const Lookup = () => {
 
     const bookingDetails = (memberData ?? cachedData)?.find((item) => item.bookingId === bookingId);
     if (bookingDetails) {
-      navigate("/cancel", { state: { ...state, bookingDetails } });
+      navigate("/lookup/cancel", { state: { ...state, bookingDetails } });
     }
   };
 

@@ -21,13 +21,32 @@ const Cancel = () => {
   const { setHeader } = useHeader();
   const { openAlert } = useModal();
   const { state } = useLocation();
-  const { confirmCancelAction } = useCancelBooking(state.bookerName, state.number, state.password);
+  const { confirmCancelAction } = useCancelBooking(
+    state?.bookerName,
+    state?.number,
+    state?.password
+  );
   const navigate = useNavigate();
   const [isDeposit, setIsDeposit] = useState<boolean | null>(null);
   const [bankOpen, setBankOpen] = useState(false);
   const [bankName, setbankName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
+
+  useEffect(() => {
+    if (!state) {
+      const user = localStorage.getItem("user");
+      openAlert({
+        title: "잘못된 접근입니다.",
+        okText: "확인",
+        okCallback: () => navigate(user ? "/lookup" : "/main"),
+      });
+    }
+  }, []);
+
+  if (!state) {
+    return;
+  }
 
   const performanceDateArray = state.bookingDetails.performanceDate.split("-");
   const performanceDataDate = performanceDateArray[2].split("T");
@@ -47,17 +66,6 @@ const Cancel = () => {
       leftOnClick: handleLeftBtn,
     });
   }, [setHeader]);
-
-  useEffect(() => {
-    if (!state) {
-      openAlert({
-        title: "잘못된 접근입니다.",
-        subTitle: "이전 페이지로 이동합니다.",
-        okText: "확인",
-        okCallback: () => navigate(-1),
-      });
-    }
-  }, [state, openAlert, navigate]);
 
   const handleCancelClick = (isDeposit) => {
     const requestData = {
