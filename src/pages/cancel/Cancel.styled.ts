@@ -34,6 +34,7 @@ export const PerformBox = styled.div`
 
   table {
     width: 100%;
+    margin: -0.4rem;
 
     border-collapse: separate;
     border-spacing: 0.4rem 0.4rem;
