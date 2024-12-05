@@ -13,7 +13,7 @@ const BottomSheet = ({ isOpen, title, paddingTop, children }: BottomSheetPropTyp
   return (
     <S.BottomSheetWrapper $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
       <S.BottomSheetLayout $paddingTop={paddingTop}>
-        <S.Title>{title}</S.Title>
+        <S.Title $title={title}>{title}</S.Title>
         {children}
       </S.BottomSheetLayout>
     </S.BottomSheetWrapper>
