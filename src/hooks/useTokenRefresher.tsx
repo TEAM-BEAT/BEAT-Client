@@ -71,6 +71,7 @@ export default function TokenRefresher() {
             navigate("/main");
 
             openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
+            window.location.reload();
           }
         } else if (status === 400 || status === 404 || status === 409) {
         } else if (status === 500) {
