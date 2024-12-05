@@ -14,7 +14,6 @@ import { useHeader } from "@hooks";
 import { useCancelBooking } from "src/hooks/useCancelBooking";
 import { Toast } from "@components/commons";
 import { IconCheck } from "@assets/svgs";
-import { ToastMessage } from "./../../components/commons/toast/Toast.styled";
 
 interface LookupProps {
   userId: number;
