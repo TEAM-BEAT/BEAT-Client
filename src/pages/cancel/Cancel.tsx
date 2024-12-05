@@ -16,6 +16,7 @@ import * as S from "./Cancel.styled";
 import RadioButton from "./../cancel/components/select/RadioButton";
 import { handleChange, handleBankClick, isFormValid } from "./utils";
 import { useCancelBooking } from "../../hooks/useCancelBooking";
+import { numericFilter } from "@utils/useInputFilter";
 
 const Cancel = () => {
   const { setHeader } = useHeader();
@@ -141,7 +142,7 @@ const Cancel = () => {
               name="accountNumber"
               value={accountNumber}
               onChange={(e) => handleChange(e, setAccountNumber)}
-              filter={(value: string) => value.replace(/[^0-9]/g, "")} // 숫자만 허용
+              filter={numericFilter}
               placeholder="입금 받으실 계좌번호를 (-) 제외 숫자만 입력해주세요."
               inputMode="numeric"
             />
