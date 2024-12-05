@@ -7,6 +7,7 @@ export const NAVIGATION_STATE = {
   ICON: "icon",
   LOGO_HAMBURGAR: "logoHamburgar",
   ICON_ICON: "iconIcon",
+  ICON_TITLE_DOWNLOAD: "iconTitleDownload",
 } as const;
 
 export type NavigationState = (typeof NAVIGATION_STATE)[keyof typeof NAVIGATION_STATE];

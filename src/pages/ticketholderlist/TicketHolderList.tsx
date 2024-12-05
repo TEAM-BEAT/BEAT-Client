@@ -10,7 +10,7 @@ import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
 import useDebounce from "src/hooks/useDebounce";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, useRef } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
@@ -76,6 +76,8 @@ const TicketHolderList = () => {
   const [openMenu, setOpenMenu] = useState(false);
 
   const [CSVDataArr, setCSVDataArr] = useState<CSVDataType[]>([]);
+
+  const csvLinkRef = useRef(null);
 
   const { performanceId } = useParams();
 
@@ -363,16 +365,20 @@ const TicketHolderList = () => {
     }
   };
 
+  const handleCSVDownload = () => {
+    if (csvLinkRef.current) {
+      csvLinkRef.current.link.click();
+    }
+  };
+
   const { setHeader } = useHeader();
   useEffect(() => {
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_DOWNLOAD,
       title: "예매자 관리",
-      // TODO : 공통컴포넌트에 svg 들어갈 수 있도록 수정하기
-      subText: "CSV",
+      subText: "리스트",
       leftOnClick: handleNavigateBack,
-      // TODO : rightOnClick CSV 다운로드로 변경
-      // rightOnClick:,
+      rightOnClick: handleCSVDownload,
     });
   }, [setHeader]);
 
@@ -476,6 +482,12 @@ const TicketHolderList = () => {
               handleFilter={(scheduleNumber, bookingStatus) =>
                 handleFilter(scheduleNumber, bookingStatus)
               }
+            />
+            <CSVLink
+              data={CSVDataArr}
+              headers={headers}
+              filename={`${data.performanceTitle}_예매자 목록.csv`}
+              ref={csvLinkRef}
             />
             <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
               클립보드에 복사되었습니다!

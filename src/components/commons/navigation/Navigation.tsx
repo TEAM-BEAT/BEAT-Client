@@ -83,6 +83,19 @@ const Navigation = () => {
     );
   }
 
+  if (headerStyle === NAVIGATION_STATE.ICON_TITLE_DOWNLOAD) {
+    return (
+      <S.NavigationWrapper>
+        <S.NavigationLeftButton onClick={leftOnClick} />
+        <S.NavigationTitle>{title}</S.NavigationTitle>
+        <S.SubTextButton onClick={rightOnClick}>
+          {subText}
+          <S.DownloadButton />
+        </S.SubTextButton>
+      </S.NavigationWrapper>
+    );
+  }
+
   if (!headerStyle) {
     return null;
   }
