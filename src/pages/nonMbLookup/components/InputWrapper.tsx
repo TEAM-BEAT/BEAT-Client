@@ -6,16 +6,16 @@ import { nameFilter, numericFilter, phoneNumberFilter } from "@utils/useInputFil
 
 interface InputWrapperProps {
   formData: {
-    bookerName: string;
+    name: string;
     birth: string;
-    number: string;
+    phone: string;
     password: string;
   };
   onInputChange: (field: string, value: string) => void;
 }
 
 const InputWrapper = ({ formData, onInputChange }: InputWrapperProps) => {
-  const { bookerName, birth, number, password } = formData;
+  const { name, birth, phone, password } = formData;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: fieldName, value } = e.target;
@@ -25,9 +25,9 @@ const InputWrapper = ({ formData, onInputChange }: InputWrapperProps) => {
   return (
     <S.InputWrapperLayout>
       <TextField
-        name="bookerName"
+        name="name"
         type="input"
-        value={bookerName}
+        value={name}
         placeholder="이름"
         onChange={handleChange}
         filter={nameFilter}
@@ -44,8 +44,8 @@ const InputWrapper = ({ formData, onInputChange }: InputWrapperProps) => {
       />
       <TextField
         type="input"
-        name="number"
-        value={number}
+        name="phone"
+        value={phone}
         onChange={handleChange}
         placeholder="휴대폰 번호 '-' 없이 입력"
         filter={phoneNumberFilter}

@@ -17,9 +17,9 @@ const NonMbLookup = () => {
   const { fetchBookingList } = useLazyPostGuestBookingList();
 
   const [formData, setFormData] = useState({
-    bookerName: "",
+    name: "",
     birth: "",
-    number: "",
+    phone: "",
     password: "",
   });
   const [btnActive, setBtnActive] = useState(false);
@@ -32,8 +32,8 @@ const NonMbLookup = () => {
 
   // 버튼 상태 활성화/비활성화
   useEffect(() => {
-    const { bookerName, birth, number, password } = formData;
-    if (bookerName && birth.length === 6 && number.length === 13 && password.length === 4) {
+    const { name, birth, phone, password } = formData;
+    if (name && birth.length === 6 && phone.length === 13 && password.length === 4) {
       setBtnActive(true);
     } else {
       setBtnActive(false);
@@ -42,26 +42,14 @@ const NonMbLookup = () => {
 
   // 버튼 클릭 시 요청 실행
   const handleBtnClick = async () => {
-    const { bookerName, birth, number, password } = formData;
-
     try {
       setIsFetching(true);
 
-      const bookingData = await fetchBookingList({
-        name: bookerName,
-        phone: number,
-        password,
-        birth,
-      });
+      const bookingData = await fetchBookingList(formData);
 
       if (bookingData) {
         navigate("/lookup", {
-          state: {
-            bookerName,
-            number,
-            password,
-            birth,
-          },
+          state: formData,
         });
       } else {
         openAlert({
