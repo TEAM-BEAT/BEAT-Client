@@ -16,7 +16,6 @@ import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@page
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
-import { getScheduleNumberById } from "./utils";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -30,11 +29,13 @@ const Book = () => {
 
   useEffect(() => {
     if (data) {
-      const isBookingAvailable = data?.scheduleList[data?.scheduleList.length - 1]?.isBooking;
+      const isAllBookingUnavailable = data?.scheduleList?.every(
+        (schedule) => schedule.isBooking === false
+      );
 
-      if (!isBookingAvailable) {
+      if (isAllBookingUnavailable) {
         openAlert({
-          title: "종료된 공연입니다.",
+          title: "예매가 마감되었습니다.",
           okText: "확인",
           okCallback: () => {
             navigate(`/gig/${performanceId}`);
@@ -83,6 +84,13 @@ const Book = () => {
 
   const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook();
   const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
+
+  useEffect(() => {
+    if (data?.scheduleList?.length === 1) {
+      const singleSchedule = data.scheduleList[0];
+      setSelectedValue(singleSchedule.scheduleId);
+    }
+  }, [data?.scheduleList]);
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -145,9 +153,8 @@ const Book = () => {
     }
 
     let formData = {
-      scheduleId:
-        data?.scheduleList![selectedValue! - data?.scheduleList?.[0].scheduleId].scheduleId,
-      scheduleNumber: getScheduleNumberById(data?.scheduleList!, selectedValue!),
+      scheduleId: selectedSchedule.scheduleId,
+      scheduleNumber: selectedSchedule.scheduleNumber,
       purchaseTicketCount: round,
       totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
       // TODO: 상수로 관리

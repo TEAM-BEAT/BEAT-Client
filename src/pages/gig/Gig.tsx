@@ -15,6 +15,7 @@ import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
 
+//todo: 공연 보는 페이지, 수정 페이지에서도 변경 사항 반영해두기
 const Gig = () => {
   const navigate = useNavigate();
   const [, setNavigateUrl] = useAtom(navigateAtom);
@@ -122,10 +123,15 @@ const Gig = () => {
         teamName={data?.performanceTeamName ?? ""}
         castList={data?.castList ?? []}
         staffList={data?.staffList ?? []}
+        performanceVenue={data?.performanceVenue ?? ""}
+        roadAddressName={data?.roadAddressName ?? ""}
+        placeDetailAddress={data?.placeDetailAddress ?? ""}
+        latitude={data?.latitude ?? ""}
+        longitude={data?.longitude ?? ""}
       />
       <S.FooterContainer>
         <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
-          {isBookingAvailable ? "예매하기" : "종료된 공연은 예매할 수 없습니다."}
+          {isBookingAvailable ? "예매하기" : "마감된 공연입니다."}
         </Button>
       </S.FooterContainer>
 

@@ -31,7 +31,7 @@ export const useMakerPerformance = () => {
     queryKey: [PERFORMANCE_QUERY_KEY.DETAIL],
     queryFn: getMakerPerformance,
     // staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 24,
+    gcTime: 0,
   });
 };
 

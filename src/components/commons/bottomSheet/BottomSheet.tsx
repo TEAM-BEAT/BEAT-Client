@@ -6,13 +6,14 @@ export interface BottomSheetPropType {
   isOpen: boolean;
   children?: ReactNode;
   title?: string;
+  paddingTop?: string;
 }
 
-const BottomSheet = ({ isOpen, title, children }: BottomSheetPropType) => {
+const BottomSheet = ({ isOpen, title, paddingTop, children }: BottomSheetPropType) => {
   return (
     <S.BottomSheetWrapper $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
-      <S.BottomSheetLayout>
-        <S.Title>{title}</S.Title>
+      <S.BottomSheetLayout $paddingTop={paddingTop}>
+        <S.Title $title={title}>{title}</S.Title>
         {children}
       </S.BottomSheetLayout>
     </S.BottomSheetWrapper>

@@ -1,7 +1,7 @@
 import { put } from "@apis/index";
 import { components } from "@typings/api/schema";
 
-export type SuccessResponse = components["schemas"]["SuccessResponse"];
+export type SuccessResponse = components["schemas"]["SuccessResponseVoid"];
 
 // 캐러셀 수정 API (PUT)
 export const updateCarousel = async (formData): Promise<SuccessResponse | null> => {

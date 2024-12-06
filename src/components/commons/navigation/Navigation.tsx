@@ -46,6 +46,16 @@ const Navigation = () => {
     );
   }
 
+  if (headerStyle === NAVIGATION_STATE.TITLE_SUB_TEXT) {
+    return (
+      <S.NavigationWrapper>
+        <S.FragmentDiv />
+        <S.NavigationTitle>{title}</S.NavigationTitle>
+        <S.SubTextButton onClick={rightOnClick}>{subText}</S.SubTextButton>
+      </S.NavigationWrapper>
+    );
+  }
+
   if (headerStyle === NAVIGATION_STATE.ICON) {
     return (
       <S.NavigationWrapper>

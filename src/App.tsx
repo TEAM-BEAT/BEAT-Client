@@ -25,8 +25,8 @@ function App() {
   const queryClient = new QueryClient();
 
   function setScreenSize() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    const dvh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--dvh", `${dvh}px`);
   }
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function App() {
 
   return (
     <HelmetProvider>
-      {/* <MetaTag title="BEAT" /> */}
+      <MetaTag title="BEAT" />
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={darkTheme}>
           <ThemeProvider theme={theme}>
