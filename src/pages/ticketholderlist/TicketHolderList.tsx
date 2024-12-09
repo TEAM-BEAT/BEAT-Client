@@ -288,11 +288,7 @@ const TicketHolderList = () => {
 
   // 필터 바텀시트
   const handleFilterSheet = () => {
-    if (!openFilter) {
-      setOpenFilter(true);
-    } else {
-      setOpenFilter(false);
-    }
+    setOpenFilter((prev) => !prev);
   };
 
   const handleFilter = async (scheduleNumber: number[], bookingStatus: string[]) => {
