@@ -32,6 +32,8 @@ const FilterBottomSheet = ({
     filterList.scheduleNumber
   );
 
+  const initList = filterList;
+
   const handleWrapperClick = () => {
     onClickOutside();
   };
@@ -77,6 +79,12 @@ const FilterBottomSheet = ({
     setCheckedStatusList([]);
   };
 
+  const isAllEmpty =
+    initList.scheduleNumber.length === 0 &&
+    initList.bookingStatus.length === 0 &&
+    checkedStatusList.length === 0 &&
+    checkedScheduleList.length === 0;
+
   return (
     <S.FilterBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>
       <BottomSheet isOpen={isOpen}>
@@ -118,8 +126,11 @@ const FilterBottomSheet = ({
           ))}
         </S.CheckBoxContainer>
         <Spacing marginBottom="3.2" />
-        {/* TODO : 선택된 내역 없을 때 버튼 비활성화 하기 */}
-        <Button onClick={handleCilckBtn}>적용하기</Button>
+        {isAllEmpty ? (
+          <Button variant="gray">적용하기</Button>
+        ) : (
+          <Button onClick={handleCilckBtn}>적용하기</Button>
+        )}
       </BottomSheet>
     </S.FilterBottomSheetWrapper>
   );
