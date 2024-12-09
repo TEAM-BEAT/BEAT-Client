@@ -1,4 +1,4 @@
-import { get, post } from "@apis/index";
+import { get, patch, post } from "@apis/index";
 import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { AxiosError, AxiosResponse } from "axios";
@@ -96,5 +96,33 @@ export const postMemberBook = async (
     formData
   );
 
+  return response.data.data;
+};
+
+// 예매 취소
+export type BookingCancelRequest = components["schemas"]["BookingCancelRequest"];
+export type BookingCancelResponse = components["schemas"]["BookingCancelResponse"];
+
+export const patchCancelBook = async (
+  formData: BookingCancelRequest
+): Promise<BookingCancelResponse> => {
+  const response: AxiosResponse<ApiResponseType<BookingCancelRequest>> = await patch(
+    "/bookings/cancel",
+    formData
+  );
+  return response.data.data;
+};
+
+// 예매 환불 신청
+export type BookingRefundRequest = components["schemas"]["BookingRefundRequest"];
+export type BookingRefundResponse = components["schemas"]["BookingRefundResponse"];
+
+export const patchRefundBook = async (
+  formData: BookingRefundRequest
+): Promise<BookingRefundResponse> => {
+  const response: AxiosResponse<ApiResponseType<BookingRefundRequest>> = await patch(
+    "/bookings/refund",
+    formData
+  );
   return response.data.data;
 };

@@ -1,4 +1,4 @@
-import { useGuestBook } from "@apis/domains/bookings/queries";
+// import { useGuestBook } from "@apis/domains/bookings/queries";
 import { IconCheck, IconTextfiedlDelete } from "@assets/svgs";
 import Button from "@components/commons/button/Button";
 import Chip from "@components/commons/chip/Chip";
@@ -38,7 +38,7 @@ const TestPage = () => {
   };
 
   // 3. 훅 불러와서 사용
-  const { mutate, mutateAsync } = useGuestBook();
+  // const { mutate, mutateAsync } = useGuestBook();
 
   const handleClick = () => {
     const formData = {
