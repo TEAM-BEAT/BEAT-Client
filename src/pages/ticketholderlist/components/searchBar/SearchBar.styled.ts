@@ -10,16 +10,14 @@ export const SearchBarWrapper = styled.section`
 export const SearchBarLayout = styled.section`
   display: flex;
   flex-grow: 1;
+  align-items: center;
   height: 4.8rem;
   padding: 1.2rem 1.3rem;
-
 
   background-color: ${({ theme }) => theme.colors.gray_800};
   border: 0.1rem solid;
   border-color: ${({ theme }) => theme.colors.gray_700};
   border-radius: 4rem;
-
-  align-items: center;
 `;
 
 export const SearchIcon = styled(IconSearch)`
