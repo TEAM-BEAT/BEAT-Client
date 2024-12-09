@@ -3,6 +3,7 @@ import { components } from "@typings/api/schema";
 import { ApiResponseType } from "@typings/commonType";
 import { PatchFormDataProps } from "@typings/deleteBookerFormatProps";
 import { AxiosResponse } from "axios";
+import { convertingScheduleNumber } from "@constants/convertingScheduleNumber";
 
 // 예매자 목록 조회 API (GET)
 export interface getTicketReq {
@@ -15,11 +16,18 @@ export interface getTicketReq {
 type TicketRetrieveResponse = components["schemas"]["TicketRetrieveResponse"];
 
 export const getTicketRetrieve = async (
-  formData: getTicketReq
+  formData: getTicketReq,
+  filterList
 ): Promise<TicketRetrieveResponse | null> => {
   try {
+    const params = new URLSearchParams();
+    filterList.scheduleNumber.map((item) =>
+      params.append("scheduleNumbers", convertingScheduleNumber(item))
+    );
+    filterList.bookingStatus.map((item) => params.append("bookingStatuses", item));
+
     const response: AxiosResponse<ApiResponseType<TicketRetrieveResponse>> = await get(
-      `tickets/${formData.performanceId}`
+      `tickets/${formData.performanceId}?${params.toString()}`
     );
 
     return response.data.data;
@@ -29,17 +37,35 @@ export const getTicketRetrieve = async (
   }
 };
 
-// 예매자 입급 여부 수정 API (PUT)
-/*
-export interface putTicketReq {
-  performanceId: number;
-  performanceTitle: string;
-  totalScheduleCoun: number;
-  bookingList: BookingListProps[];
-}
-*/
-export type TicketUpdateRequest = components["schemas"]["TicketUpdateRequest"];
+export const getTicketRetrieveSearch = async (
+  formData: getTicketReq,
+  searchWord,
+  filterList
+): Promise<TicketRetrieveResponse | null> => {
+  try {
+    const params = new URLSearchParams();
+    params.append("searchWord", searchWord);
+    filterList.scheduleNumber.map((item) =>
+      params.append("scheduleNumbers", convertingScheduleNumber(item))
+    );
+    filterList.bookingStatus.map((item) => params.append("bookingStatuses", item));
+
+    const response: AxiosResponse<ApiResponseType<TicketRetrieveResponse>> = await get(
+      `tickets/search/${formData.performanceId}?${params.toString()}`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
 type SuccessResponseVoid = components["schemas"]["SuccessResponseVoid"];
+
+// 예매자 입급 여부 수정 API (PUT)
+
+export type TicketUpdateRequest = components["schemas"]["TicketUpdateRequest"];
 
 //async 함수는 항상 promise로 감싸서 값을 리턴한다.
 //즉, 비동기 함수의 값을 사용하려면 추후 await이나 then 을 사용해야 한다던데..
@@ -49,7 +75,7 @@ export const putTicketUpdate = async (
 ): Promise<SuccessResponseVoid | null> => {
   try {
     const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets",
+      "tickets/update",
       formData
     );
 
@@ -60,18 +86,39 @@ export const putTicketUpdate = async (
   }
 };
 
-// 예매자 취소 API (PATCH)
-//이거 타입 잘못되었을 수도..? bookingList 가 number를 담은 배열로 되어 있는데, 실제로는 아니었음
-//export type TicketDeleteRequest = components["schemas"]["TicketDeleteRequest"];
+// 예매자 환불처리 (PUT)
 
-export const patchTicketCancel = async (
-  formData: PatchFormDataProps
+export type TicketRefundRequest = components["schemas"]["TicketRefundRequest"];
+
+export const putTicketRefund = async (
+  formData: TicketRefundRequest
 ): Promise<SuccessResponseVoid | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await patch(
-      "tickets",
+    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
+      "tickets/refund",
       formData
     );
+
+    return response.data.data;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+// 예매자 삭제 (PUT)
+
+export type TicketDeleteRequest = components["schemas"]["TicketDeleteRequest"];
+
+export const putTicketDelete = async (
+  formData: TicketDeleteRequest
+): Promise<SuccessResponseVoid | null> => {
+  try {
+    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
+      "tickets/delete",
+      formData
+    );
+
     return response.data.data;
   } catch (error) {
     console.log("error", error);

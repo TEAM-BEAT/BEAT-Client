@@ -1,9 +1,16 @@
-import { useTicketPatch, useTicketRetrive, useTicketUpdate } from "@apis/domains/tickets/queries";
+import {
+  useTicketDelete,
+  useTicketRefund,
+  useTicketRetrive,
+  useTicketRetriveSearch,
+  useTicketUpdate,
+} from "@apis/domains/tickets/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader, useModal, useToast } from "@hooks";
-import { useEffect, useState } from "react";
+import { useHeader, useModal } from "@hooks";
+import useDebounce from "src/hooks/useDebounce";
+import { useEffect, useState, ChangeEvent, useRef } from "react";
 import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
@@ -17,104 +24,17 @@ import { BookingListProps } from "@pages/ticketholderlist/types/bookingListType"
 import { ManageCard } from "./components/manageCard";
 import { getBankNameKr } from "@utils/getBankName";
 import SelectedChips from "./components/selectedChips/SelectedChips";
-
-const data = {
-  performanceTitle: "비트밴드 정기공연",
-  performanceTeamName: "비트밴드",
-  isBooking: true,
-  totalScheduleCount: 3,
-  totalPerformanceTicketCount: 100,
-  totalPerformanceSoldTicketCount: 50,
-  bookingList: [
-    {
-      bookingId: 1,
-      bookerName: "황혜린",
-      bookerPhoneNumber: "010-1234-5678",
-      scheduleId: 2,
-      purchaseTicketCount: 3,
-      createdAt: "2024-07-07T12:34:56.789Z",
-      bookingStatus: "REFUND_REQUIRED",
-      scheduleNumber: "SECOND",
-      bankName: "NH_NONGHYUP",
-      accountNumber: "123-12-1234-123",
-      accountHolder: "전희주",
-    },
-    {
-      bookingId: 2,
-      bookerName: "이동훈",
-      bookerPhoneNumber: "010-1234-0000",
-      scheduleId: 1,
-      purchaseTicketCount: 2,
-      createdAt: "2024-07-08T12:34:56.789Z",
-      bookingStatus: "BOOKING_CONFIRMED",
-      scheduleNumber: "FIRST",
-      // 예매 확정된 상태이므로 환불계좌 정보 없음
-      bankName: "",
-      accountNumber: "",
-      accountHolder: "",
-    },
-    {
-      bookingId: 1,
-      bookerName: "황혜린",
-      bookerPhoneNumber: "010-1234-5678",
-      scheduleId: 2,
-      purchaseTicketCount: 3,
-      createdAt: "2024-07-07T12:34:56.789Z",
-      bookingStatus: "REFUND_REQUIRED",
-      scheduleNumber: "SECOND",
-      bankName: "NH_NONGHYUP",
-      accountNumber: "123-12-1234-123",
-      accountHolder: "전희주",
-    },
-    {
-      bookingId: 2,
-      bookerName: "이동훈",
-      bookerPhoneNumber: "010-1234-0000",
-      scheduleId: 1,
-      purchaseTicketCount: 2,
-      createdAt: "2024-07-08T12:34:56.789Z",
-      bookingStatus: "CHECKING_PAYMENT",
-      scheduleNumber: "FIRST",
-      // 예매 확정된 상태이므로 환불계좌 정보 없음
-      bankName: "",
-      accountNumber: "",
-      accountHolder: "",
-    },
-    {
-      bookingId: 1,
-      bookerName: "황혜린",
-      bookerPhoneNumber: "010-1234-5678",
-      scheduleId: 2,
-      purchaseTicketCount: 3,
-      createdAt: "2024-07-07T12:34:56.789Z",
-      bookingStatus: "REFUND_REQUIRED",
-      scheduleNumber: "SECOND",
-      bankName: "NH_NONGHYUP",
-      accountNumber: "123-12-1234-123",
-      accountHolder: "전희주",
-    },
-    {
-      bookingId: 2,
-      bookerName: "이동훈",
-      bookerPhoneNumber: "010-1234-0000",
-      scheduleId: 1,
-      purchaseTicketCount: 2,
-      createdAt: "2024-07-08T12:34:56.789Z",
-      bookingStatus: "BOOKING_CANCELLED",
-      scheduleNumber: "FIRST",
-      // 예매 확정된 상태이므로 환불계좌 정보 없음
-      bankName: "",
-      accountNumber: "",
-      accountHolder: "",
-    },
-  ],
-};
+import { convertingBookingStatus } from "@constants/convertingBookingStatus";
+import { IconCheck } from "@assets/svgs";
+import Toast from "@components/commons/toast/Toast";
+import { useToast } from "@hooks";
+import NonExistent from "./components/nonExistent/NonExistent.";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
   | "BOOKING_CONFIRMED"
   | "BOOKING_CANCELLED"
-  | "REFUND_REQUIRED";
+  | "REFUND_REQUESTED";
 
 interface CSVDataType {
   createdAt: string;
@@ -125,22 +45,10 @@ interface CSVDataType {
   bookingStatus: string;
 }
 
-// 관리자 페이지에서만 사용해서 공통 type으로 안 뺌
-// TODO : TicketHolderList 내 type으로 빼기
-export const convertingBookingStatus = (_bookingStatus: PaymentType): string => {
-  switch (_bookingStatus) {
-    case "CHECKING_PAYMENT":
-      return "미입금";
-    case "BOOKING_CONFIRMED":
-      return "입금 완료";
-    case "BOOKING_CANCELLED":
-      return "취소 완료";
-    case "REFUND_REQUIRED":
-      return "환불 요청";
-    default:
-      throw new Error("알 수 없는 상태입니다.");
-  }
-};
+export interface FilterListType {
+  scheduleNumber: number[];
+  bookingStatus: string[];
+}
 
 const headers = [
   { label: "예매일시", key: "createdAt" },
@@ -158,31 +66,173 @@ const TicketHolderList = () => {
   const [status, setStatus] = useState("DEFAULT");
   const [buttonText, setButtonText] = useState("예매자 관리하기");
 
+  const [filterList, setFilterList] = useState<FilterListType>({
+    scheduleNumber: [],
+    bookingStatus: [],
+  });
+  const [searchWord, setSearchWord] = useState("");
+
   const [openFilter, setOpenFilter] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
   const [CSVDataArr, setCSVDataArr] = useState<CSVDataType[]>([]);
 
+  const csvLinkRef = useRef(null);
+
   const { performanceId } = useParams();
 
-  // const { data, isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
-  const { isLoading, refetch } = useTicketRetrive({ performanceId: Number(performanceId) });
+  const { data, isLoading, refetch } = useTicketRetrive(
+    { performanceId: Number(performanceId) },
+    filterList
+  );
+  const { data: searchData, refetch: searchRefetch } = useTicketRetriveSearch(
+    { performanceId: Number(performanceId) },
+    searchWord,
+    filterList
+  );
+  const { openConfirm, closeConfirm } = useModal();
+
+  const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
+  const { showToast, isToastVisible } = useToast();
+  // 체크된 리스트 확인
+  const handleBookingIdCheck = (bookingId: number) => {
+    setCheckedBookingId((prev) =>
+      prev.includes(bookingId) ? prev.filter((id) => id !== bookingId) : [...prev, bookingId]
+    );
+  };
+
+  const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
+
+  const handlePaymentFixAxiosFunc = () => {
+    if (updateIsPending) {
+      return;
+    }
+    // 예매 완료 PUT API 요청
+    // paymentData에 accountHolder, accountNumber, bankName 제거
+    const filteredPaymentData = paymentData.map(
+      ({ bankName, accountNumber, accountHolder, ...rest }) => ({
+        ...rest,
+        bookingStatus: checkedBookingId.includes(rest.bookingId)
+          ? "BOOKING_CONFIRMED"
+          : rest.bookingStatus,
+      })
+    );
+
+    updateMutate({
+      performanceId: Number(performanceId),
+      performanceTitle: data?.performanceTitle,
+      totalScheduleCount: data?.totalScheduleCount,
+      bookingList: filteredPaymentData,
+    });
+    closeConfirm();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
+  const handlePaymentFixBtn = () => {
+    openConfirm({
+      title: "입금 처리시 예매확정 문자가 발송돼요.",
+      subTitle: "예매자에게 입금이 확인되었음을 알려드릴게요!",
+      okText: "입금 처리하기",
+      noText: "아니요",
+      okCallback: () => {
+        handlePaymentFixAxiosFunc();
+      },
+      noCallback: closeConfirm,
+    });
+  };
+
+  // 환불 요청
+  const { mutate: refundMutate, isPending: refundIsPending } = useTicketRefund();
+
+  const handlePaymentRefundBtn = () => {
+    openConfirm({
+      title: "환불 처리 하시겠어요?",
+      subTitle: "예매자에게 환불 금액을 보낸 뒤 처리해 주세요.",
+      okText: "환불 처리하기",
+      noText: "아니요",
+      okCallback: () => {
+        handlePaymentRefundAxiosFunc();
+      },
+      noCallback: closeConfirm,
+    });
+  };
+
+  const handlePaymentRefundAxiosFunc = () => {
+    if (refundIsPending) {
+      return;
+    }
+    // 환불 요청 PUT API 요청
+    // bookingId만 전달
+    const filteredPaymentData = paymentData.map(({ bookingId }) => ({
+      bookingId: checkedBookingId.includes(bookingId) && bookingId,
+    }));
+
+    refundMutate({
+      performanceId: Number(performanceId),
+      bookingList: filteredPaymentData,
+    });
+    closeConfirm();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
+  // 취소 요청
+  const { mutate: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
+
+  const handlePaymentDeleteBtn = () => {
+    openConfirm({
+      title: "예매자를 삭제하시겠어요?",
+      subTitle: "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.",
+      okText: "삭제하기",
+      noText: "아니요",
+      okCallback: () => {
+        handlePaymentDeleteAxiosFunc();
+      },
+      noCallback: closeConfirm,
+    });
+  };
+
+  const handlePaymentDeleteAxiosFunc = () => {
+    if (deleteIsPending) {
+      return;
+    }
+    // 취소 요청 PUT API 요청
+    // bookingId만 전달
+    const filteredPaymentData = paymentData.map(({ bookingId }) => ({
+      bookingId: checkedBookingId.includes(bookingId) && bookingId,
+    }));
+
+    deleteMutate({
+      performanceId: Number(performanceId),
+      bookingList: filteredPaymentData,
+    });
+    closeConfirm();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
 
   const actions = {
     PAYMENT: {
       text: "입금 처리하기",
-      // TODO : 예매 확정 팝업
-      action: console.log("입금 처리"),
+      action: () => {
+        handlePaymentFixBtn();
+      },
     },
     REFUND: {
       text: "환불 처리하기",
-      // TODO : 환불 처리 팝업
-      action: () => console.log("환불"),
+      action: () => {
+        handlePaymentRefundBtn();
+      },
     },
     DELETE: {
       text: "예매자 삭제하기",
-      // TODO : 예매자 삭제 팝업
-      action: () => console.log("예매자 삭제"),
+      action: () => {
+        handlePaymentDeleteBtn();
+      },
     },
     DEFAULT: {
       text: "예매자 관리하기",
@@ -202,6 +252,32 @@ const TicketHolderList = () => {
   const handleStatus = (status: string) => {
     setStatus(status);
     setOpenMenu(false);
+    switch (status) {
+      case "PAYMENT":
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: ["CHECKING_PAYMENT"],
+        });
+        break;
+      case "REFUND":
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: ["REFUND_REQUESTED"],
+        });
+        break;
+      case "DELETE":
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: ["CHECKING_PAYMENT", "BOOKING_CONFIRMED", "REFUND_REQUESTED"],
+        });
+        break;
+      default:
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: [],
+        });
+        break;
+    }
   };
 
   // 바텀시트 닫기
@@ -211,13 +287,39 @@ const TicketHolderList = () => {
   };
 
   // 필터 바텀시트
-  const handleFilter = () => {
-    if (!openFilter) {
-      setOpenFilter(true);
-    } else {
-      setOpenFilter(false);
-    }
+  const handleFilterSheet = () => {
+    setOpenFilter((prev) => !prev);
   };
+
+  const handleFilter = async (scheduleNumber: number[], bookingStatus: string[]) => {
+    setFilterList({
+      scheduleNumber,
+      bookingStatus,
+    });
+  };
+
+  const debouncedQuery = useDebounce(searchWord, 500);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(event.target.value);
+  };
+
+  // 필터 변경될 때마다 GET API 요청
+  // 검색될 때마다 GET API 요청
+  useEffect(() => {
+    const fetchData = async () => {
+      const refetchData = await refetch();
+      setPaymentData(refetchData?.data?.bookingList ?? []);
+    };
+
+    const fetchSearchData = async () => {
+      const refetchSearchData = await searchRefetch();
+      setPaymentData(refetchSearchData?.data?.bookingList ?? []);
+    };
+
+    // TODO : 서버에서 검색어 2글자 이상으로 넘겨줬는데, 기-디에 화면에 어떻게 표현할지 물어보기
+    searchWord.length >= 2 ? fetchSearchData() : fetchData();
+  }, [filterList, status, debouncedQuery]);
 
   useEffect(() => {
     setPaymentData(data?.bookingList ?? []);
@@ -247,26 +349,40 @@ const TicketHolderList = () => {
       );
       setCSVDataArr(tempCSVDataArr);
     }
-  }, [data]);
+  }, [data, paymentData]);
 
   const navigate = useNavigate();
 
   const handleNavigateBack = () => {
-    navigate("/gig-manage");
+    if (status !== "DEFAULT") {
+      setStatus("DEFAULT");
+    } else {
+      navigate("/gig-manage");
+    }
+  };
+
+  const handleCSVDownload = () => {
+    if (csvLinkRef.current) {
+      csvLinkRef.current.link.click();
+    }
   };
 
   const { setHeader } = useHeader();
   useEffect(() => {
     setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_SUB_TEXT,
+      headerStyle: NAVIGATION_STATE.ICON_TITLE_DOWNLOAD,
       title: "예매자 관리",
-      // TODO : 공통컴포넌트에 svg 들어갈 수 있도록 수정하기
-      subText: "CSV",
+      subText: "리스트",
       leftOnClick: handleNavigateBack,
-      // TODO : rightOnClick CSV 다운로드로 변경
-      // rightOnClick: ,
+      rightOnClick: handleCSVDownload,
     });
   }, [setHeader]);
+
+  const handleCopyClipBoard = (text: string) => {
+    navigator.clipboard.writeText(text);
+
+    showToast();
+  };
 
   return (
     <>
@@ -284,41 +400,67 @@ const TicketHolderList = () => {
                 totalCount={data?.totalPerformanceTicketCount}
               />
               <Spacing marginBottom={"2.6"} />
-              <SearchBar handleFilter={handleFilter} status={status} />
-              <SelectedChips />
+              <SearchBar
+                handleFilterSheet={handleFilterSheet}
+                handleInputChange={handleInputChange}
+                searchWord={searchWord}
+                status={status}
+                isFilter={
+                  filterList.scheduleNumber.length > 0 || filterList.bookingStatus.length > 0
+                }
+              />
+              {status === "DEFAULT" && (
+                <SelectedChips
+                  filterList={filterList}
+                  handleFilter={(scheduleNumber, bookingStatus) =>
+                    handleFilter(scheduleNumber, bookingStatus)
+                  }
+                />
+              )}
+
               <Spacing marginBottom={"1.6"} />
             </S.TitleSticky>
+            {paymentData?.length ? (
+              <S.ManageCardList>
+                {paymentData?.map((item) => {
+                  const date = item.createdAt.split("T")[0];
+                  const formattedDate = `${date.replace(/-/g, ". ")}`;
+                  const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);
 
-            <S.ManageCardList>
-              {paymentData.map((item, idx) => {
-                const date = item.createdAt.split("T")[0];
-                const formattedDate = `${date.replace(/-/g, ". ")}`;
-                const bookingStatus = convertingBookingStatus(item.bookingStatus as PaymentType);
-
-                return (
-                  <ManageCard key={idx}>
-                    <S.ManageCardContainer>
-                      {status !== "DEFAULT" && <ManageCard.ManageCheckBox />}
-                      <ManageCard.ManageCardContainer
-                        name={item.bookerName}
-                        phoneNumber={item.bookerPhoneNumber}
-                        ticketCount={item.purchaseTicketCount}
-                        scheduleId={item.scheduleId}
-                        date={formattedDate}
-                        status={bookingStatus}
-                      />
-                    </S.ManageCardContainer>
-                    {status === "REFUND" && (
-                      <ManageCard.ManageAccount
-                        bankName={getBankNameKr(item.bankName)}
-                        accountNumber={item.accountNumber}
-                        accountHolder={item.accountHolder}
-                      />
-                    )}
-                  </ManageCard>
-                );
-              })}
-            </S.ManageCardList>
+                  return (
+                    <ManageCard key={item.bookingId}>
+                      <S.ManageCardContainer>
+                        {status !== "DEFAULT" && (
+                          <ManageCard.ManageCheckBox
+                            bookingId={item.bookingId}
+                            checkedBookingId={checkedBookingId}
+                            handleBookingIdCheck={handleBookingIdCheck}
+                          />
+                        )}
+                        <ManageCard.ManageCardContainer
+                          name={item.bookerName}
+                          phoneNumber={item.bookerPhoneNumber}
+                          ticketCount={item.purchaseTicketCount}
+                          scheduleNumber={convertingNumber(item.scheduleNumber)}
+                          date={formattedDate}
+                          status={bookingStatus}
+                        />
+                      </S.ManageCardContainer>
+                      {status === "REFUND" && (
+                        <ManageCard.ManageAccount
+                          bankName={getBankNameKr(item.bankName)}
+                          accountNumber={item.accountNumber}
+                          accountHolder={item.accountHolder}
+                          handleCopyClipBoard={handleCopyClipBoard}
+                        />
+                      )}
+                    </ManageCard>
+                  );
+                })}
+              </S.ManageCardList>
+            ) : (
+              <NonExistent status={status} />
+            )}
 
             <S.FooterButtonWrapper>
               <Button onClick={handleButtonClick}>{buttonText}</Button>
@@ -330,9 +472,22 @@ const TicketHolderList = () => {
             />
             <FilterBottomSheet
               isOpen={openFilter}
-              totalScheduleCount={data.totalScheduleCount}
-              onClickOutside={handleFilter}
+              totalScheduleCount={data?.totalScheduleCount}
+              onClickOutside={handleFilterSheet}
+              filterList={filterList}
+              handleFilter={(scheduleNumber, bookingStatus) =>
+                handleFilter(scheduleNumber, bookingStatus)
+              }
             />
+            <CSVLink
+              data={CSVDataArr}
+              headers={headers}
+              filename={`${data.performanceTitle}_예매자 목록.csv`}
+              ref={csvLinkRef}
+            />
+            <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+              클립보드에 복사되었습니다!
+            </Toast>
           </S.TicketHolderListWrpper>
         </>
       )}

@@ -1,24 +1,38 @@
-import React, { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import * as S from "./FilterBottomSheet.styled";
 import { BottomSheet, Button, Spacing } from "@components/commons";
+import { FilterListType, PaymentType } from "@pages/ticketholderlist/TicketHolderList";
+import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 
 interface FilterBottomSheetProps {
   isOpen: boolean;
   totalScheduleCount: number;
   children?: ReactNode;
   onClickOutside?: () => void;
+  filterList: FilterListType;
+  handleFilter: (scheduleNumber: number[], bookingStatus: string[]) => void;
 }
 
-const bookingStatusList = ["미입금", "입금 완료", "환불 요청", "취소 완료"];
+const bookingStatusList = [
+  "CHECKING_PAYMENT",
+  "BOOKING_CONFIRMED",
+  "REFUND_REQUESTED",
+  "BOOKING_CANCELLED",
+];
 
 const FilterBottomSheet = ({
   isOpen,
   onClickOutside,
   totalScheduleCount,
-  children,
+  handleFilter,
+  filterList,
 }: FilterBottomSheetProps) => {
-  const [checkedStatusList, setCheckedStatusList] = useState<string[]>([]);
-  const [checkedScheduleList, setCheckedScheduleList] = useState<number[]>([]);
+  const [checkedStatusList, setCheckedStatusList] = useState<string[]>(filterList.bookingStatus);
+  const [checkedScheduleList, setCheckedScheduleList] = useState<number[]>(
+    filterList.scheduleNumber
+  );
+
+  const initList = filterList;
 
   const handleWrapperClick = () => {
     onClickOutside();
@@ -31,6 +45,14 @@ const FilterBottomSheet = ({
   };
 
   const scheduleArray = scheduleNumberArray(totalScheduleCount);
+
+  useEffect(() => {
+    const newScheduleNumbers = filterList.scheduleNumber.map((item) => item);
+    const newBookingStatuses = filterList.bookingStatus.map((item) => item);
+
+    setCheckedScheduleList(newScheduleNumbers);
+    setCheckedStatusList(newBookingStatuses);
+  }, [filterList]);
 
   // 선택된 회차 확인
   const handleScheduleCheck = (schedule: number) => {
@@ -48,12 +70,20 @@ const FilterBottomSheet = ({
 
   const handleCilckBtn = () => {
     onClickOutside();
+
+    handleFilter(checkedScheduleList, checkedStatusList);
   };
 
   const handleClickRefresh = () => {
     setCheckedScheduleList([]);
     setCheckedStatusList([]);
   };
+
+  const isAllEmpty =
+    initList.scheduleNumber.length === 0 &&
+    initList.bookingStatus.length === 0 &&
+    checkedStatusList.length === 0 &&
+    checkedScheduleList.length === 0;
 
   return (
     <S.FilterBottomSheetWrapper $isOpen={isOpen} onClick={handleWrapperClick}>
@@ -91,13 +121,16 @@ const FilterBottomSheet = ({
                 onChange={() => handleStatusCheck(status)}
               />
               {checkedStatusList.includes(status) ? <S.SelectIcon /> : <S.UnSelectIcon />}
-              <S.CheckBoxText>{status}</S.CheckBoxText>
+              <S.CheckBoxText>{convertingBookingStatus(status as PaymentType)}</S.CheckBoxText>
             </S.CheckBoxLabel>
           ))}
         </S.CheckBoxContainer>
         <Spacing marginBottom="3.2" />
-        {/* TODO : 선택된 내역 없을 때 버튼 비활성화 하기 */}
-        <Button onClick={handleCilckBtn}>적용하기</Button>
+        {isAllEmpty ? (
+          <Button variant="gray">적용하기</Button>
+        ) : (
+          <Button onClick={handleCilckBtn}>적용하기</Button>
+        )}
       </BottomSheet>
     </S.FilterBottomSheetWrapper>
   );

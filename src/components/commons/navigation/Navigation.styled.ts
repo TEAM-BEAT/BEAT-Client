@@ -1,4 +1,11 @@
-import { IcHamburgar, IconArrowLeft, IconArrowRight, IconLogo, IconXButton } from "@assets/svgs";
+import {
+  IcHamburgar,
+  IconArrowLeft,
+  IconArrowRight,
+  IconLogo,
+  IconXButton,
+  IconDownload,
+} from "@assets/svgs";
 import styled from "styled-components";
 
 export const NavigationWrapper = styled.div`
@@ -38,6 +45,13 @@ export const HamburgarButton = styled(IcHamburgar)`
   cursor: pointer;
 `;
 
+export const DownloadButton = styled(IconDownload)`
+  width: 2rem;
+  height: 2rem;
+
+  cursor: pointer;
+`;
+
 export const NavigationLeftButton = styled(IconArrowLeft)`
   box-sizing: content-box;
   width: 2.4rem;
@@ -67,7 +81,7 @@ export const NavigationXButton = styled(IconXButton)`
 
 // TODO: 뷰에 띄워보니 padding이 없어 스타일링 이상함 디자이너 분께 물어보기
 export const SubTextButton = styled.button`
-  width: 3.2rem;
+  display: flex;
   margin: 0 0.4rem 0 0;
 
   ${({ theme }) => theme.fonts["body1-normal-semi"]};
