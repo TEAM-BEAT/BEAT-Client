@@ -195,18 +195,23 @@ const Register = () => {
     if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
-        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
+        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
         performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
+        return [
+          ...posterUrls,
+          ...castUrls.filter((url) => url !== null),
+          ...staffUrls.filter((url) => url !== null),
+          ...performanceUrls,
+        ];
       };
       const S3Urls = extractUrls(data);
 
       const files = [
         gigInfo.posterImage,
-        ...gigInfo.castList.map((cast) => cast.castPhoto),
-        ...gigInfo.staffList.map((staff) => staff.staffPhoto),
+        ...gigInfo.castList.map((cast) => cast.castPhoto).filter((photo) => photo !== ""),
+        ...gigInfo.staffList.map((staff) => staff.staffPhoto).filter((photo) => photo !== ""),
         ...gigInfo.performanceImageList.map((image) => image.performanceImage),
       ];
 
@@ -228,11 +233,11 @@ const Register = () => {
           posterImage: posterUrls[0],
           castList: gigInfo.castList.map((cast, index) => ({
             ...cast,
-            castPhoto: castUrls[index] || cast.castPhoto,
+            castPhoto: cast.castPhoto === "" ? "" : castUrls[index] || cast.castPhoto,
           })),
           staffList: gigInfo.staffList.map((staff, index) => ({
             ...staff,
-            staffPhoto: staffUrls[index] || staff.staffPhoto,
+            staffPhoto: staff.staffPhoto === "" ? "" : staffUrls[index] || staff.staffPhoto,
           })),
           scheduleList: gigInfo.scheduleList.map((schedule) => {
             const date = dayjs(schedule.performanceDate).toDate();
@@ -448,7 +453,7 @@ const Register = () => {
               value={performanceDescription}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-              maxLength={500}
+              maxLength={1500}
             />
           </InputRegisterBox>
           <S.Divider />
@@ -512,7 +517,7 @@ const Register = () => {
               value={performanceAttentionNote}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-              maxLength={500}
+              maxLength={1500}
             />
           </InputRegisterBox>
           <S.Divider />

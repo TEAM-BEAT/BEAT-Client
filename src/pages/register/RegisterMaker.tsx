@@ -24,13 +24,9 @@ const RegisterMaker = ({
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
-    const allCastFieldsFilled = castList.every(
-      (cast) => cast.castName && cast.castRole && cast.castPhoto
-    );
+    const allCastFieldsFilled = castList.every((cast) => cast.castName && cast.castRole);
 
-    const allStaffFieldsFilled = staffList.every(
-      (staff) => staff.staffName && staff.staffRole && staff.staffPhoto
-    );
+    const allStaffFieldsFilled = staffList.every((staff) => staff.staffName && staff.staffRole);
 
     setIsButtonDisabled(
       !(
