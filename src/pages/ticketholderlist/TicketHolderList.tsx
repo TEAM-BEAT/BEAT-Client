@@ -15,7 +15,7 @@ import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./TicketHolderList.styled";
-import { BottomSheet, Button, Spacing } from "@components/commons";
+import { Button, Spacing } from "@components/commons";
 import Title from "@pages/ticketholderlist/components/title/Title";
 import SearchBar from "./components/searchBar/SearchBar";
 import MenuBottomsheet from "./components/MenuBottomSheet/MenuBottomsheet";
