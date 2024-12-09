@@ -3,18 +3,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LookupWrapper from "./components/LookupWrapper";
 import NonExistent from "./components/nonExistent/NonExistent";
 import * as S from "./Lookup.styled";
-
-import ActionBottomSheet from "@components/commons/bottomSheet/actionsBottomSheet/ActionBottomSheet";
-import PhoneNumber from "@components/commons/bottomSheet/actionsBottomSheet/phoneNumber/PhoneNumber";
-import OuterLayout from "@components/commons/bottomSheet/OuterLayout";
-
-import Button from "@components/commons/button/Button";
-
-import { useGetMemberBookingList } from "@apis/domains/bookings/queries";
+import {
+  useGetMemberBookingList,
+  useLazyPostGuestBookingList,
+} from "@apis/domains/bookings/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader } from "@hooks";
+import { useCancelBooking } from "src/hooks/useCancelBooking";
+import { Toast } from "@components/commons";
+import { IconCheck } from "@assets/svgs";
 
 interface LookupProps {
   userId: number;
@@ -26,7 +25,7 @@ interface LookupProps {
   performanceVenue: string;
   purchaseTicketCount: number;
   scheduleNumber: string;
-  bookerName: string;
+  name: string;
   bookerPhoneNumber: string;
   bankName: string;
   performanceContact: string;
@@ -41,75 +40,85 @@ interface LookupProps {
 }
 
 const Lookup = () => {
-  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
   const { state } = useLocation();
-  const [lookUpList, setLookUpList] = useState<LookupProps[]>([]);
-  const { isLoading, refetch } = useGetMemberBookingList();
-
   const navigate = useNavigate();
 
-  const handleSheetOpen = (bookingId: number) => {
-    setSelectedBookingId(bookingId);
-  };
+  const { confirmCancelAction, toastMessage } = useCancelBooking(
+    state?.name,
+    state?.phone,
+    state?.password
+  );
+  const [isFetching, setIsFetching] = useState(false);
+  const { data: memberData, isLoading: isMemberLoading } = useGetMemberBookingList(); // 회원 예매 조회
+  const { getCachedBookingList, fetchBookingList } = useLazyPostGuestBookingList();
+  const [cachedData, setCachedData] = useState(
+    getCachedBookingList(state?.name, state?.phone, state?.password)
+  ); // 비회원 예매 조회
 
-  const handleSheetClose = () => {
-    setSelectedBookingId(null);
-  };
+  const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
+    if (totalPaymentAmount === 0) {
+      confirmCancelAction({ bookingId });
+      return;
+    }
 
-  const { setHeader } = useHeader();
-
-  const handleLeftBtn = () => {
-    navigate("/main");
+    const bookingDetails = (memberData ?? cachedData)?.find((item) => item.bookingId === bookingId);
+    if (bookingDetails) {
+      navigate("/lookup/cancel", { state: { ...state, bookingDetails } });
+    }
   };
 
   useEffect(() => {
-    if (state) {
-      setLookUpList(state as LookupProps[]);
-    } else {
-      refetch().then((refetchedData) => {
-        setLookUpList(refetchedData.data as LookupProps[]);
+    if (state?.name && state?.phone && state?.password && !cachedData && !isFetching) {
+      // 비회원 데이터가 캐시에 없을 경우 새로 가져옴
+      fetchBookingList(state).finally(() => {
+        setIsFetching(false);
+        setCachedData(getCachedBookingList(state.name, state.phone, state.password));
       });
     }
-  }, []);
+  }, [state, cachedData, fetchBookingList, isFetching]);
 
+  useEffect(() => {
+    if (state?.toastMessage) {
+      const timer = setTimeout(() => {
+        navigate("/lookup", { state: { ...state, toastMessage: null }, replace: true });
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [state]);
+
+  const { setHeader } = useHeader();
   useEffect(() => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON_TITLE,
       title: "내가 예매한 공연",
-      leftOnClick: handleLeftBtn,
+      leftOnClick: () => navigate("/main"),
     });
   }, [setHeader]);
 
   return (
     <>
-      {isLoading ? (
+      {isMemberLoading || (!cachedData && !memberData) ? (
         <Loading />
       ) : (
         <S.LookupWrapper>
           <MetaTag title="내가 예매한 공연" />
-          {lookUpList.length ? (
-            <>
-              {lookUpList.map((item) => (
-                <React.Fragment key={item.bookingId}>
-                  <LookupWrapper {...item} handleBtn={() => handleSheetOpen(item.bookingId)} />
-                  <ActionBottomSheet
-                    isOpen={selectedBookingId === item.bookingId}
-                    onClickOutside={handleSheetClose}
-                    title="대표자에게 연락하여 취소를 요청해 주세요"
-                    subTitle="대표자 연락처"
-                    alignItems="center"
-                    padding="2rem 2rem 2.4rem 2rem"
-                  >
-                    <PhoneNumber phone={item.performanceContact} />
-                    <OuterLayout margin="1.6rem 0 0 0">
-                      <Button onClick={handleSheetClose}>확인했어요</Button>
-                    </OuterLayout>
-                  </ActionBottomSheet>
-                </React.Fragment>
-              ))}
-            </>
+          {(memberData ?? cachedData)?.length > 0 ? (
+            (memberData ?? cachedData).map((item) => (
+              <React.Fragment key={item.bookingId}>
+                <LookupWrapper
+                  {...item}
+                  handleBtn={() => handleCancel(item.bookingId, item.totalPaymentAmount)}
+                />
+              </React.Fragment>
+            ))
           ) : (
             <NonExistent />
+          )}
+          {(toastMessage || state?.toastMessage) && (
+            <Toast icon={<IconCheck />} isVisible={true} toastBottom={32}>
+              {toastMessage ?? state?.toastMessage}
+            </Toast>
           )}
         </S.LookupWrapper>
       )}

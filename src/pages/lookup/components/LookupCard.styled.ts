@@ -94,22 +94,17 @@ export const DepositLayout = styled.section`
 
 export const CheckingDeposit = styled.div<DefaultDepositProps>`
   display: flex;
-  ${({ $status }) => {
+
+  color: ${({ $status, theme }) => {
     switch ($status) {
       case "CHECKING_PAYMENT":
-        return css`
-          color: ${({ theme }) => theme.colors.yellow_400};
-        `;
+        return theme.colors.yellow_400;
       case "BOOKING_CONFIRMED":
-        return css`
-          color: ${({ theme }) => theme.colors.green};
-        `;
-      case "BOOKING_CANCELLED":
-        return css`
-          color: ${({ theme }) => theme.colors.red};
-        `;
+        return theme.colors.green;
+      default:
+        return theme.colors.red;
     }
-  }}
+  }};
 
   ${({ theme }) => theme.fonts["caption2-medi"]};
 `;

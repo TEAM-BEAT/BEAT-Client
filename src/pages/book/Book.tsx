@@ -82,7 +82,11 @@ const Book = () => {
     round
   );
 
-  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook();
+  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook(
+    bookerInfo.bookerName,
+    bookerInfo.bookerPhoneNumber,
+    easyPassword.password
+  );
   const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
 
   useEffect(() => {
