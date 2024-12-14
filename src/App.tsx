@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import Alert from "@components/commons/modal/Alert";
 import Confirm from "@components/commons/modal/Confirm";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useEffect } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
@@ -22,6 +22,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  console.log("hi");
   const queryClient = new QueryClient();
 
   function setScreenSize() {
