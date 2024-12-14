@@ -22,7 +22,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  console.log("hi");
+  console.log("hiss");
   const queryClient = new QueryClient();
 
   function setScreenSize() {
