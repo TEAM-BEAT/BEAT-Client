@@ -97,7 +97,7 @@ export const RadioWrapper = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 2.4rem;
 `;
 
