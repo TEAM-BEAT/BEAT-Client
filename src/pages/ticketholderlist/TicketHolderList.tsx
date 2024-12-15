@@ -165,14 +165,16 @@ const TicketHolderList = () => {
     }
     // 환불 요청 PUT API 요청
     // bookingId만 전달
-    const filteredPaymentData = paymentData.map(({ bookingId }) => ({
-      bookingId: checkedBookingId.includes(bookingId) && bookingId,
-    }));
+
+    const filteredPaymentData = paymentData
+      .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
+      .map(({ bookingId }) => ({ bookingId }));
 
     refundMutate({
       performanceId: Number(performanceId),
       bookingList: filteredPaymentData,
     });
+
     closeConfirm();
     setTimeout(() => {
       window.location.reload();
@@ -201,9 +203,10 @@ const TicketHolderList = () => {
     }
     // 취소 요청 PUT API 요청
     // bookingId만 전달
-    const filteredPaymentData = paymentData.map(({ bookingId }) => ({
-      bookingId: checkedBookingId.includes(bookingId) && bookingId,
-    }));
+
+    const filteredPaymentData = paymentData
+      .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
+      .map(({ bookingId }) => ({ bookingId }));
 
     deleteMutate({
       performanceId: Number(performanceId),
