@@ -14,7 +14,6 @@ import { useHeader } from "@hooks";
 import { useCancelBooking } from "src/hooks/useCancelBooking";
 import { Toast } from "@components/commons";
 import { IconCheck } from "@assets/svgs";
-import { ToastMessage } from "./../../components/commons/toast/Toast.styled";
 
 interface LookupProps {
   userId: number;
@@ -26,7 +25,7 @@ interface LookupProps {
   performanceVenue: string;
   purchaseTicketCount: number;
   scheduleNumber: string;
-  bookerName: string;
+  name: string;
   bookerPhoneNumber: string;
   bankName: string;
   performanceContact: string;
@@ -45,14 +44,16 @@ const Lookup = () => {
   const navigate = useNavigate();
 
   const { confirmCancelAction, toastMessage } = useCancelBooking(
-    state?.bookerName,
-    state?.number,
+    state?.name,
+    state?.phone,
     state?.password
   );
-
+  const [isFetching, setIsFetching] = useState(false);
   const { data: memberData, isLoading: isMemberLoading } = useGetMemberBookingList(); // 회원 예매 조회
   const { getCachedBookingList, fetchBookingList } = useLazyPostGuestBookingList();
-  const cachedData = getCachedBookingList(state?.bookerName, state?.number, state?.password); // 비회원 예매 조회
+  const [cachedData, setCachedData] = useState(
+    getCachedBookingList(state?.name, state?.phone, state?.password)
+  ); // 비회원 예매 조회
 
   const handleCancel = (bookingId: number, totalPaymentAmount: number) => {
     if (totalPaymentAmount === 0) {
@@ -62,21 +63,19 @@ const Lookup = () => {
 
     const bookingDetails = (memberData ?? cachedData)?.find((item) => item.bookingId === bookingId);
     if (bookingDetails) {
-      navigate("/cancel", { state: { ...state, bookingDetails } });
+      navigate("/lookup/cancel", { state: { ...state, bookingDetails } });
     }
   };
 
   useEffect(() => {
-    if (state?.bookerName && state?.number && state?.password && !cachedData) {
+    if (state?.name && state?.phone && state?.password && !cachedData && !isFetching) {
       // 비회원 데이터가 캐시에 없을 경우 새로 가져옴
-      fetchBookingList({
-        name: state.bookerName,
-        phone: state.number,
-        password: state.password,
-        birth: state.birth || "",
+      fetchBookingList(state).finally(() => {
+        setIsFetching(false);
+        setCachedData(getCachedBookingList(state.name, state.phone, state.password));
       });
     }
-  }, [state, cachedData, fetchBookingList]);
+  }, [state, cachedData, fetchBookingList, isFetching]);
 
   useEffect(() => {
     if (state?.toastMessage) {
@@ -86,7 +85,7 @@ const Lookup = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [state, navigate]);
+  }, [state]);
 
   const { setHeader } = useHeader();
   useEffect(() => {

@@ -283,7 +283,7 @@ export interface paths {
          * access token 재발급 API
          * @description refresh token으로 access token을 재발급하는 GET API입니다.
          */
-        get: operations["refreshToken"];
+        get: operations["issueAccessTokenUsingRefreshToken"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1475,7 +1475,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TicketUpdateRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["TicketUpdateRequest"];
             };
         };
         responses: {
@@ -1485,7 +1485,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
                 };
             };
             /** @description 이미 결제가 완료된 티켓의 상태는 변경할 수 없습니다. */
@@ -1494,16 +1494,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description 공연 정보를 찾을 수 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1517,7 +1517,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TicketRefundRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["TicketRefundRequest"];
             };
         };
         responses: {
@@ -1527,16 +1527,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
                 };
             };
-            /** @description 해당 예매 내역을 찾을 수 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1550,7 +1550,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TicketDeleteRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["TicketDeleteRequest"];
             };
         };
         responses: {
@@ -1560,16 +1560,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
                 };
             };
-            /** @description 해당 예매 내역을 찾을 수 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1583,7 +1583,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["PerformanceModifyRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["PerformanceModifyRequest"];
             };
         };
         responses: {
@@ -1593,7 +1593,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
                 };
             };
             /** @description 예매자가 존재하여 가격을 수정할 수 없습니다. */
@@ -1602,7 +1602,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 해당 공연의 소유자가 아닙니다. */
@@ -1611,7 +1611,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -1620,7 +1620,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1634,7 +1634,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["PerformanceRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["PerformanceRequest"];
             };
         };
         responses: {
@@ -1644,7 +1644,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceResponse"];
                 };
             };
             /** @description 필수 데이터가 누락되었습니다. */
@@ -1653,7 +1653,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -1662,7 +1662,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1682,7 +1682,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseCarouselFindAllResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselFindAllResponse"];
                 };
             };
             /** @description 회원이 없습니다. */
@@ -1691,7 +1691,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1705,7 +1705,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CarouselHandleRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["CarouselHandleRequest"];
             };
         };
         responses: {
@@ -1715,16 +1715,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseCarouselHandleAllResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselHandleAllResponse"];
                 };
             };
-            /** @description 해당 홍보 정보를 찾을 수 없습니다. */
+            /** @description 회원이 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1740,7 +1740,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["MemberLoginRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["MemberLoginRequest"];
             };
         };
         responses: {
@@ -1750,7 +1750,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseLoginSuccessResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseLoginSuccessResponse"];
                 };
             };
             /** @description 로그인 요청이 유효하지 않습니다. */
@@ -1759,7 +1759,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 회원 정보를 찾을 수 없습니다. */
@@ -1768,7 +1768,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1788,7 +1788,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
                 };
             };
             /** @description 회원 정보를 찾을 수 없습니다. */
@@ -1797,7 +1797,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1811,7 +1811,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["MemberBookingRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["MemberBookingRequest"];
             };
         };
         responses: {
@@ -1821,7 +1821,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseMemberBookingResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMemberBookingResponse"];
                 };
             };
             /** @description 잘못된 데이터 형식입니다. */
@@ -1830,16 +1830,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description 회원 정보를 찾을 수 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1853,7 +1853,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["GuestBookingRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["GuestBookingRequest"];
             };
         };
         responses: {
@@ -1863,7 +1863,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseGuestBookingResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseGuestBookingResponse"];
                 };
             };
             /** @description 잘못된 데이터 형식입니다. */
@@ -1872,16 +1872,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description 공연 정보를 찾을 수 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1895,7 +1895,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["GuestBookingRetrieveRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["GuestBookingRetrieveRequest"];
             };
         };
         responses: {
@@ -1905,7 +1905,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseListGuestBookingRetrieveResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseListGuestBookingRetrieveResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1914,7 +1914,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1928,7 +1928,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["BookingRefundRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["BookingRefundRequest"];
             };
         };
         responses: {
@@ -1938,7 +1938,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseBookingRefundResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBookingRefundResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1947,7 +1947,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -1961,7 +1961,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["BookingCancelRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["BookingCancelRequest"];
             };
         };
         responses: {
@@ -1971,7 +1971,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseBookingCancelResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBookingCancelResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -1980,7 +1980,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2000,17 +2000,17 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "application/json;charset=UTF-8": string;
                 };
             };
         };
     };
-    refreshToken: {
+    issueAccessTokenUsingRefreshToken: {
         parameters: {
-            query: {
-                refreshToken: string;
+            query?: never;
+            header: {
+                Authorization_Refresh: string;
             };
-            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2022,7 +2022,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseAccessTokenGetSuccess"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseAccessTokenGetSuccess"];
                 };
             };
             /** @description 유효하지 않은 토큰입니다. */
@@ -2031,7 +2031,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2039,8 +2039,8 @@ export interface operations {
     getTickets: {
         parameters: {
             query?: {
-                scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-                bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+                scheduleNumbers?: ("FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH")[];
+                bookingStatuses?: ("CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED")[];
             };
             header?: never;
             path: {
@@ -2056,7 +2056,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
@@ -2065,7 +2065,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2074,8 +2074,8 @@ export interface operations {
         parameters: {
             query: {
                 searchWord: string;
-                scheduleNumber?: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH";
-                bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED";
+                scheduleNumbers?: ("FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH" | "SIXTH" | "SEVENTH" | "EIGHTH" | "NINTH" | "TENTH")[];
+                bookingStatuses?: ("CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED" | "REFUND_REQUESTED" | "BOOKING_DELETED")[];
             };
             header?: never;
             path: {
@@ -2091,7 +2091,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
@@ -2100,7 +2100,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2124,7 +2124,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseTicketAvailabilityResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketAvailabilityResponse"];
                 };
             };
             /** @description 잘못된 데이터 형식입니다. */
@@ -2133,7 +2133,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 회차 정보를 찾을 수 없습니다. */
@@ -2142,7 +2142,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 요청한 티켓 수량이 잔여 티켓 수를 초과했습니다. */
@@ -2151,7 +2151,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2173,7 +2173,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceModifyDetailResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceModifyDetailResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -2182,7 +2182,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2204,7 +2204,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseVoid"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
                 };
             };
             /** @description 공연의 소유자가 아니거나 예매자가 있어 삭제할 수 없습니다. */
@@ -2213,7 +2213,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -2222,7 +2222,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2242,7 +2242,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseMakerPerformanceResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMakerPerformanceResponse"];
                 };
             };
             /** @description 회원 정보를 찾을 수 없습니다. */
@@ -2251,7 +2251,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2273,7 +2273,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceDetailResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceDetailResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -2282,7 +2282,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2304,7 +2304,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseBookingPerformanceDetailResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBookingPerformanceDetailResponse"];
                 };
             };
             /** @description 공연 정보를 찾을 수 없습니다. */
@@ -2313,7 +2313,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2335,7 +2335,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseHomeFindAllResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseHomeFindAllResponse"];
                 };
             };
         };
@@ -2360,7 +2360,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponsePerformanceMakerPresignedUrlFindAllResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceMakerPresignedUrlFindAllResponse"];
                 };
             };
             /** @description S3 PreSigned url을 받아오기에 실패했습니다. */
@@ -2369,7 +2369,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2389,7 +2389,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseListMemberBookingRetrieveResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseListMemberBookingRetrieveResponse"];
                 };
             };
             /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
@@ -2398,7 +2398,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2418,7 +2418,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseUserFindAllResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseUserFindAllResponse"];
                 };
             };
             /** @description 회원이 없습니다 */
@@ -2427,7 +2427,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2449,7 +2449,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseCarouselPresignedUrlFindAllResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselPresignedUrlFindAllResponse"];
                 };
             };
             /** @description 회원이 없습니다. */
@@ -2458,7 +2458,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -2480,7 +2480,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SuccessResponseBannerPresignedUrlFindResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBannerPresignedUrlFindResponse"];
                 };
             };
             /** @description 회원이 없습니다. */
@@ -2489,7 +2489,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
         };

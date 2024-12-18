@@ -1,14 +1,13 @@
 import * as React from "react";
 import type { SVGProps } from "react";
 const SvgIcDelete = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32" {...props}>
-    <circle cx={16} cy={16} r={11} fill="#3E3E3E" />
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" {...props}>
     <path
-      stroke="#797979"
+      stroke="#939393"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="m12 20 4-4 4 4m0-8-4 4-4-4"
+      d="m5 11 3-3 3 3m0-6L8 8 5 5"
     />
   </svg>
 );

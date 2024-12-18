@@ -8,7 +8,7 @@ import {
   Toast,
 } from "@components/commons";
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader, useModal, useToast } from "@hooks";
+import { useHeader, useModal } from "@hooks";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
@@ -16,18 +16,38 @@ import * as S from "./Cancel.styled";
 import RadioButton from "./../cancel/components/select/RadioButton";
 import { handleChange, handleBankClick, isFormValid } from "./utils";
 import { useCancelBooking } from "../../hooks/useCancelBooking";
+import { numericFilter } from "@utils/useInputFilter";
 
 const Cancel = () => {
   const { setHeader } = useHeader();
   const { openAlert } = useModal();
   const { state } = useLocation();
-  const { confirmCancelAction } = useCancelBooking(state.bookerName, state.number, state.password);
+  const { confirmCancelAction } = useCancelBooking(
+    state?.bookerName,
+    state?.number,
+    state?.password
+  );
   const navigate = useNavigate();
   const [isDeposit, setIsDeposit] = useState<boolean | null>(null);
   const [bankOpen, setBankOpen] = useState(false);
   const [bankName, setbankName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
+
+  useEffect(() => {
+    if (!state) {
+      const user = localStorage.getItem("user");
+      openAlert({
+        title: "잘못된 접근입니다.",
+        okText: "확인",
+        okCallback: () => navigate(user ? "/lookup" : "/main"),
+      });
+    }
+  }, []);
+
+  if (!state) {
+    return;
+  }
 
   const performanceDateArray = state.bookingDetails.performanceDate.split("-");
   const performanceDataDate = performanceDateArray[2].split("T");
@@ -47,17 +67,6 @@ const Cancel = () => {
       leftOnClick: handleLeftBtn,
     });
   }, [setHeader]);
-
-  useEffect(() => {
-    if (!state) {
-      openAlert({
-        title: "잘못된 접근입니다.",
-        subTitle: "이전 페이지로 이동합니다.",
-        okText: "확인",
-        okCallback: () => navigate(-1),
-      });
-    }
-  }, [state, openAlert, navigate]);
 
   const handleCancelClick = (isDeposit) => {
     const requestData = {
@@ -133,7 +142,7 @@ const Cancel = () => {
               name="accountNumber"
               value={accountNumber}
               onChange={(e) => handleChange(e, setAccountNumber)}
-              filter={(value: string) => value.replace(/[^0-9]/g, "")} // 숫자만 허용
+              filter={numericFilter}
               placeholder="입금 받으실 계좌번호를 (-) 제외 숫자만 입력해주세요."
               inputMode="numeric"
             />
