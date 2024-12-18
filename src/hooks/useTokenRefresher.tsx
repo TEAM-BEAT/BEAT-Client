@@ -65,7 +65,7 @@ export default function TokenRefresher() {
     return () => {
       instance.interceptors.response.eject(interceptor);
     };
-  }, [navigate, openAlert]);
+  }, []);
 
   return null;
 }
