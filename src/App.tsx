@@ -13,7 +13,6 @@ import { useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import TokenRefresher from "./hooks/useTokenRefresher";
 import router from "./routes/Router";
 
 const darkTheme = createTheme({
@@ -42,7 +41,6 @@ function App() {
           <ThemeProvider theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <GlobalStyle />
-              <TokenRefresher />
               <RouterProvider router={router} />
               <Modal />
               <Alert />
