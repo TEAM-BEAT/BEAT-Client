@@ -14,7 +14,7 @@ export default function TokenRefresher() {
       // 기존에 존재하던 유저 role, refreshToken 유무로 임시로 토큰 제거 후 리로드
       localStorage.clear();
       openAlert({ title: "다시 로그인 해주세요." });
-      window.location.reload();
+      // window.location.reload();
       return <></>;
     }
   }
@@ -50,7 +50,7 @@ export default function TokenRefresher() {
             localStorage.clear();
             navigate("/main");
             openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
-            window.location.reload();
+            // window.location.reload();
           }
         } else if (status === 500) {
           openAlert({
