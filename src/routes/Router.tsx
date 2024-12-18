@@ -10,25 +10,27 @@ import OnBoarding from "@pages/onBoarding/OnBoarding";
 import { GIG_ROUTES, LOOKUP_ROUTES, MANAGE_ROUTES, REGISTER_ROUTES, TEST_ROUTES } from "@routes";
 import DesktopGlobalStyle from "@styles/desktop";
 import { createBrowserRouter } from "react-router-dom";
+import TokenRefresher from "src/hooks/useTokenRefresher";
 import ADMIN_ROUTES from "./AdminRoutes";
-import AuthRequired from "./AuthRequierd";
 
 const router = createBrowserRouter([
   {
     path: "/main",
     element: (
-      <AuthRequired>
+      <>
+        <TokenRefresher />
         <Main />
-      </AuthRequired>
+      </>
     ),
   },
   { path: "/intro", element: <Intro /> },
   {
     path: "/",
     element: (
-      <AuthRequired>
+      <>
+        <TokenRefresher />
         <Layout />
-      </AuthRequired>
+      </>
     ),
     children: [
       { path: "", element: <OnBoarding /> },
