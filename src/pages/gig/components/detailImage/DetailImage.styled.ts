@@ -19,6 +19,8 @@ export const ImageWrapper = styled.div<{ $showAllImages: boolean; $toggleAvailab
 export const Image = styled.img`
   width: 100%;
   height: auto;
+
+  border-radius: 0.6rem;
 `;
 
 export const ShowMoreButton = styled.button`
