@@ -1,9 +1,6 @@
-//todo: 서버 작업 완료시, API schema 재생성 및 ERROR 없애기 (Gig.tsx, ModifyManage.tsx)
-//todo 보완 설명 - 확인해야하는 API 총 4개
 import {
   usePerformanceDelete,
   usePerformanceEdit,
-  usePostPerformance,
   useUpdatePerformance,
 } from "@apis/domains/performances/queries";
 
@@ -157,7 +154,7 @@ const ModifyManage = () => {
   const { setHeader } = useHeader();
 
   const { data, isLoading, isSuccess } = usePerformanceEdit(Number(performanceId));
-  const { mutateAsync: updatePerformance } = useUpdatePerformance();
+  const { mutateAsync: updatePerformance, isPending } = useUpdatePerformance();
   const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
 
   //presignedUrl을 받아오기 위한 배열
@@ -316,7 +313,6 @@ const ModifyManage = () => {
 
   const { data: S3data, refetch } = useGetPresignedUrl(getPresignedParams);
   const { mutate: putS3 } = usePutS3Upload();
-  const { mutateAsync: postPerformance, isPending } = usePostPerformance();
 
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
@@ -927,7 +923,9 @@ const ModifyManage = () => {
             longitude={dataState.longitude}
           />
           <S.FooterContainer>
-            <Button onClick={handleComplete}>완료하기</Button>
+            <Button disabled={isPending} onClick={handleComplete}>
+              완료하기
+            </Button>
           </S.FooterContainer>
         </>
       );
