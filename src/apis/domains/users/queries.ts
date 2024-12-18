@@ -20,6 +20,8 @@ export const usePostKakaoLogin = () => {
       if (response) {
         const userData = response;
 
+        console.log(response);
+
         if (userData) {
           const { accessToken, nickname, refreshToken, role } = userData;
 
