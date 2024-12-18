@@ -18,7 +18,7 @@ export const usePostKakaoLogin = () => {
     mutationFn: (authCode: string) => postKakaoLogin(authCode),
     onSuccess: (response) => {
       if (response) {
-        // console.log("login success", response);
+        console.log("login success", response);
 
         const userData = response;
 

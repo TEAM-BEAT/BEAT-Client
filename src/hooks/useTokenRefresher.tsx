@@ -15,7 +15,7 @@ export default function TokenRefresher() {
       localStorage.clear();
       openAlert({ title: "다시 로그인 해주세요." });
       window.location.reload();
-      return null;
+      return <></>;
     }
   }
 
@@ -48,6 +48,7 @@ export default function TokenRefresher() {
           } catch (refreshError) {
             console.error("Token refresh failed:", refreshError);
             localStorage.clear();
+            navigate("/main");
             openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
             window.location.reload();
           }
@@ -67,5 +68,5 @@ export default function TokenRefresher() {
     };
   }, []);
 
-  return null;
+  return <></>;
 }
