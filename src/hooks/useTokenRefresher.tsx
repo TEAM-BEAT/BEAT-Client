@@ -1,92 +1,71 @@
-import { instance, post } from "@apis/index";
+import { get, instance } from "@apis/index";
+import { AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useModal from "./useModal";
 
-// TODO: 추후 수정
 export default function TokenRefresher() {
   const navigate = useNavigate();
   const { openAlert } = useModal();
 
   const user = localStorage.getItem("user");
   if (user) {
-    if (!JSON.parse(user)?.role) {
-      // 기존에 존재하던 유저 role 유무로 임시로 토큰 제거 후 리로드
+    if (!JSON.parse(user)?.role || !JSON.parse(user)?.refreshToken) {
+      // 기존에 존재하던 유저 role, refreshToken 유무로 임시로 토큰 제거 후 리로드
       localStorage.clear();
+      openAlert({ title: "다시 로그인 해주세요." });
       window.location.reload();
-      return;
+      return null;
     }
   }
 
   useEffect(() => {
     const interceptor = instance.interceptors.response.use(
-      // 성공적인 응답 처리
-
-      (response) => {
-        // console.log("Starting Request", response);
-        return response;
-      },
+      (response) => response,
       async (error) => {
-        const originalConfig = error.config; // 기존에 수행하려고 했던 작업
-        const msg = error.response.data.msg; // error msg from backend
-        const status = error.response.status; // 현재 발생한 에러 코드
-        // access_token 재발급
+        const originalConfig = error.config;
+        const status = error?.response?.status;
 
-        if (status === 401) {
-          if (msg === "Expired Access Token. 토큰이 만료되었습니다") {
-            // console.log("토큰 재발급 요청");
-            await post(
+        if (status === 401 && user) {
+          try {
+            const refreshToken = JSON.parse(user)?.refreshToken;
+
+            const response: AxiosResponse<{ data: { accessToken: string } }> = await get(
               "/users/refresh-token",
-              {},
               {
-                // TODO: 쿠키로 변경 ?
-                headers: {
-                  Authorization: `${localStorage.getItem("Authorization")}`,
-                  Refresh: `${localStorage.getItem("Refresh")}`,
-                },
+                headers: { Authorization_Refresh: refreshToken },
               }
-            )
-              .then((res) => {
-                console.log("res: ", res);
-                // 새 토큰 저장
-                localStorage.setItem("Authorization", res.headers.authorization);
-                localStorage.setItem("Refresh", res.headers.refresh);
+            );
 
-                // 새로 응답받은 데이터로 토큰 만료로 실패한 요청에 대한 인증 시도 (header에 토큰 담아 보낼 때 사용)
-                originalConfig.headers["authorization"] = `Bearer ${res.headers.authorization}`;
-                originalConfig.headers["refresh"] = res.headers.refresh;
+            const newAccessToken = response.data?.data?.accessToken;
 
-                // console.log("New access token obtained.");
-                // 새로운 토큰으로 재요청
-                return instance(originalConfig);
-              })
-              .catch(() => {
-                console.error("An error occurred while refreshing the token:", error);
-              });
-          }
-          // refresh_token 재발급과 예외 처리
-          // else if(msg == "만료된 리프레시 토큰입니다") {
-          else {
+            if (newAccessToken) {
+              localStorage.setItem("accessToken", `Bearer ${newAccessToken}`);
+              originalConfig.headers["Authorization"] = `Bearer ${newAccessToken}`;
+              return instance(originalConfig);
+            }
+            throw new Error("Failed to refresh access token");
+          } catch (refreshError) {
+            console.error("Token refresh failed:", refreshError);
             localStorage.clear();
-            navigate("/main");
-
             openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
             window.location.reload();
           }
-        } else if (status === 400 || status === 404 || status === 409) {
         } else if (status === 500) {
           openAlert({
             title: "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
           });
         }
-        // 다른 모든 오류를 거부하고 처리
+
+        console.error("응답 에러:", error);
         return Promise.reject(error);
       }
     );
+
     return () => {
       instance.interceptors.response.eject(interceptor);
     };
-  }, []);
+  }, [navigate, openAlert]);
 
-  return <></>;
+  return null;
 }
