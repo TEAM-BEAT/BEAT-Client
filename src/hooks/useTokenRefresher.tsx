@@ -10,10 +10,15 @@ export default function TokenRefresher() {
 
   useEffect(() => {
     const user = localStorage.getItem("user");
+    console.log(user);
+    console.log(JSON.parse(user)?.role);
+    console.log(JSON.parse(user)?.refreshToken);
+    console.log(!user || !JSON.parse(user)?.role || !JSON.parse(user)?.refreshToken);
+
     if (!user || !JSON.parse(user)?.role || !JSON.parse(user)?.refreshToken) {
       // 기존에 존재하던 유저 role, refreshToken 유무로 임시로 토큰 제거 후 리로드
-      localStorage.clear();
-      openAlert({ title: "다시 로그인 해주세요." });
+      // localStorage.clear();
+      // openAlert({ title: "다시 로그인 해주세요." });
       // window.location.reload();
       return;
     }
