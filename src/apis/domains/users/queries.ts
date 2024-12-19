@@ -20,13 +20,11 @@ export const usePostKakaoLogin = () => {
       if (response) {
         const userData = response;
 
-        console.log(response);
-
         if (userData) {
-          const { accessToken, nickname, refreshToken, role } = userData;
+          const { accessToken, nickname, role } = userData;
 
           if (accessToken && nickname) {
-            setUserData({ nickname, accessToken, refreshToken, role });
+            setUserData({ nickname, accessToken, role });
           } else {
             console.error("accessToken or nickname is undefined");
           }
