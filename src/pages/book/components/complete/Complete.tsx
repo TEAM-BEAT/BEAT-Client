@@ -35,7 +35,7 @@ const Complete = () => {
     setHeader({
       headerStyle: NAVIGATION_STATE.ICON,
       rightOnClick: () => {
-        navigate("/main");
+        navigate(`/gig/${id}`);
       },
     });
   }, [setHeader]);
