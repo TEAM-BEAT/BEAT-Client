@@ -112,6 +112,7 @@ const TicketHolderList = () => {
 
   const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
 
+  //토스트 메세지, 위치를 정하는 유틸 함수
   const handleToastVisible = (message: string, position: "top" | "bottom") => {
     const isTop = position === "top" ? true : false;
     setToastConfig({ message, isTop });
@@ -192,6 +193,7 @@ const TicketHolderList = () => {
     });
 
     closeConfirm();
+    handleToastVisible("환불 처리되었습니다.", "top");
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -229,6 +231,7 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
+    handleToastVisible("예매자가 삭제되었습니다.", "top");
     setTimeout(() => {
       window.location.reload();
     }, 1000);
