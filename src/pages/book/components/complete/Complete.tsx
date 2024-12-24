@@ -15,7 +15,7 @@ const Complete = () => {
     title = "",
     bankName = "",
     accountHolder = "",
-    accountNumber = "3561202376833",
+    accountNumber = "",
     totalPaymentAmount = 0,
   } = location.state || {};
 
