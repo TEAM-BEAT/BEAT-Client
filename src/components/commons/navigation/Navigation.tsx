@@ -60,6 +60,7 @@ const Navigation = () => {
     return (
       <S.NavigationWrapper>
         <S.FragmentDiv />
+        <S.FragmentDiv />
         <S.NavigationXButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
@@ -69,6 +70,7 @@ const Navigation = () => {
     return (
       <S.NavigationWrapper>
         <S.Logo onClick={leftOnClick} />
+        <S.FragmentDiv />
         <S.HamburgarButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
