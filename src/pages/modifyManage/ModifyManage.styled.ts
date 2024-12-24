@@ -288,6 +288,7 @@ export const PreviewBanner = styled.div`
   ${Generators.flexGenerator()}
   position: sticky;
   top: 5.6rem;
+  z-index: 1;
   width: 37.5rem;
   padding: 0.8rem 6.7rem;
 
