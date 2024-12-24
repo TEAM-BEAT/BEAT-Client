@@ -50,6 +50,11 @@ export interface FilterListType {
   bookingStatus: string[];
 }
 
+interface ToastConfigProps {
+  message: string;
+  isTop: boolean;
+}
+
 const headers = [
   { label: "예매일시", key: "createdAt" },
   { label: "회차", key: "scheduleNumber" },
@@ -60,6 +65,10 @@ const headers = [
 ];
 
 const TicketHolderList = () => {
+  const [toastConfig, setToastConfig] = useState<ToastConfigProps>({
+    message: "클립보드에 복사되었습니다!",
+    isTop: false,
+  });
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
 
   // DEFAULT, PAYMENT, REFUND, DELETE
@@ -368,6 +377,8 @@ const TicketHolderList = () => {
     if (csvLinkRef.current) {
       csvLinkRef.current.link.click();
     }
+    setToastConfig({ message: "예매자 리스트가 다운되었습니다.", isTop: true });
+    showToast();
   };
 
   const { setHeader } = useHeader();
@@ -488,8 +499,13 @@ const TicketHolderList = () => {
               filename={`${data.performanceTitle}_예매자 목록.csv`}
               ref={csvLinkRef}
             />
-            <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
-              클립보드에 복사되었습니다!
+            <Toast
+              icon={<IconCheck />}
+              isVisible={isToastVisible}
+              isTop={toastConfig.isTop}
+              toastBottom={30}
+            >
+              {toastConfig.message}
             </Toast>
           </S.TicketHolderListWrpper>
         </>

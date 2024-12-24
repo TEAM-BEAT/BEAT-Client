@@ -25,12 +25,15 @@ const toastShow = css(["", " 2s forwards;"] as any as TemplateStringsArray, toas
 interface ToastWrapperProps {
   $isVisible: boolean;
   $toastBottom: number;
+  $isTop?: boolean;
 }
 
 export const ToastWrapper = styled.div<ToastWrapperProps>`
   ${Generators.flexGenerator()}
   position: fixed;
-  bottom: ${({ $toastBottom }) => $toastBottom * 0.1}rem;
+
+  ${({ $isTop, $toastBottom }) => ($isTop ? " top: 0.8rem;" : `bottom: ${$toastBottom * 0.1}rem;`)};
+
   z-index: 999;
   display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
   gap: 0.8rem;
@@ -39,7 +42,8 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
   margin: 0 2rem;
   padding: 0 3.2rem 0 1.6rem;
 
-  background-color: ${({ theme }) => theme.colors.gray_900};
+  background-color: ${({ theme, $isTop }) =>
+    $isTop ? theme.colors.gray_800 : theme.colors.gray_900};
   border-radius: 6px;
 
   animation: ${({ $isVisible }) => $isVisible && toastShow};
