@@ -31,7 +31,7 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
   ${Generators.flexGenerator()}
   position: fixed;
   bottom: ${({ $toastBottom }) => $toastBottom * 0.1}rem;
-  z-index: 1;
+  z-index: 999;
   display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
   gap: 0.8rem;
   min-width: 19.2rem;
