@@ -111,7 +111,7 @@ const PerformanceIntroduce = ({
                 position: "absolute",
                 top: "1.7rem",
                 right: "2rem",
-                zIndex: "3",
+                zIndex: "1",
                 cursor: "pointer",
               }}
               onClick={handleLinkToKakaoMap}
