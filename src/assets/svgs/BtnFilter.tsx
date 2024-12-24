@@ -6,8 +6,8 @@ const SvgBtnFilter = (props: SVGProps<SVGSVGElement>) => (
     fill="none"
     viewBox="0 0 48 48"
     {...props}
-    width="100%"
-    height="100%"
+    width="48"
+    height="48"
   >
     <path
       fill="#2A2A2A"
