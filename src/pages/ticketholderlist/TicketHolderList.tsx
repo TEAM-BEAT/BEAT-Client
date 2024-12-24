@@ -112,6 +112,12 @@ const TicketHolderList = () => {
 
   const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
 
+  const handleToastVisible = (message: string, position: "top" | "bottom") => {
+    const isTop = position === "top" ? true : false;
+    setToastConfig({ message, isTop });
+    showToast();
+  };
+
   const handlePaymentFixAxiosFunc = () => {
     if (updateIsPending) {
       return;
@@ -134,6 +140,7 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
+    handleToastVisible("입금 처리되었습니다.", "top");
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -377,8 +384,7 @@ const TicketHolderList = () => {
     if (csvLinkRef.current) {
       csvLinkRef.current.link.click();
     }
-    setToastConfig({ message: "예매자 리스트가 다운되었습니다.", isTop: true });
-    showToast();
+    handleToastVisible("예매자 리스트가 다운되었습니다.", "top");
   };
 
   const { setHeader } = useHeader();
