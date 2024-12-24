@@ -1,5 +1,5 @@
 import { NAVIGATION_STATE } from "@constants/navigationState";
-import { useHeader, useLogin } from "@hooks";
+import { useHeader, useLogin, useModal } from "@hooks";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FreeBook from "../freeBook/FreeBook";
@@ -9,6 +9,7 @@ const Complete = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isLogin } = useLogin();
+  const { openAlert } = useModal();
 
   const {
     id = 1,
@@ -30,6 +31,14 @@ const Complete = () => {
       navigate("/nonmb-lookup");
     }
   };
+
+  //URL 직접 입력시
+  useEffect(() => {
+    openAlert({
+      title: "잘못된 접근입니다.",
+    });
+    navigate("/main");
+  }, []);
 
   useEffect(() => {
     setHeader({
