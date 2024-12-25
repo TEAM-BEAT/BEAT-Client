@@ -5,7 +5,7 @@ export const CancelLayout = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1.6rem 2.4rem;
+  padding: 1.6rem 2.4rem calc(1.6rem + 5.6rem + 1.2rem);
 `;
 
 export const PerformWrapper = styled.section`
