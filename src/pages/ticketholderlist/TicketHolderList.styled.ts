@@ -18,6 +18,7 @@ export const ManageCardList = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  margin-bottom: 10.4rem;
 `;
 
 export const ManageCardContainer = styled.section`
