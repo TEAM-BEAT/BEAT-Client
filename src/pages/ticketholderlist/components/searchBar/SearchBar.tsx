@@ -7,6 +7,7 @@ interface SearchBarProps {
   handleFilterSheet: () => void;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isFilter: boolean;
+  hasBooking: boolean;
 }
 
 const SearchBar = ({
@@ -15,6 +16,7 @@ const SearchBar = ({
   handleInputChange,
   searchWord,
   isFilter,
+  hasBooking,
 }: SearchBarProps) => {
   return (
     <S.SearchBarWrapper>
@@ -27,7 +29,9 @@ const SearchBar = ({
           onChange={handleInputChange}
         ></S.SearchBar>
       </S.SearchBarLayout>
-      {status === "DEFAULT" && <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />}
+      {status === "DEFAULT" && hasBooking && (
+        <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />
+      )}
     </S.SearchBarWrapper>
   );
 };

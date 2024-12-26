@@ -29,6 +29,7 @@ import { IconCheck } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
 import { useToast } from "@hooks";
 import NonExistent from "./components/nonExistent/NonExistent.";
+import { filter } from "lodash";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -61,6 +62,7 @@ const headers = [
 
 const TicketHolderList = () => {
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
+  const [allBookings, setAllBookings] = useState<BookingListProps[]>([]); // 전체 예매자 정보 (필터 적용 안 된)
 
   // DEFAULT, PAYMENT, REFUND, DELETE
   const [status, setStatus] = useState("DEFAULT");
@@ -312,7 +314,13 @@ const TicketHolderList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const refetchData = await refetch();
-      setPaymentData(refetchData?.data?.bookingList ?? []);
+      const bookingList = refetchData?.data?.bookingList ?? [];
+      setPaymentData(bookingList);
+
+      // 전체 리스트는 필터값 가져오지 않도록
+      if (filterList.scheduleNumber.length === 0 && filterList.bookingStatus.length === 0) {
+        setAllBookings(bookingList);
+      }
     };
 
     const fetchSearchData = async () => {
@@ -418,6 +426,7 @@ const TicketHolderList = () => {
                 isFilter={
                   filterList.scheduleNumber.length > 0 || filterList.bookingStatus.length > 0
                 }
+                hasBooking={allBookings?.length > 0}
               />
               {status === "DEFAULT" && (
                 <SelectedChips
