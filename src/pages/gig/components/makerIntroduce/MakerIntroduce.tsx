@@ -1,6 +1,7 @@
 import { CastListType, StaffListType } from "../content/Content";
 import PeopleCard from "../peopleCard/PeopleCard";
 import * as S from "./MakerIntroduce.styled";
+import defaultImg from "@assets/images/img_staff_medium.png";
 
 interface MakerIntroduceProps {
   teamName: string;
@@ -19,7 +20,7 @@ const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) 
             {castList.map((cast, i) => (
               <PeopleCard
                 key={`${cast.castId}-${i}`}
-                photo={cast.castPhoto}
+                photo={cast.castPhoto || defaultImg}
                 role={cast.castRole}
                 name={cast.castName}
               />
