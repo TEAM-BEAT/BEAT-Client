@@ -356,12 +356,19 @@ const TicketHolderList = () => {
 
   const navigate = useNavigate();
 
+  // 함수가 선언될 당시의 status값을 클로저로 캡처 -> 최신 값 보장하기 위해 함수형 업데이트 사용
   const handleNavigateBack = () => {
-    if (status !== "DEFAULT") {
-      setStatus("DEFAULT");
-    } else {
+    setStatus((prevStatus) => {
+      if (prevStatus !== "DEFAULT") {
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: [],
+        });
+        return "DEFAULT";
+      }
       navigate("/gig-manage");
-    }
+      return prevStatus;
+    });
   };
 
   const handleCSVDownload = () => {
