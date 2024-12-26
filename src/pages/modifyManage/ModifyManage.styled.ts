@@ -1,4 +1,4 @@
-import { IconPhotoDelete } from "@assets/svgs";
+import { IcNoti, IconPhotoDelete } from "@assets/svgs";
 import { Generators } from "@styles/generator";
 import { ComponentType } from "react";
 import styled from "styled-components";
@@ -120,6 +120,25 @@ export const NonCheck = styled.div`
 export const TextInputWrpper = styled.section`
   ${Generators.flexGenerator("column", "start", "space-between")}
   gap: 0.8rem;
+`;
+
+export const BannerNoti = styled.header`
+  ${Generators.flexGenerator("row", "center", "start")}
+  gap: 0.4rem;
+  width: 32.7rem;
+  height: 3.8rem;
+  margin-top: 2rem;
+  padding: 0.9rem 1.6rem;
+
+  color: ${({ theme }) => theme.colors.pink_100};
+
+  background-color: ${({ theme }) => theme.colors.pink_900};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
+  border-radius: 6px;
+`;
+
+export const StyledIcNoti = styled(IcNoti)`
+  fill: ${({ theme }) => theme.colors.pink_100};
 `;
 
 export const FileInputWrapper = styled.div`
