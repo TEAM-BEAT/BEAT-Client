@@ -926,9 +926,9 @@ const ModifyManage = () => {
             latitude={dataState.latitude}
             longitude={dataState.longitude}
           />
-          <S.FooterContainer>
+          <S.FooterContainer $isFinish={true}>
             <Button disabled={isPending} onClick={handleComplete}>
-              완료하기
+              수정 완료하기
             </Button>
           </S.FooterContainer>
         </>

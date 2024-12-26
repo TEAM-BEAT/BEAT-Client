@@ -671,9 +671,9 @@ const Register = () => {
           latitude={latitude}
           longitude={longitude}
         />
-        <S.FooterContainer>
+        <S.FooterContainer $isFinish={true}>
           <Button onClick={handleComplete} disabled={isPending}>
-            완료하기
+            등록하기
           </Button>
         </S.FooterContainer>
       </>

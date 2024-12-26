@@ -15,8 +15,15 @@ export const Divider = styled.div`
   background-color: ${({ theme }) => theme.colors.gray_700};
 `;
 
-export const FooterContainer = styled.div`
-  position: relative;
+export const FooterContainer = styled.div<{ $isFinish?: boolean }>`
+  ${({ $isFinish }) =>
+    $isFinish &&
+    `
+    position: sticky;
+    bottom: 0;
+
+    z-index: 3;
+  `}
   padding: 2.4rem;
 
   background-color: ${({ theme }) => theme.colors.gray_900};
