@@ -466,7 +466,11 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              <Button onClick={handleButtonClick}>{buttonText}</Button>
+              {paymentData?.length > 0 ? (
+                <Button onClick={handleButtonClick}>{buttonText}</Button>
+              ) : (
+                <></>
+              )}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
               isOpen={openMenu}
