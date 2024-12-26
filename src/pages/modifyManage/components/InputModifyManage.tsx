@@ -31,7 +31,7 @@ const InputModifyManageBox = ({
     <S.InputModifyManageBox $marginBottom={marginBottom}>
       <S.InputTitle>
         {title}
-        {description && (
+        {typeof isFree === "boolean" && (
           <S.CheckBox>
             무료 공연
             {isFree ? (

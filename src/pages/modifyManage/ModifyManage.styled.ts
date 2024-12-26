@@ -93,6 +93,14 @@ export const InputDescription = styled.p<{ $warning?: boolean }>`
   ${({ theme }) => theme.fonts["body2-long"]};
 `;
 
+export const NotiDiscription = styled.p`
+  ${Generators.flexGenerator("row", "center", "start")}
+  gap: 0.4rem;
+
+  color: ${({ theme }) => theme.colors.gray_400};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
+`;
+
 export const CheckBox = styled.div`
   ${Generators.flexGenerator("row", "center", "space-between")}
   width: 7.5rem;
