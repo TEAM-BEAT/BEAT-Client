@@ -347,12 +347,8 @@ const ModifyManage = () => {
       //기존에 갖고 있던 이미지들의 주소들 -> files
       const files = [
         dataState.posterImage,
-        ...dataState.castModifyRequests
-          .map((cast) => cast.castPhoto)
-          .filter((photo) => photo !== ""),
-        ...dataState.staffModifyRequests
-          .map((staff) => staff.staffPhoto)
-          .filter((photo) => photo !== ""),
+        ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
+        ...dataState.staffModifyRequests.map((staff) => staff.staffPhoto),
         ...dataState.performanceImageModifyRequests.map((obj) => obj.performanceImage),
       ];
 
