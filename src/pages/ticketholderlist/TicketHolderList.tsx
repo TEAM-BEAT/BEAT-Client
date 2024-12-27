@@ -386,15 +386,25 @@ const TicketHolderList = () => {
   };
 
   const { setHeader } = useHeader();
+
   useEffect(() => {
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_DOWNLOAD,
-      title: "예매자 관리",
-      subText: "리스트",
-      leftOnClick: handleNavigateBack,
-      rightOnClick: handleCSVDownload,
-    });
-  }, [setHeader]);
+    if (status === "DEFAULT") {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE_DOWNLOAD,
+        title: "예매자 관리",
+        subText: "리스트",
+        leftOnClick: handleNavigateBack,
+        rightOnClick: handleCSVDownload,
+      });
+    } else {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE,
+        title: actions[status]?.text,
+        subText: "리스트",
+        leftOnClick: handleNavigateBack,
+      });
+    }
+  }, [setHeader, status]);
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
