@@ -1,5 +1,4 @@
-import { get, instance } from "@apis/index";
-import { AxiosResponse } from "axios";
+import { instance } from "@apis/index";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useModal from "./useModal";
@@ -35,36 +34,50 @@ export default function TokenRefresher() {
         const originalConfig = error.config;
         const status = error?.response?.status;
 
-        if (status === 401 && user) {
-          try {
-            const refreshToken = getCookie("refreshToken");
+        // if (status === 401 && user) {
+        //   try {
+        //     const refreshToken = getCookie("refreshToken");
 
-            const response: AxiosResponse<{ data: { accessToken: string } }> = await get(
-              "/users/refresh-token",
-              {
-                headers: { Authorization_Refresh: refreshToken },
-              }
-            );
+        //     const response: AxiosResponse<{ data: { accessToken: string } }> = await axios.get(
+        //       `${import.meta.env.VITE_API_BASE_URL}/users/refresh-token`,
+        //       {
+        //         headers: {
+        //           Authorization_Refresh: `Bearer ${refreshToken}`,
+        //         },
+        //       }
+        //     );
 
-            const newAccessToken = response.data?.data?.accessToken;
+        //     const newAccessToken = response.data?.data?.accessToken;
 
-            if (newAccessToken) {
-              localStorage.setItem("accessToken", `Bearer ${newAccessToken}`);
-              originalConfig.headers["Authorization"] = `Bearer ${newAccessToken}`;
-              return instance(originalConfig);
-            }
-            throw new Error("Failed to refresh access token");
-          } catch (refreshError) {
-            console.error("Token refresh failed:", refreshError);
-            localStorage.clear();
-            navigate("/main");
-            openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
-            window.location.reload();
-          }
-        } else if (status === 500) {
+        //     if (newAccessToken) {
+        //       localStorage.setItem("accessToken", `Bearer ${newAccessToken}`);
+        //       originalConfig.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        //       return instance(originalConfig);
+        //     }
+        //     throw new Error("Failed to refresh access token");
+        //   } catch (refreshError) {
+        //     if (refreshError.response?.status === 404) {
+        //       // 리프레시 토큰도 없다?  다시 로그인
+        //       // 그렇지 않으면 요청이 성공하겠찌.. ?
+        //     }
+        //     console.error("Token refresh failed:", refreshError);
+        //     // localStorage.clear();
+        //     // navigate("/main");
+        //     openAlert({ title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다." });
+        //     // window.location.reload();
+        //   }
+        // } else if (status === 500) {
+        //   openAlert({
+        //     title: "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
+        //   });
+        // }
+
+        if (status === 401) {
           openAlert({
             title: "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
           });
+          localStorage.clear();
+          navigate("/main");
         }
 
         console.error("응답 에러:", error);
