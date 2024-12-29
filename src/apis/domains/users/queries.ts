@@ -8,7 +8,7 @@ const QUERY_KEY = {
   KAKAO_LOGIN: "kakaoLogin",
 };
 
-type LoginSuccessResponse = components["schemas"]["LoginSuccessResponse"];
+type LoginSuccessResponse = components["schemas"]["MemberLoginResponse"];
 
 export const usePostKakaoLogin = () => {
   const [, setUserData] = useAtom(userAtom);
