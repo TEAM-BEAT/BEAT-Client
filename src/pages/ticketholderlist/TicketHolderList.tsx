@@ -29,7 +29,6 @@ import { IconCheck } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
 import { useToast } from "@hooks";
 import NonExistent from "./components/nonExistent/NonExistent.";
-import { filter } from "lodash";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -333,13 +332,11 @@ const TicketHolderList = () => {
   }, [filterList, status, debouncedQuery]);
 
   useEffect(() => {
-    setPaymentData(data?.bookingList ?? []);
-
-    if (data?.bookingList) {
+    if (allBookings) {
       //전체 데이터를 기반으로 csv 추출 데이터 구축
       const tempCSVDataArr: CSVDataType[] = [];
 
-      data.bookingList.map((item) => {
+      allBookings.map((item) => {
         const date = item.createdAt.split("T")[0];
         const time = item.createdAt.split("T")[1].slice(0, 5);
         const formattedDate = date?.replace(/-/g, ".");
@@ -360,7 +357,7 @@ const TicketHolderList = () => {
       );
       setCSVDataArr(tempCSVDataArr);
     }
-  }, [data, paymentData]);
+  }, [data, paymentData, allBookings]);
 
   const navigate = useNavigate();
 
@@ -492,11 +489,8 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              {paymentData?.length > 0 ? (
-                <Button onClick={handleButtonClick}>{buttonText}</Button>
-              ) : (
-                <></>
-              )}
+              {" "}
+              {paymentData?.length > 0 && <Button onClick={handleButtonClick}>{buttonText}</Button>}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
               isOpen={openMenu}
