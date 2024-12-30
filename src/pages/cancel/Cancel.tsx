@@ -22,11 +22,7 @@ const Cancel = () => {
   const { setHeader } = useHeader();
   const { openAlert } = useModal();
   const { state } = useLocation();
-  const { confirmCancelAction } = useCancelBooking(
-    state?.bookerName,
-    state?.number,
-    state?.password
-  );
+  const { confirmCancelAction } = useCancelBooking(state?.name, state?.phone, state?.password);
   const navigate = useNavigate();
   const [isDeposit, setIsDeposit] = useState<boolean | null>(null);
   const [bankOpen, setBankOpen] = useState(false);
@@ -79,6 +75,7 @@ const Cancel = () => {
     };
 
     confirmCancelAction(requestData);
+    alert("hi");
   };
 
   if (!state) {

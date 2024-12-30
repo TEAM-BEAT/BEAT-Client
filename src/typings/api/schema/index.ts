@@ -790,17 +790,16 @@ export interface components {
             /** @enum {string} */
             socialType: "KAKAO";
         };
-        LoginSuccessResponse: {
+        MemberLoginResponse: {
             accessToken?: string;
-            refreshToken?: string;
             nickname?: string;
             role?: string;
         };
-        SuccessResponseLoginSuccessResponse: {
+        SuccessResponseMemberLoginResponse: {
             /** Format: int32 */
             status?: number;
             message?: string;
-            data?: components["schemas"]["LoginSuccessResponse"];
+            data?: components["schemas"]["MemberLoginResponse"];
         };
         CastRequest: {
             castName?: string;
@@ -1095,14 +1094,14 @@ export interface components {
             message?: string;
             data?: components["schemas"]["BookingCancelResponse"];
         };
-        AccessTokenGetSuccess: {
+        AccessTokenGenerateResponse: {
             accessToken?: string;
         };
-        SuccessResponseAccessTokenGetSuccess: {
+        SuccessResponseAccessTokenGenerateResponse: {
             /** Format: int32 */
             status?: number;
             message?: string;
-            data?: components["schemas"]["AccessTokenGetSuccess"];
+            data?: components["schemas"]["AccessTokenGenerateResponse"];
         };
         SuccessResponseTicketRetrieveResponse: {
             /** Format: int32 */
@@ -1596,7 +1595,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
                 };
             };
-            /** @description 예매자가 존재하여 가격을 수정할 수 없습니다. */
+            /** @description 티켓 가격은 음수일 수 없습니다. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1718,7 +1717,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselHandleAllResponse"];
                 };
             };
-            /** @description 회원이 없습니다. */
+            /** @description 해당 공연 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1750,7 +1749,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseLoginSuccessResponse"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMemberLoginResponse"];
                 };
             };
             /** @description 로그인 요청이 유효하지 않습니다. */
@@ -1824,7 +1823,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMemberBookingResponse"];
                 };
             };
-            /** @description 잘못된 데이터 형식입니다. */
+            /** @description 필수 데이터가 누락되었습니다. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1833,7 +1832,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description 회차 정보를 찾을 수 없습니다. */
+            /** @description 회원 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1866,7 +1865,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["SuccessResponseGuestBookingResponse"];
                 };
             };
-            /** @description 잘못된 데이터 형식입니다. */
+            /** @description 필수 데이터가 누락되었습니다. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2008,11 +2007,11 @@ export interface operations {
     issueAccessTokenUsingRefreshToken: {
         parameters: {
             query?: never;
-            header: {
-                Authorization_Refresh: string;
-            };
+            header?: never;
             path?: never;
-            cookie?: never;
+            cookie: {
+                refreshToken: string;
+            };
         };
         requestBody?: never;
         responses: {
@@ -2022,7 +2021,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseAccessTokenGetSuccess"];
+                    "application/json;charset=UTF-8": components["schemas"]["SuccessResponseAccessTokenGenerateResponse"];
                 };
             };
             /** @description 유효하지 않은 토큰입니다. */
@@ -2059,7 +2058,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
                 };
             };
-            /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2094,7 +2093,7 @@ export interface operations {
                     "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
                 };
             };
-            /** @description 입력하신 정보와 일치하는 예매자 목록이 없습니다. */
+            /** @description 회차 정보를 찾을 수 없습니다. */
             404: {
                 headers: {
                     [name: string]: unknown;
