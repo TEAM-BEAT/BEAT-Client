@@ -668,7 +668,7 @@ const Register = () => {
           longitude={longitude}
         />
         <S.FooterContainer>
-          <Button onClick={handleComplete} disabled={isPending}>
+          <Button onClick={handleComplete} isPending={isPending} disabled={isPending}>
             완료하기
           </Button>
         </S.FooterContainer>
