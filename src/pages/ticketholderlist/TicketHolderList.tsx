@@ -51,6 +51,11 @@ export interface FilterListType {
   bookingStatus: string[];
 }
 
+interface ToastConfigProps {
+  message: string;
+  isTop: boolean;
+}
+
 const headers = [
   { label: "예매일시", key: "createdAt" },
   { label: "회차", key: "scheduleNumber" },
@@ -61,6 +66,10 @@ const headers = [
 ];
 
 const TicketHolderList = () => {
+  const [toastConfig, setToastConfig] = useState<ToastConfigProps>({
+    message: "클립보드에 복사되었습니다!",
+    isTop: false,
+  });
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
 
   // DEFAULT, PAYMENT, REFUND, DELETE
@@ -104,6 +113,13 @@ const TicketHolderList = () => {
 
   const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
 
+  //토스트 메세지, 위치를 정하는 유틸 함수
+  const handleToastVisible = (message: string, position: "top" | "bottom") => {
+    const isTop = position === "top" ? true : false;
+    setToastConfig({ message, isTop });
+    showToast();
+  };
+
   const handlePaymentFixAxiosFunc = () => {
     if (updateIsPending) {
       return;
@@ -126,6 +142,7 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
+    handleToastVisible("입금 처리되었습니다.", "top");
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -177,6 +194,7 @@ const TicketHolderList = () => {
     });
 
     closeConfirm();
+    handleToastVisible("환불 처리되었습니다.", "top");
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -214,6 +232,7 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
+    handleToastVisible("예매자가 삭제되었습니다.", "top");
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -420,6 +439,7 @@ const TicketHolderList = () => {
         csvLinkRef.current.link.click();
       }
     }
+    handleToastVisible("예매자 리스트가 다운되었습니다.", "top");
   };
 
   const { setHeader } = useHeader();
@@ -435,8 +455,7 @@ const TicketHolderList = () => {
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
-
-    showToast();
+    handleToastVisible("클립보드에 복사되었습니다!", "bottom");
   };
 
   return (
@@ -540,8 +559,13 @@ const TicketHolderList = () => {
               filename={`${data.performanceTitle}_예매자 목록.csv`}
               ref={csvLinkRef}
             />
-            <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
-              클립보드에 복사되었습니다!
+            <Toast
+              icon={<IconCheck />}
+              isVisible={isToastVisible}
+              isTop={toastConfig.isTop}
+              toastBottom={30}
+            >
+              {toastConfig.message}
             </Toast>
           </S.TicketHolderListWrpper>
         </>

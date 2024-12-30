@@ -101,7 +101,6 @@ export const SearchDropDownWrapper = styled.div`
   overflow: hidden scroll;
 
   background-color: ${({ theme }) => theme.colors.gray_800};
-  border: 1px solid black;
   border-radius: 6px;
 
   &::-webkit-scrollbar {
