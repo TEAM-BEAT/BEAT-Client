@@ -34,10 +34,14 @@ const Complete = () => {
 
   //URL 직접 입력시
   useEffect(() => {
-    openAlert({
-      title: "잘못된 접근입니다.",
-    });
-    navigate("/main");
+    if (!title) {
+      openAlert({
+        title: "잘못된 접근입니다.",
+        okCallback: () => {
+          navigate("/main");
+        },
+      });
+    }
   }, []);
 
   useEffect(() => {
