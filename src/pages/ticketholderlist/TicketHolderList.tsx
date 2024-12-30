@@ -29,6 +29,7 @@ import { IconCheck } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
 import { useToast } from "@hooks";
 import NonExistent from "./components/nonExistent/NonExistent.";
+import { getUA, isChrome } from "react-device-detect";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -395,9 +396,60 @@ const TicketHolderList = () => {
     });
   };
 
+  const handleInAppBrowser = () => {
+    const redirectToExternalBrowser = () => {
+      const targetUrl = "https://www.beatlive/gig-manage";
+
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        window.location.href = "x-web-search://?";
+      } else {
+        window.location.href = `intent://${targetUrl.replace(
+          /https?:\/\//i,
+          ""
+        )}#Intent;scheme=http;package=com.android.chrome;end`;
+      }
+    };
+
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (/kakaotalk/i.test(userAgent)) {
+      window.location.href = `kakaotalk://web/openExternal?url=${encodeURIComponent(
+        "https://www.beatlive/gig-manage"
+      )}`;
+    } else if (/line/i.test(userAgent)) {
+      const targetUrl = "https://www.beatlive/gig-manage";
+      window.location.href = targetUrl.includes("?")
+        ? `${targetUrl}&openExternalBrowser=1`
+        : `${targetUrl}?openExternalBrowser=1`;
+    } else if (
+      /inapp|naver|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone.*whale|android.*whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill\/[^1]/i.test(
+        userAgent
+      )
+    ) {
+      redirectToExternalBrowser();
+    }
+  };
+
   const handleCSVDownload = () => {
-    if (csvLinkRef.current) {
-      csvLinkRef.current.link.click();
+    if (
+      getUA.match(
+        /inapp|NAVER|KAKAOTALK|FBAV|Line|Instagram|wadiz|kakaostory|band|twitter|DaumApps|everytimeapp|whatsApp|electron|aliapp|zumapp|iphone.*whale|android.*whale|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill/i
+      )
+    ) {
+      openConfirm({
+        title: "해당 브라우저에서는 지원하지 않아요.",
+        subTitle: "크롬, 사파리, 삼성 인터넷 등 \n다른 경로를 이용해 주세요.",
+        okText: "다른 경로로 열기",
+        noText: "닫기",
+        okCallback: () => {
+          handleInAppBrowser;
+        },
+        noCallback: closeConfirm,
+      });
+    } else {
+      if (csvLinkRef.current) {
+        csvLinkRef.current.link.click();
+      }
     }
     handleToastVisible("예매자 리스트가 다운되었습니다.", "top");
   };
@@ -508,7 +560,6 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              {" "}
               {paymentData?.length > 0 && <Button onClick={handleButtonClick}>{buttonText}</Button>}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
