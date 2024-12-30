@@ -919,7 +919,7 @@ const ModifyManage = () => {
             longitude={dataState.longitude}
           />
           <S.FooterContainer>
-            <Button disabled={isPending} onClick={handleComplete}>
+            <Button isPending={isPending} disabled={isPending} onClick={handleComplete}>
               완료하기
             </Button>
           </S.FooterContainer>

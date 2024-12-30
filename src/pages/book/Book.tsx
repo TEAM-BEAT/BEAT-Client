@@ -323,6 +323,7 @@ const Book = () => {
             variant="primary"
             size="medium"
             disabled={isGuestBookingPending || isMemberBookPending}
+            isPending={isGuestBookingPending || isMemberBookPending}
             onClick={handleClickBookRequst}
           >
             예매할게요
