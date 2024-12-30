@@ -38,6 +38,7 @@ const Button = ({
       disabled={disabled}
       $isDisabled={disabled}
       $variant={variant}
+      $isPending={isPending}
       {...props}
     >
       {isPending ? (
