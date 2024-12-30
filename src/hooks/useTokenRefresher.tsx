@@ -57,19 +57,17 @@ export default function TokenRefresher() {
             }
             throw new Error("Failed to refresh access token");
           } catch (refreshError) {
-            if (refreshError.response?.status === 401) {
-              openAlert({
-                title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다.",
-                okCallback: () => {
-                  localStorage.clear();
-                  if (location.pathname === "/main") {
-                    window.location.reload();
-                  } else {
-                    navigate("/main");
-                  }
-                },
-              });
-            }
+            openAlert({
+              title: "장시간 미활동으로 인해 \n자동으로 로그아웃 되었습니다.",
+              okCallback: () => {
+                localStorage.clear();
+                if (location.pathname === "/main") {
+                  window.location.reload();
+                } else {
+                  navigate("/main");
+                }
+              },
+            });
           }
         } else if (status === 500) {
           openAlert({
