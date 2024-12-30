@@ -17,6 +17,7 @@ import RadioButton from "./../cancel/components/select/RadioButton";
 import { handleChange, handleBankClick, isFormValid } from "./utils";
 import { useCancelBooking } from "../../hooks/useCancelBooking";
 import { numericFilter } from "@utils/useInputFilter";
+import { BOOKING_STATUS } from "@constants/bookingStatus";
 
 const Cancel = () => {
   const { setHeader } = useHeader();
@@ -40,7 +41,7 @@ const Cancel = () => {
       });
     }
 
-    if (state.bookingDetails.bookingStatus === "BOOKING_CONFIRMED") {
+    if (state.bookingDetails.bookingStatus === BOOKING_STATUS.BOOKING_CONFIRMED) {
       setIsDeposit(true);
     }
   }, []);
@@ -109,7 +110,7 @@ const Cancel = () => {
           <p>{state.bookingDetails.purchaseTicketCount}매</p>
         </S.PriceBox>
       </S.PerformWrapper>
-      {state.bookingDetails.bookingStatus !== "BOOKING_CONFIRMED" && (
+      {state.bookingDetails.bookingStatus !== BOOKING_STATUS.BOOKING_CONFIRMED && (
         <>
           <Spacing marginBottom="3.2" />
           <S.Title>티켓값을 입금하셨나요?</S.Title>
@@ -130,7 +131,7 @@ const Cancel = () => {
           </S.RadioWrapper>
         </>
       )}
-      {(isDeposit || state.bookingDetails.bookingStatus === "BOOKING_CONFIRMED") && (
+      {(isDeposit || state.bookingDetails.bookingStatus === BOOKING_STATUS.BOOKING_CONFIRMED) && (
         <>
           <Spacing marginBottom="1.6" />
           <InputAccountWrapper label="환불받으실 계좌를 입력해 주세요.">
