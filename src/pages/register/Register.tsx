@@ -1,7 +1,7 @@
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
 import { usePostPerformance } from "@apis/domains/performances/queries";
-import { IconChecked } from "@assets/svgs";
+import { IcNoti, IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
 import InputBank from "@components/commons/bank/InputBank";
@@ -523,7 +523,6 @@ const Register = () => {
           <S.Divider />
           <InputRegisterBox
             title="티켓 가격"
-            description="*예매자 존재 시, 티켓 가격은 수정불가합니다."
             isFree={isFree}
             onFreeClick={() => onFreeClick(setIsFree)}
           >
@@ -539,6 +538,11 @@ const Register = () => {
               unit="amount"
               inputMode="numeric"
             />
+            <Spacing marginBottom="0.8" />
+            <S.NotiDiscription>
+              <IcNoti width={20} />
+              티켓 가격과 계좌 정보는 이후 수정불가합니다.
+            </S.NotiDiscription>
           </InputRegisterBox>
           <S.Divider />
           {!isFree && (
@@ -667,9 +671,9 @@ const Register = () => {
           latitude={latitude}
           longitude={longitude}
         />
-        <S.FooterContainer>
+        <S.FooterContainer $isFinish={true}>
           <Button onClick={handleComplete} disabled={isPending}>
-            완료하기
+            등록하기
           </Button>
         </S.FooterContainer>
       </>

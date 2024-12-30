@@ -4,7 +4,7 @@ import {
   useUpdatePerformance,
 } from "@apis/domains/performances/queries";
 
-import { IconChecked } from "@assets/svgs";
+import { IcNoti, IconChecked } from "@assets/svgs";
 import {
   BankBottomSheet,
   Button,
@@ -759,7 +759,6 @@ const ModifyManage = () => {
             <InputModifyManageBox
               isDisabled={modifyState.isBookerExist as boolean}
               title="티켓 가격"
-              description="*예매자 존재 시, 티켓 가격은 수정불가합니다."
               isFree={modifyState.isFree}
               onFreeClick={() => handleModifyState("isFree", !modifyState.isFree)}
             >
@@ -779,6 +778,11 @@ const ModifyManage = () => {
                 unit="amount"
                 inputMode="numeric"
               />
+              <Spacing marginBottom="0.8" />
+              <S.NotiDiscription>
+                <IcNoti width={20} />
+                티켓 가격과 계좌 정보는 이후 수정불가합니다.
+              </S.NotiDiscription>
             </InputModifyManageBox>
             <S.Divider />
             {!modifyState.isFree && (
@@ -922,9 +926,9 @@ const ModifyManage = () => {
             latitude={dataState.latitude}
             longitude={dataState.longitude}
           />
-          <S.FooterContainer>
+          <S.FooterContainer $isFinish={true}>
             <Button disabled={isPending} onClick={handleComplete}>
-              완료하기
+              수정 완료하기
             </Button>
           </S.FooterContainer>
         </>
