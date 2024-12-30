@@ -6,6 +6,7 @@ interface DefaultBtnPropTypes {
   $size: ButtonSizeTypes;
   $variant: ButtonVariantTypes;
   $isDisabled?: boolean;
+  $isPending?: boolean;
 }
 
 const width = {
@@ -55,10 +56,10 @@ export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
 
-  ${({ $variant, $isDisabled }) => {
+  ${({ $variant, $isDisabled, $isPending }) => {
     switch ($variant) {
       case "primary":
-        return $isDisabled
+        return $isDisabled && !$isPending
           ? css`
               color: ${({ theme }) => theme.colors.gray_500};
 
