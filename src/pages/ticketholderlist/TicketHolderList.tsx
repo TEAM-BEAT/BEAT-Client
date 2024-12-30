@@ -15,7 +15,7 @@ import { CSVLink } from "react-csv";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./TicketHolderList.styled";
-import { BottomSheet, Button, Spacing } from "@components/commons";
+import { Button, Spacing } from "@components/commons";
 import Title from "@pages/ticketholderlist/components/title/Title";
 import SearchBar from "./components/searchBar/SearchBar";
 import MenuBottomsheet from "./components/MenuBottomSheet/MenuBottomsheet";
@@ -71,6 +71,7 @@ const TicketHolderList = () => {
     isTop: false,
   });
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
+  const [allBookings, setAllBookings] = useState<BookingListProps[]>([]); // 전체 예매자 정보 (필터 적용 안 된)
 
   // DEFAULT, PAYMENT, REFUND, DELETE
   const [status, setStatus] = useState("DEFAULT");
@@ -332,7 +333,13 @@ const TicketHolderList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const refetchData = await refetch();
-      setPaymentData(refetchData?.data?.bookingList ?? []);
+      const bookingList = refetchData?.data?.bookingList ?? [];
+      setPaymentData(bookingList);
+
+      // 전체 리스트는 필터값 가져오지 않도록
+      if (filterList.scheduleNumber.length === 0 && filterList.bookingStatus.length === 0) {
+        setAllBookings(bookingList);
+      }
     };
 
     const fetchSearchData = async () => {
@@ -345,13 +352,11 @@ const TicketHolderList = () => {
   }, [filterList, status, debouncedQuery]);
 
   useEffect(() => {
-    setPaymentData(data?.bookingList ?? []);
-
-    if (data?.bookingList) {
+    if (allBookings) {
       //전체 데이터를 기반으로 csv 추출 데이터 구축
       const tempCSVDataArr: CSVDataType[] = [];
 
-      data.bookingList.map((item) => {
+      allBookings.map((item) => {
         const date = item.createdAt.split("T")[0];
         const time = item.createdAt.split("T")[1].slice(0, 5);
         const formattedDate = date?.replace(/-/g, ".");
@@ -372,16 +377,23 @@ const TicketHolderList = () => {
       );
       setCSVDataArr(tempCSVDataArr);
     }
-  }, [data, paymentData]);
+  }, [data, paymentData, allBookings]);
 
   const navigate = useNavigate();
 
+  // 함수가 선언될 당시의 status값을 클로저로 캡처 -> 최신 값 보장하기 위해 함수형 업데이트 사용
   const handleNavigateBack = () => {
-    if (status !== "DEFAULT") {
-      setStatus("DEFAULT");
-    } else {
+    setStatus((prevStatus) => {
+      if (prevStatus !== "DEFAULT") {
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: [],
+        });
+        return "DEFAULT";
+      }
       navigate("/gig-manage");
-    }
+      return prevStatus;
+    });
   };
 
   const handleInAppBrowser = () => {
@@ -443,15 +455,25 @@ const TicketHolderList = () => {
   };
 
   const { setHeader } = useHeader();
+
   useEffect(() => {
-    setHeader({
-      headerStyle: NAVIGATION_STATE.ICON_TITLE_DOWNLOAD,
-      title: "예매자 관리",
-      subText: "리스트",
-      leftOnClick: handleNavigateBack,
-      rightOnClick: handleCSVDownload,
-    });
-  }, [setHeader]);
+    if (status === "DEFAULT") {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE_DOWNLOAD,
+        title: "예매자 관리",
+        subText: "리스트",
+        leftOnClick: handleNavigateBack,
+        rightOnClick: handleCSVDownload,
+      });
+    } else {
+      setHeader({
+        headerStyle: NAVIGATION_STATE.ICON_TITLE,
+        title: actions[status]?.text,
+        subText: "리스트",
+        leftOnClick: handleNavigateBack,
+      });
+    }
+  }, [setHeader, status]);
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -482,6 +504,7 @@ const TicketHolderList = () => {
                 isFilter={
                   filterList.scheduleNumber.length > 0 || filterList.bookingStatus.length > 0
                 }
+                hasBooking={allBookings?.length > 0}
               />
               {status === "DEFAULT" && (
                 <SelectedChips
@@ -537,7 +560,8 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              <Button onClick={handleButtonClick}>{buttonText}</Button>
+              {" "}
+              {paymentData?.length > 0 && <Button onClick={handleButtonClick}>{buttonText}</Button>}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
               isOpen={openMenu}

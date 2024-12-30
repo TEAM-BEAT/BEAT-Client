@@ -18,6 +18,11 @@ export const SelectIcon = styled(IconCheckboxSelectedOn)`
   width: 1.8rem;
   height: 1.8rem;
   margin-right: 1rem;
+
+  rect {
+    fill: ${({ theme }) => theme.colors.pink_400};
+    stroke: ${({ theme }) => theme.colors.pink_400};
+  }
 `;
 
 export const UnSelectIcon = styled(IconCheckboxUnselectedOn)`
