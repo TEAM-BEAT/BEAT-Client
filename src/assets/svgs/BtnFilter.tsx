@@ -1,7 +1,14 @@
 import * as React from "react";
 import type { SVGProps } from "react";
 const SvgBtnFilter = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 48 48"
+    {...props}
+    width="48"
+    height="48"
+  >
     <path
       fill="#2A2A2A"
       d="M48 24c0 13.255-10.745 24-24 24S0 37.255 0 24 10.745 0 24 0s24 10.745 24 24"
