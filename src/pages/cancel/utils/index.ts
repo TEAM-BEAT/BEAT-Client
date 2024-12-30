@@ -22,7 +22,8 @@ export const isFormValid = (
   isDeposit: boolean | null,
   bankName: string,
   accountNumber: string,
-  accountHolder: string
+  accountHolder: string,
+  bookingStatus: string
 ) => {
   if (isDeposit === null) {
     return false;
