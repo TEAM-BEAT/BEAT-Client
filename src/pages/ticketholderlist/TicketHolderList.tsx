@@ -422,7 +422,7 @@ const TicketHolderList = () => {
         ? `${targetUrl}&openExternalBrowser=1`
         : `${targetUrl}?openExternalBrowser=1`;
     } else if (
-      /inapp|naver|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone.*whale|android.*whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill|SamsungBrowser\/[^1]/i.test(
+      /inapp|naver|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone.*whale|android.*whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill\/[^1]/i.test(
         userAgent
       )
     ) {
@@ -433,7 +433,7 @@ const TicketHolderList = () => {
   const handleCSVDownload = () => {
     if (
       getUA.match(
-        /NAVER|KAKAOTALK|FBAN|FBAV|Line|Instagram|wadiz|kakaostory|band|twitter|DaumApps/i
+        /inapp|NAVER|KAKAOTALK|FBAV|Line|Instagram|wadiz|kakaostory|band|twitter|DaumApps|everytimeapp|whatsApp|electron|aliapp|zumapp|iphone.*whale|android.*whale|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill/i
       )
     ) {
       openConfirm({
@@ -560,7 +560,6 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              {" "}
               {paymentData?.length > 0 && <Button onClick={handleButtonClick}>{buttonText}</Button>}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
