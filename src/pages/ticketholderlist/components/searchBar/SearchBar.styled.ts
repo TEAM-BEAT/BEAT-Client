@@ -47,4 +47,9 @@ export const FilterBtn = styled(BtnFilter)<{ $isFilter: boolean }>`
   border: 0.1rem solid
     ${({ theme, $isFilter }) => ($isFilter ? theme.colors.white : theme.colors.gray_700)};
   border-radius: 50%;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
