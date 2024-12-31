@@ -25,7 +25,7 @@ const PhoneNumber = ({ phone }: PhoneNumProps) => {
           <S.Copy />
         </S.PhoneNumLayout>
       </S.PhoneNumWrapper>
-      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+      <Toast icon={<IconCheck />} isVisible={isToastVisible} isTop={true}>
         클립보드에 복사되었습니다!
       </Toast>
     </>
