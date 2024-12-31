@@ -40,6 +40,7 @@ export const SearchBar = styled.input`
 `;
 
 export const FilterBtnWrapper = styled.button<{ $isFilter: boolean }>`
+  display: flex;
   width: 4.8rem;
   height: 4.8rem;
   margin-left: 1.2rem;
