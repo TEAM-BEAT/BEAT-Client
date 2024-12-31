@@ -6,7 +6,7 @@ interface ToastConfigProps {
   isTop: boolean;
 }
 
-//더욱 간편하게 toast를 사용할 수 있도록 2차 추상화
+//top & bottom, 혹은 메세지를 변경해야하는 경우 사용해야하는 훅
 const useToastHandler = () => {
   const { showToast, isToastVisible } = useToast();
   const [toastConfig, setToastConfig] = useState<ToastConfigProps>({
