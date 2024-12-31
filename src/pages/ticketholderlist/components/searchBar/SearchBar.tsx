@@ -27,9 +27,12 @@ const SearchBar = ({
   const handleBlur = () => {
     setPlaceholder("예매자를 검색해보세요.");
   };
+
+  const isFilterBtn = status === "DEFAULT" && hasBooking;
+
   return (
     <S.SearchBarWrapper>
-      <S.SearchBarLayout>
+      <S.SearchBarLayout $isFilterBtn={isFilterBtn}>
         <S.SearchIcon />
         <S.SearchBar
           type="text"
@@ -40,7 +43,7 @@ const SearchBar = ({
           onBlur={handleBlur}
         ></S.SearchBar>
       </S.SearchBarLayout>
-      {status === "DEFAULT" && hasBooking && (
+      {isFilterBtn && (
         <S.FilterBtnWrapper $isFilter={isFilter}>
           <S.FilterBtn onClick={handleFilterSheet} />
         </S.FilterBtnWrapper>

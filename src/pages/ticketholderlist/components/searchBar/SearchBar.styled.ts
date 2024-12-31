@@ -8,10 +8,11 @@ export const SearchBarWrapper = styled.section`
   width: 32.7rem;
 `;
 
-export const SearchBarLayout = styled.section`
+export const SearchBarLayout = styled.section<{ $isFilterBtn: boolean }>`
   display: flex;
   flex: 1 1 auto;
   align-items: center;
+  width: ${({ $isFilterBtn }) => ($isFilterBtn ? "26.7rem" : "32.7rem")};
   height: 4.8rem;
   padding: 1.2rem 1.3rem;
 
