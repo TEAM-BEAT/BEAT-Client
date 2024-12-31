@@ -31,6 +31,7 @@ export const SearchIcon = styled(IconSearch)`
 `;
 
 export const SearchBar = styled.input`
+  width: 100%;
   height: 2.4rem;
 
   color: ${({ theme }) => theme.colors.white};
