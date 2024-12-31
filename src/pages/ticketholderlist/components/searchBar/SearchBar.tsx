@@ -41,7 +41,9 @@ const SearchBar = ({
         ></S.SearchBar>
       </S.SearchBarLayout>
       {status === "DEFAULT" && hasBooking && (
-        <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />
+        <S.FilterBtnWrapper $isFilter={isFilter}>
+          <S.FilterBtn onClick={handleFilterSheet} />
+        </S.FilterBtnWrapper>
       )}
     </S.SearchBarWrapper>
   );
