@@ -7,9 +7,10 @@ export const SearchBarWrapper = styled.section`
   align-items: center;
   width: 32.7rem;
 `;
+
 export const SearchBarLayout = styled.section`
   display: flex;
-  flex-grow: 1;
+  flex: 1 1 auto;
   align-items: center;
   height: 4.8rem;
   padding: 1.2rem 1.3rem;
@@ -50,6 +51,8 @@ export const FilterBtnWrapper = styled.button<{ $isFilter: boolean }>`
 `;
 
 export const FilterBtn = styled(BtnFilter)`
+  display: flex;
+
   svg {
     display: block;
     width: 4.8rem;
