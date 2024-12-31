@@ -49,6 +49,7 @@ export const FilterBtn = styled(BtnFilter)<{ $isFilter: boolean }>`
   border-radius: 50%;
 
   svg {
+    display: block;
     width: 4.8rem;
     height: 4.8rem;
   }
