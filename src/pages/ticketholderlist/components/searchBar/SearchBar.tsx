@@ -32,7 +32,7 @@ const SearchBar = ({
 
   return (
     <S.SearchBarWrapper>
-      <S.SearchBarLayout $isFilterBtn={isFilterBtn}>
+      <S.SearchBarLayout>
         <S.SearchIcon />
         <S.SearchBar
           type="text"

@@ -8,11 +8,11 @@ export const SearchBarWrapper = styled.section`
   width: 32.7rem;
 `;
 
-export const SearchBarLayout = styled.section<{ $isFilterBtn: boolean }>`
+export const SearchBarLayout = styled.section`
   display: flex;
   flex: 1 1 auto;
+  flex-shrink: 1;
   align-items: center;
-  width: ${({ $isFilterBtn }) => ($isFilterBtn ? "26.7rem" : "32.7rem")};
   height: 4.8rem;
   padding: 1.2rem 1.3rem;
 
@@ -42,6 +42,7 @@ export const SearchBar = styled.input`
 
 export const FilterBtnWrapper = styled.button<{ $isFilter: boolean }>`
   display: flex;
+  flex-shrink: 1;
   width: 4.8rem;
   height: 4.8rem;
   margin-left: 1.2rem;
@@ -54,6 +55,7 @@ export const FilterBtnWrapper = styled.button<{ $isFilter: boolean }>`
 
 export const FilterBtn = styled(BtnFilter)`
   display: flex;
+  flex-shrink: 1;
 
   svg {
     display: block;
