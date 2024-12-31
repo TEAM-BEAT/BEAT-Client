@@ -32,7 +32,7 @@ const SearchBar = ({
 
   return (
     <S.SearchBarWrapper>
-      <S.SearchBarLayout>
+      <S.SearchBarLayout $isFilterBtn={isFilterBtn}>
         <S.SearchIcon />
         <S.SearchBar
           type="text"
@@ -43,11 +43,7 @@ const SearchBar = ({
           onBlur={handleBlur}
         ></S.SearchBar>
       </S.SearchBarLayout>
-      {isFilterBtn && (
-        <S.FilterBtnWrapper $isFilter={isFilter}>
-          <S.FilterBtn onClick={handleFilterSheet} />
-        </S.FilterBtnWrapper>
-      )}
+      {isFilterBtn && <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />}
     </S.SearchBarWrapper>
   );
 };
