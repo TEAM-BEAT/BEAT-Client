@@ -450,8 +450,9 @@ const TicketHolderList = () => {
       if (csvLinkRef.current) {
         csvLinkRef.current.link.click();
       }
+
+      handleToastVisible("예매자 리스트가 다운되었습니다.", "top");
     }
-    handleToastVisible("예매자 리스트가 다운되었습니다.", "top");
   };
 
   const { setHeader } = useHeader();
