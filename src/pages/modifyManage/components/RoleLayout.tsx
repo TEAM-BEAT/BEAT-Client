@@ -90,7 +90,7 @@ const RoleLayout = ({ list, updateList, title }: RoleLayoutProps) => {
   }, [makerList]);
 
   return (
-    <S.InputModifyManageBox $marginBottom={2.8}>
+    <S.InputModifyManageBox $marginBottom={5.6}>
       <S.InputTitle>{title}</S.InputTitle>
       <Spacing marginBottom="1.4" />
       <S.RoleListWrapper>

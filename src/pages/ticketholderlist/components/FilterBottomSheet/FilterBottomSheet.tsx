@@ -127,7 +127,9 @@ const FilterBottomSheet = ({
         </S.CheckBoxContainer>
         <Spacing marginBottom="3.2" />
         {isAllEmpty ? (
-          <Button variant="gray">적용하기</Button>
+          <Button variant="gray" disabled={true}>
+            적용하기
+          </Button>
         ) : (
           <Button onClick={handleCilckBtn}>적용하기</Button>
         )}

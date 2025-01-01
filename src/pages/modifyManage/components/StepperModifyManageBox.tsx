@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import * as S from "../ModifyManage.styled";
 import Spacing from "@components/commons/spacing/Spacing";
+import { IcNoti } from "@assets/svgs";
 
 interface StepperModifyManageBoxProps {
   title: string;
@@ -26,7 +27,10 @@ const StepperModifyManageBox = ({
         </S.InputTitleLayout>
         {children}
       </S.StepperModifyManageBox>
-      <S.InputDescription $warning={true}>*기존 회차는 삭제가 불가능합니다.</S.InputDescription>
+      <S.NotiDiscription>
+        <IcNoti width={20} />
+        회차 수정은 이후 불가합니다.
+      </S.NotiDiscription>{" "}
     </S.InputModifyManageBox>
   );
 };

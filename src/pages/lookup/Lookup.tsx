@@ -68,8 +68,8 @@ const Lookup = () => {
   };
 
   useEffect(() => {
-    if (state?.name && state?.phone && state?.password && !cachedData && !isFetching) {
-      // 비회원 데이터가 캐시에 없을 경우 새로 가져옴
+    if (state?.name && state?.phone && state?.password && !isFetching) {
+      // 비회원 데이터 새로 가져옴
       fetchBookingList(state).finally(() => {
         setIsFetching(false);
         setCachedData(getCachedBookingList(state.name, state.phone, state.password));

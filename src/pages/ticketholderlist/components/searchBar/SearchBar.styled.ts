@@ -7,10 +7,11 @@ export const SearchBarWrapper = styled.section`
   align-items: center;
   width: 32.7rem;
 `;
-export const SearchBarLayout = styled.section`
+
+export const SearchBarLayout = styled.section<{ $isFilterBtn: boolean }>`
   display: flex;
-  flex-grow: 1;
   align-items: center;
+  width: ${({ $isFilterBtn }) => ($isFilterBtn ? "26.7rem" : "32.7rem")};
   height: 4.8rem;
   padding: 1.2rem 1.3rem;
 
@@ -30,6 +31,7 @@ export const SearchIcon = styled(IconSearch)`
 `;
 
 export const SearchBar = styled.input`
+  width: 100%;
   height: 2.4rem;
 
   color: ${({ theme }) => theme.colors.white};
@@ -38,7 +40,12 @@ export const SearchBar = styled.input`
   background-color: ${({ theme }) => theme.colors.gray_800};
 `;
 
+export const FilterBtnWrapper = styled.button<{ $isFilter: boolean }>`
+  display: flex;
+`;
+
 export const FilterBtn = styled(BtnFilter)<{ $isFilter: boolean }>`
+  display: flex;
   width: 4.8rem;
   height: 4.8rem;
   margin-left: 1.2rem;
@@ -47,4 +54,10 @@ export const FilterBtn = styled(BtnFilter)<{ $isFilter: boolean }>`
   border: 0.1rem solid
     ${({ theme, $isFilter }) => ($isFilter ? theme.colors.white : theme.colors.gray_700)};
   border-radius: 50%;
+
+  svg {
+    display: block;
+    width: 4.8rem;
+    height: 4.8rem;
+  }
 `;

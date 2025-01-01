@@ -1,6 +1,7 @@
 import Spacing from "@components/commons/spacing/Spacing";
 import * as S from "../Register.styled";
 import { ReactNode } from "react";
+import { IcNoti } from "@assets/svgs";
 
 interface StepperRegisterBoxProps {
   title: string;
@@ -24,7 +25,10 @@ const StepperRegisterBox = ({
         </S.InputTitleWrapper>
         {children}
       </S.StepperRegisterBox>
-      <S.InputDescription $warning={true}>*기존 회차는 삭제가 불가능합니다.</S.InputDescription>
+      <S.NotiDiscription>
+        <IcNoti width={20} />
+        회차 수정은 이후 불가합니다.
+      </S.NotiDiscription>
     </S.InputRegisterBox>
   );
 };

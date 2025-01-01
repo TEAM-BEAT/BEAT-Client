@@ -4,7 +4,7 @@ interface ManageAccountProps {
   bankName: string;
   accountNumber: string;
   accountHolder: string;
-  handleCopyClipBoard: (number) => void;
+  handleCopyClipBoard: (text: string) => void;
 }
 
 export default function ManageAccount({
@@ -15,7 +15,7 @@ export default function ManageAccount({
 }: ManageAccountProps) {
   return (
     <>
-      <S.ManageAccountWrapper onClick={() => handleCopyClipBoard(accountNumber)}>
+      <S.ManageAccountWrapper onClick={() => handleCopyClipBoard(`${bankName} ${accountNumber}`)}>
         {bankName} ({accountHolder}) {accountNumber}
         <S.CopyIcon />
       </S.ManageAccountWrapper>

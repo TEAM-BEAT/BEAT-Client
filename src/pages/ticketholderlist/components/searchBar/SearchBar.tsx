@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./SearchBar.styled";
 
 interface SearchBarProps {
@@ -7,6 +7,7 @@ interface SearchBarProps {
   handleFilterSheet: () => void;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isFilter: boolean;
+  hasBooking: boolean;
 }
 
 const SearchBar = ({
@@ -15,19 +16,34 @@ const SearchBar = ({
   handleInputChange,
   searchWord,
   isFilter,
+  hasBooking,
 }: SearchBarProps) => {
+  const [placeholder, setPlaceholder] = useState("예매자를 검색해보세요.");
+
+  const handleFocus = () => {
+    setPlaceholder("2글자 이상 입력해 주세요.");
+  };
+
+  const handleBlur = () => {
+    setPlaceholder("예매자를 검색해보세요.");
+  };
+
+  const isFilterBtn = status === "DEFAULT" && hasBooking;
+
   return (
     <S.SearchBarWrapper>
-      <S.SearchBarLayout>
+      <S.SearchBarLayout $isFilterBtn={isFilterBtn}>
         <S.SearchIcon />
         <S.SearchBar
           type="text"
-          placeholder="예매자를 검색해보세요."
+          placeholder={placeholder}
           value={searchWord}
           onChange={handleInputChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         ></S.SearchBar>
       </S.SearchBarLayout>
-      {status === "DEFAULT" && <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />}
+      {isFilterBtn && <S.FilterBtn onClick={handleFilterSheet} $isFilter={isFilter} />}
     </S.SearchBarWrapper>
   );
 };
