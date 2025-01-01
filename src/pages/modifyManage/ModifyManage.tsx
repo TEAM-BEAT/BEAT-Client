@@ -347,12 +347,8 @@ const ModifyManage = () => {
       //기존에 갖고 있던 이미지들의 주소들 -> files
       const files = [
         dataState.posterImage,
-        ...dataState.castModifyRequests
-          .map((cast) => cast.castPhoto)
-          .filter((photo) => photo !== ""),
-        ...dataState.staffModifyRequests
-          .map((staff) => staff.staffPhoto)
-          .filter((photo) => photo !== ""),
+        ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
+        ...dataState.staffModifyRequests.map((staff) => staff.staffPhoto),
         ...dataState.performanceImageModifyRequests.map((obj) => obj.performanceImage),
       ];
 
@@ -927,7 +923,7 @@ const ModifyManage = () => {
             longitude={dataState.longitude}
           />
           <S.FooterContainer $isFinish={true}>
-            <Button disabled={isPending} onClick={handleComplete}>
+            <Button disabled={isPending} isPending={isPending} onClick={handleComplete}>
               수정 완료하기
             </Button>
           </S.FooterContainer>

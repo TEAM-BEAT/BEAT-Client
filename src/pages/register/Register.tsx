@@ -672,7 +672,7 @@ const Register = () => {
           longitude={longitude}
         />
         <S.FooterContainer $isFinish={true}>
-          <Button onClick={handleComplete} disabled={isPending}>
+          <Button onClick={handleComplete} isPending={isPending} disabled={isPending}>
             등록하기
           </Button>
         </S.FooterContainer>

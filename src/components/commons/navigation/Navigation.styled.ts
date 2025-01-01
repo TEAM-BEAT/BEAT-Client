@@ -72,6 +72,7 @@ export const NavigationRightButton = styled(IconArrowRight)`
 `;
 
 export const NavigationXButton = styled(IconXButton)`
+  justify-self: end;
   width: 3.2rem;
   height: 3.2rem;
   padding: 0.4rem;
