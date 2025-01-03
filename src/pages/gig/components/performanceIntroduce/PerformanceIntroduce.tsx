@@ -127,7 +127,7 @@ const PerformanceIntroduce = ({
         <Contact contact={contact} />
 
         <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={30}>
+          <Toast icon={<IconCheck />} isVisible={isToastVisible} isTop={true}>
             클립보드에 복사되었습니다!
           </Toast>
         </div>
