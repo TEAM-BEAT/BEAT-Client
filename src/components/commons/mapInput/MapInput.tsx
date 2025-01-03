@@ -71,6 +71,7 @@ const MapInput = ({
             const temp = [];
             for (var i = 0; i < data.length; i++) {
               temp.push(data[i]);
+              console.log(data);
             }
             setPlaces(temp);
           } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -190,8 +191,8 @@ const MapInput = ({
                       setLatitudeLongitude(place.y, place.x); //lat이 y값
                     }}
                   >
-                    <S.RoadName>{place.road_address_name}</S.RoadName>
-                    <S.PostName>{place.address_name}</S.PostName>
+                    <S.RoadName>{place.place_name}</S.RoadName>
+                    <S.PostName>{place.road_address_name}</S.PostName>
                   </S.DropDownItem>
                   {idx !== places.length - 1 && <S.Divider />}
                 </React.Fragment>

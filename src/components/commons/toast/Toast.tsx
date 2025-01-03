@@ -8,7 +8,6 @@ interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   isTop?: boolean;
 }
 
-//todo: 만약 모든 토스트 위에 위치하게 하고 싶다면, toastBottom 조정 필요
 const Toast = ({
   icon,
   children,
