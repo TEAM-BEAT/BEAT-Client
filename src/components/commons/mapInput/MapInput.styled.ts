@@ -141,7 +141,8 @@ export const DropDownItem = styled.div`
 export const RoadName = styled.p`
   align-self: stretch;
 
-  color: ${({ theme }) => theme.colors.pink_200};
+  color: ${({ theme }) => theme.colors.gray_0};
+  //color: ${({ theme }) => theme.colors.pink_200};
   ${({ theme }) => theme.fonts["body1-normal-semi"]};
   white-space: nowrap;
 `;

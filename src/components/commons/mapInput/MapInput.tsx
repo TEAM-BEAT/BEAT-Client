@@ -98,6 +98,16 @@ const MapInput = ({
     }
   };
 
+  const matchStringPink = (inputValue: string, result: string) => {
+    const regex = new RegExp(`(${_.escapeRegExp(inputValue)})`, "gi");
+    const highlightedResult = result.replace(
+      regex,
+      (match) => `<span style="color: #FF97C2;">${match}</span>`
+    );
+
+    return <span dangerouslySetInnerHTML={{ __html: highlightedResult }} />;
+  };
+
   useEffect(() => {
     setInputValue(value as string);
     prevValueRef.current = value as string;
@@ -191,7 +201,7 @@ const MapInput = ({
                       setLatitudeLongitude(place.y, place.x); //lat이 y값
                     }}
                   >
-                    <S.RoadName>{place.place_name}</S.RoadName>
+                    <S.RoadName>{matchStringPink(inputValue, place.place_name)}</S.RoadName>
                     <S.PostName>{place.road_address_name}</S.PostName>
                   </S.DropDownItem>
                   {idx !== places.length - 1 && <S.Divider />}
