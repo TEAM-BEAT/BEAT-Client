@@ -71,6 +71,7 @@ const MapInput = ({
             const temp = [];
             for (var i = 0; i < data.length; i++) {
               temp.push(data[i]);
+              console.log(data);
             }
             setPlaces(temp);
           } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -95,6 +96,16 @@ const MapInput = ({
       setIsWarn(true);
       setLatitudeLongitude("", "");
     }
+  };
+
+  const matchStringPink = (inputValue: string, result: string) => {
+    const regex = new RegExp(`(${_.escapeRegExp(inputValue)})`, "gi");
+    const highlightedResult = result.replace(
+      regex,
+      (match) => `<span style="color: #FF97C2;">${match}</span>`
+    );
+
+    return <span dangerouslySetInnerHTML={{ __html: highlightedResult }} />;
   };
 
   useEffect(() => {
@@ -190,8 +201,8 @@ const MapInput = ({
                       setLatitudeLongitude(place.y, place.x); //lat이 y값
                     }}
                   >
-                    <S.RoadName>{place.road_address_name}</S.RoadName>
-                    <S.PostName>{place.address_name}</S.PostName>
+                    <S.RoadName>{matchStringPink(inputValue, place.place_name)}</S.RoadName>
+                    <S.PostName>{place.road_address_name}</S.PostName>
                   </S.DropDownItem>
                   {idx !== places.length - 1 && <S.Divider />}
                 </React.Fragment>

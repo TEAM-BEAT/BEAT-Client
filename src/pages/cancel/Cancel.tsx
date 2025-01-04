@@ -80,7 +80,6 @@ const Cancel = () => {
     };
 
     confirmCancelAction(requestData);
-    alert("hi");
   };
 
   if (!state) {

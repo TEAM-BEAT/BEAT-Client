@@ -27,9 +27,9 @@ import SelectedChips from "./components/selectedChips/SelectedChips";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 import { IconCheck } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
-import { useToast } from "@hooks";
 import NonExistent from "./components/nonExistent/NonExistent.";
 import { getUA, isChrome } from "react-device-detect";
+import { useToastHandler } from "@hooks";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -66,10 +66,7 @@ const headers = [
 ];
 
 const TicketHolderList = () => {
-  const [toastConfig, setToastConfig] = useState<ToastConfigProps>({
-    message: "클립보드에 복사되었습니다!",
-    isTop: false,
-  });
+  const { toastConfig, isToastVisible, handleToastVisible } = useToastHandler();
   const [paymentData, setPaymentData] = useState<BookingListProps[]>();
   const [allBookings, setAllBookings] = useState<BookingListProps[]>([]); // 전체 예매자 정보 (필터 적용 안 된)
 
@@ -102,9 +99,7 @@ const TicketHolderList = () => {
     filterList
   );
   const { openConfirm, closeConfirm } = useModal();
-
   const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
-  const { showToast, isToastVisible } = useToast();
   // 체크된 리스트 확인
   const handleBookingIdCheck = (bookingId: number) => {
     setCheckedBookingId((prev) =>
@@ -113,13 +108,6 @@ const TicketHolderList = () => {
   };
 
   const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
-
-  //토스트 메세지, 위치를 정하는 유틸 함수
-  const handleToastVisible = (message: string, position: "top" | "bottom") => {
-    const isTop = position === "top" ? true : false;
-    setToastConfig({ message, isTop });
-    showToast();
-  };
 
   const handlePaymentFixAxiosFunc = () => {
     if (updateIsPending) {
@@ -478,7 +466,7 @@ const TicketHolderList = () => {
 
   const handleCopyClipBoard = (text: string) => {
     navigator.clipboard.writeText(text);
-    handleToastVisible("클립보드에 복사되었습니다!", "bottom");
+    handleToastVisible("클립보드에 복사되었습니다!", "top");
   };
 
   return (
