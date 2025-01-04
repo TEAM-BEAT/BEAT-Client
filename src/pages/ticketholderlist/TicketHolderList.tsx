@@ -431,7 +431,7 @@ const TicketHolderList = () => {
         okText: "다른 경로로 열기",
         noText: "닫기",
         okCallback: () => {
-          handleInAppBrowser;
+          handleInAppBrowser();
         },
         noCallback: closeConfirm,
       });
