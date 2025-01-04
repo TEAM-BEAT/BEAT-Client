@@ -389,7 +389,8 @@ const TicketHolderList = () => {
       const targetUrl = "https://www.beatlive.kr/gig-manage";
 
       if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        window.location.href = "x-web-https://www.beatlive.kr/gig-manage";
+        // window.location.href = `x-web-search://${targetUrl}`;
+        window.open("https://www.beatlive.kr/gig-manage", "_system");
       } else {
         window.location.href = `intent://${targetUrl.replace(
           /https?:\/\//i,
