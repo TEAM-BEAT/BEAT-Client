@@ -398,7 +398,7 @@ const TicketHolderList = () => {
 
   const handleInAppBrowser = () => {
     const redirectToExternalBrowser = () => {
-      const targetUrl = "https://www.beatlive/gig-manage";
+      const targetUrl = "https://www.beatlive.kr/gig-manage";
 
       if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         window.location.href = "x-web-search://?";
@@ -414,15 +414,15 @@ const TicketHolderList = () => {
 
     if (/kakaotalk/i.test(userAgent)) {
       window.location.href = `kakaotalk://web/openExternal?url=${encodeURIComponent(
-        "https://www.beatlive/gig-manage"
+        "https://www.beatlive.kr/gig-manage"
       )}`;
     } else if (/line/i.test(userAgent)) {
-      const targetUrl = "https://www.beatlive/gig-manage";
+      const targetUrl = "https://www.beatlive.kr/gig-manage";
       window.location.href = targetUrl.includes("?")
         ? `${targetUrl}&openExternalBrowser=1`
         : `${targetUrl}?openExternalBrowser=1`;
     } else if (
-      /inapp|naver|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone.*whale|android.*whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill\/[^1]/i.test(
+      /inapp|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone.*whale|android.*whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill\/[^1]/i.test(
         userAgent
       )
     ) {
@@ -433,7 +433,7 @@ const TicketHolderList = () => {
   const handleCSVDownload = () => {
     if (
       getUA.match(
-        /inapp|NAVER|KAKAOTALK|FBAV|Line|Instagram|wadiz|kakaostory|band|twitter|DaumApps|everytimeapp|whatsApp|electron|aliapp|zumapp|iphone.*whale|android.*whale|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill/i
+        /inapp|KAKAOTALK|FBAV|Line|Instagram|wadiz|kakaostory|band|twitter|DaumApps|everytimeapp|whatsApp|electron|aliapp|zumapp|iphone.*whale|android.*whale|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill/i
       )
     ) {
       openConfirm({
