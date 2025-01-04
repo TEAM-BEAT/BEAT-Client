@@ -386,7 +386,8 @@ const TicketHolderList = () => {
 
   const handleInAppBrowser = () => {
     const redirectToExternalBrowser = () => {
-      const targetUrl = "https://www.beatlive.kr/gig-manage";
+      // const targetUrl = "https://www.beatlive.kr/gig-manage";
+      const targetUrl = window.location.href;
 
       if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         window.location.href = "x-web-search://?";
