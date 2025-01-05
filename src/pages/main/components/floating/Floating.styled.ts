@@ -1,64 +1,56 @@
-import { BtnFloating, Union } from "@assets/svgs";
-import styled, { keyframes } from "styled-components";
-
-const float = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
+import { IconTicket } from "@assets/svgs";
+import styled, { css } from "styled-components";
 
 export const Layer = styled.section<{ $width: number }>`
   position: fixed;
-  bottom: 15rem;
-  left: ${({ $width }) => `${$width / 2 + 50}px`};
+  bottom: 12rem;
+  left: ${({ $width }) => `${$width / 2 + Math.min(375 / 2, $width / 2) - 24}px`};
   z-index: 25;
 `;
 
-export const FloatingWrapper = styled.section`
-  position: absolute;
+export const FloatingBtnWrapper = styled.button<{ $showText: boolean }>`
   display: flex;
-  flex-direction: column;
-
-  animation: ${float} 2s ease-in-out infinite;
-`;
-
-export const FloatingContainer = styled.section`
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 0.8rem;
-`;
+  background-color: ${({ theme }) => theme.colors.pink_400};
+  padding: 1rem;
+  border-radius: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0px 0px 26px 0px rgba(251, 36, 127, 0.6);
+  transition: all 0.3s ease-in-out;
 
-export const UnionIcon = styled(Union)`
-  width: 10.3rem;
-  height: 3rem;
-  margin-right: 2rem;
-`;
-
-export const UnionText = styled.div`
   position: absolute;
-  top: 0.55rem;
-  left: 0.6rem;
-  z-index: 30;
-  display: flex;
+  right: 0;
 
-  color: ${({ theme }) => theme.colors.pink_400};
-  ${({ theme }) => theme.fonts["caption2-semi"]};
+  width: ${({ $showText }) => ($showText ? "12.7rem" : "5.2rem")};
 `;
 
-export const FloatingBtnWrapper = styled.button`
-  display: flex;
-  width: 6.4rem;
-  height: 6.4rem;
-  margin-left: 5.4rem;
+export const FloatingText = styled.p<{ $showText: boolean }>`
+  ${({ theme }) => theme.fonts["body1-normal-semi"]};
+  color: ${({ theme }) => theme.colors.white};
+  white-space: nowrap;
+
+  ${({ $showText }) =>
+    $showText
+      ? css`
+          transform: translateX(0);
+          transition:
+            transform 0.3s ease-in-out,
+            opacity 0.3s ease-in-out;
+          opacity: 1;
+        `
+      : css`
+          transform: translateX(50%);
+          transition:
+            transform 0.3s ease-in-out,
+            opacity 0.3s ease-in-out;
+          opacity: 0;
+        `}
 `;
 
-export const FloatingBtn = styled(BtnFloating)`
-  width: 6.4rem;
-  height: 6.4rem;
+export const TicketIcon = styled(IconTicket)`
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
 `;
