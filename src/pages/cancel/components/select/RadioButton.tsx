@@ -14,7 +14,7 @@ const RadioButton = ({ label, value, checked, onChange }: RadioButtonProps) => {
   return (
     <S.ButtonBox $variant={variant} onClick={() => onChange(value)}>
       <span>{label}</span>
-      {checked ? <IcRadioSelected width={20} /> : <IcRadioUnselected width={20} />}
+      {checked ? <IcRadioSelected width={32} /> : <IcRadioUnselected width={32} />}
     </S.ButtonBox>
   );
 };
