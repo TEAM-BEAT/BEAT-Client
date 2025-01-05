@@ -45,7 +45,7 @@ const MakerIntroduce = ({ teamName, castList, staffList }: MakerIntroduceProps) 
             ))}
           </S.TeamPeopleCardWrapper>
         ) : (
-          <S.NoContentBox>등록된 출연진 정보가 없어요.</S.NoContentBox>
+          <S.NoContentBox>등록된 스태프 정보가 없어요.</S.NoContentBox>
         )}
       </S.MakerInfoContainer>
     </S.Wrapper>
