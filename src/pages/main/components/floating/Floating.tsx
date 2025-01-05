@@ -1,6 +1,6 @@
 import { useLogin, useModal } from "@hooks";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Floating.styled";
 
@@ -25,26 +25,19 @@ const Floating = () => {
 
   const [width, setWidth] = useState(window.innerWidth);
   const [showText, setShowText] = useState(true);
+  const lastScrollY = useRef(0);
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+  };
+
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    setShowText(currentScrollY < lastScrollY.current);
+    lastScrollY.current = currentScrollY;
+  };
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY) {
-        setShowText(false);
-      } else if (currentScrollY < lastScrollY) {
-        setShowText(true);
-      }
-
-      lastScrollY = currentScrollY;
-    };
-
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
     return () => {
