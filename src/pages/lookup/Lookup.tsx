@@ -116,7 +116,7 @@ const Lookup = () => {
             <NonExistent />
           )}
           {(toastMessage || state?.toastMessage) && (
-            <Toast icon={<IconCheck />} isVisible={true} toastBottom={32}>
+            <Toast icon={<IconCheck />} isVisible={true} isTop={true} toastBottom={32}>
               {toastMessage ?? state?.toastMessage}
             </Toast>
           )}
