@@ -173,7 +173,8 @@ const MapInput = ({
             {...rest}
           />
           <S.TextUnit>
-            <IconSearch />
+            <S.TextSearch />
+            <S.TextClear />
           </S.TextUnit>
         </S.TextFieldWrapper>
         {isWarn && <S.WarningText>검색 시 나오는 주소를 선택해주세요.</S.WarningText>}
