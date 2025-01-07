@@ -154,6 +154,24 @@ const MapInput = ({
     [onChange, filter, maxLength, name]
   );
 
+  const handleClearInput = () => {
+    if (inputRef.current) {
+      const inputName = inputRef.current.name;
+
+      inputRef.current.value = "";
+
+      const newEvent = {
+        target: {
+          name: inputName,
+          value: "",
+        },
+      } as ChangeEvent<HTMLInputElement>;
+
+      inputRef.current.focus();
+      onChange(newEvent);
+    }
+  };
+
   return (
     <>
       {isDropDownOpen && <S.Deemed onClick={handleClickDeemed} />}
@@ -173,8 +191,7 @@ const MapInput = ({
             {...rest}
           />
           <S.TextUnit>
-            <S.TextSearch />
-            <S.TextClear />
+            {value ? <S.TextClear onClick={handleClearInput} /> : <S.TextSearch />}
           </S.TextUnit>
         </S.TextFieldWrapper>
         {isWarn && <S.WarningText>검색 시 나오는 주소를 선택해주세요.</S.WarningText>}
