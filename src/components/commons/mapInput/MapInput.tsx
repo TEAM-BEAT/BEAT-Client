@@ -71,7 +71,6 @@ const MapInput = ({
             const temp = [];
             for (var i = 0; i < data.length; i++) {
               temp.push(data[i]);
-              console.log(data);
             }
             setPlaces(temp);
           } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
