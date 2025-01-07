@@ -169,6 +169,7 @@ const MapInput = ({
 
       inputRef.current.focus();
       onChange(newEvent);
+      setPlaces([]);
     }
   };
 
