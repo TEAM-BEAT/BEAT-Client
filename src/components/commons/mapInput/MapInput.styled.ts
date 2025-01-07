@@ -1,4 +1,5 @@
 import { IconTextfiedlDelete } from "@assets/svgs";
+import { IconSearch } from "@assets/svgs";
 import { Generators } from "@styles/generator";
 import styled from "styled-components";
 
@@ -48,12 +49,16 @@ export const TextFieldInput = styled.input<{
   }
 `;
 
-export const TextClear = styled(IconTextfiedlDelete)`
+export const TextSearch = styled(IconSearch)`
   position: absolute;
   top: 1.2rem;
   right: 1.2rem;
   width: 2.4rem;
+`;
 
+export const TextClear = styled(IconTextfiedlDelete)`
+  position: absolute;
+  width: 2.4rem;
   cursor: pointer;
 `;
 

@@ -71,7 +71,6 @@ const MapInput = ({
             const temp = [];
             for (var i = 0; i < data.length; i++) {
               temp.push(data[i]);
-              console.log(data);
             }
             setPlaces(temp);
           } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -154,6 +153,25 @@ const MapInput = ({
     [onChange, filter, maxLength, name]
   );
 
+  const handleClearInput = () => {
+    if (inputRef.current) {
+      const inputName = inputRef.current.name;
+
+      inputRef.current.value = "";
+
+      const newEvent = {
+        target: {
+          name: inputName,
+          value: "",
+        },
+      } as ChangeEvent<HTMLInputElement>;
+
+      inputRef.current.focus();
+      onChange(newEvent);
+      setPlaces([]);
+    }
+  };
+
   return (
     <>
       {isDropDownOpen && <S.Deemed onClick={handleClickDeemed} />}
@@ -173,7 +191,7 @@ const MapInput = ({
             {...rest}
           />
           <S.TextUnit>
-            <IconSearch />
+            {value ? <S.TextClear onClick={handleClearInput} /> : <S.TextSearch />}
           </S.TextUnit>
         </S.TextFieldWrapper>
         {isWarn && <S.WarningText>검색 시 나오는 주소를 선택해주세요.</S.WarningText>}
