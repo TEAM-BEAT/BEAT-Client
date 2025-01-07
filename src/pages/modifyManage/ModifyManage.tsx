@@ -615,7 +615,7 @@ const ModifyManage = () => {
                 value={dataState.performanceTeamName}
                 onChange={(e) => handleInputChange("performanceTeamName", e.target.value)}
                 placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
-                maxLength={10}
+                maxLength={20}
                 cap={true}
               />
             </InputModifyManageBox>

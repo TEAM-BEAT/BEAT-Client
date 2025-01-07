@@ -408,7 +408,7 @@ const Register = () => {
               value={performanceTeamName}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
-              maxLength={10}
+              maxLength={20}
               cap={true}
             />
           </InputRegisterBox>
