@@ -1,7 +1,7 @@
+import defaultImg from "@assets/images/img_staff_medium.png";
 import { CastListType, StaffListType } from "../content/Content";
 import PeopleCard from "../peopleCard/PeopleCard";
 import * as S from "./MakerIntroduce.styled";
-import defaultImg from "@assets/images/img_staff_medium.png";
 
 interface MakerIntroduceProps {
   teamName: string;

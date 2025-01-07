@@ -1,6 +1,6 @@
 import { useLogin, useModal } from "@hooks";
 import { requestKakaoLogin } from "@utils/kakaoLogin";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Floating.styled";
 
@@ -24,29 +24,34 @@ const Floating = () => {
   };
 
   const [width, setWidth] = useState(window.innerWidth);
+  const [showText, setShowText] = useState(true);
+  const lastScrollY = useRef(0);
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+  };
+
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    setShowText(currentScrollY < lastScrollY.current);
+    lastScrollY.current = currentScrollY;
+  };
 
   useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <S.Layer $width={width}>
-      <S.FloatingWrapper>
-        <S.FloatingContainer>
-          <S.UnionIcon></S.UnionIcon>
-          <S.UnionText>공연을 등록해보세요!</S.UnionText>
-          <S.FloatingBtnWrapper onClick={handleRegister}>
-            <S.FloatingBtn />
-          </S.FloatingBtnWrapper>
-        </S.FloatingContainer>
-      </S.FloatingWrapper>
+      <S.FloatingBtnWrapper $showText={showText} onClick={handleRegister}>
+        <S.TicketIcon />
+        <S.FloatingText $showText={showText}>공연 등록</S.FloatingText>
+      </S.FloatingBtnWrapper>
     </S.Layer>
   );
 };
