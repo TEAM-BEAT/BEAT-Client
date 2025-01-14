@@ -37,7 +37,7 @@ export default function TokenRefresher() {
         const originalConfig = error.config;
         const status = error?.response?.status;
 
-        if (status === 401 && userString) {
+        if ((status === 400 || status === 401) && userString) {
           try {
             const response: AxiosResponse<{ data: { accessToken: string } }> = await axios.get(
               `${import.meta.env.VITE_API_BASE_URL}/users/refresh-token`,
