@@ -65,6 +65,7 @@ export default function TokenRefresher() {
                   window.location.reload();
                 } else {
                   navigate("/main");
+                  window.location.reload();
                 }
               },
             });
