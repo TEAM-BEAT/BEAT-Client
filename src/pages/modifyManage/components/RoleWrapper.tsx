@@ -55,6 +55,7 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
     setOpenImageModal(false); // 모달 닫기
   };
 
+  //문제 가능성(원인)2 -> 처음 들어올 때는 항상 -1이고, x버튼 눌렀다가 +누르고 추가하면 newDate로 추가됨.
   return (
     <>
       <S.RoleWrapper>

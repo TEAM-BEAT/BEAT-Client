@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import RoleLayout from "./components/RoleLayout";
 import * as S from "./ModifyManage.styled";
 import { Cast, Staff } from "./typings/gigInfo";
+import { IcNoti } from "@assets/svgs";
 interface ModifyManageMakerProps {
   castModifyRequests: Cast[];
   staffModifyRequests: Staff[];
@@ -24,12 +25,10 @@ const ModifyManageMaker = ({
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
-    const allCastFieldsFilled = castModifyRequests.every(
-      (cast) => cast.castName && cast.castRole && cast.castPhoto
-    );
+    const allCastFieldsFilled = castModifyRequests.every((cast) => cast.castName && cast.castRole);
 
     const allStaffFieldsFilled = staffModifyRequests.every(
-      (staff) => staff.staffName && staff.staffRole && staff.staffPhoto
+      (staff) => staff.staffName && staff.staffRole
     );
 
     setIsButtonDisabled(
@@ -81,6 +80,10 @@ const ModifyManageMaker = ({
   return (
     <>
       <S.ModifyManageContainer>
+        <S.BannerNoti>
+          <S.StyledIcNoti width={20} />
+          해당 페이지는 선택사항 입니다.
+        </S.BannerNoti>
         <RoleLayout
           title="출연진"
           list={castModifyRequests}
@@ -95,7 +98,6 @@ const ModifyManageMaker = ({
       </S.ModifyManageContainer>
       <S.FooterContainer>
         <S.FooterDivider />
-        <S.FooterInfo>공연진 상세정보는 선택사항이며, 이후 수정불가합니다.</S.FooterInfo>
         <Button onClick={handleList} disabled={isButtonDisabled}>
           다음
         </Button>

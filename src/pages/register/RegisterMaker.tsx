@@ -24,13 +24,9 @@ const RegisterMaker = ({
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
-    const allCastFieldsFilled = castList.every(
-      (cast) => cast.castName && cast.castRole && cast.castPhoto
-    );
+    const allCastFieldsFilled = castList.every((cast) => cast.castName && cast.castRole);
 
-    const allStaffFieldsFilled = staffList.every(
-      (staff) => staff.staffName && staff.staffRole && staff.staffPhoto
-    );
+    const allStaffFieldsFilled = staffList.every((staff) => staff.staffName && staff.staffRole);
 
     setIsButtonDisabled(
       !(
@@ -75,6 +71,10 @@ const RegisterMaker = ({
   return (
     <>
       <S.RegisterContainer>
+        <S.BannerNoti>
+          <S.StyledIcNoti width={20} />
+          해당 페이지는 선택사항 입니다.
+        </S.BannerNoti>
         <RoleLayout
           title="출연진"
           list={castList}
@@ -88,8 +88,6 @@ const RegisterMaker = ({
         />
       </S.RegisterContainer>
       <S.FooterContainer>
-        <S.FooterDivider />
-        <S.FooterInfo>공연진 상세정보는 선택사항입니다.</S.FooterInfo>
         <Button onClick={handleList} disabled={isButtonDisabled}>
           다음
         </Button>

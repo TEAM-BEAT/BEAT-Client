@@ -21,7 +21,7 @@ body:
       description: 리팩토링을 진행하는 이전 이슈를 작성해주세요.
       placeholder: "#이슈번호"
     validations:
-      required: true
+      required: false
   - type: textarea
     id: textarea_description
     attributes:

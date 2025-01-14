@@ -1,12 +1,10 @@
 import {
-  useGetScheduleAvailable,
   usePerformanceDelete,
   usePerformanceEdit,
-  usePostPerformance,
   useUpdatePerformance,
 } from "@apis/domains/performances/queries";
 
-import { IconChecked } from "@assets/svgs";
+import { IcNoti, IconChecked } from "@assets/svgs";
 import {
   BankBottomSheet,
   Button,
@@ -17,18 +15,19 @@ import {
   Stepper,
   TextArea,
   TextField,
-  TimePicker,
 } from "@components/commons";
 
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
 import { deletePerformance } from "@apis/domains/performances/api";
+import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useHeader, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
 import ShowInfo, { SchelduleListType } from "@pages/gig/components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
+import DateTimePicker from "@pages/register/components/DateTimePicker";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
@@ -88,6 +87,11 @@ export type State = {
   performanceImageModifyRequests: PerformanceImageModifyRequest[];
   //타입 하나 덜 있어서, 요청 자체가 500에러 뱉어냄.
   //모든 곳에서 performanceImageModifyRequests 가 적용되도록 변경해야함
+  //placeName: "",
+  roadAddressName: string;
+  placeDetailAddress: string;
+  latitude: string;
+  longitude: string;
 };
 
 type ModifyState = {
@@ -124,6 +128,10 @@ const initialState: State = {
   castModifyRequests: [],
   staffModifyRequests: [],
   performanceImageModifyRequests: [],
+  roadAddressName: "",
+  placeDetailAddress: "",
+  latitude: "",
+  longitude: "",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -146,7 +154,7 @@ const ModifyManage = () => {
   const { setHeader } = useHeader();
 
   const { data, isLoading, isSuccess } = usePerformanceEdit(Number(performanceId));
-  const { mutateAsync: updatePerformance } = useUpdatePerformance();
+  const { mutateAsync: updatePerformance, isPending } = useUpdatePerformance();
   const { mutate, mutateAsync } = usePerformanceDelete(); // wf: 가독성을 위해 위랑 이름 맞춰주는게 좋을 듯
 
   //presignedUrl을 받아오기 위한 배열
@@ -175,6 +183,7 @@ const ModifyManage = () => {
       const scheduleNumber = SCHEDULE_NUMBER[index + 1];
       return { ...existingSchedule, totalTicketCount, scheduleNumber };
     });
+
     dispatch({ type: "SET_FIELD", field: "scheduleModifyRequests", value: updatedScheduleList });
   }, [dataState.totalScheduleCount]);
 
@@ -210,7 +219,7 @@ const ModifyManage = () => {
                 castRole: item.castRole ?? "",
                 castPhoto: item.castPhoto ?? "",
               }))
-            : [{ castId: -1, castName: "", castRole: "", castPhoto: "" }],
+            : [],
           staffModifyRequests: data.staffList?.length
             ? data.staffList.map((item) => ({
                 staffId: item.staffId ?? -1,
@@ -218,7 +227,7 @@ const ModifyManage = () => {
                 staffRole: item.staffRole ?? "",
                 staffPhoto: item.staffPhoto ?? "",
               }))
-            : [{ staffId: -1, staffName: "", staffRole: "", staffPhoto: "" }],
+            : [],
           bankName: data.bankName,
           accountHolder: data.accountHolder,
           performanceImageModifyRequests: data.performanceImageList?.length
@@ -226,7 +235,11 @@ const ModifyManage = () => {
                 performanceImageId: item.imageId ?? -1,
                 performanceImage: item.imageUrl ?? "",
               }))
-            : [{ performanceImageId: -1, performanceImage: "" }],
+            : [],
+          roadAddressName: data.roadAddressName,
+          placeDetailAddress: data.placeDetailAddress,
+          latitude: data.latitude,
+          longitude: data.longitude,
         },
       });
 
@@ -300,11 +313,11 @@ const ModifyManage = () => {
 
   const { data: S3data, refetch } = useGetPresignedUrl(getPresignedParams);
   const { mutate: putS3 } = usePutS3Upload();
-  const { mutateAsync: postPerformance, isPending } = usePostPerformance();
 
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
     const { data, isSuccess } = await refetch();
+    //presignedUrl로 받아온 데이터들을 저장할 변수
     let posterUrls: string[];
     let castUrls: string[];
     let staffUrls: string[];
@@ -314,16 +327,24 @@ const ModifyManage = () => {
       return;
     } else if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
+        //앞부분(유효한 부분)만 떼어내서 저장(뒷 부분은 사진이 뜨는 url이 아님)
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
-        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
+        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
         performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
+        return [
+          ...posterUrls,
+          ...castUrls.filter((url) => url !== null),
+          ...staffUrls.filter((url) => url !== null),
+          ...performanceUrls,
+        ];
       };
 
+      //배열 형태로 추출된 모든 presignedUrls
       const S3Urls = extractUrls(data);
 
+      //기존에 갖고 있던 이미지들의 주소들 -> files
       const files = [
         dataState.posterImage,
         ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
@@ -336,10 +357,29 @@ const ModifyManage = () => {
           S3Urls.map(async (url, index) => {
             const file = files[index];
 
+            // s3에 이미지가 있는 경우
+            if (file.startsWith("http")) {
+              if (index < posterUrls.length) {
+                posterUrls[index] = file;
+              } else if (index < posterUrls.length + castUrls.length) {
+                castUrls[index - posterUrls.length] = file;
+              } else if (index < posterUrls.length + castUrls.length + staffUrls.length) {
+                staffUrls[index - posterUrls.length - castUrls.length] = file;
+              } else {
+                performanceUrls[index - posterUrls.length - castUrls.length - staffUrls.length] =
+                  file;
+              }
+              return;
+            }
+
+            //여기 왜 fetch하는거지? 그냥 받아오면 안되는건가? -> blob 메서드를 사용하려면 response 타입이 필요하기 때문
             const response = await fetch(file);
+
+            //blob타입으로 변환 과정
             const blob = await response.blob();
             const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
 
+            //새롭게 받은 url에 해당 파일 저장
             return putS3({ url, file: newFile });
           })
         );
@@ -361,17 +401,23 @@ const ModifyManage = () => {
         castModifyRequests: dataState.castModifyRequests.map((cast, index) => {
           const modifiedCast = {
             ...cast,
-            castPhoto: castUrls[index] || cast.castPhoto,
+            castPhoto: cast.castPhoto === "" ? "" : castUrls[index] || cast.castPhoto,
           };
           if (modifiedCast.castId === -1) {
             delete modifiedCast.castId; // castId가 -1인 경우 castId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)
           }
           return modifiedCast;
         }),
-        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => ({
-          ...staff,
-          staffPhoto: staffUrls[index] || staff.staffPhoto,
-        })),
+        staffModifyRequests: dataState.staffModifyRequests.map((staff, index) => {
+          const modifiedStaff = {
+            ...staff,
+            staffPhoto: staff.staffPhoto === "" ? "" : staffUrls[index] || staff.staffPhoto,
+          };
+          if (modifiedStaff.staffId === -1) {
+            delete modifiedStaff.staffId; // staffId가 -1인 경우 staffId를 삭제(새롭게 추가된 경우에는 id 안보내야 함)
+          }
+          return modifiedStaff;
+        }),
         scheduleModifyRequests: dataState.scheduleModifyRequests.map((schedule) => {
           const date = dayjs(schedule.performanceDate).toDate();
           const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
@@ -410,6 +456,12 @@ const ModifyManage = () => {
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setModifyState((prevState) => ({ ...prevState, isChecked: !prevState.isChecked }));
   };
+
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
+    handleInputChange("latitude", latitude);
+    handleInputChange("longitude", longitude);
+  };
+
   // 티켓 가격이 무료일 때 가격을 0으로 설정하고 수정 불가능하게 함
   useEffect(() => {
     if (modifyState.isFree) {
@@ -550,7 +602,7 @@ const ModifyManage = () => {
                 value={dataState.performanceTitle}
                 onChange={(e) => handleInputChange("performanceTitle", e.target.value)}
                 placeholder="등록될 공연의 이름을 입력해주세요."
-                maxLength={30}
+                maxLength={18}
                 cap={true}
               />
             </InputModifyManageBox>
@@ -563,8 +615,37 @@ const ModifyManage = () => {
                 value={dataState.performanceTeamName}
                 onChange={(e) => handleInputChange("performanceTeamName", e.target.value)}
                 placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
-                maxLength={10}
+                maxLength={20}
                 cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연장 이름">
+              <TextField
+                type="input"
+                name="performanceVenue"
+                value={dataState.performanceVenue}
+                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
+                placeholder="ex) 홍익아트홀 303호 소극장"
+                cap={true}
+              />
+            </InputModifyManageBox>
+            <S.Divider />
+            <InputModifyManageBox isDisabled={false} title="공연장 주소">
+              <MapInput
+                name="roadAddressName"
+                value={dataState.roadAddressName}
+                onChange={(e) => handleInputChange("roadAddressName", e.target.value)}
+                setLatitudeLongitude={setLatitudeLongitude}
+                placeholder="지번, 도로명, 건물명으로 검색해주세요."
+                cap={true}
+              />
+              <Spacing marginBottom="1.4" />
+              <TextField
+                name="placeDetailAddress"
+                value={dataState.placeDetailAddress}
+                onChange={(e) => handleInputChange("placeDetailAddress", e.target.value)}
+                placeholder="건물명, 층 수 등의 상세주소를 입력해주세요."
               />
             </InputModifyManageBox>
             <S.Divider />
@@ -581,7 +662,7 @@ const ModifyManage = () => {
                 value={dataState.performanceDescription}
                 onChange={(e) => handleInputChange("performanceDescription", e.target.value)}
                 placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-                maxLength={500}
+                maxLength={1500}
               />
             </InputModifyManageBox>
             <S.Divider />
@@ -629,12 +710,12 @@ const ModifyManage = () => {
                   <div key={index}>
                     <S.InputDescription>{index + 1}회차</S.InputDescription>
                     <Spacing marginBottom={"1"} />
-                    <TimePicker
-                      value={dayjs(schedule.performanceDate)}
-                      disabled={isExpired(schedule.performanceDate)}
-                      onChangeValue={(date) => {
+                    <DateTimePicker
+                      value={schedule.performanceDate ? dayjs(schedule.performanceDate) : null}
+                      onChangeDateTime={(date) => {
                         const updatedSchedules = [...dataState.scheduleModifyRequests];
                         updatedSchedules[index].performanceDate = date;
+
                         handleInputChange("scheduleModifyRequests", updatedSchedules);
                       }}
                     />
@@ -642,19 +723,6 @@ const ModifyManage = () => {
                 );
               })}
             </TimePickerModifyManageBox>
-            <S.Divider />
-            <InputModifyManageBox isDisabled={false} title="공연 장소">
-              <TextField
-                isDisabled={false}
-                type="input"
-                name="performanceVenue"
-                value={dataState.performanceVenue}
-                onChange={(e) => handleInputChange("performanceVenue", e.target.value)}
-                placeholder="ex:) 홍익아트홀 303호 소극장"
-                maxLength={15}
-                cap={true}
-              />
-            </InputModifyManageBox>
             <S.Divider />
             <InputModifyManageBox isDisabled={false} title="회차별 티켓 판매수">
               <TextField
@@ -680,14 +748,13 @@ const ModifyManage = () => {
                 value={dataState.performanceAttentionNote}
                 onChange={(e) => handleInputChange("performanceAttentionNote", e.target.value)}
                 placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-                maxLength={250}
+                maxLength={1500}
               />
             </InputModifyManageBox>
             <S.Divider />
             <InputModifyManageBox
               isDisabled={modifyState.isBookerExist as boolean}
               title="티켓 가격"
-              description="*예매자 존재 시, 티켓 가격은 수정불가합니다."
               isFree={modifyState.isFree}
               onFreeClick={() => handleModifyState("isFree", !modifyState.isFree)}
             >
@@ -707,6 +774,11 @@ const ModifyManage = () => {
                 unit="amount"
                 inputMode="numeric"
               />
+              <Spacing marginBottom="0.8" />
+              <S.NotiDiscription>
+                <IcNoti width={20} />
+                티켓 가격과 계좌 정보는 이후 수정불가합니다.
+              </S.NotiDiscription>
             </InputModifyManageBox>
             <S.Divider />
             {!modifyState.isFree && (
@@ -832,12 +904,10 @@ const ModifyManage = () => {
             contact={dataState.performanceContact as string}
             teamName={dataState.performanceTeamName as string}
             castList={
-              dataState.castModifyRequests?.[0]?.castId === -1
-                ? []
-                : (dataState.castModifyRequests?.map((cast, index) => ({
-                    ...cast,
-                    //castId: index + 1,
-                  })) as Cast[])
+              dataState.castModifyRequests?.map((cast, index) => ({
+                ...cast,
+                //castId: index + 1,
+              })) as Cast[]
             }
             staffList={
               dataState.staffModifyRequests?.map((cast, index) => ({
@@ -846,9 +916,16 @@ const ModifyManage = () => {
               })) as Staff[]
             }
             performanceImageList={dataState.performanceImageModifyRequests}
+            performanceVenue={dataState.performanceVenue}
+            roadAddressName={dataState.roadAddressName}
+            placeDetailAddress={dataState.placeDetailAddress}
+            latitude={dataState.latitude}
+            longitude={dataState.longitude}
           />
-          <S.FooterContainer>
-            <Button onClick={handleComplete}>완료하기</Button>
+          <S.FooterContainer $isFinish={true}>
+            <Button disabled={isPending} isPending={isPending} onClick={handleComplete}>
+              수정 완료하기
+            </Button>
           </S.FooterContainer>
         </>
       );

@@ -1,17 +1,17 @@
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
 import { usePostPerformance } from "@apis/domains/performances/queries";
-import { IconChecked } from "@assets/svgs";
+import { IcNoti, IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
 import InputAccountWrapper from "@components/commons/bank/InputAccountWrapper";
 import InputBank from "@components/commons/bank/InputBank";
 import Button from "@components/commons/button/Button";
 import TextArea from "@components/commons/input/textArea/TextArea";
 import TextField from "@components/commons/input/textField/TextField";
+import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
 import Spacing from "@components/commons/spacing/Spacing";
 import Stepper from "@components/commons/stepper/Stepper";
-import TimePicker from "@components/commons/timepicker/TimePicker";
 import { NAVIGATION_STATE } from "@constants/navigationState";
 import { useLogin, useModal } from "@hooks";
 import Content from "@pages/gig/components/content/Content";
@@ -25,6 +25,8 @@ import { useAtom } from "jotai";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
+import DateTimePicker from "./components/DateTimePicker";
+import DetailImage from "./components/DetailImage";
 import GenreSelect from "./components/GenreSelect";
 import InputRegisterBox from "./components/InputRegisterBox";
 import PosterThumbnail from "./components/PosterThumbnail";
@@ -38,7 +40,7 @@ import {
   handleBankClick,
   handleBankOpen,
   handleChange,
-  handleDateChange,
+  handleDateTimeChange,
   handleGenreSelect,
   handleImagesUpload,
   handleImageUpload,
@@ -48,7 +50,6 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
-import DetailImage from "./components/DetailImage";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -114,6 +115,11 @@ const Register = () => {
       // staffPhoto: "", // 스태프 사진 URL
       // },
     ],
+    //placeName: "",
+    roadAddressName: "",
+    placeDetailAddress: "",
+    latitude: "",
+    longitude: "",
   });
 
   // 구조 분해 할당
@@ -136,6 +142,10 @@ const Register = () => {
     scheduleList,
     castList,
     staffList,
+    roadAddressName,
+    placeDetailAddress,
+    latitude,
+    longitude,
   } = gigInfo;
 
   const [bankOpen, setBankOpen] = useState(false);
@@ -185,18 +195,23 @@ const Register = () => {
     if (isSuccess) {
       const extractUrls = (data: PresignedResponse) => {
         posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => url.split("?")[0]);
-        staffUrls = Object.values(data.staff).map((url) => url.split("?")[0]);
+        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
+        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
         performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
 
-        return [...posterUrls, ...castUrls, ...staffUrls, ...performanceUrls];
+        return [
+          ...posterUrls,
+          ...castUrls.filter((url) => url !== null),
+          ...staffUrls.filter((url) => url !== null),
+          ...performanceUrls,
+        ];
       };
       const S3Urls = extractUrls(data);
 
       const files = [
         gigInfo.posterImage,
-        ...gigInfo.castList.map((cast) => cast.castPhoto),
-        ...gigInfo.staffList.map((staff) => staff.staffPhoto),
+        ...gigInfo.castList.map((cast) => cast.castPhoto).filter((photo) => photo !== ""),
+        ...gigInfo.staffList.map((staff) => staff.staffPhoto).filter((photo) => photo !== ""),
         ...gigInfo.performanceImageList.map((image) => image.performanceImage),
       ];
 
@@ -218,11 +233,11 @@ const Register = () => {
           posterImage: posterUrls[0],
           castList: gigInfo.castList.map((cast, index) => ({
             ...cast,
-            castPhoto: castUrls[index] || cast.castPhoto,
+            castPhoto: cast.castPhoto === "" ? "" : castUrls[index] || cast.castPhoto,
           })),
           staffList: gigInfo.staffList.map((staff, index) => ({
             ...staff,
-            staffPhoto: staffUrls[index] || staff.staffPhoto,
+            staffPhoto: staff.staffPhoto === "" ? "" : staffUrls[index] || staff.staffPhoto,
           })),
           scheduleList: gigInfo.scheduleList.map((schedule) => {
             const date = dayjs(schedule.performanceDate).toDate();
@@ -298,6 +313,14 @@ const Register = () => {
 
   const handleRegisterStep = () => {
     setRegisterStep((prev) => prev + 1);
+  };
+
+  const setLatitudeLongitude = (latitude: string, longitude: string) => {
+    setGigInfo((prev) => ({
+      ...prev,
+      latitude,
+      longitude,
+    }));
   };
 
   useEffect(() => {
@@ -385,8 +408,37 @@ const Register = () => {
               value={performanceTeamName}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="주최하는 공연진(단체)의 이름을 입력해주세요."
-              maxLength={10}
+              maxLength={20}
               cap={true}
+            />
+          </InputRegisterBox>
+          <S.Divider />
+          <InputRegisterBox title="공연장 이름">
+            <TextField
+              type="input"
+              name="performanceVenue"
+              value={performanceVenue}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="ex) 홍익아트홀 303호 소극장"
+              cap={true}
+            />
+          </InputRegisterBox>
+          <S.Divider />
+          <InputRegisterBox title="공연장 주소">
+            <MapInput
+              name="roadAddressName"
+              value={roadAddressName}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              setLatitudeLongitude={setLatitudeLongitude}
+              placeholder="지번, 도로명, 건물명으로 검색해주세요."
+              cap={true}
+            />
+            <Spacing marginBottom="1.4" />
+            <TextField
+              name="placeDetailAddress"
+              value={placeDetailAddress}
+              onChange={(e) => handleChange(e, setGigInfo)}
+              placeholder="건물명, 층 수 등의 상세주소를 입력해주세요."
             />
           </InputRegisterBox>
           <S.Divider />
@@ -401,7 +453,7 @@ const Register = () => {
               value={performanceDescription}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="공연을 예매할 예매자들에게 공연을 소개해주세요."
-              maxLength={500}
+              maxLength={1500}
             />
           </InputRegisterBox>
           <S.Divider />
@@ -434,28 +486,13 @@ const Register = () => {
               <div key={index}>
                 <S.InputDescription>{index + 1}회차</S.InputDescription>
                 <Spacing marginBottom={"1"} />
-                <TimePicker
+                <DateTimePicker
                   value={schedule.performanceDate}
-                  onChangeValue={(date) => handleDateChange(index, date, setGigInfo)}
-                  minDate={
-                    index > 0 ? scheduleList[index - 1].performanceDate || undefined : undefined
-                  }
+                  onChangeDateTime={(date) => handleDateTimeChange(index, date, setGigInfo)}
                 />
               </div>
             ))}
           </TimePickerRegisterBox>
-          <S.Divider />
-          <InputRegisterBox title="공연 장소">
-            <TextField
-              type="input"
-              name="performanceVenue"
-              value={performanceVenue}
-              onChange={(e) => handleChange(e, setGigInfo)}
-              placeholder="ex) 홍익아트홀 303호 소극장"
-              maxLength={15}
-              cap={true}
-            />
-          </InputRegisterBox>
           <S.Divider />
           <InputRegisterBox title="회차별 티켓 판매수">
             <TextField
@@ -480,13 +517,12 @@ const Register = () => {
               value={performanceAttentionNote}
               onChange={(e) => handleChange(e, setGigInfo)}
               placeholder="입장 안내, 공연 중 인터미션, 공연장 반입금지 물품, 촬영 가능 여부, 주차 안내 등 예매자들이 꼭 알고 있어야할 유의사항을 입력해주세요."
-              maxLength={500}
+              maxLength={1500}
             />
           </InputRegisterBox>
           <S.Divider />
           <InputRegisterBox
             title="티켓 가격"
-            description="*예매자 존재 시, 티켓 가격은 수정불가합니다."
             isFree={isFree}
             onFreeClick={() => onFreeClick(setIsFree)}
           >
@@ -502,6 +538,11 @@ const Register = () => {
               unit="amount"
               inputMode="numeric"
             />
+            <Spacing marginBottom="0.8" />
+            <S.NotiDiscription>
+              <IcNoti width={20} />
+              티켓 가격과 계좌 정보는 이후 수정불가합니다.
+            </S.NotiDiscription>
           </InputRegisterBox>
           <S.Divider />
           {!isFree && (
@@ -624,10 +665,15 @@ const Register = () => {
             ...cast,
             staffId: index + 1,
           }))}
+          performanceVenue={performanceVenue}
+          roadAddressName={roadAddressName}
+          placeDetailAddress={placeDetailAddress}
+          latitude={latitude}
+          longitude={longitude}
         />
-        <S.FooterContainer>
-          <Button onClick={handleComplete} disabled={isPending}>
-            완료하기
+        <S.FooterContainer $isFinish={true}>
+          <Button onClick={handleComplete} isPending={isPending} disabled={isPending}>
+            등록하기
           </Button>
         </S.FooterContainer>
       </>

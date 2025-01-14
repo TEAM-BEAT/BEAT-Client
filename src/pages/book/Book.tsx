@@ -16,7 +16,6 @@ import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@page
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
-import { getScheduleNumberById } from "./utils";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -83,8 +82,19 @@ const Book = () => {
     round
   );
 
-  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook();
+  const { mutateAsync: guestBook, isPending: isGuestBookingPending } = useGuestBook(
+    bookerInfo.bookerName,
+    bookerInfo.bookerPhoneNumber,
+    easyPassword.password
+  );
   const { mutateAsync: memberBook, isPending: isMemberBookPending } = useMemberBook();
+
+  useEffect(() => {
+    if (data?.scheduleList?.length === 1) {
+      const singleSchedule = data.scheduleList[0];
+      setSelectedValue(singleSchedule.scheduleId);
+    }
+  }, [data?.scheduleList]);
 
   const handleRadioChange = (value: number) => {
     setSelectedValue(value);
@@ -313,6 +323,7 @@ const Book = () => {
             variant="primary"
             size="medium"
             disabled={isGuestBookingPending || isMemberBookPending}
+            isPending={isGuestBookingPending || isMemberBookPending}
             onClick={handleClickBookRequst}
           >
             예매할게요

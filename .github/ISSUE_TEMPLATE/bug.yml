@@ -13,7 +13,7 @@ body:
       description: 버그가 발생한 이슈 이름과 번호를 작성해주세요.
       placeholder: "[ Feat ] 로그인 기능 구현 <#1>"
     validations:
-      required: true
+      required: false
   - type: textarea
     id: textarea_description
     attributes:

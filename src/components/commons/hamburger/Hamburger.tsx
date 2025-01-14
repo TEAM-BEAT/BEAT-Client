@@ -28,6 +28,7 @@ const Hamburger = () => {
     e.stopPropagation();
   };
 
+  // 좌우 너비 계산
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -35,6 +36,20 @@ const Hamburger = () => {
       setWidth(window.innerWidth);
     };
 
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // 높이 계산
+  const [height, setHeight] = useState(window.innerHeight);
+
+  const handleResize = () => {
+    setHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -102,6 +117,7 @@ const Hamburger = () => {
           ref={outside}
           onClick={(e) => e.stopPropagation()}
           width={width}
+          height={height}
         >
           <S.CloseBtn onClick={closeHamburger}>
             <S.CloseIcon />

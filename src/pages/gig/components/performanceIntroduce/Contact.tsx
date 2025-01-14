@@ -34,7 +34,7 @@ const Contact = ({ contact }: ContactProps) => {
           <S.IconCopy $width={24} $height={24} />
         </S.Contact>
       )}
-      <Toast icon={<IconCheck />} isVisible={isToastVisible} toastBottom={100}>
+      <Toast icon={<IconCheck />} isVisible={isToastVisible} isTop={true}>
         클립보드에 복사되었습니다!
       </Toast>
     </S.ContactContainer>

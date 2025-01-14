@@ -60,6 +60,7 @@ const Navigation = () => {
     return (
       <S.NavigationWrapper>
         <S.FragmentDiv />
+        <S.FragmentDiv />
         <S.NavigationXButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
@@ -69,6 +70,7 @@ const Navigation = () => {
     return (
       <S.NavigationWrapper>
         <S.Logo onClick={leftOnClick} />
+        <S.FragmentDiv />
         <S.HamburgarButton onClick={rightOnClick} />
       </S.NavigationWrapper>
     );
@@ -79,6 +81,19 @@ const Navigation = () => {
       <S.NavigationWrapper>
         <S.NavigationLeftButton onClick={leftOnClick} />
         <S.NavigationXButton onClick={rightOnClick} />
+      </S.NavigationWrapper>
+    );
+  }
+
+  if (headerStyle === NAVIGATION_STATE.ICON_TITLE_DOWNLOAD) {
+    return (
+      <S.NavigationWrapper>
+        <S.NavigationLeftButton onClick={leftOnClick} />
+        <S.NavigationTitle>{title}</S.NavigationTitle>
+        <S.SubTextButton onClick={rightOnClick}>
+          {subText}
+          <S.DownloadButton />
+        </S.SubTextButton>
       </S.NavigationWrapper>
     );
   }

@@ -6,6 +6,7 @@ interface DefaultBtnPropTypes {
   $size: ButtonSizeTypes;
   $variant: ButtonVariantTypes;
   $isDisabled?: boolean;
+  $isPending?: boolean;
 }
 
 const width = {
@@ -55,14 +56,14 @@ export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "cursor")};
   border-radius: 6px;
 
-  ${({ $variant, $isDisabled }) => {
+  ${({ $variant, $isDisabled, $isPending }) => {
     switch ($variant) {
       case "primary":
-        return $isDisabled
+        return $isDisabled && !$isPending
           ? css`
-              color: ${({ theme }) => theme.colors.pink_700};
+              color: ${({ theme }) => theme.colors.gray_500};
 
-              background-color: ${({ theme }) => theme.colors.pink_900};
+              background-color: ${({ theme }) => theme.colors.gray_700};
             `
           : css`
               color: ${({ theme }) => theme.colors.white};
@@ -86,7 +87,7 @@ export const DefaultBtn = styled.button<DefaultBtnPropTypes>`
       case "gray":
         return $isDisabled
           ? css`
-              color: ${({ theme }) => theme.colors.gray_600};
+              color: ${({ theme }) => theme.colors.gray_500};
 
               background-color: ${({ theme }) => theme.colors.gray_700};
             `

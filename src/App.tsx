@@ -1,18 +1,18 @@
-import { useEffect } from "react";
+import MetaTag from "@components/commons/meta/MetaTag";
 import Alert from "@components/commons/modal/Alert";
 import Confirm from "@components/commons/modal/Confirm";
+import Modal from "@components/commons/modal/Modal";
+import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import GlobalStyle from "@styles/global";
 import theme from "@styles/theme";
-import { RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { HelmetProvider } from "react-helmet-async";
-import Modal from "@components/commons/modal/Modal";
-import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import MetaTag from "@components/commons/meta/MetaTag";
+import { useEffect } from "react";
+import { HelmetProvider } from "react-helmet-async";
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 import router from "./routes/Router";
 
 const darkTheme = createTheme({
@@ -25,8 +25,8 @@ function App() {
   const queryClient = new QueryClient();
 
   function setScreenSize() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    const dvh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--dvh", `${dvh}px`);
   }
 
   useEffect(() => {
