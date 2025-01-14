@@ -79,4 +79,6 @@ export default function TokenRefresher() {
       }
     );
   }, []);
+
+  return null;
 }
