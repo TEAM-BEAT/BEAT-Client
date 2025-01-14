@@ -64,8 +64,7 @@ export default function TokenRefresher() {
                 if (location.pathname === "/main") {
                   window.location.reload();
                 } else {
-                  navigate("/main");
-                  window.location.reload();
+                  window.location.href = "/main";
                 }
               },
             });
@@ -78,10 +77,6 @@ export default function TokenRefresher() {
         return Promise.reject(error);
       }
     );
-
-    return () => {
-      instance.interceptors.response.eject(interceptor);
-    };
   }, []);
 
   return <></>;
