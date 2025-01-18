@@ -42,7 +42,7 @@ export const ModalTitle = styled.span`
 
 //white-space : pre-line 을 사용하면 \n 을 인식가능.
 export const ModalSubTitle = styled.span`
-  ${({ theme }) => theme.fonts["body2-normal-medi"]};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
   color: ${({ theme }) => theme.colors.gray_300};
   white-space: pre-line;
   text-align: center;

@@ -428,7 +428,7 @@ const TicketHolderList = () => {
     ) {
       openConfirm({
         title: "해당 브라우저에서는 지원하지 않아요.",
-        subTitle: "크롬, 사파리, 삼성 인터넷 등 \n다른 경로를 이용해 주세요.",
+        subTitle: "크롬, 사파리, 삼성 인터넷 등 다른 경로를 이용해 주세요.",
         okText: "다른 경로로 열기",
         noText: "닫기",
         okCallback: () => {
