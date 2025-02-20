@@ -14,6 +14,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import router from "./routes/Router";
+import TrackProvider from "./providers/TrackProvider";
 
 const darkTheme = createTheme({
   palette: {
@@ -36,22 +37,24 @@ function App() {
   return (
     <HelmetProvider>
       <MetaTag title="BEAT" />
-      <QueryClientProvider client={queryClient}>
-        <MuiThemeProvider theme={darkTheme}>
-          <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <GlobalStyle />
-              <RouterProvider router={router} />
-              <Modal />
-              <Alert />
-              <Confirm />
-            </LocalizationProvider>
-          </ThemeProvider>
-        </MuiThemeProvider>
-        <div style={{ fontSize: "16px" }}>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </div>
-      </QueryClientProvider>
+      <TrackProvider>
+        <QueryClientProvider client={queryClient}>
+          <MuiThemeProvider theme={darkTheme}>
+            <ThemeProvider theme={theme}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <GlobalStyle />
+                <RouterProvider router={router} />
+                <Modal />
+                <Alert />
+                <Confirm />
+              </LocalizationProvider>
+            </ThemeProvider>
+          </MuiThemeProvider>
+          <div style={{ fontSize: "16px" }}>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </div>
+        </QueryClientProvider>
+      </TrackProvider>
     </HelmetProvider>
   );
 }

@@ -1,9 +1,7 @@
 {
   "files": [],
   "compilerOptions": {
-    "types": [
-      "kakao.maps.d.ts"
-    ]
+    "types": ["kakao.maps.d.ts"]
   },
   "references": [
     {
