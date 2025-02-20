@@ -12,6 +12,7 @@ declare global {
 
 function initialize() {
   const MIXPANEL_TOKEN = import.meta.env.VITE_MIXPANEL_TOKEN;
+
   if (!isProd) {
     console.log("개발 서버에서 트래킹이 initialize 되었습니다.");
     return;
@@ -23,7 +24,11 @@ function initialize() {
       send_page_view: false,
     });
 
-    mixpanel.init(`${MIXPANEL_TOKEN}`, { debug: false });
+    mixpanel.init(`${MIXPANEL_TOKEN}`, {
+      debug: false,
+      track_pageview: true,
+      track_links_timeout: 300,
+    });
   } catch (e) {
     console.error(e);
   }
