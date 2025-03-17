@@ -351,8 +351,8 @@ const TicketHolderList = () => {
         const formattedCreateTime = `${formattedDate} ${time}`;
 
         tempCSVDataArr.push({
-          createdAt: formattedCreateTime,
           scheduleNumber: `${convertingNumber(item.scheduleNumber)}회차`,
+          createdAt: formattedCreateTime,
           bookerName: item.bookerName,
           purchaseTicketCount: `${item.purchaseTicketCount}매`,
           bookerPhoneNumber: item.bookerPhoneNumber,
