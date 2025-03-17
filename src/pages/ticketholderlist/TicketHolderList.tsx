@@ -351,8 +351,8 @@ const TicketHolderList = () => {
         const formattedCreateTime = `${formattedDate} ${time}`;
 
         tempCSVDataArr.push({
-          createdAt: formattedCreateTime,
           scheduleNumber: `${convertingNumber(item.scheduleNumber)}회차`,
+          createdAt: formattedCreateTime,
           bookerName: item.bookerName,
           purchaseTicketCount: `${item.purchaseTicketCount}매`,
           bookerPhoneNumber: item.bookerPhoneNumber,
@@ -360,9 +360,22 @@ const TicketHolderList = () => {
         });
       });
 
-      tempCSVDataArr.sort(
-        (obj1, obj2) => new Date(obj1.createdAt).getTime() - new Date(obj2.createdAt).getTime()
-      );
+      tempCSVDataArr.sort((a, b) => {
+        const scheduleDiff = a.scheduleNumber.localeCompare(b.scheduleNumber, "ko", {
+          numeric: true,
+        });
+        if (scheduleDiff !== 0) {
+          return scheduleDiff;
+        }
+
+        const statusDiff = a.bookingStatus.localeCompare(b.bookingStatus, "ko");
+        if (statusDiff !== 0) {
+          return statusDiff;
+        }
+
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+
       setCSVDataArr(tempCSVDataArr);
     }
   }, [data, paymentData, allBookings]);
@@ -389,7 +402,6 @@ const TicketHolderList = () => {
       const targetUrl = "https://www.beatlive.kr/gig-manage";
 
       if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        // window.location.href = `x-web-search://${targetUrl}`;
         const safariUrl = `safari://${targetUrl.replace(/https?:\/\//i, "")}`;
         window.location.href = safariUrl;
       } else {
