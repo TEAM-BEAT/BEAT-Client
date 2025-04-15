@@ -6,9 +6,7 @@ describe("getDeviceType Utility", () => {
   const originalWindow = global.window;
 
   afterEach(() => {
-    // 테스트 후 원래의 navigator와 window 객체 복원
-    vi.stubGlobal("navigator", originalNavigator);
-    vi.stubGlobal("window", originalWindow);
+    vi.unstubAllGlobals();
   });
 
   it("detects Android device", () => {
