@@ -12,30 +12,30 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("API E2E Tests", () => {
-    it("fetches performance list from mocked API", async () => {
-        const response = await axios.get("https://mock-api.example.com/main");
+  it("fetches performance list from mocked API", async () => {
+    const response = await axios.get("https://mock-api.example.com/main");
 
-        expect(response.data.success).toBe(true);
-        expect(response.data.data.performanceList).toHaveLength(2);
-        expect(response.data.data.performanceList[0].performanceTitle).toBe("모킹된 공연 1");
-        expect(response.data.data.performanceList[1].performanceTitle).toBe("모킹된 공연 2");
-    });
+    expect(response.data.success).toBe(true);
+    expect(response.data.data.performanceList).toHaveLength(2);
+    expect(response.data.data.performanceList[0].performanceTitle).toBe("모킹된 공연 1");
+    expect(response.data.data.performanceList[1].performanceTitle).toBe("모킹된 공연 2");
+  });
 
-    it("handles login with correct authorization code", async () => {
-        const response = await axios.get("https://mock-api.example.com/auth?code=valid-auth-code");
+  it("handles login with correct authorization code", async () => {
+    const response = await axios.get("https://mock-api.example.com/auth?code=valid-auth-code");
 
-        expect(response.data.success).toBe(true);
-        expect(response.data.data.accessToken).toBe("mock-access-token");
-        expect(response.data.data.refreshToken).toBe("mock-refresh-token");
-        expect(response.data.data.isNew).toBe(false);
-    });
+    expect(response.data.success).toBe(true);
+    expect(response.data.data.accessToken).toBe("mock-access-token");
+    expect(response.data.data.refreshToken).toBe("mock-refresh-token");
+    expect(response.data.data.isNew).toBe(false);
+  });
 
-    it("fetches user information from mocked API", async () => {
-        const response = await axios.get("https://mock-api.example.com/user");
+  it("fetches user information from mocked API", async () => {
+    const response = await axios.get("https://mock-api.example.com/user");
 
-        expect(response.data.success).toBe(true);
-        expect(response.data.data.userId).toBe(1);
-        expect(response.data.data.name).toBe("테스트 사용자");
-        expect(response.data.data.email).toBe("test@example.com");
-    });
+    expect(response.data.success).toBe(true);
+    expect(response.data.data.userId).toBe(1);
+    expect(response.data.data.name).toBe("테스트 사용자");
+    expect(response.data.data.email).toBe("test@example.com");
+  });
 });

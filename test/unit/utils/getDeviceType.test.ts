@@ -2,49 +2,49 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { getDeviceType } from "../../../src/utils/getDeviceType";
 
 describe("getDeviceType Utility", () => {
-    const originalNavigator = global.navigator;
-    const originalWindow = global.window;
+  const originalNavigator = global.navigator;
+  const originalWindow = global.window;
 
-    afterEach(() => {
-        // 테스트 후 원래의 navigator와 window 객체 복원
-        vi.stubGlobal("navigator", originalNavigator);
-        vi.stubGlobal("window", originalWindow);
+  afterEach(() => {
+    // 테스트 후 원래의 navigator와 window 객체 복원
+    vi.stubGlobal("navigator", originalNavigator);
+    vi.stubGlobal("window", originalWindow);
+  });
+
+  it("detects Android device", () => {
+    const mockUserAgent =
+      "Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36";
+
+    vi.stubGlobal("navigator", {
+      userAgent: mockUserAgent,
     });
 
-    it("detects Android device", () => {
-        const mockUserAgent =
-            "Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36";
+    expect(getDeviceType()).toBe("Android");
+  });
 
-        vi.stubGlobal("navigator", {
-            userAgent: mockUserAgent,
-        });
+  it("detects iOS device", () => {
+    const mockUserAgent =
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1";
 
-        expect(getDeviceType()).toBe("Android");
+    vi.stubGlobal("navigator", {
+      userAgent: mockUserAgent,
     });
 
-    it("detects iOS device", () => {
-        const mockUserAgent =
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1";
-
-        vi.stubGlobal("navigator", {
-            userAgent: mockUserAgent,
-        });
-
-        vi.stubGlobal("window", {
-            MSStream: undefined,
-        });
-
-        expect(getDeviceType()).toBe("iOS");
+    vi.stubGlobal("window", {
+      MSStream: undefined,
     });
 
-    it("detects Desktop as default", () => {
-        const mockUserAgent =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
+    expect(getDeviceType()).toBe("iOS");
+  });
 
-        vi.stubGlobal("navigator", {
-            userAgent: mockUserAgent,
-        });
+  it("detects Desktop as default", () => {
+    const mockUserAgent =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
 
-        expect(getDeviceType()).toBe("Desktop");
+    vi.stubGlobal("navigator", {
+      userAgent: mockUserAgent,
     });
+
+    expect(getDeviceType()).toBe("Desktop");
+  });
 });
