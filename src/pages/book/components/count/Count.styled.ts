@@ -22,7 +22,6 @@ export const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-
 `;
 
 export const Title = styled.h2`
