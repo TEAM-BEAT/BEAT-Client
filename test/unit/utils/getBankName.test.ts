@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { getBankNameKr } from "../../../src/utils/getBankName";
 
+//은행 이름 가져오는 함수 테스트
 describe("getBankName Utility", () => {
   it("returns correct Korean bank name for valid bank code", () => {
     expect(getBankNameKr("NH_NONGHYUP")).toBe("NH농협");
