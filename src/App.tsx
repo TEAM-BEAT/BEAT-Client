@@ -35,7 +35,7 @@ function App() {
     setScreenSize();
   });
 
-  useMixpanelPageView();
+  // useMixpanelPageView();
 
   return (
     <HelmetProvider>
