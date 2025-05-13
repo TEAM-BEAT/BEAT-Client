@@ -6,7 +6,6 @@ export function useMixpanelPageView(): void {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("페이지 뷰 트래킹", location.pathname);
     mixpanel.track("Page Viewed", {
       path: location.pathname,
     });
