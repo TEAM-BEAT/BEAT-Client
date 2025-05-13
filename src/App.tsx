@@ -45,7 +45,7 @@ function App() {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <GlobalStyle />
                 <RouterProvider router={router} />
-                <MixpanelTracker />
+                {/* <MixpanelTracker /> */}
                 <Modal />
                 <Alert />
                 <Confirm />
