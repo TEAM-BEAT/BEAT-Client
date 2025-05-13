@@ -3,15 +3,20 @@ import { fn } from "@storybook/test";
 import { useState } from "react";
 import TextArea, { TextAreaProps } from "./TextArea";
 
-const meta = {
+const meta: Meta<typeof TextArea> = {
   title: "TextArea",
   component: TextArea,
   parameters: {
     layout: "centered",
   },
   argTypes: {},
-  args: { value: "", onClick: fn(), placeholder: "플레이스 홀더", onChange: fn() },
-} satisfies Meta<typeof TextArea>;
+  args: {
+    value: "",
+    onClick: () => {},
+    onChange: () => {},
+    placeholder: "플레이스 홀더",
+  },
+};
 
 export default meta;
 type Story = StoryObj<TextAreaProps>;

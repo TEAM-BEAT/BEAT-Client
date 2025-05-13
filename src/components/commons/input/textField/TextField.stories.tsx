@@ -4,15 +4,15 @@ import { useState } from "react";
 import { numericFilter, phoneNumberFilter, priceFilter } from "../../../../utils/useInputFilter";
 import TextField, { TextFieldProps } from "./TextField";
 
-const meta = {
+const meta: Meta<typeof TextField> = {
   title: "TextField",
   component: TextField,
   parameters: {
     layout: "centered",
   },
   argTypes: {},
-  args: { value: "", onClick: fn(), placeholder: "플레이스 홀더", onChange: fn() },
-} satisfies Meta<typeof TextField>;
+  args: { value: "", onClick: () => {}, placeholder: "플레이스 홀더", onChange: () => {} },
+};
 
 export default meta;
 type Story = StoryObj<TextFieldProps>;
