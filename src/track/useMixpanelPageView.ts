@@ -8,6 +8,11 @@ export function useMixpanelPageView(): void {
   useEffect(() => {
     mixpanel.track("Page Viewed", {
       path: location.pathname,
+      full_url: window.location.href,
+    });
+
+    mixpanel.register({
+      referrer: document.referrer,
     });
   }, [location.pathname]);
 }
