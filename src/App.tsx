@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
+import { useMixpanelPageView } from "./track/useMixpanelPageView";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import router from "./routes/Router";
@@ -33,6 +34,8 @@ function App() {
   useEffect(() => {
     setScreenSize();
   });
+
+  useMixpanelPageView();
 
   return (
     <HelmetProvider>

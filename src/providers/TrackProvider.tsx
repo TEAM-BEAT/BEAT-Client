@@ -1,4 +1,4 @@
-import { track } from "../track";
+import { track } from "../track/track";
 import React from "react";
 
 interface TrackProviderProps {
