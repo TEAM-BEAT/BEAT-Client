@@ -28,6 +28,13 @@ function initialize() {
       debug: false,
       track_pageview: true,
       track_links_timeout: 300,
+      persistence: "localStorage",
+    });
+
+    mixpanel.register({
+      referrer: document.referrer,
+      full_url: window.location.href,
+      pathname: window.location.pathname,
     });
   } catch (e) {
     console.error(e);
