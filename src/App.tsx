@@ -11,11 +11,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { useMixpanelPageView } from "./track/useMixpanelPageView";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import router from "./routes/Router";
 import TrackProvider from "./providers/TrackProvider";
+import MixpanelTracker from "./providers/MixpanelTracker";
 
 const darkTheme = createTheme({
   palette: {
@@ -35,8 +35,6 @@ function App() {
     setScreenSize();
   });
 
-  // useMixpanelPageView();
-
   return (
     <HelmetProvider>
       <MetaTag title="BEAT" />
@@ -47,6 +45,7 @@ function App() {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <GlobalStyle />
                 <RouterProvider router={router} />
+                <MixpanelTracker />
                 <Modal />
                 <Alert />
                 <Confirm />
