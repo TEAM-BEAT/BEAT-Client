@@ -1,4 +1,4 @@
-import { TRACK_EVENTS } from "src/track/events";
+import { TRACK_EVENTS } from "src/track/constants/events";
 import { trackEvent } from "src/track/track";
 
 export const useTracking = () => {
