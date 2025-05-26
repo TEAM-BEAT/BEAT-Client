@@ -7,7 +7,7 @@ on:
       - develop
 jobs:
   storybook:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       status: ${{ job.status }}
     steps:
@@ -27,12 +27,24 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --no-immutable
 
+      - name: print env for debug
+        run: |
+          echo "🔍 VITE_API_BASE_URL = $VITE_API_BASE_URL"
+          echo "🔍 VITE_CLIENT_URL = $VITE_CLIENT_URL"
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_CLIENT_URL: ${{ secrets.VITE_CLIENT_URL }}
+
       - name: publish to chromatic
         id: chromatic
         uses: chromaui/action@v1
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_CLIENT_URL: ${{ secrets.VITE_CLIENT_URL }}
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: comment PR
         if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v1

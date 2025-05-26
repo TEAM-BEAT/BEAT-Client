@@ -10,7 +10,7 @@ import axios from "axios";
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const routes = await generatePerformanceRoutes(env.VITE_API_BASE_URL);
+  const routes = await generatePerformanceRoutes(env.VITE_API_BASE_URL || "");
 
   const executablePath =
     env.VITE_CHROME_PATH ||
