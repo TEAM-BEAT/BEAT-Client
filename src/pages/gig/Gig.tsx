@@ -134,11 +134,7 @@ const Gig = () => {
         longitude={data?.longitude ?? ""}
       />
       <S.FooterContainer>
-        <Tracking
-          event="CLICKED_CTA_BOOK"
-          properties={{ cta_level: "Primary" }}
-          disabled={!isBookingAvailable}
-        >
+        <Tracking event="CLICKED_CTA_BOOK" properties={{ cta_level: "Primary" }}>
           <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
             {isBookingAvailable ? "예매하기" : "마감된 공연입니다."}
           </Button>
@@ -154,17 +150,31 @@ const Gig = () => {
       >
         <OuterLayout margin="1.6rem 0 0 0">
           <S.ButtonWrapper>
-            <Button
-              variant="primary"
-              size="xlarge"
-              style={{ backgroundColor: "#FEE500", color: "#0F0F0F" }}
-              onClick={() => handleKakaoLogin(`/book/${performanceId}`)}
+            <Tracking
+              event="CLICKED_CTA_LOGIN"
+              properties={{ cta_level: "Step", auth_method: "Kakao", gig_id: performanceId }}
             >
-              카카오 로그인
-            </Button>
-            <Button variant="gray" size="xlarge" onClick={() => navigate(`/book/${performanceId}`)}>
-              비회원 예매
-            </Button>
+              <Button
+                variant="primary"
+                size="xlarge"
+                style={{ backgroundColor: "#FEE500", color: "#0F0F0F" }}
+                onClick={() => handleKakaoLogin(`/book/${performanceId}`)}
+              >
+                카카오 로그인
+              </Button>
+            </Tracking>
+            <Tracking
+              event="CLICKED_CTA_LOGIN"
+              properties={{ cta_level: "Step", auth_method: "Guest", gig_id: performanceId }}
+            >
+              <Button
+                variant="gray"
+                size="xlarge"
+                onClick={() => navigate(`/book/${performanceId}`)}
+              >
+                비회원 예매
+              </Button>
+            </Tracking>
           </S.ButtonWrapper>
         </OuterLayout>
       </ActionBottomSheet>

@@ -18,6 +18,7 @@ import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
 import { TRACK_EVENTS } from "src/track/constants/events";
 import { trackEvent } from "src/track/track";
+import { Tracking } from "@components/commons/track/Tracking";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -295,9 +296,11 @@ const Book = () => {
         onClickTermCheck={onChangeTermCheck}
       />
       <S.FooterContainer>
-        <Button disabled={!activeButton} onClick={handleClickBook}>
-          예매하기
-        </Button>
+        <Tracking event="CLICKED_BUTTON_BOOK" properties={{ gig_id: performanceId }}>
+          <Button disabled={!activeButton} onClick={handleClickBook}>
+            예매하기
+          </Button>
+        </Tracking>
       </S.FooterContainer>
 
       <ViewBottomSheet
@@ -319,18 +322,22 @@ const Book = () => {
         />
         <Context subTitle="예매자" text={bookerInfo.bookerName} />
         <OuterLayout gap="1.1rem" margin="2.4rem 0 0 0">
-          <Button variant="gray" size="medium" onClick={handleSheetClose}>
-            다시 할게요
-          </Button>
-          <Button
-            variant="primary"
-            size="medium"
-            disabled={isGuestBookingPending || isMemberBookPending}
-            isPending={isGuestBookingPending || isMemberBookPending}
-            onClick={handleClickBookRequst}
-          >
-            예매할게요
-          </Button>
+          <Tracking event="CLICKED_BUTTON_BOOKCANCEL" properties={{ gig_id: performanceId }}>
+            <Button variant="gray" size="medium" onClick={handleSheetClose}>
+              다시 할게요
+            </Button>
+          </Tracking>
+          <Tracking event="CLICKED_BUTTON_BOOKCONFIRM" properties={{ gig_id: performanceId }}>
+            <Button
+              variant="primary"
+              size="medium"
+              disabled={isGuestBookingPending || isMemberBookPending}
+              isPending={isGuestBookingPending || isMemberBookPending}
+              onClick={handleClickBookRequst}
+            >
+              예매할게요
+            </Button>
+          </Tracking>
         </OuterLayout>
       </ViewBottomSheet>
     </S.ContentWrapper>

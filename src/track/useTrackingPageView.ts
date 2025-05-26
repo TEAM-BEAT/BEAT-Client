@@ -13,6 +13,10 @@ export function useTrackingPageView(): void {
     if (mixpanel && typeof mixpanel.track === "function") {
       const { pathname } = location;
 
+      // "complete"의 경우 페이지가 바뀐것이 아니므로 로깅 패스
+      if (pathname.includes("complete")) {
+        return;
+      }
       const matchedConfig = TRACKING_CONFIG.find((config) => pathname.startsWith(config.path));
 
       if (matchedConfig) {

@@ -6,14 +6,10 @@ type TrackingProps = {
   event: keyof typeof TRACK_EVENTS;
   properties?: Record<string, unknown>;
   children: React.ReactElement;
-  disabled: boolean;
 };
 
-export const Tracking = ({ event, properties = {}, children, disabled }: TrackingProps) => {
+export const Tracking = ({ event, properties = {}, children }: TrackingProps) => {
   const handleClick = (e: React.MouseEvent) => {
-    if (disabled) {
-      return;
-    }
     trackEvent(TRACK_EVENTS[event], properties);
 
     // children onClick 이벤트
