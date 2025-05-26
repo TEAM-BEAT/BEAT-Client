@@ -32,8 +32,8 @@ jobs:
           echo "🔍 VITE_API_BASE_URL = $VITE_API_BASE_URL"
           echo "🔍 VITE_CLIENT_URL = $VITE_CLIENT_URL"
         env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL_DEV }}
-          VITE_CLIENT_URL: ${{ secrets.VITE_CLIENT_URL_DEV }}
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_CLIENT_URL: ${{ secrets.VITE_CLIENT_URL }}
 
       - name: publish to chromatic
         id: chromatic
