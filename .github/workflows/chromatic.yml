@@ -27,6 +27,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --no-immutable
 
+      - name: print env for debug
+        run: |
+          echo "🔍 VITE_API_BASE_URL = $VITE_API_BASE_URL"
+          echo "🔍 VITE_CLIENT_URL = $VITE_CLIENT_URL"
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL_DEV }}
+          VITE_CLIENT_URL: ${{ secrets.VITE_CLIENT_URL_DEV }}
+
       - name: publish to chromatic
         id: chromatic
         uses: chromaui/action@v1
@@ -36,6 +44,7 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: comment PR
         if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v1
