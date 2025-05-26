@@ -14,6 +14,8 @@ import {
 } from "@pages/main/components";
 import { navigateAtom } from "@stores";
 import { useAtom } from "jotai";
+import { trackEvent } from "src/track/track";
+import { TRACK_EVENTS } from "src/track/constants/events";
 
 const Main = () => {
   const { data, isLoading } = useGetAllScheduleList();
@@ -24,6 +26,10 @@ const Main = () => {
   const handleGenre = (value: string) => {
     setGenre(value);
   };
+
+  useEffect(() => {
+    trackEvent(TRACK_EVENTS.PAGE_VIEW, { path: "/main" });
+  }, []);
 
   if (isLoading) {
     return <Loading />;
