@@ -15,6 +15,8 @@ import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
 import { Tracking } from "@components/commons/track/Tracking";
+import { TRACK_EVENTS } from "src/track/constants/events";
+import { trackEvent } from "src/track/track";
 
 //todo: 공연 보는 페이지, 수정 페이지에서도 변경 사항 반영해두기
 const Gig = () => {
@@ -36,6 +38,7 @@ const Gig = () => {
       navigate(`/book/${performanceId}`);
       return;
     }
+    trackEvent(TRACK_EVENTS.VIEWED_OVERLAY_BOOKCONFIRM, { gig_id: performanceId });
     setIsSheetOpen(true);
   };
 

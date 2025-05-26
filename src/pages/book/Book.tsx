@@ -16,6 +16,8 @@ import { BookerInfo, Count, EasyPassEntry, Info, Select, TermCheck } from "@page
 import { SHOW_TYPE_KEY } from "@pages/gig/constants";
 import NotFound from "@pages/notFound/NotFound";
 import * as S from "./Book.styled";
+import { TRACK_EVENTS } from "src/track/constants/events";
+import { trackEvent } from "src/track/track";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -127,6 +129,7 @@ const Book = () => {
   };
 
   const handleSheetOpen = () => {
+    trackEvent(TRACK_EVENTS.VIEWED_OVERLAY_BOOKCONFIRM, { gig_id: performanceId });
     setIsOpen(true);
   };
 
