@@ -6,9 +6,19 @@ interface TrackProviderProps {
 }
 
 export default function TrackProvider({ children }: TrackProviderProps) {
+  const [isInitialized, setIsInitialized] = React.useState(false);
+
   React.useEffect(() => {
-    track.initialize();
+    const init = async () => {
+      await track.initialize();
+      setIsInitialized(true);
+    };
+    init();
   }, []);
+
+  if (!isInitialized) {
+    return;
+  }
 
   return <>{children}</>;
 }

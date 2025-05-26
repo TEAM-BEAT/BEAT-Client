@@ -17,10 +17,6 @@ function initialize() {
     console.log("개발 서버에서 트래킹이 initialize 되었습니다.");
   }
 
-  mixpanel.init(`${MIXPANEL_TOKEN}`, {
-    debug: !isProd,
-  });
-
   try {
     window.gtag("js", new Date().toISOString());
     window.gtag("config", "G-CODE", {
@@ -28,7 +24,7 @@ function initialize() {
     });
 
     mixpanel.init(`${MIXPANEL_TOKEN}`, {
-      debug: false,
+      debug: !isProd,
       track_pageview: true,
       track_links_timeout: 300,
       persistence: "localStorage",

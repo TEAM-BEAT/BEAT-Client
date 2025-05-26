@@ -6,13 +6,15 @@ export function useMixpanelPageView(): void {
   const location = useLocation();
 
   useEffect(() => {
-    mixpanel.track("Page Viewed", {
-      path: location.pathname,
-      full_url: window.location.href,
-    });
+    if (mixpanel && typeof mixpanel.track === "function") {
+      mixpanel.track("Page Viewed", {
+        path: location.pathname,
+        full_url: window.location.href,
+      });
 
-    mixpanel.register({
-      referrer: document.referrer,
-    });
+      mixpanel.register({
+        referrer: document.referrer,
+      });
+    }
   }, [location.pathname]);
 }
