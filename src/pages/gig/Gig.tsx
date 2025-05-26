@@ -14,6 +14,7 @@ import Content from "./components/content/Content";
 import ShowInfo from "./components/showInfo/ShowInfo";
 import { SHOW_TYPE_KEY } from "./constants";
 import * as S from "./Gig.styled";
+import { Tracking } from "@components/commons/track/Tracking";
 
 //todo: 공연 보는 페이지, 수정 페이지에서도 변경 사항 반영해두기
 const Gig = () => {
@@ -130,9 +131,15 @@ const Gig = () => {
         longitude={data?.longitude ?? ""}
       />
       <S.FooterContainer>
-        <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
-          {isBookingAvailable ? "예매하기" : "마감된 공연입니다."}
-        </Button>
+        <Tracking
+          event="CLICKED_CTA_BOOK"
+          properties={{ cta_level: "Primary" }}
+          disabled={!isBookingAvailable}
+        >
+          <Button onClick={handleBookClick} disabled={!isBookingAvailable}>
+            {isBookingAvailable ? "예매하기" : "마감된 공연입니다."}
+          </Button>
+        </Tracking>
       </S.FooterContainer>
 
       <ActionBottomSheet

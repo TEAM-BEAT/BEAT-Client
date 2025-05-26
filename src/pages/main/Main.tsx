@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Main.styled";
 
 import Loading from "@components/commons/loading/Loading";

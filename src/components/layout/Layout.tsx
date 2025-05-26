@@ -3,10 +3,10 @@ import styled from "styled-components";
 import Navigation from "../commons/navigation/Navigation";
 import ScrollToTop from "@components/commons/scrollToTop/ScrollToTop";
 import TokenRefresher from "src/hooks/useTokenRefresher";
-import { useMixpanelPageView } from "src/track/useMixpanelPageView";
+import { useTrackingPageView } from "src/track/useTrackingPageView";
 
 const Layout = () => {
-  useMixpanelPageView();
+  useTrackingPageView();
 
   return (
     <div>
