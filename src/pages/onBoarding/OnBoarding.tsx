@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const OnBoarding = () => {
+export const OnBoarding = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
