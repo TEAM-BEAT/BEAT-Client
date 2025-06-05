@@ -8,6 +8,9 @@ import { getBankNameKr } from "@utils/getBankName";
 import { getDeviceType } from "@utils/getDeviceType";
 import Lottie from "react-lottie-player";
 import * as S from "./PaidBook.styled";
+import PromotionImg from "../../../../assets/images/promotion.png";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface PaidBookProps {
   id: number;
@@ -50,6 +53,17 @@ const PaidBook = ({
     }
   };
 
+  const [space, setSpace] = useState("");
+
+  useEffect(() => {
+    const screenHeight = window.innerHeight;
+    if (screenHeight < 812) {
+      setSpace("10.8");
+    } else {
+      setSpace("0");
+    }
+  }, []);
+
   return (
     <>
       <S.Wrapper>
@@ -59,7 +73,7 @@ const PaidBook = ({
           play={true}
           style={{ width: "150px", height: "150px", margin: "40px auto 0" }}
         />
-        <Spacing marginBottom="3.2" />
+        {/* <Spacing marginBottom="3.2" /> */}
 
         <S.Title>{`${title} \n예매가 완료되었어요!`}</S.Title>
         <Spacing marginBottom="1" />
@@ -78,6 +92,16 @@ const PaidBook = ({
             <S.CopyIcon onClick={() => handleCopyClipBoard(accountNumber)} />
           </S.FlexBox>
         </S.DepositContainer>
+
+        <Spacing marginBottom="3.2" />
+        <a
+          href="http://about.beatlive.kr/?utm_source=beatlive&utm_medium=bookcomplete&utm_campaign=25sum-event"
+          target="blank"
+        >
+          <img src={PromotionImg} width={327} />
+        </a>
+
+        <Spacing marginBottom={space} />
 
         <S.FloatingWrapper>
           <Button variant="blue" size="xlarge" onClick={handleDepositClick}>

@@ -9,6 +9,7 @@ export const Wrapper = styled.section`
   min-height: calc(100vh - 156px);
   padding: 0 2.4rem 2.4rem;
 `;
+
 export const Title = styled.h1`
   ${({ theme }) => theme.fonts.heading3};
   color: ${({ theme }) => theme.colors.white};
@@ -27,6 +28,8 @@ export const FloatingWrapper = styled.section`
   bottom: 0;
   display: flex;
   flex-direction: column;
+
+  background: ${({ theme }) => theme.colors.gray_900};
 `;
 
 export const GigButtonBox = styled.button`
