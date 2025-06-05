@@ -39,7 +39,7 @@
             <a href="https://github.com/sinji2102">
               <img src="https://github.com/user-attachments/assets/723ddd04-2d81-4829-8c94-69ab1403171b" width="200" alt="깃허브계정-프로필사진">
               <br />
-              <b>🎱윤신지</b>
+              <b>🍀윤신지</b>
             </a>
         </td>
     </tr>
