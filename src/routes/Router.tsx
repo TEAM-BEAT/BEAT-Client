@@ -6,7 +6,7 @@ import Intro from "@pages/intro/Intro";
 import KakaoAuth from "@pages/kakaoAuth/KakaoAuth";
 import Main from "@pages/main/Main";
 import NotFound from "@pages/notFound/NotFound";
-import OnBoarding from "@pages/onBoarding/OnBoarding";
+import { OnBoarding } from "@pages/onBoarding/OnBoarding";
 import { GIG_ROUTES, LOOKUP_ROUTES, MANAGE_ROUTES, REGISTER_ROUTES, TEST_ROUTES } from "@routes";
 import DesktopGlobalStyle from "@styles/desktop";
 import { createBrowserRouter } from "react-router-dom";
