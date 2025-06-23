@@ -5,6 +5,7 @@ import Spacing from "@components/commons/spacing/Spacing";
 import { useLogin, useModal } from "@hooks";
 import BannerImg from "../../../../assets/images/banner_basic.png";
 import PerformnaceCard from "./PerformnaceCard";
+import { Tracking } from "@components/commons/track/Tracking";
 
 interface PerfonmanceProps {
   performanceId?: number;
@@ -51,9 +52,11 @@ const Performance = ({ genre, performanceList = [] }: PerformanceComponentProps)
       </S.PerformanceLayout>
       <Spacing marginBottom="3.2" />
       {genre === "ALL" ? (
-        <S.BannerWrapper onClick={handleNavigate}>
-          <S.Banner $image={BannerImg} />
-        </S.BannerWrapper>
+        <Tracking event="CLICKED_BANNER_GIGREGISTER">
+          <S.BannerWrapper onClick={handleNavigate}>
+            <S.Banner $image={BannerImg} />
+          </S.BannerWrapper>
+        </Tracking>
       ) : (
         <></>
       )}

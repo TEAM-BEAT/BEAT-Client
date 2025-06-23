@@ -1,10 +1,10 @@
 import mixpanel from "mixpanel-browser";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { trackEvent } from "./track";
 import { TRACK_EVENTS } from "./constants/events";
-import { extractIdFromPath } from "./extractIdFromPath";
 import { TRACKING_CONFIG } from "./constants/trackingConfig";
+import { extractIdFromPath } from "./extractIdFromPath";
+import { trackEvent } from "./track";
 
 export function useTrackingPageView(): void {
   const location = useLocation();
@@ -17,7 +17,14 @@ export function useTrackingPageView(): void {
       if (pathname.includes("complete")) {
         return;
       }
-      const matchedConfig = TRACKING_CONFIG.find((config) => pathname.startsWith(config.path));
+
+      const matchedConfig = TRACKING_CONFIG.find((config) => {
+        const basePath = config.path;
+        return (
+          pathname === basePath || // 정확히 일치
+          pathname.startsWith(`${basePath}/`) // 하위 경로
+        );
+      });
 
       if (matchedConfig) {
         const paramValue = extractIdFromPath(pathname, matchedConfig.path);
