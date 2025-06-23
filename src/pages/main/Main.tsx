@@ -28,7 +28,7 @@ const Main = () => {
   };
 
   useEffect(() => {
-    trackEvent(TRACK_EVENTS.PAGE_VIEW, { path: "/main" });
+    trackEvent(TRACK_EVENTS.VIEWED_PAGE_MAIN);
   }, []);
 
   if (isLoading) {

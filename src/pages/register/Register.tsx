@@ -50,6 +50,8 @@ import {
   onMinusClick,
   onPlusClick,
 } from "./utils/handleEvent";
+import { trackEvent } from "src/track/track";
+import { TRACK_EVENTS } from "src/track/constants/events";
 
 const Register = () => {
   const { isLogin } = useLogin();
@@ -370,6 +372,10 @@ const Register = () => {
       leftOnClick: handleLeftBtn,
     });
   }, [setHeader, registerStep]);
+
+  useEffect(() => {
+    trackEvent(TRACK_EVENTS.VIEWED_PAGE_GIGREGISTER);
+  }, []);
 
   if (registerStep === 1) {
     return (

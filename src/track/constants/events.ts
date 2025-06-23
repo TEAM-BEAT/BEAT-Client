@@ -1,8 +1,10 @@
 export const TRACK_EVENTS = {
   // 페이지 뷰
   PAGE_VIEW: "Page_Viewed",
+  VIEWED_PAGE_MAIN: "Viewed_Page_Main", // 유저가 메인페이지에 최초 진입 / 리프레시했음
   VIEWED_PAGE_GIG: "Viewed_Page_Gig", // 유저가 공연 상세페이지에 최초 진입 / 리프레시했음
-  VIEWED_PAGE_BOOK: "Viewed_Page_Book", // 유저가 예매 페이지에 최초 진입/리프레시했음
+  VIEWED_PAGE_BOOK: "Viewed_Page_Book", // 유저가 예매 페이지에 최초 진입 / 리프레시했음
+  VIEWED_PAGE_GIGREGISTER: "Viewed_Page_GigRegister", // 유저가 공연 등록 페이지에 최초 진입 / 리프레시했음
   VIEWED_OVERLAY_LOGIN: "Viewed_Overlay_Login", // 로그인 바텀시트가 화면에 보임
   VIEWED_OVERLAY_BOOKCONFIRM: "Viewed_Overlay_BookConfirm", // 예매내역 바텀시트가 화면에 보임
 
