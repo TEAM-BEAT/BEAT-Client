@@ -3,6 +3,7 @@ import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Floating.styled";
+import { Tracking } from "@components/commons/track/Tracking";
 
 const Floating = () => {
   const navigate = useNavigate();
@@ -48,10 +49,12 @@ const Floating = () => {
 
   return (
     <S.Layer $width={width}>
-      <S.FloatingBtnWrapper $showText={showText} onClick={handleRegister}>
-        <S.TicketIcon />
-        <S.FloatingText $showText={showText}>공연 등록</S.FloatingText>
-      </S.FloatingBtnWrapper>
+      <Tracking event="CLICKED_FLOATING_GIGREGISTER">
+        <S.FloatingBtnWrapper $showText={showText} onClick={handleRegister}>
+          <S.TicketIcon />
+          <S.FloatingText $showText={showText}>공연 등록</S.FloatingText>
+        </S.FloatingBtnWrapper>
+      </Tracking>
     </S.Layer>
   );
 };

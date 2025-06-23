@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FreeBook from "../freeBook/FreeBook";
 import PaidBook from "../paidBook/PaidBook";
+import { trackEvent } from "src/track/track";
+import { TRACK_EVENTS } from "src/track/constants/events";
 
 const Complete = () => {
   const location = useLocation();
@@ -52,6 +54,10 @@ const Complete = () => {
       },
     });
   }, [setHeader]);
+
+  useEffect(() => {
+    trackEvent(TRACK_EVENTS.VIEWED_PAGE_BOOKCOMPLETE);
+  }, []);
 
   return (
     <>
