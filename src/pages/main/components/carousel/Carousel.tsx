@@ -1,6 +1,7 @@
 import { TouchEventHandler, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Carousel.styled";
+import { Tracking } from "@components/commons/track/Tracking";
 
 interface PromotionProps {
   promotionId?: number;
@@ -106,17 +107,22 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
     <S.CarouselWarpper>
       {isSingleItem ? (
         <S.CarouselLayout>
-          <S.CarouselItem
-            onClick={() => {
-              isExternal[0]
-                ? redirectUrl[0].startsWith("http://") || redirectUrl[0].startsWith("https://")
-                  ? window.open(`${redirectUrl[0]}`)
-                  : window.open(`https://${redirectUrl[0]}`)
-                : window.open(`/gig/${promotionId[0]}`);
-            }}
+          <Tracking
+            event="CLICKED_CAROUSEL"
+            properties={isExternal[0] ? { url: redirectUrl[0] } : { gig_id: promotionId[0] }}
           >
-            <img src={promotionImg[0]} alt="carousel-img" />
-          </S.CarouselItem>
+            <S.CarouselItem
+              onClick={() => {
+                isExternal[0]
+                  ? redirectUrl[0].startsWith("http://") || redirectUrl[0].startsWith("https://")
+                    ? window.open(`${redirectUrl[0]}`)
+                    : window.open(`https://${redirectUrl[0]}`)
+                  : window.open(`/gig/${promotionId[0]}`);
+              }}
+            >
+              <img src={promotionImg[0]} alt="carousel-img" />
+            </S.CarouselItem>
+          </Tracking>
         </S.CarouselLayout>
       ) : (
         <S.CarouselLayout>
@@ -125,19 +131,26 @@ const Carousel = ({ promotionList }: PromotionComponentProps) => {
               const key = `${image}-${idx}`;
 
               return (
-                <S.CarouselItem
-                  key={key}
-                  onClick={() => {
-                    isExternal[idx - 1]
-                      ? redirectUrl[idx - 1].startsWith("http://") ||
-                        redirectUrl[idx - 1].startsWith("https://")
-                        ? window.open(`${redirectUrl[idx - 1]}`)
-                        : window.open(`https://${redirectUrl[idx - 1]}`)
-                      : window.open(`/gig/${promotionId[idx - 1]}`);
-                  }}
+                <Tracking
+                  event="CLICKED_CAROUSEL"
+                  properties={
+                    isExternal[0] ? { url: redirectUrl[idx - 1] } : { gig_id: promotionId[idx - 1] }
+                  }
                 >
-                  <img src={image} alt="carousel-img" />
-                </S.CarouselItem>
+                  <S.CarouselItem
+                    key={key}
+                    onClick={() => {
+                      isExternal[idx - 1]
+                        ? redirectUrl[idx - 1].startsWith("http://") ||
+                          redirectUrl[idx - 1].startsWith("https://")
+                          ? window.open(`${redirectUrl[idx - 1]}`)
+                          : window.open(`https://${redirectUrl[idx - 1]}`)
+                        : window.open(`/gig/${promotionId[idx - 1]}`);
+                    }}
+                  >
+                    <img src={image} alt="carousel-img" />
+                  </S.CarouselItem>
+                </Tracking>
               );
             })}
           </S.CarouselContainer>
