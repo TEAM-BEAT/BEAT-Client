@@ -18,6 +18,7 @@ export const TRACK_EVENTS = {
   CLICKED_FLOATING_GIGREGISTER: "Clicked_Floating_GigRegister", // 유저가 메인 페이지의 '공연등록' 플로팅 버튼을 클릭함
   CLICKED_BANNER_GIGREGISTER: "Clicked_Banner_GigRegister", // 유저가 메인 페이지의 '우리의 공연 등록하러 가기' 배너 버튼을 클릭함
   CLICKED_SECTION_GIG: "Clicked_Section_Gig", // 유저가 메인 페이지의 공연 섹션을 클릭함
+  CLICKED_CAROUSEL: "Clicked_Carousel", // 유저가 캐러셀 이미지를 클릭함
 } as const;
 
 export type TrackEventKey = keyof typeof TRACK_EVENTS;
