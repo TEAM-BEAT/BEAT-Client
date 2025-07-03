@@ -368,15 +368,12 @@ const TicketHolderList = () => {
           return scheduleDiff;
         }
 
-        const createdAtDiff = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-        if (createdAtDiff !== 0) {
-          return createdAtDiff;
-        }
-
         const statusDiff = a.bookingStatus.localeCompare(b.bookingStatus, "ko");
         if (statusDiff !== 0) {
           return statusDiff;
         }
+
+        return a.createdAt.localeCompare(b.createdAt, "ko");
       });
 
       setCSVDataArr(tempCSVDataArr);
