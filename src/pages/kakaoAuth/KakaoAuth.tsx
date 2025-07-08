@@ -21,7 +21,7 @@ const KakaoAuth = () => {
   }, [readyLogin]);
 
   const code = new URL(window.location.href).searchParams.get("code");
-
+  console.log(code);
   useEffect(() => {
     const fetchData = async () => {
       if (code) {
