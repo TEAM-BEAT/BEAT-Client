@@ -21,52 +21,52 @@ export default defineConfig(async ({ mode }) => {
   return {
     plugins: [
       react(),
-      prerender({
-        routes,
-        renderer: "@prerenderer/renderer-puppeteer",
-        rendererOptions: {
-          launchOptions: {
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            ignoreDefaultArgs: ["--disable-extensions"],
-            defaultViewport: chromium.defaultViewport,
-            executablePath,
-            ignoreHTTPSErrors: true,
-            headless: chromium.headless,
-          },
-          maxConcurrentRoutes: 1,
-          renderAfterTime: 500,
-          customPuppeteerModule: "puppeteer-core",
-        },
-        // Debugging
-        postProcess: async (context) => {
-          console.log(`Prerendered: ${context.route}`);
+      // prerender({
+      //   routes,
+      //   renderer: "@prerenderer/renderer-puppeteer",
+      //   rendererOptions: {
+      //     launchOptions: {
+      //       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      //       ignoreDefaultArgs: ["--disable-extensions"],
+      //       defaultViewport: chromium.defaultViewport,
+      //       executablePath,
+      //       ignoreHTTPSErrors: true,
+      //       headless: chromium.headless,
+      //     },
+      //     maxConcurrentRoutes: 1,
+      //     renderAfterTime: 500,
+      //     customPuppeteerModule: "puppeteer-core",
+      //   },
+      //   // Debugging
+      //   postProcess: async (context) => {
+      //     console.log(`Prerendered: ${context.route}`);
 
-          if (context.route.includes("/gig")) {
-            const response = await axios.get(
-              `${env.VITE_API_BASE_URL}/performances/detail/${context.route.slice(context.route.lastIndexOf("/") + 1)}`
-            );
+      //     if (context.route.includes("/gig")) {
+      //       const response = await axios.get(
+      //         `${env.VITE_API_BASE_URL}/performances/detail/${context.route.slice(context.route.lastIndexOf("/") + 1)}`
+      //       );
 
-            const performanceData = response.data.data;
+      //       const performanceData = response.data.data;
 
-            context.html = context.html
-              .replace(/<meta property="og:title".*?>/i, "")
-              .replace(/<meta property="og:image".*?>/i, "")
-              .replace(/<meta property="og:description".*?>/i, "")
-              .replace(/<meta property="og:url".*?>/i, "");
+      //       context.html = context.html
+      //         .replace(/<meta property="og:title".*?>/i, "")
+      //         .replace(/<meta property="og:image".*?>/i, "")
+      //         .replace(/<meta property="og:description".*?>/i, "")
+      //         .replace(/<meta property="og:url".*?>/i, "");
 
-            context.html = context.html.replace(
-              /<\/head>/i,
-              `
-                <meta property="og:title" content="${performanceData.performanceTitle || "BEAT"}" />
-                <meta property="og:image" content="${performanceData.posterImage || "https://www.sinjibabo.shop/og_img.png"}" />
-                <meta name="keywords" content="공연, 밴드, 뮤지컬, 비트, beat" />
-                <meta property="og:description" content="${performanceData.performanceDescription || "심장이 뛰는 곳, BEAT에서 만나보세요."}" />
-                <meta property="og:url" content="${env.VITE_CLIENT_URL}/gig/${performanceData.performanceId}" />
-              </head>`
-            );
-          }
-        },
-      }),
+      //       context.html = context.html.replace(
+      //         /<\/head>/i,
+      //         `
+      //           <meta property="og:title" content="${performanceData.performanceTitle || "BEAT"}" />
+      //           <meta property="og:image" content="${performanceData.posterImage || "https://www.sinjibabo.shop/og_img.png"}" />
+      //           <meta name="keywords" content="공연, 밴드, 뮤지컬, 비트, beat" />
+      //           <meta property="og:description" content="${performanceData.performanceDescription || "심장이 뛰는 곳, BEAT에서 만나보세요."}" />
+      //           <meta property="og:url" content="${env.VITE_CLIENT_URL}/gig/${performanceData.performanceId}" />
+      //         </head>`
+      //       );
+      //     }
+      //   },
+      // }),
       svgr({
         svgrOptions: {
           icon: true,
