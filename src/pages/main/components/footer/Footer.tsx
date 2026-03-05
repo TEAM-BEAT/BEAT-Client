@@ -28,7 +28,7 @@ const Footer = () => {
       </S.FooterTop>
       <S.FooterBottom>
         <S.FooterInfo>대표 : 서지우</S.FooterInfo>
-        <S.FooterInfo>이메일 : beatlebeatle.official@gmail.com</S.FooterInfo>
+        <S.FooterInfo>이메일 : contact@beatlive.kr</S.FooterInfo>
         <S.FooterInfo>전화번호 : 070-8058-8213</S.FooterInfo>
         <S.FooterInfo>Copyright 2024. Beat For Gig. All rights reserved.</S.FooterInfo>
       </S.FooterBottom>
