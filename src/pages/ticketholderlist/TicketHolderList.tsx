@@ -67,7 +67,6 @@ const headers = [
 
 const TicketHolderList = () => {
   const { toastConfig, isToastVisible, handleToastVisible } = useToastHandler();
-  const [paymentData, setPaymentData] = useState<BookingListProps[]>();
   const [allBookings, setAllBookings] = useState<BookingListProps[]>([]); // 전체 예매자 정보 (필터 적용 안 된)
 
   // DEFAULT, PAYMENT, REFUND, DELETE
@@ -89,27 +88,34 @@ const TicketHolderList = () => {
 
   const { performanceId } = useParams();
 
-  const { data, isLoading, refetch } = useTicketRetrive(
+  const { data, isLoading } = useTicketRetrive(
     { performanceId: Number(performanceId) },
     filterList
   );
-  const { data: searchData, refetch: searchRefetch } = useTicketRetriveSearch(
+
+  const debouncedQuery = useDebounce(searchWord, 500);
+
+  const { data: searchData } = useTicketRetriveSearch(
     { performanceId: Number(performanceId) },
-    searchWord,
+    debouncedQuery,
     filterList
   );
+
+  const paymentData =
+    debouncedQuery.length >= 2 ? (searchData?.bookingList ?? []) : (data?.bookingList ?? []);
+
   const { openConfirm, closeConfirm } = useModal();
   const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
-  // 체크된 리스트 확인
+  // 체크된 리스트 확인ㄹ
   const handleBookingIdCheck = (bookingId: number) => {
     setCheckedBookingId((prev) =>
       prev.includes(bookingId) ? prev.filter((id) => id !== bookingId) : [...prev, bookingId]
     );
   };
 
-  const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
+  const { mutateAsync: updateMutate, isPending: updateIsPending } = useTicketUpdate();
 
-  const handlePaymentFixAxiosFunc = () => {
+  const handlePaymentFixAxiosFunc = async () => {
     if (updateIsPending) {
       return;
     }
@@ -124,17 +130,21 @@ const TicketHolderList = () => {
       })
     );
 
-    updateMutate({
+    await updateMutate({
       performanceId: Number(performanceId),
       performanceTitle: data?.performanceTitle,
       totalScheduleCount: data?.totalScheduleCount,
       bookingList: filteredPaymentData,
     });
+
     closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
     handleToastVisible("입금 처리되었습니다.", "top");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   const handlePaymentFixBtn = () => {
@@ -151,7 +161,7 @@ const TicketHolderList = () => {
   };
 
   // 환불 요청
-  const { mutate: refundMutate, isPending: refundIsPending } = useTicketRefund();
+  const { mutateAsync: refundMutate, isPending: refundIsPending } = useTicketRefund();
 
   const handlePaymentRefundBtn = () => {
     openConfirm({
@@ -166,7 +176,7 @@ const TicketHolderList = () => {
     });
   };
 
-  const handlePaymentRefundAxiosFunc = () => {
+  const handlePaymentRefundAxiosFunc = async () => {
     if (refundIsPending) {
       return;
     }
@@ -177,20 +187,23 @@ const TicketHolderList = () => {
       .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
       .map(({ bookingId }) => ({ bookingId }));
 
-    refundMutate({
+    await refundMutate({
       performanceId: Number(performanceId),
       bookingList: filteredPaymentData,
     });
 
     closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
     handleToastVisible("환불 처리되었습니다.", "top");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   // 취소 요청
-  const { mutate: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
+  const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
     openConfirm({
@@ -205,7 +218,7 @@ const TicketHolderList = () => {
     });
   };
 
-  const handlePaymentDeleteAxiosFunc = () => {
+  const handlePaymentDeleteAxiosFunc = async () => {
     if (deleteIsPending) {
       return;
     }
@@ -216,15 +229,18 @@ const TicketHolderList = () => {
       .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
       .map(({ bookingId }) => ({ bookingId }));
 
-    deleteMutate({
+    await deleteMutate({
       performanceId: Number(performanceId),
       bookingList: filteredPaymentData,
     });
     closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
     handleToastVisible("예매자가 삭제되었습니다.", "top");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   const actions = {
@@ -310,34 +326,19 @@ const TicketHolderList = () => {
     });
   };
 
-  const debouncedQuery = useDebounce(searchWord, 500);
-
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(event.target.value);
   };
 
-  // 필터 변경될 때마다 GET API 요청
-  // 검색될 때마다 GET API 요청
   useEffect(() => {
-    const fetchData = async () => {
-      const refetchData = await refetch();
-      const bookingList = refetchData?.data?.bookingList ?? [];
-      setPaymentData(bookingList);
-
-      // 전체 리스트는 필터값 가져오지 않도록
-      if (filterList.scheduleNumber.length === 0 && filterList.bookingStatus.length === 0) {
-        setAllBookings(bookingList);
-      }
-    };
-
-    const fetchSearchData = async () => {
-      const refetchSearchData = await searchRefetch();
-      setPaymentData(refetchSearchData?.data?.bookingList ?? []);
-    };
-
-    // TODO : 서버에서 검색어 2글자 이상으로 넘겨줬는데, 기-디에 화면에 어떻게 표현할지 물어보기
-    searchWord.length >= 2 ? fetchSearchData() : fetchData();
-  }, [filterList, status, debouncedQuery]);
+    if (
+      data?.bookingList &&
+      filterList.scheduleNumber.length === 0 &&
+      filterList.bookingStatus.length === 0
+    ) {
+      setAllBookings(data.bookingList);
+    }
+  }, [data, filterList]);
 
   useEffect(() => {
     if (allBookings) {
