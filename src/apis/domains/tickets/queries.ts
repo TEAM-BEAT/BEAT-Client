@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getTicketReq,
   getTicketRetrieve,
@@ -36,37 +36,38 @@ export const useTicketRetriveSearch = (formData: getTicketReq, searchWord, filte
   });
 };
 
-const queryClient = new QueryClient();
-
-// 예매자 입급 여부 수정 API (PUT)를 위한 쿼리 작성
+// 예매자 입금 여부 수정 API (PUT)를 위한 쿼리 작성
 export const useTicketUpdate = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (formData: TicketUpdateRequest) => putTicketUpdate(formData),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
-      queryClient.refetchQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
+      return queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
     },
   });
 };
 
 // 예매자 환불 여부 수정 API (PUT)를 위한 쿼리 작성
 export const useTicketRefund = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (formData: TicketRefundRequest) => putTicketRefund(formData),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
-      queryClient.refetchQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
+      return queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
     },
   });
 };
 
 // 예매자 삭제 여부 수정 API (PUT)를 위한 쿼리 작성
 export const useTicketDelete = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (formData: TicketDeleteRequest) => putTicketDelete(formData),
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
-      queryClient.refetchQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
+      return queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SELLER_BOOKING_LIST] });
     },
   });
 };

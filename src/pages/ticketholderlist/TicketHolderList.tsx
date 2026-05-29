@@ -107,9 +107,9 @@ const TicketHolderList = () => {
     );
   };
 
-  const { mutate: updateMutate, isPending: updateIsPending } = useTicketUpdate();
+  const { mutateAsync: updateMutate, isPending: updateIsPending } = useTicketUpdate();
 
-  const handlePaymentFixAxiosFunc = () => {
+  const handlePaymentFixAxiosFunc = async () => {
     if (updateIsPending) {
       return;
     }
@@ -124,17 +124,15 @@ const TicketHolderList = () => {
       })
     );
 
-    updateMutate({
+    await updateMutate({
       performanceId: Number(performanceId),
       performanceTitle: data?.performanceTitle,
       totalScheduleCount: data?.totalScheduleCount,
       bookingList: filteredPaymentData,
     });
+
     closeConfirm();
     handleToastVisible("입금 처리되었습니다.", "top");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   const handlePaymentFixBtn = () => {
@@ -151,7 +149,7 @@ const TicketHolderList = () => {
   };
 
   // 환불 요청
-  const { mutate: refundMutate, isPending: refundIsPending } = useTicketRefund();
+  const { mutateAsync: refundMutate, isPending: refundIsPending } = useTicketRefund();
 
   const handlePaymentRefundBtn = () => {
     openConfirm({
@@ -166,7 +164,7 @@ const TicketHolderList = () => {
     });
   };
 
-  const handlePaymentRefundAxiosFunc = () => {
+  const handlePaymentRefundAxiosFunc = async () => {
     if (refundIsPending) {
       return;
     }
@@ -177,20 +175,17 @@ const TicketHolderList = () => {
       .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
       .map(({ bookingId }) => ({ bookingId }));
 
-    refundMutate({
+    await refundMutate({
       performanceId: Number(performanceId),
       bookingList: filteredPaymentData,
     });
 
     closeConfirm();
     handleToastVisible("환불 처리되었습니다.", "top");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   // 취소 요청
-  const { mutate: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
+  const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
     openConfirm({
@@ -205,7 +200,7 @@ const TicketHolderList = () => {
     });
   };
 
-  const handlePaymentDeleteAxiosFunc = () => {
+  const handlePaymentDeleteAxiosFunc = async () => {
     if (deleteIsPending) {
       return;
     }
@@ -216,7 +211,7 @@ const TicketHolderList = () => {
       .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
       .map(({ bookingId }) => ({ bookingId }));
 
-    deleteMutate({
+    await deleteMutate({
       performanceId: Number(performanceId),
       bookingList: filteredPaymentData,
     });
