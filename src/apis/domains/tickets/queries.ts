@@ -18,7 +18,7 @@ const QUERY_KEY = {
 
 export const useTicketRetrive = (formData: getTicketReq, filterList) => {
   return useQuery({
-    queryKey: [QUERY_KEY.SELLER_BOOKING_LIST],
+    queryKey: [QUERY_KEY.SELLER_BOOKING_LIST, formData.performanceId, filterList],
     queryFn: () => getTicketRetrieve(formData, filterList),
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
