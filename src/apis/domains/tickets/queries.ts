@@ -29,10 +29,11 @@ export const useTicketRetrive = (formData: getTicketReq, filterList) => {
 
 export const useTicketRetriveSearch = (formData: getTicketReq, searchWord, filterList) => {
   return useQuery({
-    queryKey: [QUERY_KEY.SELLER_BOOKING_LIST],
+    queryKey: [QUERY_KEY.SELLER_BOOKING_LIST, formData.performanceId, searchWord, filterList],
     queryFn: () => getTicketRetrieveSearch(formData, searchWord, filterList),
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
+    enabled: searchWord.length >= 2,
   });
 };
 
