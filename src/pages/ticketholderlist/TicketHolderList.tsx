@@ -129,24 +129,22 @@ const TicketHolderList = () => {
           : rest.bookingStatus,
       })
     );
-    try {
-      const res = await updateMutate({
-        performanceId: Number(performanceId),
-        performanceTitle: data?.performanceTitle,
-        totalScheduleCount: data?.totalScheduleCount,
-        bookingList: filteredPaymentData,
-      });
-      if (res === null) {
-        throw new Error("ticket update failed");
-      }
-      closeConfirm();
-      setCheckedBookingId([]);
-      setStatus("DEFAULT");
-      setFilterList({ scheduleNumber: [], bookingStatus: [] });
-      handleToastVisible("입금 처리되었습니다.", "top");
-    } catch {
-      handleToastVisible("입금 처리에 실패했습니다.", "top");
-    }
+
+    await updateMutate({
+      performanceId: Number(performanceId),
+      performanceTitle: data?.performanceTitle,
+      totalScheduleCount: data?.totalScheduleCount,
+      bookingList: filteredPaymentData,
+    });
+
+    closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
+    handleToastVisible("입금 처리되었습니다.", "top");
   };
 
   const handlePaymentFixBtn = () => {
