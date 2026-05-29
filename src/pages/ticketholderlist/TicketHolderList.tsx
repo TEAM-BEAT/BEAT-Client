@@ -138,6 +138,12 @@ const TicketHolderList = () => {
     });
 
     closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
     handleToastVisible("입금 처리되었습니다.", "top");
   };
 
@@ -187,6 +193,12 @@ const TicketHolderList = () => {
     });
 
     closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
     handleToastVisible("환불 처리되었습니다.", "top");
   };
 
@@ -222,6 +234,12 @@ const TicketHolderList = () => {
       bookingList: filteredPaymentData,
     });
     closeConfirm();
+    setCheckedBookingId([]);
+    setStatus("DEFAULT");
+    setFilterList({
+      scheduleNumber: [],
+      bookingStatus: [],
+    });
     handleToastVisible("예매자가 삭제되었습니다.", "top");
   };
 
