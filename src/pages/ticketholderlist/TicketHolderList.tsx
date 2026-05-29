@@ -582,7 +582,7 @@ const TicketHolderList = () => {
             <CSVLink
               data={CSVDataArr}
               headers={headers}
-              filename={`${data.performanceTitle}_예매자 목록.csv`}
+              filename={`${data?.performanceTitle}_예매자 목록.csv`}
               ref={csvLinkRef}
             />
             <Toast
