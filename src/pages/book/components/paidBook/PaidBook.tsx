@@ -92,17 +92,6 @@ const PaidBook = ({
             <S.CopyIcon onClick={() => handleCopyClipBoard(accountNumber)} />
           </S.FlexBox>
         </S.DepositContainer>
-
-        <Spacing marginBottom="3.2" />
-        <a
-          href="http://about.beatlive.kr/?utm_source=beatlive&utm_medium=bookcomplete&utm_campaign=25sum-event"
-          target="blank"
-        >
-          <img src={PromotionImg} width={327} />
-        </a>
-
-        <Spacing marginBottom={space} />
-
         <S.FloatingWrapper>
           <Button variant="blue" size="xlarge" onClick={handleDepositClick}>
             토스로 송금하기
