@@ -187,7 +187,11 @@ const Register = () => {
     const response = await fetch(localUrl);
     const blob = await response.blob();
     const file = new File([blob], `fileName-${new Date()}`, { type: blob.type });
-    await uploadToS3({ url: presignedUrl, file });
+    const result = await uploadToS3({ url: presignedUrl, file });
+
+    if (!result) {
+      throw new Error("S3 업로드 실패");
+    }
   };
 
   const handleComplete = async () => {
@@ -195,7 +199,8 @@ const Register = () => {
       return;
     }
     const { data, isSuccess } = await refetch();
-    if (!isSuccess) {
+    if (!isSuccess || !data) {
+      openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
       return;
     }
 
