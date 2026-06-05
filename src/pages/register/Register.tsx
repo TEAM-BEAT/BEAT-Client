@@ -180,95 +180,104 @@ const Register = () => {
   };
 
   const { data, refetch } = useGetPresignedUrl(params);
-  const { mutate } = usePutS3Upload();
+  const { mutateAsync: uploadToS3 } = usePutS3Upload();
   const { mutateAsync: postPerformance, isPending } = usePostPerformance();
+
+  const uploadFileToS3 = async (presignedUrl: string, localUrl: string) => {
+    const response = await fetch(localUrl);
+    const blob = await response.blob();
+    const file = new File([blob], `fileName-${new Date()}`, { type: blob.type });
+    const result = await uploadToS3({ url: presignedUrl, file });
+
+    if (!result) {
+      throw new Error("S3 업로드 실패");
+    }
+  };
 
   const handleComplete = async () => {
     if (isPending) {
       return;
     }
     const { data, isSuccess } = await refetch();
+    if (!isSuccess || !data) {
+      openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
+      return;
+    }
 
-    let posterUrls;
-    let castUrls;
-    let staffUrls;
-    let performanceUrls;
+    const posterPresigned = Object.values(data.poster);
+    const castPresigned = Object.values(data.cast);
+    const staffPresigned = Object.values(data.staff);
+    const performancePresigned = Object.values(data.performance);
 
-    if (isSuccess) {
-      const extractUrls = (data: PresignedResponse) => {
-        posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
-        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
-        performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
+    try {
+      await uploadFileToS3(posterPresigned[0], gigInfo.posterImage);
 
-        return [
-          ...posterUrls,
-          ...castUrls.filter((url) => url !== null),
-          ...staffUrls.filter((url) => url !== null),
-          ...performanceUrls,
-        ];
+      const castUrls = await Promise.all(
+        gigInfo.castList.map(async (cast, index) => {
+          if (!cast.castPhoto) {
+            return "";
+          }
+          await uploadFileToS3(castPresigned[index], cast.castPhoto);
+          return castPresigned[index].split("?")[0];
+        })
+      );
+
+      const staffUrls = await Promise.all(
+        gigInfo.staffList.map(async (staff, index) => {
+          if (!staff.staffPhoto) {
+            return "";
+          }
+          await uploadFileToS3(staffPresigned[index], staff.staffPhoto);
+          return staffPresigned[index].split("?")[0];
+        })
+      );
+
+      const performanceUrls = await Promise.all(
+        gigInfo.performanceImageList.map(async (image, index) => {
+          await uploadFileToS3(performancePresigned[index], image.performanceImage);
+          return performancePresigned[index].split("?")[0];
+        })
+      );
+
+      const formData = {
+        ...gigInfo,
+        posterImage: posterPresigned[0].split("?")[0],
+        castList: gigInfo.castList.map((cast, index) => ({
+          ...cast,
+          castPhoto: castUrls[index],
+        })),
+        staffList: gigInfo.staffList.map((staff, index) => ({
+          ...staff,
+          staffPhoto: staffUrls[index],
+        })),
+        performanceImageList: performanceUrls.map((url) => ({
+          performanceImage: url,
+        })),
+        scheduleList: gigInfo.scheduleList.map((schedule) => {
+          const date = dayjs(schedule.performanceDate).toDate();
+          const offset = date.getTimezoneOffset() * 60000;
+          const dateOffset = new Date(date.getTime() - offset);
+          return {
+            ...schedule,
+            performanceDate: dateOffset.toISOString(),
+          };
+        }),
+        bankName: bankInfo ? bankInfo : "NONE",
       };
-      const S3Urls = extractUrls(data);
-
-      const files = [
-        gigInfo.posterImage,
-        ...gigInfo.castList.map((cast) => cast.castPhoto).filter((photo) => photo !== ""),
-        ...gigInfo.staffList.map((staff) => staff.staffPhoto).filter((photo) => photo !== ""),
-        ...gigInfo.performanceImageList.map((image) => image.performanceImage),
-      ];
 
       try {
-        const res = await Promise.all(
-          S3Urls.map(async (url, index) => {
-            const file = files[index];
-
-            const response = await fetch(file);
-            const blob = await response.blob();
-            const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
-
-            return mutate({ url, file: newFile });
-          })
-        );
-
-        const formData = {
-          ...gigInfo,
-          posterImage: posterUrls[0],
-          castList: gigInfo.castList.map((cast, index) => ({
-            ...cast,
-            castPhoto: cast.castPhoto === "" ? "" : castUrls[index] || cast.castPhoto,
-          })),
-          staffList: gigInfo.staffList.map((staff, index) => ({
-            ...staff,
-            staffPhoto: staff.staffPhoto === "" ? "" : staffUrls[index] || staff.staffPhoto,
-          })),
-          scheduleList: gigInfo.scheduleList.map((schedule) => {
-            const date = dayjs(schedule.performanceDate).toDate();
-            const offset = date.getTimezoneOffset() * 60000; //ms 단위로 변환
-            const dateOffset = new Date(date.getTime() - offset);
-            return {
-              ...schedule,
-              performanceDate: dateOffset.toISOString(),
-            };
-          }),
-          bankName: bankInfo ? bankInfo : "NONE",
-          performanceImageList: gigInfo.performanceImageList.map((image, index) => ({
-            performanceImage: performanceUrls[index] || image.performanceImage,
-          })),
-        };
-        try {
-          await postPerformance(formData);
-        } catch (err) {
-          console.error("공연 등록 오류:", err);
-          const errorMessage =
-            err?.response?.status === 401
-              ? "로그인 세션이 만료되었습니다.\n 다시 로그인 후 시도해주세요."
-              : "공연 등록을 실패했습니다.\n 다시 시도해주세요.";
-
-          openAlert({ title: errorMessage });
-        }
+        await postPerformance(formData);
       } catch (err) {
-        console.error("파일 업로드 중 오류 발생:", err);
+        console.error("공연 등록 오류:", err);
+        const errorMessage =
+          err?.response?.status === 401
+            ? "로그인 세션이 만료되었습니다.\n 다시 로그인 후 시도해주세요."
+            : "공연 등록을 실패했습니다.\n 다시 시도해주세요.";
+        openAlert({ title: errorMessage });
       }
+    } catch (err) {
+      console.error("파일 업로드 중 오류 발생:", err);
+      openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
     }
   };
 
