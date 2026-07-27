@@ -6,17 +6,23 @@ interface ImageInterface {
 }
 
 export interface PresignedResponse {
-  poster: ImageInterface;
-  cast: ImageInterface;
-  staff: ImageInterface;
-  performance: ImageInterface;
+  poster: Record<string, ImagePresignedUpload>;
+  cast: Record<string, ImagePresignedUpload>;
+  staff: Record<string, ImagePresignedUpload>;
+  performance: Record<string, ImagePresignedUpload>;
+}
+
+export interface ImagePresignedUpload {
+  uploadUrl: string;
+  imageKey: string;
 }
 
 export interface PresignedAllResponse {
   status: number;
   message: string;
   data: {
-    performanceMakerPresignedUrls: PresignedResponse;
+    performanceMakerPresignedUrls: Record<string, ImageInterface>;
+    performanceMakerPresignedUploads: PresignedResponse;
   };
 }
 
@@ -56,7 +62,7 @@ export const getPresignedUrl = async (
       },
     });
 
-    return response.data.data.performanceMakerPresignedUrls;
+    return response.data.data.performanceMakerPresignedUploads;
   } catch (error) {
     console.error("error", error);
     return null;
@@ -92,10 +98,7 @@ export interface CarouselPresignedResponse {
   };
 }
 
-export interface CarouselPresignedUpload {
-  uploadUrl: string;
-  imageKey: string;
-}
+export type CarouselPresignedUpload = ImagePresignedUpload;
 
 export interface GetCarouselPresignedUrlParams {
   carouselImages: string[];

@@ -1644,6 +1644,15 @@ export interface components {
           [key: string]: string;
         };
       };
+      performanceMakerPresignedUploads?: {
+        [key: string]: {
+          [key: string]: components["schemas"]["ImagePresignedUpload"];
+        };
+      };
+    };
+    ImagePresignedUpload: {
+      uploadUrl?: string;
+      imageKey?: string;
     };
     SuccessResponsePerformanceMakerPresignedUrlFindAllResponse: {
       /** Format: int32 */
@@ -1775,6 +1784,11 @@ export interface components {
     };
     BannerPresignedUrlFindResponse: {
       bannerPresignedUrl?: string;
+      bannerPresignedUpload?: components["schemas"]["BannerPresignedUploadResponse"];
+    };
+    BannerPresignedUploadResponse: {
+      uploadUrl?: string;
+      imageKey?: string;
     };
     SuccessResponseBannerPresignedUrlFindResponse: {
       /** Format: int32 */
