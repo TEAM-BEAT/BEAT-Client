@@ -374,6 +374,9 @@ const ModifyManage = () => {
         openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
         return;
       }
+    } else {
+      openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
+      return;
     }
 
     const filteredCastModifyRequests = dataState.castModifyRequests.filter(
