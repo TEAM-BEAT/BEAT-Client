@@ -6,16 +6,22 @@ import AdminCarousel from "@admin/pages/promotion/components/AdminCarousel/Admin
 import AdminBanner from "@admin/pages/promotion/components/AdminBanner/AdminBanner";
 import { useGetCarouselPresignedUrl } from "@apis/domains/files/queries";
 import { usePutS3Upload } from "@apis/domains/files/queries";
-import { CarouselPresignedResponse } from "@apis/domains/files/api";
 import { updateCarousel } from "@apis/domains/admins/api";
 import { useModal } from "@hooks";
+
+interface PendingCarouselUpload {
+  fileName: string;
+  objectUrl: string;
+}
+
+const isBlobUrl = (url?: string) => url?.startsWith("blob:") ?? false;
 
 const Promotion = () => {
   const { openAlert } = useModal();
   const [tab, setTab] = useState("carousel");
 
   const [carouselData, setCarouselData] = useState([]);
-  const [carouselImage, setCarouselImages] = useState<string[]>([]); // presigned 보낼 state
+  const [carouselUploads, setCarouselUploads] = useState<PendingCarouselUpload[]>([]);
   const [initPromoNum, setInitPromoNum] = useState<number[]>([]); // 초기 promotionId
 
   const handleTab = (value) => {
@@ -29,115 +35,107 @@ const Promotion = () => {
   const saveCarouselData = (value) => {
     setCarouselData(value);
 
-    const tempPresigned = carouselData?.map((item, index) => {
-      if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
-        return `carousel-${index + 1}-${new Date().getTime()}`;
-      }
-    });
-
-    const filtered = tempPresigned.filter((element) => element !== undefined);
-
-    setCarouselImages(filtered);
+    const timestamp = Date.now();
+    setCarouselUploads(
+      value.flatMap((item, index) =>
+        isBlobUrl(item.promotionPhoto)
+          ? [{ fileName: `carousel-${index + 1}-${timestamp}`, objectUrl: item.promotionPhoto }]
+          : []
+      )
+    );
   };
 
-  const params = { carouselImages: carouselImage };
+  const params = { carouselImages: carouselUploads.map(({ fileName }) => fileName) };
 
-  const { data, refetch } = useGetCarouselPresignedUrl(params);
-  const { mutate } = usePutS3Upload();
+  const { refetch } = useGetCarouselPresignedUrl(params);
+  const { mutateAsync: uploadToS3 } = usePutS3Upload();
 
   // 캐러셀  저장
   const handleCarouselSave = async () => {
-    const { data, isSuccess } = await refetch();
+    try {
+      const uploadedImageKeys = new Map<string, string>();
 
-    if (isSuccess) {
-      const extractUrls = (data: CarouselPresignedResponse) => {
-        return Object.values(data.data.carouselPresignedUrls).map(
-          (url) => (url as string).split("?")[0]
-        );
-      };
+      if (carouselUploads.length > 0) {
+        const { data, isSuccess } = await refetch();
+        if (!isSuccess || !data) {
+          throw new Error("캐러셀 이미지 업로드 URL을 발급하지 못했습니다.");
+        }
 
-      const S3Urls = extractUrls(data);
-
-      const files = carouselData
-        .filter((item) => item.promotionPhoto && item.promotionPhoto.includes("blob"))
-        .map((item) => item.promotionPhoto);
-
-      try {
         await Promise.all(
-          S3Urls.map(async (url, index) => {
-            const file = files[index];
+          carouselUploads.map(async ({ fileName, objectUrl }) => {
+            const upload = data.data.carouselPresignedUploads[fileName];
+            if (!upload) {
+              throw new Error("캐러셀 이미지 업로드 정보를 찾을 수 없습니다.");
+            }
 
-            const response = await fetch(file);
+            const response = await fetch(objectUrl);
+            if (!response.ok) {
+              throw new Error("캐러셀 이미지 파일을 읽지 못했습니다.");
+            }
+
             const blob = await response.blob();
-            const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
+            const file = new File([blob], fileName, { type: blob.type });
+            const uploadResponse = await uploadToS3({ url: upload.uploadUrl, file });
+            if (!uploadResponse) {
+              throw new Error("캐러셀 이미지 업로드에 실패했습니다.");
+            }
 
-            return mutate({ url, file: newFile });
+            uploadedImageKeys.set(objectUrl, upload.imageKey);
           })
         );
-
-        let idxCnt = 0;
-
-        const tempCarouselData = carouselData.map((item) => {
-          if (item.promotionPhoto?.indexOf("amazonaws") === -1) {
-            idxCnt += 1;
-            return { ...item, promotionPhoto: S3Urls[idxCnt - 1] };
-          }
-          return item;
-        });
-
-        const carouselNum = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN"];
-
-        const formData = {
-          carousels: tempCarouselData.map((item, index) => {
-            const { promotionPhoto, promotionId, ...rest } = item;
-
-            const carouselItem = {
-              ...rest,
-              type: initPromoNum.indexOf(item.promotionId) === -1 ? "generate" : "modify",
-              carouselNumber: carouselNum[index],
-              newImageUrl: item.promotionPhoto,
-            };
-
-            // promotionId가 initPromoNum에 없을 때 (새로 생성되었을 때)만 추가
-            if (initPromoNum.indexOf(item.promotionId) === -1) {
-              return carouselItem;
-            }
-            return { ...carouselItem, promotionId: item.promotionId };
-          }),
-        };
-
-        const allValid = formData.carousels.every(
-          (item) => item.newImageUrl !== null && item.redirectUrl !== null
-        );
-
-        console.log(formData);
-
-        if (allValid && formData.carousels.length !== 0) {
-          const res = await updateCarousel(formData);
-          console.log(res);
-          await console.log(formData);
-
-          await openAlert({
-            title: "캐러셀 수정이 완료되었습니다.",
-            okCallback: () => {
-              location.reload();
-            },
-          });
-        } else {
-          formData.carousels.forEach((item) => {
-            if (!item.newImageUrl && !item.redirectUrl) {
-              openAlert({ title: "정보가 없는 캐러셀은 삭제해 주세요." });
-            } else if (!item.newImageUrl) {
-              openAlert({ title: "모든 이미지를 삽입해 주세요." });
-            } else if (!item.redirectUrl) {
-              openAlert({ title: "모든 링크를 삽입해 주세요." });
-            }
-          });
-        }
-      } catch (err) {
-        console.error("Error during file upload or carousel update:", err);
-        openAlert({ title: "캐러셀 수정 혹은 이미지 저장을 실패했습니다.\n 다시 시도해주세요." });
       }
+
+      const tempCarouselData = carouselData.map((item) => ({
+        ...item,
+        promotionPhoto: uploadedImageKeys.get(item.promotionPhoto) ?? item.promotionPhoto,
+      }));
+
+      const carouselNum = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN"];
+
+      const formData = {
+        carousels: tempCarouselData.map((item, index) => {
+          const { promotionPhoto, promotionId, ...rest } = item;
+
+          const carouselItem = {
+            ...rest,
+            type: initPromoNum.indexOf(item.promotionId) === -1 ? "generate" : "modify",
+            carouselNumber: carouselNum[index],
+            newImageUrl: item.promotionPhoto,
+          };
+
+          if (initPromoNum.indexOf(item.promotionId) === -1) {
+            return carouselItem;
+          }
+          return { ...carouselItem, promotionId: item.promotionId };
+        }),
+      };
+
+      const allValid = formData.carousels.every(
+        (item) => Boolean(item.newImageUrl) && Boolean(item.redirectUrl)
+      );
+
+      if (allValid && formData.carousels.length !== 0) {
+        await updateCarousel(formData);
+
+        await openAlert({
+          title: "캐러셀 수정이 완료되었습니다.",
+          okCallback: () => {
+            location.reload();
+          },
+        });
+      } else {
+        formData.carousels.forEach((item) => {
+          if (!item.newImageUrl && !item.redirectUrl) {
+            openAlert({ title: "정보가 없는 캐러셀은 삭제해 주세요." });
+          } else if (!item.newImageUrl) {
+            openAlert({ title: "모든 이미지를 삽입해 주세요." });
+          } else if (!item.redirectUrl) {
+            openAlert({ title: "모든 링크를 삽입해 주세요." });
+          }
+        });
+      }
+    } catch {
+      openAlert({ title: "캐러셀 수정 혹은 이미지 저장을 실패했습니다.\n 다시 시도해주세요." });
     }
   };
 

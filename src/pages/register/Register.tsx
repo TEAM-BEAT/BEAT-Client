@@ -183,11 +183,11 @@ const Register = () => {
   const { mutateAsync: uploadToS3 } = usePutS3Upload();
   const { mutateAsync: postPerformance, isPending } = usePostPerformance();
 
-  const uploadFileToS3 = async (presignedUrl: string, localUrl: string) => {
+  const uploadFileToS3 = async (uploadUrl: string, localUrl: string) => {
     const response = await fetch(localUrl);
     const blob = await response.blob();
     const file = new File([blob], `fileName-${new Date()}`, { type: blob.type });
-    const result = await uploadToS3({ url: presignedUrl, file });
+    const result = await uploadToS3({ url: uploadUrl, file });
 
     if (!result) {
       throw new Error("S3 업로드 실패");
@@ -204,21 +204,26 @@ const Register = () => {
       return;
     }
 
-    const posterPresigned = Object.values(data.poster);
-    const castPresigned = Object.values(data.cast);
-    const staffPresigned = Object.values(data.staff);
-    const performancePresigned = Object.values(data.performance);
+    const posterUpload = data.poster[params.posterImage];
+    if (!posterUpload) {
+      openAlert({ title: "포스터 이미지 업로드 정보를 찾을 수 없습니다." });
+      return;
+    }
 
     try {
-      await uploadFileToS3(posterPresigned[0], gigInfo.posterImage);
+      await uploadFileToS3(posterUpload.uploadUrl, gigInfo.posterImage);
 
       const castUrls = await Promise.all(
         gigInfo.castList.map(async (cast, index) => {
           if (!cast.castPhoto) {
             return "";
           }
-          await uploadFileToS3(castPresigned[index], cast.castPhoto);
-          return castPresigned[index].split("?")[0];
+          const upload = data.cast[castImages[index]];
+          if (!upload) {
+            throw new Error("출연진 이미지 업로드 정보가 없습니다.");
+          }
+          await uploadFileToS3(upload.uploadUrl, cast.castPhoto);
+          return upload.imageKey;
         })
       );
 
@@ -227,21 +232,29 @@ const Register = () => {
           if (!staff.staffPhoto) {
             return "";
           }
-          await uploadFileToS3(staffPresigned[index], staff.staffPhoto);
-          return staffPresigned[index].split("?")[0];
+          const upload = data.staff[staffImages[index]];
+          if (!upload) {
+            throw new Error("스태프 이미지 업로드 정보가 없습니다.");
+          }
+          await uploadFileToS3(upload.uploadUrl, staff.staffPhoto);
+          return upload.imageKey;
         })
       );
 
       const performanceUrls = await Promise.all(
         gigInfo.performanceImageList.map(async (image, index) => {
-          await uploadFileToS3(performancePresigned[index], image.performanceImage);
-          return performancePresigned[index].split("?")[0];
+          const upload = data.performance[performanceImages[index]];
+          if (!upload) {
+            throw new Error("공연 상세 이미지 업로드 정보가 없습니다.");
+          }
+          await uploadFileToS3(upload.uploadUrl, image.performanceImage);
+          return upload.imageKey;
         })
       );
 
       const formData = {
         ...gigInfo,
-        posterImage: posterPresigned[0].split("?")[0],
+        posterImage: posterUpload.imageKey,
         castList: gigInfo.castList.map((cast, index) => ({
           ...cast,
           castPhoto: castUrls[index],
