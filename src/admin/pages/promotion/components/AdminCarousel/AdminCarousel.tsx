@@ -26,17 +26,12 @@ const AdminCarousel = ({ saveCarouselData, saveCarouselNum }) => {
 
   useEffect(() => {
     setCarouselList(data?.promotionList);
+    saveCarouselData(data?.promotionList ?? []);
     saveCarouselNum(
       data?.promotionList.map((item) => {
         return item.promotionId;
-      })
+      }) ?? []
     );
-
-    console.log(data?.promotionList, [
-      data?.promotionList.map((item) => {
-        return item.promotionId;
-      }),
-    ]);
   }, [data]);
 
   const addCarousel = () => {
@@ -51,6 +46,7 @@ const AdminCarousel = ({ saveCarouselData, saveCarouselNum }) => {
     const updatedCarouselList = [...carouselList, newCarousel];
 
     setCarouselList(updatedCarouselList);
+    saveCarouselData(updatedCarouselList);
   };
 
   const deleteCarousel = (idx: number) => {

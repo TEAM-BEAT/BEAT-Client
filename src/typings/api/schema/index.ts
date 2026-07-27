@@ -1759,6 +1759,13 @@ export interface components {
       carouselPresignedUrls?: {
         [key: string]: string;
       };
+      carouselPresignedUploads?: {
+        [key: string]: components["schemas"]["CarouselPresignedUploadResponse"];
+      };
+    };
+    CarouselPresignedUploadResponse: {
+      uploadUrl?: string;
+      imageKey?: string;
     };
     SuccessResponseCarouselPresignedUrlFindAllResponse: {
       /** Format: int32 */

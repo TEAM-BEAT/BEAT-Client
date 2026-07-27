@@ -88,7 +88,13 @@ export const putS3ImageUpload = async ({ url, file }: PutImageUploadParams) => {
 export interface CarouselPresignedResponse {
   data: {
     carouselPresignedUrls: ImageInterface;
+    carouselPresignedUploads: Record<string, CarouselPresignedUpload>;
   };
+}
+
+export interface CarouselPresignedUpload {
+  uploadUrl: string;
+  imageKey: string;
 }
 
 export interface GetCarouselPresignedUrlParams {
@@ -97,7 +103,7 @@ export interface GetCarouselPresignedUrlParams {
 
 export const getCarouselPresignedUrl = async (
   params: GetCarouselPresignedUrlParams
-): Promise<CarouselPresignedResponse | null> => {
+): Promise<CarouselPresignedResponse> => {
   try {
     const paramsWithEmptyArrays = {
       ...params,
@@ -127,7 +133,6 @@ export const getCarouselPresignedUrl = async (
 
     return response.data;
   } catch (error) {
-    console.error("error", error);
-    return null;
+    throw error;
   }
 };
