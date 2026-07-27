@@ -36,7 +36,7 @@ const AdminCarousel = ({ saveCarouselData, saveCarouselNum }) => {
 
   const addCarousel = () => {
     const newCarousel = {
-      promotionId: carouselList.length,
+      promotionId: -(Date.now() + carouselList.length),
       promotionPhoto: null,
       performanceId: null,
       isExternal: false,
