@@ -15,13 +15,6 @@ interface PendingCarouselUpload {
 }
 
 const isBlobUrl = (url?: string) => url?.startsWith("blob:") ?? false;
-const MAX_CAROUSEL_IMAGE_SIZE_BYTES = 10 * 1024 * 1024;
-const ALLOWED_CAROUSEL_IMAGE_CONTENT_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/avif",
-]);
 
 const Promotion = () => {
   const { openAlert } = useModal();
@@ -81,16 +74,6 @@ const Promotion = () => {
             }
 
             const blob = await response.blob();
-            if (
-              !ALLOWED_CAROUSEL_IMAGE_CONTENT_TYPES.has(blob.type) ||
-              blob.size === 0 ||
-              blob.size > MAX_CAROUSEL_IMAGE_SIZE_BYTES
-            ) {
-              throw new Error(
-                "JPEG, PNG, WEBP, AVIF 형식의 10MiB 이하 이미지만 업로드할 수 있습니다."
-              );
-            }
-
             const file = new File([blob], fileName, { type: blob.type });
             const uploadResponse = await uploadToS3({ url: upload.uploadUrl, file });
             if (!uploadResponse) {
