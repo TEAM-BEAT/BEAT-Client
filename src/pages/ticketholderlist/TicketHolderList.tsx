@@ -30,6 +30,7 @@ import Toast from "@components/commons/toast/Toast";
 import NonExistent from "./components/nonExistent/NonExistent.";
 import { getUA, isChrome } from "react-device-detect";
 import { useToastHandler } from "@hooks";
+import { executeTicketUpdate } from "./executeTicketUpdate";
 
 export type PaymentType =
   | "CHECKING_PAYMENT"
@@ -130,21 +131,28 @@ const TicketHolderList = () => {
       })
     );
 
-    await updateMutate({
-      performanceId: Number(performanceId),
-      performanceTitle: data?.performanceTitle,
-      totalScheduleCount: data?.totalScheduleCount,
-      bookingList: filteredPaymentData,
+    await executeTicketUpdate({
+      update: () =>
+        updateMutate({
+          performanceId: Number(performanceId),
+          performanceTitle: data?.performanceTitle,
+          totalScheduleCount: data?.totalScheduleCount,
+          bookingList: filteredPaymentData,
+        }),
+      onSuccess: () => {
+        closeConfirm();
+        setCheckedBookingId([]);
+        setStatus("DEFAULT");
+        setFilterList({
+          scheduleNumber: [],
+          bookingStatus: [],
+        });
+        handleToastVisible("입금 처리되었습니다.", "top");
+      },
+      onError: () => {
+        handleToastVisible("입금 처리에 실패했습니다. 다시 시도해 주세요.", "top");
+      },
     });
-
-    closeConfirm();
-    setCheckedBookingId([]);
-    setStatus("DEFAULT");
-    setFilterList({
-      scheduleNumber: [],
-      bookingStatus: [],
-    });
-    handleToastVisible("입금 처리되었습니다.", "top");
   };
 
   const handlePaymentFixBtn = () => {
