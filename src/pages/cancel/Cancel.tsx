@@ -114,6 +114,8 @@ const Cancel = () => {
         <>
           <Spacing marginBottom="3.2" />
           <S.Title>티켓값을 입금하셨나요?</S.Title>
+          <Spacing marginBottom="0.8" />
+          <S.PaymentNotice>이미 입금했다면 반드시 ‘입금했어요’를 선택해 주세요.</S.PaymentNotice>
           <Spacing marginBottom="2" />
           <S.RadioWrapper>
             <RadioButton
