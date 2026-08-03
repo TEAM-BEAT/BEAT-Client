@@ -90,7 +90,7 @@ const LookupCard = ({
         </S.Context>
         {dueDate >= 0 && totalPaymentAmount > 0 && bookingStatus === "CHECKING_PAYMENT" ? (
           <S.AccountLayout onClick={() => handleModal(getBankNameKr(bankName), accountNumber)}>
-            <S.Account>계좌번호</S.Account>
+            <S.Account>입금 안내</S.Account>
           </S.AccountLayout>
         ) : (
           <></>
