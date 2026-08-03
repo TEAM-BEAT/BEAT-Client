@@ -91,11 +91,6 @@ export const Title = styled.h2`
   ${({ theme }) => theme.fonts["heading4"]}
 `;
 
-export const PaymentNotice = styled.p`
-  color: ${({ theme }) => theme.colors.gray_300};
-  ${({ theme }) => theme.fonts["body2-normal-medi"]};
-`;
-
 export const RadioWrapper = styled.div`
   ${Generators.flexGenerator("column")}
   gap: 1.4rem;

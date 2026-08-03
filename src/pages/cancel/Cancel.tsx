@@ -114,21 +114,18 @@ const Cancel = () => {
         <>
           <Spacing marginBottom="3.2" />
           <S.Title>티켓값을 입금하셨나요?</S.Title>
-          <Spacing marginBottom="0.8" />
-          <S.PaymentNotice>
-            이미 입금했다면 ‘입금했어요’를 선택해 주세요. ‘입금 전이에요’를 선택하면 예매가 바로
-            취소돼요.
-          </S.PaymentNotice>
           <Spacing marginBottom="2" />
           <S.RadioWrapper>
             <RadioButton
               label="입금 전이에요"
+              description="예매가 바로 취소돼요"
               value={1}
               checked={isDeposit === false}
               onChange={() => setIsDeposit(false)}
             />
             <RadioButton
               label="입금했어요"
+              description="환불을 요청해요"
               value={0}
               checked={isDeposit === true}
               onChange={() => setIsDeposit(true)}

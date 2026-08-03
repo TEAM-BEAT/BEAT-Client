@@ -8,7 +8,7 @@ export const ButtonBox = styled.button<{
   align-items: center;
   box-sizing: border-box;
   width: 32.7rem;
-  height: 6rem;
+  min-height: 7.2rem;
   padding: 1.2rem calc(1.6rem - 2px);
 
   color: ${({ $variant, theme }) =>
@@ -24,4 +24,16 @@ export const ButtonBox = styled.button<{
     position: absolute;
     right: calc(1rem - 2px);
   }
+`;
+
+export const LabelWrapper = styled.span`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+`;
+
+export const Description = styled.span`
+  color: ${({ theme }) => theme.colors.gray_300};
+  ${({ theme }) => theme.fonts["caption1-medi"]};
 `;
