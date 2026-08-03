@@ -25,7 +25,7 @@ import { ManageCard } from "./components/manageCard";
 import { getBankNameKr } from "@utils/getBankName";
 import SelectedChips from "./components/selectedChips/SelectedChips";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
-import { IconCheck } from "@assets/svgs";
+import { IconCheck, IconXButton } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
 import NonExistent from "./components/nonExistent/NonExistent.";
 import { getUA, isChrome } from "react-device-detect";
@@ -149,7 +149,7 @@ const TicketHolderList = () => {
           handleToastVisible("입금 처리되었습니다.", "top");
         },
         onError: () => {
-          handleToastVisible("입금 처리에 실패했습니다. 다시 시도해 주세요.", "top");
+          handleToastVisible("입금 처리에 실패했습니다. 다시 시도해 주세요.", "top", "error");
         },
       }
     );
@@ -595,7 +595,7 @@ const TicketHolderList = () => {
               ref={csvLinkRef}
             />
             <Toast
-              icon={<IconCheck />}
+              icon={toastConfig.iconType === "error" ? <IconXButton /> : <IconCheck />}
               isVisible={isToastVisible}
               isTop={toastConfig.isTop}
               toastBottom={30}
