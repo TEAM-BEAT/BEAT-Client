@@ -27,7 +27,6 @@ import SelectedChips from "./components/selectedChips/SelectedChips";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 import { IconCheck, IconXButton } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
-import { DELETABLE_BOOKING_STATUSES } from "@constants/bookingStatus";
 import NonExistent from "./components/nonExistent/NonExistent.";
 import { getUA, isChrome } from "react-device-detect";
 import { useToastHandler } from "@hooks";
@@ -102,8 +101,12 @@ const TicketHolderList = () => {
     filterList
   );
 
-  const paymentData =
+  const retrievedPaymentData =
     debouncedQuery.length >= 2 ? (searchData?.bookingList ?? []) : (data?.bookingList ?? []);
+  const paymentData =
+    status === "DELETE"
+      ? retrievedPaymentData.filter(({ deletable }) => deletable)
+      : retrievedPaymentData;
 
   const { openConfirm, closeConfirm } = useModal();
   const [checkedBookingId, setCheckedBookingId] = useState<number[]>([]);
@@ -305,7 +308,7 @@ const TicketHolderList = () => {
       case "DELETE":
         setFilterList({
           scheduleNumber: [],
-          bookingStatus: [...DELETABLE_BOOKING_STATUSES],
+          bookingStatus: [],
         });
         break;
       default:

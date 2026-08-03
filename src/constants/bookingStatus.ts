@@ -16,8 +16,6 @@ export const bookingStatusText: Record<BookingStatus, string> = {
   [BOOKING_STATUS.REFUND_REQUESTED]: "환불 요청",
 };
 
-export const DELETABLE_BOOKING_STATUSES = [BOOKING_STATUS.BOOKING_CANCELLED] as const;
-
 export type bookingStatusTypes = keyof typeof bookingStatusText;
 
 export interface DefaultDepositProps {
