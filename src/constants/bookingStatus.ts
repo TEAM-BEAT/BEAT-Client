@@ -9,7 +9,7 @@ export const BOOKING_STATUS = {
 export type BookingStatus = (typeof BOOKING_STATUS)[keyof typeof BOOKING_STATUS];
 
 export const bookingStatusText: Record<BookingStatus, string> = {
-  [BOOKING_STATUS.CHECKING_PAYMENT]: "입금 확인 전",
+  [BOOKING_STATUS.CHECKING_PAYMENT]: "입금 확인 중",
   [BOOKING_STATUS.BOOKING_CONFIRMED]: "예매 확정",
   [BOOKING_STATUS.BOOKING_CANCELLED]: "취소 완료",
   [BOOKING_STATUS.BOOKING_DELETED]: "취소 완료",
