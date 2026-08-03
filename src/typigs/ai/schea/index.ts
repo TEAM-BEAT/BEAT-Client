@@ -1068,6 +1068,8 @@ export interface components {
     TicketRetrieveResponse: {
       performanceTitle?: string;
       /** Format: int32 */
+      ticketPrice?: number;
+      /** Format: int32 */
       totalScheduleCount?: number;
       bookingList?: components["schemas"]["TicketDetail"][];
     };

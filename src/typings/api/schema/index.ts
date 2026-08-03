@@ -1403,6 +1403,8 @@ export interface components {
       performanceTitle?: string;
       performanceTeamName?: string;
       /** Format: int32 */
+      ticketPrice?: number;
+      /** Format: int32 */
       totalScheduleCount?: number;
       /** Format: int32 */
       totalPerformanceTicketCount?: number;

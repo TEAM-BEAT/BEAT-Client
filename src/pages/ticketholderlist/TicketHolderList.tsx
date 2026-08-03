@@ -209,7 +209,7 @@ const TicketHolderList = () => {
   const handlePaymentDeleteBtn = () => {
     openConfirm({
       title: "예매자를 삭제하시겠어요?",
-      subTitle: "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.",
+      subTitle: "미입금 또는 무료 예매는 취소되며 좌석이 반환돼요. 삭제 후 복구할 수 없어요.",
       okText: "삭제하기",
       noText: "아니요",
       okCallback: () => {
@@ -297,7 +297,7 @@ const TicketHolderList = () => {
       case "DELETE":
         setFilterList({
           scheduleNumber: [],
-          bookingStatus: [...DELETABLE_BOOKING_STATUSES],
+          bookingStatus: [...DELETABLE_BOOKING_STATUSES[data?.ticketPrice === 0 ? "FREE" : "PAID"]],
         });
         break;
       default:
