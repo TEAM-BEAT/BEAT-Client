@@ -27,6 +27,7 @@ import SelectedChips from "./components/selectedChips/SelectedChips";
 import { convertingBookingStatus } from "@constants/convertingBookingStatus";
 import { IconCheck, IconXButton } from "@assets/svgs";
 import Toast from "@components/commons/toast/Toast";
+import { DELETABLE_BOOKING_STATUSES } from "@constants/bookingStatus";
 import NonExistent from "./components/nonExistent/NonExistent.";
 import { getUA, isChrome } from "react-device-detect";
 import { useToastHandler } from "@hooks";
@@ -304,7 +305,7 @@ const TicketHolderList = () => {
       case "DELETE":
         setFilterList({
           scheduleNumber: [],
-          bookingStatus: ["CHECKING_PAYMENT", "BOOKING_CONFIRMED", "REFUND_REQUESTED"],
+          bookingStatus: [...DELETABLE_BOOKING_STATUSES],
         });
         break;
       default:

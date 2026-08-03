@@ -1,4 +1,5 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { BOOKING_STATUS } from "@constants/bookingStatus";
 
 export const handleChange = (
   e: ChangeEvent<HTMLInputElement>,
@@ -23,15 +24,26 @@ export const isFormValid = (
   bankName: string,
   accountNumber: string,
   accountHolder: string,
-  bookingStatus: string
+  bookingStatus: string,
+  totalPaymentAmount: number
 ) => {
-  if (isDeposit === null) {
-    return false;
-  }
+  const shouldRequestRefund = requiresRefund(isDeposit, bookingStatus, totalPaymentAmount);
 
-  if (isDeposit) {
+  if (shouldRequestRefund) {
     return !!(bankName && accountNumber && accountHolder);
   }
 
-  return true;
+  if (totalPaymentAmount === 0 || bookingStatus === BOOKING_STATUS.BOOKING_CONFIRMED) {
+    return true;
+  }
+
+  return isDeposit === false;
 };
+
+export const requiresRefund = (
+  isDeposit: boolean | null,
+  bookingStatus: string,
+  totalPaymentAmount: number
+) =>
+  totalPaymentAmount > 0 &&
+  (isDeposit === true || bookingStatus === BOOKING_STATUS.BOOKING_CONFIRMED);
