@@ -13,7 +13,13 @@ const RadioButton = ({ label, description, value, checked, onChange }: RadioButt
   const variant = checked ? "selected" : "initial";
 
   return (
-    <S.ButtonBox $variant={variant} onClick={() => onChange(value)}>
+    <S.ButtonBox
+      type="button"
+      role="radio"
+      aria-checked={checked}
+      $variant={variant}
+      onClick={() => onChange(value)}
+    >
       <S.LabelWrapper>
         <span>{label}</span>
         {description && <S.Description>{description}</S.Description>}

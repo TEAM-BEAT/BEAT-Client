@@ -12,7 +12,7 @@ interface CancelRequestProps {
 }
 
 const isRefundRequest = (requestData: CancelRequestProps) =>
-  Boolean(requestData.bankName || requestData.accountNumber || requestData.accountHolder);
+  Boolean(requestData.bankName && requestData.accountNumber && requestData.accountHolder);
 
 export const useCancelBooking = (name?: string, phone?: string, password?: string) => {
   const { openAlert, openConfirm, closeConfirm } = useModal();
@@ -50,9 +50,13 @@ export const useCancelBooking = (name?: string, phone?: string, password?: strin
       },
       onError: (error: AxiosError<{ message: string }>) => {
         console.error("error", error);
-        const errorMessage = error.response?.data?.message || "예매 취소 중 오류가 발생했습니다.";
+        const errorMessage =
+          error.response?.data?.message ||
+          (shouldRequestRefund
+            ? "환불 요청 중 오류가 발생했습니다."
+            : "예매 취소 중 오류가 발생했습니다.");
         openAlert({
-          title: "예매 취소 실패",
+          title: shouldRequestRefund ? "환불 요청 실패" : "예매 취소 실패",
           subTitle: errorMessage,
           okText: "확인",
         });
