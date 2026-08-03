@@ -1064,11 +1064,10 @@ export interface components {
       /** @enum {string} */
       bookingStatus?: "CHECKING_PAYMENT" | "BOOKING_CONFIRMED" | "BOOKING_CANCELLED";
       scheduleNumber?: string;
+      deletable?: boolean;
     };
     TicketRetrieveResponse: {
       performanceTitle?: string;
-      /** Format: int32 */
-      ticketPrice?: number;
       /** Format: int32 */
       totalScheduleCount?: number;
       bookingList?: components["schemas"]["TicketDetail"][];

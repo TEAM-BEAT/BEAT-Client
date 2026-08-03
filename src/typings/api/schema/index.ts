@@ -1398,12 +1398,11 @@ export interface components {
       bankName?: string;
       accountNumber?: string;
       accountHolder?: string;
+      deletable?: boolean;
     };
     TicketRetrieveResponse: {
       performanceTitle?: string;
       performanceTeamName?: string;
-      /** Format: int32 */
-      ticketPrice?: number;
       /** Format: int32 */
       totalScheduleCount?: number;
       /** Format: int32 */
