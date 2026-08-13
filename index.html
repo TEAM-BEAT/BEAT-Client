@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="ko">
   <head>
+    <script>
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (isDark) {
+        document.documentElement.style.backgroundColor = 'black';
+      }
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HHZWCY4574"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4b73490dbec6c62c45107b45cc7ba84&libraries=services,clusterer,drawing"></script>
