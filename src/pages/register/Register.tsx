@@ -22,7 +22,7 @@ import { requestKakaoLogin } from "@utils/kakaoLogin";
 import { numericFilter, phoneNumberFilter, priceFilter } from "@utils/useInputFilter";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "./../../hooks/useHeader";
 import DateTimePicker from "./components/DateTimePicker";
@@ -181,7 +181,9 @@ const Register = () => {
 
   const { data, refetch } = useGetPresignedUrl(params);
   const { mutateAsync: uploadToS3 } = usePutS3Upload();
-  const { mutateAsync: postPerformance, isPending } = usePostPerformance();
+  const { mutateAsync: postPerformance } = usePostPerformance();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   const uploadFileToS3 = async (uploadUrl: string, localUrl: string) => {
     const response = await fetch(localUrl);
@@ -195,22 +197,25 @@ const Register = () => {
   };
 
   const handleComplete = async () => {
-    if (isPending) {
+    if (isSubmittingRef.current) {
       return;
     }
-    const { data, isSuccess } = await refetch();
-    if (!isSuccess || !data) {
-      openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
-      return;
-    }
-
-    const posterUpload = data.poster[params.posterImage];
-    if (!posterUpload) {
-      openAlert({ title: "포스터 이미지 업로드 정보를 찾을 수 없습니다." });
-      return;
-    }
+    isSubmittingRef.current = true;
+    setIsSubmitting(true);
 
     try {
+      const { data, isSuccess } = await refetch();
+      if (!isSuccess || !data) {
+        openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
+        return;
+      }
+
+      const posterUpload = data.poster[params.posterImage];
+      if (!posterUpload) {
+        openAlert({ title: "포스터 이미지 업로드 정보를 찾을 수 없습니다." });
+        return;
+      }
+
       await uploadFileToS3(posterUpload.uploadUrl, gigInfo.posterImage);
 
       const castUrls = await Promise.all(
@@ -291,6 +296,9 @@ const Register = () => {
     } catch (err) {
       console.error("파일 업로드 중 오류 발생:", err);
       openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
+    } finally {
+      isSubmittingRef.current = false;
+      setIsSubmitting(false);
     }
   };
 
@@ -700,7 +708,7 @@ const Register = () => {
           longitude={longitude}
         />
         <S.FooterContainer $isFinish={true}>
-          <Button onClick={handleComplete} isPending={isPending} disabled={isPending}>
+          <Button onClick={handleComplete} isPending={isSubmitting} disabled={isSubmitting}>
             등록하기
           </Button>
         </S.FooterContainer>
