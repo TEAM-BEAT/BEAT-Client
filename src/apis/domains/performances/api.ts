@@ -117,12 +117,16 @@ export const getScheduleAvailable = async (
 
 export type PerformanceResponse = components["schemas"]["PerformanceResponse"];
 
-// 공연 등록 API (POST)
-export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
-  try {
-    const response = await post<ApiResponseType<PerformanceResponse>>("/performances", formData);
+// POST /performances의 실제 와이어 포맷은 {status, message, data} 엔벨로프다.
+// 소비자(performances/queries.ts)가 엔벨로프 기준으로 상태를 검사하므로 통째로 반환한다.
+export type PerformanceCreateResponse = components["schemas"]["SuccessResponsePerformanceResponse"];
 
-    return response.data.data;
+// 공연 등록 API (POST)
+export const postPerformance = async (formData): Promise<PerformanceCreateResponse | number> => {
+  try {
+    const response = await post<PerformanceCreateResponse>("/performances", formData);
+
+    return response.data;
   } catch (error) {
     console.error("error", error);
 

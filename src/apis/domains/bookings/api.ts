@@ -33,13 +33,13 @@ export interface postGuestBookingReq {
   password: string;
 }
 
-type GuestBookingRetrieveRequest = components["schemas"]["GuestBookingRetrieveRequest"];
+type GuestBookingRetrieveResponse = components["schemas"]["GuestBookingRetrieveResponse"];
 
 export const postGuestBookingList = async (
   formData: postGuestBookingReq
-): Promise<GuestBookingRetrieveRequest | null | 404> => {
+): Promise<GuestBookingRetrieveResponse[] | null | 404> => {
   try {
-    const response: AxiosResponse<ApiResponseType<GuestBookingRetrieveRequest>> = await post(
+    const response: AxiosResponse<ApiResponseType<GuestBookingRetrieveResponse[]>> = await post(
       "/bookings/guest/retrieve",
       formData
     );
@@ -62,7 +62,7 @@ type MemberBookingRetrieveResponse = components["schemas"]["MemberBookingRetriev
 
 export const getMemberBookingList = async () => {
   try {
-    const response: AxiosResponse<ApiResponseType<MemberBookingRetrieveResponse>> = await get(
+    const response: AxiosResponse<ApiResponseType<MemberBookingRetrieveResponse[]>> = await get(
       "/bookings/member/retrieve"
     );
     return response.data.data;
@@ -94,7 +94,7 @@ export type BookingCancelResponse = components["schemas"]["BookingCancelResponse
 export const patchCancelBook = async (
   formData: BookingCancelRequest
 ): Promise<BookingCancelResponse> => {
-  const response: AxiosResponse<ApiResponseType<BookingCancelRequest>> = await patch(
+  const response: AxiosResponse<ApiResponseType<BookingCancelResponse>> = await patch(
     "/bookings/cancel",
     formData
   );
@@ -108,7 +108,7 @@ export type BookingRefundResponse = components["schemas"]["BookingRefundResponse
 export const patchRefundBook = async (
   formData: BookingRefundRequest
 ): Promise<BookingRefundResponse> => {
-  const response: AxiosResponse<ApiResponseType<BookingRefundRequest>> = await patch(
+  const response: AxiosResponse<ApiResponseType<BookingRefundResponse>> = await patch(
     "/bookings/refund",
     formData
   );
