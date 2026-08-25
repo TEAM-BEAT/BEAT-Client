@@ -181,10 +181,9 @@ const Book = () => {
     }
 
     try {
-      const res =
-        isLogin === true
-          ? await memberBook(formData as MemberBookingRequest)
-          : await guestBook(formData as GuestBookingRequest);
+      const res = isLogin
+        ? await memberBook(formData as MemberBookingRequest)
+        : await guestBook(formData as GuestBookingRequest);
 
       navigate("/book/complete", {
         state: {
