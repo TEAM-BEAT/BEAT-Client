@@ -4,18 +4,6 @@ import { ApiResponseType } from "@typings/commonType";
 import { AxiosError, AxiosResponse } from "axios";
 
 export type GuestBookingRequest = components["schemas"]["GuestBookingRequest"];
-// 비회원 예매 API
-export interface postGuestReq {
-  scheduleId: number;
-  purchaseTicketCount: number;
-  scheduleNumber: string;
-  bookerName: string;
-  bookerPhoneNumber: string;
-  birthDate: string;
-  password: string;
-  totalPaymentAmount: number;
-  isPaymentCompleted: boolean;
-}
 
 type GuestBookingResponse = components["schemas"]["GuestBookingResponse"];
 

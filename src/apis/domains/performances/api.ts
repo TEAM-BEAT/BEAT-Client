@@ -120,7 +120,7 @@ export type PerformanceResponse = components["schemas"]["PerformanceResponse"];
 // 공연 등록 API (POST)
 export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
   try {
-    const response = await post("/performances", formData);
+    const response = await post<PerformanceResponse>("/performances", formData);
 
     return response.data;
   } catch (error) {

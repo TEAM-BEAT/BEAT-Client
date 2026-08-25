@@ -6,7 +6,7 @@ export type SuccessResponse = components["schemas"]["SuccessResponseVoid"];
 // 캐러셀 수정 API (PUT)
 export const updateCarousel = async (formData): Promise<SuccessResponse | null> => {
   try {
-    const response = await put("/admin/carousels", formData);
+    const response = await put<SuccessResponse>("/admin/carousels", formData);
 
     return response.data;
   } catch (error) {

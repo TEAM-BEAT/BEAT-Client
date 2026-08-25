@@ -124,6 +124,7 @@ const TicketHolderList = () => {
     const filteredPaymentData = paymentData.map(
       ({ bankName, accountNumber, accountHolder, ...rest }) => ({
         ...rest,
+        bookingId: Number(rest.bookingId),
         bookingStatus: checkedBookingId.includes(rest.bookingId)
           ? "BOOKING_CONFIRMED"
           : rest.bookingStatus,
