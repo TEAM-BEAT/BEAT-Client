@@ -8,35 +8,25 @@ export type GuestBookingRequest = components["schemas"]["GuestBookingRequest"];
 type GuestBookingResponse = components["schemas"]["GuestBookingResponse"];
 
 // 1. API 요청 함수 작성 및 타입 추가
+// 실패 시 null이 아닌 예외를 던진다 — 호출부(Book.tsx)의 상태코드 분기 alert가 동작하도록.
 export const postGuestBook = async (
   formData: GuestBookingRequest
-): Promise<GuestBookingResponse | null> => {
-  try {
-    const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
-      "/bookings/guest",
-      formData
-    );
+): Promise<GuestBookingResponse> => {
+  const response: AxiosResponse<ApiResponseType<GuestBookingResponse>> = await post(
+    "/bookings/guest",
+    formData
+  );
 
-    return response.data.data;
-  } catch (error) {
-    console.error("error", error);
-    return null;
-  }
+  return response.data.data;
 };
 
 // 비회원 예매 조회 API
 
-export interface postGuestBookingReq {
-  bookerName: string;
-  birthDate: string;
-  bookerPhoneNumber: string;
-  password: string;
-}
-
+type GuestBookingRetrieveRequest = components["schemas"]["GuestBookingRetrieveRequest"];
 type GuestBookingRetrieveResponse = components["schemas"]["GuestBookingRetrieveResponse"];
 
 export const postGuestBookingList = async (
-  formData: postGuestBookingReq
+  formData: GuestBookingRetrieveRequest
 ): Promise<GuestBookingRetrieveResponse[] | null | 404> => {
   try {
     const response: AxiosResponse<ApiResponseType<GuestBookingRetrieveResponse[]>> = await post(
