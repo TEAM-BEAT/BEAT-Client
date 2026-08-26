@@ -159,7 +159,7 @@ export const isAllFieldsFilled = (gigInfo: DataProps, isFree: boolean) => {
     "performancePeriod",
     "ticketPrice",
     "totalScheduleCount",
-    ...(!isFree ? ["bankName", "accountNumber"] : []),
+    ...(!isFree ? ["bankName", "accountNumber", "accountHolder"] : []),
   ];
 
   const scheduleFilled = gigInfo.scheduleModifyRequests?.every(

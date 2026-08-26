@@ -1,12 +1,4 @@
-import { SHOW_TYPE_KEY } from "@pages/gig/constants";
-import {
-  BANK_TYPE,
-  Cast,
-  PerformanceImageModifyRequest,
-  Staff,
-} from "@pages/modifyManage/typings/gigInfo";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { HOME_QUERY_KEY } from "../home/queries";
 import {
@@ -18,6 +10,9 @@ import {
   getScheduleAvailable,
   postPerformance,
   updatePerformance,
+  type PerformanceCreateResponse,
+  type PerformanceModifyRequest,
+  type PerformanceRequest,
 } from "./api";
 import axios from "axios";
 
@@ -97,48 +92,12 @@ export const useGetScheduleAvailable = (scheduleId: number, purchaseTicketCount:
   });
 };
 
-interface PerformanceFormData {
-  posterImage: string;
-  castList: {
-    castPhoto: string;
-    castName: string;
-    castRole: string;
-  }[];
-  staffList: {
-    staffPhoto: string;
-    staffName: string;
-    staffRole: string;
-  }[];
-  performanceTitle: string;
-  genre: SHOW_TYPE_KEY;
-  runningTime: number | null;
-  performanceDescription: string;
-  performanceAttentionNote: string;
-  bankName: string;
-  accountNumber: string;
-  accountHolder: string;
-  performanceTeamName: string;
-  performanceVenue: string;
-  performanceContact: string;
-  performancePeriod: string;
-  ticketPrice: number | null;
-  totalScheduleCount: number;
-  scheduleList: {
-    performanceDate: Dayjs | Date | null | string;
-    totalTicketCount: number | null;
-    scheduleNumber: string;
-  }[];
-}
+type PerformanceResponse = PerformanceCreateResponse & {
+  data: NonNullable<PerformanceCreateResponse["data"]>;
+};
 
-interface PerformanceResponse {
-  status: number;
-  data: {
-    performanceId: number;
-  };
-}
-
-const isPerformanceResponse = (res: any): res is PerformanceResponse => {
-  return res && typeof res === "object" && "status" in res && "data" in res;
+const isPerformanceResponse = (res: PerformanceCreateResponse): res is PerformanceResponse => {
+  return typeof res === "object" && res !== null && res.data !== undefined;
 };
 
 // 공연 등록 API
@@ -147,7 +106,7 @@ export const usePostPerformance = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (formData: PerformanceFormData) => postPerformance(formData),
+    mutationFn: (formData: PerformanceRequest) => postPerformance(formData),
     onSuccess: async (res) => {
       queryClient.invalidateQueries({
         queryKey: [HOME_QUERY_KEY.LIST, PERFORMANCE_QUERY_KEY.DETAIL],
@@ -173,43 +132,12 @@ export const usePostPerformance = () => {
   });
 };
 
-interface Schedule {
-  scheduleId?: number;
-  performanceDate: string | Dayjs;
-  totalTicketCount?: number;
-  scheduleNumber?: string;
-}
-
-// gigInfo 타입 정의 예제
-export interface PerformanceUpdateFormData {
-  performanceId: number;
-  performanceTitle: string;
-  genre: SHOW_TYPE_KEY;
-  runningTime: number | null;
-  performanceDescription: string;
-  performanceAttentionNote: string;
-  bankName: BANK_TYPE;
-  accountNumber: string;
-  accountHolder: string;
-  posterImage: string;
-  performanceTeamName: string;
-  performanceVenue: string;
-  performanceContact: string;
-  performancePeriod: string;
-  totalScheduleCount: number;
-  ticketPrice?: number | null;
-  scheduleModifyRequests: Schedule[];
-  castModifyRequests: Cast[];
-  staffModifyRequests: Staff[];
-  performanceImageModifyRequests: PerformanceImageModifyRequest[];
-}
-
 export const useUpdatePerformance = () => {
   const queryClient = new QueryClient();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (formData: PerformanceUpdateFormData) => updatePerformance(formData),
+    mutationFn: (formData: PerformanceModifyRequest) => updatePerformance(formData),
     onSuccess: (res) => {
       // TODO: useGetPerformanceDetail 키 수정
 

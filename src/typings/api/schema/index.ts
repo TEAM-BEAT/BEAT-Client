@@ -964,15 +964,15 @@ export interface components {
     };
     MemberBookingResponse: {
       /** Format: int64 */
-      bookingId?: number;
+      bookingId: number;
       /** Format: int64 */
-      scheduleId?: number;
+      scheduleId: number;
       /** Format: int64 */
       userId: number;
       /** Format: int32 */
       purchaseTicketCount: number;
       /** @enum {string} */
-      scheduleNumber?:
+      scheduleNumber:
         | "FIRST"
         | "SECOND"
         | "THIRD"
@@ -983,17 +983,17 @@ export interface components {
         | "EIGHTH"
         | "NINTH"
         | "TENTH";
-      bookerName?: string;
-      bookerPhoneNumber?: string;
+      bookerName: string;
+      bookerPhoneNumber: string;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
       /** @enum {string} */
-      bankName?:
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1009,12 +1009,13 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
+        | "NONE"
+        | null;
+      accountNumber: string | null;
       /** Format: int32 */
       totalPaymentAmount: number;
       /** Format: date-time */
-      createdAt?: string;
+      createdAt: string;
     };
     SuccessResponseMemberBookingResponse: {
       /** Format: int32 */
@@ -1034,15 +1035,15 @@ export interface components {
     };
     GuestBookingResponse: {
       /** Format: int64 */
-      bookingId?: number;
+      bookingId: number;
       /** Format: int64 */
-      scheduleId?: number;
+      scheduleId: number;
       /** Format: int64 */
       userId: number;
       /** Format: int32 */
       purchaseTicketCount: number;
       /** @enum {string} */
-      scheduleNumber?:
+      scheduleNumber:
         | "FIRST"
         | "SECOND"
         | "THIRD"
@@ -1053,17 +1054,17 @@ export interface components {
         | "EIGHTH"
         | "NINTH"
         | "TENTH";
-      bookerName?: string;
-      bookerPhoneNumber?: string;
+      bookerName: string;
+      bookerPhoneNumber: string;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
       /** @enum {string} */
-      bankName?:
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1079,12 +1080,13 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
+        | "NONE"
+        | null;
+      accountNumber: string | null;
       /** Format: int32 */
       totalPaymentAmount: number;
       /** Format: date-time */
-      createdAt?: string;
+      createdAt: string;
     };
     SuccessResponseGuestBookingResponse: {
       /** Format: int32 */
@@ -1100,19 +1102,19 @@ export interface components {
     };
     GuestBookingRetrieveResponse: {
       /** Format: int64 */
-      bookingId?: number;
+      bookingId: number;
       /** Format: int64 */
-      scheduleId?: number;
+      scheduleId: number;
       /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
+      performanceId: number;
+      performanceTitle: string;
       /** Format: date-time */
-      performanceDate?: string;
-      performanceVenue?: string;
+      performanceDate: string;
+      performanceVenue: string;
       /** Format: int32 */
       purchaseTicketCount: number;
       /** @enum {string} */
-      scheduleNumber?:
+      scheduleNumber:
         | "FIRST"
         | "SECOND"
         | "THIRD"
@@ -1123,10 +1125,10 @@ export interface components {
         | "EIGHTH"
         | "NINTH"
         | "TENTH";
-      bookerName?: string;
-      performanceContact?: string;
+      bookerName: string;
+      performanceContact: string;
       /** @enum {string} */
-      bankName?:
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1142,21 +1144,22 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
+        | "NONE"
+        | null;
+      accountNumber: string | null;
+      accountHolder: string | null;
       /** Format: int32 */
       dueDate: number;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
       /** Format: date-time */
-      createdAt?: string;
-      posterImage?: string;
+      createdAt: string;
+      posterImage: string;
       /** Format: int32 */
       totalPaymentAmount: number;
     };
@@ -1170,7 +1173,7 @@ export interface components {
       /** Format: int64 */
       bookingId: number;
       /** @enum {string} */
-      bankName?:
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1187,21 +1190,21 @@ export interface components {
         | "SCJEIL"
         | "SUHYEOP"
         | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
+      accountNumber: string;
+      accountHolder: string;
     };
     BookingRefundResponse: {
       /** Format: int64 */
       bookingId: number;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
       /** @enum {string} */
-      bankName?:
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1218,8 +1221,8 @@ export interface components {
         | "SCJEIL"
         | "SUHYEOP"
         | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
+      accountNumber: string;
+      accountHolder: string;
     };
     SuccessResponseBookingRefundResponse: {
       /** Format: int32 */
@@ -1235,7 +1238,7 @@ export interface components {
       /** Format: int64 */
       bookingId: number;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
@@ -1265,31 +1268,31 @@ export interface components {
     };
     TicketDetail: {
       /** Format: int64 */
-      bookingId?: number;
-      bookerName?: string;
-      bookerPhoneNumber?: string;
+      bookingId: number;
+      bookerName: string;
+      bookerPhoneNumber: string;
       /** Format: int64 */
-      scheduleId?: number;
+      scheduleId: number;
       /** Format: int32 */
       purchaseTicketCount: number;
       /** Format: date-time */
-      createdAt?: string;
+      createdAt: string;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
-      scheduleNumber?: string;
+      scheduleNumber: string;
       bankName: string;
       accountNumber: string;
       accountHolder: string;
       deletable: boolean;
     };
     TicketRetrieveResponse: {
-      performanceTitle?: string;
-      performanceTeamName?: string;
+      performanceTitle: string;
+      performanceTeamName: string;
       /** Format: int32 */
       totalScheduleCount: number;
       /** Format: int32 */
@@ -1544,21 +1547,21 @@ export interface components {
     };
     MemberBookingRetrieveResponse: {
       /** Format: int64 */
-      userId?: number;
+      userId: number;
       /** Format: int64 */
-      bookingId?: number;
+      bookingId: number;
       /** Format: int64 */
-      scheduleId?: number;
+      scheduleId: number;
       /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
+      performanceId: number;
+      performanceTitle: string;
       /** Format: date-time */
-      performanceDate?: string;
-      performanceVenue?: string;
+      performanceDate: string;
+      performanceVenue: string;
       /** Format: int32 */
       purchaseTicketCount: number;
       /** @enum {string} */
-      scheduleNumber?:
+      scheduleNumber:
         | "FIRST"
         | "SECOND"
         | "THIRD"
@@ -1569,10 +1572,10 @@ export interface components {
         | "EIGHTH"
         | "NINTH"
         | "TENTH";
-      bookerName?: string;
-      performanceContact?: string;
+      bookerName: string;
+      performanceContact: string;
       /** @enum {string} */
-      bankName?:
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1588,21 +1591,22 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
+        | "NONE"
+        | null;
+      accountNumber: string | null;
+      accountHolder: string | null;
       /** Format: int32 */
       dueDate: number;
       /** @enum {string} */
-      bookingStatus?:
+      bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
       /** Format: date-time */
-      createdAt?: string;
-      posterImage?: string;
+      createdAt: string;
+      posterImage: string;
       /** Format: int32 */
       totalPaymentAmount: number;
     };
