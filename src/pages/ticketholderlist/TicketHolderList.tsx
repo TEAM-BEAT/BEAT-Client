@@ -5,6 +5,7 @@ import {
   useTicketRetriveSearch,
   useTicketUpdate,
 } from "@apis/domains/tickets/queries";
+import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
@@ -87,6 +88,9 @@ const TicketHolderList = () => {
   const csvLinkRef = useRef(null);
 
   const { performanceId } = useParams();
+
+  const { data: performanceDetail } = useGetPerformanceDetail(Number(performanceId));
+  const isFreePerformance = performanceDetail?.ticketPrice === 0;
 
   const { data, isLoading } = useTicketRetrive(
     { performanceId: Number(performanceId) },
@@ -541,8 +545,14 @@ const TicketHolderList = () => {
               />
               {status === "DELETE" && (
                 <S.DeleteGuide>
-                  <span>미입금·무료·취소 완료 예매만 삭제할 수 있어요.</span>
-                  <span>유료 입금 완료 또는 환불 요청 예매는 삭제할 수 없어요.</span>
+                  {isFreePerformance ? (
+                    <span>※ 환불 요청 중인 예매는 목록에 나타나지 않아요.</span>
+                  ) : (
+                    <>
+                      <span>※ 삭제할 수 있는 예매(입금 전 · 취소 완료)만 보여요.</span>
+                      <span>※ 입금 완료 · 환불 요청 중인 예매는 목록에 나타나지 않아요.</span>
+                    </>
+                  )}
                 </S.DeleteGuide>
               )}
               {status === "DEFAULT" && (
