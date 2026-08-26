@@ -219,6 +219,14 @@ const TicketHolderList = () => {
   const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
+    const deletableBookingCount = paymentData.filter(
+      (item) => item.deletable && checkedBookingId.includes(item.bookingId)
+    ).length;
+
+    if (deletableBookingCount === 0) {
+      return;
+    }
+
     openConfirm({
       title: "예매자를 삭제하시겠어요?",
       subTitle: "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.",
@@ -239,8 +247,12 @@ const TicketHolderList = () => {
     // bookingId만 전달
 
     const filteredPaymentData = paymentData
-      .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
+      .filter(({ bookingId, deletable }) => deletable && checkedBookingId.includes(bookingId))
       .map(({ bookingId }) => ({ bookingId }));
+
+    if (filteredPaymentData.length === 0) {
+      return;
+    }
 
     await deleteMutate({
       performanceId: Number(performanceId),
@@ -291,6 +303,7 @@ const TicketHolderList = () => {
   };
 
   const handleStatus = (status: string) => {
+    setCheckedBookingId([]);
     setStatus(status);
     setOpenMenu(false);
     switch (status) {
@@ -333,6 +346,7 @@ const TicketHolderList = () => {
   };
 
   const handleFilter = async (scheduleNumber: number[], bookingStatus: string[]) => {
+    setCheckedBookingId([]);
     setFilterList({
       scheduleNumber,
       bookingStatus,
@@ -340,6 +354,7 @@ const TicketHolderList = () => {
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCheckedBookingId([]);
     setSearchWord(event.target.value);
   };
 
@@ -398,6 +413,7 @@ const TicketHolderList = () => {
 
   // 함수가 선언될 당시의 status값을 클로저로 캡처 -> 최신 값 보장하기 위해 함수형 업데이트 사용
   const handleNavigateBack = () => {
+    setCheckedBookingId([]);
     setStatus((prevStatus) => {
       if (prevStatus !== "DEFAULT") {
         setFilterList({
@@ -523,6 +539,12 @@ const TicketHolderList = () => {
                 }
                 hasBooking={allBookings?.length > 0}
               />
+              {status === "DELETE" && (
+                <S.DeleteGuide>
+                  <span>미입금·무료·취소 완료 예매만 삭제할 수 있어요.</span>
+                  <span>유료 입금 완료 또는 환불 요청 예매는 삭제할 수 없어요.</span>
+                </S.DeleteGuide>
+              )}
               {status === "DEFAULT" && (
                 <SelectedChips
                   filterList={filterList}
@@ -544,7 +566,7 @@ const TicketHolderList = () => {
                   return (
                     <ManageCard key={item.bookingId}>
                       <S.ManageCardContainer>
-                        {status !== "DEFAULT" && (
+                        {status !== "DEFAULT" && (status !== "DELETE" || item.deletable) && (
                           <ManageCard.ManageCheckBox
                             bookingId={item.bookingId}
                             checkedBookingId={checkedBookingId}
@@ -577,7 +599,14 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              {paymentData?.length > 0 && <Button onClick={handleButtonClick}>{buttonText}</Button>}
+              {paymentData?.length > 0 && (
+                <Button
+                  onClick={handleButtonClick}
+                  disabled={status === "DELETE" && checkedBookingId.length === 0}
+                >
+                  {buttonText}
+                </Button>
+              )}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
               isOpen={openMenu}
