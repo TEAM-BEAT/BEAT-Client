@@ -13,10 +13,10 @@ export interface paths {
     };
     get?: never;
     /**
-     * 예매자 입금여부 수정 및 웹발신 API
-     * @description 메이커가 자신의 공연에 대한 예매자의 입금여부 정보를 수정한 뒤 예매확정 웹발신을 보내는 PUT API입니다.
+     * 예매자 입금 여부 수정 및 웹발신
+     * @description 메이커가 자신의 공연에 속한 예매자의 입금 상태를 일괄 수정하고 예매 확정 웹발신을 보냅니다.
      */
-    put: operations["updateTickets"];
+    put: operations["ticketUpdatePaymentStatusForMaker"];
     post?: never;
     delete?: never;
     options?: never;
@@ -33,10 +33,10 @@ export interface paths {
     };
     get?: never;
     /**
-     * 예매자 환불처리 API
-     * @description 메이커가 자신의 공연에 대한 1명 이상의 예매자의 정보를 환불완료 상태로 변경하는 PUT API입니다.
+     * 예매자 환불 완료 처리
+     * @description 메이커가 자신의 공연에 속한 예매자를 환불 완료 상태로 처리합니다.
      */
-    put: operations["refundTickets"];
+    put: operations["ticketRefundForMaker"];
     post?: never;
     delete?: never;
     options?: never;
@@ -53,10 +53,10 @@ export interface paths {
     };
     get?: never;
     /**
-     * 예매자 삭제 API
-     * @description 메이커가 자신의 공연에 대한 1명 이상의 예매자의 정보를 삭제하는 PUT API입니다.
+     * 예매자 삭제
+     * @description 메이커가 자신의 공연에 속한 삭제 가능한 예매자를 삭제 처리합니다.
      */
-    put: operations["deleteTickets"];
+    put: operations["ticketDeleteForMaker"];
     post?: never;
     delete?: never;
     options?: never;
@@ -73,13 +73,13 @@ export interface paths {
     };
     get?: never;
     /**
-     * 공연 정보 수정 API
-     * @description 공연 정보를 수정하는 PUT API입니다.
+     * 공연 정보 수정
+     * @description 공연 소유자가 공연 기본 정보와 회차·출연진·스태프·이미지 구성을 수정합니다.
      */
     put: operations["updatePerformance"];
     /**
-     * 공연 생성 API
-     * @description 공연을 생성하는 POST API입니다.
+     * 공연 생성
+     * @description 인증된 회원이 공연 기본 정보와 회차·출연진·스태프·이미지를 등록합니다.
      */
     post: operations["createPerformance"];
     delete?: never;
@@ -98,10 +98,10 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 로그인/회원가입 API
-     * @description 로그인/회원가입하는 POST API입니다.
+     * 소셜 로그인·회원가입
+     * @description 인가 코드와 소셜 로그인 제공자 정보를 사용해 로그인하거나 신규 회원으로 가입합니다. 회원 인증 없이 호출할 수 있으며 성공 시 access token을 응답하고 refreshToken HttpOnly 쿠키를 설정합니다.
      */
-    post: operations["signUp"];
+    post: operations["signUpMember"];
     delete?: never;
     options?: never;
     head?: never;
@@ -118,10 +118,10 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 로그아웃 API
-     * @description 로그아웃하는 POST API입니다.
+     * 회원 로그아웃
+     * @description Bearer 회원 토큰으로 인증된 회원을 로그아웃 처리합니다.
      */
-    post: operations["signOut"];
+    post: operations["signOutMember"];
     delete?: never;
     options?: never;
     head?: never;
@@ -138,8 +138,8 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 회원 예매 API
-     * @description 회원이 예매를 요청하는 POST API입니다.
+     * 회원 예매 생성
+     * @description Bearer 회원 토큰으로 인증된 회원이 공연 회차를 예매합니다. 무료 공연은 결제 금액이 0원이라 BOOKING_CONFIRMED 상태로 생성되고 계좌 필드는 null이며, 유료 공연은 CHECKING_PAYMENT 상태로 생성되고 공연에 등록된 은행·계좌번호 전체 값이 반환됩니다.
      */
     post: operations["createMemberBooking"];
     delete?: never;
@@ -158,10 +158,10 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 비회원 예매 API
-     * @description 비회원이 예매를 요청하는 POST API입니다.
+     * 비회원 예매 생성
+     * @description 회원 토큰 없이 비회원 예매자 정보로 공연 회차를 예매합니다. 무료 공연은 결제 금액이 0원이라 BOOKING_CONFIRMED 상태로 생성되고 계좌 필드는 null이며, 유료 공연은 CHECKING_PAYMENT 상태로 생성되고 공연에 등록된 은행·계좌번호 전체 값이 반환됩니다. 게스트 세션 발급에 성공하면 __Host-guestSession 쿠키를 응답에 설정합니다.
      */
-    post: operations["createGuestBookings"];
+    post: operations["createGuestBooking"];
     delete?: never;
     options?: never;
     head?: never;
@@ -178,8 +178,8 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 비회원 예매 조회 API
-     * @description 비회원이 예매를 조회하는 POST API입니다.
+     * 비회원 예매 내역 조회
+     * @description 회원 토큰 없이 예매 시 입력한 이름·전화번호·생년월일·비밀번호로 비회원 예매 내역을 조회합니다. 게스트 세션 발급에 성공하면 __Host-guestSession 쿠키를 응답에 설정합니다.
      */
     post: operations["getGuestBookings"];
     delete?: never;
@@ -202,10 +202,10 @@ export interface paths {
     options?: never;
     head?: never;
     /**
-     * 유료공연 예매 환불 요청 API
-     * @description 회원 토큰 또는 비회원 예매 조회 후 발급된 세션이 필요합니다.
+     * 유료 공연 예매 환불 요청
+     * @description 회원 access token 또는 비회원 예매 조회 후 발급된 __Host-guestSession 쿠키 중 하나로 예매자를 인증해 유료 공연 예매의 환불을 요청합니다. 두 인증 수단이 모두 없으면 401, 게스트 쿠키 요청의 Origin이 허용되지 않으면 403(응답 본문 없음)입니다.
      */
-    patch: operations["refundBookings"];
+    patch: operations["requestBookingRefund"];
     trace?: never;
   };
   "/api/bookings/cancel": {
@@ -222,10 +222,10 @@ export interface paths {
     options?: never;
     head?: never;
     /**
-     * 무료공연/미입금 예매 취소 요청 API
-     * @description 회원 토큰 또는 비회원 예매 조회 후 발급된 세션이 필요합니다.
+     * 무료 공연·미입금 예매 취소 요청
+     * @description 회원 access token 또는 비회원 예매 조회 후 발급된 __Host-guestSession 쿠키 중 하나로 예매자를 인증해 무료 공연 또는 미입금 예매의 취소를 요청합니다. 두 인증 수단이 모두 없으면 401, 게스트 쿠키 요청의 Origin이 허용되지 않으면 403(응답 본문 없음)입니다.
      */
-    patch: operations["cancelBookings"];
+    patch: operations["requestBookingCancellation"];
     trace?: never;
   };
   "/api/users/refresh-token": {
@@ -236,8 +236,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * access token 재발급 API
-     * @description refresh token으로 access token을 재발급하는 GET API입니다.
+     * refresh token으로 access token 재발급
+     * @description 회원 인증 없이 refreshToken 쿠키를 검증해 새로운 access token을 발급합니다. refreshToken 쿠키가 필요합니다.
      */
     get: operations["issueAccessTokenUsingRefreshToken"];
     put?: never;
@@ -256,10 +256,10 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 예매자 목록 조회 API
-     * @description 메이커가 자신의 공연에 대한 예매자 목록을 조회하는 GET API입니다.
+     * 공연 예매자 목록 조회
+     * @description 메이커가 소유한 공연의 예매자 목록을 회차와 예매 상태로 필터링해 조회합니다.
      */
-    get: operations["getTickets"];
+    get: operations["ticketRetrieveForMaker"];
     put?: never;
     post?: never;
     delete?: never;
@@ -276,10 +276,10 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 예매자 목록 검색 API
-     * @description 메이커가 자신의 공연에 대한 예매자 목록을 검색하는 GET API입니다.
+     * 공연 예매자 목록 검색
+     * @description 메이커가 소유한 공연의 예매자 이름을 검색어로 사용해 예매자 목록을 조회합니다.
      */
-    get: operations["searchTickets"];
+    get: operations["ticketSearchForMaker"];
     put?: never;
     post?: never;
     delete?: never;
@@ -296,10 +296,10 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 티켓 구매 가능 여부 조회 API
-     * @description 티켓 구매 가능 여부를 확인하는 GET API입니다.
+     * 회차 티켓 구매 가능 여부 조회
+     * @description 지정한 회차의 잔여 티켓 수량이 요청 수량을 충족하는지 조회합니다.
      */
-    get: operations["getTicketAvailability"];
+    get: operations["scheduleCheckTicketAvailability"];
     put?: never;
     post?: never;
     delete?: never;
@@ -316,15 +316,15 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 공연 수정 페이지 정보 조회 API
-     * @description 공연 정보를 조회하는 GET API입니다.
+     * 공연 수정 페이지 정보 조회
+     * @description 인증된 공연 소유자가 수정 화면에 필요한 공연 및 구성 요소 정보를 조회합니다.
      */
     get: operations["getPerformanceForEdit"];
     put?: never;
     post?: never;
     /**
-     * 공연 삭제 API
-     * @description 공연을 삭제하는 DELETE API입니다.
+     * 공연 삭제
+     * @description 공연 소유자가 예매 내역이 없는 공연을 삭제합니다.
      */
     delete: operations["deletePerformance"];
     options?: never;
@@ -340,8 +340,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 회원이 등록한 공연 목록 조회 API
-     * @description 회원이 등록한 공연 목록을 조회하는 GET API입니다.
+     * 회원 등록 공연 목록 조회
+     * @description 인증된 회원이 자신이 등록한 공연 목록과 각 공연의 대표 정보를 조회합니다.
      */
     get: operations["getUserPerformances"];
     put?: never;
@@ -360,8 +360,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 공연 상세정보 조회 API
-     * @description 공연 상세페이지의 공연 상세정보를 조회하는 GET API입니다.
+     * 공연 상세정보 조회
+     * @description 누구나 공연 상세 페이지에 필요한 공연 정보와 회차별 예매 가능 상태를 조회합니다.
      */
     get: operations["getPerformanceDetail"];
     put?: never;
@@ -380,8 +380,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 예매하기 관련 공연 정보 조회 API
-     * @description 예매하기 페이지에서 필요한 예매 관련 공연 정보를 조회하는 GET API입니다.
+     * 예매용 공연 정보 조회
+     * @description 예매 화면에 필요한 공연·회차·잔여 좌석·입금 계좌 정보를 조회합니다.
      */
     get: operations["getBookingPerformanceDetail"];
     put?: never;
@@ -400,10 +400,10 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 전체 공연 및 홍보 목록 조회
-     * @description 홈 화면에서 전체 공연 목록 및 홍보 목록을 조회하는 GET API
+     * 홈 공연 및 홍보 목록 조회
+     * @description 홈 화면에 노출할 홍보 목록과 공연 목록을 장르로 필터링해 조회합니다.
      */
-    get: operations["getHomePerformanceList"];
+    get: operations["homeRetrievePerformanceAndPromotionList"];
     put?: never;
     post?: never;
     delete?: never;
@@ -421,9 +421,9 @@ export interface paths {
     };
     /**
      * 공연 이미지 업로드 Presigned URL 발급
-     * @description 공연 등록 시 업로드할 이미지에 대한 presigned URL을 발급 받는 GET API
+     * @description 공연 등록에 사용할 이미지 파일명으로 S3 PUT presigned URL과 object key를 발급합니다.
      */
-    get: operations["generateAllPresignedUrls"];
+    get: operations["fileGeneratePerformanceImagePresignedUrls"];
     put?: never;
     post?: never;
     delete?: never;
@@ -440,8 +440,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 회원 예매 조회 API
-     * @description 회원이 예매를 조회하는 GET API입니다.
+     * 회원 예매 내역 조회
+     * @description Bearer 회원 토큰으로 인증된 회원의 예매 내역을 조회합니다. 무료 공연의 계좌 필드는 null이고, 유료 공연의 계좌 필드는 공연에 등록된 전체 값으로 반환됩니다.
      */
     get: operations["getMemberBookings"];
     put?: never;
@@ -460,13 +460,13 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 캐러셀에 등록된 모든 공연 정보 조회
-     * @description 관리자가 현재 캐러셀에 등록된 모든 공연 정보를 조회하는 GET API
+     * 캐러셀 프로모션 전체 조회
+     * @description 관리자가 현재 캐러셀 번호 순으로 등록된 프로모션 전체를 조회합니다.
      */
     get: operations["readAllCarouselImages"];
     /**
-     * 캐러셀 이미지 수정
-     * @description 관리자가 캐러셀 이미지를 수정하는 PUT API
+     * 캐러셀 프로모션 일괄 생성·수정
+     * @description 관리자가 요청 항목의 유형에 따라 캐러셀 프로모션을 생성하거나 수정합니다.
      */
     put: operations["processCarouselImages"];
     post?: never;
@@ -484,8 +484,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 유저 정보 조회
-     * @description 관리자가 유저들의 정보를 조회하는 GET API
+     * 관리자 사용자 전체 조회
+     * @description 관리자가 시스템에 등록된 사용자 전체의 식별자와 권한을 조회합니다.
      */
     get: operations["readAllUsers"];
     put?: never;
@@ -504,8 +504,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 캐러셀에 업로드 할 이미지에 대한 presigned URL 발급
-     * @description 관리자가 캐러셀에 업로드 할 이미지에 대한 presigned URL을 발급 받는 GET API
+     * 캐러셀 이미지 업로드용 Presigned URL 일괄 발급
+     * @description 관리자가 캐러셀 이미지 파일명 목록을 전달하면 각 이미지의 S3 업로드용 Presigned URL을 발급합니다.
      */
     get: operations["createAllCarouselPresignedUrls"];
     put?: never;
@@ -524,8 +524,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 배너에 업로드 할 이미지에 대한 presigned URL 발급
-     * @description 관리자가 배너에 업로드 할 이미지에 대한 presigned URL을 발급 받는 GET API
+     * 배너 이미지 업로드용 Presigned URL 발급
+     * @description 관리자가 배너 이미지 파일명을 전달하면 S3 업로드용 Presigned URL과 이미지 키를 발급합니다.
      */
     get: operations["createBannerPresignedUrl"];
     put?: never;
@@ -540,82 +540,251 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /** @description 입금 여부를 수정할 예매자 한 명의 정보입니다. */
     TicketUpdateDetail: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 입금 여부를 수정할 예매 식별자입니다.
+       * @example 1
+       */
       bookingId: number;
-      bookerName?: string;
-      bookerPhoneNumber?: string;
-      /** Format: int64 */
-      scheduleId?: number;
-      /** Format: int32 */
-      purchaseTicketCount?: number;
-      /** Format: date-time */
-      createdAt?: string;
-      /** @enum {string} */
+      /**
+       * @description 예매자 이름입니다.
+       * @example booker
+       */
+      bookerName?: string | null;
+      /**
+       * @description 예매자 전화번호입니다.
+       * @example 010-0000-0000
+       */
+      bookerPhoneNumber?: string | null;
+      /**
+       * Format: int64
+       * @description 예매가 연결된 회차 식별자입니다.
+       * @example 1
+       */
+      scheduleId?: number | null;
+      /**
+       * Format: int32
+       * @description 구매한 티켓 수량입니다.
+       * @example 2
+       */
+      purchaseTicketCount?: number | null;
+      /**
+       * Format: date-time
+       * @description 예매 생성 일시입니다.
+       * @example 2026-04-01T12:00:00
+       */
+      createdAt?: string | null;
+      /**
+       * @description 변경할 예매 상태입니다.
+       * @example CHECKING_PAYMENT
+       * @enum {string}
+       */
       bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
-      scheduleNumber?: string;
+      /**
+       * @description 예매가 연결된 회차 번호입니다.
+       * @example FIRST
+       */
+      scheduleNumber?: string | null;
     };
+    /** @description 메이커가 예매자의 입금 여부를 수정하기 위한 요청입니다. */
     TicketUpdateRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 입금 여부를 수정할 공연 식별자입니다.
+       * @example 100
+       */
       performanceId: number;
-      performanceTitle?: string;
-      /** Format: int32 */
-      totalScheduleCount?: number;
+      /**
+       * @description 공연 제목입니다.
+       * @example title
+       */
+      performanceTitle?: string | null;
+      /**
+       * Format: int32
+       * @description 공연의 전체 회차 수입니다.
+       * @example 1
+       */
+      totalScheduleCount?: number | null;
+      /**
+       * @description 입금 여부를 수정할 예매자 목록입니다.
+       * @example [
+       *       {
+       *         "bookingId": 1,
+       *         "bookingStatus": "CHECKING_PAYMENT"
+       *       }
+       *     ]
+       */
       bookingList: components["schemas"]["TicketUpdateDetail"][];
     };
+    /** @description API 오류 결과를 담는 공통 응답 envelope */
     ErrorResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 오류 상태 코드
+       * @example 400
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 오류 메시지
+       * @example 잘못된 요청입니다.
+       */
       message: string;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseVoid: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: unknown;
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: unknown;
     };
-    Booking: {
-      /** Format: int64 */
+    /** @description 환불 완료 처리할 예매 식별자를 담는 객체입니다. */
+    TicketRefundBookingReference: {
+      /**
+       * Format: int64
+       * @description 환불 완료 처리할 예매 식별자입니다.
+       * @example 1
+       */
       bookingId: number;
     };
+    /** @description 환불 완료 처리할 공연의 예매자를 지정하는 요청입니다. */
     TicketRefundRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 환불 완료 처리할 공연 식별자입니다.
+       * @example 100
+       */
       performanceId: number;
-      bookingList: components["schemas"]["Booking"][];
+      /**
+       * @description 환불 완료 처리할 예매 식별자 목록입니다.
+       * @example [
+       *       {
+       *         "bookingId": 1
+       *       }
+       *     ]
+       */
+      bookingList: components["schemas"]["TicketRefundBookingReference"][];
     };
+    /** @description 삭제할 예매 식별자를 담는 객체입니다. */
+    TicketDeleteBookingReference: {
+      /**
+       * Format: int64
+       * @description 삭제할 예매 식별자입니다.
+       * @example 1
+       */
+      bookingId: number;
+    };
+    /** @description 공연의 예매자를 삭제하기 위한 요청입니다. */
     TicketDeleteRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 삭제할 공연 식별자입니다.
+       * @example 100
+       */
       performanceId: number;
-      bookingList: components["schemas"]["Booking"][];
+      /**
+       * @description 삭제할 예매 식별자 목록입니다.
+       * @example [
+       *       {
+       *         "bookingId": 1
+       *       }
+       *     ]
+       */
+      bookingList: components["schemas"]["TicketDeleteBookingReference"][];
     };
+    /** @description 공연 수정 시 출연진 한 명의 정보 */
     CastModifyRequest: {
-      /** Format: int64 */
-      castId?: number;
+      /**
+       * Format: int64
+       * @description 기존 출연진의 식별자이며, 신규 출연진을 추가할 때는 null입니다.
+       * @example 1
+       */
+      castId?: number | null;
+      /**
+       * @description 출연진 이름
+       * @example 홍길동
+       */
       castName: string;
+      /**
+       * @description 출연진 역할
+       * @example 주연
+       */
       castRole: string;
+      /**
+       * @description 업로드된 출연진 사진의 이미지 key 또는 절대 URL
+       * @example dev/cast/cast-1.jpg
+       */
       castPhoto: string;
     };
+    /** @description 공연 수정 시 공연 이미지 한 장의 정보 */
     PerformanceImageModifyRequest: {
-      /** Format: int64 */
-      performanceImageId?: number;
+      /**
+       * Format: int64
+       * @description 기존 공연 이미지의 식별자이며, 신규 이미지를 추가할 때는 null입니다.
+       * @example 1
+       */
+      performanceImageId?: number | null;
+      /**
+       * @description 업로드된 공연 이미지의 이미지 key 또는 절대 URL
+       * @example dev/performance/detail-1.jpg
+       */
       performanceImage: string;
     };
+    /** @description 공연 수정 요청 정보 */
     PerformanceModifyRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 수정할 공연 식별자
+       * @example 1
+       */
       performanceId: number;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
       performanceTitle: string;
-      /** @enum {string} */
+      /**
+       * @description 공연 장르
+       * @example BAND
+       * @enum {string}
+       */
       genre: "BAND" | "PLAY" | "DANCE" | "ETC";
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 공연 러닝타임(분)
+       * @example 90
+       */
       runningTime: number;
+      /**
+       * @description 공연 소개(최대 1500자)
+       * @example 가을밤의 라이브 공연을 소개합니다.
+       */
       performanceDescription: string;
+      /**
+       * @description 공연 유의사항(최대 1500자)
+       * @example 공연 시작 10분 전까지 입장해 주세요.
+       */
       performanceAttentionNote: string;
-      /** @enum {string} */
+      /**
+       * @description 유료 공연(ticketPrice > 0)의 입금 은행입니다. 무료 공연(ticketPrice = 0)은 null이어야 합니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
       bankName?:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
@@ -632,172 +801,226 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
+        | "NONE"
+        | null;
+      /**
+       * @description 유료 공연(ticketPrice > 0)의 입금 계좌번호입니다. 무료 공연(ticketPrice = 0)은 null이어야 합니다.
+       * @example 3333-01-1234567
+       */
+      accountNumber?: string | null;
+      /**
+       * @description 유료 공연(ticketPrice > 0)의 입금 계좌 예금주입니다. 무료 공연(ticketPrice = 0)은 null이어야 합니다.
+       * @example BEAT 운영팀
+       */
+      accountHolder?: string | null;
+      /**
+       * @description 업로드된 포스터 이미지의 이미지 key 또는 절대 URL
+       * @example dev/poster/performance-1.jpg
+       */
       posterImage: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
       performanceTeamName: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
       performanceVenue: string;
+      /**
+       * @description 공연 장소 도로명 주소
+       * @example 서울특별시 마포구 양화로 123
+       */
       roadAddressName: string;
+      /**
+       * @description 공연 장소 상세 주소
+       * @example 지하 1층
+       */
       placeDetailAddress: string;
+      /**
+       * @description 공연 장소 위도(십진수 문자열)
+       * @example 37.5665
+       */
       latitude: string;
+      /**
+       * @description 공연 장소 경도(십진수 문자열)
+       * @example 126.9780
+       */
       longitude: string;
+      /**
+       * @description 공연 문의 연락처
+       * @example 010-1234-5678
+       */
       performanceContact: string;
-      performancePeriod?: string;
-      /** Format: int32 */
-      totalScheduleCount?: number;
-      /** Format: int32 */
+      /**
+       * @description scheduleModifyRequests의 회차 날짜로 서버가 계산하는 공연 기간입니다. 클라이언트 호환을 위해 허용되며 요청 값은 사용하지 않습니다.
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod?: string | null;
+      /**
+       * Format: int32
+       * @description scheduleModifyRequests의 크기로 서버가 계산하는 전체 회차 수입니다. 클라이언트 호환을 위해 허용되며 요청 값은 사용하지 않습니다.
+       * @example 3
+       */
+      totalScheduleCount?: number | null;
+      /**
+       * Format: int32
+       * @description 티켓 가격(원). 0이면 무료 공연이며, 0보다 크면 bankName·accountNumber·accountHolder가 모두 필요합니다.
+       * @example 30000
+       */
       ticketPrice: number;
+      /**
+       * @description 수정할 공연 회차 목록. 각 scheduleId가 null이면 신규 회차이고, 값이 있으면 기존 회차를 수정합니다.
+       * @example []
+       */
       scheduleModifyRequests: components["schemas"]["ScheduleModifyRequest"][];
+      /**
+       * @description 수정할 공연 출연진 목록. 각 castId가 null이면 신규 출연진입니다.
+       * @example []
+       */
       castModifyRequests: components["schemas"]["CastModifyRequest"][];
+      /**
+       * @description 수정할 공연 스태프 목록. 각 staffId가 null이면 신규 스태프입니다.
+       * @example []
+       */
       staffModifyRequests: components["schemas"]["StaffModifyRequest"][];
+      /**
+       * @description 수정할 공연 이미지 목록. 각 performanceImageId가 null이면 신규 이미지입니다.
+       * @example []
+       */
       performanceImageModifyRequests: components["schemas"]["PerformanceImageModifyRequest"][];
     };
+    /** @description 공연 수정 시 공연 회차 한 건의 정보 */
     ScheduleModifyRequest: {
-      /** Format: int64 */
-      scheduleId?: number;
-      /** Format: date-time */
+      /**
+       * Format: int64
+       * @description 기존 회차의 식별자이며, 신규 회차를 추가할 때는 null입니다.
+       * @example 1
+       */
+      scheduleId?: number | null;
+      /**
+       * Format: date-time
+       * @description 공연 시작 일시(ISO-8601)
+       * @example 2026-09-01T19:00:00
+       */
       performanceDate: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 해당 회차의 전체 티켓 수량
+       * @example 100
+       */
       totalTicketCount: number;
     };
+    /** @description 공연 수정 시 스태프 한 명의 정보 */
     StaffModifyRequest: {
-      /** Format: int64 */
-      staffId?: number;
+      /**
+       * Format: int64
+       * @description 기존 스태프의 식별자이며, 신규 스태프를 추가할 때는 null입니다.
+       * @example 1
+       */
+      staffId?: number | null;
+      /**
+       * @description 스태프 이름
+       * @example 김기획
+       */
       staffName: string;
+      /**
+       * @description 스태프 역할
+       * @example 연출
+       */
       staffRole: string;
+      /**
+       * @description 업로드된 스태프 사진의 이미지 key 또는 절대 URL
+       * @example dev/staff/staff-1.jpg
+       */
       staffPhoto: string;
     };
+    /** @description 공연 수정 결과의 출연진 정보 */
     CastModifyResponse: {
-      /** Format: int64 */
-      castId?: number;
-      castName?: string;
-      castRole?: string;
-      castPhoto?: string;
-    };
-    PerformanceImageModifyResponse: {
-      /** Format: int64 */
-      performanceImageId?: number;
-      performanceImage?: string;
-    };
-    PerformanceModifyResponse: {
-      /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
-      /** @enum {string} */
-      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
-      /** Format: int32 */
-      runningTime: number;
-      performanceDescription?: string;
-      performanceAttentionNote?: string;
-      /** @enum {string} */
-      bankName?:
-        | "NH_NONGHYUP"
-        | "KAKAOBANK"
-        | "KB_KOOKMIN"
-        | "TOSSBANK"
-        | "SHINHAN"
-        | "WOORI"
-        | "IBK_GIUP"
-        | "HANA"
-        | "SAEMAUL"
-        | "BUSAN"
-        | "IMBANK_DAEGU"
-        | "SINHYEOP"
-        | "WOOCHAEGUK"
-        | "SCJEIL"
-        | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
-      posterImage?: string;
-      performanceTeamName?: string;
-      performanceVenue?: string;
-      roadAddressName?: string;
-      placeDetailAddress?: string;
-      latitude?: string;
-      longitude?: string;
-      performanceContact?: string;
-      performancePeriod?: string;
-      /** Format: int32 */
-      ticketPrice: number;
-      /** Format: int32 */
-      totalScheduleCount: number;
-      scheduleModifyResponses: components["schemas"]["ScheduleModifyResponse"][];
-      castModifyResponses: components["schemas"]["CastModifyResponse"][];
-      staffModifyResponses: components["schemas"]["StaffModifyResponse"][];
-      performanceImageModifyResponses: components["schemas"]["PerformanceImageModifyResponse"][];
-    };
-    ScheduleModifyResponse: {
-      /** Format: int64 */
-      scheduleId?: number;
-      /** Format: date-time */
-      performanceDate?: string;
-      /** Format: int32 */
-      totalTicketCount: number;
-      /** Format: int32 */
-      dueDate: number;
-      /** @enum {string} */
-      scheduleNumber?:
-        | "FIRST"
-        | "SECOND"
-        | "THIRD"
-        | "FOURTH"
-        | "FIFTH"
-        | "SIXTH"
-        | "SEVENTH"
-        | "EIGHTH"
-        | "NINTH"
-        | "TENTH";
-    };
-    StaffModifyResponse: {
-      /** Format: int64 */
-      staffId?: number;
-      staffName?: string;
-      staffRole?: string;
-      staffPhoto?: string;
-    };
-    SuccessResponsePerformanceModifyResponse: {
-      /** Format: int32 */
-      status: number;
-      message: string;
-      data?: components["schemas"]["PerformanceModifyResponse"];
-    };
-    MemberLoginRequest: {
-      /** @enum {string} */
-      socialType: "KAKAO";
-    };
-    MemberLoginResponse: {
-      accessToken?: string;
-      nickname?: string;
-      role?: string;
-    };
-    SuccessResponseMemberLoginResponse: {
-      /** Format: int32 */
-      status: number;
-      message: string;
-      data?: components["schemas"]["MemberLoginResponse"];
-    };
-    CastRequest: {
+      /**
+       * Format: int64
+       * @description 출연진 식별자
+       * @example 1
+       */
+      castId: number;
+      /**
+       * @description 출연진 이름
+       * @example 홍길동
+       */
       castName: string;
+      /**
+       * @description 출연진 역할
+       * @example 주연
+       */
       castRole: string;
+      /**
+       * @description 출연진 사진의 CDN URL
+       * @example https://cdn.example.com/prod/cast/cast-1.jpg
+       */
       castPhoto: string;
     };
-    PerformanceImageRequest: {
+    /** @description 공연 수정 결과의 이미지 정보 */
+    PerformanceImageModifyResponse: {
+      /**
+       * Format: int64
+       * @description 공연 이미지 식별자
+       * @example 1
+       */
+      performanceImageId: number;
+      /**
+       * @description 공연 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/performance/detail-1.jpg
+       */
       performanceImage: string;
     };
-    PerformanceRequest: {
+    /** @description 공연 수정 결과 정보 */
+    PerformanceModifyResponse: {
+      /**
+       * Format: int64
+       * @description 공연을 등록한 회원 식별자
+       * @example 1
+       */
+      userId: number;
+      /**
+       * Format: int64
+       * @description 수정된 공연 식별자
+       * @example 1
+       */
+      performanceId: number;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
       performanceTitle: string;
-      /** @enum {string} */
+      /**
+       * @description 공연 장르
+       * @example BAND
+       * @enum {string}
+       */
       genre: "BAND" | "PLAY" | "DANCE" | "ETC";
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 공연 러닝타임(분)
+       * @example 90
+       */
       runningTime: number;
+      /**
+       * @description 공연 소개
+       * @example 가을밤의 라이브 공연을 소개합니다.
+       */
       performanceDescription: string;
+      /**
+       * @description 공연 유의사항
+       * @example 공연 시작 10분 전까지 입장해 주세요.
+       */
       performanceAttentionNote: string;
-      /** @enum {string} */
-      bankName?:
+      /**
+       * @description 유료 공연의 입금 은행이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -813,33 +1036,127 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
+        | "NONE"
+        | null;
+      /**
+       * @description 유료 공연의 입금 계좌번호이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example 3333-01-1234567
+       */
+      accountNumber: string | null;
+      /**
+       * @description 유료 공연의 입금 계좌 예금주이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example BEAT 운영팀
+       */
+      accountHolder: string | null;
+      /**
+       * @description 포스터 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/poster/performance-1.jpg
+       */
       posterImage: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
       performanceTeamName: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
       performanceVenue: string;
+      /**
+       * @description 공연 장소 도로명 주소
+       * @example 서울특별시 마포구 양화로 123
+       */
       roadAddressName: string;
+      /**
+       * @description 공연 장소 상세 주소
+       * @example 지하 1층
+       */
       placeDetailAddress: string;
+      /**
+       * @description 공연 장소 위도(십진수 문자열)
+       * @example 37.5665
+       */
       latitude: string;
+      /**
+       * @description 공연 장소 경도(십진수 문자열)
+       * @example 126.9780
+       */
       longitude: string;
+      /**
+       * @description 공연 문의 연락처
+       * @example 010-1234-5678
+       */
       performanceContact: string;
-      performancePeriod?: string;
-      /** Format: int32 */
+      /**
+       * @description 회차 날짜의 최솟값과 최댓값으로 계산한 공연 기간(yyyy.MM.dd 또는 yyyy.MM.dd~yyyy.MM.dd)
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod: string;
+      /**
+       * Format: int32
+       * @description 티켓 가격(원)
+       * @example 30000
+       */
       ticketPrice: number;
-      /** Format: int32 */
-      totalScheduleCount?: number;
-      scheduleList: components["schemas"]["ScheduleRequest"][];
-      castList: components["schemas"]["CastRequest"][];
-      staffList: components["schemas"]["StaffRequest"][];
-      performanceImageList: components["schemas"]["PerformanceImageRequest"][];
+      /**
+       * Format: int32
+       * @description 서버가 수정 회차 목록의 크기로 계산한 전체 회차 수
+       * @example 3
+       */
+      totalScheduleCount: number;
+      /**
+       * @description 수정된 공연 회차 목록
+       * @example []
+       */
+      scheduleModifyResponses: components["schemas"]["ScheduleModifyResponse"][];
+      /**
+       * @description 수정된 공연 출연진 목록
+       * @example []
+       */
+      castModifyResponses: components["schemas"]["CastModifyResponse"][];
+      /**
+       * @description 수정된 공연 스태프 목록
+       * @example []
+       */
+      staffModifyResponses: components["schemas"]["StaffModifyResponse"][];
+      /**
+       * @description 수정된 공연 이미지 목록
+       * @example []
+       */
+      performanceImageModifyResponses: components["schemas"]["PerformanceImageModifyResponse"][];
     };
-    ScheduleRequest: {
-      /** Format: date-time */
+    /** @description 공연 수정 결과의 회차 정보 */
+    ScheduleModifyResponse: {
+      /**
+       * Format: int64
+       * @description 공연 회차 식별자
+       * @example 1
+       */
+      scheduleId: number;
+      /**
+       * Format: date-time
+       * @description 공연 시작 일시(ISO-8601)
+       * @example 2026-09-01T19:00:00
+       */
       performanceDate: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 해당 회차의 전체 티켓 수량
+       * @example 100
+       */
       totalTicketCount: number;
-      /** @enum {string} */
+      /**
+       * Format: int32
+       * @description 기준일에서 공연일까지 남은 일수이며, 과거 회차는 음수입니다.
+       * @example 3
+       */
+      dueDate: number;
+      /**
+       * @description 회차 번호
+       * @example FIRST
+       * @enum {string}
+       */
       scheduleNumber:
         | "FIRST"
         | "SECOND"
@@ -852,36 +1169,149 @@ export interface components {
         | "NINTH"
         | "TENTH";
     };
-    StaffRequest: {
+    /** @description 공연 수정 결과의 스태프 정보 */
+    StaffModifyResponse: {
+      /**
+       * Format: int64
+       * @description 스태프 식별자
+       * @example 1
+       */
+      staffId: number;
+      /**
+       * @description 스태프 이름
+       * @example 김기획
+       */
       staffName: string;
+      /**
+       * @description 스태프 역할
+       * @example 연출
+       */
       staffRole: string;
+      /**
+       * @description 스태프 사진의 CDN URL
+       * @example https://cdn.example.com/prod/staff/staff-1.jpg
+       */
       staffPhoto: string;
     };
-    CastResponse: {
-      /** Format: int64 */
-      castId?: number;
-      castName?: string;
-      castRole?: string;
-      castPhoto?: string;
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
+    SuccessResponsePerformanceModifyResponse: {
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
+      status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
+      message: string;
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["PerformanceModifyResponse"];
     };
-    PerformanceImageResponse: {
-      /** Format: int64 */
-      imageId?: number;
-      imageUrl?: string;
+    /** @description 소셜 로그인 및 회원가입 요청 */
+    MemberLoginRequest: {
+      /**
+       * @description 사용할 소셜 로그인 제공자입니다.
+       * @example KAKAO
+       * @enum {string}
+       */
+      socialType: "KAKAO";
     };
-    PerformanceResponse: {
-      /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
-      /** @enum {string} */
-      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
-      /** Format: int32 */
+    /** @description 소셜 로그인 또는 회원가입 성공 응답 */
+    MemberLoginResponse: {
+      /**
+       * @description 로그인에 사용할 access token입니다.
+       * @example access-token-example
+       */
+      accessToken: string;
+      /**
+       * @description 로그인한 회원의 닉네임입니다.
+       * @example 홍길동
+       */
+      nickname: string;
+      /**
+       * @description 로그인한 회원의 권한명입니다.
+       * @example ROLE_MEMBER
+       */
+      role: string;
+    };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
+    SuccessResponseMemberLoginResponse: {
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
+      status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
+      message: string;
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["MemberLoginResponse"];
+    };
+    /** @description 공연 생성 시 출연진 한 명의 정보 */
+    CastRequest: {
+      /**
+       * @description 출연진 이름
+       * @example 홍길동
+       */
+      castName: string;
+      /**
+       * @description 출연진 역할
+       * @example 주연
+       */
+      castRole: string;
+      /**
+       * @description 업로드된 출연진 사진의 이미지 key 또는 절대 URL
+       * @example dev/cast/cast-1.jpg
+       */
+      castPhoto: string;
+    };
+    /** @description 공연 생성 시 공연 이미지 한 장의 정보 */
+    PerformanceImageRequest: {
+      /**
+       * @description 업로드된 공연 이미지의 이미지 key 또는 절대 URL
+       * @example dev/performance/detail-1.jpg
+       */
+      performanceImage: string;
+    };
+    /** @description 공연 생성 요청 정보 */
+    PerformanceRequest: {
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * @description 공연 장르
+       * @example BAND
+       * @enum {string}
+       */
+      genre: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /**
+       * Format: int32
+       * @description 공연 러닝타임(분)
+       * @example 90
+       */
       runningTime: number;
-      performanceDescription?: string;
-      performanceAttentionNote?: string;
-      /** @enum {string} */
+      /**
+       * @description 공연 소개(최대 1500자)
+       * @example 가을밤의 라이브 공연을 소개합니다.
+       */
+      performanceDescription: string;
+      /**
+       * @description 공연 유의사항(최대 1500자)
+       * @example 공연 시작 10분 전까지 입장해 주세요.
+       */
+      performanceAttentionNote: string;
+      /**
+       * @description 유료 공연(ticketPrice > 0)의 입금 은행입니다. 무료 공연(ticketPrice = 0)은 null이어야 합니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
       bankName?:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
@@ -898,222 +1328,366 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
-      posterImage?: string;
-      performanceTeamName?: string;
-      performanceVenue?: string;
-      roadAddressName?: string;
-      placeDetailAddress?: string;
-      latitude?: string;
-      longitude?: string;
-      performanceContact?: string;
-      performancePeriod?: string;
-      /** Format: int32 */
+        | "NONE"
+        | null;
+      /**
+       * @description 유료 공연(ticketPrice > 0)의 입금 계좌번호입니다. 무료 공연(ticketPrice = 0)은 null이어야 합니다.
+       * @example 3333-01-1234567
+       */
+      accountNumber?: string | null;
+      /**
+       * @description 유료 공연(ticketPrice > 0)의 입금 계좌 예금주입니다. 무료 공연(ticketPrice = 0)은 null이어야 합니다.
+       * @example BEAT 운영팀
+       */
+      accountHolder?: string | null;
+      /**
+       * @description 업로드된 포스터 이미지의 이미지 key 또는 절대 URL
+       * @example dev/poster/performance-1.jpg
+       */
+      posterImage: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
+      performanceTeamName: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
+      performanceVenue: string;
+      /**
+       * @description 공연 장소 도로명 주소
+       * @example 서울특별시 마포구 양화로 123
+       */
+      roadAddressName: string;
+      /**
+       * @description 공연 장소 상세 주소
+       * @example 지하 1층
+       */
+      placeDetailAddress: string;
+      /**
+       * @description 공연 장소 위도(십진수 문자열)
+       * @example 37.5665
+       */
+      latitude: string;
+      /**
+       * @description 공연 장소 경도(십진수 문자열)
+       * @example 126.9780
+       */
+      longitude: string;
+      /**
+       * @description 공연 문의 연락처
+       * @example 010-1234-5678
+       */
+      performanceContact: string;
+      /**
+       * @description scheduleList의 회차 날짜로 서버가 계산하는 공연 기간입니다. 클라이언트 호환을 위해 허용되며 요청 값은 사용하지 않습니다.
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod?: string | null;
+      /**
+       * Format: int32
+       * @description 티켓 가격(원). 0이면 무료 공연이며, 0보다 크면 bankName·accountNumber·accountHolder가 모두 필요합니다.
+       * @example 30000
+       */
       ticketPrice: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description scheduleList의 크기로 서버가 계산하는 전체 회차 수입니다. 클라이언트 호환을 위해 허용되며 요청 값은 사용하지 않습니다.
+       * @example 3
+       */
+      totalScheduleCount?: number | null;
+      /**
+       * @description 공연 회차 목록. 서버는 이 목록의 날짜와 개수로 공연 기간과 전체 회차 수를 계산합니다.
+       * @example []
+       */
+      scheduleList: components["schemas"]["ScheduleRequest"][];
+      /**
+       * @description 공연 출연진 목록
+       * @example []
+       */
+      castList: components["schemas"]["CastRequest"][];
+      /**
+       * @description 공연 스태프 목록
+       * @example []
+       */
+      staffList: components["schemas"]["StaffRequest"][];
+      /**
+       * @description 공연 상세 이미지 목록
+       * @example []
+       */
+      performanceImageList: components["schemas"]["PerformanceImageRequest"][];
+    };
+    /** @description 공연 생성 시 공연 회차 한 건의 정보 */
+    ScheduleRequest: {
+      /**
+       * Format: date-time
+       * @description 공연 시작 일시(ISO-8601)
+       * @example 2026-09-01T19:00:00
+       */
+      performanceDate: string;
+      /**
+       * Format: int32
+       * @description 해당 회차의 전체 티켓 수량
+       * @example 100
+       */
+      totalTicketCount: number;
+      /**
+       * @description 회차 번호
+       * @example FIRST
+       * @enum {string}
+       */
+      scheduleNumber:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
+    };
+    /** @description 공연 생성 시 스태프 한 명의 정보 */
+    StaffRequest: {
+      /**
+       * @description 스태프 이름
+       * @example 김기획
+       */
+      staffName: string;
+      /**
+       * @description 스태프 역할
+       * @example 연출
+       */
+      staffRole: string;
+      /**
+       * @description 업로드된 스태프 사진의 이미지 key 또는 절대 URL
+       * @example dev/staff/staff-1.jpg
+       */
+      staffPhoto: string;
+    };
+    /** @description 공연 결과의 출연진 정보 */
+    CastResponse: {
+      /**
+       * Format: int64
+       * @description 출연진 식별자
+       * @example 1
+       */
+      castId: number;
+      /**
+       * @description 출연진 이름
+       * @example 홍길동
+       */
+      castName: string;
+      /**
+       * @description 출연진 역할
+       * @example 주연
+       */
+      castRole: string;
+      /**
+       * @description 출연진 사진의 CDN URL
+       * @example https://cdn.example.com/prod/cast/cast-1.jpg
+       */
+      castPhoto: string;
+    };
+    /** @description 공연 생성 결과의 이미지 정보 */
+    PerformanceImageResponse: {
+      /**
+       * Format: int64
+       * @description 공연 이미지 식별자
+       * @example 1
+       */
+      imageId: number;
+      /**
+       * @description 공연 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/performance/detail-1.jpg
+       */
+      imageUrl: string;
+    };
+    /** @description 공연 생성 결과 정보 */
+    PerformanceResponse: {
+      /**
+       * Format: int64
+       * @description 공연을 등록한 회원 식별자
+       * @example 1
+       */
+      userId: number;
+      /**
+       * Format: int64
+       * @description 생성된 공연 식별자
+       * @example 1
+       */
+      performanceId: number;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * @description 공연 장르
+       * @example BAND
+       * @enum {string}
+       */
+      genre: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /**
+       * Format: int32
+       * @description 공연 러닝타임(분)
+       * @example 90
+       */
+      runningTime: number;
+      /**
+       * @description 공연 소개
+       * @example 가을밤의 라이브 공연을 소개합니다.
+       */
+      performanceDescription: string;
+      /**
+       * @description 공연 유의사항
+       * @example 공연 시작 10분 전까지 입장해 주세요.
+       */
+      performanceAttentionNote: string;
+      /**
+       * @description 유료 공연의 입금 은행이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
+      bankName:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP"
+        | "NONE"
+        | null;
+      /**
+       * @description 유료 공연의 입금 계좌번호이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example 3333-01-1234567
+       */
+      accountNumber: string | null;
+      /**
+       * @description 유료 공연의 입금 계좌 예금주이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example BEAT 운영팀
+       */
+      accountHolder: string | null;
+      /**
+       * @description 포스터 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/poster/performance-1.jpg
+       */
+      posterImage: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
+      performanceTeamName: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
+      performanceVenue: string;
+      /**
+       * @description 공연 장소 도로명 주소
+       * @example 서울특별시 마포구 양화로 123
+       */
+      roadAddressName: string;
+      /**
+       * @description 공연 장소 상세 주소
+       * @example 지하 1층
+       */
+      placeDetailAddress: string;
+      /**
+       * @description 공연 장소 위도(십진수 문자열)
+       * @example 37.5665
+       */
+      latitude: string;
+      /**
+       * @description 공연 장소 경도(십진수 문자열)
+       * @example 126.9780
+       */
+      longitude: string;
+      /**
+       * @description 공연 문의 연락처
+       * @example 010-1234-5678
+       */
+      performanceContact: string;
+      /**
+       * @description 회차 날짜의 최솟값과 최댓값으로 계산한 공연 기간(yyyy.MM.dd 또는 yyyy.MM.dd~yyyy.MM.dd)
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod: string;
+      /**
+       * Format: int32
+       * @description 티켓 가격(원)
+       * @example 30000
+       */
+      ticketPrice: number;
+      /**
+       * Format: int32
+       * @description 서버가 scheduleList의 크기로 계산한 전체 회차 수
+       * @example 3
+       */
       totalScheduleCount: number;
+      /**
+       * @description 공연 회차 목록
+       * @example []
+       */
       scheduleList: components["schemas"]["ScheduleResponse"][];
+      /**
+       * @description 공연 출연진 목록
+       * @example []
+       */
       castList: components["schemas"]["CastResponse"][];
+      /**
+       * @description 공연 스태프 목록
+       * @example []
+       */
       staffList: components["schemas"]["StaffResponse"][];
+      /**
+       * @description 공연 상세 이미지 목록
+       * @example []
+       */
       performanceImageList: components["schemas"]["PerformanceImageResponse"][];
     };
+    /** @description 공연 생성 결과의 회차 정보 */
     ScheduleResponse: {
-      /** Format: int64 */
-      scheduleId?: number;
-      /** Format: date-time */
-      performanceDate?: string;
-      /** Format: int32 */
-      totalTicketCount: number;
-      /** Format: int32 */
-      dueDate: number;
-      /** @enum {string} */
-      scheduleNumber?:
-        | "FIRST"
-        | "SECOND"
-        | "THIRD"
-        | "FOURTH"
-        | "FIFTH"
-        | "SIXTH"
-        | "SEVENTH"
-        | "EIGHTH"
-        | "NINTH"
-        | "TENTH";
-    };
-    StaffResponse: {
-      /** Format: int64 */
-      staffId?: number;
-      staffName?: string;
-      staffRole?: string;
-      staffPhoto?: string;
-    };
-    SuccessResponsePerformanceResponse: {
-      /** Format: int32 */
-      status: number;
-      message: string;
-      data?: components["schemas"]["PerformanceResponse"];
-    };
-    MemberBookingRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 공연 회차 식별자
+       * @example 1
+       */
       scheduleId: number;
-      /** Format: int32 */
-      purchaseTicketCount: number;
-      bookerName: string;
-      bookerPhoneNumber: string;
-    };
-    MemberBookingResponse: {
-      /** Format: int64 */
-      bookingId: number;
-      /** Format: int64 */
-      scheduleId: number;
-      /** Format: int64 */
-      userId: number;
-      /** Format: int32 */
-      purchaseTicketCount: number;
-      /** @enum {string} */
-      scheduleNumber:
-        | "FIRST"
-        | "SECOND"
-        | "THIRD"
-        | "FOURTH"
-        | "FIFTH"
-        | "SIXTH"
-        | "SEVENTH"
-        | "EIGHTH"
-        | "NINTH"
-        | "TENTH";
-      bookerName: string;
-      bookerPhoneNumber: string;
-      /** @enum {string} */
-      bookingStatus:
-        | "CHECKING_PAYMENT"
-        | "BOOKING_CONFIRMED"
-        | "BOOKING_CANCELLED"
-        | "REFUND_REQUESTED"
-        | "BOOKING_DELETED";
-      /** @enum {string} */
-      bankName:
-        | "NH_NONGHYUP"
-        | "KAKAOBANK"
-        | "KB_KOOKMIN"
-        | "TOSSBANK"
-        | "SHINHAN"
-        | "WOORI"
-        | "IBK_GIUP"
-        | "HANA"
-        | "SAEMAUL"
-        | "BUSAN"
-        | "IMBANK_DAEGU"
-        | "SINHYEOP"
-        | "WOOCHAEGUK"
-        | "SCJEIL"
-        | "SUHYEOP"
-        | "NONE"
-        | null;
-      accountNumber: string | null;
-      /** Format: int32 */
-      totalPaymentAmount: number;
-      /** Format: date-time */
-      createdAt: string;
-    };
-    SuccessResponseMemberBookingResponse: {
-      /** Format: int32 */
-      status: number;
-      message: string;
-      data?: components["schemas"]["MemberBookingResponse"];
-    };
-    GuestBookingRequest: {
-      /** Format: int64 */
-      scheduleId: number;
-      /** Format: int32 */
-      purchaseTicketCount: number;
-      bookerName: string;
-      bookerPhoneNumber: string;
-      birthDate: string;
-      password: string;
-    };
-    GuestBookingResponse: {
-      /** Format: int64 */
-      bookingId: number;
-      /** Format: int64 */
-      scheduleId: number;
-      /** Format: int64 */
-      userId: number;
-      /** Format: int32 */
-      purchaseTicketCount: number;
-      /** @enum {string} */
-      scheduleNumber:
-        | "FIRST"
-        | "SECOND"
-        | "THIRD"
-        | "FOURTH"
-        | "FIFTH"
-        | "SIXTH"
-        | "SEVENTH"
-        | "EIGHTH"
-        | "NINTH"
-        | "TENTH";
-      bookerName: string;
-      bookerPhoneNumber: string;
-      /** @enum {string} */
-      bookingStatus:
-        | "CHECKING_PAYMENT"
-        | "BOOKING_CONFIRMED"
-        | "BOOKING_CANCELLED"
-        | "REFUND_REQUESTED"
-        | "BOOKING_DELETED";
-      /** @enum {string} */
-      bankName:
-        | "NH_NONGHYUP"
-        | "KAKAOBANK"
-        | "KB_KOOKMIN"
-        | "TOSSBANK"
-        | "SHINHAN"
-        | "WOORI"
-        | "IBK_GIUP"
-        | "HANA"
-        | "SAEMAUL"
-        | "BUSAN"
-        | "IMBANK_DAEGU"
-        | "SINHYEOP"
-        | "WOOCHAEGUK"
-        | "SCJEIL"
-        | "SUHYEOP"
-        | "NONE"
-        | null;
-      accountNumber: string | null;
-      /** Format: int32 */
-      totalPaymentAmount: number;
-      /** Format: date-time */
-      createdAt: string;
-    };
-    SuccessResponseGuestBookingResponse: {
-      /** Format: int32 */
-      status: number;
-      message: string;
-      data?: components["schemas"]["GuestBookingResponse"];
-    };
-    GuestBookingRetrieveRequest: {
-      bookerName: string;
-      birthDate: string;
-      bookerPhoneNumber: string;
-      password: string;
-    };
-    GuestBookingRetrieveResponse: {
-      /** Format: int64 */
-      bookingId: number;
-      /** Format: int64 */
-      scheduleId: number;
-      /** Format: int64 */
-      performanceId: number;
-      performanceTitle: string;
-      /** Format: date-time */
+      /**
+       * Format: date-time
+       * @description 공연 시작 일시(ISO-8601)
+       * @example 2026-09-01T19:00:00
+       */
       performanceDate: string;
-      performanceVenue: string;
-      /** Format: int32 */
-      purchaseTicketCount: number;
-      /** @enum {string} */
+      /**
+       * Format: int32
+       * @description 해당 회차의 전체 티켓 수량
+       * @example 100
+       */
+      totalTicketCount: number;
+      /**
+       * Format: int32
+       * @description 기준일에서 공연일까지 남은 일수이며, 과거 회차는 음수입니다.
+       * @example 3
+       */
+      dueDate: number;
+      /**
+       * @description 회차 번호
+       * @example FIRST
+       * @enum {string}
+       */
       scheduleNumber:
         | "FIRST"
         | "SECOND"
@@ -1125,9 +1699,140 @@ export interface components {
         | "EIGHTH"
         | "NINTH"
         | "TENTH";
+    };
+    /** @description 공연 결과의 스태프 정보 */
+    StaffResponse: {
+      /**
+       * Format: int64
+       * @description 스태프 식별자
+       * @example 1
+       */
+      staffId: number;
+      /**
+       * @description 스태프 이름
+       * @example 김기획
+       */
+      staffName: string;
+      /**
+       * @description 스태프 역할
+       * @example 연출
+       */
+      staffRole: string;
+      /**
+       * @description 스태프 사진의 CDN URL
+       * @example https://cdn.example.com/prod/staff/staff-1.jpg
+       */
+      staffPhoto: string;
+    };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
+    SuccessResponsePerformanceResponse: {
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
+      status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
+      message: string;
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["PerformanceResponse"];
+    };
+    /** @description 회원 공연 예매 생성 요청 */
+    MemberBookingRequest: {
+      /**
+       * Format: int64
+       * @description 예매할 공연 회차의 식별자입니다.
+       * @example 2001
+       */
+      scheduleId: number;
+      /**
+       * Format: int32
+       * @description 예매할 티켓 수량입니다. 1장부터 10장까지 입력할 수 있습니다.
+       * @example 2
+       */
+      purchaseTicketCount: number;
+      /**
+       * @description 예매자 이름입니다. 한글 또는 영문 문자만 허용됩니다.
+       * @example 홍길동
+       */
       bookerName: string;
-      performanceContact: string;
-      /** @enum {string} */
+      /**
+       * @description 예매자 전화번호입니다. 숫자 3-4-4 하이픈 형식이어야 합니다.
+       * @example 010-1234-5678
+       */
+      bookerPhoneNumber: string;
+    };
+    /** @description 회원 예매 생성 결과입니다. 무료 공연은 계좌 필드가 null이고, 유료 공연은 공연에 등록된 계좌 값이 반환됩니다. */
+    MemberBookingResponse: {
+      /**
+       * Format: int64
+       * @description 생성된 예매의 식별자입니다.
+       * @example 1001
+       */
+      bookingId: number;
+      /**
+       * Format: int64
+       * @description 예매한 공연 회차의 식별자입니다.
+       * @example 2001
+       */
+      scheduleId: number;
+      /**
+       * Format: int64
+       * @description 예매한 회원의 사용자 식별자입니다.
+       * @example 3001
+       */
+      userId: number;
+      /**
+       * Format: int32
+       * @description 예매한 티켓 수량입니다.
+       * @example 2
+       */
+      purchaseTicketCount: number;
+      /**
+       * @description 예매한 공연 회차 번호입니다.
+       * @example FIRST
+       * @enum {string}
+       */
+      scheduleNumber:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
+      /**
+       * @description 예매자 이름입니다.
+       * @example 홍길동
+       */
+      bookerName: string;
+      /**
+       * @description 예매자 전화번호입니다.
+       * @example 010-1234-5678
+       */
+      bookerPhoneNumber: string;
+      /**
+       * @description 예매 상태입니다. 무료 공연은 BOOKING_CONFIRMED, 유료 공연은 CHECKING_PAYMENT로 생성됩니다.
+       * @example BOOKING_CONFIRMED
+       * @enum {string}
+       */
+      bookingStatus:
+        | "CHECKING_PAYMENT"
+        | "BOOKING_CONFIRMED"
+        | "BOOKING_CANCELLED"
+        | "REFUND_REQUESTED"
+        | "BOOKING_DELETED";
+      /**
+       * @description 공연 입금 계좌의 은행입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
       bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
@@ -1146,33 +1851,383 @@ export interface components {
         | "SUHYEOP"
         | "NONE"
         | null;
+      /**
+       * @description 공연 입금 계좌번호입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example 123456789012
+       */
       accountNumber: string | null;
-      accountHolder: string | null;
-      /** Format: int32 */
-      dueDate: number;
-      /** @enum {string} */
+      /**
+       * Format: int32
+       * @description 예매 총 결제 금액입니다.
+       * @example 10000
+       */
+      totalPaymentAmount: number;
+      /**
+       * Format: date-time
+       * @description 예매 생성 시각입니다(ISO-8601 형식).
+       * @example 2024-01-01T19:00:00
+       */
+      createdAt: string;
+    };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
+    SuccessResponseMemberBookingResponse: {
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
+      status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
+      message: string;
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["MemberBookingResponse"];
+    };
+    /** @description 비회원 공연 예매 생성 요청 */
+    GuestBookingRequest: {
+      /**
+       * Format: int64
+       * @description 예매할 공연 회차의 식별자입니다.
+       * @example 2001
+       */
+      scheduleId: number;
+      /**
+       * Format: int32
+       * @description 예매할 티켓 수량입니다. 1장부터 10장까지 입력할 수 있습니다.
+       * @example 2
+       */
+      purchaseTicketCount: number;
+      /**
+       * @description 예매자 이름입니다. 한글 또는 영문 문자만 허용됩니다.
+       * @example 홍길동
+       */
+      bookerName: string;
+      /**
+       * @description 예매자 전화번호입니다. 숫자 3-4-4 하이픈 형식이어야 합니다.
+       * @example 010-1234-5678
+       */
+      bookerPhoneNumber: string;
+      /**
+       * @description 예매자 생년월일입니다. 6자리 숫자로 입력합니다.
+       * @example 900101
+       */
+      birthDate: string;
+      /**
+       * @description 비회원 예매 조회에 사용할 비밀번호입니다. 4자리 숫자로 입력합니다.
+       * @example 1234
+       */
+      password: string;
+    };
+    /** @description 비회원 예매 생성 결과입니다. 무료 공연은 계좌 필드가 null이고, 유료 공연은 공연에 등록된 계좌 값이 반환됩니다. */
+    GuestBookingResponse: {
+      /**
+       * Format: int64
+       * @description 생성된 예매의 식별자입니다.
+       * @example 1001
+       */
+      bookingId: number;
+      /**
+       * Format: int64
+       * @description 예매한 공연 회차의 식별자입니다.
+       * @example 2001
+       */
+      scheduleId: number;
+      /**
+       * Format: int64
+       * @description 예매와 연결된 사용자 식별자입니다.
+       * @example 3001
+       */
+      userId: number;
+      /**
+       * Format: int32
+       * @description 예매한 티켓 수량입니다.
+       * @example 2
+       */
+      purchaseTicketCount: number;
+      /**
+       * @description 예매한 공연 회차 번호입니다.
+       * @example FIRST
+       * @enum {string}
+       */
+      scheduleNumber:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
+      /**
+       * @description 예매자 이름입니다.
+       * @example 홍길동
+       */
+      bookerName: string;
+      /**
+       * @description 예매자 전화번호입니다.
+       * @example 010-1234-5678
+       */
+      bookerPhoneNumber: string;
+      /**
+       * @description 예매 상태입니다. 무료 공연은 BOOKING_CONFIRMED, 유료 공연은 CHECKING_PAYMENT로 생성됩니다.
+       * @example BOOKING_CONFIRMED
+       * @enum {string}
+       */
       bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
-      /** Format: date-time */
+      /**
+       * @description 공연 입금 계좌의 은행입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
+      bankName:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP"
+        | "NONE"
+        | null;
+      /**
+       * @description 공연 입금 계좌번호입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example 123456789012
+       */
+      accountNumber: string | null;
+      /**
+       * Format: int32
+       * @description 예매 총 결제 금액입니다.
+       * @example 10000
+       */
+      totalPaymentAmount: number;
+      /**
+       * Format: date-time
+       * @description 예매 생성 시각입니다(ISO-8601 형식).
+       * @example 2024-01-01T19:00:00
+       */
       createdAt: string;
+    };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
+    SuccessResponseGuestBookingResponse: {
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
+      status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
+      message: string;
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["GuestBookingResponse"];
+    };
+    /** @description 비회원 예매 내역 조회 요청 */
+    GuestBookingRetrieveRequest: {
+      /**
+       * @description 예매 시 입력한 예매자 이름입니다. 한글 또는 영문 문자만 허용됩니다.
+       * @example 홍길동
+       */
+      bookerName: string;
+      /**
+       * @description 예매 시 입력한 예매자 생년월일입니다. 6자리 숫자로 입력합니다.
+       * @example 900101
+       */
+      birthDate: string;
+      /**
+       * @description 예매 시 입력한 예매자 전화번호입니다. 숫자 3-4-4 하이픈 형식이어야 합니다.
+       * @example 010-1234-5678
+       */
+      bookerPhoneNumber: string;
+      /**
+       * @description 예매 시 설정한 비밀번호입니다. 4자리 숫자로 입력합니다.
+       * @example 1234
+       */
+      password: string;
+    };
+    /** @description 비회원 예매 내역 조회 결과입니다. 무료 공연은 계좌 필드가 null이고, 유료 공연은 공연에 등록된 은행·계좌번호·예금주 전체 값이 반환됩니다. */
+    GuestBookingRetrieveResponse: {
+      /**
+       * Format: int64
+       * @description 조회된 예매의 식별자입니다.
+       * @example 1001
+       */
+      bookingId: number;
+      /**
+       * Format: int64
+       * @description 예매한 공연 회차의 식별자입니다.
+       * @example 2001
+       */
+      scheduleId: number;
+      /**
+       * Format: int64
+       * @description 예매한 공연의 식별자입니다.
+       * @example 3001
+       */
+      performanceId: number;
+      /**
+       * @description 예매한 공연의 제목입니다.
+       * @example 봄날의 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * Format: date-time
+       * @description 예매한 공연 회차의 공연 일시입니다(ISO-8601 형식).
+       * @example 2024-01-20T19:00:00
+       */
+      performanceDate: string;
+      /**
+       * @description 예매한 공연의 장소입니다.
+       * @example 예술의전당
+       */
+      performanceVenue: string;
+      /**
+       * Format: int32
+       * @description 예매한 티켓 수량입니다.
+       * @example 2
+       */
+      purchaseTicketCount: number;
+      /**
+       * @description 예매한 공연 회차 번호입니다.
+       * @example FIRST
+       * @enum {string}
+       */
+      scheduleNumber:
+        | "FIRST"
+        | "SECOND"
+        | "THIRD"
+        | "FOURTH"
+        | "FIFTH"
+        | "SIXTH"
+        | "SEVENTH"
+        | "EIGHTH"
+        | "NINTH"
+        | "TENTH";
+      /**
+       * @description 예매자 이름입니다.
+       * @example 홍길동
+       */
+      bookerName: string;
+      /**
+       * @description 공연 문의 연락처입니다.
+       * @example 010-9876-5432
+       */
+      performanceContact: string;
+      /**
+       * @description 공연 입금 계좌의 은행입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
+      bankName:
+        | "NH_NONGHYUP"
+        | "KAKAOBANK"
+        | "KB_KOOKMIN"
+        | "TOSSBANK"
+        | "SHINHAN"
+        | "WOORI"
+        | "IBK_GIUP"
+        | "HANA"
+        | "SAEMAUL"
+        | "BUSAN"
+        | "IMBANK_DAEGU"
+        | "SINHYEOP"
+        | "WOOCHAEGUK"
+        | "SCJEIL"
+        | "SUHYEOP"
+        | "NONE"
+        | null;
+      /**
+       * @description 공연 입금 계좌번호입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example 123456789012
+       */
+      accountNumber: string | null;
+      /**
+       * @description 공연 입금 계좌의 예금주명입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example 홍길동
+       */
+      accountHolder: string | null;
+      /**
+       * Format: int32
+       * @description 오늘부터 공연일까지 남은 일수입니다. 공연일이 지나면 음수일 수 있습니다.
+       * @example 30
+       */
+      dueDate: number;
+      /**
+       * @description 예매 상태입니다.
+       * @example BOOKING_CONFIRMED
+       * @enum {string}
+       */
+      bookingStatus:
+        | "CHECKING_PAYMENT"
+        | "BOOKING_CONFIRMED"
+        | "BOOKING_CANCELLED"
+        | "REFUND_REQUESTED"
+        | "BOOKING_DELETED";
+      /**
+       * Format: date-time
+       * @description 예매 생성 시각입니다(ISO-8601 형식).
+       * @example 2024-01-01T19:00:00
+       */
+      createdAt: string;
+      /**
+       * @description 공연 포스터 이미지 URL입니다.
+       * @example https://cdn.example.com/poster.jpg
+       */
       posterImage: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 예매 총 결제 금액입니다.
+       * @example 10000
+       */
       totalPaymentAmount: number;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseListGuestBookingRetrieveResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["GuestBookingRetrieveResponse"][];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["GuestBookingRetrieveResponse"][];
     };
+    /** @description 유료 공연 예매 환불 요청 */
     BookingRefundRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 환불을 요청할 예매의 식별자입니다.
+       * @example 1001
+       */
       bookingId: number;
-      /** @enum {string} */
+      /**
+       * @description 환불받을 은행입니다. NONE은 환불 계좌로 사용할 수 없습니다.
+       * @example KAKAOBANK
+       * @enum {string}
+       */
       bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
@@ -1188,22 +2243,42 @@ export interface components {
         | "SINHYEOP"
         | "WOOCHAEGUK"
         | "SCJEIL"
-        | "SUHYEOP"
-        | "NONE";
+        | "SUHYEOP";
+      /**
+       * @description 환불받을 계좌번호입니다. 공백일 수 없습니다.
+       * @example 123456789012
+       */
       accountNumber: string;
+      /**
+       * @description 환불받을 계좌의 예금주명입니다. 공백일 수 없습니다.
+       * @example 홍길동
+       */
       accountHolder: string;
     };
+    /** @description 예매 환불 요청 처리 결과 */
     BookingRefundResponse: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 환불 요청이 처리된 예매의 식별자입니다.
+       * @example 1001
+       */
       bookingId: number;
-      /** @enum {string} */
+      /**
+       * @description 환불 요청 처리 후 예매 상태입니다.
+       * @example REFUND_REQUESTED
+       * @enum {string}
+       */
       bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
-      /** @enum {string} */
+      /**
+       * @description 환불 계좌의 은행입니다.
+       * @example KAKAOBANK
+       * @enum {string}
+       */
       bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
@@ -1221,23 +2296,55 @@ export interface components {
         | "SCJEIL"
         | "SUHYEOP"
         | "NONE";
+      /**
+       * @description 환불 계좌번호입니다.
+       * @example 123456789012
+       */
       accountNumber: string;
+      /**
+       * @description 환불 계좌의 예금주명입니다.
+       * @example 홍길동
+       */
       accountHolder: string;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseBookingRefundResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["BookingRefundResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["BookingRefundResponse"];
     };
+    /** @description 무료 공연 또는 미입금 예매 취소 요청 */
     BookingCancelRequest: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 취소할 예매의 식별자입니다.
+       * @example 1001
+       */
       bookingId: number;
     };
+    /** @description 예매 취소 처리 결과 */
     BookingCancelResponse: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 취소 처리된 예매의 식별자입니다.
+       * @example 1001
+       */
       bookingId: number;
-      /** @enum {string} */
+      /**
+       * @description 취소 처리 후 예매 상태입니다.
+       * @example BOOKING_CANCELLED
+       * @enum {string}
+       */
       bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
@@ -1245,96 +2352,277 @@ export interface components {
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseBookingCancelResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["BookingCancelResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["BookingCancelResponse"];
     };
+    /** @description refresh token으로 발급한 access token 응답 */
     AccessTokenGenerateResponse: {
-      accessToken?: string;
+      /**
+       * @description 새로 발급된 access token입니다.
+       * @example access-token-example
+       */
+      accessToken: string;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseAccessTokenGenerateResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["AccessTokenGenerateResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["AccessTokenGenerateResponse"];
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseTicketRetrieveResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["TicketRetrieveResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["TicketRetrieveResponse"];
     };
+    /** @description 메이커가 조회한 예매자 한 명의 상세 정보입니다. */
     TicketDetail: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 예매 식별자입니다.
+       * @example 1
+       */
       bookingId: number;
+      /**
+       * @description 예매자 이름입니다.
+       * @example booker
+       */
       bookerName: string;
+      /**
+       * @description 예매자 전화번호입니다.
+       * @example 010-0000-0000
+       */
       bookerPhoneNumber: string;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 예매가 연결된 회차 식별자입니다.
+       * @example 1
+       */
       scheduleId: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 구매한 티켓 수량입니다.
+       * @example 2
+       */
       purchaseTicketCount: number;
-      /** Format: date-time */
+      /**
+       * Format: date-time
+       * @description 예매 생성 일시입니다.
+       * @example 2026-04-01T12:00:00
+       */
       createdAt: string;
-      /** @enum {string} */
+      /**
+       * @description 예매 상태입니다.
+       * @example CHECKING_PAYMENT
+       * @enum {string}
+       */
       bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
+      /**
+       * @description 예매가 연결된 회차 번호입니다.
+       * @example FIRST
+       */
       scheduleNumber: string;
+      /**
+       * @description 환불 계좌 은행명입니다. 환불 계좌가 없으면 빈 문자열입니다.
+       * @example 카카오뱅크
+       */
       bankName: string;
+      /**
+       * @description 환불 계좌번호입니다. 환불 계좌가 없으면 빈 문자열입니다.
+       * @example 123-456
+       */
       accountNumber: string;
+      /**
+       * @description 환불 계좌 예금주입니다. 환불 계좌가 없으면 빈 문자열입니다.
+       * @example 예금주
+       */
       accountHolder: string;
+      /**
+       * @description 메이커가 해당 예매를 선택해 삭제할 수 있는지 여부입니다. 결제 금액이 0인 무료 예매는 REFUND_REQUESTED가 아니면, 결제 금액이 0보다 큰 유료 예매는 CHECKING_PAYMENT(입금 확인 전)·BOOKING_CANCELLED(취소 완료)·BOOKING_DELETED 상태이면 삭제할 수 있습니다.
+       * @example true
+       */
       deletable: boolean;
     };
+    /** @description 공연의 예매자 목록과 공연별 티켓 집계 정보입니다. */
     TicketRetrieveResponse: {
+      /**
+       * @description 공연 제목입니다.
+       * @example title
+       */
       performanceTitle: string;
+      /**
+       * @description 공연 팀 이름입니다.
+       * @example team
+       */
       performanceTeamName: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 공연의 전체 회차 수입니다.
+       * @example 1
+       */
       totalScheduleCount: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 공연의 전체 판매 티켓 수량입니다.
+       * @example 100
+       */
       totalPerformanceTicketCount: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 공연에서 판매된 티켓 수량입니다.
+       * @example 10
+       */
       totalPerformanceSoldTicketCount: number;
+      /**
+       * @description 조건에 맞는 예매자 상세 목록입니다.
+       * @example []
+       */
       bookingList: components["schemas"]["TicketDetail"][];
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseTicketAvailabilityResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["TicketAvailabilityResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["TicketAvailabilityResponse"];
     };
+    /** @description 회차의 티켓 재고와 요청 수량에 따른 구매 가능 여부입니다. */
     TicketAvailabilityResponse: {
-      /** Format: int64 */
-      scheduleId?: number;
-      scheduleNumber?: string;
-      /** Format: int32 */
+      /**
+       * Format: int64
+       * @description 회차 식별자입니다.
+       * @example 1
+       */
+      scheduleId: number;
+      /**
+       * @description 회차 번호입니다.
+       * @example 1회차
+       */
+      scheduleNumber: string;
+      /**
+       * Format: int32
+       * @description 회차에 배정된 전체 티켓 수량입니다.
+       * @example 10
+       */
       totalTicketCount: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 회차에서 판매된 티켓 수량입니다.
+       * @example 2
+       */
       soldTicketCount: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 회차에서 구매할 수 있는 잔여 티켓 수량입니다.
+       * @example 8
+       */
       availableTicketCount: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 구매 가능 여부를 확인하기 위해 요청한 티켓 수량입니다.
+       * @example 1
+       */
       requestedTicketCount: number;
+      /**
+       * @description 요청한 티켓 수량만큼 구매할 수 있는지 여부입니다.
+       * @example true
+       */
       isAvailable: boolean;
     };
+    /** @description 공연 수정 화면에 표시할 공연 및 구성 요소 정보 */
     PerformanceModifyDetailResponse: {
-      /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
-      /** @enum {string} */
-      genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
-      /** Format: int32 */
+      /**
+       * Format: int64
+       * @description 공연을 등록한 회원 식별자
+       * @example 1
+       */
+      userId: number;
+      /**
+       * Format: int64
+       * @description 공연 식별자
+       * @example 1
+       */
+      performanceId: number;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * @description 공연 장르
+       * @example BAND
+       * @enum {string}
+       */
+      genre: "BAND" | "PLAY" | "DANCE" | "ETC";
+      /**
+       * Format: int32
+       * @description 공연 러닝타임(분)
+       * @example 90
+       */
       runningTime: number;
-      performanceDescription?: string;
-      performanceAttentionNote?: string;
-      /** @enum {string} */
-      bankName?:
+      /**
+       * @description 공연 소개
+       * @example 가을밤의 라이브 공연을 소개합니다.
+       */
+      performanceDescription: string;
+      /**
+       * @description 공연 유의사항
+       * @example 공연 시작 10분 전까지 입장해 주세요.
+       */
+      performanceAttentionNote: string;
+      /**
+       * @description 유료 공연의 입금 은행이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
+      bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
         | "KB_KOOKMIN"
@@ -1350,217 +2638,726 @@ export interface components {
         | "WOOCHAEGUK"
         | "SCJEIL"
         | "SUHYEOP"
-        | "NONE";
-      accountNumber?: string;
-      accountHolder?: string;
-      posterImage?: string;
-      performanceTeamName?: string;
-      performanceVenue?: string;
-      roadAddressName?: string;
-      placeDetailAddress?: string;
-      latitude?: string;
-      longitude?: string;
-      performanceContact?: string;
-      performancePeriod?: string;
-      /** Format: int32 */
+        | "NONE"
+        | null;
+      /**
+       * @description 유료 공연의 입금 계좌번호이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example 3333-01-1234567
+       */
+      accountNumber: string | null;
+      /**
+       * @description 유료 공연의 입금 계좌 예금주이며, 무료 공연(ticketPrice = 0)에서는 null입니다.
+       * @example BEAT 운영팀
+       */
+      accountHolder: string | null;
+      /**
+       * @description 포스터 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/poster/performance-1.jpg
+       */
+      posterImage: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
+      performanceTeamName: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
+      performanceVenue: string;
+      /**
+       * @description 공연 장소 도로명 주소
+       * @example 서울특별시 마포구 양화로 123
+       */
+      roadAddressName: string;
+      /**
+       * @description 공연 장소 상세 주소
+       * @example 지하 1층
+       */
+      placeDetailAddress: string;
+      /**
+       * @description 공연 장소 위도(십진수 문자열)
+       * @example 37.5665
+       */
+      latitude: string;
+      /**
+       * @description 공연 장소 경도(십진수 문자열)
+       * @example 126.9780
+       */
+      longitude: string;
+      /**
+       * @description 공연 문의 연락처
+       * @example 010-1234-5678
+       */
+      performanceContact: string;
+      /**
+       * @description 회차 날짜의 최솟값과 최댓값으로 계산한 공연 기간(yyyy.MM.dd 또는 yyyy.MM.dd~yyyy.MM.dd)
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod: string;
+      /**
+       * Format: int32
+       * @description 티켓 가격(원)
+       * @example 30000
+       */
       ticketPrice: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 저장된 공연 회차 목록의 개수로 계산한 전체 회차 수
+       * @example 3
+       */
       totalScheduleCount: number;
+      /**
+       * @description 활성 예매 내역의 존재 여부. true이면 예매가 있어 일부 수정·삭제가 제한될 수 있습니다.
+       * @example false
+       */
       isBookerExist: boolean;
+      /**
+       * @description 공연 회차 목록
+       * @example []
+       */
       scheduleList: components["schemas"]["ScheduleResponse"][];
+      /**
+       * @description 공연 출연진 목록
+       * @example []
+       */
       castList: components["schemas"]["CastResponse"][];
+      /**
+       * @description 공연 스태프 목록
+       * @example []
+       */
       staffList: components["schemas"]["StaffResponse"][];
+      /**
+       * @description 공연 상세 이미지 목록
+       * @example []
+       */
       performanceImageList: components["schemas"]["PerformanceImageResponse"][];
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponsePerformanceModifyDetailResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["PerformanceModifyDetailResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["PerformanceModifyDetailResponse"];
     };
+    /** @description 회원 등록 공연 목록의 개별 공연 정보 */
     MakerPerformanceDetailResponse: {
-      /** Format: int64 */
-      performanceId?: number;
-      genre?: string;
-      performanceTitle?: string;
-      posterImage?: string;
-      performancePeriod?: string;
-      /** Format: int32 */
+      /**
+       * Format: int64
+       * @description 공연 식별자
+       * @example 1
+       */
+      performanceId: number;
+      /**
+       * @description 공연 장르
+       * @example BAND
+       */
+      genre: string;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * @description 포스터 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/poster/performance-1.jpg
+       */
+      posterImage: string;
+      /**
+       * @description 회차 날짜의 최솟값과 최댓값으로 계산한 공연 기간(yyyy.MM.dd 또는 yyyy.MM.dd~yyyy.MM.dd)
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod: string;
+      /**
+       * Format: int32
+       * @description 대표 회차 공연일까지 남은 일수이며, 과거 회차는 음수입니다. 대표 회차가 없으면 2147483647입니다.
+       * @example 3
+       */
       minDueDate: number;
     };
+    /** @description 회원이 등록한 공연 목록 응답 */
     MakerPerformanceResponse: {
-      /** Format: int64 */
-      userId?: number;
+      /**
+       * Format: int64
+       * @description 공연을 등록한 회원 식별자
+       * @example 1
+       */
+      userId: number;
+      /**
+       * @description 회원이 등록한 공연 목록
+       * @example []
+       */
       performances: components["schemas"]["MakerPerformanceDetailResponse"][];
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseMakerPerformanceResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["MakerPerformanceResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["MakerPerformanceResponse"];
     };
+    /** @description 공연 상세정보의 출연진 정보 */
     PerformanceDetailCastResponse: {
-      /** Format: int64 */
-      castId?: number;
-      castName?: string;
-      castRole?: string;
-      castPhoto?: string;
+      /**
+       * Format: int64
+       * @description 출연진 식별자
+       * @example 1
+       */
+      castId: number;
+      /**
+       * @description 출연진 이름
+       * @example 홍길동
+       */
+      castName: string;
+      /**
+       * @description 출연진 역할
+       * @example 주연
+       */
+      castRole: string;
+      /**
+       * @description 출연진 사진의 CDN URL
+       * @example https://cdn.example.com/prod/cast/cast-1.jpg
+       */
+      castPhoto: string;
     };
+    /** @description 공연 상세정보의 이미지 정보 */
     PerformanceDetailImageResponse: {
-      /** Format: int64 */
-      performanceImageId?: number;
-      performanceImage?: string;
+      /**
+       * Format: int64
+       * @description 공연 이미지 식별자
+       * @example 1
+       */
+      performanceImageId: number;
+      /**
+       * @description 공연 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/performance/detail-1.jpg
+       */
+      performanceImage: string;
     };
+    /** @description 공연 상세 페이지의 공연 정보 */
     PerformanceDetailResponse: {
-      /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
-      performancePeriod?: string;
+      /**
+       * Format: int64
+       * @description 공연 식별자
+       * @example 1
+       */
+      performanceId: number;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * @description 회차 날짜의 최솟값과 최댓값으로 계산한 공연 기간(yyyy.MM.dd 또는 yyyy.MM.dd~yyyy.MM.dd)
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod: string;
+      /**
+       * @description 공연 회차별 예매 상태 목록
+       * @example []
+       */
       scheduleList: components["schemas"]["PerformanceDetailScheduleResponse"][];
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 티켓 가격(원)
+       * @example 30000
+       */
       ticketPrice: number;
-      genre?: string;
-      posterImage?: string;
-      /** Format: int32 */
+      /**
+       * @description 공연 장르
+       * @example BAND
+       */
+      genre: string;
+      /**
+       * @description 포스터 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/poster/performance-1.jpg
+       */
+      posterImage: string;
+      /**
+       * Format: int32
+       * @description 공연 러닝타임(분)
+       * @example 90
+       */
       runningTime: number;
-      performanceVenue?: string;
-      roadAddressName?: string;
-      placeDetailAddress?: string;
-      latitude?: string;
-      longitude?: string;
-      performanceDescription?: string;
-      performanceAttentionNote?: string;
-      performanceContact?: string;
-      performanceTeamName?: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
+      performanceVenue: string;
+      /**
+       * @description 공연 장소 도로명 주소
+       * @example 서울특별시 마포구 양화로 123
+       */
+      roadAddressName: string;
+      /**
+       * @description 공연 장소 상세 주소
+       * @example 지하 1층
+       */
+      placeDetailAddress: string;
+      /**
+       * @description 공연 장소 위도(십진수 문자열)
+       * @example 37.5665
+       */
+      latitude: string;
+      /**
+       * @description 공연 장소 경도(십진수 문자열)
+       * @example 126.9780
+       */
+      longitude: string;
+      /**
+       * @description 공연 소개
+       * @example 가을밤의 라이브 공연을 소개합니다.
+       */
+      performanceDescription: string;
+      /**
+       * @description 공연 유의사항
+       * @example 공연 시작 10분 전까지 입장해 주세요.
+       */
+      performanceAttentionNote: string;
+      /**
+       * @description 공연 문의 연락처
+       * @example 010-1234-5678
+       */
+      performanceContact: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
+      performanceTeamName: string;
+      /**
+       * @description 공연 출연진 목록
+       * @example []
+       */
       castList: components["schemas"]["PerformanceDetailCastResponse"][];
+      /**
+       * @description 공연 스태프 목록
+       * @example []
+       */
       staffList: components["schemas"]["PerformanceDetailStaffResponse"][];
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 전체 회차 중 가장 가까운 공연일까지 남은 일수이며, 과거 회차는 음수입니다. 회차가 없으면 2147483647입니다.
+       * @example 3
+       */
       minDueDate: number;
+      /**
+       * @description 공연 상세 이미지 목록
+       * @example []
+       */
       performanceImageList: components["schemas"]["PerformanceDetailImageResponse"][];
     };
+    /** @description 공연 상세정보의 회차별 예매 상태 */
     PerformanceDetailScheduleResponse: {
-      /** Format: int64 */
-      scheduleId?: number;
-      /** Format: date-time */
-      performanceDate?: string;
-      scheduleNumber?: string;
-      /** Format: int32 */
+      /**
+       * Format: int64
+       * @description 공연 회차 식별자
+       * @example 1
+       */
+      scheduleId: number;
+      /**
+       * Format: date-time
+       * @description 공연 시작 일시(ISO-8601)
+       * @example 2026-09-01T19:00:00
+       */
+      performanceDate: string;
+      /**
+       * @description 회차 번호 문자열
+       * @example FIRST
+       */
+      scheduleNumber: string;
+      /**
+       * Format: int32
+       * @description 기준일에서 공연일까지 남은 일수이며, 과거 회차는 음수입니다.
+       * @example 3
+       */
       dueDate: number;
+      /**
+       * @description 현재 시각 기준 해당 회차의 예매 가능 여부
+       * @example true
+       */
       isBooking: boolean;
     };
+    /** @description 공연 상세정보의 스태프 정보 */
     PerformanceDetailStaffResponse: {
-      /** Format: int64 */
-      staffId?: number;
-      staffName?: string;
-      staffRole?: string;
-      staffPhoto?: string;
+      /**
+       * Format: int64
+       * @description 스태프 식별자
+       * @example 1
+       */
+      staffId: number;
+      /**
+       * @description 스태프 이름
+       * @example 김기획
+       */
+      staffName: string;
+      /**
+       * @description 스태프 역할
+       * @example 연출
+       */
+      staffRole: string;
+      /**
+       * @description 스태프 사진의 CDN URL
+       * @example https://cdn.example.com/prod/staff/staff-1.jpg
+       */
+      staffPhoto: string;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponsePerformanceDetailResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["PerformanceDetailResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["PerformanceDetailResponse"];
     };
+    /** @description 예매 화면에 표시할 공연 상세정보 */
     BookingPerformanceDetailResponse: {
-      /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
-      performancePeriod?: string;
+      /**
+       * Format: int64
+       * @description 공연 식별자
+       * @example 1
+       */
+      performanceId: number;
+      /**
+       * @description 공연 제목
+       * @example 가을 밤 콘서트
+       */
+      performanceTitle: string;
+      /**
+       * @description 회차 날짜의 최솟값과 최댓값으로 계산한 공연 기간(yyyy.MM.dd 또는 yyyy.MM.dd~yyyy.MM.dd)
+       * @example 2026.09.01~2026.09.03
+       */
+      performancePeriod: string;
+      /**
+       * @description 공연 회차별 예매 정보 목록
+       * @example []
+       */
       scheduleList: components["schemas"]["BookingPerformanceDetailScheduleResponse"][];
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 티켓 가격(원)
+       * @example 30000
+       */
       ticketPrice: number;
-      genre?: string;
-      posterImage?: string;
-      performanceVenue?: string;
-      performanceTeamName?: string;
-      bankName?: string;
-      accountNumber?: string;
-      accountHolder?: string;
+      /**
+       * @description 공연 장르
+       * @example BAND
+       */
+      genre: string;
+      /**
+       * @description 포스터 이미지의 CDN URL
+       * @example https://cdn.example.com/prod/poster/performance-1.jpg
+       */
+      posterImage: string;
+      /**
+       * @description 공연 장소명
+       * @example 홍대 라이브홀
+       */
+      performanceVenue: string;
+      /**
+       * @description 공연 팀명
+       * @example BEAT 밴드
+       */
+      performanceTeamName: string;
+      /**
+       * @description 유료 공연의 입금 은행이며, 무료 공연에서는 null입니다.
+       * @example KAKAOBANK
+       */
+      bankName: string | null;
+      /**
+       * @description 유료 공연의 입금 계좌번호이며, 무료 공연에서는 null입니다.
+       * @example 3333-01-1234567
+       */
+      accountNumber: string | null;
+      /**
+       * @description 유료 공연의 입금 계좌 예금주이며, 무료 공연에서는 null입니다.
+       * @example BEAT 운영팀
+       */
+      accountHolder: string | null;
     };
+    /** @description 예매용 공연 상세정보의 회차별 좌석 및 예매 상태 */
     BookingPerformanceDetailScheduleResponse: {
-      /** Format: int64 */
-      scheduleId?: number;
-      /** Format: date-time */
-      performanceDate?: string;
-      scheduleNumber?: string;
-      /** Format: int32 */
+      /**
+       * Format: int64
+       * @description 공연 회차 식별자
+       * @example 1
+       */
+      scheduleId: number;
+      /**
+       * Format: date-time
+       * @description 공연 시작 일시(ISO-8601)
+       * @example 2026-09-01T19:00:00
+       */
+      performanceDate: string;
+      /**
+       * @description 회차 번호 문자열
+       * @example FIRST
+       */
+      scheduleNumber: string;
+      /**
+       * Format: int32
+       * @description 예매 가능한 잔여 티켓 수량
+       * @example 80
+       */
       availableTicketCount: number;
+      /**
+       * @description 현재 시각 기준 해당 회차의 예매 가능 여부
+       * @example true
+       */
       isBooking: boolean;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 기준일에서 공연일까지 남은 일수이며, 과거 회차는 음수입니다.
+       * @example 3
+       */
       dueDate: number;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseBookingPerformanceDetailResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["BookingPerformanceDetailResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["BookingPerformanceDetailResponse"];
     };
+    /** @description 홈 화면에 노출할 홍보 목록과 공연 목록입니다. */
     HomeFindAllResponse: {
+      /**
+       * @description 홈 화면 홍보 목록입니다.
+       * @example []
+       */
       promotionList: components["schemas"]["HomePromotionDetail"][];
+      /**
+       * @description 홈 화면 공연 목록입니다.
+       * @example []
+       */
       performanceList: components["schemas"]["HomePerformanceDetail"][];
     };
+    /** @description 홈 화면에 표시할 공연 요약 정보입니다. */
     HomePerformanceDetail: {
-      /** Format: int64 */
-      performanceId?: number;
-      performanceTitle?: string;
-      performancePeriod?: string;
-      /** Format: int32 */
+      /**
+       * Format: int64
+       * @description 공연 식별자입니다.
+       * @example 11
+       */
+      performanceId: number;
+      /**
+       * @description 공연 제목입니다.
+       * @example title
+       */
+      performanceTitle: string;
+      /**
+       * @description 공연 기간입니다. 단일 날짜는 yyyy.MM.dd, 여러 날짜는 시작일~종료일 형식입니다.
+       * @example 2026.08.25
+       */
+      performancePeriod: string;
+      /**
+       * Format: int32
+       * @description 공연 티켓 가격입니다.
+       * @example 30000
+       */
       ticketPrice: number;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 공연일까지 남은 일수입니다. 공연일이 지나면 음수이며 공연일이 없으면 매우 큰 값으로 표시됩니다.
+       * @example 3
+       */
       dueDate: number;
-      genre?: string;
-      posterImage?: string;
-      performanceVenue?: string;
+      /**
+       * @description 공연 장르입니다.
+       * @example BAND
+       */
+      genre: string;
+      /**
+       * @description 공연 포스터 이미지 경로입니다. 응답 시 CDN 설정에 따라 CDN URL로 직렬화됩니다.
+       * @example poster.png
+       */
+      posterImage: string;
+      /**
+       * @description 공연 장소입니다.
+       * @example venue
+       */
+      performanceVenue: string;
     };
+    /** @description 홈 화면에 표시할 홍보 배너 요약 정보입니다. */
     HomePromotionDetail: {
-      /** Format: int64 */
-      promotionId?: number;
-      promotionPhoto?: string;
-      /** Format: int64 */
-      performanceId?: number;
-      redirectUrl?: string;
+      /**
+       * Format: int64
+       * @description 홍보 식별자입니다.
+       * @example 1
+       */
+      promotionId: number;
+      /**
+       * @description 홍보 배너 이미지 경로입니다. 응답 시 CDN 설정에 따라 CDN URL로 직렬화됩니다.
+       * @example promotion.png
+       */
+      promotionPhoto: string;
+      /**
+       * Format: int64
+       * @description 연결된 공연 식별자입니다. 공연과 연결되지 않은 홍보는 null입니다.
+       * @example 11
+       */
+      performanceId: number | null;
+      /**
+       * @description 홍보 배너 클릭 시 이동할 URL 또는 경로입니다.
+       * @example https://beat.example/one
+       */
+      redirectUrl: string;
+      /**
+       * @description 홍보 배너가 외부 링크로 이동하는지 여부입니다.
+       * @example true
+       */
       isExternal: boolean;
-      carouselNumber?: string;
+      /**
+       * @description 홍보 배너의 캐러셀 순서입니다.
+       * @example ONE
+       */
+      carouselNumber: string;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseHomeFindAllResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["HomeFindAllResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["HomeFindAllResponse"];
     };
+    /** @description S3 이미지 업로드용 presigned URL과 저장될 object key입니다. */
     ImagePresignedUpload: {
+      /** @description 이미지 파일을 업로드할 S3 PUT presigned URL입니다. */
       uploadUrl: string;
+      /** @description 업로드된 이미지를 식별하는 S3 object key입니다. */
       imageKey: string;
     };
+    /** @description 공연 이미지 종류별 presigned 업로드 URL과 S3 object key입니다. */
     PerformanceMakerPresignedUrlFindAllResponse: {
+      /**
+       * @description 이미지 종류를 key로 하고, 각 원본 파일명을 key로 하여 PUT presigned URL(uploadUrl)과 S3 object key(imageKey)를 담은 맵입니다.
+       * @example {
+       *       "poster": {
+       *         "poster.png": {
+       *           "uploadUrl": "https://example.com/poster/uuid-poster.png",
+       *           "imageKey": "poster/uuid-poster.png"
+       *         }
+       *       }
+       *     }
+       */
       performanceMakerPresignedUploads: {
         [key: string]: {
           [key: string]: components["schemas"]["ImagePresignedUpload"];
         };
       };
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponsePerformanceMakerPresignedUrlFindAllResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["PerformanceMakerPresignedUrlFindAllResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["PerformanceMakerPresignedUrlFindAllResponse"];
     };
+    /** @description 회원 예매 내역 조회 결과입니다. 무료 공연은 계좌 필드가 null이고, 유료 공연은 공연에 등록된 은행·계좌번호·예금주 전체 값이 반환됩니다. */
     MemberBookingRetrieveResponse: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 예매한 회원의 사용자 식별자입니다.
+       * @example 3001
+       */
       userId: number;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 조회된 예매의 식별자입니다.
+       * @example 1001
+       */
       bookingId: number;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 예매한 공연 회차의 식별자입니다.
+       * @example 2001
+       */
       scheduleId: number;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 예매한 공연의 식별자입니다.
+       * @example 3001
+       */
       performanceId: number;
+      /**
+       * @description 예매한 공연의 제목입니다.
+       * @example 봄날의 콘서트
+       */
       performanceTitle: string;
-      /** Format: date-time */
+      /**
+       * Format: date-time
+       * @description 예매한 공연 회차의 공연 일시입니다(ISO-8601 형식).
+       * @example 2024-01-20T19:00:00
+       */
       performanceDate: string;
+      /**
+       * @description 예매한 공연의 장소입니다.
+       * @example 예술의전당
+       */
       performanceVenue: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 예매한 티켓 수량입니다.
+       * @example 2
+       */
       purchaseTicketCount: number;
-      /** @enum {string} */
+      /**
+       * @description 예매한 공연 회차 번호입니다.
+       * @example FIRST
+       * @enum {string}
+       */
       scheduleNumber:
         | "FIRST"
         | "SECOND"
@@ -1572,9 +3369,21 @@ export interface components {
         | "EIGHTH"
         | "NINTH"
         | "TENTH";
+      /**
+       * @description 예매자 이름입니다.
+       * @example 홍길동
+       */
       bookerName: string;
+      /**
+       * @description 공연 문의 연락처입니다.
+       * @example 010-9876-5432
+       */
       performanceContact: string;
-      /** @enum {string} */
+      /**
+       * @description 공연 입금 계좌의 은행입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example KAKAOBANK
+       * @enum {string|null}
+       */
       bankName:
         | "NH_NONGHYUP"
         | "KAKAOBANK"
@@ -1593,143 +3402,454 @@ export interface components {
         | "SUHYEOP"
         | "NONE"
         | null;
+      /**
+       * @description 공연 입금 계좌번호입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example 123456789012
+       */
       accountNumber: string | null;
+      /**
+       * @description 공연 입금 계좌의 예금주명입니다. 무료 공연은 null이고, 유료 공연은 공연에 등록된 값입니다.
+       * @example 홍길동
+       */
       accountHolder: string | null;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 오늘부터 공연일까지 남은 일수입니다. 공연일이 지나면 음수일 수 있습니다.
+       * @example 30
+       */
       dueDate: number;
-      /** @enum {string} */
+      /**
+       * @description 예매 상태입니다.
+       * @example BOOKING_CONFIRMED
+       * @enum {string}
+       */
       bookingStatus:
         | "CHECKING_PAYMENT"
         | "BOOKING_CONFIRMED"
         | "BOOKING_CANCELLED"
         | "REFUND_REQUESTED"
         | "BOOKING_DELETED";
-      /** Format: date-time */
+      /**
+       * Format: date-time
+       * @description 예매 생성 시각입니다(ISO-8601 형식).
+       * @example 2024-01-01T19:00:00
+       */
       createdAt: string;
+      /**
+       * @description 공연 포스터 이미지 URL입니다.
+       * @example https://cdn.example.com/poster.jpg
+       */
       posterImage: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 예매 총 결제 금액입니다.
+       * @example 10000
+       */
       totalPaymentAmount: number;
     };
+    /** @description API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseListMemberBookingRetrieveResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["MemberBookingRetrieveResponse"][];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["MemberBookingRetrieveResponse"][];
     };
+    /** @description 캐러셀 프로모션 생성 또는 수정 요청 */
     CarouselHandleRequest: {
-      carousels: (
-        | components["schemas"]["PromotionGenerateRequest"]
-        | components["schemas"]["PromotionModifyRequest"]
-      )[];
+      /**
+       * @description 캐러셀 프로모션 생성 또는 수정 항목 목록
+       * @example [
+       *       {
+       *         "type": "generate",
+       *         "carouselNumber": "ONE",
+       *         "newImageUrl": "https://cdn.beatlive.kr/prod/carousel/summer.png",
+       *         "isExternal": false,
+       *         "redirectUrl": "/performances/11",
+       *         "performanceId": 11
+       *       }
+       *     ]
+       */
+      carousels: components["schemas"]["PromotionHandleRequest"][];
     };
+    /** @description 새 캐러셀 프로모션 생성 요청 */
     PromotionGenerateRequest: {
-      type: "PromotionGenerateRequest";
-    } & (Omit<components["schemas"]["PromotionHandleRequest"], "type"> & {
-      /** @enum {string} */
+      /**
+       * @description 요청 항목 유형입니다. modify는 기존 프로모션 수정, generate는 신규 프로모션 생성입니다. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      type: "generate";
+      /**
+       * @description 프로모션을 배치할 캐러셀 순서
+       * @example ONE
+       * @enum {string}
+       */
       carouselNumber: "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN";
+      /**
+       * Format: uri-reference
+       * @description 새 이미지 URL 또는 저장 키
+       * @example https://cdn.beatlive.kr/prod/carousel/summer.png
+       */
       newImageUrl: string;
+      /**
+       * @description 외부 URL 연결 여부
+       * @example false
+       */
       isExternal: boolean;
+      /**
+       * Format: uri-reference
+       * @description 이미지 클릭 시 이동할 URL 또는 경로
+       * @example /performances/11
+       */
       redirectUrl: string;
-      /** Format: int64 */
-      performanceId?: number;
-    });
-    PromotionHandleRequest: {
-      type: string;
+      /**
+       * Format: int64
+       * @description 연결할 공연 식별자
+       * @example 11
+       */
+      performanceId?: number | null;
     };
+    /** @description 캐러셀 프로모션 생성 또는 수정 항목 */
+    PromotionHandleRequest: {
+      /**
+       * @description 요청 항목 유형입니다. modify는 기존 프로모션 수정, generate는 신규 프로모션 생성입니다.
+       * @example generate
+       */
+      type: string;
+    } & (
+      | components["schemas"]["PromotionModifyRequest"]
+      | components["schemas"]["PromotionGenerateRequest"]
+    );
+    /** @description 기존 캐러셀 프로모션 수정 요청 */
     PromotionModifyRequest: {
-      type: "PromotionModifyRequest";
-    } & (Omit<components["schemas"]["PromotionHandleRequest"], "type"> & {
-      /** Format: int64 */
+      /**
+       * @description 요청 항목 유형입니다. modify는 기존 프로모션 수정, generate는 신규 프로모션 생성입니다. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      type: "modify";
+      /**
+       * Format: int64
+       * @description 수정할 프로모션 식별자
+       * @example 1
+       */
       promotionId: number;
-      /** @enum {string} */
+      /**
+       * @description 프로모션을 배치할 캐러셀 순서
+       * @example ONE
+       * @enum {string}
+       */
       carouselNumber: "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN";
+      /**
+       * Format: uri-reference
+       * @description 새 이미지 URL 또는 저장 키
+       * @example https://cdn.beatlive.kr/prod/carousel/summer.png
+       */
       newImageUrl: string;
+      /**
+       * @description 외부 URL 연결 여부
+       * @example false
+       */
       isExternal: boolean;
+      /**
+       * Format: uri-reference
+       * @description 이미지 클릭 시 이동할 URL 또는 경로
+       * @example /performances/11
+       */
       redirectUrl: string;
-      /** Format: int64 */
-      performanceId?: number;
-    });
+      /**
+       * Format: int64
+       * @description 연결할 공연 식별자
+       * @example 11
+       */
+      performanceId?: number | null;
+    };
+    /** @description 캐러셀 프로모션 일괄 처리 응답 */
     CarouselHandleAllResponse: {
+      /**
+       * @description 생성 또는 수정된 프로모션 목록
+       * @example [
+       *       {
+       *         "promotionId": 1,
+       *         "newImageUrl": "dev/carousel/summer.png",
+       *         "isExternal": false,
+       *         "redirectUrl": "/performances/11",
+       *         "carouselNumber": "ONE"
+       *       }
+       *     ]
+       */
       modifiedPromotions: components["schemas"]["PromotionResponse"][];
     };
+    /** @description 생성 또는 수정된 프로모션 정보 */
     PromotionResponse: {
-      /** Format: int64 */
-      promotionId?: number;
+      /**
+       * Format: int64
+       * @description 프로모션 식별자
+       * @example 1
+       */
+      promotionId: number;
+      /**
+       * Format: uri-reference
+       * @description 프로모션 이미지 URL 또는 저장 키
+       * @example dev/carousel/summer.png
+       */
       newImageUrl: string;
+      /**
+       * @description 외부 URL 연결 여부
+       * @example false
+       */
       isExternal: boolean;
+      /**
+       * Format: uri-reference
+       * @description 이미지 클릭 시 이동할 URL 또는 경로
+       * @example /performances/11
+       */
       redirectUrl: string;
-      carouselNumber: string;
+      /**
+       * @description 프로모션이 배치된 캐러셀 순서
+       * @example ONE
+       * @enum {string}
+       */
+      carouselNumber: "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN";
     };
+    /** @description 관리자 API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseCarouselHandleAllResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["CarouselHandleAllResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["CarouselHandleAllResponse"];
     };
+    /** @description 관리자 API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseUserFindAllResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["UserFindAllResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["UserFindAllResponse"];
     };
+    /** @description 관리자 사용자 전체 조회 응답 */
     UserFindAllResponse: {
+      /**
+       * @description 시스템에 등록된 사용자 목록
+       * @example [
+       *       {
+       *         "id": 1,
+       *         "role": "ROLE_USER"
+       *       }
+       *     ]
+       */
       users: components["schemas"]["UserFindResponse"][];
     };
+    /** @description 사용자 식별자와 권한 정보 */
     UserFindResponse: {
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 사용자 식별자
+       * @example 1
+       */
       id: number;
-      role: string;
+      /**
+       * @description 사용자 권한
+       * @example ROLE_USER
+       * @enum {string}
+       */
+      role: "ROLE_USER" | "ROLE_MEMBER" | "ROLE_ADMIN";
     };
+    /** @description 캐러셀 프로모션 전체 조회 응답 */
     CarouselFindAllResponse: {
+      /**
+       * @description 캐러셀 번호 순으로 정렬된 프로모션 목록
+       * @example [
+       *       {
+       *         "promotionId": 1,
+       *         "carouselNumber": "ONE",
+       *         "newImageUrl": "dev/carousel/summer.png",
+       *         "isExternal": false,
+       *         "redirectUrl": "/performances/11",
+       *         "performanceId": 11
+       *       }
+       *     ]
+       */
       carousels: components["schemas"]["CarouselFindResponse"][];
     };
+    /** @description 캐러셀에 등록된 프로모션 정보 */
     CarouselFindResponse: {
-      /** Format: int64 */
-      promotionId?: number;
-      carouselNumber: string;
+      /**
+       * Format: int64
+       * @description 프로모션 식별자
+       * @example 1
+       */
+      promotionId: number;
+      /**
+       * @description 프로모션이 배치된 캐러셀 순서
+       * @example ONE
+       * @enum {string}
+       */
+      carouselNumber: "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN";
+      /**
+       * Format: uri-reference
+       * @description 프로모션 이미지 URL 또는 저장 키
+       * @example dev/carousel/summer.png
+       */
       newImageUrl: string;
+      /**
+       * @description 외부 URL 연결 여부
+       * @example false
+       */
       isExternal: boolean;
+      /**
+       * Format: uri-reference
+       * @description 이미지 클릭 시 이동할 URL 또는 경로
+       * @example /performances/11
+       */
       redirectUrl: string;
-      /** Format: int64 */
-      performanceId?: number;
+      /**
+       * Format: int64
+       * @description 연결된 공연 식별자
+       * @example 11
+       */
+      performanceId: number | null;
     };
+    /** @description 관리자 API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseCarouselFindAllResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["CarouselFindAllResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["CarouselFindAllResponse"];
     };
+    /** @description 캐러셀 이미지 업로드 메타데이터 */
     CarouselPresignedUploadResponse: {
+      /**
+       * Format: uri
+       * @description 캐러셀 이미지 업로드에 사용하는 Presigned URL
+       * @example https://s3.ap-northeast-2.amazonaws.com/beat-dev/carousel/carousel.png?X-Amz-Algorithm=AWS4-HMAC-SHA256
+       */
       uploadUrl: string;
+      /**
+       * @description S3에 저장된 캐러셀 이미지 키
+       * @example dev/carousel/carousel.png
+       */
       imageKey: string;
     };
+    /** @description 캐러셀 이미지 업로드용 Presigned URL 전체 조회 응답 */
     CarouselPresignedUrlFindAllResponse: {
+      /**
+       * @description 이미지 파일명별 캐러셀 이미지 업로드 Presigned URL
+       * @example {
+       *       "carousel.png": "https://s3.ap-northeast-2.amazonaws.com/beat-dev/carousel/carousel.png?X-Amz-Algorithm=AWS4-HMAC-SHA256"
+       *     }
+       */
       carouselPresignedUrls: {
         [key: string]: string;
       };
+      /**
+       * @description 이미지 파일명별 캐러셀 이미지 업로드 메타데이터
+       * @example {
+       *       "carousel.png": {
+       *         "uploadUrl": "https://s3.ap-northeast-2.amazonaws.com/beat-dev/carousel/carousel.png?X-Amz-Algorithm=AWS4-HMAC-SHA256",
+       *         "imageKey": "dev/carousel/carousel.png"
+       *       }
+       *     }
+       */
       carouselPresignedUploads: {
         [key: string]: components["schemas"]["CarouselPresignedUploadResponse"];
       };
     };
+    /** @description 관리자 API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseCarouselPresignedUrlFindAllResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["CarouselPresignedUrlFindAllResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["CarouselPresignedUrlFindAllResponse"];
     };
+    /** @description 배너 이미지 업로드 메타데이터 */
     BannerPresignedUploadResponse: {
+      /**
+       * Format: uri
+       * @description 배너 이미지 업로드에 사용하는 Presigned URL
+       * @example https://s3.ap-northeast-2.amazonaws.com/beat-dev/banner/banner.png?X-Amz-Algorithm=AWS4-HMAC-SHA256
+       */
       uploadUrl: string;
+      /**
+       * @description S3에 저장된 배너 이미지 키
+       * @example dev/banner/banner.png
+       */
       imageKey: string;
     };
+    /** @description 배너 이미지 업로드용 Presigned URL 조회 응답 */
     BannerPresignedUrlFindResponse: {
+      /**
+       * Format: uri
+       * @description 배너 이미지 업로드에 사용하는 Presigned URL
+       * @example https://s3.ap-northeast-2.amazonaws.com/beat-dev/banner/banner.png?X-Amz-Algorithm=AWS4-HMAC-SHA256
+       */
       bannerPresignedUrl: string;
+      /**
+       * @description 배너 업로드 URL과 저장 키
+       * @example {
+       *       "uploadUrl": "https://s3.ap-northeast-2.amazonaws.com/beat-dev/banner/banner.png?X-Amz-Algorithm=AWS4-HMAC-SHA256",
+       *       "imageKey": "dev/banner/banner.png"
+       *     }
+       */
       bannerPresignedUpload: components["schemas"]["BannerPresignedUploadResponse"];
     };
+    /** @description 관리자 API 성공 결과를 담는 공통 응답 envelope */
     SuccessResponseBannerPresignedUrlFindResponse: {
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description HTTP 성공 상태 코드
+       * @example 200
+       */
       status: number;
+      /**
+       * @description 클라이언트에 전달하는 성공 메시지
+       * @example 요청이 성공적으로 처리되었습니다.
+       */
       message: string;
-      data?: components["schemas"]["BannerPresignedUrlFindResponse"];
+      /** @description 성공 결과 데이터입니다. 데이터가 없는 응답에서도 JSON 키가 포함되며 값은 null일 수 있습니다. */
+      data: components["schemas"]["BannerPresignedUrlFindResponse"];
     };
   };
   responses: never;
@@ -1740,16 +3860,17 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  updateTickets: {
+  ticketUpdatePaymentStatusForMaker: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
+    /** @description 입금 확인 상태로 변경할 예매자 목록을 포함한 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["TicketUpdateRequest"];
+        "application/json": components["schemas"]["TicketUpdateRequest"];
       };
     };
     responses: {
@@ -1759,30 +3880,74 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
+          "application/json": components["schemas"]["SuccessResponseVoid"];
         };
       };
-      /** @description 이미 결제가 완료된 티켓의 상태는 변경할 수 없습니다. */
+      /** @description 요청 형식이 올바르지 않거나, 중복된 예매 식별자 또는 지원하지 않는 예매 상태가 포함되어 있습니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 해당 공연의 메이커가 아니거나, 예매에 연결된 회차가 해당 공연에 속하지 않습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원, 공연, 예매 또는 회차 정보를 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 이미 결제가 완료된 예매이거나 허용되지 않은 상태 전이로 인해 입금 상태를 변경할 수 없습니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  refundTickets: {
+  ticketRefundForMaker: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
+    /** @description 환불 요청 상태인 예매자를 환불 완료 처리할 공연과 예매 식별자 목록입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["TicketRefundRequest"];
+        "application/json": components["schemas"]["TicketRefundRequest"];
       };
     };
     responses: {
@@ -1792,30 +3957,74 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
+          "application/json": components["schemas"]["SuccessResponseVoid"];
         };
       };
-      /** @description 해당 예매 내역을 찾을 수 없습니다. */
+      /** @description 요청 본문 형식이 올바르지 않거나 예매 식별자 형식이 잘못되었습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 해당 공연의 메이커가 아니거나, 예매에 연결된 회차가 해당 공연에 속하지 않습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원, 공연, 예매 또는 회차 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 환불 요청(REFUND_REQUESTED) 상태인 예매만 환불 완료 처리할 수 있습니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  deleteTickets: {
+  ticketDeleteForMaker: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
+    /** @description 삭제할 공연과 예매 식별자 목록을 포함한 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["TicketDeleteRequest"];
+        "application/json": components["schemas"]["TicketDeleteRequest"];
       };
     };
     responses: {
@@ -1825,16 +4034,59 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
+          "application/json": components["schemas"]["SuccessResponseVoid"];
         };
       };
-      /** @description 해당 예매 내역을 찾을 수 없습니다. */
+      /** @description 요청 본문 형식이 올바르지 않거나 예매 식별자 형식이 잘못되었습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 해당 공연의 메이커가 아니거나, 예매에 연결된 회차가 해당 공연에 속하지 않습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원, 공연, 예매 또는 회차 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 삭제 가능한 상태가 아닌 예매가 포함되어 있습니다. CHECKING_PAYMENT, 결제 금액이 0원인 BOOKING_CONFIRMED 또는 BOOKING_CANCELLED 상태만 삭제할 수 있습니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -1846,9 +4098,10 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
+    /** @description 수정할 공연 정보. ticketPrice가 0이면 결제 계좌 필드는 모두 null이어야 하며, 0보다 크면 세 필드가 모두 필요합니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["PerformanceModifyRequest"];
+        "application/json": components["schemas"]["PerformanceModifyRequest"];
       };
     };
     responses: {
@@ -1858,34 +4111,50 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
+          "application/json": components["schemas"]["SuccessResponsePerformanceModifyResponse"];
         };
       };
-      /** @description 공연 회차 개수, 티켓 가격 또는 예매자 존재로 인해 수정할 수 없습니다. */
+      /** @description 회차 목록이 비어 있거나 수정 대상 ID가 중복되었거나 종료된 회차를 수정하려는 경우, 또는 티켓 가격·수량·이미지 key·결제 계좌 등 요청 입력이 유효하지 않은 경우입니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 해당 공연의 소유자가 아닙니다. */
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 공연 소유자가 아니거나 수정 대상 회차·출연진·스태프·이미지가 해당 공연에 속하지 않습니다. */
       403: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 공연 정보를 찾을 수 없습니다. */
+      /** @description 회원·공연·회차·출연진·스태프·이미지를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -1897,9 +4166,10 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
+    /** @description 생성할 공연 정보. ticketPrice가 0이면 결제 계좌 필드는 모두 null이어야 하며, 0보다 크면 세 필드가 모두 필요합니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["PerformanceRequest"];
+        "application/json": components["schemas"]["PerformanceRequest"];
       };
     };
     responses: {
@@ -1909,74 +4179,147 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceResponse"];
+          "application/json": components["schemas"]["SuccessResponsePerformanceResponse"];
         };
       };
-      /** @description 필수 데이터가 누락되었습니다. */
+      /** @description 회차 목록이 비어 있거나 과거 회차가 포함된 경우, 또는 러닝타임·티켓 가격·티켓 수량·이미지 key·결제 계좌 입력이 유효하지 않은 경우입니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 공연 정보를 찾을 수 없습니다. */
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 회원을 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  signUp: {
+  signUpMember: {
     parameters: {
       query: {
+        /**
+         * @description 소셜 로그인 제공자에서 발급한 인가 코드입니다.
+         * @example sample-authorization-code
+         */
         authorizationCode: string;
       };
       header?: never;
       path?: never;
       cookie?: never;
     };
+    /** @description 사용할 소셜 로그인 제공자를 담은 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["MemberLoginRequest"];
+        "application/json": components["schemas"]["MemberLoginRequest"];
       };
     };
     responses: {
-      /** @description 로그인 또는 회원가입 성공 */
+      /** @description 소셜 로그인 또는 회원가입이 완료되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMemberLoginResponse"];
+          "application/json": components["schemas"]["SuccessResponseMemberLoginResponse"];
         };
       };
-      /** @description 로그인 요청이 유효하지 않습니다. */
+      /** @description 지원하지 않는 소셜 로그인 제공자이거나 로그인 요청 값이 유효하지 않은 경우입니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 회원 정보를 찾을 수 없습니다. */
+      /** @description 소셜 로그인 제공자의 인가 코드 인증에 실패했거나 인가 코드가 만료된 경우입니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 로그인 과정에서 연결된 회원 또는 사용자 정보를 찾을 수 없는 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 소셜 로그인 제공자의 응답을 처리하지 못한 경우입니다. */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 소셜 로그인 제공 서비스를 일시적으로 사용할 수 없는 경우입니다. */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 소셜 로그인 제공자의 응답이 제한 시간 안에 도착하지 않은 경우입니다. */
+      504: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  signOut: {
+  signOutMember: {
     parameters: {
       query?: never;
       header?: never;
@@ -1985,22 +4328,54 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description 로그아웃 성공 */
+      /** @description 회원 로그아웃이 완료되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
+          "application/json": components["schemas"]["SuccessResponseVoid"];
         };
       };
-      /** @description 회원 정보를 찾을 수 없습니다. */
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 로그아웃할 회원 정보를 찾을 수 없는 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2012,79 +4387,131 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
+    /** @description 회원 예매 생성에 필요한 공연 회차, 티켓 수량, 예매자 정보를 담은 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["MemberBookingRequest"];
+        "application/json": components["schemas"]["MemberBookingRequest"];
       };
     };
     responses: {
-      /** @description 회원 예매가 성공적으로 완료되었습니다. */
+      /** @description 회원 예매가 생성되었습니다. */
       201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMemberBookingResponse"];
+          "application/json": components["schemas"]["SuccessResponseMemberBookingResponse"];
         };
       };
-      /** @description 필수 데이터가 누락되었거나 잘못된 요청 형식입니다. */
+      /** @description 필수 값이 누락되었거나 예매자 정보 형식이 잘못되었거나 티켓 수량이 1~10장 범위를 벗어난 경우입니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 회원, 공연 또는 회차 정보를 찾을 수 없습니다. */
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증된 회원, 공연 또는 예매하려는 회차 정보를 찾을 수 없는 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 예매 마감 시각이 지나 BOOKING_CLOSED 상태로 예매가 거부된 경우입니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  createGuestBookings: {
+  createGuestBooking: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
+    /** @description 비회원 예매 생성에 필요한 공연 회차, 티켓 수량, 예매자 본인 확인 정보를 담은 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["GuestBookingRequest"];
+        "application/json": components["schemas"]["GuestBookingRequest"];
       };
     };
     responses: {
-      /** @description 비회원 예매가 성공적으로 완료되었습니다. */
+      /** @description 비회원 예매가 생성되었습니다. */
       201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseGuestBookingResponse"];
+          "application/json": components["schemas"]["SuccessResponseGuestBookingResponse"];
         };
       };
-      /** @description 필수 데이터가 누락되었거나 잘못된 데이터 형식입니다. */
+      /** @description 필수 값이 누락되었거나 이름·전화번호·생년월일·비밀번호 형식이 잘못되었거나 티켓 수량이 1~10장 범위를 벗어난 경우입니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 공연 또는 회차 정보를 찾을 수 없습니다. */
+      /** @description 예매하려는 공연 또는 회차 정보를 찾을 수 없는 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 예매 마감 시각이 지나 BOOKING_CLOSED 상태로 예매가 거부된 경우입니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2096,98 +4523,226 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
+    /** @description 비회원 예매 조회에 사용할 예매자 본인 확인 정보를 담은 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["GuestBookingRetrieveRequest"];
+        "application/json": components["schemas"]["GuestBookingRetrieveRequest"];
       };
     };
     responses: {
-      /** @description 비회원 예매 조회가 성공적으로 완료되었습니다. */
+      /** @description 비회원 예매 내역이 조회되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseListGuestBookingRetrieveResponse"];
+          "application/json": components["schemas"]["SuccessResponseListGuestBookingRetrieveResponse"];
         };
       };
-      /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
+      /** @description 예매자 본인 확인 정보가 누락되었거나 이름·전화번호·생년월일·비밀번호 형식이 잘못된 경우입니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 인증 정보와 일치하는 예매가 없거나 예매에 연결된 공연·회차 정보를 찾을 수 없는 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 비회원 예매 조회 요청이 허용된 횟수를 초과해 일시적으로 제한된 경우입니다. */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  refundBookings: {
+  requestBookingRefund: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: {
+        /**
+         * @description 비회원 예매자 인증에 사용하는 게스트 세션 쿠키입니다. 회원 access token이 없을 때 사용합니다.
+         * @example guest-session-example
+         */
         "__Host-guestSession"?: string;
       };
     };
+    /** @description 환불할 예매 ID와 환불받을 은행·계좌 정보를 담은 요청 본문입니다. 환불 계좌 정보는 모두 필수입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["BookingRefundRequest"];
+        "application/json": components["schemas"]["BookingRefundRequest"];
       };
     };
     responses: {
-      /** @description 유료공연 예매 환불 요청이 성공적으로 완료되었습니다. */
+      /** @description 유료 공연 예매 환불 요청이 접수되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBookingRefundResponse"];
+          "application/json": components["schemas"]["SuccessResponseBookingRefundResponse"];
         };
       };
-      /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
+      /** @description 환불 계좌 정보가 누락되었거나 은행·계좌번호·예금주 정보가 유효하지 않은 경우입니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원 access token과 __Host-guestSession 쿠키가 모두 없어 예매자 인증이 필요한 경우입니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 게스트 세션 쿠키를 사용한 요청의 Origin이 허용된 출처가 아닌 경우이며 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SuccessResponseBookingRefundResponse"];
+        };
+      };
+      /** @description 예매를 찾을 수 없거나 인증된 예매자가 해당 예매의 소유자가 아닌 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 현재 예매 상태가 환불 요청을 허용하지 않는 경우입니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  cancelBookings: {
+  requestBookingCancellation: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: {
+        /**
+         * @description 비회원 예매자 인증에 사용하는 게스트 세션 쿠키입니다. 회원 access token이 없을 때 사용합니다.
+         * @example guest-session-example
+         */
         "__Host-guestSession"?: string;
       };
     };
+    /** @description 취소할 예매 ID를 담은 요청 본문입니다. */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["BookingCancelRequest"];
+        "application/json": components["schemas"]["BookingCancelRequest"];
       };
     };
     responses: {
-      /** @description 무료공연/미입금 예매 취소 요청이 성공적으로 완료되었습니다. */
+      /** @description 무료 공연 또는 미입금 예매 취소 요청이 처리되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBookingCancelResponse"];
+          "application/json": components["schemas"]["SuccessResponseBookingCancelResponse"];
         };
       };
-      /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원 access token과 __Host-guestSession 쿠키가 모두 없어 예매자 인증이 필요한 경우입니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 게스트 세션 쿠키를 사용한 요청의 Origin이 허용된 출처가 아닌 경우이며 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SuccessResponseBookingCancelResponse"];
+        };
+      };
+      /** @description 예매를 찾을 수 없거나 인증된 예매자가 해당 예매의 소유자가 아닌 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 입금이 확인된 유료 예매·환불 처리 중인 예매 등 현재 상태에서 직접 취소할 수 없는 경우입니다. */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2198,34 +4753,69 @@ export interface operations {
       header?: never;
       path?: never;
       cookie: {
+        /**
+         * @description access token 재발급에 사용할 refresh token 쿠키입니다.
+         * @example refresh-token-example
+         */
         refreshToken: string;
       };
     };
     requestBody?: never;
     responses: {
-      /** @description access token 재발급 성공 */
+      /** @description access token이 재발급되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseAccessTokenGenerateResponse"];
+          "application/json": components["schemas"]["SuccessResponseAccessTokenGenerateResponse"];
         };
       };
-      /** @description 유효하지 않은 토큰입니다. */
+      /** @description refreshToken 쿠키가 유효하지 않거나 검증할 수 없는 경우입니다. */
       400: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description refreshToken 쿠키가 만료되어 인증할 수 없는 경우입니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 서버 저장소에서 해당 refreshToken을 찾을 수 없는 경우입니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  getTickets: {
+  ticketRetrieveForMaker: {
     parameters: {
       query?: {
+        /**
+         * @description 조회할 회차 번호 목록입니다. 생략하면 모든 회차를 조회합니다.
+         * @example FIRST
+         */
         scheduleNumbers?: (
           | "FIRST"
           | "SECOND"
@@ -2238,6 +4828,10 @@ export interface operations {
           | "NINTH"
           | "TENTH"
         )[];
+        /**
+         * @description 조회할 예매 상태 목록입니다. 생략하면 삭제되지 않은 예매 상태를 조회하며 BOOKING_DELETED는 조회할 수 없습니다.
+         * @example CHECKING_PAYMENT
+         */
         bookingStatuses?: (
           | "CHECKING_PAYMENT"
           | "BOOKING_CONFIRMED"
@@ -2248,6 +4842,10 @@ export interface operations {
       };
       header?: never;
       path: {
+        /**
+         * @description 예매자 목록을 조회할 공연 식별자입니다.
+         * @example 100
+         */
         performanceId: number;
       };
       cookie?: never;
@@ -2260,24 +4858,66 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+          "application/json": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
         };
       };
-      /** @description 공연 또는 회차 정보를 찾을 수 없습니다. */
+      /** @description 회차 번호 또는 예매 상태 enum 값이 올바르지 않거나, 삭제된 예매 상태(BOOKING_DELETED)를 조회 조건으로 지정했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 해당 공연의 메이커가 아니어서 예매자 목록을 조회할 수 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원, 공연 또는 회차 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  searchTickets: {
+  ticketSearchForMaker: {
     parameters: {
       query: {
+        /**
+         * @description 예매자 이름 검색어입니다. 공백을 제거한 뒤 최소 2글자 이상이어야 합니다.
+         * @example booker
+         */
         searchWord: string;
+        /**
+         * @description 검색할 회차 번호 목록입니다. 생략하면 모든 회차를 검색합니다.
+         * @example FIRST
+         */
         scheduleNumbers?: (
           | "FIRST"
           | "SECOND"
@@ -2290,6 +4930,10 @@ export interface operations {
           | "NINTH"
           | "TENTH"
         )[];
+        /**
+         * @description 검색할 예매 상태 목록입니다. 생략하면 환불 요청·입금 확인 중·예매 확정·예매 취소 상태를 검색합니다.
+         * @example CHECKING_PAYMENT
+         */
         bookingStatuses?: (
           | "CHECKING_PAYMENT"
           | "BOOKING_CONFIRMED"
@@ -2300,6 +4944,10 @@ export interface operations {
       };
       header?: never;
       path: {
+        /**
+         * @description 예매자 목록을 검색할 공연 식별자입니다.
+         * @example 100
+         */
         performanceId: number;
       };
       cookie?: never;
@@ -2312,27 +4960,69 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
+          "application/json": components["schemas"]["SuccessResponseTicketRetrieveResponse"];
         };
       };
-      /** @description 공연 또는 회차 정보를 찾을 수 없습니다. */
+      /** @description 회차 번호 또는 예매 상태 enum 값이 올바르지 않거나, 삭제된 예매 상태(BOOKING_DELETED)를 지정했거나, 검색어가 2글자 미만입니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 해당 공연의 메이커가 아니어서 예매자 목록을 검색할 수 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원, 공연 또는 회차 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  getTicketAvailability: {
+  scheduleCheckTicketAvailability: {
     parameters: {
       query: {
+        /**
+         * @description 구매 가능 여부를 확인할 티켓 수량입니다. 1개 이상이어야 합니다.
+         * @example 2
+         */
         purchaseTicketCount: number;
       };
       header?: never;
       path: {
+        /**
+         * @description 티켓 구매 가능 여부를 확인할 회차 식별자입니다.
+         * @example 1
+         */
         scheduleId: number;
       };
       cookie?: never;
@@ -2345,7 +5035,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseTicketAvailabilityResponse"];
+          "application/json": components["schemas"]["SuccessResponseTicketAvailabilityResponse"];
         };
       };
       /** @description 잘못된 데이터 형식입니다. */
@@ -2354,7 +5044,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
       /** @description 회차 정보를 찾을 수 없습니다. */
@@ -2363,7 +5053,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
       /** @description 요청한 티켓 수량이 잔여 티켓 수를 초과했습니다. */
@@ -2372,7 +5062,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2382,6 +5081,10 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /**
+         * @description 조회할 공연 식별자
+         * @example 1
+         */
         performanceId: number;
       };
       cookie?: never;
@@ -2394,16 +5097,50 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceModifyDetailResponse"];
+          "application/json": components["schemas"]["SuccessResponsePerformanceModifyDetailResponse"];
         };
       };
-      /** @description 공연 정보를 찾을 수 없습니다. */
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 해당 공연의 소유자가 아닙니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 회원 또는 공연 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2413,6 +5150,10 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /**
+         * @description 삭제할 공연 식별자
+         * @example 1
+         */
         performanceId: number;
       };
       cookie?: never;
@@ -2425,8 +5166,24 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseVoid"];
+          "application/json": components["schemas"]["SuccessResponseVoid"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description 공연의 소유자가 아니거나 예매자가 있어 삭제할 수 없습니다. */
       403: {
@@ -2434,16 +5191,25 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
-      /** @description 공연 정보를 찾을 수 없습니다. */
+      /** @description 회원·공연·회차 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2463,8 +5229,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseMakerPerformanceResponse"];
+          "application/json": components["schemas"]["SuccessResponseMakerPerformanceResponse"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description 회원 정보를 찾을 수 없습니다. */
       404: {
@@ -2472,7 +5261,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2482,6 +5280,10 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /**
+         * @description 상세 조회할 공연 식별자
+         * @example 1
+         */
         performanceId: number;
       };
       cookie?: never;
@@ -2494,7 +5296,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceDetailResponse"];
+          "application/json": components["schemas"]["SuccessResponsePerformanceDetailResponse"];
+        };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
       /** @description 공연 정보를 찾을 수 없습니다. */
@@ -2503,7 +5314,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2513,6 +5333,10 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
+        /**
+         * @description 예매 정보를 조회할 공연 식별자
+         * @example 1
+         */
         performanceId: number;
       };
       cookie?: never;
@@ -2525,7 +5349,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBookingPerformanceDetailResponse"];
+          "application/json": components["schemas"]["SuccessResponseBookingPerformanceDetailResponse"];
+        };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
       /** @description 공연 정보를 찾을 수 없습니다. */
@@ -2534,14 +5367,27 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  getHomePerformanceList: {
+  homeRetrievePerformanceAndPromotionList: {
     parameters: {
       query?: {
+        /**
+         * @description 공연 장르 필터입니다. 생략하면 모든 장르의 공연을 조회합니다.
+         * @example BAND
+         */
         genre?: "BAND" | "PLAY" | "DANCE" | "ETC";
       };
       header?: never;
@@ -2556,17 +5402,51 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseHomeFindAllResponse"];
+          "application/json": components["schemas"]["SuccessResponseHomeFindAllResponse"];
+        };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
   };
-  generateAllPresignedUrls: {
+  fileGeneratePerformanceImagePresignedUrls: {
     parameters: {
       query: {
+        /**
+         * @description 업로드할 포스터 이미지의 원본 파일명입니다. URL이나 S3 object key가 아닌 파일명만 전달합니다.
+         * @example poster.png
+         */
         posterImage: string;
+        /**
+         * @description 업로드할 출연진 이미지의 원본 파일명 목록입니다. URL이나 S3 object key가 아닌 파일명만 전달합니다.
+         * @example cast.png
+         */
         castImages?: string[];
+        /**
+         * @description 업로드할 스태프 이미지의 원본 파일명 목록입니다. URL이나 S3 object key가 아닌 파일명만 전달합니다.
+         * @example staff.png
+         */
         staffImages?: string[];
+        /**
+         * @description 업로드할 공연 상세 이미지의 원본 파일명 목록입니다. URL이나 S3 object key가 아닌 파일명만 전달합니다.
+         * @example performance.png
+         */
         performanceImages?: string[];
       };
       header?: never;
@@ -2581,8 +5461,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponsePerformanceMakerPresignedUrlFindAllResponse"];
+          "application/json": components["schemas"]["SuccessResponsePerformanceMakerPresignedUrlFindAllResponse"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description S3 PreSigned url을 받아오기에 실패했습니다. */
       500: {
@@ -2590,7 +5493,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2604,22 +5507,54 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      /** @description 회원 예매 조회가 성공적으로 완료되었습니다. */
+      /** @description 회원 예매 내역이 조회되었습니다. */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseListMemberBookingRetrieveResponse"];
+          "application/json": components["schemas"]["SuccessResponseListMemberBookingRetrieveResponse"];
         };
       };
-      /** @description 입력하신 정보와 일치하는 예매 내역이 없습니다. 확인 후 다시 조회해주세요. */
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 회원 또는 회원 예매에 연결된 공연·회차 정보를 찾을 수 없는 경우입니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2639,8 +5574,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselFindAllResponse"];
+          "application/json": components["schemas"]["SuccessResponseCarouselFindAllResponse"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description 회원이 없습니다. */
       404: {
@@ -2648,7 +5606,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2660,9 +5627,10 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
+    /** @description 캐러셀 프로모션 생성 또는 수정 요청 본문 */
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["CarouselHandleRequest"];
+        "application/json": components["schemas"]["CarouselHandleRequest"];
       };
     };
     responses: {
@@ -2672,16 +5640,48 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselHandleAllResponse"];
+          "application/json": components["schemas"]["SuccessResponseCarouselHandleAllResponse"];
         };
       };
-      /** @description 해당 공연 정보를 찾을 수 없습니다. */
+      /** @description 요청 형식이 잘못되었거나 노출 가능한 캐러셀 프로모션 수를 초과했거나 중복된 carousel 번호 또는 promotion id가 포함되었거나, 존재하지 않는 업로드 이미지가 지정되었습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 관리자 회원, 수정 대상 홍보 정보 또는 연결된 공연 정보를 찾을 수 없습니다. */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2701,8 +5701,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseUserFindAllResponse"];
+          "application/json": components["schemas"]["SuccessResponseUserFindAllResponse"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description 회원이 없습니다 */
       404: {
@@ -2710,7 +5733,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2718,6 +5750,10 @@ export interface operations {
   createAllCarouselPresignedUrls: {
     parameters: {
       query: {
+        /**
+         * @description 캐러셀에 업로드할 이미지 파일명 목록
+         * @example carousel.png
+         */
         carouselImages: string[];
       };
       header?: never;
@@ -2732,8 +5768,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseCarouselPresignedUrlFindAllResponse"];
+          "application/json": components["schemas"]["SuccessResponseCarouselPresignedUrlFindAllResponse"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description 회원이 없습니다. */
       404: {
@@ -2741,7 +5800,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
@@ -2749,6 +5817,10 @@ export interface operations {
   createBannerPresignedUrl: {
     parameters: {
       query: {
+        /**
+         * @description 배너에 업로드할 이미지 파일명
+         * @example banner.png
+         */
         bannerImage: string;
       };
       header?: never;
@@ -2763,8 +5835,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["SuccessResponseBannerPresignedUrlFindResponse"];
+          "application/json": components["schemas"]["SuccessResponseBannerPresignedUrlFindResponse"];
         };
+      };
+      /** @description 요청 파라미터 또는 본문 형식이 잘못되었거나 검증에 실패했습니다. */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description JWT 인증 정보가 없거나 유효하지 않거나 만료되었습니다. 응답 본문은 없습니다. */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 인증되었지만 요청한 리소스에 접근할 권한이 없습니다. 응답 본문은 없습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description 회원이 없습니다. */
       404: {
@@ -2772,7 +5867,16 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ErrorResponse"];
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description 처리되지 않은 서버 오류가 발생했습니다. */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };
