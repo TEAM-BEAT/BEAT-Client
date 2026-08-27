@@ -37,14 +37,10 @@ export const getPerformanceEdit = async (
 // 공연 삭제 API (DELETE)
 type SuccessResponseVoid = components["schemas"]["SuccessResponseVoid"];
 
-export const deletePerformance = async (
-  performanceId: number
-): Promise<SuccessResponseVoid | null> => {
+export const deletePerformance = async (performanceId: number): Promise<SuccessResponseVoid> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(
-      `performances/${performanceId}`
-    );
-    return response.data.data;
+    const response: AxiosResponse<SuccessResponseVoid> = await del(`performances/${performanceId}`);
+    return response.data;
   } catch (error) {
     console.log("error", error);
     throw new Error(error);
