@@ -223,22 +223,27 @@ const TicketHolderList = () => {
   const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
+    const checkedIds = checkedBookingId.map(Number);
     const selectedItems = paymentData.filter(
-      (item) => item.deletable && checkedBookingId.includes(item.bookingId)
+      (item) => item.deletable && checkedIds.includes(Number(item.bookingId))
     );
-
-    if (selectedItems.length === 0) {
-      return;
-    }
 
     const hasActiveBooking = selectedItems.some(
-      (item) => item.bookingStatus === "CHECKING_PAYMENT" || item.bookingStatus === "BOOKING_CONFIRMED"
+      (item) =>
+        item.bookingStatus === "CHECKING_PAYMENT" ||
+        item.bookingStatus === "BOOKING_CONFIRMED" ||
+        item.bookingStatus === "입금확인중" ||
+        item.bookingStatus === "예매 확정"
     );
     const hasCancelled = selectedItems.some(
-      (item) => item.bookingStatus === "BOOKING_CANCELLED" || item.bookingStatus === "BOOKING_DELETED"
+      (item) =>
+        item.bookingStatus === "BOOKING_CANCELLED" ||
+        item.bookingStatus === "BOOKING_DELETED" ||
+        item.bookingStatus === "예매 취소" ||
+        item.bookingStatus === "예매 삭제"
     );
 
-    let subTitle = "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.";
+    let subTitle = "선택한 예매가 취소되며, 해당 티켓은 다시 예매 가능한 잔여 좌석으로 반납돼요.";
     if (hasActiveBooking && !hasCancelled) {
       subTitle = "선택한 예매가 취소되며, 해당 티켓은 다시 예매 가능한 잔여 좌석으로 반납돼요.";
     } else if (!hasActiveBooking && hasCancelled) {
