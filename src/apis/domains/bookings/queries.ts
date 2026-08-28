@@ -9,7 +9,6 @@ import {
   patchRefundBook,
   postGuestBook,
   postGuestBookingList,
-  postGuestBookingReq,
   postMemberBook,
 } from "./api";
 

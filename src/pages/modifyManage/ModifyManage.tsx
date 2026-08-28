@@ -19,6 +19,7 @@ import {
 
 import { ImagePresignedUpload } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
+import type { PerformanceModifyRequest } from "@apis/domains/performances/api";
 import { deletePerformance } from "@apis/domains/performances/api";
 import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
@@ -425,7 +426,7 @@ const ModifyManage = () => {
             performanceImage: performanceUrls[index] || image.performanceImage,
           })
         ),
-      });
+      } as PerformanceModifyRequest);
 
       openAlert({
         title: "공연 수정이 완료됐어요.",

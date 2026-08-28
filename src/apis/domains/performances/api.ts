@@ -37,14 +37,10 @@ export const getPerformanceEdit = async (
 // 공연 삭제 API (DELETE)
 type SuccessResponseVoid = components["schemas"]["SuccessResponseVoid"];
 
-export const deletePerformance = async (
-  performanceId: number
-): Promise<SuccessResponseVoid | null> => {
+export const deletePerformance = async (performanceId: number): Promise<SuccessResponseVoid> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await del(
-      `performances/${performanceId}`
-    );
-    return response.data.data;
+    const response: AxiosResponse<SuccessResponseVoid> = await del(`performances/${performanceId}`);
+    return response.data;
   } catch (error) {
     console.log("error", error);
     throw new Error(error);
@@ -117,31 +113,34 @@ export const getScheduleAvailable = async (
 
 export type PerformanceResponse = components["schemas"]["PerformanceResponse"];
 
+export type PerformanceRequest = components["schemas"]["PerformanceRequest"];
+export type PerformanceCreateResponse =
+  components["schemas"]["SuccessResponsePerformanceResponse"];
+
 // 공연 등록 API (POST)
-export const postPerformance = async (formData): Promise<PerformanceResponse | number> => {
-  try {
-    const response = await post("/performances", formData);
+export const postPerformance = async (
+  formData: PerformanceRequest
+): Promise<PerformanceCreateResponse> => {
+  const response: AxiosResponse<PerformanceCreateResponse> = await post<PerformanceCreateResponse>(
+    "/performances",
+    formData
+  );
 
-    return response.data;
-  } catch (error) {
-    console.error("error", error);
-
-    return null;
-  }
+  return response.data;
 };
 
-export type PerformanceModifyResponse = components["schemas"]["PerformanceModifyResponse"];
+export type PerformanceModifyRequest = components["schemas"]["PerformanceModifyRequest"];
+export type PerformanceModifyResponse =
+  components["schemas"]["SuccessResponsePerformanceModifyResponse"];
 
 // 공연 수정 API (PUT)
 export const updatePerformance = async (
-  formData
-): Promise<PerformanceModifyResponse | null | any> => {
-  try {
-    const response = await put("/performances", formData);
+  formData: PerformanceModifyRequest
+): Promise<PerformanceModifyResponse> => {
+  const response: AxiosResponse<PerformanceModifyResponse> = await put<PerformanceModifyResponse>(
+    "/performances",
+    formData
+  );
 
-    return response.data;
-  } catch (error) {
-    console.error("error", error);
-    throw error;
-  }
+  return response.data;
 };

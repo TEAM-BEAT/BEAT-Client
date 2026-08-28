@@ -73,12 +73,9 @@ export type TicketUpdateRequest = components["schemas"]["TicketUpdateRequest"];
 export const putTicketUpdate = async (
   formData: TicketUpdateRequest
 ): Promise<SuccessResponseVoid> => {
-  const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-    "tickets/update",
-    formData
-  );
+  const response: AxiosResponse<SuccessResponseVoid> = await put("tickets/update", formData);
 
-  return response.data.data;
+  return response.data;
 };
 
 // 예매자 환불처리 (PUT)
@@ -89,12 +86,9 @@ export const putTicketRefund = async (
   formData: TicketRefundRequest
 ): Promise<SuccessResponseVoid | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets/refund",
-      formData
-    );
+    const response: AxiosResponse<SuccessResponseVoid> = await put("tickets/refund", formData);
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.log("error", error);
     return null;
@@ -109,12 +103,9 @@ export const putTicketDelete = async (
   formData: TicketDeleteRequest
 ): Promise<SuccessResponseVoid | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets/delete",
-      formData
-    );
+    const response: AxiosResponse<SuccessResponseVoid> = await put("tickets/delete", formData);
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.log("error", error);
     return null;

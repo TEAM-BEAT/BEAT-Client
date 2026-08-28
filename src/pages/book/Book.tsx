@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { GuestBookingRequest } from "@apis/domains/bookings/api";
+import { GuestBookingRequest, MemberBookingRequest } from "@apis/domains/bookings/api";
 import { useGuestBook, useMemberBook } from "@apis/domains/bookings/queries";
 import {
   useGetBookingPerformanceDetail,
@@ -160,33 +160,30 @@ const Book = () => {
       return;
     }
 
-    let formData = {
-      scheduleId: selectedSchedule.scheduleId,
-      scheduleNumber: selectedSchedule.scheduleNumber,
-      purchaseTicketCount: round,
-      totalPaymentAmount: (data?.ticketPrice ?? 0) * round,
-      // TODO: 상수로 관리
-      bookingStatus: "CHECKING_PAYMENT",
-    } as GuestBookingRequest;
-
+    // 총액(totalPaymentAmount)과 회차번호(scheduleNumber)는 서버가 계산하므로 요청에서 제외한다.
+    let formData: GuestBookingRequest | MemberBookingRequest;
     if (!isLogin) {
       // 비회원 예매 요청
       formData = {
-        ...formData,
+        scheduleId: selectedSchedule.scheduleId,
+        purchaseTicketCount: round,
         ...bookerInfo,
         password: easyPassword.password,
-      } as GuestBookingRequest;
+      };
     } else {
       // 회원 예매 요청
       formData = {
-        ...formData,
+        scheduleId: selectedSchedule.scheduleId,
+        purchaseTicketCount: round,
         bookerName: bookerInfo.bookerName,
         bookerPhoneNumber: bookerInfo.bookerPhoneNumber,
-      } as GuestBookingRequest;
+      };
     }
 
     try {
-      const res = isLogin ? await memberBook(formData) : await guestBook(formData);
+      const res = isLogin
+        ? await memberBook(formData as MemberBookingRequest)
+        : await guestBook(formData as GuestBookingRequest);
 
       navigate("/book/complete", {
         state: {

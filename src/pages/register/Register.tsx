@@ -1,5 +1,6 @@
 import { PresignedResponse } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
+import type { PerformanceRequest } from "@apis/domains/performances/api";
 import { usePostPerformance } from "@apis/domains/performances/queries";
 import { IcNoti, IconChecked } from "@assets/svgs";
 import BankBottomSheet from "@components/commons/bank/bottomSheet/BankBottomSheet";
@@ -279,7 +280,7 @@ const Register = () => {
       };
 
       try {
-        await postPerformance(formData);
+        await postPerformance(formData as PerformanceRequest);
       } catch (err) {
         console.error("공연 등록 오류:", err);
         const errorMessage =

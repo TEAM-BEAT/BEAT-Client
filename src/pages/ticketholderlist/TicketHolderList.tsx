@@ -5,6 +5,7 @@ import {
   useTicketRetriveSearch,
   useTicketUpdate,
 } from "@apis/domains/tickets/queries";
+import { useGetPerformanceDetail } from "@apis/domains/performances/queries";
 import Loading from "@components/commons/loading/Loading";
 import MetaTag from "@components/commons/meta/MetaTag";
 import { NAVIGATION_STATE } from "@constants/navigationState";
@@ -88,6 +89,9 @@ const TicketHolderList = () => {
 
   const { performanceId } = useParams();
 
+  const { data: performanceDetail } = useGetPerformanceDetail(Number(performanceId));
+  const isFreePerformance = performanceDetail?.ticketPrice === 0;
+
   const { data, isLoading } = useTicketRetrive(
     { performanceId: Number(performanceId) },
     filterList
@@ -128,6 +132,7 @@ const TicketHolderList = () => {
     const filteredPaymentData = paymentData.map(
       ({ bankName, accountNumber, accountHolder, ...rest }) => ({
         ...rest,
+        bookingId: Number(rest.bookingId),
         bookingStatus: checkedBookingId.includes(rest.bookingId)
           ? "BOOKING_CONFIRMED"
           : rest.bookingStatus,
@@ -218,6 +223,14 @@ const TicketHolderList = () => {
   const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
+    const deletableBookingCount = paymentData.filter(
+      (item) => item.deletable && checkedBookingId.includes(item.bookingId)
+    ).length;
+
+    if (deletableBookingCount === 0) {
+      return;
+    }
+
     openConfirm({
       title: "예매자를 삭제하시겠어요?",
       subTitle: "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.",
@@ -238,8 +251,12 @@ const TicketHolderList = () => {
     // bookingId만 전달
 
     const filteredPaymentData = paymentData
-      .filter(({ bookingId }) => checkedBookingId.includes(bookingId))
+      .filter(({ bookingId, deletable }) => deletable && checkedBookingId.includes(bookingId))
       .map(({ bookingId }) => ({ bookingId }));
+
+    if (filteredPaymentData.length === 0) {
+      return;
+    }
 
     await deleteMutate({
       performanceId: Number(performanceId),
@@ -290,6 +307,7 @@ const TicketHolderList = () => {
   };
 
   const handleStatus = (status: string) => {
+    setCheckedBookingId([]);
     setStatus(status);
     setOpenMenu(false);
     switch (status) {
@@ -332,6 +350,7 @@ const TicketHolderList = () => {
   };
 
   const handleFilter = async (scheduleNumber: number[], bookingStatus: string[]) => {
+    setCheckedBookingId([]);
     setFilterList({
       scheduleNumber,
       bookingStatus,
@@ -339,6 +358,7 @@ const TicketHolderList = () => {
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCheckedBookingId([]);
     setSearchWord(event.target.value);
   };
 
@@ -397,6 +417,7 @@ const TicketHolderList = () => {
 
   // 함수가 선언될 당시의 status값을 클로저로 캡처 -> 최신 값 보장하기 위해 함수형 업데이트 사용
   const handleNavigateBack = () => {
+    setCheckedBookingId([]);
     setStatus((prevStatus) => {
       if (prevStatus !== "DEFAULT") {
         setFilterList({
@@ -522,6 +543,18 @@ const TicketHolderList = () => {
                 }
                 hasBooking={allBookings?.length > 0}
               />
+              {status === "DELETE" && (
+                <S.DeleteGuide>
+                  {isFreePerformance ? (
+                    <span>※ 환불 요청 중인 예매는 목록에 나타나지 않아요.</span>
+                  ) : (
+                    <>
+                      <span>※ 삭제할 수 있는 예매(입금 전 · 취소 완료)만 보여요.</span>
+                      <span>※ 입금 완료 · 환불 요청 중인 예매는 목록에 나타나지 않아요.</span>
+                    </>
+                  )}
+                </S.DeleteGuide>
+              )}
               {status === "DEFAULT" && (
                 <SelectedChips
                   filterList={filterList}
@@ -543,7 +576,7 @@ const TicketHolderList = () => {
                   return (
                     <ManageCard key={item.bookingId}>
                       <S.ManageCardContainer>
-                        {status !== "DEFAULT" && (
+                        {status !== "DEFAULT" && (status !== "DELETE" || item.deletable) && (
                           <ManageCard.ManageCheckBox
                             bookingId={item.bookingId}
                             checkedBookingId={checkedBookingId}
@@ -576,7 +609,14 @@ const TicketHolderList = () => {
             )}
 
             <S.FooterButtonWrapper>
-              {paymentData?.length > 0 && <Button onClick={handleButtonClick}>{buttonText}</Button>}
+              {paymentData?.length > 0 && (
+                <Button
+                  onClick={handleButtonClick}
+                  disabled={status === "DELETE" && checkedBookingId.length === 0}
+                >
+                  {buttonText}
+                </Button>
+              )}
             </S.FooterButtonWrapper>
             <MenuBottomsheet
               isOpen={openMenu}
