@@ -273,11 +273,10 @@ const TicketHolderList = () => {
       return;
     }
     // 취소 요청 PUT API 요청
-    // bookingId만 전달
-
+    const checkedIdSet = new Set(checkedBookingId.map(Number));
     const filteredPaymentData = paymentData
-      .filter(({ bookingId, deletable }) => deletable && checkedBookingId.includes(bookingId))
-      .map(({ bookingId }) => ({ bookingId }));
+      .filter(({ bookingId, deletable }) => deletable && checkedIdSet.has(Number(bookingId)))
+      .map(({ bookingId }) => ({ bookingId: Number(bookingId) }));
 
     if (filteredPaymentData.length === 0) {
       return;
