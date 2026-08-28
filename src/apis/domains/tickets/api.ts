@@ -72,18 +72,10 @@ export type TicketUpdateRequest = components["schemas"]["TicketUpdateRequest"];
 //이해가 잘 안가는걸 보니 아직 프로미스에 대한 개념 부족이라 판단됨
 export const putTicketUpdate = async (
   formData: TicketUpdateRequest
-): Promise<SuccessResponseVoid | null> => {
-  try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets/update",
-      formData
-    );
+): Promise<SuccessResponseVoid> => {
+  const response: AxiosResponse<SuccessResponseVoid> = await put("tickets/update", formData);
 
-    return response.data.data;
-  } catch (error) {
-    console.log("error", error);
-    return null;
-  }
+  return response.data;
 };
 
 // 예매자 환불처리 (PUT)
@@ -94,12 +86,9 @@ export const putTicketRefund = async (
   formData: TicketRefundRequest
 ): Promise<SuccessResponseVoid | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets/refund",
-      formData
-    );
+    const response: AxiosResponse<SuccessResponseVoid> = await put("tickets/refund", formData);
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.log("error", error);
     return null;
@@ -114,12 +103,9 @@ export const putTicketDelete = async (
   formData: TicketDeleteRequest
 ): Promise<SuccessResponseVoid | null> => {
   try {
-    const response: AxiosResponse<ApiResponseType<SuccessResponseVoid>> = await put(
-      "tickets/delete",
-      formData
-    );
+    const response: AxiosResponse<SuccessResponseVoid> = await put("tickets/delete", formData);
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.log("error", error);
     return null;

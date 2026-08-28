@@ -4,6 +4,7 @@ import { useState } from "react";
 interface ToastConfigProps {
   message: string;
   isTop: boolean;
+  iconType: "success" | "error";
 }
 
 //top & bottom, 혹은 메세지를 변경해야하는 경우 사용하는 훅 (필수 아님)
@@ -12,12 +13,17 @@ const useToastHandler = () => {
   const [toastConfig, setToastConfig] = useState<ToastConfigProps>({
     message: "클립보드에 복사되었습니다!",
     isTop: true,
+    iconType: "success",
   });
 
   //토스트 메세지, 위치를 정하는 유틸 함수
-  const handleToastVisible = (message: string, position: "top" | "bottom") => {
+  const handleToastVisible = (
+    message: string,
+    position: "top" | "bottom",
+    iconType: "success" | "error" = "success"
+  ) => {
     const isTop = position === "top" ? true : false;
-    setToastConfig({ message, isTop });
+    setToastConfig({ message, isTop, iconType });
     showToast();
   };
 

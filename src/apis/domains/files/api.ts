@@ -6,17 +6,23 @@ interface ImageInterface {
 }
 
 export interface PresignedResponse {
-  poster: ImageInterface;
-  cast: ImageInterface;
-  staff: ImageInterface;
-  performance: ImageInterface;
+  poster: Record<string, ImagePresignedUpload>;
+  cast: Record<string, ImagePresignedUpload>;
+  staff: Record<string, ImagePresignedUpload>;
+  performance: Record<string, ImagePresignedUpload>;
+}
+
+export interface ImagePresignedUpload {
+  uploadUrl: string;
+  imageKey: string;
 }
 
 export interface PresignedAllResponse {
   status: number;
   message: string;
   data: {
-    performanceMakerPresignedUrls: PresignedResponse;
+    performanceMakerPresignedUrls: Record<string, ImageInterface>;
+    performanceMakerPresignedUploads: PresignedResponse;
   };
 }
 
@@ -56,7 +62,7 @@ export const getPresignedUrl = async (
       },
     });
 
-    return response.data.data.performanceMakerPresignedUrls;
+    return response.data.data.performanceMakerPresignedUploads;
   } catch (error) {
     console.error("error", error);
     return null;
@@ -88,8 +94,11 @@ export const putS3ImageUpload = async ({ url, file }: PutImageUploadParams) => {
 export interface CarouselPresignedResponse {
   data: {
     carouselPresignedUrls: ImageInterface;
+    carouselPresignedUploads: Record<string, CarouselPresignedUpload>;
   };
 }
+
+export type CarouselPresignedUpload = ImagePresignedUpload;
 
 export interface GetCarouselPresignedUrlParams {
   carouselImages: string[];
@@ -97,7 +106,7 @@ export interface GetCarouselPresignedUrlParams {
 
 export const getCarouselPresignedUrl = async (
   params: GetCarouselPresignedUrlParams
-): Promise<CarouselPresignedResponse | null> => {
+): Promise<CarouselPresignedResponse> => {
   try {
     const paramsWithEmptyArrays = {
       ...params,
@@ -127,7 +136,6 @@ export const getCarouselPresignedUrl = async (
 
     return response.data;
   } catch (error) {
-    console.error("error", error);
-    return null;
+    throw error;
   }
 };

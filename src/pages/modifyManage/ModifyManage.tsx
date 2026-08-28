@@ -17,8 +17,9 @@ import {
   TextField,
 } from "@components/commons";
 
-import { PresignedResponse } from "@apis/domains/files/api";
+import { ImagePresignedUpload } from "@apis/domains/files/api";
 import { useGetPresignedUrl, usePutS3Upload } from "@apis/domains/files/queries";
+import type { PerformanceModifyRequest } from "@apis/domains/performances/api";
 import { deletePerformance } from "@apis/domains/performances/api";
 import MapInput from "@components/commons/mapInput/MapInput";
 import MetaTag from "@components/commons/meta/MetaTag";
@@ -312,78 +313,71 @@ const ModifyManage = () => {
   };
 
   const { data: S3data, refetch } = useGetPresignedUrl(getPresignedParams);
-  const { mutate: putS3 } = usePutS3Upload();
+  const { mutateAsync: putS3 } = usePutS3Upload();
 
   //비즈니스 로직 분리 - 공연 수정하기 PUT 요청
   const handleComplete = async () => {
     const { data, isSuccess } = await refetch();
-    //presignedUrl로 받아온 데이터들을 저장할 변수
-    let posterUrls: string[];
-    let castUrls: string[];
-    let staffUrls: string[];
-    let performanceUrls: string[];
+    let posterUrls: string[] = [];
+    let castUrls: string[] = [];
+    let staffUrls: string[] = [];
+    let performanceUrls: string[] = [];
 
     if (isPending) {
       return;
-    } else if (isSuccess) {
-      const extractUrls = (data: PresignedResponse) => {
-        //앞부분(유효한 부분)만 떼어내서 저장(뒷 부분은 사진이 뜨는 url이 아님)
-        posterUrls = Object.values(data.poster).map((url) => url.split("?")[0]);
-        castUrls = Object.values(data.cast).map((url) => (url !== "" ? url.split("?")[0] : null));
-        staffUrls = Object.values(data.staff).map((url) => (url !== "" ? url.split("?")[0] : null));
-        performanceUrls = Object.values(data.performance).map((url) => url.split("?")[0]);
-
-        return [
-          ...posterUrls,
-          ...castUrls.filter((url) => url !== null),
-          ...staffUrls.filter((url) => url !== null),
-          ...performanceUrls,
-        ];
+    } else if (isSuccess && data) {
+      const uploadImage = async (
+        localUrl: string,
+        upload: ImagePresignedUpload | undefined
+      ): Promise<string> => {
+        if (!localUrl) {
+          return "";
+        }
+        if (localUrl.startsWith("http")) {
+          return localUrl;
+        }
+        if (!upload) {
+          throw new Error("이미지 업로드 정보가 없습니다.");
+        }
+        const response = await fetch(localUrl);
+        if (!response.ok) {
+          throw new Error("이미지 파일을 읽지 못했습니다.");
+        }
+        const blob = await response.blob();
+        const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
+        const result = await putS3({ url: upload.uploadUrl, file: newFile });
+        if (!result) {
+          throw new Error("S3 업로드 실패");
+        }
+        return upload.imageKey;
       };
 
-      //배열 형태로 추출된 모든 presignedUrls
-      const S3Urls = extractUrls(data);
-
-      //기존에 갖고 있던 이미지들의 주소들 -> files
-      const files = [
-        dataState.posterImage,
-        ...dataState.castModifyRequests.map((cast) => cast.castPhoto),
-        ...dataState.staffModifyRequests.map((staff) => staff.staffPhoto),
-        ...dataState.performanceImageModifyRequests.map((obj) => obj.performanceImage),
-      ];
-
       try {
-        const res = await Promise.all(
-          S3Urls.map(async (url, index) => {
-            const file = files[index];
-
-            // s3에 이미지가 있는 경우
-            if (file.startsWith("http")) {
-              if (index < posterUrls.length) {
-                posterUrls[index] = file;
-              } else if (index < posterUrls.length + castUrls.length) {
-                castUrls[index - posterUrls.length] = file;
-              } else if (index < posterUrls.length + castUrls.length + staffUrls.length) {
-                staffUrls[index - posterUrls.length - castUrls.length] = file;
-              } else {
-                performanceUrls[index - posterUrls.length - castUrls.length - staffUrls.length] =
-                  file;
-              }
-              return;
-            }
-
-            //여기 왜 fetch하는거지? 그냥 받아오면 안되는건가? -> blob 메서드를 사용하려면 response 타입이 필요하기 때문
-            const response = await fetch(file);
-
-            //blob타입으로 변환 과정
-            const blob = await response.blob();
-            const newFile = new File([blob], `fileName-${new Date()}`, { type: blob.type });
-
-            //새롭게 받은 url에 해당 파일 저장
-            return putS3({ url, file: newFile });
-          })
+        posterUrls = [
+          await uploadImage(dataState.posterImage, data.poster[getPresignedParams.posterImage]),
+        ];
+        castUrls = await Promise.all(
+          dataState.castModifyRequests.map((cast, index) =>
+            uploadImage(cast.castPhoto, data.cast[castImages[index]])
+          )
         );
-      } catch (err) {}
+        staffUrls = await Promise.all(
+          dataState.staffModifyRequests.map((staff, index) =>
+            uploadImage(staff.staffPhoto, data.staff[staffImages[index]])
+          )
+        );
+        performanceUrls = await Promise.all(
+          dataState.performanceImageModifyRequests.map((image, index) =>
+            uploadImage(image.performanceImage, data.performance[performanceImages[index]])
+          )
+        );
+      } catch {
+        openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
+        return;
+      }
+    } else {
+      openAlert({ title: "이미지 업로드에 실패했습니다.\n 다시 시도해주세요." });
+      return;
     }
 
     const filteredCastModifyRequests = dataState.castModifyRequests.filter(
@@ -432,7 +426,7 @@ const ModifyManage = () => {
             performanceImage: performanceUrls[index] || image.performanceImage,
           })
         ),
-      });
+      } as PerformanceModifyRequest);
 
       openAlert({
         title: "공연 수정이 완료됐어요.",

@@ -3,6 +3,8 @@ import * as S from "../Register.styled";
 import { IconCamera } from "@assets/svgs";
 import Spacing from "@components/commons/spacing/Spacing";
 import ImageEditor from "@components/commons/imageEditor/ImageEditor";
+import { MAX_FILE_SIZE } from "@apis/domains/files/queries";
+import { useModal } from "@hooks";
 
 interface PosterThumbnailProps {
   value?: string | undefined;
@@ -15,24 +17,40 @@ const PosterThumbnail = ({ value, onImageUpload }: PosterThumbnailProps) => {
   const [inputKey, setInputKey] = useState<number>(Date.now());
   const [openImageModal, setOpenImageModal] = useState(false);
 
+  const { openAlert } = useModal();
+
   useEffect(() => {
     setPreviewImg(value || null);
   }, [value]);
 
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = function (event) {
-        const imageUrl = event.target?.result as string;
-        setPostImg(file);
-        setPreviewImg(imageUrl);
-        onImageUpload(imageUrl);
-        setOpenImageModal(true);
-      };
-
-      fileReader.readAsDataURL(file);
+    if (!file) {
+      return;
     }
+
+    // 20MiB 용량 검증 (FileReader 읽기 전 즉시 차단)
+    if (file.size > MAX_FILE_SIZE) {
+      openAlert({
+        title: "20MB 이하의 이미지만 업로드할 수 있습니다.",
+      });
+
+      // 동일한 파일을 다시 선택할 수 있도록 input value 초기화
+      e.target.value = "";
+      return;
+    }
+
+    // 용량 통과 시 읽기 작업 수행
+    const fileReader = new FileReader();
+    fileReader.onload = function (event) {
+      const imageUrl = event.target?.result as string;
+      setPostImg(file);
+      setPreviewImg(imageUrl);
+      onImageUpload(imageUrl);
+      setOpenImageModal(true);
+    };
+
+    fileReader.readAsDataURL(file);
   };
 
   const removeImage = () => {

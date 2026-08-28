@@ -14,6 +14,17 @@ export const TitleSticky = styled.section`
   background-color: ${({ theme }) => theme.colors.gray_900};
 `;
 
+export const DeleteGuide = styled.p`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 32.7rem;
+  margin-top: 1.2rem;
+
+  ${({ theme }) => theme.fonts["caption1-semi"]};
+  color: ${({ theme }) => theme.colors.gray_300};
+`;
+
 export const ManageCardList = styled.section`
   display: flex;
   flex-direction: column;

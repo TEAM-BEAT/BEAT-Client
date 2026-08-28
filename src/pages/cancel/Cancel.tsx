@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { convertingNumber } from "@constants/convertingNumber";
 import * as S from "./Cancel.styled";
 import RadioButton from "./../cancel/components/select/RadioButton";
-import { handleChange, handleBankClick, isFormValid } from "./utils";
+import { handleChange, handleBankClick, isFormValid, requiresRefund } from "./utils";
 import { useCancelBooking } from "../../hooks/useCancelBooking";
 import { numericFilter } from "@utils/useInputFilter";
 import { BOOKING_STATUS } from "@constants/bookingStatus";
@@ -31,6 +31,10 @@ const Cancel = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
 
+  const handleLeftBtn = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     if (!state) {
       const user = localStorage.getItem("user");
@@ -39,27 +43,13 @@ const Cancel = () => {
         okText: "확인",
         okCallback: () => navigate(user ? "/lookup" : "/main"),
       });
+      return;
     }
 
     if (state.bookingDetails.bookingStatus === BOOKING_STATUS.BOOKING_CONFIRMED) {
       setIsDeposit(true);
     }
   }, []);
-
-  if (!state) {
-    return;
-  }
-
-  const performanceDateArray = state.bookingDetails.performanceDate.split("-");
-  const performanceDataDate = performanceDateArray[2].split("T");
-
-  const handleLeftBtn = () => {
-    navigate(-1);
-  };
-
-  const handleBankOpen = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setOpen((prev) => !prev);
-  };
 
   useEffect(() => {
     setHeader({
@@ -69,10 +59,21 @@ const Cancel = () => {
     });
   }, [setHeader]);
 
-  const handleCancelClick = (isDeposit) => {
+  if (!state) {
+    return null;
+  }
+
+  const performanceDateArray = state.bookingDetails.performanceDate.split("-");
+  const performanceDataDate = performanceDateArray[2].split("T");
+
+  const handleBankOpen = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleCancelClick = (shouldRequestRefund: boolean) => {
     const requestData = {
       bookingId: state.bookingDetails.bookingId,
-      ...(isDeposit && {
+      ...(shouldRequestRefund && {
         bankName: bankName,
         accountNumber: accountNumber,
         accountHolder: accountHolder,
@@ -82,9 +83,9 @@ const Cancel = () => {
     confirmCancelAction(requestData);
   };
 
-  if (!state) {
-    return null;
-  }
+  const { bookingStatus, totalPaymentAmount } = state.bookingDetails;
+  const isPaidPerformance = totalPaymentAmount > 0;
+  const shouldRequestRefund = requiresRefund(isDeposit, bookingStatus, totalPaymentAmount);
 
   return (
     <S.CancelLayout>
@@ -110,20 +111,22 @@ const Cancel = () => {
           <p>{state.bookingDetails.purchaseTicketCount}매</p>
         </S.PriceBox>
       </S.PerformWrapper>
-      {state.bookingDetails.bookingStatus !== BOOKING_STATUS.BOOKING_CONFIRMED && (
+      {isPaidPerformance && bookingStatus !== BOOKING_STATUS.BOOKING_CONFIRMED && (
         <>
           <Spacing marginBottom="3.2" />
           <S.Title>티켓값을 입금하셨나요?</S.Title>
           <Spacing marginBottom="2" />
-          <S.RadioWrapper>
+          <S.RadioWrapper role="radiogroup" aria-label="티켓값 입금 여부">
             <RadioButton
               label="입금 전이에요"
+              description="예매가 바로 취소돼요"
               value={1}
               checked={isDeposit === false}
               onChange={() => setIsDeposit(false)}
             />
             <RadioButton
               label="입금했어요"
+              description="환불을 요청해요"
               value={0}
               checked={isDeposit === true}
               onChange={() => setIsDeposit(true)}
@@ -131,7 +134,7 @@ const Cancel = () => {
           </S.RadioWrapper>
         </>
       )}
-      {(isDeposit || state.bookingDetails.bookingStatus === BOOKING_STATUS.BOOKING_CONFIRMED) && (
+      {shouldRequestRefund && (
         <>
           <Spacing marginBottom="1.6" />
           <InputAccountWrapper label="환불받으실 계좌를 입력해 주세요.">
@@ -167,14 +170,15 @@ const Cancel = () => {
       />
       <S.ButtonWrapper>
         <Button
-          onClick={() => handleCancelClick(isDeposit)}
+          onClick={() => handleCancelClick(shouldRequestRefund)}
           disabled={
             !isFormValid(
               isDeposit,
               bankName,
               accountNumber,
               accountHolder,
-              state.bookingDetails.bookingStatus
+              bookingStatus,
+              totalPaymentAmount
             )
           }
         >

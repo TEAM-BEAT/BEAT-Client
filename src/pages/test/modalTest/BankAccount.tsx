@@ -40,6 +40,9 @@ const BankAccount = ({ bankName, number, accountName, accountNumber, price }: Ba
           <StyledIconCopy onClick={() => handleCopyClipBoard(number)} />
         </Box>
       </Container>
+      <PaymentNotice>
+        입금 전이라면 안내된 계좌로 입금해 주세요. 이미 입금했다면 관리자 확인을 기다려 주세요.
+      </PaymentNotice>
       <BtnWrapper>
         <Button size="small" variant="gray" onClick={closeModal}>
           닫기
@@ -69,6 +72,12 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 100%;
+`;
+
+const PaymentNotice = styled.p`
+  color: ${({ theme }) => theme.colors.gray_300};
+  text-align: center;
+  ${({ theme }) => theme.fonts["caption2-medi"]};
 `;
 
 const Text = styled.p`
