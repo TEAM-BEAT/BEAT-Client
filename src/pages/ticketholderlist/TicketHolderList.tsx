@@ -223,17 +223,33 @@ const TicketHolderList = () => {
   const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
   const handlePaymentDeleteBtn = () => {
-    const deletableBookingCount = paymentData.filter(
+    const selectedItems = paymentData.filter(
       (item) => item.deletable && checkedBookingId.includes(item.bookingId)
-    ).length;
+    );
 
-    if (deletableBookingCount === 0) {
+    if (selectedItems.length === 0) {
       return;
+    }
+
+    const hasPendingPayment = selectedItems.some(
+      (item) => item.bookingStatus === "CHECKING_PAYMENT"
+    );
+    const hasCancelled = selectedItems.some(
+      (item) => item.bookingStatus === "BOOKING_CANCELLED" || item.bookingStatus === "BOOKING_DELETED"
+    );
+
+    let subTitle = "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.";
+    if (hasPendingPayment && !hasCancelled) {
+      subTitle = "선택한 예매가 취소되며, 해당 티켓은 다시 예매 가능한 잔여 좌석으로 반납돼요.";
+    } else if (!hasPendingPayment && hasCancelled) {
+      subTitle = "목록에서 예매자 정보가 삭제돼요. (잔여 좌석 수에는 변동이 없어요)";
+    } else if (hasPendingPayment && hasCancelled) {
+      subTitle = "입금 확인 중인 예매는 취소되어 좌석이 반납되고, 취소된 예매는 목록에서 삭제돼요.";
     }
 
     openConfirm({
       title: "예매자를 삭제하시겠어요?",
-      subTitle: "한 번 삭제한 예매자 정보는 다시 복구할 수 없어요.",
+      subTitle,
       okText: "삭제하기",
       noText: "아니요",
       okCallback: () => {
