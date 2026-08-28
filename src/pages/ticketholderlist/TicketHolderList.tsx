@@ -222,39 +222,43 @@ const TicketHolderList = () => {
   // 취소 요청
   const { mutateAsync: deleteMutate, isPending: deleteIsPending } = useTicketDelete();
 
-  const handlePaymentDeleteBtn = () => {
-    const checkedIds = checkedBookingId.map(Number);
-    const selectedItems = paymentData.filter(
-      (item) => item.deletable && checkedIds.includes(Number(item.bookingId))
+  const getDeleteModalSubTitle = (selectedItems: typeof paymentData) => {
+    const ACTIVE_STATUSES = new Set([
+      "CHECKING_PAYMENT",
+      "BOOKING_CONFIRMED",
+      "입금확인중",
+      "예매 확정",
+    ]);
+    const CANCELLED_STATUSES = new Set([
+      "BOOKING_CANCELLED",
+      "BOOKING_DELETED",
+      "예매 취소",
+      "예매 삭제",
+    ]);
+
+    const hasActiveBooking = selectedItems.some((item) => ACTIVE_STATUSES.has(item.bookingStatus));
+    const hasCancelledBooking = selectedItems.some((item) =>
+      CANCELLED_STATUSES.has(item.bookingStatus)
     );
 
-    const hasActiveBooking = selectedItems.some(
-      (item) =>
-        item.bookingStatus === "CHECKING_PAYMENT" ||
-        item.bookingStatus === "BOOKING_CONFIRMED" ||
-        item.bookingStatus === "입금확인중" ||
-        item.bookingStatus === "예매 확정"
-    );
-    const hasCancelled = selectedItems.some(
-      (item) =>
-        item.bookingStatus === "BOOKING_CANCELLED" ||
-        item.bookingStatus === "BOOKING_DELETED" ||
-        item.bookingStatus === "예매 취소" ||
-        item.bookingStatus === "예매 삭제"
-    );
-
-    let subTitle = "선택한 예매가 취소되며, 해당 티켓은 다시 예매 가능한 잔여 좌석으로 반납돼요.";
-    if (hasActiveBooking && !hasCancelled) {
-      subTitle = "선택한 예매가 취소되며, 해당 티켓은 다시 예매 가능한 잔여 좌석으로 반납돼요.";
-    } else if (!hasActiveBooking && hasCancelled) {
-      subTitle = "목록에서 예매자 정보가 삭제돼요. (잔여 좌석 수에는 변동이 없어요)";
-    } else if (hasActiveBooking && hasCancelled) {
-      subTitle = "선택한 예매 중 활성 예매는 취소되어 좌석이 반납되고, 이미 취소된 건은 목록에서 삭제돼요.";
+    if (!hasActiveBooking && hasCancelledBooking) {
+      return "목록에서 예매자 정보가 삭제돼요. (잔여 좌석 수에는 변동이 없어요)";
     }
+    if (hasActiveBooking && hasCancelledBooking) {
+      return "선택한 예매 중 활성 예매는 취소되어 좌석이 반납되고, 이미 취소된 건은 목록에서 삭제돼요.";
+    }
+    return "선택한 예매가 취소되며, 해당 티켓은 다시 예매 가능한 잔여 좌석으로 반납돼요.";
+  };
+
+  const handlePaymentDeleteBtn = () => {
+    const checkedIdSet = new Set(checkedBookingId.map(Number));
+    const selectedItems = paymentData.filter(
+      (item) => item.deletable && checkedIdSet.has(Number(item.bookingId))
+    );
 
     openConfirm({
       title: "예매자를 삭제하시겠어요?",
-      subTitle,
+      subTitle: getDeleteModalSubTitle(selectedItems),
       okText: "삭제하기",
       noText: "아니요",
       okCallback: () => {
@@ -269,11 +273,10 @@ const TicketHolderList = () => {
       return;
     }
     // 취소 요청 PUT API 요청
-    // bookingId만 전달
-
+    const checkedIdSet = new Set(checkedBookingId.map(Number));
     const filteredPaymentData = paymentData
-      .filter(({ bookingId, deletable }) => deletable && checkedBookingId.includes(bookingId))
-      .map(({ bookingId }) => ({ bookingId }));
+      .filter(({ bookingId, deletable }) => deletable && checkedIdSet.has(Number(bookingId)))
+      .map(({ bookingId }) => ({ bookingId: Number(bookingId) }));
 
     if (filteredPaymentData.length === 0) {
       return;
