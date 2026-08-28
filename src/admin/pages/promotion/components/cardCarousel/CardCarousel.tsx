@@ -3,6 +3,8 @@ import * as S from "./CardCarousel.styled";
 import { Spacing } from "@components/commons";
 import AdminButton from "@admin/compontets/commons/adminButton/AdminButton";
 import LinkButton from "@admin/compontets/commons/linkButton/LinkButton";
+import { useModal } from "@hooks";
+import { MAX_FILE_SIZE } from "@apis/domains/files/queries";
 
 interface CardCarouselProps {
   index: number;
@@ -29,6 +31,8 @@ const CardCarousel = ({
   const [postImg, setPostImg] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState(carouselImg);
 
+  const { openAlert } = useModal();
+
   const fileHandler = () => {
     if (ref.current) {
       ref.current!.click();
@@ -42,6 +46,17 @@ const CardCarousel = ({
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // 20MiB 용량 검증 (FileReader 읽기 전 즉시 차단)
+      if (file.size > MAX_FILE_SIZE) {
+        openAlert({
+          title: "20MB 이하의 이미지만 업로드할 수 있습니다.",
+        });
+
+        // 동일한 파일을 다시 선택할 수 있도록 input value 초기화
+        e.target.value = "";
+        return;
+      }
+
       const fileReader = new FileReader();
       fileReader.onload = function (event) {
         const newImageUrl = event.target?.result as string;
