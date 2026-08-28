@@ -5,6 +5,8 @@ import { nameFilter } from "@utils/useInputFilter";
 import { ChangeEvent, useState } from "react";
 import * as S from "../Register.styled";
 import ImageEditor from "@components/commons/imageEditor/ImageEditor";
+import { useModal } from "@hooks";
+import { MAX_FILE_SIZE } from "@apis/domains/files/queries";
 
 interface Role {
   id: number;
@@ -25,9 +27,22 @@ const RoleWrapper = ({ id, role, removeRole, onUpdateRole }: RoleWrapperProps) =
   const [previewImg, setPreviewImg] = useState<string | null>(makerPhoto || null);
   const [openImageModal, setOpenImageModal] = useState(false);
 
+  const { openAlert } = useModal();
+
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // 20MiB 용량 검증 (FileReader 읽기 전 즉시 차단)
+      if (file.size > MAX_FILE_SIZE) {
+        openAlert({
+          title: "20MB 이하의 이미지만 업로드할 수 있습니다.",
+        });
+
+        // 동일한 파일을 다시 선택할 수 있도록 input value 초기화
+        e.target.value = "";
+        return;
+      }
+
       setPostImg(file);
 
       const fileReader = new FileReader();
