@@ -27,6 +27,7 @@ const ModifyDetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       // 최대 5장 업로드 안내
+      // test 커밋
       if (previewImgs.length + files.length > 5) {
         openAlert({
           title: "가능한 이미지 수를 초과했습니다.",
