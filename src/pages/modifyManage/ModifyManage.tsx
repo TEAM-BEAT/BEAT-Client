@@ -269,6 +269,7 @@ const ModifyManage = () => {
     });
   }, [modifyState.modifyManageStep, modifyState.isBookerExist]);
 
+  // 병합 테스트
   //presignedUrl을 받아오기 위한 리스트 세팅
   useEffect(() => {
     setCastImages(

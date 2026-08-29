@@ -26,6 +26,7 @@ const ModifyDetailImage = ({ value, onImagesUpload }: DetailImageProps) => {
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
+      // 병합 테스트
       // 최대 5장 업로드 안내
       if (previewImgs.length + files.length > 5) {
         openAlert({
