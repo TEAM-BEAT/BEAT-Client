@@ -35,3 +35,6 @@ $
 !.yarn/sdks
 !.yarn/versions
 *storybook.log
+
+# local planning docs
+plan/
