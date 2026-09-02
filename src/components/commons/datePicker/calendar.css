@@ -118,3 +118,11 @@
 
   pointer-events: none;
 }
+
+/* 비활성(오늘/과거) 타일: 커서/배경 명시 */
+.custom-calendar .react-calendar__tile:disabled {
+  color: #939393;
+
+  background-color: transparent;
+  cursor: not-allowed;
+}
